@@ -1,0 +1,36 @@
+en:
+  evidence: Evidence
+  flow: Flow
+  control: Control
+  context: Context
+  runtime: Runtime
+  tools: Tools
+  model: Model
+  q-evidence: "What did it do? Was it right?"
+  q-flow: "How is the job split? Who decides?"
+  q-control: "Why should I trust it?"
+  q-context: "What should it know?"
+  q-runtime: "Who runs the loop?"
+  q-tools: "What can it reach?"
+  q-model: "How deeply can it think?"
+  legend-up: "Lit: yours to build"
+  legend-down: "Plain: mostly bought"
+  caption: "Seven layers around a model. The lower three are mostly bought; the upper four are yours to build."
+zh-Hant:
+  evidence: 證據
+  flow: 流程與決策
+  control: 控制
+  context: 上下文
+  runtime: 運行時
+  tools: 工具
+  model: 模型
+  q-evidence: "它做了什麼？做對了嗎？"
+  q-flow: "工作怎麼拆？誰來判斷？"
+  q-control: "我憑什麼信它？"
+  q-context: "它該知道什麼？"
+  q-runtime: "誰來跑這個迴圈？"
+  q-tools: "它夠得著什麼？"
+  q-model: "它能想多深？"
+  legend-up: "亮色：要自己做"
+  legend-down: "素色：大體是買來的"
+  caption: "模型外面的七層。下面三層大體是買來的，上面四層要自己做。"

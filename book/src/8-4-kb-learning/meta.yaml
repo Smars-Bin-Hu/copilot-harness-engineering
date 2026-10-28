@@ -1,0 +1,15 @@
+id: "8.4"
+part: case-kb
+title: {en: "Learning a domain in batches", zh-Hant: "分批學一個領域"}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base]
+sources:
+  - what: "Learning order from the map: entry points chosen by a person, shared objects cut off, bottom up; a batch is one type, at most 20 objects and about 1500 lines; one task per domain, one plan approved once, one write-back"
+    where: "harness docs/08-knowledge-base.md ('The road, step by step', 'What each step decides, and who')"
+  - what: "Checks on what the model writes: relations line equals the map's uses; every rule cites lines inside the object's code; flows come from paths on the map"
+    where: "harness docs/08-knowledge-base.md; wondering topic 16-knowledge-base, chunks 16.4 and 16.5"
+  - what: "Order of batches on the open-source spring-petclinic: tables, entities, repositories, controllers"
+    where: "harness docs/08-knowledge-base.md ('An example: spring-petclinic')"
+  - what: "Cache reads cost one tenth of the base input price on most models"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-28

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 305">
+  <text class="label-muted" x="140" y="20" text-anchor="middle" data-t="v1">x</text>
+  <text class="label-muted" x="460" y="20" text-anchor="middle" data-t="v2">x</text>
+  <rect class="box-plain" x="20" y="35" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="60" text-anchor="middle" data-t="levels">x</text>
+  <rect class="box-lit" x="20" y="90" width="240" height="95" rx="8"/>
+  <text class="label-lit" x="140" y="112" text-anchor="middle" data-t="team">x</text>
+  <text class="label-muted" x="140" y="140" text-anchor="middle" data-t="r1">x</text>
+  <text class="label-muted" x="140" y="160" text-anchor="middle" data-t="r2">x</text>
+  <text class="label-muted" x="140" y="178" text-anchor="middle" data-t="r3">x</text>
+  <rect class="box-plain" x="20" y="200" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="225" text-anchor="middle" data-t="req">x</text>
+  <path class="line" d="M270 140 H320"/>
+  <path class="head" d="M320 134 L330 140 L320 146 Z"/>
+  <rect class="box" x="340" y="60" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="85" text-anchor="middle" data-t="task">x</text>
+  <rect class="box" x="340" y="120" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="145" text-anchor="middle" data-t="one">x</text>
+  <rect class="box" x="340" y="180" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="205" text-anchor="middle" data-t="rev">x</text>
+  <rect class="box-lit" x="20" y="258" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="267" data-t="k1">x</text>
+  <rect class="box-plain" x="20" y="280" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="289" data-t="k2">x</text>
+</svg>

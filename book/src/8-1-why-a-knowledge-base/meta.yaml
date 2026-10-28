@@ -1,0 +1,15 @@
+id: "8.1"
+part: case-kb
+title: {en: "A knowledge base: an honest index of the code", zh-Hant: "知識庫：程式碼的誠實索引"}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base]
+sources:
+  - what: "The idea: the code is the truth; a knowledge base is an index and summary; about 95% can come from the code; honest rather than complete; scripts do structure, the model does meaning; every step is a task a person approves"
+    where: "harness docs/08-knowledge-base.md ('The idea')"
+  - what: "The shape of a domain: overview, architecture, cards, code; what the code cannot tell goes in requests and environment facts"
+    where: "harness docs/08-knowledge-base.md ('What a domain looks like', 'What the code cannot tell')"
+  - what: "Why not let the model read everything: it decides what to read from what it just read, misses objects, and cannot say how much it missed"
+    where: "harness wondering topic 16-knowledge-base, chunk 16.1"
+  - what: "Cache reads cost one tenth of the base input price on most models"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-28

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
+  <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">x</text>
+  <text class="label-muted" x="300" y="61" text-anchor="middle" data-t="main-note">x</text>
+
+  <rect class="box-plain" x="470" y="16" width="120" height="58" rx="8"/>
+  <text class="label-muted" x="530" y="41" text-anchor="middle" data-t="other">x</text>
+  <text class="label-muted" x="530" y="61" text-anchor="middle" data-t="other-note">x</text>
+  <path class="line" d="M430 45 H462"/>
+  <path class="line" d="M440 37 L452 53 M452 37 L440 53"/>
+
+  <path class="line-lit" d="M300 74 V122"/>
+  <path class="head-lit" d="M294 116 L300 128 L306 116 Z"/>
+
+  <rect class="box" x="130" y="130" width="340" height="70" rx="8"/>
+  <text class="label" x="300" y="158" text-anchor="middle" data-t="folder">x</text>
+  <text class="label-muted" x="300" y="182" text-anchor="middle" data-t="folder-files">x</text>
+
+  <path class="line" d="M190 200 V252"/>
+  <path class="head" d="M184 208 L190 196 L196 208 Z"/>
+  <path class="line" d="M410 200 V252"/>
+  <path class="head" d="M404 208 L410 196 L416 208 Z"/>
+  <text class="label-muted" x="200" y="232" data-t="writes-verdict">x</text>
+  <text class="label-muted" x="420" y="232" data-t="writes-summary">x</text>
+
+  <rect class="box" x="20" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="36" y="282" data-t="reviewer">x</text>
+  <text class="label-muted" x="36" y="306" data-t="reviewer-1">x</text>
+  <text class="label-muted" x="36" y="328" data-t="reviewer-2">x</text>
+
+  <rect class="box" x="310" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="326" y="282" data-t="mapper">x</text>
+  <text class="label-muted" x="326" y="306" data-t="mapper-1">x</text>
+  <text class="label-muted" x="326" y="328" data-t="mapper-2">x</text>
+</svg>

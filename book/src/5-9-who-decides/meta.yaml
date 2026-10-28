@@ -1,0 +1,10 @@
+id: "5.9"
+part: flow
+title: {en: "Who decides: code, a cheap model, the main model, a person", zh-Hant: 誰來判斷：程式、便宜模型、主模型、人}
+harness_tag: "1.5.50"
+wondering: [15-design-choices]
+sources:
+  - what: "Do not let the model do what code can do: hooks, counting, snapshots, reports, staleness checks and scoring as code; business documents converted by a program (no model, no tokens) with a report of what was left out; where a question has one right answer a program can compute, put the data in a fixed form and let a program compute it"
+    where: harness docs/06-cost-optimization.md (sections 1 and 2) and docs/09-intake.md
+  - what: "The decision ladder: code first, then a narrow cheap judge, then the main model; a cheap-model judge is not running in the harness today"
+    where: the author's own design (not in the harness yet)

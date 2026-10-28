@@ -1,0 +1,18 @@
+en:
+  author: "errors the author misses"
+  checker: "errors the checker misses"
+  only-a: "checker catches"
+  only-c: "author catches"
+  shared: "missed by"
+  shared2: "both"
+  note: "A different angle or model shrinks the shared part. It does not remove it."
+  caption: "A checker catches what lies outside the author's blind spots. The overlap is what both miss."
+zh-Hant:
+  author: "作者看不到的錯"
+  checker: "檢查者看不到的錯"
+  only-a: "檢查者能抓到"
+  only-c: "作者能抓到"
+  shared: "兩邊都"
+  shared2: "看不到"
+  note: "換角度或換模型能縮小重疊的部分，但不能讓它消失。"
+  caption: "檢查者抓得到作者盲點以外的錯。重疊的部分是兩邊都漏掉的。"

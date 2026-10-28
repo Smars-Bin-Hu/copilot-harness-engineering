@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Asking is not a limit</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.2</p><h1><span data-l="en" lang="en">Asking is not a limit</span><span data-l="zh-Hant" lang="zh-Hant">詢問不是限制</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>: a rule that must hold has to be code, not words.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>：一定要守住的規則，必須是程式碼，不能只是文字。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>&quot;Ask me first&quot; is not a limit, because people click Allow the hundredth time. A limit is a refusal the agent cannot argue with, graded by what the action can break.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>「先問我」不是限制，因為問到第一百次，人就會直接點允許。限制是 agent 吵不贏的拒絕，並且按動作可能弄壞多少來分級。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide that &quot;ask me first&quot; is not a safety limit. Actions that must not happen get a refusal, graded by what a mistake costs. A question to a person is kept for rare judgment calls.</li>
+<li><strong>The risk:</strong> people click Allow the hundredth time, and the platform offers ways to remove the box altogether. VS Code says global auto-approval &quot;bypasses all user approvals, potentially leading to destructive actions&quot;. I did not measure how often people click without reading.</li>
+<li><strong>The cost of doing it right:</strong> a short set of refusal rules, each with a written reason the agent can act on, plus someone to read the logs for rules that fire too often. Isolation in a sandbox cuts the number of boxes: Anthropic reports 84% fewer permission prompts in its own internal use, which is its number for its own tool.</li>
+<li><strong>Ask the team:</strong> &quot;Which actions can our agent take with no person in the loop, and are any of them impossible to undo?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定「先問我」不算安全限制。一定不能發生的動作，要用拒絕，並按出錯的代價分級。問人，留給少見的、需要判斷的情況。</li>
+<li><strong>風險</strong>：問到第一百次，人就直接點允許；平台還提供把詢問框整個拿掉的辦法。VS Code 說，全域自動批准會「繞過所有使用者批准，可能導致破壞性的動作」。我沒有量過人有多常不看就點。</li>
+<li><strong>做對的成本</strong>：一小組拒絕規則，每條都附一句 agent 能照著做的原因，再加一個人去看日誌，找觸發太頻繁的規則。把 agent 關進沙箱，可以減少詢問框的數量：Anthropic 說它自己內部使用時，權限提示少了 84%，這是它對自己工具的數字。</li>
+<li><strong>可以問團隊</strong>：「我們的 agent 有哪些動作，不用任何人在場就能做？其中有沒有無法撤銷的？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The obvious way to keep an agent safe is to make it ask. Before it runs a command, a box pops up: Allow or Deny. You are in charge, and nothing happens without your click.</p>
+<p>It works on the first day. The first command, you read. The tenth, you glance. By the hundredth you click Allow before the box has finished drawing, because ninety-nine of the last ones were fine. This is not laziness. It is what people do when almost every question has the same right answer. The box has become a delay, not a check. (This is what I and many others see, and what the platform docs warn about. I did not measure how often; see the end.)</p>
+<p>Then the platform gives you ways to remove the delay, and you use them, because the delay is annoying:</p>
+<ul>
+<li><strong>Allow all.</strong> One setting, and no box ever appears. The action just runs.</li>
+<li><strong>Allow in this session.</strong> One click on a single box, and the same kind of action is not asked again in that chat.</li>
+<li><strong>Autopilot.</strong> The agent keeps working with no one at the keyboard. A box may appear, but no one is there to read it.</li>
+</ul>
+<p>VS Code says it plainly: global auto-approval &quot;bypasses all user approvals, potentially leading to destructive actions&quot;, and its command parsing is &quot;best-effort&quot; (<a href="https://code.visualstudio.com/docs/copilot/security">security</a>). Its hooks page adds that <code>ask</code> &quot;requires an interactive approval flow&quot;, so do not assume it pauses an unattended session (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>).</p>
+<p>In the three modes I tried (default, Allow all, Autopilot), one thing held: a <strong>refusal</strong> from a hook. A box can be switched off. A refusal cannot be clicked away in a pop-up. (A person can still change the rule itself, and <a href="4-3-guardrails.html">Guard the files that hold the rules</a> is about doing that safely.)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>讓 agent 保持安全，最直覺的辦法是讓它先問。執行指令之前彈出一個框：允許或拒絕。你說了算，沒有你點頭什麼都不會發生。</p>
+<p>第一天這招有用。第一個指令，你會讀。第十個，你掃一眼。到第一百個，框還沒畫完你就點了允許，因為前面九十九個都沒事。這不是偷懶。幾乎每個問題的正確答案都一樣時，人就是這樣。框已經變成一段延遲，不再是檢查。（這是我和很多人看到的，也是平台文件提醒過的。我沒有量過有多頻繁，見結尾。）</p>
+<p>然後平台給你幾種辦法去掉這段延遲，你也會用，因為延遲很煩：</p>
+<ul>
+<li><strong>全部允許</strong>。一個設定，詢問框再也不出現，動作直接執行。</li>
+<li><strong>這個會話內允許</strong>。在一個框上點一下，同一類動作在這次對話裡就不再問。</li>
+<li><strong>Autopilot</strong>。agent 在沒人守著鍵盤時繼續工作。框也許會彈出來，但沒人看。</li>
+</ul>
+<p>VS Code 說得很直接：全域自動批准會「繞過所有使用者批准，可能導致破壞性的動作」，它對指令的解析也只是「盡力而為」（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。它的 hooks 頁面還補了一句：<code>ask</code>「需要互動式的批准流程」，所以別以為它能讓無人值守的會話停下來（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。</p>
+<p>我試了三種模式（預設、全部允許、Autopilot），有一樣東西都守住了：hook 發出的<strong>拒絕</strong>。詢問框可以被關掉。拒絕不能在彈窗裡被點掉。（人仍然可以改規則本身，<a href="4-3-guardrails.html">保護規則本身的檔案</a>講的就是怎麼安全地改。）</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Asking and refusing</h3>
+<p>Two words to pin down. To <strong>ask</strong> is to stop and wait for a person to say yes. To <strong>refuse</strong> is to say no without waiting, and to say it the same way every time. The agent can talk a person into a yes (or the person can talk themselves into one). It cannot talk a program out of a no, as long as the program is running.</p>
+<figure class="fig" id="fig-4-2-ask-vs-refuse"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="22" data-t="ask-title">Ask</text>
+  <rect class="box" x="10" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="62" text-anchor="middle" data-t="call">the same command</text>
+  <path class="line" d="M180 57 H200"/>
+  <path class="head" d="M200 51 L210 57 L200 63 Z"/>
+  <rect class="box-plain" x="210" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="295" y="62" text-anchor="middle" data-t="box">Allow / Deny</text>
+  <path class="line" d="M380 57 H400"/>
+  <path class="head" d="M400 51 L410 57 L400 63 Z"/>
+  <rect class="box" x="410" y="34" width="130" height="46" rx="8"/>
+  <text class="label" x="475" y="62" text-anchor="middle" data-t="runs">it runs</text>
+  <text class="label-muted" x="295" y="100" text-anchor="middle" data-t="click">the hundredth click: Allow</text>
+
+  <text class="label-muted" x="10" y="150" data-t="refuse-title">Refuse</text>
+  <rect class="box" x="10" y="162" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="190" text-anchor="middle" data-t="call">the same command</text>
+  <path class="line-lit" d="M180 185 H200"/>
+  <path class="head-lit" d="M200 179 L210 185 L200 191 Z"/>
+  <rect class="box-lit" x="210" y="162" width="170" height="46" rx="8"/>
+  <text class="label-lit" x="295" y="190" text-anchor="middle" data-t="refusal">refusal + reason</text>
+  <path class="line-lit" d="M380 185 H400"/>
+  <path class="head-lit" d="M400 179 L410 185 L400 191 Z"/>
+  <rect class="box" x="410" y="162" width="180" height="46" rx="8"/>
+  <text class="label" x="500" y="190" text-anchor="middle" data-t="reroute">agent reroutes</text>
+  <text class="label-muted" x="295" y="228" text-anchor="middle" data-t="why">no one to click; the reason says what to do instead</text>
+</svg>
+<figcaption>The same command. A box can be clicked through or switched off; a refusal with a reason sends the agent another way.</figcaption></figure>
+<p>So the two are for different jobs.</p>
+<ul>
+<li><strong>Refuse</strong> what must not happen. Things you would never approve, or that you cannot undo. No one should be asked to say no to these a hundred times; the program says it once, always.</li>
+<li><strong>Ask</strong> what depends on a person's judgment, and is rare. Asking only works when the box is rare enough to be read. Spend it where it is worth a person's attention.</li>
+</ul>
+<p>An ask that matters needs one more thing: it must reach the person through a channel the agent cannot press itself. A box in the chat can be switched off by &quot;allow for this session&quot;. I come back to this in <a href="5-3-two-approvals.html">Two approvals</a>.</p>
+<h3>The terminal is the hard case</h3>
+<p>Edit tools are easy to guard. The path is a field in the call, and the rule is &quot;refuse this path&quot;.</p>
+<p>The terminal is not. It is the strongest tool an agent has, because it can run anything you can run. It is also the hardest to guard, because one effect can be spelled in many ways: a redirect, <code>rm</code>, <code>sed -i</code>, a script that runs another script. A hook reads the text of the command. It catches the common spellings, and it does not catch a path built from variables or a script written first and run later (<a href="2-2-hooks.html">Hooks</a>). So rules on the terminal never reach &quot;complete&quot;. That is not a reason to skip them. It is a reason to be honest about what they are: a guard against mistakes, not against an agent set on getting round them.</p>
+<h3>Grade by consequence</h3>
+<p>If you cannot stop everything, stop by how much a mistake costs. Do not grade by how hard the task is. Hard tasks can be harmless, and easy commands can ruin a day. Code can judge consequence from the path and the command, so you do not have to choose a level for each task by hand. Note the limit: the code sees the words of a command, not its effect. The grade is a guess from text (see the traps below).</p>
+<figure class="fig" id="fig-4-2-grades"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <rect class="box" x="10" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="102" y="48" text-anchor="middle" data-t="g1">Read</text>
+  <text class="label-muted" x="102" y="78" text-anchor="middle" data-t="g1-ex">git status, diff, log</text>
+  <text class="label-muted" x="102" y="146" text-anchor="middle" data-t="g1-do">pass</text>
+
+  <rect class="box" x="208" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="300" y="48" text-anchor="middle" data-t="g2">Reversible write</text>
+  <text class="label-muted" x="300" y="78" text-anchor="middle" data-t="g2-ex">git add, commit</text>
+  <text class="label-muted" x="300" y="132" text-anchor="middle" data-t="g2-do">refuse,</text>
+  <text class="label-muted" x="300" y="150" text-anchor="middle" data-t="g2-do2">a person approves</text>
+
+  <rect class="box-lit" x="406" y="20" width="185" height="150" rx="8"/>
+  <text class="label-lit" x="498" y="48" text-anchor="middle" data-t="g3">Cannot be undone</text>
+  <text class="label-lit" x="498" y="70" text-anchor="middle" data-t="g3-ex">git push,</text>
+  <text class="label-lit" x="498" y="88" text-anchor="middle" data-t="g3-ex2">reset --hard</text>
+  <text class="label-lit" x="498" y="132" text-anchor="middle" data-t="g3-do">refuse,</text>
+  <text class="label-lit" x="498" y="150" text-anchor="middle" data-t="g3-do2">a person runs it</text>
+
+  <path class="line" d="M20 192 H578"/>
+  <path class="head" d="M578 186 L590 192 L578 198 Z"/>
+  <text class="label-muted" x="300" y="213" text-anchor="middle" data-t="axis">what the action can break</text>
+</svg>
+<figcaption>Three grades of command, shown with git. The more a mistake costs, the less the agent decides alone.</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Consequence</th>
+<th>Example</th>
+<th>What I do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reads only</td>
+<td>Looking things up, reading files</td>
+<td>Not stopped</td>
+</tr>
+<tr>
+<td>Writes that can be undone</td>
+<td>Editing in a work folder, writing a plan</td>
+<td>Allowed, inside a defined area only</td>
+</tr>
+<tr>
+<td>Writes to a real repository</td>
+<td>Code that people will use</td>
+<td>The agent writes in a work area first. A person approves before it is written back (<a href="5-3-two-approvals.html">Two gates</a>)</td>
+</tr>
+<tr>
+<td>Cannot be undone</td>
+<td>Pushing, deleting a branch, resetting hard</td>
+<td>Refused. The agent never gets a yes. A person does it</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern: the more a mistake costs, the less the agent decides alone. At the top there is no asking at all.</p>
+<h3>git as an example</h3>
+<p>git has both ends, so it makes a good case. In my setup, with a repository connected:</p>
+<ul>
+<li><strong>Reads pass.</strong> <code>status</code>, <code>diff</code>, <code>log</code> and the like are never stopped.</li>
+<li><strong>Writes are refused with a way forward.</strong> <code>add</code>, <code>commit</code>, switching branches. The refusal message holds the full command and a code. The person reads it, and approves by typing one command in their own terminal, within a time limit. The approval is for that command, not for git in general.</li>
+<li><strong>Some are never approvable by the agent.</strong> <code>push</code>, opening a pull request, <code>reset --hard</code>, <code>clean</code>, and force options. The person runs these themselves.</li>
+</ul>
+<p>Why not ask for all of them? Because the three groups deserve different treatment. Reads are free. Writes are normal and must be seen. A push or a hard reset is the kind of thing a hundredth click would let through.</p>
+<h3>Write the reason for the agent</h3>
+<p>A refusal has two readers: you, and the agent. The agent matters more. It reads the message and decides what to do next.</p>
+<p>A message that says only &quot;denied&quot; gets one of two results: the agent tries the same thing again, or it tries something worse. A good message does two jobs:</p>
+<ol>
+<li><strong>Why</strong> it was refused, in one sentence.</li>
+<li><strong>What to do instead.</strong></li>
+</ol>
+<p>For example, if the agent writes to the code folder before the plan is approved, a good reason says: the plan is not approved yet (plan approval is the first gate in <a href="5-3-two-approvals.html">Two gates</a>); write the plan, stop, and ask the person to approve it in their terminal. The agent now knows the next step, so it goes that way rather than finding a side door.</p>
+<p>I write every refusal as if it were the only help the agent will get. This is the same split as in the last chapter: the code stops, the words teach.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>詢問和拒絕</h3>
+<p>先說清楚兩個詞。<strong>詢問</strong>是停下來，等人說好。<strong>拒絕</strong>是不等人就說不，而且每次都用同樣的方式說。agent 能說服人答應（人也能自己說服自己）。但只要程式還在跑，agent 就說服不了程式收回一個不。</p>
+<figure class="fig" id="fig-4-2-ask-vs-refuse"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="22" data-t="ask-title">詢問</text>
+  <rect class="box" x="10" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="62" text-anchor="middle" data-t="call">同一條指令</text>
+  <path class="line" d="M180 57 H200"/>
+  <path class="head" d="M200 51 L210 57 L200 63 Z"/>
+  <rect class="box-plain" x="210" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="295" y="62" text-anchor="middle" data-t="box">允許 / 拒絕</text>
+  <path class="line" d="M380 57 H400"/>
+  <path class="head" d="M400 51 L410 57 L400 63 Z"/>
+  <rect class="box" x="410" y="34" width="130" height="46" rx="8"/>
+  <text class="label" x="475" y="62" text-anchor="middle" data-t="runs">執行</text>
+  <text class="label-muted" x="295" y="100" text-anchor="middle" data-t="click">第一百次點擊：允許</text>
+
+  <text class="label-muted" x="10" y="150" data-t="refuse-title">拒絕</text>
+  <rect class="box" x="10" y="162" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="190" text-anchor="middle" data-t="call">同一條指令</text>
+  <path class="line-lit" d="M180 185 H200"/>
+  <path class="head-lit" d="M200 179 L210 185 L200 191 Z"/>
+  <rect class="box-lit" x="210" y="162" width="170" height="46" rx="8"/>
+  <text class="label-lit" x="295" y="190" text-anchor="middle" data-t="refusal">拒絕＋理由</text>
+  <path class="line-lit" d="M380 185 H400"/>
+  <path class="head-lit" d="M400 179 L410 185 L400 191 Z"/>
+  <rect class="box" x="410" y="162" width="180" height="46" rx="8"/>
+  <text class="label" x="500" y="190" text-anchor="middle" data-t="reroute">agent 改道</text>
+  <text class="label-muted" x="295" y="228" text-anchor="middle" data-t="why">沒有人要點；理由說明改做什麼</text>
+</svg>
+<figcaption>同一條指令。對話框可以一路點過去或關掉；帶理由的拒絕會讓 agent 改走別的路。</figcaption></figure>
+<p>所以兩者各管不同的事。</p>
+<ul>
+<li><strong>拒絕</strong>不能發生的事。你永遠不會批准的，或者無法撤銷的。不該讓人對這些事說一百次不；程式說一次，並且永遠這樣說。</li>
+<li><strong>詢問</strong>要靠人判斷的事，而且這種事很少。詢問框只有少到會被人讀的時候才管用。把它用在值得人花注意力的地方。</li>
+</ul>
+<p>一個重要的詢問還需要一樣東西：它必須經過 agent 自己按不到的管道傳到人那裡。對話裡的框，可以被「這個會話內允許」關掉。我會在<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>再講這一點。</p>
+<h3>終端機最難管</h3>
+<p>編輯工具很好管。路徑是呼叫裡的一個欄位，規則就是「拒絕這個路徑」。</p>
+<p>終端機不行。它是 agent 最強的工具，因為你能執行的它都能執行。它也最難管，因為同一個效果有很多種寫法：重新導向、<code>rm</code>、<code>sed -i</code>、執行另一個腳本的腳本。hook 讀的是指令的文字。常見的寫法它攔得住，但攔不住用變數拼出來的路徑，也攔不住先寫好再執行的腳本（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）。所以終端機上的規則永遠不會「完整」。這不是不寫的理由，而是要老實說它們是什麼：防的是失誤，不是一個鐵了心繞過去的 agent。</p>
+<h3>按後果分級</h3>
+<p>攔不住所有的事，就按出錯的代價來攔。不要按任務難不難來分。難的任務可能無害，簡單的指令也可能毀掉一整天。程式可以從路徑和指令判斷後果，所以你不必替每個任務手動選等級。注意它的限制：程式看到的是指令的文字，不是它的效果。這個等級是從文字猜出來的（見下面的陷阱）。</p>
+<figure class="fig" id="fig-4-2-grades"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <rect class="box" x="10" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="102" y="48" text-anchor="middle" data-t="g1">讀</text>
+  <text class="label-muted" x="102" y="78" text-anchor="middle" data-t="g1-ex">git status、diff、log</text>
+  <text class="label-muted" x="102" y="146" text-anchor="middle" data-t="g1-do">放行</text>
+
+  <rect class="box" x="208" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="300" y="48" text-anchor="middle" data-t="g2">寫，可撤回</text>
+  <text class="label-muted" x="300" y="78" text-anchor="middle" data-t="g2-ex">git add、commit</text>
+  <text class="label-muted" x="300" y="132" text-anchor="middle" data-t="g2-do">拒絕，</text>
+  <text class="label-muted" x="300" y="150" text-anchor="middle" data-t="g2-do2">由人批准</text>
+
+  <rect class="box-lit" x="406" y="20" width="185" height="150" rx="8"/>
+  <text class="label-lit" x="498" y="48" text-anchor="middle" data-t="g3">不可撤回</text>
+  <text class="label-lit" x="498" y="70" text-anchor="middle" data-t="g3-ex">git push、</text>
+  <text class="label-lit" x="498" y="88" text-anchor="middle" data-t="g3-ex2">reset --hard</text>
+  <text class="label-lit" x="498" y="132" text-anchor="middle" data-t="g3-do">拒絕，</text>
+  <text class="label-lit" x="498" y="150" text-anchor="middle" data-t="g3-do2">由人自己執行</text>
+
+  <path class="line" d="M20 192 H578"/>
+  <path class="head" d="M578 186 L590 192 L578 198 Z"/>
+  <text class="label-muted" x="300" y="213" text-anchor="middle" data-t="axis">這個動作能弄壞多少</text>
+</svg>
+<figcaption>命令的三個等級，以 git 為例。錯一次代價越大，agent 能自己決定的就越少。</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>後果</th>
+<th>例子</th>
+<th>我怎麼做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只讀</td>
+<td>查東西、讀檔案</td>
+<td>不攔</td>
+</tr>
+<tr>
+<td>可以撤銷的寫入</td>
+<td>在工作資料夾裡編輯、寫計劃</td>
+<td>允許，只限在劃定的範圍內</td>
+</tr>
+<tr>
+<td>寫進真正的倉庫</td>
+<td>別人會用到的程式碼</td>
+<td>agent 先寫在工作區。寫回去之前由人批准（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）</td>
+</tr>
+<tr>
+<td>無法撤銷</td>
+<td>push、刪分支、reset --hard</td>
+<td>拒絕。agent 永遠得不到答應。由人自己做</td>
+</tr>
+</tbody>
+</table>
+<p>規律是：出錯的代價越大，agent 能自己決定的就越少。到最上面一級，就完全不問了。</p>
+<h3>以 git 為例</h3>
+<p>git 兩端都有，所以是個好例子。在我的設定裡，連上倉庫後：</p>
+<ul>
+<li><strong>讀的放行</strong>。<code>status</code>、<code>diff</code>、<code>log</code> 這類永遠不攔。</li>
+<li><strong>寫的會被拒絕，但附一條出路</strong>。<code>add</code>、<code>commit</code>、切換分支。拒絕訊息裡有完整的指令和一個代碼。人讀完，在自己的終端機裡打一條指令來批准，有時間限制。批准只針對那一條指令，不是針對整個 git。</li>
+<li><strong>有些 agent 永遠批不到</strong>。<code>push</code>、開 pull request、<code>reset --hard</code>、<code>clean</code>，還有強制選項。這些由人自己執行。</li>
+</ul>
+<p>為什麼不全都用詢問？因為這三組值得不同的對待。讀是免費的。寫是正常的，但必須被看到。push 或 hard reset 這種事，第一百次點擊就會放它過去。</p>
+<h3>把原因寫給 agent 看</h3>
+<p>一條拒絕有兩個讀者：你，和 agent。agent 更重要。它讀了訊息，決定下一步怎麼做。</p>
+<p>訊息只寫「已拒絕」，結果不外乎兩種：agent 再試一次同樣的事，或者試更糟的辦法。好的訊息做兩件事：</p>
+<ol>
+<li><strong>為什麼</strong>被拒絕，一句話。</li>
+<li><strong>改做什麼</strong>。</li>
+</ol>
+<p>舉例，agent 在計劃還沒批准時就寫程式碼資料夾，好的原因會說：計劃還沒批准（計劃批准是<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>的第一道門）；先寫計劃，然後停下來，請人在自己的終端機批准。agent 現在知道下一步了，就會走這條路，不去找旁門。</p>
+<p>我把每一條拒絕都當成 agent 唯一能得到的幫助來寫。這和上一章是同一個分工：程式負責擋，文字負責教。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Refusing is not free.</strong> A refusal that is too wide stops real work, and the agent cannot argue its way past it. Keep the patterns narrow, keep a way for a person to approve what is wrong to refuse, and read the logs to see which rule fires.</p>
+<p><strong>A box still has a use.</strong> I keep some &quot;needs a person&quot; steps as a reminder. But I never count them as protection. If something must hold, it is a refusal.</p>
+<p><strong>The patterns are always behind.</strong> For the terminal, a new spelling will get through. For the things that must never be touched, do not rely on a pattern at all. Do not give the agent the thing (<a href="4-5-least-privilege.html">Least privilege</a>).</p>
+<p><strong>The grade is a guess from text.</strong> Code judges a command by its words, not by what it does. A command that looks harmless can do harm after it is let through.</p>
+<p><strong>I do not have numbers on approval fatigue.</strong> The claim that people click Allow without reading is something I and many others see, and it is what the platform docs warn about. I have not measured how often.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>拒絕不是免費的</strong>。拒絕得太寬，會擋住真正的工作，而 agent 吵不贏它。規則要窄，要留一條路讓人批准那些不該拒絕的事，還要看日誌，知道哪條規則在觸發。</p>
+<p><strong>詢問框還是有用</strong>。有些「需要人」的步驟我留著當提醒。但我從不把它們算作保護。一定要守住的，就用拒絕。</p>
+<p><strong>規則永遠慢一步</strong>。終端機上，新的寫法總會漏過去。對那些絕對不能碰的東西，完全不要靠規則。不要把那樣東西交給 agent（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
+<p><strong>等級是從文字猜的</strong>。程式按指令的字面判斷，不是按它做了什麼。一個看起來無害的指令，放行之後也可能造成傷害。</p>
+<p><strong>我沒有批准疲勞的數字</strong>。人不看就點允許，這是我和很多人看到的，也是平台文件提醒過的。我沒有量過有多頻繁。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's security page recommends sandboxing over relying on approval rules alone, and suggests scoping auto-approval to the session rather than the workspace or the user. It calls model-assisted permissions &quot;not a security boundary&quot; (<a href="https://code.visualstudio.com/docs/copilot/security">security</a>). This fits the chapter: asking is a convenience, refusing is a rule, and isolation is stronger than both.</p>
+<p>Isolation also attacks approval fatigue at the root. Inside a sandbox, the agent may be allowed far more without asking, so there are fewer boxes to click. Anthropic reports that, in its internal use of Claude Code, sandboxing &quot;safely reduces permission prompts by 84%&quot;, and that it needs both file system and network isolation to work (<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>). That is Anthropic's own number for its own tool; I have not tested the sandbox VS Code offers.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 security 頁面建議用沙箱，不要只靠批准規則，並建議把自動批准限定在會話範圍，不要開到工作區或使用者層級。它說模型輔助的權限「不是安全邊界」（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。這和本章一致：詢問是方便，拒絕是規則，隔離比兩者都強。</p>
+<p>隔離也從根上解決批准疲勞。在沙箱裡，agent 可以不問就被允許做更多事，詢問框就少了。Anthropic 說，它內部使用 Claude Code 時，沙箱「安全地減少了 84% 的權限提示」，而且要同時有檔案系統和網路的隔離才行（<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>）。這是 Anthropic 對自己工具的數字；VS Code 提供的沙箱我沒有測過。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>My refusal patterns for the terminal exist because I do not have a real sandbox. If your agent runs inside a container or a locked-down environment where it can only reach what you chose, most of them can go; the boundary does the work. The grading by consequence stays, since it is a way of thinking, not a feature.</p>
+<p>If a platform lets you write refusals in its own permission settings, so they hold in every mode, move your hook rules there and keep the reasons.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>我在終端機上寫的拒絕規則，是因為我沒有真正的沙箱。如果你的 agent 跑在容器或鎖死的環境裡，只能碰到你選好的東西，大部分規則就可以刪；邊界已經做了這份工作。按後果分級則留著，因為它是一種想法，不是一個功能。</p>
+<p>如果平台讓你在它自己的權限設定裡寫拒絕，使它在每種模式下都有效，就把你的 hook 規則搬過去，原因保留。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Inspect how this project&#x27;s agent handles permissions: the editor and agent settings, allow and deny lists, auto-approve options, and any hooks that refuse. List what runs without asking, what asks a person, and what is refused. Flag anything that can be undone only with difficulty (push, delete, reset, deploy) and say which of the three groups it is in. Also say whether any setting would let the box be switched off for a whole session or for good. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>檢查這個專案的 agent 怎麼處理權限：編輯器和 agent 的設定、允許和拒絕清單、自動批准的選項，以及任何會拒絕的 hook。列出哪些不用問就執行、哪些要問人、哪些被拒絕。把很難撤銷的動作（push、刪除、reset、部署）標出來，並說它屬於三組中的哪一組。另外說明有沒有任何設定，能讓詢問框在整個會話或永久被關掉。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/security">Security</a>, <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>In this book: <a href="2-2-hooks.html">Hooks</a>, <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, <a href="4-5-least-privilege.html">Least privilege</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>、<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>本書：<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="4-3-guardrails.html">保護規則本身的檔案</a>、<a href="4-5-least-privilege.html">有些東西根本不給</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness grades by consequence, refuses on the terminal with a reason, and has a git ladder. The harness can walk you through the real rules and what the agent sees when it hits them. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Asking is not a limit&quot;. Teach me how this harness handles permissions: why &quot;ask first&quot; is not a limit (topic 8), how it grades by consequence, how git commands are treated, and how the terminal is guarded (topic 5). Open the real rules and refusal messages with me, and show me what the agent sees when it is refused.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 按後果分級，在終端機上帶著原因拒絕，還有一條 git 的階梯。harness 可以帶你看真實的規則，以及 agent 被拒絕時看到什麼。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「詢問不是限制」這一章。請教我這個 harness 怎麼處理權限：為什麼「先問」不是限制（主題 8）、它怎麼按後果分級、git 指令怎麼處理，以及終端機怎麼防護（主題 5）。帶我打開真實的規則和拒絕訊息，讓我看 agent 被拒絕時看到什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

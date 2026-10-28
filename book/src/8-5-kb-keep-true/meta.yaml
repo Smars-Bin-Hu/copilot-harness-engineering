@@ -1,0 +1,14 @@
+id: "8.5"
+part: case-kb
+title: {en: "Keeping the knowledge base true", zh-Hant: "讓知識庫一直是對的"}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base]
+sources:
+  - what: "Versions: every index line holds the sha of its source; stale cards are listed by comparing with the base branch; only the diff is read; a stamp means checked against the code now; deleted sources kept only as unknown"
+    where: "harness docs/08-knowledge-base.md ('Versions: as of when'); skill generic-kb-refresh"
+  - what: "Requests list and environment facts: kinds code, runtime, history, decision; read-only command; statuses open, answered, declined; a fact carries environment, date, object, the sha of the code that day, and who gave it"
+    where: "harness docs/08-knowledge-base.md ('What the code cannot tell')"
+  - what: "Capture from a task: draft only; keep an item only if a future agent would get it wrong; nothing is a good answer"
+    where: "harness skill generic-capture-knowledge"
+  - what: "Migrating an existing knowledge base: shas set at the commit the old index was written at"
+    where: "harness docs/08-knowledge-base.md ('The road, step by step')"

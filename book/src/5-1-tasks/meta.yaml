@@ -1,0 +1,9 @@
+id: "5.1"
+part: flow
+core: true
+title: {en: "Manage tasks, not chats", zh-Hant: "管任務，不管對話"}
+harness_tag: "1.5.50"
+wondering: [09-task-lifecycle, 15-design-choices]
+sources:
+  - what: "Why the three Levels were dropped (only one was used; the three-role setup cost about 4.5 times the usage and 6 times the time with no better result); guarding by consequence and kind; the task folder; kinds and tiers; sessions and tasks kept separate"
+    where: harness docs/05-design.md section 2, and the task lifecycle lesson of the wondering course

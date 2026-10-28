@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-lit" x="130" y="20" width="340" height="60" rx="10"/>
+  <text class="label-lit" x="300" y="46" text-anchor="middle" data-t="goal">x</text>
+  <text class="label-lit" x="300" y="65" text-anchor="middle" data-t="goal-n">x</text>
+  <path class="line" d="M300 80 V100"/>
+  <path class="line" d="M75 100 H525"/>
+  <path class="line" d="M75 100 V120 M225 100 V120 M375 100 V120 M525 100 V120"/>
+  <rect class="box" x="15" y="120" width="120" height="56" rx="8"/>
+  <text class="label" x="75" y="144" text-anchor="middle" data-t="t1">x</text>
+  <text class="label-muted" x="75" y="163" text-anchor="middle" data-t="t1n">x</text>
+  <rect class="box-lit" x="165" y="120" width="120" height="56" rx="8"/>
+  <text class="label-lit" x="225" y="144" text-anchor="middle" data-t="t2">x</text>
+  <text class="label-lit" x="225" y="163" text-anchor="middle" data-t="t2n">x</text>
+  <rect class="box-plain" x="315" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="375" y="144" text-anchor="middle" data-t="t3">x</text>
+  <rect class="box-plain" x="465" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="525" y="144" text-anchor="middle" data-t="t4">x</text>
+  <text class="label-muted" x="300" y="208" text-anchor="middle" data-t="note">x</text>
+</svg>

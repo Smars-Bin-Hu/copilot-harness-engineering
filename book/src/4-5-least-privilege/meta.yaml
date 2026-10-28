@@ -1,0 +1,21 @@
+id: "4.5"
+part: control
+title: {en: "Some things you never hand over", zh-Hant: "有些東西根本不給"}
+harness_tag: "1.5.50"
+wondering: [08-permission-sandbox]
+sources:
+  - what: "The gate is not a sandbox: it reads the text of a command, cannot see a path built from variables or a script written and then run; agent and user are the same system user; strong isolation needs the operating system or a container"
+    where: harness wondering topic 8.5 and docs/05-design.md ('What is not done')
+  - what: "Target repositories: only the files the plan changes are fetched into the task folder; the working tree, the current branch and existing commits are not changed; the write-back goes to a new branch without a commit; push and similar are done by a person"
+    where: harness docs/05-design.md ('Target repositories') and wondering topic 8.7
+  - what: "The harness never connects to an environment; what only an environment can tell, a person runs and gives, and the agent asks for it in a fixed place (requests, each with a read-only command)"
+    where: harness docs/08-knowledge-base.md
+  - what: "Hooks and instructions are not substitutes for enforced permissions, sandboxing, or enterprise controls; sandboxing is an added layer, not a virtual machine or user-account boundary"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks and https://code.visualstudio.com/docs/copilot/security
+    checked: 2026-10-27
+  - what: "Mitigation list includes 'Enforce privilege control and least privilege access'"
+    where: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+    checked: 2026-10-27
+  - what: "Sandboxing needs both file system and network isolation; in Anthropic's internal use it 'safely reduces permission prompts by 84%'"
+    where: https://www.anthropic.com/engineering/claude-code-sandboxing
+    checked: 2026-10-28

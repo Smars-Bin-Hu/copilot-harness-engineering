@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Build the enforcement layer like software</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.4</p><h1><span data-l="en" lang="en">Build the enforcement layer like software</span><span data-l="zh-Hant" lang="zh-Hant">把執行層當軟體來設計</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>, or know that a hook is code the platform runs before tool calls, and that it can refuse the call.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>，或者知道 hook 是平台在工具呼叫之前執行的程式碼，而且它能拒絕這次呼叫。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The enforcement layer is software, and it will fail. Decide in advance whether a failure lets the call through or blocks it, and build the layer so it can be tested and moved to another platform.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>執行層是軟體，它會出錯。事先決定好：出錯時放行這次呼叫，還是擋下它；並把執行層做成可以測試、可以搬到別的平台的樣子。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide, and write down, whether the guard fails open (lets the call through) or fails closed (blocks it) when it breaks, and name the person who owns the layer.</li>
+<li><strong>The risk:</strong> nobody decides this on purpose; it is decided by whatever the script does when it crashes. The platform has its own rules too: a crash can refuse the call, while a timeout is a silent pass for every event. A guard that fails open and says nothing leaves a hole nobody knows about.</li>
+<li><strong>The cost of doing it right:</strong> for a small setup, one short script is enough. The structure in the chapter pays off when rules multiply, when several people edit them, or when a second platform arrives. Someone must own the layer and re-run fixed scenarios after each platform update.</li>
+<li><strong>Ask the team:</strong> &quot;If our guard crashes tomorrow, what happens to the next action, and who would see the error?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定並寫下來：守衛壞掉時，是失效放行（放過這次呼叫），還是失效關閉（擋下它）；並指定誰負責這一層。</li>
+<li><strong>風險</strong>：沒有人是有意去決定這件事的；它是由腳本崩潰時碰巧做的事決定的。平台也有自己的規則：崩潰可以拒絕這次呼叫，而逾時對每一種事件都是默默放行。失效放行又不吭聲的守衛，留下一個沒人知道的洞。</li>
+<li><strong>做對的成本</strong>：小的設定，一個短腳本就夠了。章裡的結構，在規則變多、有幾個人在改、或第二個平台出現時才划算。要有人負責這一層，每次平台更新後重跑固定的情境。</li>
+<li><strong>可以問團隊</strong>：「如果我們的守衛明天崩潰，下一個動作會怎樣？誰會看到錯誤？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first hook is easy. It is one script with a few <code>if</code> lines: if the command contains <code>rm -rf</code>, refuse. It works, and you are pleased.</p>
+<p>Then the rules grow. One rule guards a list of folders. One keeps a record of every call. One keeps count of something. One has to know which task the agent is working on. Each of them needs the same input, so each is added to the same script, and the script becomes a tangle. Three things go wrong.</p>
+<ul>
+<li><strong>You cannot change a number safely.</strong> The limit on repeated refusals, the list of protected folders, the time limit: they sit in the middle of the code. To change one you read all of it.</li>
+<li><strong>You cannot test it.</strong> The platform calls the script with a long piece of JSON. To check a rule you must run the agent and hope it does the thing you want to see.</li>
+<li><strong>You cannot move it.</strong> The script reads the platform's field names. When the platform renames one, or you add a second platform, every rule changes.</li>
+</ul>
+<p>There is a fourth problem, and it is the one this chapter is about. This script runs before tool calls, so a bug in it is a bug in everything the agent does. What should happen when the hook itself breaks? Block the call, or let it through? Nobody decides this on purpose. It gets decided by whatever the script happens to do when it crashes. <a href="2-2-hooks.html">Hooks</a> showed that the platform itself decides two cases for you, and they point in opposite directions. Better to decide yours first.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>第一個 hook 很簡單。一個腳本，幾行 <code>if</code>：指令裡有 <code>rm -rf</code> 就拒絕。它管用，你很高興。</p>
+<p>然後規則變多了。一條規則守一串資料夾。一條記錄每次呼叫。一條計某樣東西的數。一條要知道 agent 正在做哪個任務。每一條都需要同樣的輸入，所以都加進同一個腳本，腳本就變成一團亂。有三件事出錯。</p>
+<ul>
+<li><strong>你不能安全地改一個數字</strong>。重複拒絕的上限、受保護資料夾的清單、時間限制：它們都夾在程式碼中間。要改一個，就得把全部讀一遍。</li>
+<li><strong>你不能測試它</strong>。平台用一大段 JSON 呼叫腳本。要檢查一條規則，你得執行 agent，然後祈禱它做你想看的事。</li>
+<li><strong>你不能搬走它</strong>。腳本讀的是平台的欄位名稱。平台改了一個名字，或者你加了第二個平台，每條規則都要改。</li>
+</ul>
+<p>還有第四個問題，這一章講的就是它。這個腳本在工具呼叫之前執行，所以它裡面的一個 bug，就是 agent 做的每件事的 bug。hook 自己壞掉的時候該怎麼辦？擋下呼叫，還是放行？沒有人是有意決定這件事的。它是由腳本崩潰時碰巧做的事決定的。<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>說過，平台自己替你決定了兩種情況，而且方向相反。最好是你先決定自己的。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>Four design choices make the layer something you can change, test and move. Then one decision, and one way to test it. If you read only one part, read the decision, &quot;when the layer itself fails&quot;. The four design choices are more structure than a small setup needs (see the traps below); skim them unless you are building one.</p>
+<h3>One call through the layer</h3>
+<p>Some words first. The <strong>enforcement layer</strong> is everything that stands between the model and the tools and says yes or no: the hooks and the code behind them. A <strong>module</strong> is one part of that code that is responsible for one thing, such as &quot;protect these folders&quot; or &quot;record calls&quot;. An <strong>adapter</strong> is a small part that translates between two formats. The <strong>core</strong> is the part that runs the modules and combines what they say.</p>
+<figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
+  <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
+  <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">platform</text>
+
+  <g data-step="1">
+    <path class="line-lit" d="M100 125 H114"/>
+    <path class="head-lit" d="M114 119 L122 125 L114 131 Z"/>
+    <rect class="box-lit" x="122" y="100" width="100" height="50" rx="8"/>
+    <text class="label-lit" x="172" y="130" text-anchor="middle" data-t="adapter">adapter</text>
+    <text class="label-muted" x="185" y="86" text-anchor="middle" data-t="adapter-note">the only part that knows the platform</text>
+  </g>
+
+  <g data-step="2">
+    <path class="line-lit" d="M222 125 H242"/>
+    <path class="head-lit" d="M242 119 L250 125 L242 131 Z"/>
+    <rect class="box" x="250" y="30" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="55" text-anchor="middle" data-t="m1">tasks</text>
+    <rect class="box-lit" x="250" y="105" width="100" height="40" rx="6"/>
+    <text class="label-lit" x="300" y="130" text-anchor="middle" data-t="m2">gate</text>
+    <rect class="box" x="250" y="180" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="205" text-anchor="middle" data-t="m3">records</text>
+    <text class="label-muted" x="280" y="246" text-anchor="middle" data-t="mod-note">each module gives its view; none calls another</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M350 50 H380 V110 H410 M350 125 H410 M350 200 H380 V140 H410"/>
+    <rect class="box-lit" x="410" y="95" width="180" height="60" rx="8"/>
+    <text class="label-lit" x="500" y="122" text-anchor="middle" data-t="core">core</text>
+    <text class="label-muted" x="500" y="142" text-anchor="middle" data-t="core-rule">deny &gt; ask &gt; allow</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M500 155 V262 H172 V160"/>
+    <path class="head-lit" d="M166 162 L172 152 L178 162 Z"/>
+    <text class="label-muted" x="340" y="283" text-anchor="middle" data-t="back">one answer, platform format</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The platform sends an event in its own format. The adapter, the one entry point, turns it into one common event.</li><li data-step-text="2">The modules that listen to this event each look at it. One checks paths and commands, one keeps records, one handles the task. They do not talk to each other.</li><li data-step-text="3">The core merges the views. If any module says deny, the answer is deny; then ask; then allow.</li><li data-step-text="4">The adapter turns the answer back into what the platform expects. If anything above throws an error, the error goes to a log and the call is let through.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>One call through the enforcement layer. Only the adapter knows the platform, so only the adapter changes when the platform does.</figcaption></figure>
+<h3>1. One entry, and an adapter that is the only part that knows the platform</h3>
+<p>The platform is told about one hook, not ten. Every event goes to the same entry point. I did it this way for a practical reason: the platform does not filter by tool name for me, so ten small hooks would start ten processes for every call, most of them with nothing to do. I expect one entry that decides inside which modules care to be cheaper; I did not time it.</p>
+<p>The first thing the entry does is hand the platform's JSON to the adapter. The adapter reads the platform's field names and spellings (tool names, upper and lower case, where the arguments are) and produces one <strong>common event</strong> that the rest of the code uses. On the way out, it does the reverse.</p>
+<p>This is what makes the layer movable. When the platform changes a field, or you add a second platform, you write or change one adapter. The modules and their tests stay as they are. When the platform changes, I record real input from it first, check that the adapter reads the recording, and only then touch anything else.</p>
+<h3>2. Modules give opinions; the core decides</h3>
+<p>Each module sees the common event and returns one of: no opinion, allow, ask, deny, or &quot;add these words for the model to read&quot;. A module imports only the shared basics, never another module. So you can add a module, or switch one off, without reading the others.</p>
+<p>The core merges the opinions with a fixed order: <strong>deny beats ask, and ask beats allow.</strong> If any module says deny, the answer is deny, whatever the others think. The words that modules want to add are joined in order. This is the same idea as a vote where any single member can veto, and it means a new module can only make the layer stricter, never quietly weaker.</p>
+<p>A module that raises an error is treated as having no opinion. One broken module cannot take the others with it. Note what follows: if the broken module was a deny rule, its refusal is gone and the call passes. That is the fail-open choice below, applied module by module.</p>
+<h3>3. Numbers live in files, not in code</h3>
+<p>How many refusals in a row before the breaker trips (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>), which folders are guarded, how long a granted exception lasts: these are all <strong>policy files</strong>, plain data that code reads and never contains. The reasons for this are plain. A person who is not a programmer can read them and change one. A company can put its own values in a separate override next to the standard ones, so updating the standard never collides with local changes. And a rule's number is written in one place, so the docs cannot disagree with the code.</p>
+<p>The texts people read follow the same idea: every refusal reason and message sits in a table, one table per language, with the same names. A test fails if one language lacks a name.</p>
+<h3>4. State lives in files, one writer per field</h3>
+<p>The layer runs as a fresh process for every event. It cannot keep anything in memory between two calls. So whatever must be remembered (which task is active, how many refusals so far, whether a human override is on) goes in a small file per session, read under a lock and written back. Each field has one module that is allowed to write it. A version number in the file lets old files be upgraded rather than break.</p>
+<p>Files also make the layer easy to inspect. When something odd happens, you open the file and see what the layer believed.</p>
+<h3>The decision: when the layer itself fails</h3>
+<figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
+  <text class="label" x="300" y="42" text-anchor="middle" data-t="broken">the hook&#x27;s own code breaks</text>
+
+  <path class="line" d="M250 59 L150 110"/>
+  <path class="line-lit" d="M350 59 L450 110"/>
+
+  <rect class="box" x="10" y="110" width="280" height="60" rx="8"/>
+  <text class="label" x="150" y="136" text-anchor="middle" data-t="closed">block the call</text>
+  <text class="label-muted" x="150" y="156" text-anchor="middle" data-t="closed-cost">cost: all work stops</text>
+  <text class="label-muted" x="150" y="195" text-anchor="middle" data-t="closed-for">for: production, credentials</text>
+
+  <rect class="box-lit" x="310" y="110" width="280" height="60" rx="8"/>
+  <text class="label-lit" x="450" y="136" text-anchor="middle" data-t="open">let it through, log the error</text>
+  <text class="label-muted" x="450" y="156" text-anchor="middle" data-t="open-cost">cost: one rule is missed</text>
+  <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">for: a project that is only code</text>
+</svg>
+<figcaption>Two ways to fail. Decide which one before the day it happens, rule by rule.</figcaption></figure>
+<p>Now the question from the start. There are two ways to fail.</p>
+<ul>
+<li><strong>Fail open:</strong> when the hook's own code breaks, let the call through and write the error to a log.</li>
+<li><strong>Fail closed:</strong> when it breaks, block the call.</li>
+</ul>
+<p>In my setup the hook fails open. The reason is a cost comparison, and I only claim it for this kind of project. The hook runs before tool calls. If a bug in it blocked every call, the agent would be useless until someone fixed the bug, and the person would be angry at the harness. If it lets one call through, the cost is one missed stop, and the error is in a log and shows up in a <strong>health check</strong> (a command that tests whether the setup is sound). In a project that is only code under version control, a missed stop can usually be found and undone. Blocked work cannot be made up as easily.</p>
+<p>The platform adds its own rules, and they need care. VS Code's page points to GitHub's hook reference for the exit-code rules (<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>, checked 2026-10-28). For a before-tool command hook: exit code 2 is a deny, and any other non-zero exit is also a deny (&quot;hook errored&quot;), so a crash or a failed start refuses the call. If the hook takes longer than its time limit, it is killed and the call goes on through the normal permission flow: a silent pass, for every event. On other events, a non-zero exit is only logged and the run continues. My own measurement agreed on the crash and the timeout. So &quot;fail open&quot; is not something you get by doing nothing. The hook has to catch its own errors and answer &quot;no opinion&quot; on purpose, so that an ordinary bug does not turn into the platform's refusal. A crash of the whole program is a different case, which the platform decides. And &quot;too slow&quot; is a failure too: I run the hook once on purpose in that health check, and warn when the slowest recent call comes near the time limit, so I find out before the platform quietly drops my rules.</p>
+<p>A rough guide, from the cost comparison above:</p>
+<table>
+<thead>
+<tr>
+<th>Your project</th>
+<th>Lean towards</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code under version control, a missed stop can be found and undone</td>
+<td>Fail open, with a visible log</td>
+</tr>
+<tr>
+<td>Touches production data or credentials</td>
+<td>Fail closed on a short list, or better, do not rely on a hook (<a href="4-5-least-privilege.html">Least privilege</a>)</td>
+</tr>
+<tr>
+<td>Many people write rules, or you add a second platform</td>
+<td>Add the structure above, and the failure tests below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>This choice is not for everything.</strong> Fail open is right when a missed stop is cheap to find and fix. It is wrong where a missed stop cannot be undone: a command that touches production data, a file that holds credentials. For those, one design is to fail closed, rule by rule, on a short list: if the hook breaks and the call touches anything on that list, block. I have not built this. But the better answer is the next chapter's: do not rely on a hook for those things at all (<a href="4-5-least-privilege.html">Least privilege</a>).</p>
+<p>Whichever you pick, <strong>write it down and make a failure visible.</strong> A layer that fails open and says nothing is the worst of both: you have a hole and do not know.</p>
+<h3>How to test it</h3>
+<p>The layer's input is data, so the test is easy: feed in an event and read the answer. Three kinds of test matter.</p>
+<ul>
+<li><strong>Rule tests.</strong> For each rule, a few events that must be refused, a few that must pass. Use input recorded from the real platform, not input you made up. Made-up input has the spellings you expect, and the platform does not.</li>
+<li><strong>Failure tests.</strong> Break a module on purpose and check that the others still answer. Feed in a broken settings file and check the result is the one you chose, fail open or closed. Platform docs tell you to do this: &quot;Test the exit-code and timeout rules instead of assuming that every failure blocks work.&quot;</li>
+<li><strong>Delivery tests.</strong> The layer can be right and the answer can still be lost on the way (<a href="2-2-hooks.html">Hooks</a> has an example). Check what the model really received.</li>
+</ul>
+<p>Add one more habit. Keep a small set of fixed scenarios (&quot;this command must be refused&quot;, &quot;this edit must pass&quot;) and run them after every platform update. An update changes your layer without your changing a line of it.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions:</strong></p>
+<ol>
+<li>If your hook crashes tomorrow, what happens to the next tool call? Do you know, or are you guessing?</li>
+<li>If the platform renames a field, how many files do you edit?</li>
+<li>Can you change the number of a rule without reading the code that uses it?</li>
+</ol>
+<p><strong>A test you can run today.</strong> Add a deliberate bug to a copy of your hook (a line that raises an error). Run a harmless task. Watch what the platform does and what your log says. Then fix the bug.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>四個設計選擇，讓這一層可以改、可以測、可以搬。然後是一個決定，和一個測試它的辦法。只讀一部分的話，讀那個決定：「執行層自己出錯的時候」。這四個設計選擇比小設定需要的結構更多（見下面的陷阱）；不是要自己做一個的話，掃過去就好。</p>
+<h3>一次呼叫經過執行層</h3>
+<p>先說幾個詞。<strong>執行層</strong>是站在模型和工具之間、說好或不好的全部東西：hook 和它背後的程式碼。<strong>模組</strong>是這些程式碼裡負責一件事的一部分，例如「保護這些資料夾」或「記錄呼叫」。<strong>轉接器</strong>是在兩種格式之間翻譯的一小部分。<strong>核心</strong>是執行各個模組、並合併它們意見的那一部分。</p>
+<figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
+  <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
+  <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">平台</text>
+
+  <g data-step="1">
+    <path class="line-lit" d="M100 125 H114"/>
+    <path class="head-lit" d="M114 119 L122 125 L114 131 Z"/>
+    <rect class="box-lit" x="122" y="100" width="100" height="50" rx="8"/>
+    <text class="label-lit" x="172" y="130" text-anchor="middle" data-t="adapter">轉接層</text>
+    <text class="label-muted" x="185" y="86" text-anchor="middle" data-t="adapter-note">唯一認得平台的部分</text>
+  </g>
+
+  <g data-step="2">
+    <path class="line-lit" d="M222 125 H242"/>
+    <path class="head-lit" d="M242 119 L250 125 L242 131 Z"/>
+    <rect class="box" x="250" y="30" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="55" text-anchor="middle" data-t="m1">任務</text>
+    <rect class="box-lit" x="250" y="105" width="100" height="40" rx="6"/>
+    <text class="label-lit" x="300" y="130" text-anchor="middle" data-t="m2">關卡</text>
+    <rect class="box" x="250" y="180" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="205" text-anchor="middle" data-t="m3">紀錄</text>
+    <text class="label-muted" x="280" y="246" text-anchor="middle" data-t="mod-note">各模組給各自的意見，彼此不呼叫</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M350 50 H380 V110 H410 M350 125 H410 M350 200 H380 V140 H410"/>
+    <rect class="box-lit" x="410" y="95" width="180" height="60" rx="8"/>
+    <text class="label-lit" x="500" y="122" text-anchor="middle" data-t="core">核心</text>
+    <text class="label-muted" x="500" y="142" text-anchor="middle" data-t="core-rule">拒絕 &gt; 詢問 &gt; 放行</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M500 155 V262 H172 V160"/>
+    <path class="head-lit" d="M166 162 L172 152 L178 162 Z"/>
+    <text class="label-muted" x="340" y="283" text-anchor="middle" data-t="back">一個答案，用平台要的格式</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">平台用自己的格式送來一個事件。轉接層是唯一的入口，把它變成一個共通的事件。</li><li data-step-text="2">聽這個事件的模組各自看一眼。一個查路徑和指令，一個做紀錄，一個管任務。它們彼此不說話。</li><li data-step-text="3">核心合併各家意見。只要有一個模組說拒絕，答案就是拒絕；其次是詢問；最後才是放行。</li><li data-step-text="4">轉接層把答案轉回平台要的格式。上面任何一步出錯，錯誤會寫進紀錄，這次呼叫放行。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次呼叫穿過執行層。只有轉接層認得平台，所以平台改了，只改轉接層。</figcaption></figure>
+<h3>1. 一個入口，和只有它認識平台的轉接器</h3>
+<p>平台只被告知一個 hook，不是十個。每個事件都送到同一個入口。我這樣做有實際的原因：平台不會替我按工具名稱過濾，所以十個小 hook 會在每次呼叫時啟動十個處理程序，大多數無事可做。我預期一個入口、在裡面決定哪些模組要管，會比較便宜；我沒有計時。</p>
+<p>入口做的第一件事，是把平台的 JSON 交給轉接器。轉接器讀平台的欄位名稱和寫法（工具名稱、大小寫、參數放在哪裡），產出一個<strong>共通事件</strong>，其餘的程式碼都用它。輸出時，它做相反的事。</p>
+<p>這就是讓這一層可以搬的原因。平台改了一個欄位，或你加了第二個平台，你只寫或改一個轉接器。模組和它們的測試都不動。平台改版時，我先錄下它真實的輸入，確認轉接器讀得懂這份錄音，然後才動其他的東西。</p>
+<h3>2. 模組提意見，核心做決定</h3>
+<p>每個模組看到共通事件，回傳其中一個：沒有意見、允許、詢問、拒絕，或「加上這些話給模型讀」。模組只匯入共用的基礎部分，從不匯入別的模組。所以你可以加一個模組，或關掉一個，不用讀其他的。</p>
+<p>核心用固定的順序合併意見：<strong>拒絕大過詢問，詢問大過允許</strong>。只要有一個模組說拒絕，答案就是拒絕，不管其他的怎麼想。模組想加的話，按順序接起來。這和投票時任何一個成員都能否決是同一個想法，意思是新模組只會讓這一層更嚴，不會悄悄變弱。</p>
+<p>丟出錯誤的模組，被當成沒有意見。一個壞掉的模組帶不走其他的。注意接下來會發生什麼：如果壞掉的是一條拒絕規則，它的拒絕就沒了，呼叫就過去了。這就是下面講的失效放行，一個模組一個模組地套用。</p>
+<h3>3. 數字放在檔案裡，不放在程式碼裡</h3>
+<p>連續拒絕幾次斷路器才跳開（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）、哪些資料夾受保護、給出的例外能持續多久：這些都是<strong>政策檔</strong>，是程式碼讀、但不包含在程式碼裡的純資料。理由很直白。不是程式設計師的人也能讀，也能改其中一個。公司可以把自己的值放在標準值旁邊的另一個 override 裡，所以更新標準值不會和本地的改動衝突。規則的數字只寫在一個地方，文件也就不會和程式碼對不上。</p>
+<p>給人讀的文字也是同一個想法：每一條拒絕原因和訊息都放在表裡，每種語言一張表，名稱相同。有一種語言缺了一個名稱，測試就會失敗。</p>
+<h3>4. 狀態放在檔案裡，每個欄位只有一個寫入者</h3>
+<p>這一層每個事件都是一個全新的處理程序。兩次呼叫之間，它在記憶體裡什麼也留不住。所以需要記住的東西（哪個任務在進行、到目前拒絕了幾次、人的 override 開著沒有），都放在每個會話一個小檔案裡，加鎖讀、再寫回去。每個欄位只有一個模組可以寫。檔案裡的版本號，讓舊檔案可以升級，不會壞掉。</p>
+<p>檔案也讓這一層容易檢查。出現怪事時，你打開檔案，就看到這一層當時相信什麼。</p>
+<h3>決定：執行層自己出錯的時候</h3>
+<figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
+  <text class="label" x="300" y="42" text-anchor="middle" data-t="broken">hook 自己的程式壞了</text>
+
+  <path class="line" d="M250 59 L150 110"/>
+  <path class="line-lit" d="M350 59 L450 110"/>
+
+  <rect class="box" x="10" y="110" width="280" height="60" rx="8"/>
+  <text class="label" x="150" y="136" text-anchor="middle" data-t="closed">擋下這次呼叫</text>
+  <text class="label-muted" x="150" y="156" text-anchor="middle" data-t="closed-cost">代價：所有工作停擺</text>
+  <text class="label-muted" x="150" y="195" text-anchor="middle" data-t="closed-for">適用：生產環境、憑證</text>
+
+  <rect class="box-lit" x="310" y="110" width="280" height="60" rx="8"/>
+  <text class="label-lit" x="450" y="136" text-anchor="middle" data-t="open">放行，並把錯誤記下來</text>
+  <text class="label-muted" x="450" y="156" text-anchor="middle" data-t="open-cost">代價：漏掉一條規則</text>
+  <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">適用：只有程式碼的專案</text>
+</svg>
+<figcaption>兩種失敗方式。要在事情發生之前，一條規則一條規則地先決定。</figcaption></figure>
+<p>現在回到一開始的問題。出錯有兩種方式。</p>
+<ul>
+<li><strong>失效放行</strong>：hook 自己的程式碼壞掉時，放行這次呼叫，並把錯誤寫進日誌。</li>
+<li><strong>失效關閉</strong>：壞掉時，擋下這次呼叫。</li>
+</ul>
+<p>在我的設定裡，hook 是失效放行。理由是成本比較，而且我只對這一類專案這樣說。hook 在工具呼叫之前執行。如果它裡面的 bug 擋下每一次呼叫，在有人修好 bug 之前 agent 就沒用了，人還會對 harness 生氣。如果它放過一次呼叫，代價是漏掉一次攔截，而錯誤在日誌裡，並且會出現在<strong>健康檢查</strong>裡（測試設定是否健全的指令）。在只有版本控制下的程式碼的專案裡，漏掉的一次攔截通常找得到、撤得回。被擋住的工作就沒那麼容易補回來。</p>
+<p>平台也加了自己的規則，要小心。VS Code 的頁面指向 GitHub 的 hook 參考，裡面有結束代碼的規則（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查過）。對工具呼叫之前的指令型 hook：結束代碼 2 是拒絕，其他任何非零的結束代碼也是拒絕（「hook 出錯」），所以崩潰或啟動失敗會拒絕這次呼叫。如果 hook 超過時間限制，它會被殺掉，呼叫則照一般的權限流程繼續：對每一種事件都是默默放行。在其他事件上，非零的結束代碼只會被記錄，執行繼續。我自己的測量，在崩潰和逾時上和這個一致。所以「失效放行」不是什麼都不做就能得到的。hook 必須自己接住錯誤，並刻意回答「沒有意見」，這樣普通的 bug 才不會變成平台的拒絕。整個程式崩潰是另一種情況，由平台決定。而「太慢」也是一種失敗：我在那個健康檢查裡刻意執行 hook 一次，最近最慢的一次呼叫接近時間限制時就發出警告，這樣我能在平台默默丟掉我的規則之前發現。</p>
+<p>從上面的成本比較，得出一個大略的指引：</p>
+<table>
+<thead>
+<tr>
+<th>你的專案</th>
+<th>傾向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在版本控制下的程式碼，漏掉的攔截找得到、撤得回</td>
+<td>失效放行，並有看得見的日誌</td>
+</tr>
+<tr>
+<td>碰到正式環境的資料或憑證</td>
+<td>在一份短清單上失效關閉，或者更好，不要靠 hook（<a href="4-5-least-privilege.html">有些東西根本不給</a>）</td>
+</tr>
+<tr>
+<td>很多人寫規則，或你要加第二個平台</td>
+<td>加上面的結構，和下面的失敗測試</td>
+</tr>
+</tbody>
+</table>
+<p><strong>這個選擇不適用於所有事</strong>。漏掉的攔截容易找到、容易修的時候，失效放行才對。漏掉的攔截無法撤銷的地方，它就不對：碰到正式環境資料的指令、存放憑證的檔案。對這些，一種設計是一條規則一條規則地、在一份短清單上失效關閉：hook 壞了，而呼叫碰到清單上的任何東西，就擋下。我沒有做這個。但更好的答案是下一章的：這些東西根本不要靠 hook（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
+<p>不管你選哪個，<strong>寫下來，並讓失敗看得見</strong>。失效放行又不吭聲的執行層是兩邊最壞的：你有一個洞，而且不知道。</p>
+<h3>怎麼測試</h3>
+<p>這一層的輸入是資料，所以測試很容易：丟進一個事件，讀答案。有三種測試重要。</p>
+<ul>
+<li><strong>規則測試</strong>。每條規則，準備幾個必須被拒絕的事件，幾個必須通過的。用從真實平台錄下來的輸入，不要用你編的。編的輸入帶的是你預期的寫法，而平台不是。</li>
+<li><strong>失敗測試</strong>。故意弄壞一個模組，確認其他的還會回答。丟進一個壞掉的設定檔，確認結果是你選的那個，失效放行或關閉。平台文件叫你這樣做：「要測試結束代碼和逾時的規則，不要假設每種失敗都會擋住工作。」</li>
+<li><strong>送達測試</strong>。這一層可以是對的，答案卻在路上丟了（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>有個例子）。檢查模型實際收到了什麼。</li>
+</ul>
+<p>再加一個習慣。留一小組固定的情境（「這個指令必須被拒絕」、「這個編輯必須通過」），每次平台更新後都跑一遍。更新會改變你的執行層，而你一行都沒動。</p>
+<h3>測一下你自己的設定</h3>
+<p><strong>三個問題</strong>：</p>
+<ol>
+<li>如果你的 hook 明天崩潰，下一次工具呼叫會怎樣？你知道，還是在猜？</li>
+<li>如果平台改了一個欄位名稱，你要編輯幾個檔案？</li>
+<li>你能不讀用到它的程式碼，就改一條規則的數字嗎？</li>
+</ol>
+<p><strong>今天就能跑的測試</strong>。在你 hook 的副本裡加一個故意的 bug（一行會丟出錯誤的程式碼）。執行一個無害的任務。看平台做了什麼，看你的日誌寫了什麼。然後把 bug 修好。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>This is more structure than the first hook needs.</strong> One script of twenty lines is fine for a dozen rules. The structure pays when rules multiply, when more than one person edits them, or when you plan a second platform. I grew into it; I did not start with it.</p>
+<p><strong>An adapter hides the differences, not removes them.</strong> Platforms differ in what a hook can see and when it runs. A common event is a lowest common denominator, and anything the adapter cannot fill in is missing from every module. I use one platform today, so I have not tested the idea on a second.</p>
+<p><strong>Fail open is a bet, and it can be lost.</strong> It was cheap in my project. Take care if you copy it: ask what the worst missed stop would be in yours. The person who owns the project should make this choice, not the script's author by accident.</p>
+<p><strong>Platform updates change your layer.</strong> Someone has to own the layer and run the fixed scenarios after each update. If no one does, the layer drifts without anyone noticing.</p>
+<p><strong>Veto power makes a bad module costly.</strong> A module that wrongly says deny blocks everything. The tests above, and refusal reasons that say what to do instead, are how I keep it in check.</p>
+<p><strong>A record nobody reads is no use.</strong> The error log of a layer that fails open is the only sign that it failed. Read it, or have a command that reports it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>這比第一個 hook 需要的結構更多</strong>。二十行的一個腳本，管十來條規則就夠了。結構在規則變多、不只一個人在改、或你打算接第二個平台時才划算。我是慢慢長成這樣的，不是一開始就這樣。</p>
+<p><strong>轉接器是藏起差異，不是去掉差異</strong>。平台在 hook 能看到什麼、什麼時候執行上都不同。共通事件是最小公約數，轉接器填不出來的東西，每個模組都看不到。我今天只用一個平台，所以沒有在第二個平台上測過這個想法。</p>
+<p><strong>失效放行是一場賭，可能會輸</strong>。在我的專案裡它很便宜。要抄的話請小心：問自己，在你的專案裡最糟的一次漏攔會是什麼。這個選擇應該由專案的負責人來做，不該是腳本作者無意中做出的。</p>
+<p><strong>平台更新會改變你的執行層</strong>。要有人負責這一層，每次更新後跑固定的情境。沒人做的話，這一層會在沒人注意時慢慢漂走。</p>
+<p><strong>否決權讓壞模組代價很高</strong>。一個錯誤地說拒絕的模組會擋下一切。上面的測試，和說明該改做什麼的拒絕原因，是我管住它的辦法。</p>
+<p><strong>沒人讀的紀錄沒有用</strong>。失效放行的執行層，它的錯誤日誌是它失敗了的唯一跡象。去讀它，或者弄一個指令來回報它。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The VS Code docs agree on the cautions. They describe a command hook's error on a before-tool event as denying the call, say that a timeout falls through to normal permissions, and tell you to test both (the exact exit codes are in GitHub's reference, above). They also say that hooks and instructions are &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>) I did not find a published recommendation on fail open versus fail closed for agent hooks, so that part of the chapter is my reasoning, not a standard.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 文件在這些警告上是一致的。它們描述指令型 hook 在工具呼叫之前事件上的錯誤會拒絕這次呼叫，說逾時會落到一般的權限，並叫你兩個都測（確切的結束代碼在上面 GitHub 的參考裡）。它們還說 hooks 和指令「不能代替強制的權限、沙箱或企業管控」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）對於 agent hook 該失效放行還是失效關閉，我沒找到公開的建議，所以這一章的那部分是我的推理，不是標準。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The adapter is there because platforms differ and change. If the platforms converge on one hook format, the adapter shrinks to nothing. The timing check goes when a timeout is reported and not silent. If the platform one day offers enforced policy of its own (a rule file it checks itself, with a defined failure mode), I would move the hard rules there and keep the hook for records and reminders. The question of what happens when the enforcement fails does not retire: it moves to that policy.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>轉接器存在，是因為平台各不相同，而且會變。如果各平台收斂到同一種 hook 格式，轉接器就縮到沒有。逾時被明確回報、而不再默默發生的時候，計時檢查就可以去掉。如果平台有一天提供它自己的強制政策（一個它自己檢查、有明確失敗模式的規則檔），我會把硬規則搬過去，hook 留給紀錄和提醒。執行層出錯時會怎樣，這個問題不會退場：它只是搬到那份政策上。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>If this project uses hooks or a similar enforcement layer, read it and answer: (1) what happens to the next tool call if a hook crashes or times out, for each hook; (2) where the numbers and patterns of the rules live, in data files or inside the code; (3) which tests or fixed scenarios exist, and whether they use input recorded from the real platform; (4) where errors are logged and whether anyone would see them. If there is no hook, say so and stop. Do not change any files, and do not run the hooks.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>如果這個專案用了 hook 或類似的執行層，讀它並回答：(1) 每個 hook 崩潰或逾時的話，下一次工具呼叫會怎樣；(2) 規則的數字和模式放在哪裡，是資料檔還是程式碼裡；(3) 有哪些測試或固定的情境，它們用的是不是從真實平台錄下來的輸入；(4) 錯誤記錄在哪裡，有沒有人會看到。如果沒有 hook，就說沒有，然後停止。不要改任何檔案，也不要執行這些 hook。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
+<li><a href="2-2-hooks.html">Hooks</a>: the moments, and the three ways a hook goes wrong</li>
+<li><a href="4-5-least-privilege.html">Least privilege</a>: what to do for what must never be touched</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
+<li><a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>：各個時機，和 hook 出錯的三種方式</li>
+<li><a href="4-5-least-privilege.html">有些東西根本不給</a>：絕對不能碰的東西怎麼辦</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Build the enforcement layer like software&quot;. Teach me how this harness is built inside: the one hook entry, the adapter, the modules and the merge (topic 14), and why the hook lets a call through when it fails itself (topic 15.5). Open the real files with me, and show me what is in the error log.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 有這一層：一個 hook 入口、一個 Copilot 的轉接器、模組、一個合併的核心、政策檔、會話狀態檔，和一個會試跑 hook 的健康檢查。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「把執行層當軟體來設計」這一章。請教我這個 harness 內部怎麼建的：一個 hook 入口、轉接器、模組和合併（主題 14），以及為什麼 hook 自己出錯時會放行呼叫（主題 15.5）。和我一起打開真實的檔案，讓我看錯誤日誌裡有什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

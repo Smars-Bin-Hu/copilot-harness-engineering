@@ -1,0 +1,11 @@
+id: "5.5"
+part: flow
+title: {en: "Make a pass count", zh-Hant: 讓「通過」可信}
+harness_tag: "1.5.50"
+wondering: [11-review]
+sources:
+  - what: "How the passes are counted (passes in a row on the exact work as it is now, fingerprint of the files), the limit of n + 2 checks, what happens when checks are on and nothing is checked, extend and waive typed by a person, what the checker hands in and what a script drops"
+    where: harness docs/02-features.md (Independent checks) and docs/05-design.md, and the review lesson of the wondering course
+  - what: "'All tests pass' on its own tells you very little; ask for evidence: the command it ran and its output"
+    where: https://code.claude.com/docs/en/best-practices
+    checked: 2026-10-27

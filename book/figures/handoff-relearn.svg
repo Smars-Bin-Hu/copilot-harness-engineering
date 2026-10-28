@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
+  <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
+  <text class="label" x="300" y="46" text-anchor="middle" data-t="files">x</text>
+
+  <rect class="box" x="30" y="110" width="200" height="50" rx="8"/>
+  <text class="label" x="130" y="141" text-anchor="middle" data-t="coordinator">x</text>
+  <text class="label-muted" x="30" y="190" data-t="context">x</text>
+  <rect class="box" x="30" y="198" width="200" height="16" rx="3"/>
+
+  <g data-step="1">
+    <path class="line-lit" d="M240 64 V86 H130 V100"/>
+    <path class="head-lit" d="M124 100 L130 110 L136 100 Z"/>
+    <rect class="bar-lit" x="30" y="198" width="184" height="16" rx="3"/>
+  </g>
+
+  <g data-step="2">
+    <path class="line" d="M230 135 H245"/>
+    <path class="head" d="M245 129 L255 135 L245 141 Z"/>
+    <rect class="box-lit" x="255" y="117" width="90" height="36" rx="6"/>
+    <text class="label-lit" x="300" y="141" text-anchor="middle" data-t="plan">x</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line" d="M345 135 H360"/>
+    <path class="head" d="M360 129 L370 135 L360 141 Z"/>
+    <rect class="box" x="370" y="110" width="200" height="50" rx="8"/>
+    <text class="label" x="470" y="141" text-anchor="middle" data-t="builder">x</text>
+    <text class="label-muted" x="370" y="190" data-t="context">x</text>
+    <rect class="box" x="370" y="198" width="200" height="16" rx="3"/>
+    <rect class="bar" x="370" y="198" width="24" height="16" rx="3"/>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M360 64 V86 H470 V100"/>
+    <path class="head-lit" d="M464 100 L470 110 L476 100 Z"/>
+    <rect class="bar-lit" x="370" y="198" width="184" height="16" rx="3"/>
+    <text class="label-big" x="300" y="264" text-anchor="middle" data-t="twice">x</text>
+  </g>
+</svg>

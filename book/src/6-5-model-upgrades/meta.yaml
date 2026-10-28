@@ -1,0 +1,10 @@
+id: "6.5"
+part: evidence
+title: {en: "When the model is upgraded, delete", zh-Hant: "模型升級了，就要刪"}
+harness_tag: "1.5.50"
+wondering: [15-design-choices]
+sources:
+  - what: "What is most likely to change after a model upgrade: written-out playbooks, independent checks (the default advice becomes no check when an evaluation shows no difference between none and one), the handover reminder, the models of roles; the safety floor does not retire; the first design had levels and three roles, deleted after measurement"
+    where: harness docs/05-design.md and docs/06-cost-optimization.md section 9, and the design-choices lesson of the wondering course
+  - what: "The measured comparison that led to removing the three-role setup (one run per task)"
+    where: labs/subagents/README.md and the chapter Use subagents sparingly

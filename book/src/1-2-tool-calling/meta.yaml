@@ -1,0 +1,20 @@
+id: "1.2"
+part: brain
+core: true
+title: {en: "Tool calling, and designing tools for an agent", zh-Hant: "Tool calling，和給 agent 設計工具"}
+harness_tag: "1.5.50"
+wondering: [05-tools, 13-commands]
+sources:
+  - what: "Client tools run in your application: the model returns stop_reason tool_use with tool_use blocks, your code runs it and sends back a tool_result; server tools run on the provider's side"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+    checked: 2026-10-28
+  - what: "Given a missing parameter, a model might infer a value you did not supply; not guaranteed either way"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+    checked: 2026-10-28
+  - what: "Description wording matters; errors should be actionable; limit and paginate responses (Claude Code caps tool responses at 25,000 tokens by default); fewer, focused tools; concise or detailed response format; name prefixes; evaluate with realistic tasks and read raw transcripts"
+    where: https://www.anthropic.com/engineering/writing-tools-for-agents
+    checked: 2026-10-28
+  - what: "Why certain steps are done by a command and not left to the model; commands give a next field; JSON on a pipe, text in a terminal"
+    where: harness wondering topic 5 (section 5.3) and docs/06-cost-optimization.md sections 1 and 4
+  - what: "A refusal reason is shown to the agent and the user, so it must say why and what to do next"
+    where: harness wondering topic 6 (section 6.2)

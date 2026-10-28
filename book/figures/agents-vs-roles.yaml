@@ -1,0 +1,24 @@
+en:
+  usage-title: "USAGE (AI CREDITS, 4 TASKS)"
+  time-title: "TIME (MINUTES, 4 TASKS)"
+  result-title: "RESULT"
+  one: one agent
+  three: three roles
+  one-usage: "≈101"
+  three-usage: "≈456"
+  one-time: "≈3"
+  three-time: "≈16"
+  pass: "4 of 4 passed"
+  caption: "Same four tasks, same result. Splitting the work into plan, build and review cost about 4.5 times the usage and 6 times the time. One run per task."
+zh-Hant:
+  usage-title: "用量（AI credits，4 個任務）"
+  time-title: "時間（分鐘，4 個任務）"
+  result-title: "結果"
+  one: 一個 agent
+  three: 三個角色
+  one-usage: "≈101"
+  three-usage: "≈456"
+  one-time: "≈3"
+  three-time: "≈16"
+  pass: "4 個全部通過"
+  caption: "同樣四個任務，結果一樣。拆成計劃、實作、檢查三個角色，用量約 4.5 倍，時間約 6 倍。每個任務只跑了一次。"

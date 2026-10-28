@@ -1,0 +1,18 @@
+en:
+  broken: "the hook's own code breaks"
+  closed: "block the call"
+  closed-cost: "cost: all work stops"
+  closed-for: "for: production, credentials"
+  open: "let it through, log the error"
+  open-cost: "cost: one rule is missed"
+  open-for: "for: a project that is only code"
+  caption: "Two ways to fail. Decide which one before the day it happens, rule by rule."
+zh-Hant:
+  broken: "hook 自己的程式壞了"
+  closed: "擋下這次呼叫"
+  closed-cost: "代價：所有工作停擺"
+  closed-for: "適用：生產環境、憑證"
+  open: "放行，並把錯誤記下來"
+  open-cost: "代價：漏掉一條規則"
+  open-for: "適用：只有程式碼的專案"
+  caption: "兩種失敗方式。要在事情發生之前，一條規則一條規則地先決定。"

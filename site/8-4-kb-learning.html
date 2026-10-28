@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Learning a domain in batches</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.4</p><h1><span data-l="en" lang="en">Learning a domain in batches</span><span data-l="zh-Hant" lang="zh-Hant">分批學一個領域</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-3-kb-audit.html">The audit</a>. The map is now trusted enough to learn from. This is steps four to six of the road. It leans on <a href="3-1-context-budget.html">Context budget</a> for why one big context is a bad place to learn a lot. Two words from earlier: a <strong>task</strong> is one piece of work with a plan, a to-do list and its own files (<a href="5-1-tasks.html">5.1</a>); a <strong>write-back</strong> is the single copy of finished work into the base, which a person approves (<a href="5-3-two-approvals.html">5.3</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-3-kb-audit.html">地圖對不對：盲抽查</a> 後面。地圖現在可信到足以拿來學。這是路線的第四到第六步。它靠 <a href="3-1-context-budget.html">上下文是一份預算</a> 來說明，為什麼一個大的上下文不適合一次學很多。前面出現過的兩個詞：<strong>任務</strong>是一件有計劃、待辦清單和自己檔案的工作（<a href="5-1-tasks.html">5.1</a>）<strong>；寫回</strong>是把做完的工作一次複製進知識庫，由人批准（<a href="5-3-two-approvals.html">5.3</a>）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Learn from the bottom of the dependency tree upward, in batches small enough to read in one go. What an object uses is learned before it, so the cards above can point down at the cards below instead of reading their code again.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>從依賴樹的底部往上學，分成小到一次讀得完的批次。一個物件用到的東西，先於它被學到，所以上面的卡片可以指向下面的卡片，不用再讀它們的程式碼。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> approve, for each domain, the entry points, the plan, and the final write-back into the base. A person chooses where a domain starts and ends.</li>
+<li><strong>The risk:</strong> the checks cover structure, not meaning. A note can pass every check and still misstate what a rule is for, and a wrong note low in the order spreads to the notes above it. Cited lines are checked only to fall inside the object, which a made-up citation can pass.</li>
+<li><strong>The cost of doing it right:</strong> the model reads each object's code once, which is the real token cost of the whole base. Review time can be the slowest part. The batch size (up to 20 objects, about 1500 lines) is a number I picked, not a measured one.</li>
+<li><strong>Ask the team:</strong> &quot;Who reviews whether each note's rule means what the cited code says, not only that the lines exist?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：對每個領域，批准入口、計劃，和最後寫回知識庫。由人選擇一個領域從哪裡開始、到哪裡結束。</li>
+<li><strong>風險</strong>：檢查涵蓋結構，不涵蓋意義。一則筆記可以通過每個檢查，還是講錯了一條規則是做什麼的，而順序低處的一則錯誤筆記，會傳到它上面的筆記。引用的行只檢查落在物件裡面，編造的引用也能通過。</li>
+<li><strong>做對的成本</strong>：模型把每個物件的程式碼讀一遍，這是整個知識庫真正的 token 成本。審查的時間可能是最慢的部分。批次大小（最多 20 個物件、約 1500 行）是我挑的數字，不是量出來的。</li>
+<li><strong>可以問團隊</strong>：「誰來審查每則筆記的規則，意思是不是和引用的程式碼說的一樣，而不只是那些行存在？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You have a trusted map and a few thousand objects, and you want a card for each. Two simple plans do not work.</p>
+<p><strong>Plan one: one big prompt.</strong> &quot;Learn the whole domain.&quot; One context holds everything the agent reads. As it fills, the agent can forget and mix things up toward the end (<a href="3-1-context-budget.html">context budget</a>), so I expect the cards written last to be the worst ones. That is reasoning; I have not compared the plans.</p>
+<p><strong>Plan two: object by object, in any order.</strong> Say the agent starts with a procedure that calls three others. To explain it properly, it has to read those three. So it reads them too. A few objects later it meets one of those three on its own and reads it again. The same code is read many times, and each card was written without the cards below it.</p>
+<p>A good order would learn the three first. Then the procedure's card can say &quot;it calls A, B and C&quot; and point to their cards. The agent never reads their code again.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你有一張可信的地圖，和幾千個物件，你想為每個物件寫一張卡片。兩個簡單的計劃都行不通。</p>
+<p><strong>計劃一：一個大 prompt</strong>。「學完整個領域。」一個上下文裝著 agent 讀的一切。裝滿的時候，agent 可能忘掉並在接近尾聲時搞混（<a href="3-1-context-budget.html">上下文預算</a>），所以我預期最後寫的卡片是最差的。這是推理；我沒有比較過這幾個計劃。</p>
+<p><strong>計劃二：一個物件一個物件來，順序隨意</strong>。假設 agent 從一個呼叫其他三個的預存程序開始。要好好解釋它，就得讀那三個。所以它也讀了它們。幾個物件之後，它自己遇到那三個之一，又讀了一遍。同樣的程式碼讀了很多次，而且每張卡片寫的時候，下面的卡片都還沒有。</p>
+<p>好的順序，是先學那三個。這樣預存程序的卡片就可以說「它呼叫 A、B 和 C」，並指向它們的卡片。agent 不用再讀它們的程式碼。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Start from the entry points</h3>
+<p>A <strong>domain</strong> (see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>) is a group of objects that serve one job. To learn one, you need to say where it begins. An <strong>entry point</strong> is an object that the outside world calls: a screen's controller, a public API, a scheduled job. Starting from entry points, the map shows everything they reach.</p>
+<p><strong>A person chooses the entry points and the boundaries.</strong> A script and a research note can propose them, and the agent asks, but it is the person who knows which is which. Two boundaries matter:</p>
+<ul>
+<li><strong>Stop at code you do not own.</strong> Framework code and another team's code are cut off, so the domain does not grow into them.</li>
+<li><strong>Cut off what is shared.</strong> An object used from many entry points belongs to no single domain. It is set aside, so that one domain does not swallow everything. (How many entry points make an object shared is a setting you can lower if one domain still swallows the rest.) Who learns the shared objects, and when, is left open in this chapter; they are the ones many things depend on, so it should be planned.</li>
+</ul>
+<h3>A script sets the order</h3>
+<p>A script walks the map from the entry points, bottom up. An object that uses nothing comes first. An object comes only after everything it uses. Then the script cuts this order into <strong>batches</strong>.</p>
+<figure class="fig steps" id="fig-8-4-bottom-up" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
+  <text class="label-muted" x="10" y="43" data-t="rl4">controllers</text>
+  <text class="label-muted" x="10" y="113" data-t="rl3">repositories</text>
+  <text class="label-muted" x="10" y="183" data-t="rl2">entities</text>
+  <text class="label-muted" x="10" y="253" data-t="rl1">tables</text>
+  <path class="line" d="M180 126 V150"/>
+  <path class="head" d="M175 150 L180 160 L185 150 Z"/>
+  <path class="line" d="M410 126 V150"/>
+  <path class="head" d="M405 150 L410 160 L415 150 Z"/>
+  <path class="line" d="M180 196 V220"/>
+  <path class="head" d="M175 220 L180 230 L185 220 Z"/>
+  <path class="line" d="M295 196 V220"/>
+  <path class="head" d="M290 220 L295 230 L300 220 Z"/>
+  <path class="line" d="M410 196 V220"/>
+  <path class="head" d="M405 220 L410 230 L415 220 Z"/>
+  <path class="line" d="M525 196 V220"/>
+  <path class="head" d="M520 220 L525 230 L530 220 Z"/>
+  <path class="line" d="M270 56 L210 90"/>
+  <path class="line" d="M365 56 L425 90"/>
+  <rect class="box" x="232" y="20" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="90" width="160" height="36" rx="6"/>
+  <rect class="box" x="340" y="90" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="130" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="230" width="100" height="36" rx="6"/>
+  <g data-step="1">
+    <rect class="box-lit" x="130" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="230" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="2">
+    <rect class="box-lit" x="130" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="160" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="130" y="90" width="160" height="36" rx="6"/>
+    <rect class="box-lit" x="340" y="90" width="170" height="36" rx="6"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-lit" x="232" y="20" width="170" height="36" rx="6"/>
+  </g>
+  <text class="label-muted" x="317" y="43" text-anchor="middle" data-t="n-ownercontroller">OwnerController</text>
+  <text class="label-muted" x="210" y="113" text-anchor="middle" data-t="n-ownerrepository">OwnerRepository</text>
+  <text class="label-muted" x="425" y="113" text-anchor="middle" data-t="n-pettyperepository">PetTypeRepository</text>
+  <text class="label-muted" x="180" y="183" text-anchor="middle" data-t="n-owner">Owner</text>
+  <text class="label-muted" x="295" y="183" text-anchor="middle" data-t="n-pet">Pet</text>
+  <text class="label-muted" x="410" y="183" text-anchor="middle" data-t="n-pettype">PetType</text>
+  <text class="label-muted" x="525" y="183" text-anchor="middle" data-t="n-visit">Visit</text>
+  <text class="label-muted" x="180" y="253" text-anchor="middle" data-t="n-owners">owners</text>
+  <text class="label-muted" x="295" y="253" text-anchor="middle" data-t="n-pets">pets</text>
+  <text class="label-muted" x="410" y="253" text-anchor="middle" data-t="n-types">types</text>
+  <text class="label-muted" x="525" y="253" text-anchor="middle" data-t="n-visits">visits</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">Batch 1: the tables. They use nothing else, so they come first.</li><li data-step-text="2">Batch 2: the entities. Each one maps a table whose card now exists, so its card can point down to it.</li><li data-step-text="3">Batch 3: the repositories, which read the entities.</li><li data-step-text="4">Batch 4: the controller, last. It uses cards that are all written, so it does not re-read their code.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Learning goes from the bottom of the dependency tree upward. Each lit row is one batch. Names are from the open-source spring-petclinic sample.</figcaption></figure>
+<p>Here is a real order, from the open-source spring-petclinic sample. Four tables first (owners, pets, types, visits). Then the entities that map them. Then the repositories that read the entities. Then the controllers that sit on top. Each controller card points at the cards below it.</p>
+<h3>How big is a batch</h3>
+<p>A batch is objects of <strong>one type</strong>, at most <strong>20 objects</strong> and about <strong>1500 lines</strong> of code in all. I picked these numbers so that one batch fits in a context with room to think. An object longer than that is a batch of its own and is read in parts.</p>
+<p>One type per batch helps because objects of one type share a card form and the same questions.</p>
+<h3>One domain, one task, one write-back</h3>
+<p>All the batches of a domain are one <strong>task</strong> (see <a href="5-1-tasks.html">Manage tasks, not chats</a>). The task has:</p>
+<ul>
+<li><strong>A plan</strong>, listing every batch, approved by a person once.</li>
+<li><strong>A to-do list</strong> with one step per batch.</li>
+<li><strong>The cards</strong>, kept inside the task until the whole domain is done.</li>
+</ul>
+<p>Then the domain is written into the knowledge base in <strong>one write-back</strong> (the single copy of the finished cards into the base, see <a href="5-3-two-approvals.html">Two gates: where a person approves</a>), which the person approves. So the base never holds half a domain.</p>
+<p>Chats come and go. After every two or three batches I start a new chat and say &quot;continue&quot;. The task keeps the state: the plan, what is learned, what is left. The next batch is the first one the script gives once the learned objects are left out. This is the same idea as <a href="5-8-long-work.html">work that survives across sessions</a>: memory in files, not in a chat.</p>
+<h3>Checks on what the model writes</h3>
+<p>The model writes each card. Its words are its own, but two parts are checked by script:</p>
+<ul>
+<li><strong>The relations line must equal the map.</strong> The &quot;uses&quot; a card lists have to be the same as the map's uses for that object. The card cannot add or drop one.</li>
+<li><strong>Every rule cites its lines</strong>, and the check makes sure those lines fall inside that object's code. A rule that cites lines outside the object is wrong. This is a weak check: it shows the lines exist, not that they support the rule. A made-up citation inside the right range passes. A person or an independent reviewer should spot-check whether the cited lines say what the rule says.</li>
+</ul>
+<p>The flows on the architecture page also come from paths on the map, and are checked in the same way.</p>
+<p>Here is the form of one card, from the harness's guide for writing them. The example is a stored procedure; the relations line is the one the script checks.</p>
+<details class="code"><summary>A card: what it is for, relations (checked against the map), the level, the rules with their lines, what is not known, traps.</summary><pre><code class="language-markdown">```markdown
+## sp:Db.dbo.usp_load_orders
+
+- What: loads the day&#x27;s orders from staging into dbo.orders, then logs the run
+- Reads: `table:Db.dbo.stg_orders`, `table:Db.dbo.calendar` · Writes: `table:Db.dbo.orders` · Called by: `job:Daily_Load` · Calls: `sp:Db.dbo.usp_log`
+- Level: verified (read in repo_a at 3f1c0a9e)
+
+In: @run_date (date, default today). Out: none; rows in dbo.orders.
+Changes: MERGE into dbo.orders on id (L18-L26): new rows inserted, known rows updated; then sets flag = 1 (L28).
+Twice: safe; the MERGE matches on id.
+On an error: no TRY/CATCH; the error goes to the job step, nothing is logged.
+
+Logic: only rows whose date is a working day in dbo.calendar (L12-L16). See the card of `sp:Db.dbo.usp_log` for the log.
+
+Not known: which environments run it on holidays (req-0004).
+
+Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19).
+```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-learn-batch/references/card.md#L5-L22">.github/skills/generic-kb-learn-batch/references/card.md L5–L22 @ 1.5.50</a></p></details>
+<p>A card that points at a lower card inherits that card's mistakes, since it does not read the code again. A wrong card low in the order can therefore spread upward (<a href="8-5-kb-keep-true.html">8.5</a>).</p>
+<p>What remains unchecked is whether the model <em>understood</em> a rule correctly. A script cannot tell. That is for a person's review, or an independent reviewer (<a href="5-6-model-checks-model.html">5.6</a>). I do not claim the checks cover meaning.</p>
+<h3>When the code shows a use the map lacks</h3>
+<p>While reading, the agent may see a use in the code that the map does not have. It must not add the use to the card by hand. The check would refuse it, and the next object written in the same form would be missed too. It notes the use, and the note goes back to the toolkit as a new example to fix. Then the map is rebuilt and checked again (<a href="8-3-kb-audit.html">8.3</a>).</p>
+<h3>The last step: the architecture page</h3>
+<p>When all batches are done, the model writes the domain's architecture page: its purpose, main flows, where to start reading, traps and limits. The flows are paths taken from the map, and the model puts them into words. That page is the part most readers see first.</p>
+<h3>Test your own setup</h3>
+<ol>
+<li>Pick one small domain and one entry point.</li>
+<li>Ask a script, or an agent, to list what the entry point reaches, deepest first.</li>
+<li>Learn in that order, in one task, in two or three batches.</li>
+<li>Check that each card's &quot;uses&quot; equal the map's, and that every cited line is inside the object.</li>
+</ol>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>從入口開始</h3>
+<p><strong>領域</strong>（見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）是為了同一件工作的一組物件。要學一個領域，你得說它從哪裡開始。<strong>入口</strong>是外面的世界呼叫的物件：畫面的 controller、公開的 API、排程工作。從入口開始，地圖顯示它們碰得到的一切。</p>
+<p><strong>由人選擇入口和邊界</strong>。腳本和一份研究筆記可以提議，agent 也會問，但哪個是哪個，是人才知道。有兩個邊界很重要：</p>
+<ul>
+<li><strong>停在不是你的程式碼上</strong>。框架的程式碼和別的團隊的程式碼要切開，這樣領域才不會長進去。</li>
+<li><strong>切開共用的</strong>。從很多入口被用到的物件，不屬於任何單一領域。把它放在一邊，這樣一個領域才不會吞掉所有東西。（要有多少個入口，物件才算共用，是一個設定；如果一個領域還是吞掉其餘的，可以調低它。）共用的物件由誰、什麼時候學，這一章沒有決定；它們是很多東西依賴的對象，所以應該有計劃。</li>
+</ul>
+<h3>腳本定順序</h3>
+<p>腳本從入口開始，由下往上走地圖。什麼都不用的物件排第一。一個物件只排在它用到的一切之後。然後腳本把這個順序切成<strong>批次</strong>。</p>
+<figure class="fig steps" id="fig-8-4-bottom-up" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
+  <text class="label-muted" x="10" y="43" data-t="rl4">控制器</text>
+  <text class="label-muted" x="10" y="113" data-t="rl3">儲存庫</text>
+  <text class="label-muted" x="10" y="183" data-t="rl2">實體</text>
+  <text class="label-muted" x="10" y="253" data-t="rl1">資料表</text>
+  <path class="line" d="M180 126 V150"/>
+  <path class="head" d="M175 150 L180 160 L185 150 Z"/>
+  <path class="line" d="M410 126 V150"/>
+  <path class="head" d="M405 150 L410 160 L415 150 Z"/>
+  <path class="line" d="M180 196 V220"/>
+  <path class="head" d="M175 220 L180 230 L185 220 Z"/>
+  <path class="line" d="M295 196 V220"/>
+  <path class="head" d="M290 220 L295 230 L300 220 Z"/>
+  <path class="line" d="M410 196 V220"/>
+  <path class="head" d="M405 220 L410 230 L415 220 Z"/>
+  <path class="line" d="M525 196 V220"/>
+  <path class="head" d="M520 220 L525 230 L530 220 Z"/>
+  <path class="line" d="M270 56 L210 90"/>
+  <path class="line" d="M365 56 L425 90"/>
+  <rect class="box" x="232" y="20" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="90" width="160" height="36" rx="6"/>
+  <rect class="box" x="340" y="90" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="130" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="230" width="100" height="36" rx="6"/>
+  <g data-step="1">
+    <rect class="box-lit" x="130" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="230" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="2">
+    <rect class="box-lit" x="130" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="160" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="130" y="90" width="160" height="36" rx="6"/>
+    <rect class="box-lit" x="340" y="90" width="170" height="36" rx="6"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-lit" x="232" y="20" width="170" height="36" rx="6"/>
+  </g>
+  <text class="label-muted" x="317" y="43" text-anchor="middle" data-t="n-ownercontroller">OwnerController</text>
+  <text class="label-muted" x="210" y="113" text-anchor="middle" data-t="n-ownerrepository">OwnerRepository</text>
+  <text class="label-muted" x="425" y="113" text-anchor="middle" data-t="n-pettyperepository">PetTypeRepository</text>
+  <text class="label-muted" x="180" y="183" text-anchor="middle" data-t="n-owner">Owner</text>
+  <text class="label-muted" x="295" y="183" text-anchor="middle" data-t="n-pet">Pet</text>
+  <text class="label-muted" x="410" y="183" text-anchor="middle" data-t="n-pettype">PetType</text>
+  <text class="label-muted" x="525" y="183" text-anchor="middle" data-t="n-visit">Visit</text>
+  <text class="label-muted" x="180" y="253" text-anchor="middle" data-t="n-owners">owners</text>
+  <text class="label-muted" x="295" y="253" text-anchor="middle" data-t="n-pets">pets</text>
+  <text class="label-muted" x="410" y="253" text-anchor="middle" data-t="n-types">types</text>
+  <text class="label-muted" x="525" y="253" text-anchor="middle" data-t="n-visits">visits</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">第 1 批：資料表。它們不用別的東西，所以最先學。</li><li data-step-text="2">第 2 批：實體。每個實體對應一張資料表，那張表的卡片已經有了，所以它的卡片可以指向下面。</li><li data-step-text="3">第 3 批：儲存庫，它們讀實體。</li><li data-step-text="4">第 4 批：控制器，最後學。它用到的卡片都已寫好，所以不必再讀那些程式碼。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>學習從依賴樹的底部往上走。亮起的每一排是一批。名稱來自開源範例 spring-petclinic。</figcaption></figure>
+<p>這是開源範例 spring-petclinic 的真實順序。先是四張資料表（owners、pets、types、visits）。然後是對應它們的 entity。然後是讀 entity 的 repository。然後是最上面的 controller。每張 controller 的卡片都指向它下面的卡片。</p>
+<h3>一批有多大</h3>
+<p>一批是<strong>同一種類型</strong>的物件，總共最多 <strong>20 個物件</strong>和約 <strong>1500 行</strong>程式碼。我挑這些數字，是為了讓一批放得進一個上下文，還留有思考的空間。比這更長的物件自己是一批，分段讀。</p>
+<p>一批只有一種類型有幫助，因為同一種類型的物件，共用卡片的形式和同樣的問題。</p>
+<h3>一個領域，一個任務，一次寫回</h3>
+<p>一個領域的所有批次是一個<strong>任務</strong>（見 <a href="5-1-tasks.html">管任務，不管對話</a>）。任務有：</p>
+<ul>
+<li><strong>一份計劃</strong>，列出每一批，由人批准一次。</li>
+<li><strong>一份待辦清單</strong>，每批一步。</li>
+<li><strong>卡片</strong>，在整個領域完成之前，留在任務裡面。</li>
+</ul>
+<p>然後領域用<strong>一次寫回</strong>寫進知識庫（把做完的卡片一次複製進知識庫，見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），由人批准。所以知識庫從不會有半個領域。</p>
+<p>對話來來去去。每兩、三批之後，我就開一個新對話，說「繼續」。任務保留狀態：計劃、學了什麼、還剩什麼。下一批，是把學過的物件排除之後，腳本給的第一批。這和 <a href="5-8-long-work.html">跨會話的長任務</a> 是同一個想法：記憶放在檔案裡，不放在對話裡。</p>
+<h3>對模型寫的東西的檢查</h3>
+<p>每張卡片由模型寫。裡面的話是它自己的，但有兩個部分由腳本檢查：</p>
+<ul>
+<li><strong>關係那一行必須等於地圖</strong>。一張卡片列的「用到」，必須和地圖上那個物件的使用一樣。卡片不能多加或少掉一個。</li>
+<li><strong>每條規則都引用它的行</strong>，檢查確保那些行落在那個物件的程式碼裡面。引用物件之外的行的規則是錯的。這是個弱的檢查：它顯示那些行存在，不顯示它們支持這條規則。落在正確範圍內的編造引用，可以通過。人或獨立的 reviewer 應該抽查，引用的行說的是不是和規則說的一樣。</li>
+</ul>
+<p>架構頁上的流程，也來自地圖上的路徑，以同樣的方式檢查。</p>
+<p>這是一張卡片的形式，來自 harness 寫卡片的指南。例子是一個預存程序；關係那一行就是腳本檢查的那一行。</p>
+<details class="code"><summary>一張卡片：它做什麼、關係（對照地圖檢查）、層級、附行號的規則、不知道的部分、陷阱。</summary><pre><code class="language-markdown">```markdown
+## sp:Db.dbo.usp_load_orders
+
+- What: loads the day&#x27;s orders from staging into dbo.orders, then logs the run
+- Reads: `table:Db.dbo.stg_orders`, `table:Db.dbo.calendar` · Writes: `table:Db.dbo.orders` · Called by: `job:Daily_Load` · Calls: `sp:Db.dbo.usp_log`
+- Level: verified (read in repo_a at 3f1c0a9e)
+
+In: @run_date (date, default today). Out: none; rows in dbo.orders.
+Changes: MERGE into dbo.orders on id (L18-L26): new rows inserted, known rows updated; then sets flag = 1 (L28).
+Twice: safe; the MERGE matches on id.
+On an error: no TRY/CATCH; the error goes to the job step, nothing is logged.
+
+Logic: only rows whose date is a working day in dbo.calendar (L12-L16). See the card of `sp:Db.dbo.usp_log` for the log.
+
+Not known: which environments run it on holidays (req-0004).
+
+Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19).
+```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-learn-batch/references/card.md#L5-L22">.github/skills/generic-kb-learn-batch/references/card.md L5–L22 @ 1.5.50</a></p></details>
+<p>指向下層卡片的卡片，會繼承那張卡片的錯誤，因為它不再讀程式碼。所以順序低處的一張錯誤卡片，會往上傳（<a href="8-5-kb-keep-true.html">8.5</a>）。</p>
+<p>剩下沒檢查的，是模型有沒有<em>正確理解</em>一條規則。腳本分辨不出來。這要靠人的審查，或獨立的 reviewer（<a href="5-6-model-checks-model.html">5.6</a>）。我不宣稱這些檢查涵蓋了意義。</p>
+<h3>程式碼顯示了地圖沒有的使用</h3>
+<p>讀的時候，agent 可能看到程式碼裡有地圖上沒有的使用。它不能手動把這個使用加進卡片。檢查會拒絕，而且用同樣的形式寫的下一個物件，也會漏掉。它把這個使用記下來，這則備註回到 toolkit，成為一個要修的新例子。然後地圖重建並再檢查一次（<a href="8-3-kb-audit.html">8.3</a>）。</p>
+<h3>最後一步：架構頁</h3>
+<p>所有批次完成後，模型寫這個領域的架構頁：它的用途、主要的流程、從哪裡開始讀、陷阱和限制。流程是從地圖取來的路徑，模型把它們寫成文字。那一頁是多數讀者最先看到的部分。</p>
+<h3>測你自己的設定</h3>
+<ol>
+<li>挑一個小的領域和一個入口。</li>
+<li>請腳本或 agent 列出這個入口碰得到的東西，最深的排最前。</li>
+<li>照那個順序學，在一個任務裡，分兩、三批。</li>
+<li>檢查每張卡片的「用到」等於地圖上的，而且每一行引用都在物件裡面。</li>
+</ol>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>The model reads each object's code once.</strong> That is the real token cost of the whole base. The scripts are free.</li>
+<li><strong>Batches take patience.</strong> A domain of a few hundred objects is many batches. The plan lists them all, and a person must approve it. With approvals for the plan, each write-back and the entry points, review time can be the slowest part of the work.</li>
+<li><strong>Caching may change the bill.</strong> Cached reads of repeated context cost far less than fresh ones (Anthropic's docs: about a tenth). I have not checked how much this helps on Copilot (<a href="1-1-models-and-cost.html">1.1</a>).</li>
+<li><strong>A long object breaks the pattern.</strong> A procedure of thousands of lines is its own batch, read in parts. Its card may be longer.</li>
+<li><strong>Order helps only if the map is right.</strong> A map that misses a use gives a wrong order and a card that lacks a relation. The audit is there for this.</li>
+<li><strong>Unchecked meaning.</strong> See above. A card can pass every check and still misstate what a rule is for.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>模型把每個物件的程式碼讀一遍</strong>。這是整個知識庫真正的 token 成本。腳本是免費的。</li>
+<li><strong>批次需要耐心</strong>。幾百個物件的領域有很多批。計劃把它們全列出來，人必須批准。加上計劃、每次寫回和入口的批准，審查的時間可能是這份工作裡最慢的部分。</li>
+<li><strong>快取可能改變帳單</strong>。重複上下文的快取讀取，比全新的便宜得多（Anthropic 的文件：約十分之一）。這在 Copilot 上幫多少，我沒有確認（<a href="1-1-models-and-cost.html">1.1</a>）。</li>
+<li><strong>很長的物件會打破這個規律</strong>。幾千行的預存程序自己是一批，分段讀。它的卡片可能比較長。</li>
+<li><strong>順序只有在地圖對的時候才有用</strong>。漏掉一個使用的地圖，會給出錯的順序，和少一個關係的卡片。抽查就是為這個而有的。</li>
+<li><strong>沒檢查的意義</strong>。見上面。一張卡片可以通過每個檢查，還是講錯一條規則是做什麼的。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The batch size is a guess for today's context windows and models. If a model can reliably read and write far more in one go, make the batches larger, or measure it (<a href="6-3-eval-tasks.html">6.3</a>). The bottom-up order stays useful as long as cards point at other cards.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>批次大小是對今天的上下文視窗和模型的猜測。如果模型能可靠地一次讀和寫多得多，就把批次加大，或者去量（<a href="6-3-eval-tasks.html">6.3</a>）。只要卡片指向別的卡片，由下往上的順序就一直有用。</p>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="8-3-kb-audit.html">The audit</a>: the map this order comes from.</li>
+<li><a href="8-5-kb-keep-true.html">Keeping it true</a>: what happens after the cards are written.</li>
+<li><a href="5-8-long-work.html">Long work across sessions</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="8-3-kb-audit.html">地圖對不對：盲抽查</a>：這個順序所根據的地圖。</li>
+<li><a href="8-5-kb-keep-true.html">讓知識庫一直是對的</a>：卡片寫好之後會發生什麼。</li>
+<li><a href="5-8-long-work.html">跨會話的長任務</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness orders the objects, cuts them into batches and checks the cards. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Learning a domain in batches&quot;. Teach me topic 16, parts 16.4 and 16.5: how the order and the batches are worked out, and which checks run on a card. Walk me through the Spring sample&#x27;s four batches and one card check.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 把物件排序、切成批次，並檢查卡片。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「分批學一個領域」這一章。請教我主題 16 的 16.4 和 16.5：順序和批次是怎麼算出來的，以及卡片上跑哪些檢查。帶我走一遍 Spring 範例的四批，和一次卡片檢查。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

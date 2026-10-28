@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Make a pass count</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.5</p><h1><span data-l="en" lang="en">Make a pass count</span><span data-l="zh-Hant" lang="zh-Hant">讓「通過」可信</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a>, which explains why a checker with a separate context is worth having. Here the question is a different one: how do you know a check really happened and really passed?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a>，它解釋了為什麼有一個上下文獨立的檢查者值得擁有。這裡的問題不一樣：你怎麼知道檢查真的發生了，而且真的通過了？</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>For a check to count, code counts the passes. Do not accept the agent's word that it checked.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要讓檢查算數，由程式來計算通過。不要接受 agent 說「我檢查過了」。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide that &quot;checked&quot; means a record that code counts, not the agent's word. The person sets how many passes in a row are needed, and only the person can waive the rule.</li>
+<li><strong>The risk:</strong> &quot;I had it checked and it passed&quot; cannot be tested. The agent may have skipped the check, checked an older version, or read a FAIL as a pass. Waivers can also become a habit, and then the limit is decoration.</li>
+<li><strong>The cost of doing it right:</strong> extra checks cost usage each time, and a counter needs a fingerprint of the work that includes the right things. In my setup the limit is n checks plus two extra, which is an example and not a tuned value. Without any machinery, ask for the command and its result.</li>
+<li><strong>Ask the team:</strong> &quot;For the last change that shipped, show me the record that a check ran on that exact version.&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定「檢查過」指的是程式計數的紀錄，不是 agent 的一句話。要連續通過幾次，由人設定，也只有人能豁免這條規則。</li>
+<li><strong>風險</strong>：「我讓人檢查過了，通過了」這句話沒辦法測試。agent 可能跳過了檢查、檢查的是舊版本，或把 FAIL 讀成通過。豁免也可能變成習慣，那樣上限就只是裝飾。</li>
+<li><strong>做對的成本</strong>：額外的檢查每次都花用量，而計數器需要一個包含對的東西的工作指紋。在我的設定裡，上限是 n 次檢查再加兩次，這是個例子，不是調過的值。沒有任何機制時，就要求給出指令和它的結果。</li>
+<li><strong>可以問團隊</strong>：「對最近上線的那次改動，給我看那個確切版本上有執行檢查的紀錄。」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Say you want every piece of work to pass an independent check before it is written back to a repository (the write-back: copying finished work into the real repository, see <a href="5-3-two-approvals.html">Two gates</a>). You write that in the rules. The agent finishes, and says: &quot;I had it checked, and it passed.&quot;</p>
+<p>What can you do with that sentence? Nothing. It may be true. The agent may also have skipped the check, or checked an older version of the work, or read a FAIL as a pass because it wanted to be done. A sentence in a chat is the cheapest thing an agent produces. It is also the one thing you cannot test.</p>
+<p>This chapter is about whether the check happened, on this version, with this verdict. It is a guarantee about the process, not about the quality of the work. The fix is the same idea as in <a href="4-1-requests-and-rules.html">Requests and rules</a>: do not ask the agent whether it did the thing. Make the thing leave a trace that code can read, and let code decide.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>假設你要求每一份工作，在寫回倉庫之前，都要通過一次獨立檢查（寫回：把做完的工作複製到真實的倉庫，見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。你把它寫進規則。agent 做完了，說：「我讓人檢查過了，通過了。」</p>
+<p>這句話你能拿來做什麼？什麼都做不了。它可能是真的。agent 也可能跳過了檢查，或檢查的是工作的舊版本，或因為想快點結束，把 FAIL 讀成了通過。聊天裡的一句話，是 agent 產出最便宜的東西，也是你唯一沒辦法測試的東西。</p>
+<p>這一章講的是：檢查有沒有發生、是不是對這個版本、結論是什麼。它是對過程的保證，不是對工作品質的保證。解法和 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 是同一個想法：不要問 agent 做了沒有。讓那件事留下程式讀得懂的痕跡，由程式來決定。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The checker's answer is saved by code, not by the agent</h3>
+<p>When the checker answers, its answer is written to a file by a hook, as it was written. The agent cannot edit that file. The first line of the answer is fixed: PASS or FAIL (<a href="2-3-subagents.html">Use subagents sparingly</a>). So &quot;did a check happen, and what was the verdict?&quot; becomes a question about files, and a small program can answer it.</p>
+<h3>Count passes in a row, on the exact work</h3>
+<p>A single pass is weak. A checker is a model, so it can be lucky or wrong. Passing several times in a row lowers the chance of one lucky verdict. It does not remove a blind spot that every run shares, because the checkers are the same kind of model (<a href="5-6-model-checks-model.html">Can a model check a model?</a>). So the person says how many passes are needed: <strong>n passes in a row</strong>. In my setup the person writes it in a prompt, for example &quot;two passes in a row&quot;. The agent cannot write it for itself.</p>
+<p>Counting is done by code, and it works like this: start from the latest check and walk back. Count the PASSes in a row. Stop at the first FAIL. A FAIL is usually followed by an edit, and the edit changes the work, so the earlier passes stop counting: the n passes must all be on one version. And count a PASS only if the version it checked is <strong>exactly the work as it is now</strong>.</p>
+<figure class="fig steps" id="fig-5-5-pass-counter" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="10" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="60" y="64" text-anchor="middle" data-t="c1">check 1</text>
+  <text class="label" x="60" y="84" text-anchor="middle" data-t="c1v">PASS</text>
+  <text class="label" x="60" y="150" text-anchor="middle" data-t="n1">count 1</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M110 68 H120"/>
+  <path class="head" d="M120 62 L130 68 L120 74 Z"/>
+  <rect class="box" x="125" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="175" y="64" text-anchor="middle" data-t="c2">check 2</text>
+  <text class="label" x="175" y="84" text-anchor="middle" data-t="c2v">FAIL</text>
+  <text class="label" x="175" y="150" text-anchor="middle" data-t="n2">count 0</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M225 68 H235"/>
+  <path class="head" d="M235 62 L245 68 L235 74 Z"/>
+  <rect class="box" x="240" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="290" y="64" text-anchor="middle" data-t="c3">check 3</text>
+  <text class="label" x="290" y="84" text-anchor="middle" data-t="c3v">PASS</text>
+  <text class="label" x="290" y="150" text-anchor="middle" data-t="n3">count 1</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M340 68 H350"/>
+  <path class="head" d="M350 62 L360 68 L350 74 Z"/>
+  <rect class="box-lit" x="355" y="40" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="405" y="64" text-anchor="middle" data-t="c4">check 4</text>
+  <text class="label-lit" x="405" y="84" text-anchor="middle" data-t="c4v">PASS</text>
+  <text class="label-lit" x="405" y="150" text-anchor="middle" data-t="n4">count 2</text>
+  </g>
+  <g data-step="5">
+  <path class="line" d="M455 68 H465"/>
+  <path class="head" d="M465 62 L475 68 L465 74 Z"/>
+  <rect class="box-plain" x="470" y="40" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="530" y="64" text-anchor="middle" data-t="edit">work edited</text>
+  <text class="label-muted" x="530" y="84" text-anchor="middle" data-t="edit2">after the pass</text>
+  <text class="label-muted" x="530" y="150" text-anchor="middle" data-t="n5">count 0</text>
+  </g>
+  <text class="label-muted" x="300" y="195" text-anchor="middle" data-t="axis">n = 2 passes in a row, on the work as it is now</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">The first check passes. The count is 1.</li><li data-step-text="2">The second check fails. A fail resets the count to 0.</li><li data-step-text="3">The third check passes. The count is 1 again.</li><li data-step-text="4">The fourth passes too. Two in a row: the count reaches n = 2, so the work may go on.</li><li data-step-text="5">If the work is edited after that, the earlier passes belong to an older version and no longer count. The count is 0.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Code counts the passes in a row. A fail or an edit sends the count back to zero.</figcaption></figure>
+<p>&quot;Exactly&quot; needs a definition. The code takes a <strong>fingerprint</strong> of the work: a hash (a short code that changes when the content changes) of the result files, the requirement and the plan. A check records the fingerprint it saw. If the fingerprint now is different, that check is about older work, so it does not count.</p>
+<p>Two details keep this honest:</p>
+<ul>
+<li><strong>Only things that change the result are in the fingerprint.</strong> Progress notes, logs and the checker's own records are left out. Otherwise ticking a to-do item would cancel a pass, and the counter would reset for nothing.</li>
+<li><strong>A change to the requirement or the plan resets the count too.</strong> A pass against an old plan says little about the new one.</li>
+</ul>
+<p>The count then gates the next move. The step that writes the work back to the repository is refused until the passes reach n. The agent has no path around it: the only way to raise the count is to get the work checked again.</p>
+<h3>A limit on the number of checks</h3>
+<p>A checker may keep finding something. If every round brings new findings, the loop never ends. So there is a <strong>limit</strong>: n checks plus a small margin (in my setup, two extra; an example, not a tuned value). When they are used up without enough passes, the agent stops and tells the person where the last findings are.</p>
+<p>The person then chooses, in a terminal, with a typed code: allow more checks, or waive the rule for this version.</p>
+<h3>Waivers</h3>
+<p>A <strong>waiver</strong> lets the current version through without enough passes. People need it: sometimes the last findings are wording, or the checker is wrong, and the person has read the work and is satisfied. Three rules make a waiver safe:</p>
+<ul>
+<li><strong>Only the person can grant it</strong>, through a channel the agent cannot reach (<a href="5-3-two-approvals.html">Two approvals</a> says how).</li>
+<li><strong>It covers one version.</strong> When the work changes again, the waiver ends and the count starts over.</li>
+<li><strong>It leaves a record.</strong> Later you can see that this version went through on a person's decision, not on passes.</li>
+</ul>
+<p>There is a second tool for the opposite case. If the person judges that one check was wrong, they can set it aside. It no longer counts, neither as a check used nor as a FAIL.</p>
+<h3>Without the machinery</h3>
+<p>If you have no checker agent, keep the idea: do not accept &quot;I checked&quot;. Ask the agent to paste the command it ran and its result, and read the verdict yourself. After any later edit, ask again.</p>
+<h3>Checks on, but nothing checked</h3>
+<p>The sneakiest failure is silence: checks are on, and the agent simply never calls the checker. No FAIL is ever recorded, because nothing ran. A rule in the prompt will not catch this, because the agent is the one who forgot.</p>
+<p>So the check goes where the agent has to pass through: the moment it tries to stop. A hook (<a href="2-2-hooks.html">Hooks</a>) at that moment compares the state with the facts. If checks are on and there is no check, or the work changed after the last check, it blocks once and tells the agent to catch up. Then the write-back gate (<a href="5-3-two-approvals.html">Two gates</a>) stays closed anyway, because the count is still below n.</p>
+<h3>What the checker hands in</h3>
+<p>A count is only as good as what is counted, so the checker's answer has a fixed shape, as in <a href="2-3-subagents.html">Use subagents sparingly</a>. A script checks that shape after the answer. It drops a finding whose file or line does not exist. A FAIL with nothing left is <strong>invalid</strong>: the check is given back, so a vague checker does not eat the budget.</p>
+<p>The script checks the shape, not the judgment. Whether the checker is right is still a model's opinion. <a href="5-6-model-checks-model.html">Can a model check a model?</a> takes that up.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>檢查者的答案由程式存下來，不是由 agent</h3>
+<p>檢查者回答時，它的答案由一個 hook 在寫出的當下就寫進檔案。agent 不能編輯那個檔案。答案的第一行是固定的：PASS 或 FAIL（<a href="2-3-subagents.html">慎用子 agent</a>）。所以「有沒有檢查過、結論是什麼」就成了一個關於檔案的問題，一個小程式就能回答。</p>
+<h3>數連續的通過，而且是對確切的那份工作</h3>
+<p>單單一次通過很弱。檢查者是個模型，所以它可能運氣好，也可能錯。連續通過好幾次，能降低單次運氣好的機會。它去不掉每次運行都共有的盲點，因為檢查者是同一種模型（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）。所以需要通過幾次，由人來說：<strong>連續 n 次通過</strong>。在我的設定裡，人把它寫在 prompt 裡，例如「連續兩次通過」。agent 不能替自己寫。</p>
+<p>計數由程式做，做法是這樣：從最近一次檢查開始往回走。數連續的 PASS。遇到第一個 FAIL 就停。FAIL 後面通常跟著一次編輯，編輯會改變工作，所以更早的通過就不再算：n 次通過必須都是對同一個版本。而且只有當它檢查的版本<strong>就是現在這個樣子的工作</strong>，才算一次 PASS。</p>
+<figure class="fig steps" id="fig-5-5-pass-counter" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="10" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="60" y="64" text-anchor="middle" data-t="c1">第 1 次檢查</text>
+  <text class="label" x="60" y="84" text-anchor="middle" data-t="c1v">通過</text>
+  <text class="label" x="60" y="150" text-anchor="middle" data-t="n1">計數 1</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M110 68 H120"/>
+  <path class="head" d="M120 62 L130 68 L120 74 Z"/>
+  <rect class="box" x="125" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="175" y="64" text-anchor="middle" data-t="c2">第 2 次檢查</text>
+  <text class="label" x="175" y="84" text-anchor="middle" data-t="c2v">不通過</text>
+  <text class="label" x="175" y="150" text-anchor="middle" data-t="n2">計數 0</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M225 68 H235"/>
+  <path class="head" d="M235 62 L245 68 L235 74 Z"/>
+  <rect class="box" x="240" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="290" y="64" text-anchor="middle" data-t="c3">第 3 次檢查</text>
+  <text class="label" x="290" y="84" text-anchor="middle" data-t="c3v">通過</text>
+  <text class="label" x="290" y="150" text-anchor="middle" data-t="n3">計數 1</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M340 68 H350"/>
+  <path class="head" d="M350 62 L360 68 L350 74 Z"/>
+  <rect class="box-lit" x="355" y="40" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="405" y="64" text-anchor="middle" data-t="c4">第 4 次檢查</text>
+  <text class="label-lit" x="405" y="84" text-anchor="middle" data-t="c4v">通過</text>
+  <text class="label-lit" x="405" y="150" text-anchor="middle" data-t="n4">計數 2</text>
+  </g>
+  <g data-step="5">
+  <path class="line" d="M455 68 H465"/>
+  <path class="head" d="M465 62 L475 68 L465 74 Z"/>
+  <rect class="box-plain" x="470" y="40" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="530" y="64" text-anchor="middle" data-t="edit">成果被改動</text>
+  <text class="label-muted" x="530" y="84" text-anchor="middle" data-t="edit2">在通過之後</text>
+  <text class="label-muted" x="530" y="150" text-anchor="middle" data-t="n5">計數 0</text>
+  </g>
+  <text class="label-muted" x="300" y="195" text-anchor="middle" data-t="axis">n = 2：對現在這版成果連續通過 2 次</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">第一次檢查通過，計數是 1。</li><li data-step-text="2">第二次不通過，計數歸零。</li><li data-step-text="3">第三次通過，計數又是 1。</li><li data-step-text="4">第四次也通過。連續兩次，計數達到 n = 2，成果可以往下走。</li><li data-step-text="5">之後如果成果又被改動，先前的通過屬於舊版本，不再算數，計數歸零。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>由程式數連續通過的次數。不通過或成果被改動，計數就歸零。</figcaption></figure>
+<p>「確切」需要定義。程式會對工作取一個<strong>指紋</strong>：對結果檔案、需求和計畫算出的 hash（內容一變，這段短碼就跟著變）。每次檢查都記下它看到的指紋。如果現在的指紋不同，那次檢查講的是較舊的工作，所以不算。</p>
+<p>有兩個細節讓它保持誠實：</p>
+<ul>
+<li><strong>指紋裡只放會改變結果的東西</strong>。進度備註、紀錄和檢查者自己的紀錄不放進去。不然勾掉一個待辦項目就會取消一次通過，計數器白白重設。</li>
+<li><strong>需求或計畫一改，計數也重設</strong>。對舊計畫的通過，對新計畫說不了什麼。</li>
+</ul>
+<p>然後計數決定下一步能不能走。把工作寫回倉庫的那一步，在通過次數達到 n 之前會被拒絕。agent 沒有路可以繞過去：要讓計數增加，唯一的辦法是讓工作再被檢查一次。</p>
+<h3>檢查次數的上限</h3>
+<p>檢查者可能一直找得到東西。如果每一輪都帶來新的發現，循環就永遠不會結束。所以有一個<strong>上限</strong>：n 次檢查加一點餘裕（在我的設定裡是多兩次；是個例子，不是調過的值）。用完了還沒有足夠的通過，agent 就停下來，告訴人最後的發現在哪裡。</p>
+<p>人接著選擇，在終端機裡打一段碼：允許更多次檢查，或這個版本豁免這條規則。</p>
+<h3>豁免</h3>
+<p><strong>豁免</strong>讓目前的版本在通過次數不夠的情況下過關。人需要它：有時最後的發現只是措辭，或檢查者錯了，人已經讀過工作，也滿意了。三條規則讓豁免安全：</p>
+<ul>
+<li><strong>只有人能給</strong>，走 agent 碰不到的管道（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 說了怎麼做）。</li>
+<li><strong>只涵蓋一個版本</strong>。工作再變，豁免就結束，計數重新開始。</li>
+<li><strong>會留下紀錄</strong>。之後你能看到，這個版本是靠人的決定過關的，不是靠通過。</li>
+</ul>
+<p>相反的情況還有第二個工具。如果人判斷某一次檢查是錯的，可以把它放到一邊。它就不再算數，既不算用掉的一次檢查，也不算 FAIL。</p>
+<h3>沒有這些機制</h3>
+<p>如果你沒有檢查者 agent，也要保留這個想法：不要接受「我檢查過了」。請 agent 貼上它執行的指令和結果，自己讀結論。之後只要有任何編輯，就再問一次。</p>
+<h3>檢查開著，卻什麼都沒檢查</h3>
+<p>最陰險的失敗是沉默：檢查是開著的，agent 就是從來不呼叫檢查者。因為什麼都沒執行，所以從來沒有記錄過任何 FAIL。prompt 裡的規則抓不到這種情況，因為忘記的正是 agent。</p>
+<p>所以檢查放在 agent 必須經過的地方：它想停下來的那一刻。那一刻的 hook（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）會拿狀態和事實對照。如果檢查是開著的，卻沒有任何檢查，或最後一次檢查之後工作又變了，它就擋一次，叫 agent 補上。然後寫回的門（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）無論如何仍然關著，因為計數還是低於 n。</p>
+<h3>檢查者交出什麼</h3>
+<p>計數只會和被計的東西一樣好，所以檢查者的答案有固定的形狀，就像 <a href="2-3-subagents.html">慎用子 agent</a> 裡那樣。答案之後，有一個腳本檢查這個形狀。檔案或行號不存在的發現，會被丟掉。一個什麼都不剩的 FAIL 是<strong>無效</strong>的：這次檢查會退回去，所以含糊的檢查者不會吃掉額度。</p>
+<p>腳本檢查的是形狀，不是判斷。檢查者對不對，仍然只是一個模型的意見。<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a> 接著談這點。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The fingerprint has to be right.</strong> If it includes too much, every small edit cancels the passes and you pay for checks again. If it includes too little, a change slips past a pass. I have not found a perfect list; I decide by asking &quot;does this file change what the work is?&quot;.</p>
+<p><strong>A counted pass is only as strong as the checker.</strong> The counter proves that a check happened on this exact version. It does not prove the checker was right. Two checkers can give different verdicts on the same work (<a href="5-6-model-checks-model.html">Can a model check a model?</a>); that is one reason to allow more than one pass in a row for important changes. I have not measured how often a checker is wrong.</p>
+<p><strong>It does not replace running things.</strong> A pass counted from a read-only checker is a pass about reading. For checks the agent can run (tests, linters), see <a href="5-4-self-checks.html">Let the agent check its own work</a>. The same warning applies there: a test that &quot;passed&quot; means little unless you can see the command and its output. Anthropic's guide says it directly: &quot;'All tests pass' on its own tells you very little&quot; (<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>).</p>
+<p><strong>Waivers can become a habit.</strong> If a person waives every time the limit is hit, the limit is decoration. The record of waivers is how you notice.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>指紋要對</strong>。放得太多，每個小編輯都會取消通過，你又得為檢查付錢。放得太少，改動就會從通過旁邊溜過去。我沒找到完美的清單；我靠問「這個檔案會不會改變工作是什麼？」來決定。</p>
+<p><strong>計數出來的通過，只和檢查者一樣強</strong>。計數器證明的是，在這個確切的版本上有發生過檢查。它不證明檢查者是對的。兩個檢查者對同一份工作可能給出不同的結論（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）；這是對重要的改動允許連續不只一次通過的原因之一。檢查者多常出錯，我沒有量過。</p>
+<p><strong>它不能代替真的去執行</strong>。唯讀的檢查者算出來的通過，是關於閱讀的通過。對 agent 能執行的檢查（測試、linter），見 <a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>。那裡有同樣的警告：除非你看得到指令和它的輸出，否則「通過」的測試意義不大。Anthropic 的指南說得很直接：「光是『所有測試都通過』，告訴你的很少」（<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>）。</p>
+<p><strong>豁免可能變成習慣</strong>。如果每次碰到上限，人都豁免，上限就只是裝飾。豁免的紀錄，就是你察覺這件事的辦法。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>A counter like this exists because the platform has no built-in notion of &quot;this work was independently checked, n times, on this version&quot;. If a platform adds that, with a record the agent cannot change, use it and drop the counter. The idea does not retire: the person, not the agent, decides what counts as checked.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>這樣的計數器存在，是因為平台沒有內建「這份工作在這個版本上，被獨立檢查過 n 次」這個概念。如果平台加上了，而且紀錄是 agent 改不了的，就用它，把計數器拿掉。想法不會退役：由人，不是 agent，決定什麼算檢查過。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at how this project shows that a check really happened: CI configuration, required reviews, status checks, review comments, and any file the agent writes to say it checked something. For each kind of record, tell me whether it is tied to the exact commit, who or what can edit or fake it (including the agent), and what happens to it if the code changes afterwards. Point out any place where the only evidence is someone&#x27;s sentence. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看看這個專案怎麼證明一次檢查真的發生了：CI 設定、必要的審查、狀態檢查、審查留言，以及 agent 為了說明它檢查過什麼而寫的任何檔案。對每一種紀錄，告訴我：它有沒有綁定到確切的 commit、誰或什麼（包括 agent）能編輯或偽造它，以及之後程式碼變了，它會怎樣。指出任何唯一的證據只是某人說的一句話的地方。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/best-practices">Best practices</a> (ask for evidence, not a claim)</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>（要證據，不要只是一個說法）</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The counting, the limit, the waiver and the catch-up at stop all run in Copilot Harness. The harness can teach them to you from the inside, with a real record of checks. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Make a pass count&quot;. Teach me how this harness counts independent checks (topic 11): how the passes in a row are worked out, what the limit is, what allowing more checks, waiving and setting a check aside do, and what happens when checks are on but nothing was checked. Open a real task&#x27;s record of checks with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>計數、上限、豁免，以及停止時的補檢查，都在 Copilot Harness 裡執行。harness 可以從裡面教你這些，附上一份真實的檢查紀錄。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓「通過」可信」這一章。請教我這個 harness 怎麼計算獨立檢查（主題 11）：連續通過怎麼算出來、上限是多少、允許更多次檢查、豁免和把一次檢查放到一邊各做什麼，以及檢查開著卻什麼都沒檢查時會怎樣。帶我打開一個真實任務的檢查紀錄，並畫出這些部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

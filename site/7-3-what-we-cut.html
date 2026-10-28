@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>What I cut, and what the data says</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.3</p><h1><span data-l="en" lang="en">What I cut, and what the data says</span><span data-l="zh-Hant" lang="zh-Hant">我砍掉了什麼，數據怎麼說</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a> 和 <a href="5-1-tasks.html">管任務，不管對話</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The three job-title agents cost the most and bought nothing I could measure. Removing them, along with levels and a separate coordinator, made the harness simpler. Only the first removal was measured.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>按職位分工的三個 agent 花得最多，卻沒買到任何我量得出來的東西。把它們拿掉，連同級別和獨立的協調者一起拿掉，harness 變簡單了。只有第一項砍掉的東西是量過的。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> ask of every agent, rule and step what it bought and what would make it safe to remove, and set a time to review the answers.</li>
+<li><strong>The risk:</strong> setups only grow, so every part keeps costing context, upkeep and learning time. The one cut I measured was three job-title agents against one agent: several times the cost for the same number right, on four tasks run once each.</li>
+<li><strong>The cost of doing it right:</strong> an hour to list the parts and write one line for each. The harder cost is telling the people already using a part what replaces it.</li>
+<li><strong>Ask the team:</strong> &quot;For each agent, rule and step: what did it buy, how do you know, and what would make it safe to remove?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：對每個 agent、規則和步驟都問：它買到了什麼，怎樣才能安全地拿掉它。然後定一個時間，回頭檢查答案。</li>
+<li><strong>風險</strong>：設定只會越長越大，所以每個部分都在持續花上下文、維護和學習的時間。我量過的那一刀，是三個按職位分工的 agent 對一個 agent：答對的數量一樣，花費是好幾倍。四個任務，各跑一次。</li>
+<li><strong>做對的成本</strong>：一個小時，把各部分列出來，每個寫一行。更難的成本，是告訴已經在用某個部分的人，用什麼取代它。</li>
+<li><strong>可以問團隊</strong>：「每個 agent、規則和步驟：它買到了什麼，你怎麼知道，怎樣才能安全地拿掉？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Every part you add to an agent setup has a price. It takes room in the context, it has to be kept true, and a newcomer has to learn it. Most setups only grow, because adding feels like progress and removing feels like losing something.</p>
+<p>I want to ask a different question of each part: <strong>what did it buy, and when can it go?</strong> If I cannot answer the first, the part is a cost with no return. If I cannot answer the second, I will keep it forever.</p>
+<p>Version 1.0 of my own setup was a good test of this. It had several parts that sounded right. I shipped it, used it, and after a few days of use, in version 1.1, I took out a large share of it. This chapter lists what I cut and why. It keeps one line clear throughout: <strong>for each cut, what I measured and what I only judged.</strong></p>
+<p>A few words first.</p>
+<ul>
+<li>A <strong>level</strong> was a choice the user made at the start of each job: a light level for a quick answer, a middle one for a medium task, a heavy one for several agents working together. Different levels had different rules.</li>
+<li>A <strong>coordinator</strong> is an agent whose only job is to hand work to others (the word is used as in <a href="2-3-subagents.html">Use subagents sparingly</a>). In my old heavy level it was a separate agent.</li>
+<li>A <strong>request folder</strong> was a separate folder, apart from the task, where the heavy-level team kept its plan, its handovers and its results.</li>
+<li>A <strong>job-title agent</strong> is an agent given a role like planner, builder or reviewer, as in a team of people.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你加進 agent 設定的每個部分，都有代價。它占上下文的空間，要有人讓它保持正確，新人要花時間學它。多數設定只會越長越大，因為加東西像是進步，拿東西像是損失。</p>
+<p>我想對每個部分問另一個問題：<strong>它買到了什麼，什麼時候可以拿掉</strong>？答不出第一個，這個部分就是只有成本、沒有回報。答不出第二個，我就會永遠留著它。</p>
+<p>我自己設定的 1.0 版，是這個問題的好考題。它有好幾個聽起來很對的部分。我發布了它，用了它，用了幾天之後，在 1.1 版裡拿掉了很大一部分。這一章列出我砍了什麼、為什麼砍。整章只守一條線：<strong>每一刀，哪些是我量過的，哪些只是我的判斷</strong>。</p>
+<p>先說幾個詞。</p>
+<ul>
+<li><strong>級別</strong>是使用者在每個工作開始時做的選擇：輕的級別用來快速回答，中間的用於中等的任務，重的讓好幾個 agent 一起工作。不同級別有不同的規則。</li>
+<li><strong>協調者</strong>是只負責把工作交給別人的 agent（用法和 <a href="2-3-subagents.html">慎用子 agent</a> 一樣）。在我舊的重級別裡，它是一個獨立的 agent。</li>
+<li><strong>請求資料夾</strong>是和任務分開的另一個資料夾。重級別的團隊把計劃、交接和結果放在這裡。</li>
+<li><strong>按職位分工的 agent</strong>是被給了一個角色的 agent，例如計劃者、實作者或 reviewer，就像一個人的團隊那樣。</li>
+</ul>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>At a glance</h3>
+<p>The four cuts, with how much evidence each has. The sections below give the reasons.</p>
+<table>
+<thead>
+<tr>
+<th>Cut</th>
+<th>What it was meant to buy</th>
+<th>Why it went</th>
+<th>Evidence</th>
+<th>Reconsider when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Three job-title agents</td>
+<td>A division of labour like a human team</td>
+<td>Several times the cost, same result</td>
+<td>Measured: 4 tasks, one run each, direction only</td>
+<td>A comparison on a larger, messier task shows a gain</td>
+</tr>
+<tr>
+<td>Levels</td>
+<td>Rules matched to the difficulty of a job</td>
+<td>Only one was used; hard to choose; rules clashed</td>
+<td>My experience of use, no count</td>
+<td>How hard a job is can be reliably told before it starts</td>
+</tr>
+<tr>
+<td>Separate coordinator</td>
+<td>Someone to hand out the work</td>
+<td>The one that understands is not the one that acts; the worker learns it again</td>
+<td>Reasoned; a clue in the test records, not measured alone</td>
+<td>The platform can restore the context of a finished subagent</td>
+</tr>
+<tr>
+<td>Request folder</td>
+<td>A separate place for a team's files</td>
+<td>Nothing needed it once the team was gone</td>
+<td>Follows from the other cuts, untested</td>
+<td>A flow comes back that needs its own workspace</td>
+</tr>
+</tbody>
+</table>
+<h3>The test I use for any part</h3>
+<p>Your setup also only grows, so these questions are for you. Before I keep a part, I ask the same few questions (the ones in <a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>): what failure does it prevent, with a real example? What does it cost? What would have to change for it to go? The cuts below are those questions, answered late, after use.</p>
+<figure class="fig" id="fig-7-3-before-after"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 305">
+  <text class="label-muted" x="140" y="20" text-anchor="middle" data-t="v1">version 1.0</text>
+  <text class="label-muted" x="460" y="20" text-anchor="middle" data-t="v2">version 1.1</text>
+  <rect class="box-plain" x="20" y="35" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="60" text-anchor="middle" data-t="levels">three levels, user picks</text>
+  <rect class="box-lit" x="20" y="90" width="240" height="95" rx="8"/>
+  <text class="label-lit" x="140" y="112" text-anchor="middle" data-t="team">three job-title agents</text>
+  <text class="label-muted" x="140" y="140" text-anchor="middle" data-t="r1">coordinator</text>
+  <text class="label-muted" x="140" y="160" text-anchor="middle" data-t="r2">builder</text>
+  <text class="label-muted" x="140" y="178" text-anchor="middle" data-t="r3">reviewer</text>
+  <rect class="box-plain" x="20" y="200" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="225" text-anchor="middle" data-t="req">request folder</text>
+  <path class="line" d="M270 140 H320"/>
+  <path class="head" d="M320 134 L330 140 L320 146 Z"/>
+  <rect class="box" x="340" y="60" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="85" text-anchor="middle" data-t="task">one task folder</text>
+  <rect class="box" x="340" y="120" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="145" text-anchor="middle" data-t="one">one agent does the work</text>
+  <rect class="box" x="340" y="180" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="205" text-anchor="middle" data-t="rev">reviewer, when asked for</text>
+  <rect class="box-lit" x="20" y="258" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="267" data-t="k1">removal measured (direction only)</text>
+  <rect class="box-plain" x="20" y="280" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="289" data-t="k2">removal not measured</text>
+</svg>
+<figcaption>Two versions of the structure. Four things went; only the three job-title agents were measured, and the reviewer stayed as an independent check.</figcaption></figure>
+<p>The picture shows the two versions. The lit box is the one cut I measured. The dashed boxes are the cuts I did not measure.</p>
+<h3>Cut 1: the three job-title agents (measured)</h3>
+<p>In 1.0, the heavy mode ran a team: a coordinator wrote the plan, a builder made the changes, a reviewer checked them. I compared it with one agent working alone on the same four tasks. That test is in <a href="2-3-subagents.html">Use subagents sparingly</a>, so I will not repeat it. Only what limits it matters here.</p>
+<ul>
+<li><strong>Four tasks, each run once.</strong> Run it again and the numbers move.</li>
+<li><strong>The two sides were not equal.</strong> The single agent used a top model; the team had a knowledge base to read (<a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>).</li>
+<li><strong>What I trust is the direction.</strong> The team cost several times more, with the same number right. I do not trust the exact ratio.</li>
+</ul>
+<p>So this cut has data, and the data is thin. It is enough to say the team did not pay on those tasks. It does not say a team never pays. I kept one role, the independent reviewer, because an independent check is one of the four things worth a second agent. That is reasoning, not a measurement: I did not test the reviewer alone, to the same standard as the cut that I did measure.</p>
+<h3>Cut 2: levels (design history, no data)</h3>
+<p>I did not measure levels. What I have is what I saw using them.</p>
+<ul>
+<li>Only the middle level got used. The light and the heavy ones sat idle most of the time.</li>
+<li>Choosing a level first was one more step every time.</li>
+<li>Two sets of rules side by side confused the agent. It gave wrong explanations about which applied.</li>
+<li>The deeper reason: how hard a job is cannot be told before it starts. A level asks you to guess.</li>
+</ul>
+<p>This is my own experience over a few days, not a count. I did not log how often each level was used. What replaced levels is the task, with care set by what a mistake would cost and the kind of the task (<a href="5-1-tasks.html">Manage tasks, not chats</a>).</p>
+<h3>Cut 3: the separate coordinator (reasoned, partly from the test)</h3>
+<p>The problem was not whether the coordinator understood the task. It did. The problem was that the one that understood was not the one that acted, so the worker it handed the task to had to learn it again. That matches what I saw in the records of the three-role test: the coordinator read the files and understood the change, and the builder started from nothing and read them again.</p>
+<p>The test compared the whole team with one agent, not the team with and without a separate coordinator, so I have no number for the coordinator alone. The double reading in the records is a clue, not a measurement. The rest is an argument: whoever moves a task forward has to understand it, and the agent that holds the task already does.</p>
+<h3>Cut 4: the request folder (design history, no data)</h3>
+<p>The heavy-level team kept its work in a request folder, separate from the task folder. Once the heavy-level flow was gone, a second place to keep a job's files had no use. The task folder is the workspace. One place is easier to find, to back up, and to read for a person or a new session. I did not test this. It follows from the other cuts: nothing needed it any more.</p>
+<h3>What the cuts took out, and what it did to the harness</h3>
+<p>The 1.1 release removed the levels, the whole heavy-level flow with its commands, two agents, a skill, some numbers in the configuration and the request folder. It also shortened the rules that are injected at the top of every prompt to three or four lines, and it dropped the limits on the count of searches and tool calls. The agent now sees fewer rules, and fewer ways to be confused.</p>
+<p>This is the benefit I trust most, and it is not a measurement. A smaller harness is easier to explain, to test and to hand to a colleague (<a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>). I did not measure the effect on accuracy or cost.</p>
+<h3>Things I chose not to build</h3>
+<p>A cut removes something that existed. There is a second list: things I decided not to build, each with the condition that would make me reconsider. A few examples:</p>
+<ul>
+<li><strong>Agents sending messages to each other.</strong> A subagent has no state, and messages across sessions were not verified. Reconsider when it is measured to be reliable.</li>
+<li><strong>Several subagents changing the same files at once.</strong> Merge conflicts, and the code cannot be run to judge who is right. Reconsider when the repository can run its tests locally.</li>
+<li><strong>My own sandbox, context compression or subagent scheduling.</strong> The platform keeps changing these, and I would rather wait for the platform.</li>
+<li><strong>Features built on Preview or experimental settings.</strong> They can change or vanish. Reconsider when they are stable.</li>
+</ul>
+<p>The habit behind the list: a &quot;no&quot; that comes with a reason and a condition can be reopened. A &quot;no&quot; with neither becomes a taboo.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>一眼看完</h3>
+<p>四刀，各有多少證據。後面的小節說明原因。</p>
+<table>
+<thead>
+<tr>
+<th>砍掉的</th>
+<th>本來想買到什麼</th>
+<th>為什麼拿掉</th>
+<th>證據</th>
+<th>什麼時候重新考慮</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三個按職位分工的 agent</td>
+<td>像人的團隊那樣分工</td>
+<td>花費好幾倍，結果一樣</td>
+<td>量過：4 個任務，各跑一次，只看方向</td>
+<td>在更大、更亂的任務上比較，顯示有好處</td>
+</tr>
+<tr>
+<td>級別</td>
+<td>規則配合工作的難度</td>
+<td>只用到一個；難選；規則互相打架</td>
+<td>我的使用經驗，沒有計數</td>
+<td>開始之前，就能可靠地知道一個工作有多難</td>
+</tr>
+<tr>
+<td>獨立的協調者</td>
+<td>有人負責分配工作</td>
+<td>懂的那個不是動手的那個；做事的要重學一遍</td>
+<td>推理出來的；測試紀錄裡有線索，沒有單獨量過</td>
+<td>平台可以還原一個已結束的子 agent 的上下文</td>
+</tr>
+<tr>
+<td>請求資料夾</td>
+<td>團隊檔案的獨立位置</td>
+<td>團隊沒了以後，沒有東西需要它</td>
+<td>從其他幾刀推出來的，沒有測</td>
+<td>需要自己工作區的流程回來了</td>
+</tr>
+</tbody>
+</table>
+<h3>我對任何部分都用的測試</h3>
+<p>你的設定也只會越長越大，所以這些問題是問你的。留下一個部分之前，我問同樣的幾個問題（就是 <a href="7-4-rollout-and-governance.html">落地與治理</a> 裡那些）：它防止什麼失敗，有真實的例子嗎？它花多少？要變成什麼樣，它才能拿掉？下面的每一刀，就是這些問題，在用過之後才遲遲回答出來。</p>
+<figure class="fig" id="fig-7-3-before-after"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 305">
+  <text class="label-muted" x="140" y="20" text-anchor="middle" data-t="v1">1.0 版</text>
+  <text class="label-muted" x="460" y="20" text-anchor="middle" data-t="v2">1.1 版</text>
+  <rect class="box-plain" x="20" y="35" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="60" text-anchor="middle" data-t="levels">三個 Level，由使用者選</text>
+  <rect class="box-lit" x="20" y="90" width="240" height="95" rx="8"/>
+  <text class="label-lit" x="140" y="112" text-anchor="middle" data-t="team">三個職稱 agent</text>
+  <text class="label-muted" x="140" y="140" text-anchor="middle" data-t="r1">協調者</text>
+  <text class="label-muted" x="140" y="160" text-anchor="middle" data-t="r2">實作者</text>
+  <text class="label-muted" x="140" y="178" text-anchor="middle" data-t="r3">審查者</text>
+  <rect class="box-plain" x="20" y="200" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="225" text-anchor="middle" data-t="req">request 資料夾</text>
+  <path class="line" d="M270 140 H320"/>
+  <path class="head" d="M320 134 L330 140 L320 146 Z"/>
+  <rect class="box" x="340" y="60" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="85" text-anchor="middle" data-t="task">一個任務資料夾</text>
+  <rect class="box" x="340" y="120" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="145" text-anchor="middle" data-t="one">一個 agent 做事</text>
+  <rect class="box" x="340" y="180" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="205" text-anchor="middle" data-t="rev">審查者，需要時才用</text>
+  <rect class="box-lit" x="20" y="258" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="267" data-t="k1">移除有量測（只看方向）</text>
+  <rect class="box-plain" x="20" y="280" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="289" data-t="k2">移除沒有量測</text>
+</svg>
+<figcaption>結構的兩個版本。拿掉了四樣東西；只有三個職稱 agent 量測過，審查者留下來當獨立檢查。</figcaption></figure>
+<p>圖裡是兩個版本。亮著的方框是我量過的那一刀。虛線方框是我沒量的幾刀。</p>
+<h3>第一刀：三個按職位分工的 agent（量過）</h3>
+<p>在 1.0 裡，重模式執行一個團隊：協調者寫計劃，實作者改程式碼，reviewer 檢查。我拿它和一個 agent 單獨做同樣的四個任務比。那個測試在 <a href="2-3-subagents.html">慎用子 agent</a> 裡，所以我不重複。這裡只講它的限制。</p>
+<ul>
+<li><strong>四個任務，各跑一次</strong>。再跑一次，數字會動。</li>
+<li><strong>兩邊並不對等</strong>。單一 agent 用的是頂級模型；團隊有一個知識庫可以讀（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
+<li><strong>我相信的是方向</strong>。團隊花了好幾倍，答對的數量一樣。確切的倍數，我不信。</li>
+</ul>
+<p>所以這一刀有數據，但數據很薄。它足以說：在那些任務上，團隊不划算。它不能說團隊永遠不划算。我留下了一個角色，獨立的 reviewer，因為獨立檢查是值得多一個 agent 的四件事之一。這是推理，不是量出來的：我沒有用量那一刀的同樣標準，單獨測 reviewer。</p>
+<h3>第二刀：級別（設計歷史，沒有數據）</h3>
+<p>我沒有量過級別。我有的，是用它們時看到的事。</p>
+<ul>
+<li>只有中間的級別被用到。輕的和重的，多半閒置。</li>
+<li>先選級別，是每次多一步。</li>
+<li>兩套規則並排放著，讓 agent 糊塗了。它會給出錯的解釋，說哪一套適用。</li>
+<li>更深的原因：工作有多難，在開始之前是看不出來的。級別要你去猜。</li>
+</ul>
+<p>這是我幾天裡自己的經驗，不是計數。我沒有記錄每個級別被用了幾次。取代級別的是任務：照出錯的代價和任務的種類，決定要多小心（<a href="5-1-tasks.html">管任務，不管對話</a>）。</p>
+<h3>第三刀：獨立的協調者（推理出來的，部分來自測試）</h3>
+<p>問題不是協調者懂不懂任務。它懂。問題是，懂的那個不是動手的那個，所以它交辦的做事者，得把任務再學一遍。這和我在三角色測試的紀錄裡看到的一致：協調者讀了檔案，懂了這個改動；實作者從零開始，又把它們讀了一遍。</p>
+<p>那個測試比的是整個團隊和一個 agent，不是有獨立協調者和沒有的團隊，所以協調者單獨的數字我沒有。紀錄裡讀了兩次，是線索，不是量測。其餘是論證：推動任務前進的人，必須懂這個任務，而持有任務的 agent 已經懂了。</p>
+<h3>第四刀：請求資料夾（設計歷史，沒有數據）</h3>
+<p>重級別的團隊，把工作放在請求資料夾裡，和任務資料夾分開。重級別的流程沒了以後，第二個放工作檔案的地方就沒有用了。任務資料夾就是工作區。一個地方比較好找、好備份，人或新會話也比較好讀。我沒有測這個。它是從其他幾刀推出來的：沒有東西再需要它了。</p>
+<h3>這幾刀拿掉了什麼，對 harness 做了什麼</h3>
+<p>1.1 版拿掉了級別、整個重級別的流程和它的指令、兩個 agent、一個 skill、設定裡的一些數字和請求資料夾。它也把每個 prompt 開頭注入的規則縮短成三、四行，並去掉了對搜尋次數和工具呼叫次數的限制。現在 agent 看到的規則更少，能搞糊塗的地方也更少。</p>
+<p>這是我最相信的好處，而它不是量出來的。小一點的 harness，比較好說明、好測試，也比較好交給同事（<a href="7-4-rollout-and-governance.html">落地與治理</a>）。我沒有量對準確度或成本的影響。</p>
+<h3>我選擇不做的事</h3>
+<p>砍掉的，是原本存在的東西。還有第二份清單：我決定不做的事，每一項都附上讓我重新考慮的條件。幾個例子：</p>
+<ul>
+<li><strong>agent 之間互相傳訊息</strong>。子 agent 沒有狀態，跨會話的訊息也沒有驗證過。等量出它可靠了，再重新考慮。</li>
+<li><strong>好幾個子 agent 同時改同一批檔案</strong>。會有合併衝突，而且程式碼跑不起來，就沒辦法判斷誰對。等倉庫可以在本機跑測試了，再重新考慮。</li>
+<li><strong>我自己的沙箱、上下文壓縮或子 agent 排程</strong>。平台一直在改這些，我寧可等平台。</li>
+<li><strong>建在 Preview 或實驗性設定上的功能</strong>。它們可能改變或消失。等它們穩定了，再重新考慮。</li>
+</ul>
+<p>這份清單背後的習慣：附上理由和條件的「不」，可以重新打開。兩樣都沒有的「不」，會變成禁忌。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Cutting is also a bet.</strong> The three-role team lost on four tasks, one run each, in a made-up repository. A very large, messy repository with a vague request may be different, and I have no data either way. If your tasks look like that, test before you copy my cut.</p>
+<p><strong>Do not read &quot;multi-agent is bad&quot; from this.</strong> I kept an independent reviewer, on reasoning that I did not test. I use read-only helpers for broad reading (<a href="2-3-subagents.html">Use subagents sparingly</a>). What I cut is splitting one piece of work by job title.</p>
+<p><strong>An unmeasured cut is a judgment.</strong> Levels, the separate coordinator and the request folder went on reasoning and use. A reader could disagree, and I could be wrong. I have written which is which so that you can.</p>
+<p><strong>Do not cut and forget.</strong> Write down why a thing went and when to reconsider, in the same place as the reason you added it. Without that, someone adds it back a year later for the same reason.</p>
+<p><strong>Old setups need an exit.</strong> Taking out the old flow broke a request in progress, and anyone with old settings had to change them by hand. The 1.1 notes say so. Removing a part has a cost to the people already using it. When you remove one, say what replaces it, how to move, which old settings stop working, and what happens to work in progress.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>砍掉也是一場賭注</strong>。三角色的團隊輸了，是在四個任務、各跑一次、一個虛構的倉庫裡。一個很大、很亂、需求又模糊的倉庫，可能不一樣，兩邊我都沒有數據。如果你的任務長那樣，先測，再照我的砍法。</p>
+<p><strong>不要從這裡讀出「多 agent 不好</strong>」。我留下了一個獨立的 reviewer，理由是我沒測過的推理。我用唯讀的幫手去做大範圍的閱讀（<a href="2-3-subagents.html">慎用子 agent</a>）。我砍掉的，是照職位把一件工作切開。</p>
+<p><strong>沒量過的砍法，是一個判斷</strong>。級別、獨立的協調者和請求資料夾，是靠推理和使用經驗拿掉的。讀者可以不同意，我也可能錯。我把哪個是哪個寫出來，讓你能自己判斷。</p>
+<p><strong>不要砍了就忘</strong>。把一樣東西為什麼拿掉、什麼時候重新考慮，寫下來，和當初加它的理由放在同一個地方。不然一年後，有人會因為同樣的理由把它加回來。</p>
+<p><strong>舊的設定需要退場的路</strong>。拿掉舊流程，讓一個進行中的請求壞掉了，有舊設定的人也得手動改。1.1 的說明寫了這點。拿掉一個部分，對已經在用的人是有成本的。拿掉的時候，要說明用什麼取代、怎麼搬過去、哪些舊設定不再有效，以及進行中的工作會怎樣。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The best time to review a cut is after a model upgrade. The reasons behind my cuts were facts about the models and the platform of that month. Models get better at long tasks, and the platform may one day let a finished subagent be resumed, which would remove the relearning cost behind the coordinator cut. Re-run the same fixed tasks and see (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>).</p>
+<p>The list of &quot;not built, reconsider when&quot; is itself a thing to prune (<a href="6-5-model-upgrades.html">When the model is upgraded, delete</a> uses the same habit for the rules you keep). When a condition has been met, build it or strike it out.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>回頭檢查一刀的最好時機，是模型升級之後。我砍的那些理由，是那個月的模型和平台的事實。模型在長任務上會越來越好，平台有一天也可能讓已結束的子 agent 能繼續，那就會去掉協調者那一刀背後重學的成本。重跑同樣的固定任務，看看結果（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
+<p>「沒做，等條件到了再考慮」的清單，本身也是要修剪的東西（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a> 對你留下的規則，用的是同一個習慣）。條件到了，就做出來，或者劃掉。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every custom agent, skill, rule, hook and check this repository defines for AI agents. For each, write two things: what it bought (a failure it prevented, with a real example from git history or issues if one exists), and what would make it safe to remove. Mark each answer &quot;measured&quot;, &quot;seen&quot; or &quot;only reasoned&quot;. Put the parts with no stated purpose first. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個倉庫為 AI agent 定義的每個 custom agent、skill、規則、hook 和檢查。每一項寫兩件事：它買到了什麼（它防止的一次失敗；如果 git 歷史或 issue 裡有真實的例子，就附上），以及怎樣才能安全地拿掉它。每個答案標上「量過」、「看過」或「只是推理」。沒有說明用途的部分排在最前面。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="2-3-subagents.html">Use subagents sparingly</a>: the measured cut in full, and the four things a second agent can buy.</li>
+<li><a href="5-1-tasks.html">Manage tasks, not chats</a>: what replaced the levels.</li>
+<li><a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>: the questions to ask before keeping any rule or part.</li>
+<li><a href="6-5-model-upgrades.html">Model upgrades</a>: reviewing what is still needed after a model change.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="2-3-subagents.html">慎用子 agent</a>：量過的那一刀的完整內容，以及第二個 agent 能買到的四樣東西。</li>
+<li><a href="5-1-tasks.html">管任務，不管對話</a>：取代級別的東西。</li>
+<li><a href="7-4-rollout-and-governance.html">落地與治理</a>：留下任何規則或部分之前，要問的問題。</li>
+<li><a href="6-5-model-upgrades.html">模型升級了，就要刪</a>：換了模型之後，檢查還需要什麼。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The 1.0 design is gone from the current harness, but its release notes and design notes remain, with the reasons. The harness can walk you through them. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;What I cut&quot;. Teach me topic 15, the design choices: why there are no Levels, and the list of what the harness deliberately does not do and when each would be reconsidered. Open the release notes of version 1.1.0 with me, and show what was retired.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>1.0 的設計已經不在現在的 harness 裡，但它的發布說明和設計筆記還在，理由也都在。harness 可以帶你走一遍。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「我砍掉了什麼，數據怎麼說」這一章。請教我主題 15，設計上的選擇：為什麼沒有級別，以及 harness 刻意不做的事的清單，和各項什麼時候會重新考慮。和我一起打開 1.1.0 版的發布說明，讓我看拿掉了什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+id: "2.4"
+part: runtime
+title: {en: Custom agents, zh-Hant: Custom agent：固定模型和工具的角色}
+harness_tag: "1.5.50"
+wondering: [04-agents]
+sources:
+  - what: "What a custom agent file holds; when a new agent is justified; hooks cannot see which agent is current; subagent model limit; roles retired"
+    where: harness wondering topic 4 (references/04-agents.md); docs/06-cost-optimization.md, section 9
+  - what: "If the agent specifies a tools list, only those tools are available; custom agents combine instructions, tools and an optional model; a subagent keeps its work out of the main conversation's context"
+    where: https://code.visualstudio.com/docs/copilot/customization/custom-agents
+    checked: 2026-10-27
+  - what: "Use custom agents to define workflows that follow a multi-turn process with specific tools; a planning persona with planning-specific guidelines and tools"
+    where: https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide
+    checked: 2026-10-27
+  - what: "Agents use about four times the tokens of chats; multi-agent systems about fifteen times"
+    where: https://www.anthropic.com/engineering/multi-agent-research-system
+    checked: 2026-10-28
+  - what: "Skill allowed-tools pre-approves tools and does not restrict them; disallowed-tools removes tools while a skill is active"
+    where: https://code.claude.com/docs/en/skills
+    checked: 2026-10-28
+  - what: "user-invocable controls picker visibility; subagent invocation is controlled separately by disable-model-invocation"
+    where: https://code.visualstudio.com/docs/copilot/customization/custom-agents
+    checked: 2026-10-28

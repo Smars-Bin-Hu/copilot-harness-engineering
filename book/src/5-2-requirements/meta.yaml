@@ -1,0 +1,10 @@
+id: "5.2"
+part: flow
+title: {en: "The agent writes the requirement, the person confirms it", zh-Hant: "需求由 agent 寫，人確認"}
+harness_tag: "1.5.50"
+wondering: [09-task-lifecycle, 15-design-choices]
+sources:
+  - what: "The requirement is written by the agent and confirmed by the person; the person's exact words are not kept; a change goes into the requirement first; business files are turned into text by a program before the agent reads them"
+    where: harness docs/05-design.md section 2 and docs/09-intake.md
+  - what: "Ask-until-clear method: look up facts first, ask only what cannot be looked up, give options with a recommendation, hand over a checklist the person confirms"
+    where: harness skills generic-grill-me and generic-req-review

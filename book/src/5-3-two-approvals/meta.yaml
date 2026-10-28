@@ -1,0 +1,12 @@
+id: "5.3"
+part: flow
+core: true
+title: {en: "Two gates: where a person approves", zh-Hant: "兩道門：人在哪裡批准"}
+harness_tag: "1.5.50"
+wondering: [09-task-lifecycle, 15-design-choices, 08-permission-sandbox]
+sources:
+  - what: "Two approvals typed in a real terminal; approval bound to the hash of the plan; why a pop-up is not enough; checks before write-back; snapshots at the gates; several rounds"
+    where: harness docs/05-design.md section 2 and the task lifecycle lesson of the wondering course
+  - what: "Hooks and instructions are not substitutes for enforced permissions"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27

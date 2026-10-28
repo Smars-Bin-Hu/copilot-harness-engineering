@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Tool calling, and designing tools for an agent</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">1.2</p><h1><span data-l="en" lang="en">Tool calling, and designing tools for an agent</span><span data-l="zh-Hant" lang="zh-Hant">Tool calling，和給 agent 設計工具</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know that an AI coding agent can read files and run commands. You do not need to know how.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要知道 AI 寫程式 agent 能讀檔案、執行指令。怎麼做到的，不用知道。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A model only asks for a tool call; the program around it runs the tool. So a tool is an interface for an unreliable user, and its description and error messages decide whether it is used well.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型只是要求呼叫工具；執行工具的，是它周圍的程式。所以工具是給一個不可靠的使用者用的介面，它的描述和錯誤訊息，決定它能不能被用好。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> treat the tools you give an agent as a product that needs a good description and good error messages, and decide which fixed steps go into a command, not a prompt.</li>
+<li><strong>The risk:</strong> the model only guesses from a tool's name and description, so a vague tool is used wrongly or never. A rule written in a prompt is a request; a step done by a command cannot be skipped on that path.</li>
+<li><strong>The cost of doing it right:</strong> rewriting descriptions and error messages is small. A command is code someone has to maintain. Anthropic suggests five real tasks are enough to start testing tools.</li>
+<li><strong>Ask the team:</strong> &quot;If you read only the name and description of each tool, would you know when to use it? What does its error say?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：把你給 agent 的工具當成產品，需要好的描述和好的錯誤訊息；並決定哪些固定的步驟，放進指令（command）裡，不放進 prompt 裡。</li>
+<li><strong>風險</strong>：模型只能從工具的名字和描述去猜，所以含糊的工具會被用錯，或從來沒被用到。寫在 prompt 裡的規則是請求；由指令做的步驟，在那條路徑上沒辦法被跳過。</li>
+<li><strong>做對的成本</strong>：重寫描述和錯誤訊息，成本很小。指令是程式碼，要有人維護。Anthropic 建議，五個真實的任務，就夠開始測試工具了。</li>
+<li><strong>可以問團隊</strong>：「如果只讀每個工具的名字和描述，你知道什麼時候該用它嗎？它的錯誤訊息說了什麼？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When you watch an agent edit a file, it looks as if the model did it. It did not. A language model is a program that takes in text and produces text. It cannot open a file, run a command or send a request. It has no hands.</p>
+<p>What it can do is write a sentence that means &quot;please call the tool <code>read_file</code> with the path <code>src/app.py</code>&quot;. That sentence is the <strong>tool call</strong>. The program around the model (the harness, in the first sense from <a href="0-1-the-gap-and-the-map.html">chapter 0.1</a>) reads the sentence, does the work, and puts the result back into the conversation as more text. The model then reads that result and decides what to do next.</p>
+<p>This looks like a technical detail, but it changes how you should think about tools. Every action an agent takes passes through a call that the program could inspect, refuse or change. And the model is not a careful programmer calling a function: it is a reader guessing from a description. Treat it like a user who skims.</p>
+<h3>Three words first</h3>
+<ul>
+<li>A <strong>tool</strong> is one action the agent may ask for: read a file, search, edit a file, run a command, fetch a web page.</li>
+<li>A <strong>tool call</strong> is the model's request to use one, with the arguments it chose.</li>
+<li>A <strong>tool result</strong> is the text the program sends back after running it.</li>
+</ul>
+<h3>One round trip</h3>
+<figure class="fig steps" id="fig-1-2-tool-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
+  <rect class="box" x="20" y="14" width="140" height="40" rx="6"/>
+  <text class="label" x="90" y="39" text-anchor="middle" data-t="m">the model</text>
+  <line class="line" x1="90" y1="54" x2="90" y2="290"/>
+  <rect class="box-lit" x="230" y="14" width="220" height="40" rx="6"/>
+  <text class="label-lit" x="340" y="39" text-anchor="middle" data-t="p">the program around it</text>
+  <line class="line" x1="340" y1="54" x2="340" y2="290"/>
+  <rect class="box" x="520" y="14" width="140" height="40" rx="6"/>
+  <text class="label" x="590" y="39" text-anchor="middle" data-t="t">the tool</text>
+  <line class="line" x1="590" y1="54" x2="590" y2="290"/>
+  <g data-step="1">
+    <line class="line-lit" x1="90" y1="100" x2="340" y2="100"/>
+    <path class="head-lit" d="M330 96 L340 100 L330 104 Z"/>
+    <text class="label-muted" x="215" y="92" text-anchor="middle" data-t="ask">asks: read_file(src/app.py)</text>
+  </g>
+  <g data-step="2">
+    <line class="line-lit" x1="340" y1="150" x2="590" y2="150"/>
+    <path class="head-lit" d="M580 146 L590 150 L580 154 Z"/>
+    <text class="label-muted" x="465" y="142" text-anchor="middle" data-t="run">runs the tool</text>
+    <text class="label-lit" x="465" y="172" text-anchor="middle" data-t="hook">can allow, change</text>
+    <text class="label-lit" x="465" y="190" text-anchor="middle" data-t="hook2">or refuse here</text>
+  </g>
+  <g data-step="3">
+    <line class="line-lit" x1="590" y1="222" x2="340" y2="222"/>
+    <path class="head-lit" d="M350 218 L340 222 L350 226 Z"/>
+    <text class="label-muted" x="465" y="214" text-anchor="middle" data-t="res">file contents</text>
+  </g>
+  <g data-step="4">
+    <line class="line-lit" x1="340" y1="268" x2="90" y2="268"/>
+    <path class="head-lit" d="M100 264 L90 268 L100 272 Z"/>
+    <text class="label-muted" x="215" y="260" text-anchor="middle" data-t="back">the result, as text</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The model writes a request: which tool, which arguments. It does nothing else.</li><li data-step-text="2">The program around it runs the tool. This is the point where a rule can allow, change or refuse the call.</li><li data-step-text="3">The tool returns something: file contents, a command&#x27;s output, or an error.</li><li data-step-text="4">The program puts the result into the conversation as text. The model reads it and decides what to do next.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>One tool call. The model only asks; the program around it does the work, and can step in before and after.</figcaption></figure>
+<p>The provider's own documentation describes the same round trip: the model answers with a stop reason of <code>tool_use</code> and a block that names the tool and its arguments; your code runs it and sends back a <code>tool_result</code>. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>) One exception is worth knowing: some <strong>server tools</strong>, such as web search, run on the provider's side, so you never handle the call yourself. Most of what an agent in your editor does are client tools, run on your machine. The difference matters for this chapter: for a server tool, you cannot step in before or after it runs, because the program never sees the call.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>看 agent 改檔案的時候，好像是模型做的。其實不是。語言模型是一個吃進文字、吐出文字的程式。它不能打開檔案、執行指令或送出請求。它沒有手。</p>
+<p>它能做的，是寫出一句話，意思是「請用路徑 <code>src/app.py</code> 呼叫工具 <code>read_file</code>」。這句話就是<strong>工具呼叫</strong>。模型周圍的程式（harness，用的是 <a href="0-1-the-gap-and-the-map.html">差距在模型外面</a> 裡的第一個意思）讀這句話，做事，再把結果當成更多文字放回對話裡。然後模型讀這個結果，決定下一步。</p>
+<p>這看起來是個技術細節，但它改變了你該怎麼想工具。agent 做的每個動作，都經過一次呼叫，而程式可以檢查、拒絕或修改這次呼叫。而且模型不是在呼叫函式的謹慎程式設計師：它是根據描述去猜的讀者。把它當成一個只會快速瀏覽的使用者。</p>
+<h3>先講三個詞</h3>
+<ul>
+<li><strong>工具</strong>是 agent 可以要求的一個動作：讀檔案、搜尋、改檔案、執行指令、抓一個網頁。</li>
+<li><strong>工具呼叫</strong>是模型要求用其中一個，附上它選的參數。</li>
+<li><strong>工具結果</strong>是程式執行之後送回來的文字。</li>
+</ul>
+<h3>一次來回</h3>
+<figure class="fig steps" id="fig-1-2-tool-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
+  <rect class="box" x="20" y="14" width="140" height="40" rx="6"/>
+  <text class="label" x="90" y="39" text-anchor="middle" data-t="m">模型</text>
+  <line class="line" x1="90" y1="54" x2="90" y2="290"/>
+  <rect class="box-lit" x="230" y="14" width="220" height="40" rx="6"/>
+  <text class="label-lit" x="340" y="39" text-anchor="middle" data-t="p">外面的程式</text>
+  <line class="line" x1="340" y1="54" x2="340" y2="290"/>
+  <rect class="box" x="520" y="14" width="140" height="40" rx="6"/>
+  <text class="label" x="590" y="39" text-anchor="middle" data-t="t">工具</text>
+  <line class="line" x1="590" y1="54" x2="590" y2="290"/>
+  <g data-step="1">
+    <line class="line-lit" x1="90" y1="100" x2="340" y2="100"/>
+    <path class="head-lit" d="M330 96 L340 100 L330 104 Z"/>
+    <text class="label-muted" x="215" y="92" text-anchor="middle" data-t="ask">read_file(src/app.py)</text>
+  </g>
+  <g data-step="2">
+    <line class="line-lit" x1="340" y1="150" x2="590" y2="150"/>
+    <path class="head-lit" d="M580 146 L590 150 L580 154 Z"/>
+    <text class="label-muted" x="465" y="142" text-anchor="middle" data-t="run">執行工具</text>
+    <text class="label-lit" x="465" y="172" text-anchor="middle" data-t="hook">這裡可以放行、修改</text>
+    <text class="label-lit" x="465" y="190" text-anchor="middle" data-t="hook2">或拒絕</text>
+  </g>
+  <g data-step="3">
+    <line class="line-lit" x1="590" y1="222" x2="340" y2="222"/>
+    <path class="head-lit" d="M350 218 L340 222 L350 226 Z"/>
+    <text class="label-muted" x="465" y="214" text-anchor="middle" data-t="res">檔案內容</text>
+  </g>
+  <g data-step="4">
+    <line class="line-lit" x1="340" y1="268" x2="90" y2="268"/>
+    <path class="head-lit" d="M100 264 L90 268 L100 272 Z"/>
+    <text class="label-muted" x="215" y="260" text-anchor="middle" data-t="back">結果，以文字形式</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">模型寫出一個請求：用哪個工具、什麼參數。它不做別的。</li><li data-step-text="2">外面的程式去執行工具。規則可以在這一步放行、修改或拒絕這次呼叫。</li><li data-step-text="3">工具回傳東西：檔案內容、指令的輸出，或一個錯誤。</li><li data-step-text="4">程式把結果當成文字放進對話。模型讀完，決定下一步。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次工具呼叫。模型只提出請求；外面的程式做事，並且在前後都能插手。</figcaption></figure>
+<p>供應商自己的文件也描述了同樣的來回：模型回答時帶著停止原因 <code>tool_use</code>，以及一個寫出工具名和參數的區塊；你的程式執行它，再送回 <code>tool_result</code>。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）有一個例外值得知道：有些 <strong>server tool</strong>（例如網頁搜尋）是在供應商那邊執行的，所以你自己永遠碰不到那次呼叫。你編輯器裡的 agent 做的大部分事，是 client tool，在你的機器上執行。這個差別對這一章很重要：對 server tool，你沒辦法在它執行之前或之後插手，因為程式從來看不到那次呼叫。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Where you can step in</h3>
+<p>Because the program sits between the request and the action, there are two places to step in:</p>
+<ul>
+<li><strong>Before the tool runs.</strong> The program can let the call through, refuse it, or change it. A hook (<a href="2-2-hooks.html">chapter 2.2</a>) is the usual way to do that, and a refusal comes with a reason that goes back to the agent.</li>
+<li><strong>After it runs.</strong> The program can shorten, filter or add to the result before the model reads it.</li>
+</ul>
+<p>That is the main reason it is possible to enforce rules on an agent at all. A rule that lives in the program is code that runs; a rule in a prompt is a request (<a href="4-1-requests-and-rules.html">chapter 4.1</a>).</p>
+<p>The rest of this chapter is about the middle of that trip: what the model sees and what it gets back. Both are text you write.</p>
+<h3>A tool is an interface for an unreliable user</h3>
+<p>A person using a command line can read documentation, ask a colleague, and notice that something looks wrong. The model has the tool's name, a short description, and the list of parameters. That is all. It can guess wrongly, and the provider's documentation says so: given a tool that needs a location and a request that does not give one, a model might make one up. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</p>
+<p>So designing a tool for an agent is designing for someone who:</p>
+<ul>
+<li>reads only the name and description to decide when to use it,</li>
+<li>fills the arguments by guessing from context,</li>
+<li>does not know what the tool does not tell it,</li>
+<li>reads the result as text, with whatever room it takes in the context window.</li>
+</ul>
+<p>Anthropic's advice on writing tools for agents says the same in other words: &quot;Even small refinements to tool descriptions can yield dramatic improvements.&quot; (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>) The five rules below follow from it.</p>
+<h3>1. Write the description like a brief for a new hire</h3>
+<p>Say what the tool does, when to use it, and when not to. Make names unambiguous: a parameter called <code>user</code> can mean a name, an ID or an email; <code>user_email</code> cannot. If two tools look alike, say in each one how it differs. The description is the only place the model learns this, so a vague one means the tool is used wrongly or never.</p>
+<h3>2. Write errors for the agent to read</h3>
+<p>A person can look at a stack trace and think. A model gets the text and goes on. If the error is <code>Error 400</code>, the model guesses, often the same thing again. If the error says what was wrong and what to try next, it fixes the call.</p>
+<p>The same goes for a refusal: say what to do instead (<a href="4-2-ask-vs-refuse.html">chapter 4.2</a>).</p>
+<h3>3. Keep the output short, and let it be paged</h3>
+<p>Everything a tool returns is put in the context window (<a href="3-1-context-budget.html">chapter 3.1</a>), and it is read again on every later turn (<a href="1-1-models-and-cost.html">chapter 1.1</a>). A tool that returns a whole large file when the agent wanted one line wastes tokens, and it can crowd useful things out of the window.</p>
+<p>So give results sensible limits: a default cap, a way to ask for a range or the next page, a filter. Anthropic also describes letting the agent choose between a concise and a detailed response. And when you have many tools, grouping related ones under a common name prefix helps the agent tell them apart. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>) Claude Code caps tool responses at 25,000 tokens by default (Anthropic's figure at the time of writing). When you cut the output, say so, and tell the agent how to narrow its query. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+<h3>4. Fewer tools choose better</h3>
+<p>Every tool's name, description and parameters are sent to the model on every call. More tools cost more tokens and give more chances to pick the wrong one, especially when they overlap. Prefer a small set that is clearly different, and merge related operations into one where you can. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+<h3>5. Do the fixed steps in a command, not in a prompt</h3>
+<p>This is the one I would stress most. Sometimes a job has steps that always go the same way and where there is a right and wrong: make the folder for a new task, copy the files, compute a hash, write the record, check that everything is ready before writing back. You can describe those steps in the instructions and ask the agent to follow them. It will, most of the time.</p>
+<p>Or you can write them once as a <strong>command</strong>: a small program the agent runs as a tool. The command does the steps, checks the preconditions itself, and returns a short result. On the path through the command, the agent cannot skip a step and cannot write a wrong state, because it never writes it.</p>
+<figure class="fig" id="fig-1-2-prompt-vs-command"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">In the prompt</text>
+  <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="62" text-anchor="middle" data-t="l1">1. check folder is clean</text>
+  <rect class="box-plain" x="30" y="84" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="106" text-anchor="middle" data-t="l2">2. copy the files</text>
+  <rect class="box-plain" x="30" y="128" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="150" text-anchor="middle" data-t="l3">3. write the record</text>
+  <text class="label-muted" x="150" y="190" text-anchor="middle" data-t="left-note">May skip or reorder steps</text>
+
+  <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">In a command</text>
+  <rect class="box-lit" x="330" y="40" width="240" height="34" rx="5"/>
+  <text class="label-lit" x="450" y="62" text-anchor="middle" data-t="r1">agent runs one command</text>
+  <rect class="box" x="330" y="84" width="240" height="78" rx="5"/>
+  <text class="label" x="450" y="108" text-anchor="middle" data-t="r2">checks preconditions</text>
+  <text class="label" x="450" y="128" text-anchor="middle" data-t="r3">copies the files</text>
+  <text class="label" x="450" y="148" text-anchor="middle" data-t="r4">writes the record</text>
+  <text class="label-muted" x="450" y="190" text-anchor="middle" data-t="right-note">Same steps every time</text>
+  <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">A short result comes back</text>
+</svg>
+<figcaption>The same job, two ways. Asking the model to follow steps is a request; a command that does them is code.</figcaption></figure>
+<p>The fit is for steps that need no judgment. If a step needs the agent to decide something, leave that part to the agent and let the command do only what is fixed around it. This is what my harness does. A command line creates a task folder (the unit of work in <a href="5-1-tasks.html">Manage tasks, not chats</a>), fetches files, works out diffs and counts checks, and the model only runs the command and reads the answer. Progress is a good example: the task list reads a data file that commands write, and not the Markdown notes an agent wrote by hand, because hand-written progress misses ticks and goes wrong. The result is the same every time, and the model does not have to get the steps right.</p>
+<p>Two details make a command friendly to an agent:</p>
+<ul>
+<li><strong>A result that says what comes next.</strong> The command's output tells the agent what to do next, so it does not have to guess.</li>
+<li><strong>Text for people, JSON for scripts.</strong> The same command prints aligned text in a terminal and JSON when it is piped. The fields are the same.</li>
+</ul>
+<p>A command only helps if the agent actually uses it, and it only guards what goes through it. If the agent can do the same thing another way (edit the file by hand), the command is a convenience, not a limit. <a href="4-1-requests-and-rules.html">Chapter 4.1</a> takes that further.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions</strong> for any tool you give an agent:</p>
+<ol>
+<li>If you read only its name and description, would you know when to use it and when not to?</li>
+<li>When it fails, does the message tell the agent what to do next?</li>
+<li>How big can its output be, and what happens to the context if it is large?</li>
+</ol>
+<p><strong>A zero-install experiment.</strong> Ask the agent to call one of your tools in a way that you know is wrong, and read what comes back. Is it clear enough that you would know what to do if you were the agent? If not, that is the message to rewrite.</p>
+<p><strong>A bigger loop, if you build tools.</strong> Anthropic's method is the same idea at scale: write tasks drawn from real use, run them, read the raw transcripts (the calls and the results, not only the final answer), and fix the descriptions and errors where the agent went wrong. Five tasks are enough to start. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>你能在哪裡插手</h3>
+<p>因為程式站在請求和動作之間，有兩個地方可以插手：</p>
+<ul>
+<li><strong>工具執行之前</strong>。程式可以放行、拒絕或修改這次呼叫。通常的辦法是用 hook（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>），而拒絕會附上一個原因，回到 agent 那裡。</li>
+<li><strong>執行之後</strong>。程式可以在模型讀到結果之前，縮短、過濾或補充它。</li>
+</ul>
+<p>這是能對 agent 執行規則的主要原因。放在程式裡的規則，是會執行的程式碼；寫在 prompt 裡的規則，是請求（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。</p>
+<p>這一章其餘的部分，講這趟來回的中間：模型看到什麼，拿回什麼。兩者都是你寫的文字。</p>
+<h3>工具是給不可靠使用者的介面</h3>
+<p>人在用命令列時，可以讀文件、問同事，也會注意到哪裡看起來不對。模型有的只是工具的名字、一段簡短的描述，和參數清單。就這樣。它可能猜錯，供應商的文件也這麼說：給它一個需要地點的工具，而請求裡沒有地點，模型可能會編一個。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
+<p>所以替 agent 設計工具，是在為這樣的人設計：</p>
+<ul>
+<li>只讀名字和描述，來決定什麼時候用，</li>
+<li>靠從上下文猜來填參數，</li>
+<li>不知道工具沒告訴它的事，</li>
+<li>把結果當文字讀，結果占多少上下文視窗的空間，就占多少。</li>
+</ul>
+<p>Anthropic 寫給 agent 的工具的建議，用別的話說了一樣的事：「就算只是把工具描述稍微改好，也能帶來很大的進步。」（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）下面的五條規則由此而來。</p>
+<h3>1. 描述要寫得像給新同事的交辦單</h3>
+<p>寫清楚這個工具做什麼、什麼時候用、什麼時候不用。名字不要有歧義：叫 <code>user</code> 的參數，可能是名字、ID 或 email；叫 <code>user_email</code> 就不會。如果兩個工具看起來很像，在每一個裡都說明它哪裡不同。模型只能在描述裡學到這些，所以含糊的描述，就是工具被用錯，或從來沒被用到。</p>
+<h3>2. 錯誤訊息要寫給 agent 讀</h3>
+<p>人看到堆疊追蹤會思考。模型拿到文字就繼續。如果錯誤訊息是 <code>Error 400</code>，模型就會猜，常常又猜同一件事。如果錯誤訊息寫了哪裡錯、接著可以試什麼，它就會修好這次呼叫。</p>
+<p>拒絕也一樣：寫明該改做什麼（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
+<h3>3. 輸出要短，而且能分頁</h3>
+<p>工具回傳的所有東西，都會放進上下文視窗（<a href="3-1-context-budget.html">上下文是一份預算</a>），而且之後每一輪都會再讀一遍（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。agent 只想要一行，工具卻回傳整個大檔案，就浪費 token，還可能把有用的東西擠出視窗。</p>
+<p>所以結果要有合理的限制：預設的上限、要求某個範圍或下一頁的辦法、一個過濾條件。Anthropic 也描述過，讓 agent 在簡潔和詳細的回應之間選。而且工具很多的時候，把相關的工具用共同的名字前綴分組，能幫 agent 分辨它們。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）Claude Code 預設把工具回應限制在 25,000 個 token（這是我寫作時 Anthropic 的數字）。你截掉輸出的時候，要說出來，並告訴 agent 怎麼把查詢範圍縮小。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<h3>4. 工具少，選得更準</h3>
+<p>每個工具的名字、描述和參數，每次呼叫都會送給模型。工具越多，花的 token 越多，選錯的機會也越多，尤其是它們功能重疊的時候。偏好一小組明顯不同的工具，能合併的相關操作就合併成一個。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<h3>5. 固定的步驟，放進指令裡，不放進 prompt 裡</h3>
+<p>這是我最想強調的一條。有時一件工作，有些步驟永遠是同一個走法，而且有對有錯：為新任務建資料夾、複製檔案、算雜湊值、寫紀錄、寫回去之前檢查一切就緒。你可以在指令裡描述這些步驟，請 agent 照做。它大多數時候會照做。</p>
+<p>或者你可以把它們寫成一次的<strong>指令</strong>：一個 agent 當工具執行的小程式。指令做這些步驟，自己檢查前置條件，回傳一個簡短的結果。在經過這個指令的路徑上，agent 沒辦法跳過一步，也寫不出錯的狀態，因為它根本沒有寫。</p>
+<figure class="fig" id="fig-1-2-prompt-vs-command"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">寫在提示裡</text>
+  <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="62" text-anchor="middle" data-t="l1">1. 確認資料夾是乾淨的</text>
+  <rect class="box-plain" x="30" y="84" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="106" text-anchor="middle" data-t="l2">2. 複製檔案</text>
+  <rect class="box-plain" x="30" y="128" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="150" text-anchor="middle" data-t="l3">3. 寫下紀錄</text>
+  <text class="label-muted" x="150" y="190" text-anchor="middle" data-t="left-note">agent 可能跳步或換順序</text>
+
+  <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">寫成命令</text>
+  <rect class="box-lit" x="330" y="40" width="240" height="34" rx="5"/>
+  <text class="label-lit" x="450" y="62" text-anchor="middle" data-t="r1">agent 跑一條命令</text>
+  <rect class="box" x="330" y="84" width="240" height="78" rx="5"/>
+  <text class="label" x="450" y="108" text-anchor="middle" data-t="r2">檢查前置條件</text>
+  <text class="label" x="450" y="128" text-anchor="middle" data-t="r3">複製檔案</text>
+  <text class="label" x="450" y="148" text-anchor="middle" data-t="r4">寫下紀錄</text>
+  <text class="label-muted" x="450" y="190" text-anchor="middle" data-t="right-note">每次步驟都一樣</text>
+  <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">回來一個很短的結果</text>
+</svg>
+<figcaption>同一件事的兩種做法。叫模型照步驟做是請求；由命令來做是程式碼。</figcaption></figure>
+<p>這適合不需要判斷的步驟。如果某一步需要 agent 決定什麼，就把那部分留給 agent，讓指令只做周圍固定的部分。我的 harness 就是這樣。一條命令列指令建立任務資料夾（工作的單位，見 <a href="5-1-tasks.html">管任務，不管對話</a>）、抓檔案、算 diff、數檢查的次數，而模型只執行指令、讀答案。進度是個好例子：任務清單讀的是指令寫入的資料檔，不是 agent 手寫的 Markdown 筆記，因為手寫的進度會漏打勾、會出錯。結果每次都一樣，模型也不用把步驟做對。</p>
+<p>兩個細節讓指令對 agent 友善：</p>
+<ul>
+<li><strong>結果要說明接下來是什麼</strong>。指令的輸出告訴 agent 下一步做什麼，它就不用猜。</li>
+<li><strong>給人的是文字，給腳本的是 JSON</strong>。同一個指令，在終端機裡印出對齊的文字，透過管線接出去時印出 JSON。欄位是一樣的。</li>
+</ul>
+<p>指令只有在 agent 真的用它的時候才有幫助，而且它只守得住經過它的東西。如果 agent 能用別的辦法做同一件事（手動改檔案），指令就只是方便，不是限制。<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 把這一點講得更深。</p>
+<h3>測你自己的設定</h3>
+<p>對你給 agent 的任何工具，<strong>問三個問題</strong>：</p>
+<ol>
+<li>如果只讀它的名字和描述，你知道什麼時候該用、什麼時候不該用嗎？</li>
+<li>它失敗的時候，訊息有沒有告訴 agent 接下來做什麼？</li>
+<li>它的輸出最大可以多大？大的時候，上下文會怎樣？</li>
+</ol>
+<p><strong>一個不用安裝任何東西的實驗</strong>。請 agent 用一個你知道是錯的方式，呼叫你的某個工具，讀回來的是什麼。如果你是 agent，這個訊息夠不夠清楚，讓你知道該做什麼？如果不夠，那就是要重寫的訊息。</p>
+<p><strong>更大的迴圈，如果你自己做工具</strong>。Anthropic 的方法是同一個想法放大：寫出取材自真實使用的任務，執行它們，讀原始的紀錄（呼叫和結果，不只是最後的答案），並在 agent 出錯的地方修好描述和錯誤訊息。五個任務就夠開始。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Good descriptions cost tokens, too.</strong> A long description is sent on every call. Write what the model needs to choose and use the tool, and put the long manual in a file the agent reads when needed.</p>
+<p><strong>A command is code to maintain.</strong> If your project changes, the command can be wrong in a way a prompt cannot. Keep each one small, and give it a test.</p>
+<p><strong>A tool call is not a trusted act.</strong> The model chose the arguments, after reading text that may have come from anywhere. Do not treat a call as the user's wish. <a href="4-6-untrusted-input.html">Chapter 4.6</a> explains why.</p>
+<p><strong>Tool names change between versions.</strong> If your rules or hooks match on tool names, keep the mapping in one place so a rename means one change.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>好的描述也要花 token</strong>。長的描述每次呼叫都會送出去。寫模型選工具和用工具需要的就好，長的手冊放在 agent 需要時才讀的檔案裡。</p>
+<p><strong>指令是要維護的程式碼</strong>。專案變了，指令可能出錯，而 prompt 不會這樣。每個指令都保持小，並給它一個測試。</p>
+<p><strong>工具呼叫不是可信的行為</strong>。參數是模型選的，而且是讀了可能來自任何地方的文字之後選的。別把一次呼叫當成使用者的意願。<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 說明了原因。</p>
+<p><strong>工具名稱會隨版本改變</strong>。如果你的規則或 hook 靠工具名稱比對，把對應關係放在一個地方，改名時就只要改一處。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
+<li><strong>Anthropic</strong>: tool design is part of the work, and descriptions and error messages deserve testing like code. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</li>
+<li><strong>Tool use documentation</strong>: the application runs client tools and sends back results; the model &quot;might guess values you didn't supply&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</li>
+</ul>
+<p>They agree with the argument here: the tool is an interface, and its text is part of the interface.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><ul>
+<li><strong>Anthropic</strong>：工具設計是工作的一部分，描述和錯誤訊息值得像程式碼一樣測試。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</li>
+<li><strong>Tool use 文件</strong>：應用程式執行 client tool 並送回結果；模型「可能會猜出你沒有提供的值」。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</li>
+</ul>
+<p>它們和這裡的論點一致：工具是介面，它的文字是介面的一部分。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A command that checks preconditions is scaffolding around the model's weak spots. If models become reliable enough at following multi-step instructions, a command may no longer beat a good prompt, but I would still keep commands for anything that has to be exactly the same every time, or that needs a record. The reasoning on descriptions and errors stays as long as the model reads text.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>檢查前置條件的指令，是圍繞模型弱點搭的鷹架。如果模型在照著多步驟的指令做事上變得夠可靠，指令可能不再勝過一個好的 prompt，但凡是每次都必須完全一樣、或需要留紀錄的事，我仍然會保留指令。只要模型還是讀文字，關於描述和錯誤訊息的道理就還在。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every tool, command or script in this repository that an agent is meant to run (look in agent files, scripts, task runners and instruction files). For each, judge four things: is its name and description clear about when to use it and when not to; does its error message say what to do next; how large can its output get; does a fixed multi-step procedure described in the instructions belong in a command instead. List the three worst and say how to fix each. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個倉庫裡，每一個預期由 agent 執行的工具、指令或腳本（看 agent 檔、腳本、任務執行器和指令檔）。每一個都判斷四件事：它的名字和描述，有沒有清楚說明什麼時候用、什麼時候不用；它的錯誤訊息有沒有說明接下來做什麼；它的輸出最大可以多大；指令檔裡描述的固定多步驟流程，是不是該改放進一個指令。列出最差的三個，並說明各自怎麼修。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a></li>
+<li>Anthropic docs: <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a></li>
+<li>Anthropic 文件：<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent a command line for the steps that must be certain, and a hook that stands at the door of every tool call. The harness can show you both from the inside, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Tool calling, and designing tools for an agent&quot;. Teach me what tools this harness gives the agent: the built-in ones, and its command line. Open the real files with me, show me a refusal and its reason, and draw how one tool call travels.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 一個命令列，處理那些必須確定的步驟；還有一個 hook，站在每次工具呼叫的門口。harness 可以從裡面把兩者都展示給你看，帶著真實的檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Tool calling，和給 agent 設計工具」這一章。請教我這個 harness 給 agent 哪些工具：內建的，和它的命令列。帶我打開真實的檔案，讓我看一次拒絕和它的原因，並畫出一次工具呼叫是怎麼走的。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

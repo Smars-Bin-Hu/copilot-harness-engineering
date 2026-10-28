@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Context is a budget</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.1</p><h1><span data-l="en" lang="en">Context is a budget</span><span data-l="zh-Hant" lang="zh-Hant">上下文是一份預算</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-1-agent-loop.html">The agent loop</a>, or know that an agent reads text and answers with text.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過 <a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>，或至少知道 agent 讀文字、再用文字回答。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Rules, knowledge, files and tool results all share one window, and each one crowds the others out. So manage context like a budget: fetch it when needed instead of loading it all.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>規則、知識、檔案和工具結果共用同一個視窗，每一樣都會擠掉別的。所以要把上下文當預算來管：需要時再去取，不要一次全部載入。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> treat what the agent reads as a budget. Decide what is always loaded and what is fetched only when a task needs it.</li>
+<li><strong>The risk:</strong> everything shares one window, and a window with room left is not one that performs well, so a rule buried in a long, noisy context is more likely to be missed. I have no number for how much; the advice comes from the platform makers and my own design, not from a test of mine.</li>
+<li><strong>The cost of doing it right:</strong> mostly setup time: layering the rules, shortening tool output, and keeping any index true. Loading too little has its own price: the agent guesses.</li>
+<li><strong>Ask the team:</strong> &quot;What is loaded on every turn, and how much of it applies to the task in front of us?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：把 agent 讀的東西當預算。決定什麼東西一直載入，什麼東西只在任務需要時才去取。</li>
+<li><strong>風險</strong>：所有東西共用一個視窗，而且還有空位的視窗不等於表現好的視窗，所以埋在又長又雜的上下文裡的規則，更容易被漏掉。漏掉的程度我沒有數字；這些建議來自平台廠商和我自己的設計，不是我做的測試。</li>
+<li><strong>做對的成本</strong>：主要是設定的時間：把規則分層、縮短工具輸出、讓任何索引保持正確。載入太少也有代價：agent 會猜。</li>
+<li><strong>可以問團隊</strong>：「每一輪都載入了什麼？其中有多少和眼前的任務有關？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The usual advice for a weak answer is &quot;give the AI more information&quot;. Paste the whole style guide. Add every rule. Let it read all the files. It feels safe: more facts, fewer mistakes.</p>
+<p>It often goes the other way. Think of a desk. You can lay out every document for a project, and then you cannot find the one you need, and there is no room to write. An agent has a desk like that. It is called the <strong>context window</strong>: all the text the model can look at in one turn. It holds the rules, your words, the files the agent read, the results of its tool calls and its own earlier answers. It has a size limit. And, as I will show, it has a second limit that is not about size.</p>
+<p>What I can say comes from two places. The first is from the people who build these tools. Anthropic writes that context &quot;must be treated as a finite resource with diminishing marginal returns&quot; (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>). VS Code's guide says to &quot;avoid context overload that can dilute focus&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>). The second is the way I built my own setup: almost every design choice in it is a way to put less into the window. The cost side of the same idea is in <a href="1-1-models-and-cost.html">Models and cost</a>: most of what a task costs is what the model reads. I did not run a clean experiment for this chapter.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>回答不好時，常見的建議是「給 AI 更多資訊」。貼上整份風格指南。加上每一條規則。讓它讀所有檔案。這感覺很安全：事實越多，錯誤越少。</p>
+<p>結果常常相反。想想一張書桌。你可以把一個專案的所有文件都攤開，然後你找不到要的那一份，也沒有地方寫字。agent 就有這樣一張書桌。它叫<strong>上下文視窗</strong>：模型在一輪裡能看到的全部文字。裡面有規則、你說的話、agent 讀過的檔案、工具呼叫的結果，還有它自己之前的回答。它有大小的上限。而且，我接下來會說，它還有第二個限制，跟大小無關。</p>
+<p>我能說的，來自兩個地方。第一個是做這些工具的人。Anthropic 寫道，上下文「必須被當成一種有限的資源，邊際報酬會遞減」（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>）。VS Code 的指南說要「避免上下文過載而分散注意力」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）。第二個是我自己搭設定的方式：裡面幾乎每個設計選擇，都是一種讓視窗裡少放一點的辦法。同一個想法在成本上的一面，在<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>：一個任務的成本，大部分是模型讀的東西。我沒有為這一章做過乾淨的實驗。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What is in the window</h3>
+<figure class="fig steps" id="fig-3-1-window" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box" x="30" y="60" width="540" height="56" rx="6"/>
+
+  <rect class="bar" x="32" y="62" width="60" height="52"/>
+  <rect class="bar" x="92" y="62" width="70" height="52"/>
+  <text class="label-muted" x="62" y="134" text-anchor="middle" data-t="rules">rules</text>
+  <text class="label-muted" x="127" y="134" text-anchor="middle" data-t="tools">tool list</text>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="162" y="62" width="150" height="52"/>
+    <text class="label-lit" x="237" y="134" text-anchor="middle" data-t="files">files it read</text>
+  </g>
+  <g data-step="3">
+    <rect class="bar-lit" x="312" y="62" width="180" height="52"/>
+    <text class="label-lit" x="402" y="134" text-anchor="middle" data-t="results">tool results</text>
+  </g>
+  <g data-step="4">
+    <rect class="bar" x="492" y="62" width="76" height="52"/>
+    <text class="label-muted" x="530" y="134" text-anchor="middle" data-t="chat">chat</text>
+    <text class="label-big" x="300" y="195" text-anchor="middle" data-t="full">full</text>
+  </g>
+  <text class="label" x="300" y="40" text-anchor="middle" data-t="window">one context window</text>
+  <text class="label-muted" x="300" y="222" text-anchor="middle" data-t="illus">Not to scale. The shares differ from task to task.</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">The window is a fixed size. Before you type anything, the rules and the list of tools already take a part of it.</li><li data-step-text="2">Each file the agent reads goes into the window as whole text.</li><li data-step-text="3">Every tool result goes in too: a search listing, a command&#x27;s output, a test log.</li><li data-step-text="4">Add the conversation itself, and the window is full. Every new item now pushes something older out or squeezes it into a summary.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Everything the model reads in a turn shares one window. Each part you add leaves less room for the others.</figcaption></figure>
+<p>Six things share it:</p>
+<ol>
+<li><strong>Rules and instructions</strong> that the platform puts in every time.</li>
+<li><strong>The list of tools</strong>, with each tool's description. The model needs it to know what it can ask for. With many tools, for example from several MCP servers (<a href="1-3-mcp.html">MCP</a>), this list can be a large part of the window. I have not measured how large.</li>
+<li><strong>Your messages.</strong></li>
+<li><strong>Files the agent read.</strong> A file goes in as whole text, however much of it matters.</li>
+<li><strong>Tool results:</strong> search listings, command output, test logs. These are often the biggest part, and the part nobody looks at.</li>
+<li><strong>The agent's own earlier answers.</strong></li>
+</ol>
+<p>Each turn of the loop the model reads all of it again, plus one more result (the cost of this is in <a href="1-1-models-and-cost.html">Models and cost</a>). So the window only grows, until it is full. Then the platform has to cut or summarise the oldest parts, and details are lost. <a href="3-2-long-sessions.html">Long chats get worse</a> is about that.</p>
+<h3>Two limits, not one</h3>
+<p>Size is the obvious limit. The second one is attention. Anthropic describes it as an &quot;attention budget&quot; that the model draws on when it reads a lot of text. The practical meaning: a window that still has room is not a window that performs well. A rule buried in a long, noisy context is more likely to be missed than the same rule in a short one. I take this as a reason to put less in, even when it all fits. That step is my own inference, not something Anthropic says. How big the effect is depends on the model and the task, and I have not measured it.</p>
+<h3>Load everything, load an index, or both</h3>
+<p>Here is the choice behind most of the decisions in this part of the book.</p>
+<p><strong>Load everything first.</strong> The agent starts with all the rules and all the notes in the window. It never has to look anything up. But the window is spent before work starts, most of it on things this task does not need.</p>
+<p><strong>Load an index, fetch what the task needs.</strong> The agent starts with a short list: names and one-line descriptions of the things that exist. When the task needs one of them, it opens that one. Anthropic calls this a &quot;just in time&quot; approach: the agent keeps lightweight identifiers (a file path, a name) and loads the data at run time.</p>
+<p><strong>Both.</strong> Anthropic's own suggestion is a mix: &quot;the most effective agents might employ a hybrid strategy, retrieving some data up front for speed&quot; and exploring further on their own. Their example is Claude Code, which drops its instruction file into the context up front and uses search tools to find the rest as it goes.</p>
+<p>The other side wins in some cases. For a small task, or a small set of rules, loading everything is simpler and costs little. And where a missed fact is expensive, I would rather pay for it to be in the window than bet on the agent opening the right file.</p>
+<p>One more point on cost. A beginning that is loaded every time and never changes can be cached, and a cache read is much cheaper than a normal read (<a href="1-1-models-and-cost.html">Models and cost</a>). So &quot;load everything&quot; is cheaper than the token count suggests, if the beginning stays stable. The attention limit above does not go away with a cache. I have not tested the cache on Copilot.</p>
+<figure class="fig" id="fig-3-1-load-when"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <text class="label" x="30" y="30" data-t="a-title">Load everything first</text>
+  <rect class="box" x="30" y="40" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="42" width="450" height="36"/>
+  <text class="label-muted" x="257" y="66" text-anchor="middle" data-t="a-all">all rules, all notes, all files</text>
+  <text class="label-muted" x="527" y="66" text-anchor="middle" data-t="a-left">room</text>
+
+  <text class="label-lit" x="30" y="130" data-t="b-title">Load an index, fetch what the task needs</text>
+  <rect class="box-lit" x="30" y="140" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="142" width="70" height="36"/>
+  <rect class="bar-lit" x="102" y="142" width="84" height="36"/>
+  <text class="label-muted" x="67" y="166" text-anchor="middle" data-t="b-index">index</text>
+  <text class="label-lit" x="144" y="166" text-anchor="middle" data-t="b-page">the page</text>
+  <text class="label-muted" x="380" y="166" text-anchor="middle" data-t="b-room">room for the work</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">Same task, same window. Illustration, not measured.</text>
+</svg>
+<figcaption>Loading everything first spends the window before the work starts. An index plus a fetch on demand keeps the room for the task.</figcaption></figure>
+<p>It is the same as a library. You do not carry the whole library to your desk. You use the catalog, then fetch the one book.</p>
+<p>For this to work, three things must be true.</p>
+<ul>
+<li><strong>The index entry must say when to open the thing.</strong> The agent decides from the one line alone. A vague line means it opens the wrong thing or never opens the right one. This is why the description of a skill matters so much (<a href="3-3-instructions-and-skills.html">Instructions and skills</a>).</li>
+<li><strong>The fetch must be cheap and exact.</strong> If fetching means reading a whole folder, the index saved nothing.</li>
+<li><strong>The agent must know it does not know.</strong> An index cannot help with a thing the agent does not realise is missing. That is the real risk, and I come back to it below.</li>
+</ul>
+<h3>Ways to read less</h3>
+<p>These are the ones I use. Each is a way to keep a thing out of the window, or to take it out. The two cheapest to start with are layering your rules and shortening tool output.</p>
+<ul>
+<li><strong>Rules by layers.</strong> Keep a small set of rules always loaded. Put the rest where they are read only for the files or the job they apply to. Rules that never change the next step are only noise. (How: <a href="3-3-instructions-and-skills.html">Instructions and skills</a>.)</li>
+<li><strong>Search first, then read.</strong> Ask the agent to find where something is, then read only that part of the file, not the whole file. Or give it a short map of the project written ahead of time: an index in the sense above. It only wins if reading it beats searching, and it only stays true if someone keeps it true. I have not tested whether mine wins (<a href="8-1-why-a-knowledge-base.html">A knowledge base from code</a>).</li>
+<li><strong>Make tool output short.</strong> A command that prints 2,000 lines puts 2,000 lines in the window. Filter it, or print only the failures.</li>
+<li><strong>Remind with a few lines, not a page.</strong> In my setup, only a short piece of the rules is added to each prompt. With a task (<a href="5-1-tasks.html">Manage tasks, not chats</a>), it says how far the task has got. It is a reminder, and the full text is read when it is needed.</li>
+<li><strong>Hand a big read to a subagent</strong> (<a href="2-3-subagents.html">Use subagents sparingly</a>, <a href="3-2-long-sessions.html">Long chats get worse</a>).</li>
+<li><strong>Write state into files</strong>, so a new chat reads one short file and not the old conversation. A new chat is an empty window; when to start one, and what to carry over, is in <a href="3-2-long-sessions.html">Long chats get worse</a>.</li>
+</ul>
+<h3>Test your own setup</h3>
+<p><strong>Three questions:</strong></p>
+<ol>
+<li>What is loaded every time? Count the lines of your always-on rules. How much of that applies to the task you are doing now? (In Claude Code, the <code>/context</code> command shows what is using the window. I have not checked what Copilot offers.)</li>
+<li>What was the biggest thing the agent read last time? A file? A log? Was all of it needed?</li>
+<li>If the agent started a new chat now, what would it have to read to carry on? Is that in a file?</li>
+</ol>
+<p><strong>A test you can run today.</strong> Take a task you know the answer to. Run it twice in a new chat each time. In the first, paste the whole file or doc in the prompt. In the second, name the file and the part, and let the agent read only that. Compare the answer, the time and the usage. To trust the difference, repeat it a few times each, and score both runs the same way. For each run, write down four things: whether the answer was right, the time, the usage your tool shows, and anything the agent missed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>視窗裡有什麼</h3>
+<figure class="fig steps" id="fig-3-1-window" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box" x="30" y="60" width="540" height="56" rx="6"/>
+
+  <rect class="bar" x="32" y="62" width="60" height="52"/>
+  <rect class="bar" x="92" y="62" width="70" height="52"/>
+  <text class="label-muted" x="62" y="134" text-anchor="middle" data-t="rules">規則</text>
+  <text class="label-muted" x="127" y="134" text-anchor="middle" data-t="tools">工具清單</text>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="162" y="62" width="150" height="52"/>
+    <text class="label-lit" x="237" y="134" text-anchor="middle" data-t="files">讀過的檔案</text>
+  </g>
+  <g data-step="3">
+    <rect class="bar-lit" x="312" y="62" width="180" height="52"/>
+    <text class="label-lit" x="402" y="134" text-anchor="middle" data-t="results">工具結果</text>
+  </g>
+  <g data-step="4">
+    <rect class="bar" x="492" y="62" width="76" height="52"/>
+    <text class="label-muted" x="530" y="134" text-anchor="middle" data-t="chat">對話</text>
+    <text class="label-big" x="300" y="195" text-anchor="middle" data-t="full">滿了</text>
+  </g>
+  <text class="label" x="300" y="40" text-anchor="middle" data-t="window">一個上下文窗口</text>
+  <text class="label-muted" x="300" y="222" text-anchor="middle" data-t="illus">示意，不按比例。每個任務的占比都不同。</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">窗口的大小是固定的。你還沒打字，規則和工具清單就已經占了一部分。</li><li data-step-text="2">agent 讀的每個檔案，都以整段文字放進窗口。</li><li data-step-text="3">每個工具結果也要放進去：搜尋列表、指令輸出、測試日誌。</li><li data-step-text="4">再加上對話本身，窗口就滿了。之後每多放一樣，就要把更早的擠出去，或壓成摘要。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>模型這一圈讀到的所有東西，共用同一個窗口。你多放一樣，別的就少一分空間。</figcaption></figure>
+<p>有六樣東西共用它：</p>
+<ol>
+<li><strong>規則和指令</strong>，平台每次都會放進去。</li>
+<li><strong>工具清單</strong>，附上每個工具的描述。模型要靠它知道自己可以請求什麼。工具很多時，例如來自好幾個 MCP server（<a href="1-3-mcp.html">MCP server：插工具的標準接口</a>），這份清單可能佔視窗的一大塊。有多大，我沒量過。</li>
+<li><strong>你的訊息</strong>。</li>
+<li><strong>agent 讀過的檔案</strong>。檔案是整份文字放進去的，不管其中有多少是相關的。</li>
+<li><strong>工具結果</strong>：搜尋的清單、指令的輸出、測試紀錄。它們常常是最大的一塊，也是沒人看的一塊。</li>
+<li><strong>agent 自己之前的回答</strong>。</li>
+</ol>
+<p>迴圈每一輪，模型都會把這一切重讀一遍，再加上多出來的一個結果（這的成本在<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。所以視窗只會越來越大，直到滿了。然後平台只能裁掉或摘要最舊的部分，細節就丟了。<a href="3-2-long-sessions.html">長對話會變差</a>講的就是這個。</p>
+<h3>是兩個限制，不是一個</h3>
+<p>大小是明顯的限制。第二個是注意力。Anthropic 把它描述成模型在讀大量文字時消耗的一份「注意力預算」。實際的意思是：還有空位的視窗，不等於表現好的視窗。埋在又長又雜的上下文裡的規則，比在短上下文裡的同一條規則，更容易被漏掉。我拿這個當理由：就算全都放得下，也要少放一點。這一步是我自己的推論，不是 Anthropic 說的。影響有多大，取決於模型和任務，我沒有量過。</p>
+<h3>全部載入、載入索引，或兩者都用</h3>
+<p>這是這一部分大多數決定背後的選擇。</p>
+<p><strong>先全部載入</strong>。agent 一開始，視窗裡就有所有規則和所有筆記。它不需要查任何東西。但是工作還沒開始，視窗就花掉了，而且大部分花在這個任務用不到的東西上。</p>
+<p><strong>載入索引，需要什麼再去取</strong>。agent 一開始只有一份簡短的清單：現有的每樣東西的名稱和一行描述。任務需要其中一樣時，它才打開那一樣。Anthropic 把這叫做「即時」做法：agent 帶著輕量的識別（檔案路徑、名稱），到執行時才載入資料。</p>
+<p><strong>兩者都用</strong>。Anthropic 自己的建議是混合：「最有效的 agent 也許會採用混合策略，先取一部分資料求速度」，然後讓它自己繼續探索。他們的例子是 Claude Code：先把它的指令檔放進上下文，其餘的在過程中用搜尋工具去找。</p>
+<p>有些情況是另一邊贏。任務小、或規則少時，全部載入比較簡單，成本也低。而漏掉一個事實代價很高的地方，我寧可花錢把它放在視窗裡，也不賭 agent 會打開對的檔案。</p>
+<p>再說一點成本。每次都載入、又從不變的開頭，可以被快取，而讀快取比一般的讀便宜很多（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。所以只要開頭保持穩定，「全部載入」會比 token 數看起來便宜。上面說的注意力限制，不會因為快取而消失。我沒有在 Copilot 上測過快取。</p>
+<figure class="fig" id="fig-3-1-load-when"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <text class="label" x="30" y="30" data-t="a-title">先全部放進去</text>
+  <rect class="box" x="30" y="40" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="42" width="450" height="36"/>
+  <text class="label-muted" x="257" y="66" text-anchor="middle" data-t="a-all">所有規則、所有筆記、所有檔案</text>
+  <text class="label-muted" x="527" y="66" text-anchor="middle" data-t="a-left">剩下</text>
+
+  <text class="label-lit" x="30" y="130" data-t="b-title">放目錄，要用再取</text>
+  <rect class="box-lit" x="30" y="140" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="142" width="70" height="36"/>
+  <rect class="bar-lit" x="102" y="142" width="84" height="36"/>
+  <text class="label-muted" x="67" y="166" text-anchor="middle" data-t="b-index">目錄</text>
+  <text class="label-lit" x="144" y="166" text-anchor="middle" data-t="b-page">那一頁</text>
+  <text class="label-muted" x="380" y="166" text-anchor="middle" data-t="b-room">留給工作的空間</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">同一個任務、同一個窗口。示意圖，不是實測。</text>
+</svg>
+<figcaption>先全部放進去，工作還沒開始窗口就用掉了。目錄加按需取用，才把空間留給任務。</figcaption></figure>
+<p>這和圖書館一樣。你不會把整座圖書館搬到書桌上。你用目錄，然後取那一本書。</p>
+<p>要讓這個做法行得通，三件事必須成立。</p>
+<ul>
+<li><strong>索引的條目必須說明什麼時候該打開它</strong>。agent 只憑那一行就做決定。含糊的一行，會讓它打開錯的東西，或是永遠不打開對的。這就是 skill 的描述為什麼這麼重要（<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>）。</li>
+<li><strong>取用必須便宜而且精確</strong>。取用如果要讀整個資料夾，索引就什麼也沒省。</li>
+<li><strong>agent 必須知道自己不知道</strong>。對於 agent 沒意識到缺了的東西，索引幫不上忙。這才是真正的風險，下面再談。</li>
+</ul>
+<h3>少讀一點的辦法</h3>
+<p>這些是我在用的。每一個都是讓某樣東西不進視窗，或把它拿出來的辦法。最便宜、最適合先做的兩個，是把規則分層，和縮短工具輸出。</p>
+<ul>
+<li><strong>規則分層</strong>。一小組規則一直載入。其餘的放在只有讀到對應的檔案或工作時才會讀的地方。不會改變下一步的規則，只是雜訊。（做法：<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。）</li>
+<li><strong>先搜尋，再讀</strong>。請 agent 先找出東西在哪，然後只讀檔案中那一部分，不讀整個檔案。或者給它一份事先寫好的專案簡短地圖：就是上面說的那種索引。只有讀地圖比搜尋划算時，它才贏；也只有有人讓它保持正確，它才一直是對的。我沒有測過我的地圖是不是划算（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
+<li><strong>讓工具輸出變短</strong>。印出 2,000 行的指令，就把 2,000 行放進視窗。把它過濾掉，或只印失敗的部分。</li>
+<li><strong>用幾行來提醒，不用一整頁</strong>。在我的設定裡，每個 prompt 只加上規則的一小段。有任務時（<a href="5-1-tasks.html">管任務，不管對話</a>），它說的是任務做到哪了。這只是提醒，完整的內容在需要時才讀。</li>
+<li><strong>把大量閱讀交給子 agent</strong>（<a href="2-3-subagents.html">慎用子 agent</a>、<a href="3-2-long-sessions.html">長對話會變差</a>）。</li>
+<li><strong>把狀態寫進檔案</strong>，這樣新的對話讀一個簡短的檔案就好，不用讀舊的對話。新的對話就是空的視窗；什麼時候開一個、帶什麼過去，在<a href="3-2-long-sessions.html">長對話會變差</a>。</li>
+</ul>
+<h3>測一測你自己的設定</h3>
+<p><strong>三個問題</strong>：</p>
+<ol>
+<li>每次都載入了什麼？數一數你一直開著的規則有幾行。其中有多少和你現在做的任務有關？（在 Claude Code 裡，<code>/context</code> 指令會顯示什麼在佔用視窗。Copilot 有什麼，我沒查過。）</li>
+<li>agent 上一次讀的最大一樣東西是什麼？一個檔案？一份紀錄？全部都需要嗎？</li>
+<li>如果 agent 現在開一個新的對話，它得讀什麼才能接著做？那些在檔案裡嗎？</li>
+</ol>
+<p><strong>今天就能跑的測試</strong>。挑一個你知道答案的任務。各開一個新對話，跑兩遍。第一遍，把整個檔案或文件貼在 prompt 裡。第二遍，只說出檔案和那一部分，讓 agent 只讀那裡。比較答案、時間和用量。要相信這個差別，就各重複幾次，兩邊用同樣的方式打分。每次記下四樣：答案對不對、時間、你的工具顯示的用量，以及 agent 漏掉了什麼。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Loading less can lose something the agent needed.</strong> An index is a bet that the agent will open the right thing. When it does not, it works from a guess. The fix is better descriptions, and a check that the thing was opened when it should be. To check, run a task you know needs a certain file, look at the tool's log of what was opened, and count how often it was not. A new chat, a rule or a skill is lost the same way.</p>
+<p><strong>Summaries lose details.</strong> A subagent's report and a platform's compression both shrink text, and both can drop the one line that mattered. Use them where a short version is enough.</p>
+<p><strong>An index must be kept true.</strong> A map that is out of date costs more than it saves, because the agent trusts it. <a href="8-5-kb-keep-true.html">Keep it true</a> is about that.</p>
+<p><strong>No numbers here.</strong> I know of no clean measure of how much attention is lost as a window fills, for Copilot's models. The advice in this chapter comes from the platform makers and from my own design, not from a test of mine.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>載入得少，可能丟掉 agent 需要的東西</strong>。索引是一場賭注：賭 agent 會打開對的東西。它沒打開，就只能憑猜測做事。補救是更好的描述，以及一個確認該打開時有沒有打開的檢查。要檢查，就跑一個你知道需要某個檔案的任務，看工具紀錄裡打開了哪些，數它沒打開的次數。新的對話、規則或 skill，丟失的方式也一樣。</p>
+<p><strong>摘要會丟細節</strong>。子 agent 的報告和平台的壓縮，都會把文字縮短，也都可能丟掉最要緊的那一行。用在簡短的版本就夠的地方。</p>
+<p><strong>索引必須保持正確</strong>。過期的地圖，花的比省的多，因為 agent 會相信它。<a href="8-5-kb-keep-true.html">讓知識庫一直是對的</a>講的就是這個。</p>
+<p><strong>這裡沒有數字</strong>。對於 Copilot 的模型，視窗填滿時失去多少注意力，我不知道有任何乾淨的量法。這一章的建議來自平台廠商和我自己的設計，不是我做的測試。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
+<li><strong>Anthropic:</strong> context is &quot;a finite resource with diminishing marginal returns&quot;, and agents can load data &quot;just in time&quot; by keeping light references. (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>)</li>
+<li><strong>VS Code:</strong> &quot;Start with concise context and expand only when needed.&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>)</li>
+</ul>
+<p>The two agree on the direction. Neither gives a number I can quote for how much to load.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><ul>
+<li><strong>Anthropic</strong>：上下文是「有限的資源，邊際報酬遞減」，agent 可以靠帶著輕量的參照，「即時」地載入資料。（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>）</li>
+<li><strong>VS Code</strong>：「從簡短的上下文開始，只在需要時才擴充。」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</li>
+</ul>
+<p>兩家在方向上一致。兩家都沒有給我能引用的數字，說明該載入多少。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The reasoning stays as long as the window has a size and the model reads it every turn. What may go is my own effort: manual layering of rules and manual new chats. If the platform loads rules by relevance well, and compresses without dropping what matters, I will stop doing it by hand. A very large window does not remove the second limit by itself. I would want a test of that first.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>只要視窗有大小、模型每一輪都要讀它，這套道理就還在。可能會消失的，是我自己花的力氣：手動把規則分層、手動開新對話。如果平台能按相關性把規則載入得很好，壓縮時又不丟掉要緊的東西，我就不再手動做這些。很大的視窗本身，不會讓第二個限制消失。我會想先看到這方面的測試。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at the commands this project uses to test, lint, build and search. For each, tell me roughly how much text it prints when it succeeds and when it fails, and whether that output would flood your context window if you ran it. Suggest a quieter way to run each one, such as printing only failures or a summary. Rank the three noisiest. Do not change any files, and do not run anything that changes state.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看一下這個專案用來測試、lint、建置和搜尋的指令。每一個，告訴我它成功時和失敗時大約印出多少文字，以及你執行它時，輸出會不會灌爆你的上下文視窗。為每一個提出比較安靜的跑法，例如只印失敗的部分或一份摘要。把最吵的三個排出來。不要改任何檔案，也不要執行任何會改變狀態的東西。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+<li><a href="3-2-long-sessions.html">Long chats get worse</a>: what happens as the window fills</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+<li><a href="3-2-long-sessions.html">長對話會變差</a>：視窗填滿時會發生什麼</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness is built around loading little: a short always-on rulebook, a README that is only an index, and skills whose name and description are read first. You can see each one and how much it loads. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Context is a budget&quot;. Teach me what this harness loads into the context every time, and what it leaves to be read when needed. Open the real files with me, count what is always on, and show me how a new session picks up a task.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 圍繞著「載入得少」來搭：一份簡短、一直開著的規則書，一個只當索引的 README，還有先讀名稱和描述的 skill。你可以看到每一樣，和它載入多少。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「上下文是一份預算」這一章。請教我這個 harness 每次都把什麼載入上下文，又把什麼留到需要時才讀。帶我打開真實的檔案，數一數一直開著的有多少，並告訴我新的會話怎麼接手一個任務。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

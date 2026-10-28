@@ -1,0 +1,26 @@
+en:
+  author: the author
+  reviewer: the reviewer
+  request: the request
+  reasoning: its own reasoning
+  work: the work
+  unseen: "reasoning: never seen"
+  author-note: "reads what it meant"
+  reviewer-note: "reads what is there"
+  step-1: "The author's context holds the request, its own reasoning and the work."
+  step-2: "When it checks itself, its reasoning leads it past its own mistakes."
+  step-3: "The reviewer sees only the request and the work. If they do not match, it notices."
+  caption: "An independent check needs a context without the author's reasoning. That is why it has to be a separate agent."
+zh-Hant:
+  author: 作者
+  reviewer: reviewer
+  request: 需求
+  reasoning: 它自己的思路
+  work: 做出來的東西
+  unseen: "思路：從沒看過"
+  author-note: "讀到的是它想寫的"
+  reviewer-note: "讀到的是實際寫的"
+  step-1: "作者的上下文裡有需求、它自己的思路和做出來的東西。"
+  step-2: "自己檢查自己時，思路會帶著它繞過自己的錯。"
+  step-3: "reviewer 只看需求和做出來的東西。兩者對不上，它就會發現。"
+  caption: "獨立檢查需要一個沒有作者思路的上下文，所以必須是另一個 agent。"

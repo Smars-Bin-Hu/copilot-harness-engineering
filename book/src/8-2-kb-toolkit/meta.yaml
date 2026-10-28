@@ -1,0 +1,14 @@
+id: "8.2"
+part: case-kb
+title: {en: "The toolkit: scripts that draw a map of the code", zh-Hant: "Toolkit：用腳本畫出程式碼的地圖"}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base]
+sources:
+  - what: "Steps 1 and 2 of the road: the toolkit is designed by the model, approved by a person, run as scripts; the map is a cache where only changed files are read again; known uses as a check"
+    where: "harness docs/08-knowledge-base.md ('The road, step by step', 'How you know the map is right')"
+  - what: "The toolkit is code the team owns, in the knowledge base; the harness ships only two samples (SQL Server, Spring Boot)"
+    where: "harness docs/08-knowledge-base.md ('What each step decides', 'Make it yours'); .harness/examples/kb-toolkits/"
+  - what: "The Spring sample run on the open-source spring-petclinic: 58 objects from 35 files; 6 of 6 known uses found; 0 failed, 0 empty files"
+    where: "harness docs/08-knowledge-base.md ('An example: spring-petclinic')"
+  - what: "Why the model does not walk the code itself: it decides what to read from what it just read, misses objects, cannot say how much it missed"
+    where: "harness wondering topic 16-knowledge-base, chunks 16.1 and 16.2"

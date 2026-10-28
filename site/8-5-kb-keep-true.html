@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Keeping the knowledge base true</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.5</p><h1><span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-4-kb-learning.html">Learning in batches</a>. It is step seven of the road, and it never ends. For why notes should carry a source and a date in general, see <a href="3-5-memory.html">What an agent should remember</a>; this chapter shows it for code.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-4-kb-learning.html">分批學一個領域</a> 後面。它是路線的第七步，而且永遠不會結束。筆記為什麼一般來說該帶有來源和日期，見 <a href="3-5-memory.html">agent 該記住什麼</a>；這一章說明它用在程式碼上是什麼樣子。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Knowledge goes stale. So each card records the commit it was read at, and when the code changes you can list the stale cards and fix only the lines that changed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>知識會過期。所以每張卡片記下它讀的是哪個 commit，程式碼改了之後，你可以列出過期的卡片，只修改有變的那幾行。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> name an owner for the knowledge base and agree how often stale notes are refreshed, and who may mark a note as checked.</li>
+<li><strong>The risk:</strong> a base that was true once and is never checked can be worse than none, because people believe it. A stamp that says &quot;checked&quot; is only as good as the check before it. The list of stale notes misses the callers of a changed object; I have not tested how often that leaves a note wrong.</li>
+<li><strong>The cost of doing it right:</strong> each refresh reads only what changed in the code, not the whole file, in tasks of at most about 20 notes. The list of stale notes costs no reading.</li>
+<li><strong>Ask the team:</strong> &quot;How many of our notes are older than the code they describe, and who is responsible for them?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：為知識庫指定一位負責人，講好過期的筆記多久更新一次，以及誰可以把一則筆記標成已檢查。</li>
+<li><strong>風險</strong>：曾經是對的、卻從沒檢查過的知識庫，可能比沒有還糟，因為人們會相信它。寫著「已檢查」的印章，只有它前面的那次檢查那麼可靠。過期筆記的清單，會漏掉被改動物件的呼叫者；我沒有測過這會讓多少筆記變錯。</li>
+<li><strong>做對的成本</strong>：每次更新只讀程式碼裡改過的部分，不是整個檔案，在最多約 20 則筆記的任務裡進行。過期筆記的清單不用讀任何東西。</li>
+<li><strong>可以問團隊</strong>：「我們有多少筆記比它描述的程式碼更舊，誰負責它們？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A team writes good cards in March. By June, a third of the files they came from have been changed. Nobody can say which cards are now wrong. So readers lose trust in all of them, and the base is ignored. A base that was true once and is never checked can be worse than none, because it is believed.</p>
+<p>Two ways to deal with this fail. One is &quot;rewrite everything now and then&quot;: it costs as much as the first build. The other is &quot;hope people fix cards when they notice&quot;: they do not notice.</p>
+<p>The fix is to make staleness <em>visible and cheap</em>. A card says exactly which version of the code it read, and then a script can answer &quot;what has moved?&quot;. You can try the idea without any tool: write down the commit a note was read at, and later run <code>git diff &lt;that commit&gt;..HEAD -- &lt;the file&gt;</code>. If the diff is empty, the note's source has not changed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>一個團隊在三月寫了很好的卡片。到了六月，它們來源的檔案有三分之一改過了。沒有人說得出現在哪些卡片是錯的。於是讀者對所有卡片都失去信任，知識庫被無視。曾經是對的、卻從沒檢查過的知識庫，可能比沒有還糟，因為它被人相信。</p>
+<p>有兩種處理辦法都行不通。一種是「時不時全部重寫」：成本和第一次建一樣。另一種是「希望人們注意到時就修卡片」：他們不會注意到。</p>
+<p>解法是讓過期<em>看得見、又便宜</em>。卡片精確地說它讀的是程式碼的哪個版本，然後腳本就能回答「什麼動過了？」你不用任何工具也可以試這個想法：寫下一則筆記讀的是哪個 commit，之後執行 <code>git diff &lt;那個 commit&gt;..HEAD -- &lt;那個檔案&gt;</code>。如果 diff 是空的，筆記的來源就沒有變。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The version on the card</h3>
+<p>Commits and shas were explained in <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>. The <strong>object index</strong> is the script-built list of every object and its source file.</p>
+<p>Three places hold a version:</p>
+<ul>
+<li><strong>Every line of the object index</strong> keeps the sha of the source file at the time the card was written.</li>
+<li><strong>Every card</strong> carries a mark that says it was verified against the code, and at which commit it was read. The mark tells the reader whether the card was checked against code or not.</li>
+<li><strong>The domain</strong> records the commit of each repository it was learned at.</li>
+</ul>
+<h3>Listing the stale cards</h3>
+<p>A script compares the sha on each index line with the file on the base branch (the main line of the code) now. A card is <strong>stale</strong> when its source changed. A card whose source was deleted is listed too.</p>
+<figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
+  <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">commit 1</text>
+
+  <g data-step="2">
+    <path class="line" d="M155 38 H250"/>
+    <path class="head" d="M250 32 L260 38 L250 44 Z"/>
+    <rect class="box" x="260" y="20" width="100" height="36" rx="6"/>
+    <text class="label" x="310" y="43" text-anchor="middle" data-t="c2">commit 2</text>
+    <text class="label-muted" x="480" y="43" text-anchor="middle" data-t="c2-note">changes one source</text>
+  </g>
+
+  <rect class="box" x="20" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="105" y="143" text-anchor="middle" data-t="ca">card A</text>
+  <text class="label-muted" x="105" y="162" text-anchor="middle" data-t="ra">read at commit 1</text>
+
+  <rect class="box" x="215" y="120" width="170" height="56" rx="6"/>
+  <g data-step="3"><rect class="box-lit" x="215" y="120" width="170" height="56" rx="6"/></g>
+  <text class="label" x="300" y="143" text-anchor="middle" data-t="cb">card B</text>
+  <text class="label-muted" x="300" y="162" text-anchor="middle" data-t="rb">read at commit 1</text>
+
+  <rect class="box" x="410" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="495" y="143" text-anchor="middle" data-t="cc">card C</text>
+  <text class="label-muted" x="495" y="162" text-anchor="middle" data-t="rc">read at commit 1</text>
+
+  <g data-step="3">
+    <path class="line-lit" d="M310 56 V110"/>
+    <path class="head-lit" d="M304 110 L310 120 L316 110 Z"/>
+    <text class="label-lit" x="300" y="206" text-anchor="middle" data-t="stale">stale: B only</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M300 214 V234"/>
+    <path class="head-lit" d="M294 234 L300 244 L306 234 Z"/>
+    <rect class="box-lit" x="125" y="248" width="350" height="44" rx="6"/>
+    <text class="label-lit" x="300" y="275" text-anchor="middle" data-t="fixed">read the diff, fix, stamp commit 2</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Three cards were written when the code was at commit 1. Each card records that commit.</li><li data-step-text="2">The code moves on to commit 2. It changes the source that card B was written from.</li><li data-step-text="3">Compare each card&#x27;s commit with the code now. Only card B is stale. A and C are untouched.</li><li data-step-text="4">Read only what changed in B&#x27;s source, fix the lines of the card it touches, and stamp the card with commit 2.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A card records the commit it was read at. When the code moves, the stale cards can be listed, and only they are looked at.</figcaption></figure>
+<p>Only the cards that changed need attention, so a small change in a big code base means a short list. The share of stale cards is also the number to put on a board. One gap to know about: the list names the cards whose own source changed, not the cards of their callers (see <a href="#costs-and-traps">Costs and traps</a>).</p>
+<h3>Refresh: read the diff, not the file</h3>
+<p>For each stale card the agent reads the <strong>diff</strong>: exactly what changed in the source since the card was written. That is cheaper than reading the file again, and it points at the lines of the card that may be wrong.</p>
+<ul>
+<li>If the change does not touch what the card says (a comment, formatting, a part the card does not cover), the text stays.</li>
+<li>If it does, the agent changes only the lines it touches.</li>
+<li>Then it <strong>stamps</strong> the card: it records that the card was checked against the code as it is now. A stamp is a claim, so it is only for cards the agent really checked. Stamping a card nobody read hides a wrong card until the next change.</li>
+</ul>
+<p>A refresh is a task like any other: a plan listing each card and what is expected to change, a person's approval, then a write-back (<a href="5-3-two-approvals.html">Two gates: where a person approves</a>). At most about 20 cards per task; for more, do the most used first.</p>
+<p><strong>When a source is gone</strong>, the agent looks for a rename first. If it was renamed, the path is updated. If it was removed, the agent asks a person whether to drop the card or keep it. A card that is kept is marked &quot;source gone&quot;, and its mark becomes <em>unknown</em>, so it does not read like checked knowledge.</p>
+<h3>What a finished task teaches</h3>
+<p>Cards also go wrong in another way: while doing a task, an agent finds that a card is wrong or missing. It notes this in the task's log as it works. When the task ends, a separate step (I call it <strong>capture</strong>) picks out what is worth keeping and <strong>drafts</strong> it for a person to approve. Nothing goes into the base by itself. &quot;It will still be true next month&quot; is only a prediction by the model, so the person's approval is the real check.</p>
+<p>It keeps an item only if all of these hold: a future agent would get it wrong without it; the task holds the evidence (a file and line); it is not already recorded; and it will still be true next month. &quot;Nothing here is worth keeping&quot; is a good answer. The general rules for what to remember are in <a href="3-5-memory.html">What an agent should remember</a>.</p>
+<h3>The requests list: what the code cannot tell</h3>
+<p>By my own guess (not a measurement), a small part of the base cannot come from code. It comes from people and from running systems. So each domain has a <strong>requests list</strong>: one row for each thing a person must give. A row has:</p>
+<ul>
+<li>a <strong>kind</strong>: <em>code</em> (a source that is in no repository), <em>runtime</em> (a value from one environment), <em>history</em> (something to find in git), or <em>decision</em> (a choice someone must make);</li>
+<li>a read-only command or query the person can run as it is;</li>
+<li>a <strong>status</strong>: <em>open</em>, <em>answered</em> (when, by whom, where it went), or <em>declined</em> (and then it is not asked again).</li>
+</ul>
+<p>The agent asks at its next stop, never in the middle of work. Rows come from the places the map is blind (<a href="8-3-kb-audit.html">8.3</a>): dynamic names, outside names, deleted sources.</p>
+<p>What comes back goes into a second file of <strong>environment facts</strong>: one fact per row, such as whether a job is enabled or what a rule table holds. Each row has the environment, the date, the object, the sha of its code that day, and who gave it. When the code moves on, you can see that the fact was seen against older code. What a person pastes back is still untrusted text: it can hold dirty data or even instructions, so treat it as in <a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>.</p>
+<h3>Bringing in a base you already have</h3>
+<p>If you already have notes about the code, they can be moved into this form. Set each sha to the commit the old notes were written at, not to today. Then the stale list is honest from the first day: it shows what changed since the notes were written. Old notes often do not say which commit they came from; then you must guess, and a wrong guess hides stale cards. Expect this to be harder than it sounds.</p>
+<h3>Test your own setup</h3>
+<ol>
+<li>Take three cards. Write the commit each was read at.</li>
+<li>Change one source file. List the cards whose source changed.</li>
+<li>Refresh from the diff only. Count how many lines you read compared with the whole file (<code>git diff --stat</code> shows the lines changed; <code>wc -l</code> shows the file).</li>
+<li>Add one row to a requests list, with a kind, a read-only query and a status.</li>
+</ol>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>卡片上的版本</h3>
+<p>commit 和 sha 在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 解釋過。<strong>物件索引</strong>是腳本建出來的清單，列出每個物件和它的原始檔案。</p>
+<p>有三個地方記著版本：</p>
+<ul>
+<li><strong>物件索引的每一行</strong>，保留寫卡片時原始檔案的 sha。</li>
+<li><strong>每張卡片</strong>帶有一個標記，說明它已對照程式碼驗證過，以及它讀的是哪個 commit。這個標記告訴讀者，卡片有沒有對照程式碼檢查過。</li>
+<li><strong>領域</strong>記下它學的時候，每個倉庫的 commit。</li>
+</ul>
+<h3>列出過期的卡片</h3>
+<p>腳本把每一行索引上的 sha，和基底分支（程式碼的主線）上現在的檔案比較。來源改了的卡片就<strong>過期</strong>。來源被刪掉的卡片也列出來。</p>
+<figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
+  <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">提交 1</text>
+
+  <g data-step="2">
+    <path class="line" d="M155 38 H250"/>
+    <path class="head" d="M250 32 L260 38 L250 44 Z"/>
+    <rect class="box" x="260" y="20" width="100" height="36" rx="6"/>
+    <text class="label" x="310" y="43" text-anchor="middle" data-t="c2">提交 2</text>
+    <text class="label-muted" x="480" y="43" text-anchor="middle" data-t="c2-note">改了一個來源</text>
+  </g>
+
+  <rect class="box" x="20" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="105" y="143" text-anchor="middle" data-t="ca">卡片 A</text>
+  <text class="label-muted" x="105" y="162" text-anchor="middle" data-t="ra">讀於提交 1</text>
+
+  <rect class="box" x="215" y="120" width="170" height="56" rx="6"/>
+  <g data-step="3"><rect class="box-lit" x="215" y="120" width="170" height="56" rx="6"/></g>
+  <text class="label" x="300" y="143" text-anchor="middle" data-t="cb">卡片 B</text>
+  <text class="label-muted" x="300" y="162" text-anchor="middle" data-t="rb">讀於提交 1</text>
+
+  <rect class="box" x="410" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="495" y="143" text-anchor="middle" data-t="cc">卡片 C</text>
+  <text class="label-muted" x="495" y="162" text-anchor="middle" data-t="rc">讀於提交 1</text>
+
+  <g data-step="3">
+    <path class="line-lit" d="M310 56 V110"/>
+    <path class="head-lit" d="M304 110 L310 120 L316 110 Z"/>
+    <text class="label-lit" x="300" y="206" text-anchor="middle" data-t="stale">過期：只有 B</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M300 214 V234"/>
+    <path class="head-lit" d="M294 234 L300 244 L306 234 Z"/>
+    <rect class="box-lit" x="125" y="248" width="350" height="44" rx="6"/>
+    <text class="label-lit" x="300" y="275" text-anchor="middle" data-t="fixed">讀 diff、改、蓋上提交 2</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">三張卡片寫成時，程式碼在提交 1。每張卡片都記下這個提交。</li><li data-step-text="2">程式碼走到提交 2，改了卡片 B 所依據的那個來源。</li><li data-step-text="3">把每張卡片記的提交和現在的程式碼比。只有卡片 B 過期。A 和 C 沒動。</li><li data-step-text="4">只讀 B 的來源改了什麼，改卡片中被牽動的那幾行，再蓋上提交 2。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>卡片記住讀的是哪個提交。程式碼一動，就能列出過期的卡片，只看它們。</figcaption></figure>
+<p>只有改過的卡片需要注意，所以大程式碼庫裡的小改動，清單就很短。過期卡片的比例，也是適合放在看板上的數字。要知道一個缺口：清單列出的是自己的來源改過的卡片，不是它們的呼叫者的卡片（見 <a href="#costs-and-traps">代價和陷阱</a>）。</p>
+<h3>更新：讀 diff，不讀檔案</h3>
+<p>對每張過期的卡片，agent 讀的是 <strong>diff</strong>：卡片寫好之後，來源到底改了什麼。這比重讀檔案便宜，而且它指出卡片裡可能錯的那幾行。</p>
+<ul>
+<li>如果改動沒碰到卡片說的內容（註解、格式、卡片沒涵蓋的部分），文字就保持不變。</li>
+<li>如果碰到了，agent 只改它碰到的那幾行。</li>
+<li>然後它<strong>蓋章</strong>：記下這張卡片已對照現在的程式碼檢查過。印章是一個宣稱，所以只用在 agent 真的檢查過的卡片上。給沒人讀過的卡片蓋章，會把一張錯的卡片藏到下一次改動。</li>
+</ul>
+<p>更新是一個和其他任務一樣的任務：一份列出每張卡片和預期改什麼的計劃、人的批准，然後寫回（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。每個任務最多約 20 張卡片；更多的話，先做最常用的。</p>
+<p><strong>來源不見的時候</strong>，agent 先找有沒有改名。如果改名了，就更新路徑。如果被移除了，agent 問人，要丟掉這張卡片還是留著。留下的卡片會標成「來源已不在」，它的標記變成<em>未知</em>，這樣它讀起來就不像檢查過的知識。</p>
+<h3>做完的任務教了什麼</h3>
+<p>卡片還有另一種出錯的方式：做任務的時候，agent 發現一張卡片是錯的或缺的。它工作時把這點記在任務的紀錄裡。任務結束時，另一個步驟（我叫它<strong>擷取</strong>）挑出值得留下的，並<strong>起草</strong>給人批准。沒有任何東西會自己進知識庫。「下個月還是對的」只是模型的預測，所以人的批准才是真正的檢查。</p>
+<p>只有在以下全部成立時，它才留下一項：沒有它，未來的 agent 會做錯；任務裡有證據（一個檔案和行號）；它還沒被記錄過；下個月還會是對的。「這裡沒有值得留下的」是個好答案。要記住什麼的一般規則，在 <a href="3-5-memory.html">agent 該記住什麼</a>。</p>
+<h3>請求清單：程式碼說不出的</h3>
+<p>照我自己的猜測（不是量測），知識庫有一小部分不能來自程式碼。它來自人和正在執行的系統。所以每個領域有一份<strong>請求清單</strong>：每件必須由人提供的事，一列。一列有：</p>
+<ul>
+<li>一個<strong>種類</strong>：<em>code</em>（一個不在任何倉庫裡的來源）、<em>runtime</em>（某個環境的值）、<em>history</em>（要在 git 裡找的東西），或 <em>decision</em>（某人必須做的選擇）；</li>
+<li>一個唯讀的指令或查詢，人可以原樣執行；</li>
+<li>一個<strong>狀態</strong>：<em>open</em>、<em>answered</em>（什麼時候、誰、放到哪裡去了），或 <em>declined</em>（之後就不再問）。</li>
+</ul>
+<p>agent 在下一個停下來的地方問，從不在工作到一半時問。這些列來自地圖看不見的地方（<a href="8-3-kb-audit.html">8.3</a>）：動態的名字、外部的名字、被刪掉的來源。</p>
+<p>回來的東西，進入第二個檔案，<strong>環境事實</strong>：一列一個事實，例如某個工作是否啟用，或一張規則表裡有什麼。每一列有環境、日期、物件、當天它的程式碼的 sha，以及誰提供的。程式碼往前走之後，你看得出這個事實，是對照比較舊的程式碼看到的。人貼回來的東西，仍然是不可信的文字：可能有髒資料，甚至有指令，所以要像 <a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 那樣處理。</p>
+<h3>把你已有的知識庫帶進來</h3>
+<p>如果你已經有關於程式碼的筆記，可以搬成這個形式。把每個 sha 設成舊筆記寫的那個 commit，不是今天。這樣過期清單從第一天起就是誠實的：它顯示筆記寫好之後改了什麼。舊筆記常常沒說它們來自哪個 commit；那你就得猜，而猜錯會把過期的卡片藏起來。預期這比聽起來難。</p>
+<h3>測你自己的設定</h3>
+<ol>
+<li>拿三張卡片。寫下每一張讀的是哪個 commit。</li>
+<li>改一個原始檔案。列出來源改過的卡片。</li>
+<li>只從 diff 更新。算一算，你讀的行數和整個檔案比起來是多少（<code>git diff --stat</code> 顯示改了的行；<code>wc -l</code> 顯示檔案）。</li>
+<li>在請求清單加一列，附上種類、一個唯讀的查詢和一個狀態。</li>
+</ol>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>Staleness is per source file.</strong> If object A calls B and only B changes, B's card is listed, A's is not. A's card might need a change too if the meaning of the call moved. I have not tested how often this leaves a caller's card wrong. Cards that only point down and do not copy the lower card's content lose less. The map already knows who uses B, so a cheap fix is to list the callers of every stale card as &quot;may be stale&quot;. I have not built or tested that.</li>
+<li><strong>A stamp can lie.</strong> Its value is only as good as the check before it. Stamp only what you read. Decide who may stamp, and keep a record of who did. You can also have an independent reviewer re-read a few stamped cards against the code, as in the audit (<a href="8-3-kb-audit.html">8.3</a>).</li>
+<li><strong>Someone must own the refresh.</strong> The list shows what is stale. It does not fix anything by itself.</li>
+<li><strong>Declined requests are a loss, not a fix.</strong> A declined row stays visible, so the gap is honest.</li>
+<li><strong>Capture can fill the base with noise.</strong> The four conditions above are there to keep it small.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>過期是以原始檔案為單位</strong>。如果物件 A 呼叫 B，而只有 B 改了，B 的卡片會列出來，A 的不會。如果那個呼叫的意思變了，A 的卡片可能也需要改。我沒有測過這會讓多少呼叫者的卡片變錯。只往下指、不複製下層卡片內容的卡片，損失比較小。地圖已經知道誰用 B，所以一個便宜的修法，是把每張過期卡片的呼叫者列為「可能過期」。我沒有做過或測過這個。</li>
+<li><strong>印章可能說謊</strong>。它的價值，只有它前面的檢查那麼好。只蓋你讀過的。決定誰可以蓋章，並記下是誰蓋的。你也可以讓獨立的 reviewer，像抽查那樣（<a href="8-3-kb-audit.html">8.3</a>），對照程式碼重讀幾張蓋了章的卡片。</li>
+<li><strong>必須有人負責更新</strong>。清單顯示什麼過期了。它自己不修任何東西。</li>
+<li><strong>被拒絕的請求是損失，不是解法</strong>。被拒絕的列仍然看得見，所以缺口是誠實的。</li>
+<li><strong>擷取可能讓知識庫塞滿雜訊</strong>。上面的四個條件，就是為了讓它保持小。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If a platform tracks which stored notes are older than the code they describe, use it, and drop your own comparison. The habit of recording a version with every fact still applies.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果平台會追蹤哪些存下來的筆記比它描述的程式碼舊，就用它，放掉你自己的比較。每個事實都記下一個版本的習慣，仍然適用。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find the documents in this repository that describe the code (design notes, READMEs of modules, architecture pages, runbooks). For each, use git history to tell me when it was last changed and how many commits have touched the code it describes since then. Rank them from most to least out of date. Mark any that state no date or commit they were written against. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個倉庫裡描述程式碼的文件（設計筆記、各模組的 README、架構頁、runbook）。每一份，用 git 歷史告訴我：它最後是什麼時候改的，以及從那之後有多少個 commit 碰過它描述的程式碼。從最過期到最不過期排序。標出沒有寫明它是對照哪個日期或 commit 寫的那幾份。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="3-5-memory.html">What an agent should remember</a>: sources, dates and review for notes in general.</li>
+<li><a href="8-4-kb-learning.html">Learning in batches</a>: where the cards come from.</li>
+<li><a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="3-5-memory.html">agent 該記住什麼</a>：一般筆記的來源、日期和審查。</li>
+<li><a href="8-4-kb-learning.html">分批學一個領域</a>：卡片從哪裡來。</li>
+<li><a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness lists stale cards, refreshes them from the diff, drafts what a task taught, and keeps the requests list. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Keeping the knowledge base true&quot;. Teach me topic 16, part 16.7: how stale cards are found, how a refresh works, and what the requests file looks like. Open the refresh and capture skills with me.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 會列出過期的卡片、從 diff 更新它們、起草一個任務教了什麼，並維護請求清單。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓知識庫一直是對的」這一章。請教我主題 16 的 16.7：過期的卡片怎麼找出來、更新怎麼運作，以及請求檔長什麼樣。和我一起打開更新和擷取的 skill。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Private: build code, themes, drafts (a separate private git repository)
+studio/
+# Company only: task reports, eval results, slides. Never committed anywhere.
+company/
+# Local notes for the author's coding agent
+CLAUDE.md
+
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.claude/settings.local.json

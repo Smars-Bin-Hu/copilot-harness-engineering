@@ -1,0 +1,14 @@
+id: "0.2"
+part: start
+core: true
+title: {en: "A minimal harness in 30 minutes", zh-Hant: "30 分鐘搭一個最小 harness"}
+harness_tag: "1.5.50"
+wondering: [02-instructions, 03-skills, 06-hooks]
+sources:
+  - what: "Instruction files, skill folders and the hook configuration used in the examples; the hook refusal output; what happens when a hook fails to start or times out"
+    where: harness docs/01-quickstart.md, and the topics on instructions, skills and hooks in the wondering skill
+  - what: "Kinds of command the gate refuses outright (real patterns from the shipped gate policy)"
+    where: harness .harness/policies/gate.json
+  - what: "Always-on instruction files: copilot-instructions.md and AGENTS.md; hooks can live in repositories"
+    where: https://code.visualstudio.com/docs/copilot/customization/overview
+    checked: 2026-10-27

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <rect class="box" x="10" y="60" width="100" height="50" rx="6"/>
+  <text class="label" x="60" y="90" text-anchor="middle" data-t="task">x</text>
+
+  <g data-step="2">
+    <path class="line" d="M110 85 H130"/>
+    <path class="head" d="M130 79 L140 85 L130 91 Z"/>
+    <rect class="box" x="140" y="60" width="110" height="50" rx="6"/>
+    <text class="label" x="195" y="90" text-anchor="middle" data-t="draft">x</text>
+    <text class="label-muted" x="175" y="130" text-anchor="middle" data-t="draft-note">x</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M250 85 H270"/>
+    <path class="head-lit" d="M270 79 L280 85 L270 91 Z"/>
+    <rect class="box-lit" x="280" y="60" width="110" height="50" rx="6"/>
+    <text class="label-lit" x="335" y="90" text-anchor="middle" data-t="review">x</text>
+    <text class="label-lit" x="335" y="130" text-anchor="middle" data-t="review-note">x</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M390 85 H410"/>
+    <path class="head" d="M410 79 L420 85 L410 91 Z"/>
+    <rect class="box" x="420" y="60" width="170" height="50" rx="6"/>
+    <text class="label" x="505" y="82" text-anchor="middle" data-t="memory">x</text>
+    <text class="label-muted" x="505" y="100" text-anchor="middle" data-t="memory-note">x</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line-lit" d="M505 110 V170 H195 V150"/>
+    <path class="head-lit" d="M189 150 L195 140 L201 150 Z"/>
+    <text class="label-lit" x="350" y="190" text-anchor="middle" data-t="overturn">x</text>
+    <text class="label-muted" x="350" y="214" text-anchor="middle" data-t="overturn-note">x</text>
+  </g>
+</svg>

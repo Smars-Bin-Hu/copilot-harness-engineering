@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">x</text>
+  <text class="label-muted" x="300" y="53" text-anchor="middle" data-t="main-note">x</text>
+
+  <path class="line" d="M300 62 V80 M110 80 H490 M110 80 V96 M300 80 V96 M490 80 V96"/>
+  <path class="head" d="M104 96 L110 106 L116 96 Z M294 96 L300 106 L306 96 Z M484 96 L490 106 L496 96 Z"/>
+  <rect class="box" x="40" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="110" y="131" text-anchor="middle" data-t="todo-1">x</text>
+  <rect class="box" x="230" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="300" y="131" text-anchor="middle" data-t="todo-2">x</text>
+  <rect class="box" x="420" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="490" y="131" text-anchor="middle" data-t="todo-3">x</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M110 146 V164"/>
+    <path class="head-lit" d="M104 164 L110 174 L116 164 Z"/>
+    <rect class="box" x="40" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="110" y="196" text-anchor="middle" data-t="worker">x</text>
+    <text class="label-muted" x="110" y="214" text-anchor="middle" data-t="worker-note">x</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="164" y="132" text-anchor="middle" data-t="tick">x</text>
+    <path class="line-lit" d="M150 174 V156"/>
+    <path class="head-lit" d="M144 156 L150 146 L156 156 Z"/>
+    <text class="label-muted" x="160" y="166" data-t="report">x</text>
+  </g>
+
+  <g data-step="4">
+    <text class="label-lit" x="354" y="132" text-anchor="middle" data-t="tick">x</text>
+    <text class="label-lit" x="544" y="132" text-anchor="middle" data-t="tick">x</text>
+    <path class="line-lit" d="M300 146 V164 M490 146 V164"/>
+    <path class="head-lit" d="M294 164 L300 174 L306 164 Z M484 164 L490 174 L496 164 Z"/>
+    <rect class="box" x="230" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="300" y="196" text-anchor="middle" data-t="worker">x</text>
+    <text class="label-muted" x="300" y="214" text-anchor="middle" data-t="worker-note">x</text>
+    <rect class="box" x="420" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="490" y="196" text-anchor="middle" data-t="worker">x</text>
+    <text class="label-muted" x="490" y="214" text-anchor="middle" data-t="worker-note">x</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line" d="M110 224 V244 M300 224 V244 M490 224 V244 M110 244 H490 M300 244 V260"/>
+    <path class="head" d="M294 260 L300 270 L306 260 Z"/>
+    <rect class="box-lit" x="170" y="270" width="260" height="50" rx="8"/>
+    <text class="label-lit" x="300" y="292" text-anchor="middle" data-t="reviewer">x</text>
+    <text class="label-muted" x="300" y="310" text-anchor="middle" data-t="reviewer-note">x</text>
+  </g>
+</svg>

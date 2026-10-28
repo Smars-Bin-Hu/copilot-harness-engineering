@@ -1,0 +1,24 @@
+en:
+  files: "request + files"
+  coordinator: coordinator
+  builder: builder
+  plan: plan
+  context: its context
+  twice: "the same reading, paid twice"
+  step-1: "The coordinator reads the request and the files. Now it understands the task."
+  step-2: "To hand over, it squeezes that understanding into a short plan."
+  step-3: "The builder starts with an empty context. All it has is the plan."
+  step-4: "To change the code, the builder has to read the same files again."
+  caption: "A handover passes a summary, not understanding. The next agent learns the task again, and you pay for it again."
+zh-Hant:
+  files: "需求 + 檔案"
+  coordinator: 協調者
+  builder: 實作者
+  plan: 計劃
+  context: 它的上下文
+  twice: "同樣的閱讀，付了兩次"
+  step-1: "協調者讀了需求和檔案，看懂了這個任務。"
+  step-2: "為了交接，它把理解壓成一份簡短的計劃。"
+  step-3: "實作者從空的上下文開始，手上只有這份計劃。"
+  step-4: "要動手改程式碼，實作者只好把同樣的檔案再讀一遍。"
+  caption: "交接傳過去的是摘要，不是理解。下一個 agent 要重新學一遍這個任務，你也要再付一次錢。"

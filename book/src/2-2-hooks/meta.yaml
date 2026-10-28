@@ -1,0 +1,12 @@
+id: "2.2"
+part: runtime
+core: true
+title: {en: Hooks, the point every call passes through, zh-Hant: Hooks：每次呼叫都會經過的執行點}
+harness_tag: "1.5.50"
+wondering: [06-hooks, 07-guardrails]
+sources:
+  - what: "Hook events, input and output, failure behavior, subagents, what a hook does not reach, lost injection (about a third of prompts measured in October 2026)"
+    where: harness wondering topic 6 (references/06-hooks.md); docs/05-design.md
+  - what: "Hook events (sessionStart, userPromptSubmitted, preToolUse, postToolUse, subagentStart/Stop, agentStop ...); preToolUse can return permissionDecision deny with a reason; a timeout falls through to normal permissions; hooks are in Preview; hooks are executable code and not a substitute for enforced permissions or sandboxing"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27

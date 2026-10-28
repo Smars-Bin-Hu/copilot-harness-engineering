@@ -1,0 +1,25 @@
+id: "1.1"
+part: brain
+core: true
+title: {en: "Choosing a model: cost per finished task", zh-Hant: "選模型：算的是每次成功的成本"}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop]
+sources:
+  - what: "One agent against three roles: about 4.5 times the usage for the same results (4 tasks, one run each)"
+    where: harness docs/06-cost-optimization.md, section 9 (see chapter 2.3)
+  - what: "What the harness does and does not record about usage; ways to read less, write less and redo less"
+    where: harness docs/06-cost-optimization.md, sections 1-8
+  - what: "When the result is wrong, check what the model knew before switching to a bigger model"
+    where: harness wondering topic 1, section 1.5
+  - what: "Cache reads cost one tenth of the base input price on most models (less on some); 5-minute cache writes cost 1.25 times the base input price and 1-hour writes cost 2 times"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-28
+  - what: "Tool names, descriptions and schemas count as input tokens on every request"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+    checked: 2026-10-28
+  - what: "From June 1, 2026 premium request units are replaced by GitHub AI Credits; usage is calculated from input, output and cached tokens; annual Pro and Pro+ plans stay on premium requests until they expire"
+    where: https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/
+    checked: 2026-10-28
+  - what: "On the legacy plan, prompts you send count as premium requests, tool calls do not; each model has a multiplier"
+    where: https://docs.github.com/en/copilot/concepts/billing/copilot-requests
+    checked: 2026-10-28

@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Extension points cheat sheet</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li><a href="#read-first"><span data-l="en" lang="en">Read this first</span><span data-l="zh-Hant" lang="zh-Hant">先讀這個</span></a></li><li><a href="#copilot"><span data-l="en" lang="en">VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot</span></a></li><li><a href="#counterparts"><span data-l="en" lang="en">The same points in Claude Code and Codex</span><span data-l="zh-Hant" lang="zh-Hant">Claude Code 和 Codex 裡的同樣幾點</span></a></li><li><a href="#how-to-use"><span data-l="en" lang="en">How to use this page</span><span data-l="zh-Hant" lang="zh-Hant">怎麼用這一頁</span></a></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">A</p><h1><span data-l="en" lang="en">Extension points cheat sheet</span><span data-l="zh-Hant" lang="zh-Hant">擴充點速查表</span></h1></header><div data-l="en" lang="en"><p>This appendix is a lookup table. When you wonder &quot;where does this go, when does the agent see it, and can it be forced?&quot;, find the row here, then follow the link to the chapter that explains why.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這個附錄是一張查詢表。當你想問「這個東西放哪裡、agent 什麼時候看得到、能不能強制」，就在這裡找到那一列，再照連結去看解釋原因的章節。</p>
+</div><section id="read-first" class="sec"><div data-l="en" lang="en"><h2>Read this first</h2><p><strong>Checked: 2026-10-27.</strong> I read the official docs of VS Code, Claude Code and Codex on that day. Names, folders, settings and preview labels change often, so this page will go stale. Trust the docs over this table, and check the date.</p>
+<p>Two things to know before reading the rows.</p>
+<ul>
+<li><strong>VS Code now asks you to choose a harness first.</strong> The VS Code docs say the harness you pick (for example the Copilot harness or the Local harness) decides which formats and locations work: &quot;Creating a file doesn't mean the selected harness can load or run it.&quot; Some rows below say &quot;Local harness only&quot; for this reason.</li>
+<li><strong>&quot;Enforced&quot; has one meaning here.</strong> A thing is enforced if the platform makes the agent obey it, so the model cannot choose otherwise. Almost every row is a request to the model. The exceptions are a hook that refuses a call, and a tool list that removes tools. Why this matters is the subject of <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>.</li>
+</ul>
+<p>Where I could not confirm a counterpart on the official pages, the cell says &quot;not confirmed&quot;. I did not guess.</p>
+<p>A quick guide to the rows:</p>
+<ul>
+<li>A rule for every task: always-on instructions.</li>
+<li>A rule for some files: instructions by file.</li>
+<li>A way of working the agent starts when it fits: a skill.</li>
+<li>A different set of tools or a read-only helper: a custom agent.</li>
+<li>Something that must be refused: a hook, or taking the tool away.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>先讀這個</h2><p><strong>確認日期：2026-10-27</strong>。我在那一天讀了 VS Code、Claude Code 和 Codex 的官方文件。名稱、資料夾、設定和 Preview 標籤常常改，所以這一頁會過期。文件比這張表可信，也請看一下日期。</p>
+<p>讀這些列之前，先知道兩件事。</p>
+<ul>
+<li><strong>VS Code 現在要你先選一個 harness</strong>。VS Code 文件說，你選的 harness（例如 Copilot harness 或 Local harness）決定哪些格式和位置行得通：「建立一個檔案，不代表選定的 harness 能載入或執行它。」下面有些列因此寫著「只有 Local harness」。</li>
+<li><strong>這裡的「強制」只有一個意思</strong>。平台讓 agent 必須服從的東西，模型不能選擇不照做，才算強制。幾乎每一列都是對模型的請求。例外是拒絕呼叫的 hook，和移除工具的工具清單。為什麼這很重要，是 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 的主題。</li>
+</ul>
+<p>官方頁面上我確認不了對應項目的地方，格子裡寫「未確認」。我沒有猜。</p>
+<p>各列的快速指南：</p>
+<ul>
+<li>每個任務都適用的規則：永遠載入的指令。</li>
+<li>只對某些檔案適用的規則：依檔案的指令。</li>
+<li>agent 在合適時啟動的做法：skill。</li>
+<li>不同的一組工具，或唯讀的幫手：custom agent。</li>
+<li>必須被拒絕的事：hook，或把工具拿掉。</li>
+</ul>
+</div></section><section id="copilot" class="sec"><div data-l="en" lang="en"><h2>VS Code Copilot</h2><table>
+<thead>
+<tr>
+<th>Extension point</th>
+<th>What it is</th>
+<th>When it loads</th>
+<th>Enforced?</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instructions, always on</td>
+<td><code>.github/copilot-instructions.md</code> and <code>AGENTS.md</code> at the repository root. <code>CLAUDE.md</code> is read by the Local harness only, when <code>chat.useClaudeMdFile</code> is on.</td>
+<td>Added to the agent's context automatically. Nested <code>AGENTS.md</code> files are experimental and off by default (Local harness).</td>
+<td>No. A request. The docs say applicable sources are additive, so do not rely on order to settle a conflict.</td>
+<td><a href="3-3-instructions-and-skills.html">Instructions and skills</a></td>
+</tr>
+<tr>
+<td>Instructions, by file</td>
+<td><code>*.instructions.md</code> in <code>.github/instructions</code> (Claude format: <code>.claude/rules</code>).</td>
+<td>Attached when the <code>applyTo</code> glob matches a file being changed, or loaded on demand when the <code>description</code> matches the task.</td>
+<td>No. A request.</td>
+<td><a href="3-3-instructions-and-skills.html">Instructions and skills</a></td>
+</tr>
+<tr>
+<td>Prompt files</td>
+<td><code>*.prompt.md</code> in <code>.github/prompts</code> (or your user profile). A saved prompt with optional <code>agent</code>, <code>model</code> and <code>tools</code> in its header.</td>
+<td>Only when you run it: type <code>/</code> and its name. Local harness sessions in the Chat view only. Not applied automatically.</td>
+<td>No. It is a prompt. Its <code>tools</code> list does take priority over the tool list of the agent it names.</td>
+<td>No chapter covers prompt files. Read the official docs of your tool.</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>A folder with a <code>SKILL.md</code>, in <code>.github/skills/</code>, <code>.claude/skills/</code> or <code>.agents/skills/</code> (and the same under your home folder).</td>
+<td>Three levels: name and description first, the body when the request matches or you type <code>/name</code>, other files only when the body points to them.</td>
+<td>No. The model decides whether to use it. <code>disable-model-invocation: true</code> stops the model from starting it, which is a limit on who starts, not on what it does.</td>
+<td><a href="3-3-instructions-and-skills.html">Instructions and skills</a>, <a href="3-4-skills-and-workflows.html">Skills as workflows</a></td>
+</tr>
+<tr>
+<td>Custom agents</td>
+<td><code>*.agent.md</code> in <code>.github/agents</code> (Claude format: <code>.claude/agents</code>), with a header and a body of instructions.</td>
+<td>When you pick it in the Agent dropdown, or when another agent runs it as a subagent. In the Copilot harness its instructions are added to your custom instructions and win conflicts.</td>
+<td>The <code>tools</code> list is: the docs say &quot;only those tools are available&quot;. The body, such as &quot;do not do X&quot;, is a request.</td>
+<td><a href="2-4-custom-agents.html">Custom agents</a>, <a href="2-3-subagents.html">Use subagents sparingly</a></td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td>JSON files in <code>.github/hooks/</code>, or a <code>hooks</code> map in settings files. Events include <code>sessionStart</code>, <code>userPromptSubmitted</code>, <code>preToolUse</code>, <code>postToolUse</code>, <code>subagentStart</code>, <code>subagentStop</code>, <code>agentStop</code>.</td>
+<td>Run by the platform at those moments. In the Local harness <code>chat.useHooks</code> controls execution. Read when the window starts.</td>
+<td>Yes, for what it sees: <code>preToolUse</code> can return a deny with a reason. A timeout falls through to normal permissions. Labelled Preview in the docs.</td>
+<td><a href="2-2-hooks.html">Hooks</a>, <a href="4-4-enforcement-design.html">Enforcement design</a></td>
+</tr>
+<tr>
+<td>MCP servers</td>
+<td>Servers that add tools. Personal: <code>~/.copilot/mcp-config.json</code>. Shared: <code>.mcp.json</code> at the project root (needs the experimental <code>chat.mcp.workspaceRootConfig.enabled</code>). Older: <code>.vscode/mcp.json</code>.</td>
+<td>Configured per user or workspace. The docs do not detail when a server starts; you review sign-in and tool approvals as they appear.</td>
+<td>No for what a server does. Your organization can restrict which servers are available.</td>
+<td><a href="1-3-mcp.html">MCP servers</a></td>
+</tr>
+<tr>
+<td>Tool sets and the tool list</td>
+<td>A tool picker in the chat (Copilot harness: Customizations editor, Tools tab; Local harness: Configure Tools). Type <code>#</code> to name a tool. A request can have at most 128 tools.</td>
+<td>Chosen per profile or per request.</td>
+<td>A tool that is not enabled cannot be called. But enabling a tool does not skip its approval.</td>
+<td><a href="1-2-tool-calling.html">Tool calling</a>, <a href="2-4-custom-agents.html">Custom agents</a></td>
+</tr>
+<tr>
+<td>Settings</td>
+<td>VS Code settings that switch the above on or off, such as <code>chat.useHooks</code>, <code>chat.useAgentsMdFile</code>, <code>chat.useClaudeMdFile</code>, <code>chat.includeApplyingInstructions</code>, <code>chat.useCustomizationsInParentRepositories</code>.</td>
+<td>Read by VS Code. Copilot CLI and the Copilot app do not inherit editor settings, so the docs advise against relying on custom location settings.</td>
+<td>Settings are host configuration. Enterprise controls can switch hooks on or off, and the Claude and Codex harnesses are disabled when enterprise-managed Copilot settings apply.</td>
+<td><a href="0-2-minimal-harness.html">A minimal harness</a></td>
+</tr>
+</tbody>
+</table>
+<p>A note on tool sets. The VS Code docs say user-defined tool sets (<code>.jsonc</code> files) are deprecated and not supported in the Copilot harness. For a reusable choice of tools they recommend a custom agent with a <code>tools</code> list. I treat tool sets as legacy.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>VS Code Copilot</h2><table>
+<thead>
+<tr>
+<th>擴充點</th>
+<th>它是什麼</th>
+<th>什麼時候載入</th>
+<th>強制？</th>
+<th>章節</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指令，永遠載入</td>
+<td>倉庫根目錄的 <code>.github/copilot-instructions.md</code> 和 <code>AGENTS.md</code>。<code>CLAUDE.md</code> 只有 Local harness 讀，而且要開啟 <code>chat.useClaudeMdFile</code>。</td>
+<td>自動加進 agent 的上下文。巢狀的 <code>AGENTS.md</code> 是實驗性的，預設關閉（Local harness）。</td>
+<td>不強制。是請求。文件說適用的來源是疊加的，所以不要靠順序解決衝突。</td>
+<td><a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a></td>
+</tr>
+<tr>
+<td>指令，依檔案</td>
+<td><code>.github/instructions</code> 裡的 <code>*.instructions.md</code>（Claude 格式：<code>.claude/rules</code>）。</td>
+<td>正在改的檔案符合 <code>applyTo</code> glob 時附上，或 <code>description</code> 符合任務時按需載入。</td>
+<td>不強制。是請求。</td>
+<td><a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a></td>
+</tr>
+<tr>
+<td>Prompt 檔</td>
+<td><code>.github/prompts</code>（或你的使用者設定檔）裡的 <code>*.prompt.md</code>。一個存起來的 prompt，標頭可以選擇性地帶 <code>agent</code>、<code>model</code> 和 <code>tools</code>。</td>
+<td>只有你執行它的時候：輸入 <code>/</code> 和它的名字。只在 Chat 檢視裡的 Local harness 會話。不會自動套用。</td>
+<td>不強制。它是一個 prompt。它的 <code>tools</code> 清單，優先於它指名的 agent 的工具清單。</td>
+<td>沒有章節涵蓋 prompt 檔。請讀你的工具的官方文件。</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>一個帶 <code>SKILL.md</code> 的資料夾，放在 <code>.github/skills/</code>、<code>.claude/skills/</code> 或 <code>.agents/skills/</code>（你的家目錄下也一樣）。</td>
+<td>三層：先是名稱和描述；請求符合或你輸入 <code>/name</code> 時載入內文；其他檔案只在內文指向它們時載入。</td>
+<td>不強制。由模型決定要不要用。<code>disable-model-invocation: true</code> 讓模型不能啟動它，這限制的是誰來啟動，不是它做什麼。</td>
+<td><a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>、<a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a></td>
+</tr>
+<tr>
+<td>Custom agent</td>
+<td><code>.github/agents</code>（Claude 格式：<code>.claude/agents</code>）裡的 <code>*.agent.md</code>，有標頭和一段指令內文。</td>
+<td>你在 Agent 下拉選單選它時，或別的 agent 把它當子 agent 執行時。在 Copilot harness 裡，它的指令加進你的自訂指令，衝突時以它為準。</td>
+<td><code>tools</code> 清單強制：文件說「只有那些工具可用」。內文，例如「不要做 X」，是請求。</td>
+<td><a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a>、<a href="2-3-subagents.html">慎用子 agent</a></td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td><code>.github/hooks/</code> 裡的 JSON 檔，或設定檔裡的 <code>hooks</code> 對照表。事件包括 <code>sessionStart</code>、<code>userPromptSubmitted</code>、<code>preToolUse</code>、<code>postToolUse</code>、<code>subagentStart</code>、<code>subagentStop</code>、<code>agentStop</code>。</td>
+<td>由平台在那些時刻執行。在 Local harness，<code>chat.useHooks</code> 控制是否執行。視窗啟動時讀。</td>
+<td>強制，限於它看得到的：<code>preToolUse</code> 可以回傳附原因的拒絕。逾時會落到正常的權限檢查。文件標為 Preview。</td>
+<td><a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a></td>
+</tr>
+<tr>
+<td>MCP server</td>
+<td>新增工具的 server。個人：<code>~/.copilot/mcp-config.json</code>。共用：專案根目錄的 <code>.mcp.json</code>（需要實驗性的 <code>chat.mcp.workspaceRootConfig.enabled</code>）。較舊的：<code>.vscode/mcp.json</code>。</td>
+<td>依使用者或工作區設定。文件沒有詳細說明 server 何時啟動；登入和工具批准出現時，由你審查。</td>
+<td>server 做什麼，不強制。你的組織可以限制哪些 server 可用。</td>
+<td><a href="1-3-mcp.html">MCP server：插工具的標準接口</a></td>
+</tr>
+<tr>
+<td>工具組和工具清單</td>
+<td>對話裡的工具挑選器（Copilot harness：Customizations 編輯器的 Tools 分頁；Local harness：Configure Tools）。輸入 <code>#</code> 來指名一個工具。一個請求最多可以有 128 個工具。</td>
+<td>依設定檔或依請求選擇。</td>
+<td>沒有啟用的工具不能呼叫。但啟用一個工具，不會跳過它的批准。</td>
+<td><a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>、<a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a></td>
+</tr>
+<tr>
+<td>設定</td>
+<td>開關以上各項的 VS Code 設定，例如 <code>chat.useHooks</code>、<code>chat.useAgentsMdFile</code>、<code>chat.useClaudeMdFile</code>、<code>chat.includeApplyingInstructions</code>、<code>chat.useCustomizationsInParentRepositories</code>。</td>
+<td>由 VS Code 讀取。Copilot CLI 和 Copilot app 不繼承編輯器的設定，所以文件建議不要依賴自訂位置的設定。</td>
+<td>設定是主機的設定。企業控制可以開關 hook，而企業管理的 Copilot 設定生效時，Claude 和 Codex harness 會被停用。</td>
+<td><a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a></td>
+</tr>
+</tbody>
+</table>
+<p>關於工具組的說明。VS Code 文件說，使用者定義的工具組（<code>.jsonc</code> 檔）已棄用，Copilot harness 不支援。想要可重複使用的工具選擇，它們建議用帶 <code>tools</code> 清單的 custom agent。我把工具組當成舊的東西。</p>
+</div></section><section id="counterparts" class="sec"><div data-l="en" lang="en"><h2>The same points in Claude Code and Codex</h2><table>
+<thead>
+<tr>
+<th>Extension point</th>
+<th>Claude Code</th>
+<th>Codex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instructions, always on</td>
+<td><code>CLAUDE.md</code> (project, user, organization). It can also read a repository's <code>AGENTS.md</code> in place of <code>CLAUDE.md</code>. The docs call it &quot;context, not enforced configuration&quot;.</td>
+<td><code>AGENTS.md</code> per directory from the project root down to the current folder, and <code>AGENTS.override.md</code> where you need to replace one. Built once per run; combined size capped at <code>project_doc_max_bytes</code> (32 KiB by default).</td>
+</tr>
+<tr>
+<td>Instructions, by file</td>
+<td><code>.claude/rules/*</code> with a <code>paths</code> header.</td>
+<td>Nested <code>AGENTS.md</code> files closer to the work. A file-pattern header: not confirmed.</td>
+</tr>
+<tr>
+<td>Prompt files</td>
+<td><code>.claude/commands/*.md</code> still works, but commands have been merged into skills. A skill with the same name wins.</td>
+<td>Custom prompts in <code>~/.codex/prompts/</code> exist but are deprecated in favour of skills. Run as <code>/prompts:name</code>. Not shared through the repository.</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td><code>.claude/skills/&lt;name&gt;/SKILL.md</code> (project), <code>~/.claude/skills/</code> (personal). Descriptions are always in context; the body loads when invoked.</td>
+<td><code>.agents/skills</code> (repository, from the current folder up to the root), <code>$HOME/.agents/skills</code>, <code>/etc/codex/skills</code>. Same three-level loading. <code>allow_implicit_invocation: false</code> in <code>agents/openai.yaml</code> turns off model-started use.</td>
+</tr>
+<tr>
+<td>Custom agents</td>
+<td><code>.claude/agents/*.md</code>, with <code>tools</code> (an allowlist), <code>disallowedTools</code> and <code>model</code>.</td>
+<td><code>.codex/agents/*.toml</code> (project) or <code>~/.codex/agents/</code>, one agent per file, with <code>name</code>, <code>description</code>, <code>developer_instructions</code> and optional model settings. Subagents inherit the parent's sandbox, approval policy and MCP servers. A tool allowlist per agent: not confirmed.</td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td><code>hooks</code> in <code>.claude/settings.json</code>, <code>.claude/settings.local.json</code> or <code>~/.claude/settings.json</code>. Exit code 2, or a JSON <code>permissionDecision</code> of <code>deny</code>, blocks on <code>PreToolUse</code>. By default a hook that fails or times out does not block.</td>
+<td><code>hooks.json</code> or <code>[hooks]</code> in <code>config.toml</code>, in <code>~/.codex/</code> or <code>&lt;repo&gt;/.codex/</code>. <code>PreToolUse</code> can deny. Project hooks load only for a trusted project and must be reviewed first. The docs call hooks a guardrail, not a complete enforcement boundary. What happens when a hook times out: not confirmed.</td>
+</tr>
+<tr>
+<td>MCP servers</td>
+<td><code>.mcp.json</code> in the project (shared), <code>~/.claude.json</code> (local and user scopes). Project servers ask for approval in interactive sessions.</td>
+<td><code>[mcp_servers.&lt;name&gt;]</code> in <code>~/.codex/config.toml</code>, or <code>.codex/config.toml</code> for a trusted project. <code>codex mcp add</code> and <code>codex mcp list</code>.</td>
+</tr>
+<tr>
+<td>Tool sets</td>
+<td>Not confirmed as a separate feature. The nearest I found is a subagent's <code>tools</code> allowlist.</td>
+<td>Not confirmed.</td>
+</tr>
+<tr>
+<td>Settings</td>
+<td><code>settings.json</code> (user, project, local, and managed policy). I checked it only for hooks.</td>
+<td><code>~/.codex/config.toml</code> and <code>.codex/config.toml</code>, with <code>approval_policy</code> and <code>sandbox_mode</code>. <code>requirements.toml</code> can restrict them on managed machines.</td>
+</tr>
+</tbody>
+</table>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>Claude Code 和 Codex 裡的同樣幾點</h2><table>
+<thead>
+<tr>
+<th>擴充點</th>
+<th>Claude Code</th>
+<th>Codex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指令，永遠載入</td>
+<td><code>CLAUDE.md</code>（專案、使用者、組織）。它也可以讀倉庫的 <code>AGENTS.md</code> 來代替 <code>CLAUDE.md</code>。文件稱它為「上下文，不是強制的設定」。</td>
+<td>從專案根目錄一路往下到目前資料夾，每個目錄的 <code>AGENTS.md</code>，以及需要取代某一個時用的 <code>AGENTS.override.md</code>。每次執行建一次；合併後的大小上限是 <code>project_doc_max_bytes</code>（預設 32 KiB）。</td>
+</tr>
+<tr>
+<td>指令，依檔案</td>
+<td>帶 <code>paths</code> 標頭的 <code>.claude/rules/*</code>。</td>
+<td>更靠近工作的巢狀 <code>AGENTS.md</code> 檔。依檔案樣式的標頭：未確認。</td>
+</tr>
+<tr>
+<td>Prompt 檔</td>
+<td><code>.claude/commands/*.md</code> 仍然行得通，但 command 已經合併進 skill。同名的 skill 優先。</td>
+<td><code>~/.codex/prompts/</code> 裡有自訂 prompt，但已棄用，改用 skill。以 <code>/prompts:name</code> 執行。不透過倉庫共用。</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td><code>.claude/skills/&lt;name&gt;/SKILL.md</code>（專案）、<code>~/.claude/skills/</code>（個人）。描述永遠在上下文裡；內文在被呼叫時才載入。</td>
+<td><code>.agents/skills</code>（倉庫，從目前資料夾一路到根目錄）、<code>$HOME/.agents/skills</code>、<code>/etc/codex/skills</code>。同樣的三層載入。<code>agents/openai.yaml</code> 裡的 <code>allow_implicit_invocation: false</code> 會關掉模型啟動的使用。</td>
+</tr>
+<tr>
+<td>Custom agent</td>
+<td><code>.claude/agents/*.md</code>，有 <code>tools</code>（允許清單）、<code>disallowedTools</code> 和 <code>model</code>。</td>
+<td><code>.codex/agents/*.toml</code>（專案）或 <code>~/.codex/agents/</code>，一個檔案一個 agent，有 <code>name</code>、<code>description</code>、<code>developer_instructions</code> 和選用的模型設定。子 agent 繼承父層的沙箱、批准政策和 MCP server。每個 agent 的工具允許清單：未確認。</td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td><code>.claude/settings.json</code>、<code>.claude/settings.local.json</code> 或 <code>~/.claude/settings.json</code> 裡的 <code>hooks</code>。結束碼 2，或 JSON 的 <code>permissionDecision</code> 為 <code>deny</code>，會在 <code>PreToolUse</code> 擋下。預設情況下，失敗或逾時的 hook 不會擋。</td>
+<td><code>~/.codex/</code> 或 <code>&lt;repo&gt;/.codex/</code> 裡的 <code>hooks.json</code>，或 <code>config.toml</code> 裡的 <code>[hooks]</code>。<code>PreToolUse</code> 可以拒絕。專案的 hook 只在受信任的專案載入，而且必須先審查。文件稱 hook 是護欄，不是完整的強制邊界。hook 逾時會怎樣：未確認。</td>
+</tr>
+<tr>
+<td>MCP server</td>
+<td>專案裡的 <code>.mcp.json</code>（共用）、<code>~/.claude.json</code>（本機和使用者範圍）。專案的 server 在互動式會話裡要求批准。</td>
+<td><code>~/.codex/config.toml</code> 裡的 <code>[mcp_servers.&lt;name&gt;]</code>，或受信任專案的 <code>.codex/config.toml</code>。<code>codex mcp add</code> 和 <code>codex mcp list</code>。</td>
+</tr>
+<tr>
+<td>工具組</td>
+<td>未確認為獨立的功能。我找到最接近的，是子 agent 的 <code>tools</code> 允許清單。</td>
+<td>未確認。</td>
+</tr>
+<tr>
+<td>設定</td>
+<td><code>settings.json</code>（使用者、專案、本機，和受管理的政策）。我只對 hook 檢查過。</td>
+<td><code>~/.codex/config.toml</code> 和 <code>.codex/config.toml</code>，有 <code>approval_policy</code> 和 <code>sandbox_mode</code>。<code>requirements.toml</code> 可以在受管理的機器上限制它們。</td>
+</tr>
+</tbody>
+</table>
+</div></section><section id="how-to-use" class="sec"><div data-l="en" lang="en"><h2>How to use this page</h2><p>Two habits make this table useful.</p>
+<ul>
+<li><strong>Put a rule in the lightest point that is enough.</strong> Always-on instructions cost room every turn; a skill costs room only when used; a hook costs code. The order and the reasoning are in <a href="3-1-context-budget.html">Context is a budget</a> and <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>.</li>
+<li><strong>Check the harness before the file.</strong> If a file seems ignored, first ask whether the harness you selected can load that kind of file at all. <a href="b-troubleshooting.html">Troubleshooting</a> starts from symptoms.</li>
+</ul>
+<p>The examples in this book come from one setup on the Copilot side. I have not run the Claude Code and Codex columns myself; they come from the vendors' docs on the date above.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>怎麼用這一頁</h2><p>兩個習慣讓這張表有用。</p>
+<ul>
+<li><strong>把規則放在夠用的最輕的那一點</strong>。永遠載入的指令每一輪都占空間；skill 只在用到時占空間；hook 花的是程式碼。順序和推理在 <a href="3-1-context-budget.html">上下文是一份預算</a> 和 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>。</li>
+<li><strong>先查 harness，再查檔案</strong>。如果一個檔案好像被忽略，先問你選的 harness 到底能不能載入這種檔案。<a href="b-troubleshooting.html">排錯</a> 從症狀開始。</li>
+</ul>
+<p>這本書的例子，都來自 Copilot 這一邊的一套設定。Claude Code 和 Codex 的欄位我自己沒有執行過；它們來自廠商在上面那個日期的文件。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

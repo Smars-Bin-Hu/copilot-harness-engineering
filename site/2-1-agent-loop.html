@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>The agent loop</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.1</p><h1><span data-l="en" lang="en">The agent loop</span><span data-l="zh-Hant" lang="zh-Hant">agent 循環，和你能插手的地方</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過 AI 寫程式 agent，例如 Copilot 的 agent 模式。其他都不用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent is a loop: ask the model, run the tool it asks for, feed the result back. You steer it at a few points in each turn.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 是一個迴圈：問模型，執行它要的工具，把結果餵回去。你可以在每一輪的幾個點上掌舵。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> when an agent misbehaves, ask which of four places to fix (what it reads, which tools it has, a check before a call, a check after a call) before asking for a bigger model or a longer prompt.</li>
+<li><strong>The risk:</strong> the loop itself almost never breaks. In my reading, mistakes come from what is in the context or from what is allowed, and a rule written in a prompt is only a request. I have no counts of how often each happens.</li>
+<li><strong>The cost of doing it right:</strong> mostly setup time. The cheapest lever, what the agent reads, is a few lines of written rules.</li>
+<li><strong>Ask the team:</strong> &quot;For the last bad result, was the fix a better context, a tighter tool list, or a check outside the model?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：agent 出錯時，先問該修四個地方的哪一個（它讀什麼、有哪些工具、呼叫前的檢查、呼叫後的檢查），再去要更大的模型或更長的 prompt。</li>
+<li><strong>風險</strong>：迴圈本身幾乎不會壞。依我的觀察，錯誤來自上下文裡有什麼，或者來自允許做什麼，而寫在 prompt 裡的規則只是請求。每一種發生得多頻繁，我沒有計數。</li>
+<li><strong>做對的成本</strong>：主要是設定的時間。最便宜的槓桿，也就是 agent 讀什麼，只是幾行寫下來的規則。</li>
+<li><strong>可以問團隊</strong>：「上一次的壞結果，修法是更好的上下文、更緊的工具清單，還是模型外面的一道檢查？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When an agent does something wrong, it feels like a mind has made a bad choice. That feeling sends people to the wrong fix. They write a longer prompt, or add &quot;be careful&quot; in capital letters, or switch to a bigger model. Sometimes that helps. Often it does not, because the problem was not in the thinking.</p>
+<p>It helps to know what the machine is. It is small and plain. This chapter draws it, and marks the few places where you can reach into it. Every later chapter in this part, and most chapters after it, work on one of those places.</p>
+<p>Three words first.</p>
+<ul>
+<li>A <strong>model</strong> is the AI itself. It reads text and writes text. It does nothing else.</li>
+<li>A <strong>tool</strong> is one thing the agent can do in your project: read a file, search, change a file, run a command.</li>
+<li>A <strong>tool call</strong> is the model's request to use a tool, written as text: &quot;read this file&quot;.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>agent 做錯事的時候，感覺像是一個有想法的東西做了壞決定。這種感覺會把人帶去錯的修法。他們寫更長的 prompt，或者用大寫字母加上「小心點」，或者換成更大的模型。有時有用。常常沒用，因為問題不在思考裡。</p>
+<p>知道這台機器是什麼，會有幫助。它很小，很普通。這一章把它畫出來，並標出幾個你能伸手進去的地方。這一部分後面的每一章，以及再往後的大部分章節，都在處理其中一個地方。</p>
+<p>先講三個詞。</p>
+<ul>
+<li><strong>模型</strong>就是 AI 本身。它讀文字、寫文字。除此之外什麼都不做。</li>
+<li><strong>工具</strong>是 agent 在你的專案裡能做的一件事：讀檔案、搜尋、改檔案、執行指令。</li>
+<li><strong>工具呼叫</strong>是模型要求用一個工具，寫成文字：「讀這個檔案」。</li>
+</ul>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The loop</h3>
+<p>The model cannot touch your files. It can only write text. So the way an agent works is this. The model writes a tool call. A program around the model, the part that is not AI, reads that text and runs the tool for real. The program then pastes the result back in front of the model as more text. The model reads it, and writes the next tool call. This repeats until the model writes an answer with no tool call in it. That is the signal that it thinks it is done.</p>
+<p>I call one trip around this loop a <strong>turn</strong>. Some people use the word for the whole exchange from your message to the final answer, and in one trip a model can ask for several tools at once; here a turn is one round of ask, run, feed back.</p>
+<figure class="fig steps" id="fig-2-1-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320">
+  <rect class="box" x="10" y="60" width="160" height="50" rx="8"/>
+  <text class="label" x="90" y="90" text-anchor="middle" data-t="request">you + the rules</text>
+
+  <path class="line" d="M170 85 H220"/>
+  <path class="head" d="M220 79 L230 85 L220 91 Z"/>
+  <rect class="box-lit" x="230" y="55" width="150" height="60" rx="8"/>
+  <text class="label-lit" x="305" y="82" text-anchor="middle" data-t="model">the model</text>
+  <text class="label-muted" x="305" y="100" text-anchor="middle" data-t="model-note">only writes text</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M380 72 H500"/>
+    <path class="head-lit" d="M500 66 L510 72 L500 78 Z"/>
+    <text class="label-muted" x="445" y="62" text-anchor="middle" data-t="ask">tool call</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="510" y="55" width="180" height="60" rx="8"/>
+    <text class="label" x="600" y="82" text-anchor="middle" data-t="program">the program</text>
+    <text class="label-muted" x="600" y="100" text-anchor="middle" data-t="program-note">runs the tool</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M510 100 H390"/>
+    <path class="head" d="M390 94 L380 100 L390 106 Z"/>
+    <text class="label-muted" x="445" y="132" text-anchor="middle" data-t="result">result, as text</text>
+    <text class="label-muted" x="350" y="162" text-anchor="middle" data-t="repeat">...until the model says it is done</text>
+  </g>
+
+  <g data-step="5">
+    <rect class="box-lit" x="10" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="10" y="234" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="234" width="335" height="44" rx="6"/>
+    <text class="label-lit" x="177" y="207" text-anchor="middle" data-t="p1">what it reads</text>
+    <text class="label-lit" x="522" y="207" text-anchor="middle" data-t="p2">which tools exist</text>
+    <text class="label-lit" x="177" y="261" text-anchor="middle" data-t="p3">hook: before a call</text>
+    <text class="label-lit" x="522" y="261" text-anchor="middle" data-t="p4">hook: after a call</text>
+    <text class="label-muted" x="350" y="306" text-anchor="middle" data-t="points">Four places where you can steer, in every turn</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">You send a request. The platform adds the rules, and the model reads both.</li><li data-step-text="2">The model does not touch your files. It writes a request for a tool call: read this file, run this command.</li><li data-step-text="3">The program around the model runs the tool for real.</li><li data-step-text="4">The result goes back to the model as text, and the model decides the next step. This repeats until it says it is done.</li><li data-step-text="5">You cannot change the model&#x27;s thinking. You can change what it reads, which tools exist, and what happens just before and just after each call.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>An agent is a loop. The model asks, the program acts, the result goes back. You steer at four places in each turn.</figcaption></figure>
+<p>Two facts follow, and both matter later.</p>
+<ol>
+<li><strong>Every action is a tool call.</strong> The model has no other way to do anything. So there is a door that every action passes through. (For the built-in tools and for subagents I have seen every call pass the hook point; I have not tested MCP tools. <a href="2-2-hooks.html">Hooks</a> has the details.) Whoever stands at that door can see, and stop, everything the agent does. A hook stands there. It is a small program of yours that the platform runs just before and just after each tool call, at fixed points; <a href="2-2-hooks.html">Hooks</a> explains it.</li>
+<li><strong>The model sees only text.</strong> It does not see your screen or your disk. It sees what is in its context: the rules, your words, the results of earlier tool calls, its own earlier answers. Its context is its whole world, and it has a size limit. <a href="3-1-context-budget.html">The context is a budget</a> is about that.</li>
+</ol>
+<h3>When does it stop?</h3>
+<p>The ordinary stop is the model answering without asking for a tool. There are others: you press stop, the platform reaches a limit, or something refuses the stop.</p>
+<p>That last one is useful. A hook can run when the agent is about to stop, look at the to-do list of the task (the steps it still has open), and say &quot;not yet, step 4 is open&quot;. The loop then goes on. This is how an agent is made to work through a long list without you. <a href="2-3-subagents.html">Use subagents sparingly</a> covers that case and its stop rules. I have not checked what limit on turns Copilot sets by default, so I do not give one here.</p>
+<h3>Where you can step in</h3>
+<p>Look at the loop again. You cannot change how the model thinks. You can change four things around it.</p>
+<ol>
+<li><strong>What it reads.</strong> The rules and instructions that are put in its context, and the files it is pointed at. This is the most used lever, and the cheapest. <a href="3-3-instructions-and-skills.html">Instructions and skills</a> is about it.</li>
+<li><strong>Which tools exist.</strong> An agent that has no tool for changing files cannot change files. And a tool's description and its error messages are the only manual the model gets for it (<a href="1-2-tool-calling.html">Tool calling</a>). A custom agent is the way to give a role a shorter list (<a href="2-4-custom-agents.html">Custom agents</a>).</li>
+<li><strong>A hook before a call.</strong> Code that sees the call before it runs and can refuse it. The platform guarantees that every call passes through this point, so a rule here is code that runs, not a request. A tool list or a command the agent runs to check itself is code too, but each covers a narrower range (<a href="4-1-requests-and-rules.html">chapter 4.1</a>). Permission settings and sandboxes are another kind of lever: they do not read the call, they limit what any command can do. I have not tested them one by one on Copilot, so I leave them out of the four.</li>
+<li><strong>A hook after a call.</strong> Code that sees the result, can keep a record, and can add a note for the model. It cannot undo what happened.</li>
+</ol>
+<p>A short way to remember it: two of the four decide what the model knows, and two decide what it is allowed to do. Words only change what it knows.</p>
+<h3>Why most mistakes are not in the loop</h3>
+<p>Here is how I read an agent's mistakes. The loop itself almost never breaks. The mistakes come from what is in the context, or from what is allowed. This is the list I keep, from my own use. It is what I have seen, not a statistic:</p>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Usually why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>It changed what it should not</td>
+<td>It reasons about how to get the job done, not whether it is allowed. A rule in a prompt is only a request.</td>
+</tr>
+<tr>
+<td>It forgot something from earlier</td>
+<td>The context was compressed or the chat was too long.</td>
+</tr>
+<tr>
+<td>It checked its own work and said it was fine</td>
+<td>The same model with the same reasoning has the same blind spots.</td>
+</tr>
+<tr>
+<td>It keeps retrying a refused action</td>
+<td>It wants to finish the task.</td>
+</tr>
+<tr>
+<td>It said &quot;done&quot; and it was not</td>
+<td>In my experience models lean towards reporting success.</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that few of these are about the model being unintelligent. The first and the last need a check outside the model. The second needs a better context (<a href="3-2-long-sessions.html">Long chats get worse</a>). The third needs a second view (<a href="2-3-subagents.html">Use subagents sparingly</a>). Only the fourth is close to a habit of the model itself. I do not have counts of how often each happens, so this is my reading of what I have seen, not a measurement.</p>
+<h3>See the loop yourself</h3>
+<p>You do not need to install anything. In your agent's chat, ask: &quot;Read the README and tell me what the project does.&quot; Watch the chat. You will see a line such as &quot;Read README.md&quot; before the answer. That line is one tool call, shown to you. Then ask a question that needs three files, and count the lines. Each is one turn of the loop, and each result is now in the context.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>迴圈</h3>
+<p>模型碰不到你的檔案。它只能寫文字。所以 agent 是這樣運作的。模型寫出一個工具呼叫。模型周圍有個程式，不是 AI 的那一部分，讀這段文字，真的去執行工具。然後程式把結果當成更多文字，貼回模型面前。模型讀它，再寫出下一個工具呼叫。這樣重複，直到模型寫出一個不含工具呼叫的回答。這就是它認為自己做完了的訊號。</p>
+<p>我把繞這個迴圈一圈叫做<strong>一輪</strong>。有些人用這個詞指從你的訊息到最後回答的整段來回，而且模型一圈可以同時要求好幾個工具；這裡的一輪，是問、執行、餵回去這一個回合。</p>
+<figure class="fig steps" id="fig-2-1-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320">
+  <rect class="box" x="10" y="60" width="160" height="50" rx="8"/>
+  <text class="label" x="90" y="90" text-anchor="middle" data-t="request">你的話 + 規則</text>
+
+  <path class="line" d="M170 85 H220"/>
+  <path class="head" d="M220 79 L230 85 L220 91 Z"/>
+  <rect class="box-lit" x="230" y="55" width="150" height="60" rx="8"/>
+  <text class="label-lit" x="305" y="82" text-anchor="middle" data-t="model">模型</text>
+  <text class="label-muted" x="305" y="100" text-anchor="middle" data-t="model-note">只會寫文字</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M380 72 H500"/>
+    <path class="head-lit" d="M500 66 L510 72 L500 78 Z"/>
+    <text class="label-muted" x="445" y="62" text-anchor="middle" data-t="ask">工具呼叫</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="510" y="55" width="180" height="60" rx="8"/>
+    <text class="label" x="600" y="82" text-anchor="middle" data-t="program">外面的程式</text>
+    <text class="label-muted" x="600" y="100" text-anchor="middle" data-t="program-note">真正執行工具</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M510 100 H390"/>
+    <path class="head" d="M390 94 L380 100 L390 106 Z"/>
+    <text class="label-muted" x="445" y="132" text-anchor="middle" data-t="result">結果（文字）</text>
+    <text class="label-muted" x="350" y="162" text-anchor="middle" data-t="repeat">……直到模型說做完了</text>
+  </g>
+
+  <g data-step="5">
+    <rect class="box-lit" x="10" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="10" y="234" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="234" width="335" height="44" rx="6"/>
+    <text class="label-lit" x="177" y="207" text-anchor="middle" data-t="p1">它讀到什麼</text>
+    <text class="label-lit" x="522" y="207" text-anchor="middle" data-t="p2">有哪些工具</text>
+    <text class="label-lit" x="177" y="261" text-anchor="middle" data-t="p3">hook：呼叫之前</text>
+    <text class="label-lit" x="522" y="261" text-anchor="middle" data-t="p4">hook：呼叫之後</text>
+    <text class="label-muted" x="350" y="306" text-anchor="middle" data-t="points">每一圈裡，你能插手的四個地方</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">你送出需求。平台加上規則，模型把兩者一起讀進去。</li><li data-step-text="2">模型不會直接碰你的檔案。它寫出一個工具呼叫的請求：讀這個檔案、執行這個指令。</li><li data-step-text="3">模型外面的程式真正執行這個工具。</li><li data-step-text="4">結果以文字送回模型，模型決定下一步。這樣一圈圈重複，直到它說做完了。</li><li data-step-text="5">你改變不了模型怎麼想。你能改的是它讀到什麼、有哪些工具、以及每次呼叫的前後發生什麼。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>agent 就是一個循環：模型提出要求，程式動手，結果送回去。每一圈裡你有四個地方可以插手。</figcaption></figure>
+<p>由此得到兩個事實，之後都很重要。</p>
+<ol>
+<li><strong>每個動作都是工具呼叫</strong>。模型沒有別的辦法做任何事。所以有一扇每個動作都經過的門。（內建工具和子 agent，我看過每次呼叫都經過 hook 的位置；MCP 工具我沒有測過。細節見 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>。）站在這扇門口的人，看得到、也擋得住 agent 做的一切。hook 就站在那裡。它是你的一個小程式，平台在每次工具呼叫之前和之後的固定位置執行它；<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 有說明。</li>
+<li><strong>模型只看得到文字</strong>。它看不到你的螢幕，也看不到你的磁碟。它看到的是它的上下文裡有的：規則、你說的話、之前工具呼叫的結果、它自己之前的回答。上下文就是它的整個世界，而且有大小上限。<a href="3-1-context-budget.html">上下文是一份預算</a> 講的就是這個。</li>
+</ol>
+<h3>什麼時候停？</h3>
+<p>一般的停止，是模型沒有要求工具就直接回答。還有別的：你按了停止、平台到了上限，或者有東西拒絕了這次停止。</p>
+<p>最後這個很有用。agent 要停下來的時候，hook 可以執行，看任務的待辦清單（它還開著的步驟），然後說「還沒，第 4 步還沒做完」。迴圈就繼續。這就是讓 agent 不靠你、把一長串清單做完的辦法。<a href="2-3-subagents.html">慎用子 agent</a> 講了這種情況和它的停止規則。Copilot 預設把輪數限制在多少，我沒有查過，所以這裡不給數字。</p>
+<h3>你能在哪裡插手</h3>
+<p>再看一次迴圈。你改變不了模型怎麼思考。你可以改變它周圍的四樣東西。</p>
+<ol>
+<li><strong>它讀什麼</strong>。放進它上下文的規則和指令，以及指給它看的檔案。這是用得最多、也最便宜的槓桿。<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 講的就是這個。</li>
+<li><strong>有哪些工具</strong>。沒有改檔案工具的 agent，就改不了檔案。而且工具的描述和錯誤訊息，是模型拿到的唯一手冊（<a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>）。custom agent 是給一個角色較短工具清單的辦法（<a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a>）。</li>
+<li><strong>呼叫前的 hook</strong>。在呼叫執行前看到它、並且能拒絕它的程式碼。平台保證每次呼叫都會經過這一點，所以這裡的規則是會執行的程式碼，不是請求。工具清單，或 agent 用來檢查自己的指令，也都是程式碼，但各自涵蓋的範圍窄一些（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。權限設定和沙箱是另一種槓桿：它們不讀呼叫，而是限制任何指令能做什麼。我沒有在 Copilot 上一項項測過，所以把它們放在這四個之外。</li>
+<li><strong>呼叫後的 hook</strong>。看到結果、可以留下紀錄、並且能為模型加一則備註的程式碼。它沒辦法撤銷已經發生的事。</li>
+</ol>
+<p>一個簡單的記法：四個裡有兩個決定模型知道什麼，兩個決定它被允許做什麼。文字只改變它知道什麼。</p>
+<h3>為什麼大部分錯誤不在迴圈裡</h3>
+<p>我是這樣看 agent 的錯誤的。迴圈本身幾乎不會壞。錯誤來自上下文裡有什麼，或者來自允許做什麼。這是我根據自己的使用留下的清單。這是我看到的，不是統計：</p>
+<table>
+<thead>
+<tr>
+<th>你看到的</th>
+<th>通常為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它改了不該改的</td>
+<td>它推理的是怎麼把事做完，不是被不被允許。prompt 裡的規則只是請求。</td>
+</tr>
+<tr>
+<td>它忘了先前的某件事</td>
+<td>上下文被壓縮了，或者對話太長。</td>
+</tr>
+<tr>
+<td>它檢查了自己的工作，說沒問題</td>
+<td>同一個模型、同樣的推理，有同樣的盲點。</td>
+</tr>
+<tr>
+<td>它一直重試被拒絕的動作</td>
+<td>它想把任務完成。</td>
+</tr>
+<tr>
+<td>它說「做完了」，其實沒有</td>
+<td>依我的經驗，模型傾向回報成功。</td>
+</tr>
+</tbody>
+</table>
+<p>注意，這些裡面很少是模型不夠聰明。第一個和最後一個，需要模型外面的一道檢查。第二個需要更好的上下文（<a href="3-2-long-sessions.html">長對話會變差</a>）。第三個需要第二個視角（<a href="2-3-subagents.html">慎用子 agent</a>）。只有第四個接近模型自己的習慣。每一種發生得多頻繁，我沒有計數，所以這是我對所見的看法，不是量出來的。</p>
+<h3>自己看看迴圈</h3>
+<p>你不用安裝任何東西。在 agent 的對話裡問：「讀 README，告訴我這個專案做什麼。」看著對話。回答之前，你會看到一行像「Read README.md」的字。那一行就是一次工具呼叫，秀給你看的。然後問一個需要三個檔案的問題，數一數有幾行。每一行是迴圈的一輪，每個結果現在都在上下文裡了。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Every turn rereads the context.</strong> Each time around, the model reads the whole context again, now with one more result in it. A task of thirty turns is thirty reads of a growing text. This is why what the agent reads matters more than how clever the model is, and why <a href="1-1-models-and-cost.html">the model's price per token</a> is the wrong number to look at alone. One correction: the reread is not always charged at full price. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price (<a href="1-1-models-and-cost.html">Models and cost</a> has the sums). I have not checked how Copilot bills it. What the cache does not fix is the second cost: the model still has to attend to all of that text.</p>
+<p><strong>Tool results are the biggest and the least watched part.</strong> You wrote the prompt, so you know it. The file the agent read, or the log a command printed, you may never have seen. It is still in the context, and the model may act on it.</p>
+<p><strong>An agent is not always the answer.</strong> A loop that decides its own next step costs more and is harder to predict than a fixed series of model calls, or a single call. Anthropic's advice is to find the simplest solution possible and add complexity only when needed (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.</p>
+<p><strong>Do not read the loop as a plan.</strong> The model does not plan the whole path and then follow it. It decides one turn at a time from what it sees. When it goes down a wrong path, it is usually because the result of an earlier turn led it there.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>每一輪都要重讀上下文</strong>。每繞一圈，模型都要把整個上下文再讀一遍，現在多了一個結果。三十輪的任務，就是三十次讀一份越來越長的文字。這就是為什麼 agent 讀什麼，比模型有多聰明更重要，也是為什麼只看<a href="1-1-models-and-cost.html">每個 token 的單價</a>，是看錯了數字。要更正一點：重讀不一定按全價收費。供應商會把重複的開頭快取起來，在 Anthropic 的 API 上，讀快取的價格大約是基本輸入價的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a> 有算式）。Copilot 怎麼計費，我沒有查過。快取解決不了的是第二種成本：模型還是得去注意那麼多文字。</p>
+<p><strong>工具結果是最大、也最少人看的部分</strong>。prompt 是你寫的，所以你知道。agent 讀的檔案，或指令印出的紀錄，你可能從來沒看過。它還是在上下文裡，而模型可能照著做。</p>
+<p><strong>agent 不一定是答案</strong>。自己決定下一步的迴圈，比一串固定的模型呼叫，或單次呼叫，花得更多，也更難預測。Anthropic 的建議是找到最簡單的解法，只在需要時才加複雜度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件工作的步驟從來不變，一個在固定位置呼叫模型的腳本，可能比 agent 更適合你。</p>
+<p><strong>別把迴圈當成計劃來讀</strong>。模型不是先規劃好整條路再照著走。它每一輪都根據看到的東西決定。它走上錯的路，通常是因為前面某一輪的結果把它帶去的。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The reasoning about the loop does not retire while agents work by calling tools. The practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks. I would then drop the hooks, not the loop picture.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>只要 agent 還是靠呼叫工具運作，關於迴圈的推理就不會退役。實務的部分可能會。今天我在四個地方掌舵，是因為平台給我的就是這些。如果平台開始提供原生的辦法，來執行規則、預算或停止條件，我會用那個，不用自己的 hook。那時我會丟掉 hook，不會丟掉迴圈的圖像。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Read this project&#x27;s instruction files and settings. For each rule or limit you find, tell me which of four places it works at: what the agent reads, which tools exist, a check before a tool call, or a check after a tool call. Mark every rule that is only a written request with nothing outside the model enforcing it. List the five rules where a break would matter most. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>讀這個專案的指令檔和設定。你找到的每條規則或限制，都告訴我它作用在四個地方的哪一個：agent 讀什麼、有哪些工具、工具呼叫前的檢查，或工具呼叫後的檢查。把每一條只是寫下來的請求、模型外面沒有任何東西執行它的規則標出來。列出五條壞掉時影響最大的規則。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>. It defines agents as &quot;LLMs autonomously using tools in a loop&quot;.</li>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>, on when a fixed workflow is enough</li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>。它把 agent 定義為「LLM 自主地在迴圈裡使用工具」。</li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>，講什麼時候固定的 workflow 就夠了</li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The loop is the same everywhere, but in the harness you can watch each turn from the side: what is injected into the context, and which call a hook saw and what it answered. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The agent loop, and where you can step in&quot;. Teach me how this harness stands at the four places in the loop: what it puts into the context, which tools it allows, and what its hooks do before and after a call. Open the real files with me and draw how one turn passes through them.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>迴圈到處都一樣，但在 harness 裡，你可以從旁邊看每一輪：什麼被注入了上下文，hook 看到了哪次呼叫、答了什麼。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「agent 循環，和你能插手的地方」這一章。請教我這個 harness 怎麼站在迴圈的四個位置：它把什麼放進上下文、允許哪些工具，以及它的 hook 在呼叫之前和之後做什麼。帶我打開真實的檔案，並畫出一輪怎麼經過它們。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

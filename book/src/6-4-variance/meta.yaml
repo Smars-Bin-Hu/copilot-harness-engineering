@@ -1,0 +1,14 @@
+id: "6.4"
+part: evidence
+title: {en: "One run proves nothing", zh-Hant: "一次運行證明不了什麼"}
+harness_tag: "1.5.50"
+wondering: [12-observe-report]
+sources:
+  - what: "One run per task, four tasks, unequal sides; the usage ratio of about 4.5 and the time ratio of about 6 are one-run figures: trust the direction, not the ratio"
+    where: harness docs/06-cost-optimization.md, section 9, and labs/subagents/README.md
+  - what: "tau-bench proposes pass^k to evaluate the reliability of agent behaviour over multiple trials; strong agents were quite inconsistent (pass^8 under 25% in the retail domain)"
+    where: https://arxiv.org/abs/2406.12045
+    checked: 2026-10-27
+  - what: "Model outputs vary between runs, so run multiple trials; pass@k is the chance of at least one correct solution in k attempts; pass^k falls as k grows because it demands consistency across more trials"
+    where: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+    checked: 2026-10-27

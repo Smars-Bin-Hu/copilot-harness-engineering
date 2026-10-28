@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Harness Engineering with VS Code Copilot</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="index">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+
+<article><header class="book-head"><h1><span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></h1></header><p class="core-note">★ <span data-l="en" lang="en">Core chapters: read only these and you still get the main line of the book.</span><span data-l="zh-Hant" lang="zh-Hant">核心章節：只讀這些，也能讀到全書的主線。</span></p><section class="part"><h2><span data-l="en" lang="en">Part 0 · Getting started</span><span data-l="zh-Hant" lang="zh-Hant">第 0 部 · 入門</span></h2><ol><li><a href="0-1-the-gap-and-the-map.html"><span class="chapter-no">0.1</span> <span data-l="en" lang="en">The gap is outside the model</span><span data-l="zh-Hant" lang="zh-Hant">差距在模型外面</span> <span class="core-mark">★</span></a></li><li><a href="0-2-minimal-harness.html"><span class="chapter-no">0.2</span> <span data-l="en" lang="en">A minimal harness in 30 minutes</span><span data-l="zh-Hant" lang="zh-Hant">30 分鐘搭一個最小 harness</span> <span class="core-mark">★</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 1 · The brain and the hands</span><span data-l="zh-Hant" lang="zh-Hant">第 1 部 · 腦和手</span></h2><ol><li><a href="1-1-models-and-cost.html"><span class="chapter-no">1.1</span> <span data-l="en" lang="en">Choosing a model: cost per finished task</span><span data-l="zh-Hant" lang="zh-Hant">選模型：算的是每次成功的成本</span> <span class="core-mark">★</span></a></li><li><a href="1-2-tool-calling.html"><span class="chapter-no">1.2</span> <span data-l="en" lang="en">Tool calling, and designing tools for an agent</span><span data-l="zh-Hant" lang="zh-Hant">Tool calling，和給 agent 設計工具</span> <span class="core-mark">★</span></a></li><li><a href="1-3-mcp.html"><span class="chapter-no">1.3</span> <span data-l="en" lang="en">MCP servers: a standard plug for tools</span><span data-l="zh-Hant" lang="zh-Hant">MCP server：插工具的標準接口</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 2 · The runtime</span><span data-l="zh-Hant" lang="zh-Hant">第 2 部 · 運行時</span></h2><ol><li><a href="2-1-agent-loop.html"><span class="chapter-no">2.1</span> <span data-l="en" lang="en">The agent loop</span><span data-l="zh-Hant" lang="zh-Hant">agent 循環，和你能插手的地方</span> <span class="core-mark">★</span></a></li><li><a href="2-2-hooks.html"><span class="chapter-no">2.2</span> <span data-l="en" lang="en">Hooks</span><span data-l="zh-Hant" lang="zh-Hant">Hooks：每次呼叫都會經過的執行點</span> <span class="core-mark">★</span></a></li><li><a href="2-3-subagents.html"><span class="chapter-no">2.3</span> <span data-l="en" lang="en">Use subagents sparingly</span><span data-l="zh-Hant" lang="zh-Hant">慎用子 agent</span> <span class="core-mark">★</span></a></li><li><a href="2-4-custom-agents.html"><span class="chapter-no">2.4</span> <span data-l="en" lang="en">Custom agents</span><span data-l="zh-Hant" lang="zh-Hant">Custom agent：固定模型和工具的角色</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 3 · Context</span><span data-l="zh-Hant" lang="zh-Hant">第 3 部 · 上下文</span></h2><ol><li><a href="3-1-context-budget.html"><span class="chapter-no">3.1</span> <span data-l="en" lang="en">Context is a budget</span><span data-l="zh-Hant" lang="zh-Hant">上下文是一份預算</span> <span class="core-mark">★</span></a></li><li><a href="3-2-long-sessions.html"><span class="chapter-no">3.2</span> <span data-l="en" lang="en">Long chats get worse</span><span data-l="zh-Hant" lang="zh-Hant">長對話會變差</span></a></li><li><a href="3-3-instructions-and-skills.html"><span class="chapter-no">3.3</span> <span data-l="en" lang="en">Instructions and skills</span><span data-l="zh-Hant" lang="zh-Hant">指令與 skill：只載入需要的</span> <span class="core-mark">★</span></a></li><li><a href="3-4-skills-and-workflows.html"><span class="chapter-no">3.4</span> <span data-l="en" lang="en">Turn your way of working into skills</span><span data-l="zh-Hant" lang="zh-Hant">把團隊的做法寫成 skill</span></a></li><li><a href="3-5-memory.html"><span class="chapter-no">3.5</span> <span data-l="en" lang="en">What an agent should remember</span><span data-l="zh-Hant" lang="zh-Hant">agent 該記住什麼</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 4 · Control</span><span data-l="zh-Hant" lang="zh-Hant">第 4 部 · 控制</span></h2><ol><li><a href="4-1-requests-and-rules.html"><span class="chapter-no">4.1</span> <span data-l="en" lang="en">A rule in a prompt is a request</span><span data-l="zh-Hant" lang="zh-Hant">提示裡的規則只是請求</span> <span class="core-mark">★</span></a></li><li><a href="4-2-ask-vs-refuse.html"><span class="chapter-no">4.2</span> <span data-l="en" lang="en">Asking is not a limit</span><span data-l="zh-Hant" lang="zh-Hant">詢問不是限制</span> <span class="core-mark">★</span></a></li><li><a href="4-3-guardrails.html"><span class="chapter-no">4.3</span> <span data-l="en" lang="en">Guard the files that hold the rules</span><span data-l="zh-Hant" lang="zh-Hant">保護規則本身的檔案</span></a></li><li><a href="4-4-enforcement-design.html"><span class="chapter-no">4.4</span> <span data-l="en" lang="en">Build the enforcement layer like software</span><span data-l="zh-Hant" lang="zh-Hant">把執行層當軟體來設計</span></a></li><li><a href="4-5-least-privilege.html"><span class="chapter-no">4.5</span> <span data-l="en" lang="en">Some things you never hand over</span><span data-l="zh-Hant" lang="zh-Hant">有些東西根本不給</span></a></li><li><a href="4-6-untrusted-input.html"><span class="chapter-no">4.6</span> <span data-l="en" lang="en">Text the agent reads can give it orders</span><span data-l="zh-Hant" lang="zh-Hant">agent 讀到的文字可能在指揮它</span> <span class="core-mark">★</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 5 · Flow and decisions</span><span data-l="zh-Hant" lang="zh-Hant">第 5 部 · 流程與決策</span></h2><ol><li><a href="5-1-tasks.html"><span class="chapter-no">5.1</span> <span data-l="en" lang="en">Manage tasks, not chats</span><span data-l="zh-Hant" lang="zh-Hant">管任務，不管對話</span> <span class="core-mark">★</span></a></li><li><a href="5-2-requirements.html"><span class="chapter-no">5.2</span> <span data-l="en" lang="en">The agent writes the requirement, the person confirms it</span><span data-l="zh-Hant" lang="zh-Hant">需求由 agent 寫，人確認</span></a></li><li><a href="5-3-two-approvals.html"><span class="chapter-no">5.3</span> <span data-l="en" lang="en">Two gates: where a person approves</span><span data-l="zh-Hant" lang="zh-Hant">兩道門：人在哪裡批准</span> <span class="core-mark">★</span></a></li><li><a href="5-4-self-checks.html"><span class="chapter-no">5.4</span> <span data-l="en" lang="en">Let the agent check its own work</span><span data-l="zh-Hant" lang="zh-Hant">讓 agent 能檢查自己的活</span> <span class="core-mark">★</span></a></li><li><a href="5-5-counted-checks.html"><span class="chapter-no">5.5</span> <span data-l="en" lang="en">Make a pass count</span><span data-l="zh-Hant" lang="zh-Hant">讓「通過」可信</span></a></li><li><a href="5-6-model-checks-model.html"><span class="chapter-no">5.6</span> <span data-l="en" lang="en">Can a model check a model?</span><span data-l="zh-Hant" lang="zh-Hant">模型能檢查模型嗎</span></a></li><li><a href="5-7-when-to-stop.html"><span class="chapter-no">5.7</span> <span data-l="en" lang="en">Unattended: when it must stop</span><span data-l="zh-Hant" lang="zh-Hant">無人值守：什麼時候必須停</span></a></li><li><a href="5-8-long-work.html"><span class="chapter-no">5.8</span> <span data-l="en" lang="en">Long work across sessions</span><span data-l="zh-Hant" lang="zh-Hant">跨會話的長任務</span></a></li><li><a href="5-9-who-decides.html"><span class="chapter-no">5.9</span> <span data-l="en" lang="en">Who decides: code, a cheap model, the main model, a person</span><span data-l="zh-Hant" lang="zh-Hant">誰來判斷：程式、便宜模型、主模型、人</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 6 · Evidence</span><span data-l="zh-Hant" lang="zh-Hant">第 6 部 · 證據</span></h2><ol><li><a href="6-1-observe.html"><span class="chapter-no">6.1</span> <span data-l="en" lang="en">Record what happened, not what the agent said</span><span data-l="zh-Hant" lang="zh-Hant">記下發生了什麼，不是 agent 說了什麼</span> <span class="core-mark">★</span></a></li><li><a href="6-2-task-report.html"><span class="chapter-no">6.2</span> <span data-l="en" lang="en">A report a person can read in five minutes</span><span data-l="zh-Hant" lang="zh-Hant">一份五分鐘讀得完的報告</span></a></li><li><a href="6-3-eval-tasks.html"><span class="chapter-no">6.3</span> <span data-l="en" lang="en">Fixed tasks, scored by a script</span><span data-l="zh-Hant" lang="zh-Hant">固定的任務，用腳本打分</span> <span class="core-mark">★</span></a></li><li><a href="6-4-variance.html"><span class="chapter-no">6.4</span> <span data-l="en" lang="en">One run proves nothing</span><span data-l="zh-Hant" lang="zh-Hant">一次運行證明不了什麼</span></a></li><li><a href="6-5-model-upgrades.html"><span class="chapter-no">6.5</span> <span data-l="en" lang="en">When the model is upgraded, delete</span><span data-l="zh-Hant" lang="zh-Hant">模型升級了，就要刪</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 7 · People</span><span data-l="zh-Hant" lang="zh-Hant">第 7 部 · 人</span></h2><ol><li><a href="7-1-people-and-teams.html"><span class="chapter-no">7.1</span> <span data-l="en" lang="en">People and teams: what stays with a person</span><span data-l="zh-Hant" lang="zh-Hant">人與團隊：留給人的事</span></a></li><li><a href="7-2-many-tasks.html"><span class="chapter-no">7.2</span> <span data-l="en" lang="en">Ten things at once: parallel tasks</span><span data-l="zh-Hant" lang="zh-Hant">同時管十件事：並行的是任務</span></a></li><li><a href="7-3-what-we-cut.html"><span class="chapter-no">7.3</span> <span data-l="en" lang="en">What I cut, and what the data says</span><span data-l="zh-Hant" lang="zh-Hant">我砍掉了什麼，數據怎麼說</span></a></li><li><a href="7-4-rollout-and-governance.html"><span class="chapter-no">7.4</span> <span data-l="en" lang="en">Roll out and govern a harness</span><span data-l="zh-Hant" lang="zh-Hant">落地與治理</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Part 8 · Case study: a knowledge base from code</span><span data-l="zh-Hant" lang="zh-Hant">第 8 部 · 案例：從程式碼建知識庫</span></h2><ol><li><a href="8-1-why-a-knowledge-base.html"><span class="chapter-no">8.1</span> <span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span></a></li><li><a href="8-2-kb-toolkit.html"><span class="chapter-no">8.2</span> <span data-l="en" lang="en">The toolkit: scripts that draw a map of the code</span><span data-l="zh-Hant" lang="zh-Hant">Toolkit：用腳本畫出程式碼的地圖</span></a></li><li><a href="8-3-kb-audit.html"><span class="chapter-no">8.3</span> <span data-l="en" lang="en">Is the map right? A blind audit</span><span data-l="zh-Hant" lang="zh-Hant">地圖對不對：盲抽查</span></a></li><li><a href="8-4-kb-learning.html"><span class="chapter-no">8.4</span> <span data-l="en" lang="en">Learning a domain in batches</span><span data-l="zh-Hant" lang="zh-Hant">分批學一個領域</span></a></li><li><a href="8-5-kb-keep-true.html"><span class="chapter-no">8.5</span> <span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span></a></li></ol></section><section class="part"><h2><span data-l="en" lang="en">Appendices</span><span data-l="zh-Hant" lang="zh-Hant">附錄</span></h2><ol><li><a href="a-extension-points.html"><span class="chapter-no">A</span> <span data-l="en" lang="en">Extension points cheat sheet</span><span data-l="zh-Hant" lang="zh-Hant">擴充點速查表</span></a></li><li><a href="b-troubleshooting.html"><span class="chapter-no">B</span> <span data-l="en" lang="en">Troubleshooting</span><span data-l="zh-Hant" lang="zh-Hant">排錯</span></a></li><li><a href="c-patterns.html"><span class="chapter-no">C</span> <span data-l="en" lang="en">Patterns you can copy</span><span data-l="zh-Hant" lang="zh-Hant">可以照抄的模式</span></a></li></ol></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350">
+  <rect class="box-lit" x="20" y="10" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="33" text-anchor="middle" data-t="evidence">x</text>
+  <text class="label-muted" x="205" y="33" data-t="q-evidence">x</text>
+  <rect class="box-lit" x="20" y="54" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="77" text-anchor="middle" data-t="flow">x</text>
+  <text class="label-muted" x="205" y="77" data-t="q-flow">x</text>
+  <rect class="box-lit" x="20" y="98" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="121" text-anchor="middle" data-t="control">x</text>
+  <text class="label-muted" x="205" y="121" data-t="q-control">x</text>
+  <rect class="box-lit" x="20" y="142" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="165" text-anchor="middle" data-t="context">x</text>
+  <text class="label-muted" x="205" y="165" data-t="q-context">x</text>
+  <rect class="box" x="20" y="186" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="209" text-anchor="middle" data-t="runtime">x</text>
+  <text class="label-muted" x="205" y="209" data-t="q-runtime">x</text>
+  <rect class="box" x="20" y="230" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="253" text-anchor="middle" data-t="tools">x</text>
+  <text class="label-muted" x="205" y="253" data-t="q-tools">x</text>
+  <rect class="box" x="20" y="274" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="297" text-anchor="middle" data-t="model">x</text>
+  <text class="label-muted" x="205" y="297" data-t="q-model">x</text>
+  <text class="label-lit" x="20" y="332" data-t="legend-up">x</text>
+  <text class="label-muted" x="300" y="332" data-t="legend-down">x</text>
+</svg>

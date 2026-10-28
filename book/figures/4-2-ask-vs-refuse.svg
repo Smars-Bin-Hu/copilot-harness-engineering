@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="22" data-t="ask-title">x</text>
+  <rect class="box" x="10" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="62" text-anchor="middle" data-t="call">x</text>
+  <path class="line" d="M180 57 H200"/>
+  <path class="head" d="M200 51 L210 57 L200 63 Z"/>
+  <rect class="box-plain" x="210" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="295" y="62" text-anchor="middle" data-t="box">x</text>
+  <path class="line" d="M380 57 H400"/>
+  <path class="head" d="M400 51 L410 57 L400 63 Z"/>
+  <rect class="box" x="410" y="34" width="130" height="46" rx="8"/>
+  <text class="label" x="475" y="62" text-anchor="middle" data-t="runs">x</text>
+  <text class="label-muted" x="295" y="100" text-anchor="middle" data-t="click">x</text>
+
+  <text class="label-muted" x="10" y="150" data-t="refuse-title">x</text>
+  <rect class="box" x="10" y="162" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="190" text-anchor="middle" data-t="call">x</text>
+  <path class="line-lit" d="M180 185 H200"/>
+  <path class="head-lit" d="M200 179 L210 185 L200 191 Z"/>
+  <rect class="box-lit" x="210" y="162" width="170" height="46" rx="8"/>
+  <text class="label-lit" x="295" y="190" text-anchor="middle" data-t="refusal">x</text>
+  <path class="line-lit" d="M380 185 H400"/>
+  <path class="head-lit" d="M400 179 L410 185 L400 191 Z"/>
+  <rect class="box" x="410" y="162" width="180" height="46" rx="8"/>
+  <text class="label" x="500" y="190" text-anchor="middle" data-t="reroute">x</text>
+  <text class="label-muted" x="295" y="228" text-anchor="middle" data-t="why">x</text>
+</svg>

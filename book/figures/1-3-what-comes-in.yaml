@@ -1,0 +1,16 @@
+en:
+  server: "MCP server"
+  agent: "your agent"
+  i1: "its code, on your machine"
+  i2: "your permissions, used by it"
+  i3: "its text, which the model reads"
+  i4: "its tool list, in every call"
+  caption: "Plugging in a server is adding a dependency. Four things come in with it."
+zh-Hant:
+  server: "MCP server"
+  agent: "你的 agent"
+  i1: "它的程式碼，跑在你的機器上"
+  i2: "你的權限，被它使用"
+  i3: "它的文字，模型會讀"
+  i4: "它的工具清單，每次呼叫都帶著"
+  caption: "接上一個 server，就是多了一個依賴。有四樣東西跟著進來。"

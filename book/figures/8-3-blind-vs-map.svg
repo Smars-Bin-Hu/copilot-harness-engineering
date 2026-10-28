@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">x</text>
+  <text class="label-muted" x="100" y="80" text-anchor="middle" data-t="miss-note">x</text>
+
+  <rect class="box-lit" x="200" y="20" width="200" height="90" rx="8"/>
+  <text class="label-lit" x="300" y="58" text-anchor="middle" data-t="both">x</text>
+  <text class="label-lit" x="300" y="80" text-anchor="middle" data-t="both-note">x</text>
+
+  <rect class="box-plain" x="410" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="500" y="58" text-anchor="middle" data-t="fake">x</text>
+  <text class="label-muted" x="500" y="80" text-anchor="middle" data-t="fake-note">x</text>
+
+  <path class="line" d="M10 130 V140 H400 V130"/>
+  <text class="label" x="205" y="164" text-anchor="middle" data-t="recall">x</text>
+  <text class="label-muted" x="205" y="182" text-anchor="middle" data-t="recall-note">x</text>
+
+  <path class="line" d="M200 196 V206 H590 V196"/>
+  <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">x</text>
+</svg>

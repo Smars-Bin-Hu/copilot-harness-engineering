@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Long work across sessions</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.8</p><h1><span data-l="en" lang="en">Long work across sessions</span><span data-l="zh-Hant" lang="zh-Hant">跨會話的長任務</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know the task folder from <a href="5-1-tasks.html">Manage tasks, not chats</a>, and that a chat gets shortened or ends (<a href="3-2-long-sessions.html">Long chats get worse</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要知道 <a href="5-1-tasks.html">管任務，不管對話</a> 裡的任務資料夾，也要知道對話會被縮短或結束（<a href="3-2-long-sessions.html">長對話會變差</a>）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Long work survives across sessions only if its memory is in files: the requirement, the plan, the to-do list, the handover file. Split big work into tasks small enough to accept one by one.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>長時間的工作要能跨會話撐下去，它的記憶就必須放在檔案裡：需求、計畫、待辦清單、交接檔。把大工作拆成小到能一個一個驗收的任務。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> for work that spans days, decide that its memory lives in files, and that big work is split into tasks small enough to accept one by one.</li>
+<li><strong>The risk:</strong> a new session knows nothing unless a file tells it. A big job handed over in one go gets started all at once and left half done, and a later session can see progress and call the job done too early. In my setup a person's &quot;passed&quot; on a step is only text, with nothing in code behind it. That is the weakest link.</li>
+<li><strong>The cost of doing it right:</strong> files cost effort: every step writes a little and a new session reads a little. For a job that fits in one session it is waste. I have not measured what a goal saves over starting a new chat.</li>
+<li><strong>Ask the team:</strong> &quot;For our longest-running job, which file tells a new session what step it is on, and who accepted the steps so far?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：對跨好幾天的工作，決定它的記憶放在檔案裡，並把大工作拆成小到能一個一個驗收的任務。</li>
+<li><strong>風險</strong>：新的會話什麼都不知道，除非有檔案告訴它。一次交出去的大工作，會被一次全部開工、做到一半就丟著，之後的會話也可能看到有進展，就太早說工作做完了。在我的設定裡，人對一步說的「通過」只是文字，程式裡沒有任何東西撐著。這是最弱的一環。</li>
+<li><strong>做對的成本</strong>：檔案要花力氣：每一步寫一點，新的會話讀一點。對一個一次會話就做得完的工作，這是浪費。一個目標比起開新對話省多少，我沒有量過。</li>
+<li><strong>可以問團隊</strong>：「對我們跑得最久的那項工作，哪個檔案告訴新的會話它在哪一步？到目前為止的步驟，是誰驗收的？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A job that takes three days will not fit in one chat. The first session ends. Or the tool shortens it to make room, and the details go. A new session knows nothing, unless something tells it.</p>
+<p>What can tell it? Not the agent's memory: it has none between sessions. Not your memory either, if you have to explain the background again every morning, and explain it slightly differently each time. The only thing that is the same every morning is a file.</p>
+<p>There is a second problem, and it comes from the size of the job. Handed a big job in one go, an agent tends to start everything at once, run out of room halfway, and leave things half done. Anthropic saw the same on a long coding project: &quot;the agent tended to try to do too much at once&quot; (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>). The same article describes the opposite failure, a later instance that would &quot;declare the job done&quot; too early; that one is the subject of <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>要花三天的工作，一次對話裝不下。第一個會話結束了。或者工具為了騰出空間把它縮短，細節就沒了。新的會話什麼都不知道，除非有東西告訴它。</p>
+<p>什麼能告訴它？不是 agent 的記憶：它在會話之間沒有記憶。也不是你的記憶，如果你每天早上都得重新解釋一次背景，而且每次說得都有點不一樣。每天早上唯一一樣的東西，是一個檔案。</p>
+<p>還有第二個問題，來自工作的大小。一次拿到大工作的 agent，傾向於一次全部開工，做到一半空間用完，留下一堆做到一半的東西。Anthropic 在一個長時間的寫程式專案上看到同樣的事：「agent 傾向一次做太多」（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。同一篇文章也描述了相反的失敗：後來的實例太早「宣布工作完成」；那個是 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a> 的主題。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What a conversation loses</h3>
+<p>A conversation holds four things that a later session needs: what was asked, what was decided and why, how far the work has got, and what comes next. When the conversation is shortened or ended, all four are at risk, and the agent does not know which ones it lost.</p>
+<h3>What goes in the folder</h3>
+<p>Put those four things where they cannot be shortened.</p>
+<figure class="fig steps" id="fig-5-8-shared-folder" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="210" y="30" width="180" height="190" rx="12"/>
+  <text class="label-lit" x="300" y="55" text-anchor="middle" data-t="folder">the task folder</text>
+  <rect class="box" x="230" y="70" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="90" text-anchor="middle" data-t="f1">requirement</text>
+  <rect class="box" x="230" y="108" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="128" text-anchor="middle" data-t="f2">plan</text>
+  <rect class="box" x="230" y="146" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="166" text-anchor="middle" data-t="f3">to-do list</text>
+  <rect class="box" x="230" y="184" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="204" text-anchor="middle" data-t="f4">progress</text>
+  <g data-step="2">
+  <rect class="box" x="10" y="95" width="120" height="60" rx="8"/>
+  <text class="label" x="70" y="122" text-anchor="middle" data-t="s1">session 1</text>
+  <text class="label-muted" x="70" y="141" text-anchor="middle" data-t="s1n">Monday</text>
+  <path class="line-lit" d="M130 125 H200"/>
+  <path class="head-lit" d="M200 119 L210 125 L200 131 Z"/>
+  <text class="label-muted" x="170" y="115" text-anchor="middle" data-t="writes">writes</text>
+  </g>
+  <g data-step="3">
+  <rect class="box-plain" x="10" y="95" width="120" height="60" rx="8"/>
+  <text class="label-muted" x="70" y="170" text-anchor="middle" data-t="gone">its chat is gone</text>
+  </g>
+  <g data-step="4">
+  <rect class="box" x="470" y="95" width="120" height="60" rx="8"/>
+  <text class="label" x="530" y="122" text-anchor="middle" data-t="s2">session 2</text>
+  <text class="label-muted" x="530" y="141" text-anchor="middle" data-t="s2n">Thursday</text>
+  <path class="line-lit" d="M400 125 H460"/>
+  <path class="head-lit" d="M400 119 L390 125 L400 131 Z"/>
+  <text class="label-muted" x="430" y="115" text-anchor="middle" data-t="reads">reads</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The memory of the work lives in one folder: the requirement, the plan, the to-do list and the progress.</li><li data-step-text="2">The first session works, and writes what it did and what comes next into the folder.</li><li data-step-text="3">The session ends, or its chat is shortened. What it held in its head is gone.</li><li data-step-text="4">A new session, days later, starts by reading the folder and carries on.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Sessions come and go. The folder stays, and it is the only memory the work has.</figcaption></figure>
+<ul>
+<li><strong>The requirement:</strong> what was asked, in a form a person confirmed (<a href="5-2-requirements.html">The requirement on one page</a>).</li>
+<li><strong>The plan:</strong> how the work will be done, and what is out of scope.</li>
+<li><strong>The to-do list:</strong> steps, each small, each with a status and a way to tell it is done.</li>
+<li><strong>The handover:</strong> one short <strong>handover file</strong> (the one from <a href="5-1-tasks.html">Manage tasks, not chats</a>, which also explains why the disk wins; Anthropic calls its version a progress file) that says which step it is at and what comes next. It has to stay short, within one screen, or a new session spends its room reading it.</li>
+</ul>
+<p>A fifth item helps: a change log, one entry per step finished, saying what changed. When someone asks &quot;why is it like this?&quot;, the answer is there.</p>
+<h3>What a new session reads</h3>
+<p>A new session reads the short handover file first, then the to-do list, and only then what the current step needs. It does not read the whole folder. Then it checks the file against the disk: does the file really exist, did the step really happen? <strong>When the record and the disk disagree, the disk wins.</strong> A handover file that says &quot;step 4 done&quot; does not make step 4 done.</p>
+<p>Anthropic's team did three things I do not do the same way. They had the agent commit to git after each step, so every step left a clean state to return to. They had each new session first run a basic end-to-end test before starting new work, which is a check of the old state, not only a read of the file. And they kept the feature list in JSON, because the model was less likely to change a JSON file by mistake than a Markdown one. My files are Markdown, and I have not compared the two.</p>
+<h3>Build the frame first, then step by step</h3>
+<p>Do not start with the work. Start with the frame:</p>
+<ol>
+<li>Settle the central idea: goal, what is in scope, what is not, how the whole will be accepted.</li>
+<li>Break it into small steps.</li>
+<li>Have a person read both and confirm.</li>
+<li>Then do one step: do it, check it, hand it to the person.</li>
+<li>A step is done only when the person says it passed. Then write the log entry, update the handover file, and move to the next.</li>
+</ol>
+<p>The person's &quot;passed&quot; is a gate (<a href="5-3-two-approvals.html">Two gates</a>). In my setup that is text, not code: nothing in code stops an agent from writing &quot;passed&quot; for itself. I rely on the agent following the instruction, and on the person reading. This is a gap I know about.</p>
+<h3>What is too big, and how to split it</h3>
+<p>Most jobs are one task, and a goal is for the rest. A job is too big for one task when one of these is true (these three are my rules of thumb, not tested):</p>
+<ul>
+<li>It cannot finish in one session, and nobody can say how far along it is.</li>
+<li>You cannot say how you would accept the whole of it at once.</li>
+<li>The plan keeps changing as you learn more.</li>
+</ul>
+<p>The fix is a <strong>goal</strong>: the big thing as one set of files, with a few <strong>tasks</strong> under it. A task is one delivery, as in <a href="5-1-tasks.html">Manage tasks, not chats</a>: one folder, its own checks, its own acceptance. The goal holds the idea and the list; each task does one piece.</p>
+<figure class="fig" id="fig-5-8-goal-tasks"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-lit" x="130" y="20" width="340" height="60" rx="10"/>
+  <text class="label-lit" x="300" y="46" text-anchor="middle" data-t="goal">one goal</text>
+  <text class="label-lit" x="300" y="65" text-anchor="middle" data-t="goal-n">idea, list of steps, progress pointer</text>
+  <path class="line" d="M300 80 V100"/>
+  <path class="line" d="M75 100 H525"/>
+  <path class="line" d="M75 100 V120 M225 100 V120 M375 100 V120 M525 100 V120"/>
+  <rect class="box" x="15" y="120" width="120" height="56" rx="8"/>
+  <text class="label" x="75" y="144" text-anchor="middle" data-t="t1">task 1</text>
+  <text class="label-muted" x="75" y="163" text-anchor="middle" data-t="t1n">accepted</text>
+  <rect class="box-lit" x="165" y="120" width="120" height="56" rx="8"/>
+  <text class="label-lit" x="225" y="144" text-anchor="middle" data-t="t2">task 2</text>
+  <text class="label-lit" x="225" y="163" text-anchor="middle" data-t="t2n">in progress</text>
+  <rect class="box-plain" x="315" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="375" y="144" text-anchor="middle" data-t="t3">task 3</text>
+  <rect class="box-plain" x="465" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="525" y="144" text-anchor="middle" data-t="t4">task 4</text>
+  <text class="label-muted" x="300" y="208" text-anchor="middle" data-t="note">Each task is small enough to check and accept on its own.</text>
+</svg>
+<figcaption>A big job is one goal with a few tasks under it. One task at a time is done, checked and accepted.</figcaption></figure>
+<p>A good task is small enough that you can say, in a sentence, how you will accept it. The goal does not need to know the details of task 3 while you work on task 2. That is the point: the plan is allowed to change, one task at a time, without redoing what has been accepted. Steps already accepted are not rewritten; a redo is a new step.</p>
+<h3>Common traps</h3>
+<ul>
+<li><strong>All at once.</strong> The agent tries to finish the goal in one session. The fix is the list: only one step is active.</li>
+<li><strong>Done said too early.</strong> A new session sees progress and decides it is finished. The fix is the same as for unattended work (<a href="5-7-when-to-stop.html">when to stop</a>): done is a state the files and the person confirm, not a thing the agent says.</li>
+<li><strong>A long handover file.</strong> If the pointer grows past a screen, it stops being read. Move detail to the log.</li>
+<li><strong>Making a goal for a small job.</strong> Most jobs need one task. A goal is for work that spans sessions and changes shape.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>對話會丟掉什麼</h3>
+<p>一段對話裝著後來的會話需要的四樣東西：被要求做什麼、決定了什麼和為什麼、工作做到哪裡、接下來是什麼。對話被縮短或結束時，這四樣都有風險，而 agent 不知道自己丟了哪些。</p>
+<h3>資料夾裡放什麼</h3>
+<p>把這四樣東西放在不會被縮短的地方。</p>
+<figure class="fig steps" id="fig-5-8-shared-folder" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="210" y="30" width="180" height="190" rx="12"/>
+  <text class="label-lit" x="300" y="55" text-anchor="middle" data-t="folder">任務資料夾</text>
+  <rect class="box" x="230" y="70" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="90" text-anchor="middle" data-t="f1">需求</text>
+  <rect class="box" x="230" y="108" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="128" text-anchor="middle" data-t="f2">計畫</text>
+  <rect class="box" x="230" y="146" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="166" text-anchor="middle" data-t="f3">待辦清單</text>
+  <rect class="box" x="230" y="184" width="140" height="30" rx="5"/>
+  <text class="label" x="300" y="204" text-anchor="middle" data-t="f4">進度</text>
+  <g data-step="2">
+  <rect class="box" x="10" y="95" width="120" height="60" rx="8"/>
+  <text class="label" x="70" y="122" text-anchor="middle" data-t="s1">第 1 個會話</text>
+  <text class="label-muted" x="70" y="141" text-anchor="middle" data-t="s1n">週一</text>
+  <path class="line-lit" d="M130 125 H200"/>
+  <path class="head-lit" d="M200 119 L210 125 L200 131 Z"/>
+  <text class="label-muted" x="170" y="115" text-anchor="middle" data-t="writes">寫入</text>
+  </g>
+  <g data-step="3">
+  <rect class="box-plain" x="10" y="95" width="120" height="60" rx="8"/>
+  <text class="label-muted" x="70" y="170" text-anchor="middle" data-t="gone">對話已消失</text>
+  </g>
+  <g data-step="4">
+  <rect class="box" x="470" y="95" width="120" height="60" rx="8"/>
+  <text class="label" x="530" y="122" text-anchor="middle" data-t="s2">第 2 個會話</text>
+  <text class="label-muted" x="530" y="141" text-anchor="middle" data-t="s2n">週四</text>
+  <path class="line-lit" d="M400 125 H460"/>
+  <path class="head-lit" d="M400 119 L390 125 L400 131 Z"/>
+  <text class="label-muted" x="430" y="115" text-anchor="middle" data-t="reads">讀取</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">這件事的記憶放在一個資料夾裡：需求、計畫、待辦清單和進度。</li><li data-step-text="2">第一個會話做事，把做了什麼、下一步是什麼寫進資料夾。</li><li data-step-text="3">會話結束，或對話被縮短。它腦子裡記的東西沒有了。</li><li data-step-text="4">幾天後的新會話，先讀資料夾，再接著做。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>會話來了又走，資料夾留下來，它是這件事唯一的記憶。</figcaption></figure>
+<ul>
+<li><strong>需求</strong>：被要求做什麼，以人確認過的形式（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。</li>
+<li><strong>計畫</strong>：工作要怎麼做，以及什麼不在範圍內。</li>
+<li><strong>待辦清單</strong>：一步一步，每步都小，每步都有狀態，也有辦法判斷它做完了沒。</li>
+<li><strong>交接</strong>：一份簡短的<strong>交接檔</strong>（就是 <a href="5-1-tasks.html">管任務，不管對話</a> 裡的那個，那裡也解釋了為什麼以磁碟為準；Anthropic 把它的版本叫做 progress file），說明目前在哪一步、接下來是什麼。它必須保持簡短，一個畫面以內，不然新的會話會把空間花在讀它上面。</li>
+</ul>
+<p>第五樣東西也有幫助：變更紀錄，每完成一步寫一條，說明改了什麼。有人問「為什麼是這樣？」，答案就在那裡。</p>
+<h3>新的會話讀什麼</h3>
+<p>新的會話先讀簡短的交接檔，再讀待辦清單，然後才讀目前這一步需要的東西。它不讀整個資料夾。接著它拿檔案對照磁碟：檔案真的存在嗎？這一步真的發生過嗎？<strong>紀錄和磁碟不一致時，以磁碟為準</strong>。寫著「第 4 步完成」的交接檔，不會讓第 4 步完成。</p>
+<p>Anthropic 的團隊做了三件事，我的做法不一樣。他們讓 agent 每做完一步就 commit 到 git，所以每一步都留下一個乾淨、可以回去的狀態。他們讓每個新的會話，在開始新工作之前先跑一個基本的端到端測試，這是對舊狀態的檢查，不只是讀檔案。而且他們把功能清單放在 JSON 裡，因為模型誤改 JSON 檔案的機會，比誤改 Markdown 小。我的檔案是 Markdown，兩者我沒有比較過。</p>
+<h3>先搭框架，再一步一步來</h3>
+<p>不要從工作開始。從框架開始：</p>
+<ol>
+<li>定下核心想法：目標、範圍內有什麼、沒有什麼、整體怎麼驗收。</li>
+<li>拆成小步驟。</li>
+<li>讓人讀這兩樣並確認。</li>
+<li>然後做一步：做、檢查、交給人。</li>
+<li>一步要等人說通過才算做完。然後寫變更紀錄、更新交接檔，再進入下一步。</li>
+</ol>
+<p>人的「通過」是一道門（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。在我的設定裡，那是文字，不是程式：程式裡沒有任何東西阻止 agent 替自己寫下「通過」。我靠的是 agent 遵守指令，以及人去讀。這是我知道的一個缺口。</p>
+<h3>什麼算太大，怎麼拆</h3>
+<p>大多數工作是一個任務，目標是留給其餘的。一個工作在以下任一種情況為真時，對一個任務來說就太大了（這三條是我的經驗法則，沒有測過）：</p>
+<ul>
+<li>一次會話做不完，而且沒人說得出做到多少了。</li>
+<li>你說不出要怎麼一次驗收整件事。</li>
+<li>隨著你學到更多，計畫一直在變。</li>
+</ul>
+<p>解法是一個<strong>目標</strong>：把大事情做成一組檔案，底下有幾個<strong>任務</strong>。一個任務是一次交付，就像 <a href="5-1-tasks.html">管任務，不管對話</a> 裡那樣：一個資料夾、自己的檢查、自己的驗收。目標放想法和清單；每個任務做一塊。</p>
+<figure class="fig" id="fig-5-8-goal-tasks"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-lit" x="130" y="20" width="340" height="60" rx="10"/>
+  <text class="label-lit" x="300" y="46" text-anchor="middle" data-t="goal">一個目標</text>
+  <text class="label-lit" x="300" y="65" text-anchor="middle" data-t="goal-n">核心想法、步驟清單、進度指標</text>
+  <path class="line" d="M300 80 V100"/>
+  <path class="line" d="M75 100 H525"/>
+  <path class="line" d="M75 100 V120 M225 100 V120 M375 100 V120 M525 100 V120"/>
+  <rect class="box" x="15" y="120" width="120" height="56" rx="8"/>
+  <text class="label" x="75" y="144" text-anchor="middle" data-t="t1">任務 1</text>
+  <text class="label-muted" x="75" y="163" text-anchor="middle" data-t="t1n">已驗收</text>
+  <rect class="box-lit" x="165" y="120" width="120" height="56" rx="8"/>
+  <text class="label-lit" x="225" y="144" text-anchor="middle" data-t="t2">任務 2</text>
+  <text class="label-lit" x="225" y="163" text-anchor="middle" data-t="t2n">進行中</text>
+  <rect class="box-plain" x="315" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="375" y="144" text-anchor="middle" data-t="t3">任務 3</text>
+  <rect class="box-plain" x="465" y="120" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="525" y="144" text-anchor="middle" data-t="t4">任務 4</text>
+  <text class="label-muted" x="300" y="208" text-anchor="middle" data-t="note">每個任務都小到可以單獨檢查、單獨驗收。</text>
+</svg>
+<figcaption>大事是一個目標，底下幾個任務。一次做完、檢查、驗收一個任務。</figcaption></figure>
+<p>好的任務小到你能用一句話說出怎麼驗收它。你在做任務 2 的時候，目標不需要知道任務 3 的細節。重點就在這裡：計畫可以一次改一個任務，不必重做已驗收的東西。已經驗收的步驟不會被改寫；重做是新的一步。</p>
+<h3>常見的陷阱</h3>
+<ul>
+<li><strong>一次全部開工</strong>。agent 想在一次會話裡完成整個目標。解法是清單：同一時間只有一步在進行。</li>
+<li><strong>太早說做完了</strong>。新的會話看到進展，就判定做完了。解法和無人值守的工作一樣（<a href="5-7-when-to-stop.html">什麼時候停</a>）：做完是檔案和人確認的一個狀態，不是 agent 說的一句話。</li>
+<li><strong>交接檔太長</strong>。如果指標長過一個畫面，就沒人讀了。把細節移到變更紀錄。</li>
+<li><strong>為小工作建立目標</strong>。大多數工作只需要一個任務。目標是留給跨會話、而且會改變形狀的工作。</li>
+</ul>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Files cost effort.</strong> Every step writes a little, and a new session reads a little. For a job that fits in one session, it is waste.</p>
+<p><strong>A person's &quot;passed&quot; is only text.</strong> <a href="5-3-two-approvals.html">Two gates</a> binds an approval to the exact plan, and code checks it. The &quot;passed&quot; of a step here is not bound to anything; nothing in code stops an agent from writing it. It is the weakest link in this chapter.</p>
+<p><strong>Files can lie.</strong> The agent writes them, so they can be wrong or stale. That is why the disk wins, and why the person accepts step by step.</p>
+<p><strong>Who starts it matters.</strong> In my setup only the person starts a goal. An agent may suggest it when a job looks long, but cannot begin one. Otherwise every job would become a project.</p>
+<p><strong>What I have not measured.</strong> How much a goal saves over just starting a new chat and explaining. I think it saves the most when the job changes shape, but I have no numbers.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>檔案要花力氣</strong>。每一步寫一點，新的會話讀一點。對一個一次會話就做得完的工作，這是浪費。</p>
+<p><strong>人的「通過」只是文字</strong>。<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 把批准綁到確切的計畫，由程式檢查。這裡一步的「通過」沒有綁定到任何東西；程式裡沒有任何東西阻止 agent 寫下它。這是這一章最弱的一環。</p>
+<p><strong>檔案會說謊</strong>。檔案是 agent 寫的，所以可能是錯的或過期的。這就是為什麼以磁碟為準，也是為什麼人要一步一步驗收。</p>
+<p><strong>誰來開始很重要</strong>。在我的設定裡，只有人能開始一個目標。agent 看到工作很長時可以建議，但不能自己開始。不然每個工作都會變成專案。</p>
+<p><strong>我沒量過的</strong>。一個目標比起直接開新對話再重新解釋，省了多少。我認為當工作改變形狀時，省得最多，但我沒有數字。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If the platform keeps a trustworthy memory of a long job across sessions, so that a new session can resume without reading files, the handover file can go. I would keep the requirement and the plan as files anyway: a person can read them too, and that is how you accept the work.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果平台能跨會話，為長工作保有可信的記憶，讓新的會話不必讀檔案就能接著做，交接檔就可以拿掉。需求和計畫我還是會留成檔案：人也讀得了它們，而驗收工作靠的就是這個。</p>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The task folder and the goal files run in Copilot Harness. The harness can teach them to you from the inside, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Long work across sessions&quot;. Teach me how this harness keeps long work in files (topic 9): the task folder, the handover file a new session reads, and the goal that groups several tasks. Open real files with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>任務資料夾和目標檔案，都在 Copilot Harness 裡執行。harness 可以從裡面教你這些，附上真實的檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「跨會話的長任務」這一章。請教我這個 harness 怎麼把長工作放在檔案裡（主題 9）：任務資料夾、新的會話讀的交接檔，以及把幾個任務組在一起的目標。帶我打開真實的檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

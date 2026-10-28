@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+  <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
+  <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">x</text>
+  <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">x</text>
+  <text class="label-big" x="259" y="84" text-anchor="middle" data-t="plus">x</text>
+  <rect class="box" x="273" y="40" width="235" height="70" rx="6"/>
+  <text class="label" x="390" y="68" text-anchor="middle" data-t="write">x</text>
+  <text class="label-muted" x="390" y="90" text-anchor="middle" data-t="write-note">x</text>
+  <text class="label-big" x="522" y="84" text-anchor="middle" data-t="times">x</text>
+  <rect class="box-plain" x="536" y="40" width="166" height="70" rx="6"/>
+  <text class="label" x="619" y="68" text-anchor="middle" data-t="redo">x</text>
+  <text class="label-muted" x="619" y="90" text-anchor="middle" data-t="redo-note">x</text>
+  <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">x</text>
+</svg>

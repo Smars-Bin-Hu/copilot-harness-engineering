@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>People and teams: what stays with a person</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.1</p><h1><span data-l="en" lang="en">People and teams: what stays with a person</span><span data-l="zh-Hant" lang="zh-Hant">人與團隊：留給人的事</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. The rules, their owners and their review are in <a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。規則、規則的負責人和審查，在 <a href="7-4-rollout-and-governance.html">落地與治理</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>With an agent doing more, a person's work moves up to four judgments: what to do, what is allowed, where to say yes, and whether the result is good. A new teammate needs one habit and one real task, not the full tour.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 做得越多，人的工作就上移成四個判斷：做什麼、允許什麼、在哪裡說好、結果好不好。新同事需要的是一個習慣和一個真實的任務，不是整套導覽。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide who in the team makes each of the four judgments, and decide that a newcomer starts with one habit and one real task.</li>
+<li><strong>The risk:</strong> I have no numbers. The risk I can name is this: if the first hour is the full tour, a newcomer decides the setup is heavy and goes back to what they did before. And a setup that holds only if every person reads the rules is weaker than one that refuses the dangerous thing by itself.</li>
+<li><strong>The cost of doing it right:</strong> a first hour per newcomer, plus the time to pick one small task from the team's own work.</li>
+<li><strong>Ask the team:</strong> &quot;Who decides what is allowed, where a person must say yes, and whether the result is good, and what does a new person do in their first hour?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定團隊裡誰來做這四個判斷各自的那一個，並決定新人從一個習慣和一個真實的任務開始。</li>
+<li><strong>風險</strong>：我沒有數字。我能說出名字的風險是：如果第一個小時是完整導覽，新人會認定這套設定很重，然後回到原本的做法。而且，一套要每個人都讀了規則才成立的設定，比一套自己拒絕危險事情的設定弱。</li>
+<li><strong>做對的成本</strong>：每個新人一個小時，加上從團隊自己的工作裡挑一個小任務的時間。</li>
+<li><strong>可以問團隊</strong>：「誰決定什麼是允許的、哪裡必須有人說好、結果好不好？新人的第一個小時做什麼？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When one person uses an agent, the person does all four jobs without noticing. They know what they want, they know what the agent may touch, they decide when to stop and look, and they judge the result. Hand the setup to a team and these jobs have to be assigned, or nobody does them.</p>
+<p>There is a second problem, and it is about people, not rules. <strong>Some colleagues will not read anything.</strong> They did not ask for an agent. If their first hour is a lecture, they go back to what they did before.</p>
+<p>I should be honest about my own position. I built my setup for one person and I have not run a team rollout with measurements. What follows is a design built from what the setup already does and from my own use. Where something is only a proposal, I say so.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>一個人用 agent 的時候，這四件事都是這個人在做，自己沒注意到。他知道自己要什麼，知道 agent 可以碰什麼，決定什麼時候停下來看，並判斷結果。把設定交給一個團隊，這些工作就得分配出去，不然沒人做。</p>
+<p>還有第二個問題，它是關於人，不是關於規則。<strong>有些同事什麼都不會讀</strong>。他們沒有要求要一個 agent。如果他們的第一個小時是一場演講，他們會回到原本的做法。</p>
+<p>我該誠實說明自己的位置。我的設定是為一個人建的，我沒有帶著測量，做過團隊落地。下面是一個設計，根據設定已經在做的事，和我自己的使用建成的。只是提議的地方，我會說。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What stays with a person</h3>
+<p>First, what the people are for. The more the agent does, the more a person's work moves up, away from typing and toward four judgments the agent cannot make for you.</p>
+<figure class="fig" id="fig-7-1-person-moves-up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260">
+  <text class="label-muted" x="160" y="22" text-anchor="middle" data-t="agent-head">the agent does more of</text>
+  <text class="label-muted" x="520" y="22" text-anchor="middle" data-t="person-head">the person keeps</text>
+  <rect class="box-plain" x="10" y="40" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="65" text-anchor="middle" data-t="a1">reading and searching code</text>
+  <rect class="box-plain" x="10" y="90" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="115" text-anchor="middle" data-t="a2">writing the changes</text>
+  <rect class="box-plain" x="10" y="140" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="165" text-anchor="middle" data-t="a3">running the steps</text>
+  <rect class="box-plain" x="10" y="190" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="215" text-anchor="middle" data-t="a4">fixing what its own checks find</text>
+  <rect class="box-lit" x="370" y="40" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="65" text-anchor="middle" data-t="p1">what to do</text>
+  <rect class="box-lit" x="370" y="90" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="115" text-anchor="middle" data-t="p2">what is allowed (the rules)</text>
+  <rect class="box-lit" x="370" y="140" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="165" text-anchor="middle" data-t="p3">where to say yes</text>
+  <rect class="box-lit" x="370" y="190" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="215" text-anchor="middle" data-t="p4">whether the result is good</text>
+  <path class="line" d="M315 135 H355"/>
+  <path class="head" d="M355 129 L365 135 L355 141 Z"/>
+</svg>
+<figcaption>The more the agent does, the more the person&#x27;s work moves up to four judgments.</figcaption></figure>
+<ol>
+<li><strong>What to do.</strong> A request is vague and it shifts. A person confirms the one page that says what &quot;done&quot; means (<a href="5-2-requirements.html">The agent writes the requirement, the person confirms it</a>).</li>
+<li><strong>What is allowed.</strong> The rules, and who may pass them. Who owns them and who reviews a change is the subject of <a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>.</li>
+<li><strong>Where to say yes.</strong> The points that cost money, grant power or cannot be undone (<a href="5-3-two-approvals.html">Two gates: where a person approves</a>).</li>
+<li><strong>Whether the result is good.</strong> An agent's report can be wrong. A person, or a check the person trusts, decides (<a href="5-6-model-checks-model.html">Can a model check a model?</a>).</li>
+</ol>
+<p>A team needs all four, and the second is the one that no tool will do for you.</p>
+<h3>Getting a new person started</h3>
+<p>The failure to avoid is the full tour. Two gates (<a href="5-3-two-approvals.html">Two gates: where a person approves</a>), a board (<a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a>), a knowledge base and reports on the first day tell a newcomer that this is heavy (<a href="0-2-minimal-harness.html">A minimal harness in 30 minutes</a>). A better first hour has three parts.</p>
+<ol>
+<li><strong>A guided setup that checks itself.</strong> A skill walks them through the steps one by one (the install, their name and language, the repositories, the knowledge base) and runs a check after each. The newcomer is never left wondering whether it worked.</li>
+<li><strong>One small real task, from the team's own work.</strong> In my setup the first lesson ends in a practice task, and its scenario is a file that a team can replace with its own. Practice on the code they will really touch, not on a toy.</li>
+<li><strong>A way to ask why.</strong> A newcomer who can ask the harness to explain itself, with the real files open, needs no one to sit beside them.</li>
+</ol>
+<h3>The colleague who does not care</h3>
+<p>For the colleague who does not care, I would ask for one habit, not a mindset: say what you want done and open a task for it. The rest is carried by the setup. Dangerous commands are refused whether or not the person has read a rule, and a write needs approval whether or not they remember why. A harness that depends on every person reading the rules is a worse harness. I have not measured how this lands with a team that did not choose it.</p>
+<h3>What to learn, and what to skip</h3>
+<p>How much should people study? <strong>Learn the problems that stay the same</strong>: whom to trust, how to know it is right, what the agent should know, how to split work, what it costs. <strong>Skip what changes monthly</strong>: the setting names of one tool, the details of each new plugin system, which model is best this week. An hour on what a new thing is, and which old problem it answers, is enough. Look up the exact format when you need it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>留給人的事</h3>
+<p>先講人是做什麼用的。agent 做得越多，人的工作就越往上移，離開打字，走向四個 agent 沒辦法替你做的判斷。</p>
+<figure class="fig" id="fig-7-1-person-moves-up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260">
+  <text class="label-muted" x="160" y="22" text-anchor="middle" data-t="agent-head">agent 做得更多的事</text>
+  <text class="label-muted" x="520" y="22" text-anchor="middle" data-t="person-head">人留下的事</text>
+  <rect class="box-plain" x="10" y="40" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="65" text-anchor="middle" data-t="a1">讀、搜尋程式碼</text>
+  <rect class="box-plain" x="10" y="90" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="115" text-anchor="middle" data-t="a2">寫修改</text>
+  <rect class="box-plain" x="10" y="140" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="165" text-anchor="middle" data-t="a3">跑各個步驟</text>
+  <rect class="box-plain" x="10" y="190" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="215" text-anchor="middle" data-t="a4">修自己的檢查找到的問題</text>
+  <rect class="box-lit" x="370" y="40" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="65" text-anchor="middle" data-t="p1">要做什麼</text>
+  <rect class="box-lit" x="370" y="90" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="115" text-anchor="middle" data-t="p2">什麼被允許（規則）</text>
+  <rect class="box-lit" x="370" y="140" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="165" text-anchor="middle" data-t="p3">在哪裡說「好」</text>
+  <rect class="box-lit" x="370" y="190" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="215" text-anchor="middle" data-t="p4">結果好不好</text>
+  <path class="line" d="M315 135 H355"/>
+  <path class="head" d="M355 129 L365 135 L355 141 Z"/>
+</svg>
+<figcaption>agent 做得越多，人的工作就越往上移，剩下這四個判斷。</figcaption></figure>
+<ol>
+<li><strong>做什麼</strong>。要求是模糊的，而且會飄。由人確認那一頁說明「做完」是什麼意思（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。</li>
+<li><strong>允許什麼</strong>。規則，和誰可以通過它們。誰擁有它們、誰審查改動，是 <a href="7-4-rollout-and-governance.html">落地與治理</a> 的主題。</li>
+<li><strong>在哪裡說好</strong>。花錢、授權或無法復原的那些點（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
+<li><strong>結果好不好</strong>。agent 的報告可能是錯的。由人，或由人信任的檢查來決定（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）。</li>
+</ol>
+<p>團隊四個都需要，而第二個，是沒有任何工具會替你做的。</p>
+<h3>讓新人開始</h3>
+<p>要避免的失敗是完整導覽。第一天就給兩道門（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）、一個看板（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）、一個知識庫和報告，等於告訴新人這很重（<a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>）。比較好的第一個小時有三部分。</p>
+<ol>
+<li><strong>會自己檢查的引導式設定</strong>。一個 skill 帶他們一步一步走（安裝、他們的名字和語言、倉庫、知識庫），每一步之後執行一次檢查。新人不會一直懷疑到底有沒有成功。</li>
+<li><strong>一個小的真實任務，來自團隊自己的工作</strong>。在我的設定裡，第一堂課以一個練習任務結束，它的情境是一個檔案，團隊可以換成自己的。在他們真的會碰的程式碼上練習，不要在玩具上。</li>
+<li><strong>問為什麼的辦法</strong>。新人如果能請 harness 一邊打開真實的檔案，一邊解釋自己，就不需要有人坐在旁邊。</li>
+</ol>
+<h3>不在乎的同事</h3>
+<p>對不在乎的同事，我會要求一個習慣，不是一種心態：說出你要做什麼，並為它開一個任務。其餘由設定來承擔。危險的指令會被拒絕，不管這個人有沒有讀過規則；寫入需要批准，不管他記不記得為什麼。一個靠每個人都讀規則才行的 harness，是比較差的 harness。對一個沒有選擇它的團隊，這樣做的效果如何，我沒有量過。</p>
+<h3>要學什麼，要跳過什麼</h3>
+<p>大家該花多少心力學？<strong>學那些不變的問題</strong>：該信誰、怎麼知道是對的、agent 該知道什麼、怎麼拆工作、要花多少。<strong>跳過每個月都在變的</strong>：某一個工具的設定名稱、每個新外掛系統的細節、這週哪個模型最好。花一個小時，了解一個新東西是什麼、它回答哪一個舊問題，就夠了。需要確切的格式時再去查。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A guided first hour needs maintenance.</strong> The practice task and the checks go stale when the code changes. Someone has to own them.</p>
+<p><strong>A small real task can still be the wrong one.</strong> Pick one that is real but forgiving: a mistake should cost the newcomer a retry, not a bad day.</p>
+<p><strong>One habit is not enough forever.</strong> It gets the person started. Over time they will meet the gates and the reports, and the first hour should not hide them.</p>
+<p><strong>I have no team data.</strong> The first hour and the one habit are a design built on one person's use. I have not measured how newcomers take to them. Treat them as a starting point to check, not as results.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>引導式的第一個小時需要維護</strong>。程式碼一變，練習任務和檢查就過期。得有人負責。</p>
+<p><strong>小的真實任務，仍然可能是錯的那一個</strong>。挑一個真實、但容得下錯的：犯錯應該只讓新人重試一次，不是毀掉一天。</p>
+<p><strong>一個習慣不會永遠夠用</strong>。它讓人開始。時間久了，他們會遇到門和報告，第一個小時不該把它們藏起來。</p>
+<p><strong>我沒有團隊的資料</strong>。第一個小時和那一個習慣，是根據一個人的使用建成的設計。新人怎麼接受它們，我沒有量過。把它們當成要檢查的起點，不要當成結果。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The guided setup exists because installing and configuring the harness takes many steps. If the setup shrinks to one command, or the platform does it, the guide can go. The four judgments do not go. They are what remains for a person however much the agent does.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>引導式設定存在，是因為安裝和設定 harness 要很多步。如果設定縮成一個指令，或由平台來做，引導就可以拿掉。四個判斷不會拿掉。不管 agent 做多少，它們都是留給人的。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Pretend you are a new teammate who has never used an AI agent here. Read this repository&#x27;s README and its agent instruction files, and write down your first hour: what you would have to install, read and learn before you could finish one small real task. Then, for each of these four judgments (what to do, what is allowed, where a person must say yes, whether the result is good), say where in this repository it is written down, or that it is not. Mark anything that would make a newcomer think the setup is heavy. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>假裝你是一個新同事，從來沒在這裡用過 AI agent。讀這個倉庫的 README 和它的 agent 指令檔，寫下你的第一個小時：在你能完成一個小的真實任務之前，你得安裝、閱讀和學習什麼。然後，對這四個判斷（做什麼、允許什麼、哪裡必須有人說好、結果好不好）中的每一個，說明它寫在這個倉庫的哪裡，或說明沒有寫。標出任何會讓新人覺得這套設定很重的東西。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>: who owns the rules, who reviews a change, and in what order to widen.</li>
+<li><a href="0-2-minimal-harness.html">A minimal harness in 30 minutes</a>: what a newcomer should have on day one.</li>
+<li><a href="5-3-two-approvals.html">Two gates: where a person approves</a>: where the &quot;yes&quot; belongs.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="7-4-rollout-and-governance.html">落地與治理</a>：誰擁有規則、誰審查改動，以及依什麼順序擴大。</li>
+<li><a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>：新人第一天該有什麼。</li>
+<li><a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>：「好」該放在哪裡。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The guided first setup and the first lesson run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;People and teams&quot;. Teach me how this harness gets a newcomer started: the guided first setup, the first lesson and its practice task that a team can replace with its own. Open the real files with me, and show what a new person sees in the first hour.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>引導式的第一次設定和第一堂課，在 Copilot Harness 裡執行。harness 可以用真實的檔案給你看。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「人與團隊：留給人的事」這一章。請教我這個 harness 怎麼讓新人開始：引導式的第一次設定、第一堂課，以及團隊可以換成自己的練習任務。帶我打開真實的檔案，並讓我看新人在第一個小時看到什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+copyright: "2026 Smars Hu"
+title: {en: "Harness Engineering with VS Code Copilot", zh-Hant: "VS Code Copilot Harness Engineering：從入門到實戰"}
+parts:
+  - {id: start, title: {en: "Part 0 · Getting started", zh-Hant: "第 0 部 · 入門"}}
+  - {id: brain, title: {en: "Part 1 · The brain and the hands", zh-Hant: "第 1 部 · 腦和手"}}
+  - {id: runtime, title: {en: "Part 2 · The runtime", zh-Hant: "第 2 部 · 運行時"}}
+  - {id: context, title: {en: "Part 3 · Context", zh-Hant: "第 3 部 · 上下文"}}
+  - {id: control, title: {en: "Part 4 · Control", zh-Hant: "第 4 部 · 控制"}}
+  - {id: flow, title: {en: "Part 5 · Flow and decisions", zh-Hant: "第 5 部 · 流程與決策"}}
+  - {id: evidence, title: {en: "Part 6 · Evidence", zh-Hant: "第 6 部 · 證據"}}
+  - {id: people, title: {en: "Part 7 · People", zh-Hant: "第 7 部 · 人"}}
+  - {id: case-kb, title: {en: "Part 8 · Case study: a knowledge base from code", zh-Hant: "第 8 部 · 案例：從程式碼建知識庫"}}
+  - {id: appendix, title: {en: "Appendices", zh-Hant: "附錄"}}

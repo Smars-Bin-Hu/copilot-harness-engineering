@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="20" y="50" width="320" height="130" rx="14"/>
+  <rect class="box-plain" x="220" y="50" width="360" height="130" rx="14"/>
+  <rect class="box-lit" x="220" y="50" width="120" height="130" rx="0"/>
+  <text class="label" x="130" y="40" text-anchor="middle" data-t="author">x</text>
+  <text class="label" x="460" y="40" text-anchor="middle" data-t="checker">x</text>
+  <text class="label" x="120" y="120" text-anchor="middle" data-t="only-a">x</text>
+  <text class="label" x="460" y="120" text-anchor="middle" data-t="only-c">x</text>
+  <text class="label-lit" x="280" y="115" text-anchor="middle" data-t="shared">x</text>
+  <text class="label-lit" x="280" y="135" text-anchor="middle" data-t="shared2">x</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">x</text>
+</svg>

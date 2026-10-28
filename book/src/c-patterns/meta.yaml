@@ -1,0 +1,9 @@
+id: "C"
+part: appendix
+kind: appendix
+title: {en: "Patterns you can copy", zh-Hant: "可以照抄的模式"}
+harness_tag: "1.5.50"
+wondering: []
+sources:
+  - what: "Every code block is a real file, lines pinned to the harness tag"
+    where: harness files at tag 1.5.9 (AGENTS.md, .github/, .harness/policies/, .harness/contracts/)

@@ -1,0 +1,19 @@
+id: "3.5"
+part: context
+title: {en: What an agent should remember, zh-Hant: agent 該記住什麼}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base, 09-task-lifecycle]
+sources:
+  - what: "Capturing what a task taught: draft only; keep an item only if a future agent would get it wrong, the task holds evidence, it is not already recorded, and it will still be true next month; a conflict is a finding, not an edit; no values or secrets"
+    where: harness capture-knowledge skill
+  - what: "A knowledge base card records the commit it was read at, so stale cards can be listed; gaps are written down"
+    where: harness docs/08-knowledge-base.md ('The idea') and the knowledge-base lesson of the wondering course
+  - what: "Two memory systems: instructions you write and notes the agent writes; loaded each session (first 200 lines or 25KB of notes); plain markdown you can edit or delete; machine-local; treated as context, not enforced"
+    where: https://code.claude.com/docs/en/memory
+    checked: 2026-10-27
+  - what: "Structured note-taking: the agent writes notes persisted outside the context window"
+    where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+    checked: 2026-10-27
+  - what: "The memory tool is client-side: the application runs the file operations; security notes on sensitive information, size caps, expiry and path traversal"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool
+    checked: 2026-10-28

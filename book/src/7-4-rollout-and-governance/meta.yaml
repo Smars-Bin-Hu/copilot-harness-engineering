@@ -1,0 +1,16 @@
+id: "7.4"
+part: people
+title: {en: "Roll out and govern a harness", zh-Hant: "落地與治理"}
+harness_tag: "1.5.50"
+wondering: [15-design-choices]
+sources:
+  - what: "The questions to ask before adding a design"
+    where: the author's own working principles for the harness
+  - what: "Overrides: one layer next to the default file; personal overrides that hold machine paths are not committed; core guardrails cannot be removed by an override; the health check lists what every override changes"
+    where: harness docs/03-configure.md, section Overrides
+  - what: "A rule has one main source"
+    where: harness docs/05-design.md section 3
+  - what: "The agent cannot edit the rule files; a person opens the fence for one session; every call logged in that session is marked as admin"
+    where: this book, Guard the files that hold the rules; harness docs/02-features.md (admin mode)
+  - what: "What the setup records: one log line per call without arguments (path and command kept for a refused call); the per-task report with the times of both approvals, the verdict of each check and the refused calls; a statistics command that sums refusals and which module refused; approval records kept in the task's own folder"
+    where: harness docs/02-features.md (Observability, the report, Changing a target repository)

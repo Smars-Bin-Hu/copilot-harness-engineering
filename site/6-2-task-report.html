@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>A report a person can read in five minutes</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.2</p><h1><span data-l="en" lang="en">A report a person can read in five minutes</span><span data-l="zh-Hant" lang="zh-Hant">一份五分鐘讀得完的報告</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It helps to have read <a href="6-1-observe.html">Record what happened, not what the agent said</a>, but you can follow without it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent。先讀過 <a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 會有幫助，不讀也跟得上。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Every finished task needs a report that a person can read in five minutes. When you run many tasks at once, a board is the one page that tells you which one to open.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個完成的任務，都需要一份人五分鐘讀得完的報告。同時跑很多任務時，看板是告訴你該打開哪一個的那一頁。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require that every finished task has a one-page report, written by code, and decide what the page must show.</li>
+<li><strong>The risk:</strong> a log is not a report. Nobody reads thousands of lines, so the only thing a colleague or a leader reads is the agent's own summary, which is what the log exists to check. A report is also only as honest as its sources: a hole in the log is a hole in the report.</li>
+<li><strong>The cost of doing it right:</strong> one program that reads the task folder and the log. The real cost is defending the five-minute limit against requests for one more number.</li>
+<li><strong>Ask the team:</strong> &quot;Show me the report of the last finished task. Can I read it in five minutes, and does it say who approved it and what was refused?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要求每個完成的任務都有一頁由程式寫的報告，並決定這一頁必須顯示什麼。</li>
+<li><strong>風險</strong>：日誌不是報告。沒有人會讀幾千行，所以同事或主管唯一會讀的，是 agent 自己的總結，而日誌存在的目的，就是檢查這份總結。報告的誠實程度，也只和它的來源一樣：日誌有洞，報告就有洞。</li>
+<li><strong>做對的成本</strong>：一個讀任務資料夾和日誌的程式。真正的成本，是擋住大家「再加一個數字」的要求，守住五分鐘這條線。</li>
+<li><strong>可以問團隊</strong>：「給我看上一個完成任務的報告。我能在五分鐘內讀完嗎？它有沒有說是誰批准的、什麼被拒絕了？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A log is not a report. After <a href="6-1-observe.html">the previous chapter</a> you may have a log with thousands of lines. Nobody reads that to answer &quot;what did this task do?&quot;. And the agent's own summary, which is short enough to read, is the thing the log exists to check.</p>
+<p>Who needs the answer? Three people, at three times.</p>
+<ul>
+<li><strong>You, the next morning.</strong> The work was yesterday. You do not remember which files changed, or why a check was done twice.</li>
+<li><strong>A colleague or a leader</strong> who did not watch. They want to know what was done and whether anyone checked it, and they will give it a few minutes.</li>
+<li><strong>You, when something goes wrong later.</strong> Someone asks &quot;who approved this change?&quot; and &quot;was it checked?&quot;. You want the answer from a document, not from memory.</li>
+</ul>
+<p>If the report takes an hour to read, these people will not read it. So the report is a design problem: what to put on one page, and what to leave to the log.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>日誌不是報告。讀完 <a href="6-1-observe.html">上一章</a> 之後，你可能有一份幾千行的日誌。沒有人會讀它來回答「這個任務做了什麼？」。而 agent 自己的總結，短到讀得完，卻正是日誌存在要檢查的東西。</p>
+<p>誰需要這個答案？三個人，在三個時間點。</p>
+<ul>
+<li><strong>你，隔天早上</strong>。工作是昨天做的。你不記得改了哪些檔案，也不記得為什麼某個檢查做了兩次。</li>
+<li><strong>沒在旁邊看的同事或主管</strong>。他們想知道做了什麼、有沒有人檢查過，而且願意花幾分鐘。</li>
+<li><strong>你，以後出了問題的時候</strong>。有人問「這個改動是誰批准的？」「有檢查過嗎？」。你想從文件裡找到答案，不是靠記憶。</li>
+</ul>
+<p>報告要是要讀一個小時，這些人就不會讀。所以報告是個設計問題：一頁上放什麼，什麼留給日誌。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>One page per task, written by code</h3>
+<p>A <strong>task</strong> here is one piece of work with its own folder: the request, the plan, the checks and the changes (<a href="5-1-tasks.html">Manage tasks, not chats</a>). When the task closes, a program reads the folder and the records, and writes one report. The agent does not write it.</p>
+<p>That one choice carries most of the weight. A report written by the agent is a summary, and a summary is what you could not trust in the first place. A report put together by a program from the folder and the log has the same facts every time, in the same places, so a reader learns where to look.</p>
+<figure class="fig" id="fig-6-2-report-page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <text class="label-muted" x="10" y="22" data-t="board-title">MANY TASKS: THE BOARD</text>
+  <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="56" data-t="t1">A: to approve</text>
+  <rect class="box" x="10" y="76" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="98" data-t="t2">B: running</text>
+  <rect class="box-lit" x="10" y="118" width="170" height="34" rx="6"/>
+  <text class="label-lit" x="22" y="140" data-t="t3">C: finished</text>
+  <rect class="box" x="10" y="160" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="182" data-t="t4">D: needs you</text>
+  <text class="label-muted" x="10" y="224" data-t="board-note">The board points;</text>
+  <text class="label-muted" x="10" y="244" data-t="board-note2">the report explains.</text>
+  <path class="line-lit" d="M180 135 H240"/>
+  <path class="head-lit" d="M240 129 L250 135 L240 141 Z"/>
+  <rect class="box-lit" x="250" y="14" width="340" height="300" rx="8"/>
+  <text class="label-lit" x="266" y="40" data-t="page-title">ONE TASK: ONE PAGE</text>
+  <path class="line-lit" d="M266 50 H574"/>
+  <text class="label" x="266" y="78" data-t="s1">1. What was asked, what was done</text>
+  <text class="label" x="266" y="110" data-t="s2">2. Who approved, and when</text>
+  <text class="label" x="266" y="142" data-t="s3">3. What changed (files, lines)</text>
+  <text class="label" x="266" y="174" data-t="s4">4. Checks: how many, result</text>
+  <text class="label" x="266" y="206" data-t="s5">5. What was refused, and why</text>
+  <text class="label" x="266" y="238" data-t="s6">6. Time and usage, by stage</text>
+  <path class="line" d="M266 256 H574"/>
+  <text class="label-muted" x="266" y="278" data-t="foot">Every line comes from a record,</text>
+  <text class="label-muted" x="266" y="298" data-t="foot2">not from the agent.</text>
+</svg>
+<figcaption>The board shows many tasks at a glance. When one task finishes, it gets one page a person can read in five minutes.</figcaption></figure>
+<h3>What goes on the page</h3>
+<p>Start from the questions the three readers ask, and give each a place. In my setup the report holds:</p>
+<ol>
+<li><strong>What was asked and what was done.</strong> The requirement the person confirmed, and the plan.</li>
+<li><strong>Who approved, and when.</strong> The times of the two approvals (<a href="5-3-two-approvals.html">Two gates</a>).</li>
+<li><strong>What changed.</strong> Which files, how many lines added and removed, and which knowledge-base files were read (<a href="8-1-why-a-knowledge-base.html">A knowledge base</a>).</li>
+<li><strong>The checks.</strong> How many independent checks, and the verdict of each (<a href="5-5-counted-checks.html">Make a pass count</a>).</li>
+<li><strong>What was refused.</strong> The calls the rules turned down, and why. This part surprises people, and it often explains why a task took longer than expected.</li>
+</ol>
+<p>Here is the layout, as a template and not a real report:</p>
+<ul>
+<li>Asked: <em>the confirmed requirement, in one paragraph</em></li>
+<li>Approved: <em>plan, at (time); write-back, at (time)</em></li>
+<li>Changed: <em>(n) files, +(a) / -(b) lines; knowledge-base files read: (list)</em></li>
+<li>Checks: <em>(n) independent checks; verdict of each</em></li>
+<li>Refused: <em>each refused call and the rule that refused it</em></li>
+</ul>
+<p>What is left out is the log itself. The report points at the facts and does not repeat all of them. A good test is the five minutes: if a reader cannot finish the page in that time, something on it belongs in the log instead.</p>
+<h3>Where the time and usage went</h3>
+<p>A second page next to the report answers a different question: not &quot;what happened?&quot; but &quot;where did the time and the usage go?&quot;. It splits each prompt into the model thinking, tools running, subagents, and <strong>waiting for the person</strong>. Then it sums these by <strong>stage</strong> (requirement, plan, development, write-back, done; an independent check is a stage of its own).</p>
+<p>The waiting time is the number I did not expect to matter. Suppose a task &quot;took three days&quot;, and the page shows the agent worked for forty minutes and waited for a person the rest (the numbers are an example, not a result). Then the cost is waiting, not the agent. That is a different problem from a slow agent, and it has a different fix: fewer or cheaper gates, or someone to answer them (<a href="7-2-many-tasks.html">Ten things at once</a>).</p>
+<p>The numbers come from the hook log and the platform's own session record, not from the agent's word (<a href="6-1-observe.html">Record what happened, not what the agent said</a> says where usage comes from and what happens when that record cannot be read). Opening the page costs no tokens. If you want the agent to explain it to you, you ask for that on purpose, and then it reads the page.</p>
+<h3>The board: many tasks at a glance</h3>
+<p>When you have one task, you do not need a board. When you have ten, the question changes from &quot;what did this task do?&quot; to &quot;which task needs me now?&quot;. A <strong>board</strong> is one page that lists every open task, what it is waiting for, and for how long. It is built from the same task folders and records as the report, so the two cannot disagree. <a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a> has the design.</p>
+<h3>Try it by hand</h3>
+<p>You do not need a program to see whether the idea works. After your next agent task, write five lines from the diff and the tool-call history: what was asked, what changed, what was run, what was refused or failed, and who said yes. Then ask yourself whether you would read that page tomorrow, and whether a colleague could use it. If it takes you more than a few minutes to write, that tells you what the program has to collect.</p>
+<h3>Where the person steps in</h3>
+<p>The report and the board are where a person meets the system. Three points matter.</p>
+<ul>
+<li><strong>The board is for steering.</strong> You open a task from it, approve a plan, or pause a task. Approvals still go through a channel the agent cannot reach.</li>
+<li><strong>The report is for reading afterwards.</strong> It is written when the task closes, so it shows the task as it ended.</li>
+<li><strong>A saved copy is for people with no access.</strong> The task page can be saved as a single file that opens offline, for a leader who has no access to your board. It is a copy from the moment you saved it, with no buttons. Read it before you send it, and take out internal names and paths before it goes outside the group that owns the task.</li>
+</ul>
+<p>What an agent writes is drawn as plain text on these pages, so a task file cannot make the page run anything (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>每個任務一頁，由程式寫</h3>
+<p>這裡的<strong>任務</strong>，是有自己資料夾的一件工作：需求、計畫、檢查和改動（<a href="5-1-tasks.html">管任務，不管對話</a>）。任務結束時，一個程式讀資料夾和紀錄，寫出一份報告。不是 agent 寫的。</p>
+<p>這個選擇承擔了大部分的分量。agent 寫的報告是一份總結，而總結本來就是你一開始不能信的東西。由程式從資料夾和日誌拼出來的報告，每次都有同樣的事實、放在同樣的位置，讀的人就學會該看哪裡。</p>
+<figure class="fig" id="fig-6-2-report-page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <text class="label-muted" x="10" y="22" data-t="board-title">很多任務：看板</text>
+  <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="56" data-t="t1">A：等批准</text>
+  <rect class="box" x="10" y="76" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="98" data-t="t2">B：agent 在做</text>
+  <rect class="box-lit" x="10" y="118" width="170" height="34" rx="6"/>
+  <text class="label-lit" x="22" y="140" data-t="t3">C：做完了</text>
+  <rect class="box" x="10" y="160" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="182" data-t="t4">D：等你</text>
+  <text class="label-muted" x="10" y="224" data-t="board-note">看板指路，</text>
+  <text class="label-muted" x="10" y="244" data-t="board-note2">報告解釋。</text>
+  <path class="line-lit" d="M180 135 H240"/>
+  <path class="head-lit" d="M240 129 L250 135 L240 141 Z"/>
+  <rect class="box-lit" x="250" y="14" width="340" height="300" rx="8"/>
+  <text class="label-lit" x="266" y="40" data-t="page-title">一個任務：一頁</text>
+  <path class="line-lit" d="M266 50 H574"/>
+  <text class="label" x="266" y="78" data-t="s1">1. 要求什麼、做了什麼</text>
+  <text class="label" x="266" y="110" data-t="s2">2. 誰批准、什麼時候</text>
+  <text class="label" x="266" y="142" data-t="s3">3. 改了什麼（檔案、行數）</text>
+  <text class="label" x="266" y="174" data-t="s4">4. 檢查：幾次、結果如何</text>
+  <text class="label" x="266" y="206" data-t="s5">5. 什麼被拒絕、為什麼</text>
+  <text class="label" x="266" y="238" data-t="s6">6. 各階段的時間和用量</text>
+  <path class="line" d="M266 256 H574"/>
+  <text class="label-muted" x="266" y="278" data-t="foot">每一行都來自紀錄，</text>
+  <text class="label-muted" x="266" y="298" data-t="foot2">不是 agent 說的。</text>
+</svg>
+<figcaption>看板讓你一眼看完很多任務。一個任務做完，就有一頁五分鐘讀得完的報告。</figcaption></figure>
+<h3>這一頁放什麼</h3>
+<p>從三種讀者會問的問題出發，每個問題給一個位置。在我的設定裡，報告包含：</p>
+<ol>
+<li><strong>要求了什麼、做了什麼</strong>。人確認過的需求，和計畫。</li>
+<li><strong>誰批准、什麼時候</strong>。兩次批准的時間（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
+<li><strong>改了什麼</strong>。哪些檔案、加了多少行、刪了多少行，以及讀了哪些知識庫檔案（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
+<li><strong>檢查</strong>。有幾次獨立檢查，每一次的結論（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
+<li><strong>什麼被拒絕</strong>。規則擋下的呼叫，和原因。這一塊常讓人意外，也常能解釋為什麼任務比預期花得久。</li>
+</ol>
+<p>版面是這樣，這是範本，不是真的報告：</p>
+<ul>
+<li>要求：<em>確認過的需求，一段</em></li>
+<li>批准：<em>計畫，於（時間）；寫回，於（時間）</em></li>
+<li>改動：<em>（n）個檔案，+（a）／-（b）行；讀過的知識庫檔案：（清單）</em></li>
+<li>檢查：<em>（n）次獨立檢查；每一次的結論</em></li>
+<li>拒絕：<em>每一次被拒絕的呼叫，和拒絕它的規則</em></li>
+</ul>
+<p>沒放進去的是日誌本身。報告指向這些事實，不會全部重複一遍。一個好用的測試就是五分鐘：讀的人在這段時間內讀不完這一頁，就是上面有東西該放回日誌。</p>
+<h3>時間和用量花在哪裡</h3>
+<p>報告旁邊有第二頁，回答另一個問題：不是「發生了什麼？」，而是「時間和用量花在哪裡？」。它把每個 prompt 拆成模型思考、工具執行、子 agent，和<strong>等人</strong>。然後依<strong>階段</strong>加總（需求、計畫、開發、寫回、完成；獨立檢查自己算一個階段）。</p>
+<p>等待的時間，是我沒想到會這麼重要的數字。假設一個任務「花了三天」，那一頁顯示 agent 工作了四十分鐘，其餘時間都在等人（數字只是舉例，不是結果）。那麼成本是在等待，不是 agent。這和 agent 慢是不同的問題，修法也不同：少一點門，或讓門便宜一點，或找人來回答它們（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）。</p>
+<p>數字來自 hook 日誌和平台自己的會話紀錄，不是 agent 的一面之詞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 說了用量從哪裡來，以及讀不到那份紀錄時會怎樣）。打開這一頁不花 token。如果你要 agent 解釋給你聽，你得特地要求，那時它才會去讀這一頁。</p>
+<h3>看板：一眼看完很多任務</h3>
+<p>只有一個任務時，你不需要看板。有十個時，問題從「這個任務做了什麼？」變成「現在哪個任務需要我？」。<strong>看板</strong>是一頁，列出每個還開著的任務、它在等什麼、等了多久。它用和報告相同的任務資料夾和紀錄建成，所以兩者不會不一致。設計見 <a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>。</p>
+<h3>手動試試</h3>
+<p>不用程式，也能看這個想法行不行。下一個 agent 任務之後，從 diff 和工具呼叫的歷史寫五行：要求了什麼、改了什麼、執行了什麼、什麼被拒絕或失敗、誰說了好。然後問自己，明天你會不會讀這一頁，同事能不能用。如果你寫它要花超過幾分鐘，那就告訴你，程式要去收集什麼。</p>
+<h3>人在哪裡插手</h3>
+<p>報告和看板，是人和系統碰面的地方。有三點要緊。</p>
+<ul>
+<li><strong>看板用來掌舵</strong>。你從它打開一個任務、批准計畫，或暫停一個任務。批准仍然走 agent 碰不到的管道。</li>
+<li><strong>報告用來事後閱讀</strong>。它在任務結束時寫成，所以顯示的是任務結束時的樣子。</li>
+<li><strong>存下來的副本，給沒有權限的人</strong>。任務頁可以存成一個離線也能打開的單一檔案，給沒有權限進你的看板的主管。它是你存下那一刻的副本，沒有按鈕。送出之前先讀過；要送到擁有這個任務的團體之外時，先拿掉內部名稱和路徑。</li>
+</ul>
+<p>agent 寫的東西，在這些頁面上是以純文字畫出來的，所以任務檔案沒辦法讓頁面去執行任何東西（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A report is only as honest as its sources.</strong> It is built from the log and the folder. If the log has a hole (<a href="6-1-observe.html">Record what happened</a>), the report has the same hole and does not say so.</p>
+<p><strong>Five minutes is a limit you have to defend.</strong> Everyone wants one more number on the page. Move it to the log or the analysis page; keep the report short.</p>
+<p><strong>A report says what happened, not whether it was good.</strong> It can show that the task went through the two approvals and that its checks passed. It cannot show that the work was better than last week's, because nothing scores quality across tasks; I have no such score. To get one you would run fixed tasks before and after a change (<a href="6-3-eval-tasks.html">the next chapters</a>), which are not real work, or have a person read a sample of finished tasks.</p>
+<p><strong>A report is a record, not a signature.</strong> Whether it counts as evidence for approving a change, how long it is kept, and who may edit it are decisions for the team (<a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>). The report itself is written once, by code, at close.</p>
+<p><strong>Nobody reads a report that nobody asks for.</strong> If no one ever opens the reports, ask why before you improve them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>報告的誠實程度，只和它的來源一樣</strong>。它由日誌和資料夾建成。日誌有洞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>），報告就有一樣的洞，而且不會說出來。</p>
+<p><strong>五分鐘是一條要守的線</strong>。每個人都想在頁面上多加一個數字。把它移到日誌或分析頁，讓報告保持簡短。</p>
+<p><strong>報告說的是發生了什麼，不是做得好不好</strong>。它能顯示任務經過了兩道批准、檢查都通過。它不能顯示這次的工作比上週好，因為沒有東西在跨任務為品質打分；我沒有這樣的分數。要有的話，你得在改動前後跑固定的任務（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>），那不是真實的工作，或者讓人讀一批完成任務的樣本。</p>
+<p><strong>報告是紀錄，不是簽名</strong>。它算不算批准一項改動的證據、保留多久、誰可以編輯，是團隊要決定的事（<a href="7-4-rollout-and-governance.html">落地與治理</a>）。報告本身只在結束時，由程式寫一次。</p>
+<p><strong>沒人要的報告，沒人會讀</strong>。如果從來沒有人打開報告，先問為什麼，再去改進它們。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>My report and board exist because the platform shows a chat, not a task. If the platform gives you tasks with their own history, approvals and usage per task, use that and drop the page you built. If it can show a leader a read-only view with the same facts, drop the saved copy too.</p>
+<p>The reasoning stays. A person who did not watch needs to know what was done, who approved it, what was checked and what it cost, in a form that takes minutes. I would look again at the board if I found that I never run more than two tasks at once.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>我的報告和看板存在，是因為平台顯示的是對話，不是任務。如果平台提供任務，並且有各自的歷史、批准和每個任務的用量，就用那個，把你建的頁面丟掉。如果它能給主管一個唯讀的檢視、事實相同，存下來的副本也可以丟掉。</p>
+<p>道理會留著。沒在旁邊看的人，需要知道做了什麼、誰批准、檢查了什麼、花了多少，而且形式要是幾分鐘就讀完。如果我發現自己從來不會同時跑超過兩個任務，我會重新檢視看板。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Take the last three merged changes in this repository. For each one, write a five-line report from git history and any linked review or task notes only: what was asked, what changed (files, lines), what was run or checked, what was refused or failed, and who said yes. Where a fact cannot be found in the repository, write &quot;not recorded&quot;. Then tell me which of the five facts are missing most often. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>拿這個倉庫最近三個合併的改動。對每一個，只用 git 歷史和任何連結的審查或任務筆記，寫一份五行的報告：要求了什麼、改了什麼（檔案、行數）、執行或檢查了什麼、什麼被拒絕或失敗、誰說了好。倉庫裡找不到的事實，寫「沒有記錄」。然後告訴我，這五件事裡，哪幾件最常缺。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>In this book: <a href="6-1-observe.html">Record what happened, not what the agent said</a>, <a href="5-1-tasks.html">Manage tasks, not chats</a>, <a href="5-3-two-approvals.html">Two gates</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>本書：<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>、<a href="5-1-tasks.html">管任務，不管對話</a>、<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes a report and an analysis page for every task it closes, and has a board of all open tasks. The harness can show you the real pages. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A report a person can read in five minutes&quot;. Teach me how this harness reports on a task (topic 12): what the task report holds, how the analysis page gets its time and usage, and what the board shows. Open a real report with me and point out where each part comes from.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 為它結束的每個任務寫一份報告和一頁分析，並有一個列出所有開著的任務的看板。harness 可以給你看真的頁面。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「一份五分鐘讀得完的報告」這一章。請教我這個 harness 怎麼為任務出報告（主題 12）：任務報告放什麼、分析頁的時間和用量從哪裡來、看板顯示什麼。帶我打開一份真的報告，並指出每一部分是從哪裡來的。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

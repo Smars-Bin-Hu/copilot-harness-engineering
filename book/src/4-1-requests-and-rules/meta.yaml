@@ -1,0 +1,14 @@
+id: "4.1"
+part: control
+core: true
+title: {en: A rule in a prompt is a request, zh-Hant: 提示裡的規則只是請求}
+harness_tag: "1.5.50"
+wondering: [14-internals, 15-design-choices]
+sources:
+  - what: "The ladder of enforcement (text, command, hook, found afterwards) and the principle: start with text, go up on repeated violations or harm that cannot be undone, keep one sentence of text on every code rule; stop with code, teach with text"
+    where: harness docs/05-design.md ("Stop with code, teach with text") and the internals lesson of the wondering course
+  - what: "Hooks and instructions are not substitutes for enforced permissions, sandboxing, or enterprise controls; a PreToolUse error denies the call, a timeout falls through to normal permissions"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27
+  - what: "About a third of the prompts I measured in October 2026 arrived without the rules a hook was meant to add"
+    where: this book, chapter 2.2 (Hooks)

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <g data-step="1">
+  <rect class="box" x="10" y="50" width="140" height="56" rx="8"/>
+  <text class="label" x="80" y="83" text-anchor="middle" data-t="change">x</text>
+  <text class="label-muted" x="80" y="130" text-anchor="middle" data-t="change-n">x</text>
+  </g>
+  <g data-step="2">
+  <path class="line-lit" d="M150 78 H215"/>
+  <path class="head-lit" d="M215 72 L225 78 L215 84 Z"/>
+  <rect class="box-lit" x="225" y="50" width="140" height="56" rx="8"/>
+  <text class="label-lit" x="295" y="83" text-anchor="middle" data-t="run">x</text>
+  <text class="label-lit" x="295" y="130" text-anchor="middle" data-t="run-n">x</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M365 78 H430"/>
+  <path class="head-lit" d="M430 72 L440 78 L430 84 Z"/>
+  <rect class="box-lit" x="440" y="50" width="150" height="56" rx="8"/>
+  <text class="label-lit" x="515" y="83" text-anchor="middle" data-t="read">x</text>
+  <text class="label-muted" x="515" y="130" text-anchor="middle" data-t="read-n">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M515 142 V165 H80 V118"/>
+  <path class="head-lit" d="M74 118 L80 108 L86 118 Z"/>
+  <text class="label-lit" x="300" y="187" text-anchor="middle" data-t="fix-n">x</text>
+  </g>
+  <g data-step="5">
+  <rect class="box-plain" x="100" y="205" width="400" height="36" rx="6"/>
+  <text class="label-muted" x="300" y="228" text-anchor="middle" data-t="rev">x</text>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <text class="label-muted" x="10" y="22" data-t="board-title">x</text>
+  <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="56" data-t="t1">x</text>
+  <rect class="box" x="10" y="76" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="98" data-t="t2">x</text>
+  <rect class="box-lit" x="10" y="118" width="170" height="34" rx="6"/>
+  <text class="label-lit" x="22" y="140" data-t="t3">x</text>
+  <rect class="box" x="10" y="160" width="170" height="34" rx="6"/>
+  <text class="label" x="22" y="182" data-t="t4">x</text>
+  <text class="label-muted" x="10" y="224" data-t="board-note">x</text>
+  <text class="label-muted" x="10" y="244" data-t="board-note2">x</text>
+  <path class="line-lit" d="M180 135 H240"/>
+  <path class="head-lit" d="M240 129 L250 135 L240 141 Z"/>
+  <rect class="box-lit" x="250" y="14" width="340" height="300" rx="8"/>
+  <text class="label-lit" x="266" y="40" data-t="page-title">x</text>
+  <path class="line-lit" d="M266 50 H574"/>
+  <text class="label" x="266" y="78" data-t="s1">x</text>
+  <text class="label" x="266" y="110" data-t="s2">x</text>
+  <text class="label" x="266" y="142" data-t="s3">x</text>
+  <text class="label" x="266" y="174" data-t="s4">x</text>
+  <text class="label" x="266" y="206" data-t="s5">x</text>
+  <text class="label" x="266" y="238" data-t="s6">x</text>
+  <path class="line" d="M266 256 H574"/>
+  <text class="label-muted" x="266" y="278" data-t="foot">x</text>
+  <text class="label-muted" x="266" y="298" data-t="foot2">x</text>
+</svg>

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>The toolkit: scripts that draw a map of the code</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.2</p><h1><span data-l="en" lang="en">The toolkit: scripts that draw a map of the code</span><span data-l="zh-Hant" lang="zh-Hant">Toolkit：用腳本畫出程式碼的地圖</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-1-why-a-knowledge-base.html">A knowledge base</a>. It is step one and two of the road.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 後面。它是路線的第一步和第二步。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Which objects exist, and who uses whom, has one right answer. So a script computes it, the same way every time, at no token cost. The scripts are called a toolkit, and it is code the team owns, written for your own technology stack.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>有哪些物件、誰用誰，只有一個正確答案。所以用腳本來算，每次都一樣，也不花 token。這些腳本叫 toolkit，是團隊自己擁有的程式碼，為你自己的技術堆疊而寫。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> have the team own a small set of scripts that list which objects exist and who uses whom, instead of asking a model to work it out each time.</li>
+<li><strong>The risk:</strong> a model asked for the map reads by judgment, can skip an object, and gives two different maps if asked twice. A script gives the same map every time and says what it could not read. On a small open-source project my sample found 58 objects in 35 files and all 6 known uses; that shows it runs, not that it works on your code.</li>
+<li><strong>The cost of doing it right:</strong> the model writes the scripts and a person approves the design; the scripts then cost no tokens. They are code to maintain when the stack changes. I have not tested a very large code base.</li>
+<li><strong>Ask the team:</strong> &quot;Who owns the scripts that map our code, and which uses do we already know they must find?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：讓團隊擁有一小組腳本，列出有哪些物件、誰用誰，不要每次都請模型去推算。</li>
+<li><strong>風險</strong>：被要求畫地圖的模型，是憑判斷在讀，可能漏掉一個物件，問兩次會給出兩張不同的地圖。腳本每次給同一張地圖，並說出它讀不到的部分。在一個小的開源專案上，我的範例在 35 個檔案裡找到 58 個物件，6 個已知的使用全都找到了；這只證明它跑得起來，不證明它在你的程式碼上行得通。</li>
+<li><strong>做對的成本</strong>：模型寫腳本，人批准設計；之後腳本不花 token。堆疊改變時，它們是要維護的程式碼。我沒有測過很大的程式碼庫。</li>
+<li><strong>可以問團隊</strong>：「畫我們程式碼地圖的腳本誰負責？我們已經知道它們必須找到的使用有哪些？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Before an agent can write a card about an object, someone has to answer two plain questions. Which objects are there? And for each one, what does it use?</p>
+<p>Two words first.</p>
+<ul>
+<li>An <strong>object</strong> is a named thing in the code that other things can use (see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>).</li>
+<li>A <strong>use</strong> is one object depending on another: a procedure calls another procedure, a class reads a table, a job runs a package.</li>
+</ul>
+<p>Together, all the objects and all the uses are the <strong>map</strong> of the code (named in the previous chapter). It is the same thing as a dependency graph, if you know that term.</p>
+<p>You could ask a model to produce the map by reading the code. It would do something reasonable. But it decides what to read next from what it just read. It can skip an object, follow a name that means two things, or stop early. It cannot say how much it missed. And ask it twice, and the two maps differ.</p>
+<p>A script that parses every file does not have these problems. It gives the same map every time, for no tokens. And it can say what it could not read. That is the whole case for this chapter.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>在 agent 能為一個物件寫卡片之前，得有人回答兩個簡單的問題。有哪些物件？每一個物件，它用了什麼？</p>
+<p>先說兩個詞。</p>
+<ul>
+<li><strong>物件</strong>是程式碼裡一個有名字、別的東西可以使用的東西（見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
+<li><strong>使用</strong>是一個物件依賴另一個：一個預存程序呼叫另一個預存程序，一個類別讀一張資料表，一個工作執行一個套件。</li>
+</ul>
+<p>所有物件加上所有使用，合起來是程式碼的<strong>地圖</strong>（上一章已經提過這個詞）。如果你知道這個詞，它就是依賴圖。</p>
+<p>你可以請模型讀程式碼來畫地圖。它會做出合理的東西。但它是靠剛讀到的，決定下一步讀什麼。它可能漏掉一個物件，追到一個有兩種意思的名字，或太早停下來。它說不出自己漏了多少。而且問它兩次，兩張地圖不一樣。</p>
+<p>解析每個檔案的腳本沒有這些問題。它每次給同一張地圖，不花 token。它還能說出自己讀不到的部分。這一章的全部理由就是這個。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What the toolkit is</h3>
+<p>How a procedure, a job or a class looks inside a file depends on the stack. A call in one stack is <code>CALL name</code>, in another it is a method on an injected object. So there is no ready-made parser that covers every convention of your code. Where a language server or a code-search service already gives you objects and uses, use it first (see <a href="#when-to-delete-it">When to delete it</a>). You write extractors for what they do not cover.</p>
+<p>The <strong>toolkit</strong> is a small set of programs plus one config file, all inside the knowledge base:</p>
+<ul>
+<li>An <strong>extractor</strong> reads one kind of file and prints the objects it defines and the uses it finds.</li>
+<li>The <strong>config file</strong> says what an object is in your code, what kinds of use count, which types of object are <strong>entry points</strong> (the places the outside world calls in: a screen, an API, a scheduled job), which folders are retired, and which words to ignore in names.</li>
+</ul>
+<p>A runner applies the extractors to each repository's main branch and saves the map in a cache. On the next run, only the files that changed since the last run are read again.</p>
+<figure class="fig steps" id="fig-8-2-code-to-map" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <rect class="box" x="10" y="50" width="100" height="60" rx="6"/>
+  <text class="label" x="60" y="85" text-anchor="middle" data-t="code">the code</text>
+  <text class="label-muted" x="10" y="135" data-t="again" data-step="5">next time:</text>
+  <text class="label-muted" x="10" y="153" data-t="again2" data-step="5">only changed files</text>
+
+  <g data-step="2">
+    <path class="line" d="M110 80 H130"/>
+    <path class="head" d="M130 74 L140 80 L130 86 Z"/>
+    <rect class="box-lit" x="140" y="50" width="190" height="60" rx="6"/>
+    <text class="label-lit" x="235" y="78" text-anchor="middle" data-t="extractor">extractors</text>
+    <text class="label-lit" x="235" y="96" text-anchor="middle" data-t="extractor-note">a script per kind</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M330 80 H340"/>
+    <path class="head-lit" d="M340 74 L350 80 L340 86 Z"/>
+    <rect class="box" x="350" y="50" width="240" height="60" rx="6"/>
+    <text class="label" x="470" y="78" text-anchor="middle" data-t="map">the map</text>
+    <text class="label-muted" x="470" y="96" text-anchor="middle" data-t="map-note">every object, every use</text>
+  </g>
+
+  <g data-step="4">
+    <rect class="box-plain" x="350" y="160" width="240" height="44" rx="6"/>
+    <text class="label-muted" x="470" y="187" text-anchor="middle" data-t="known">uses a person knew</text>
+    <path class="line" d="M470 160 V120"/>
+    <path class="head" d="M464 120 L470 110 L476 120 Z"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The code is the truth. Objects and uses are written in it, in the forms your stack uses.</li><li data-step-text="2">Extractors are small scripts. Each reads one kind of file and prints the objects and uses it finds. The same input gives the same output.</li><li data-step-text="3">The output is the map: every object that exists, and who uses whom.</li><li data-step-text="4">A few uses that a person knew are written down as a test. Every run must find all of them.</li><li data-step-text="5">On the next run, only the files that changed are read again.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>The map is computed from the code by scripts, the same way every time, at no token cost.</figcaption></figure>
+<h3>Who writes it: the model designs, a person approves, scripts run</h3>
+<p>You might expect to write the extractors yourself. In my setup the model writes them, in four moves:</p>
+<ol>
+<li><strong>Survey.</strong> A script counts the kinds of file in each repository. The model reads a few samples of each kind.</li>
+<li><strong>Design.</strong> The model writes down what objects and uses look like in this stack, with examples from the code. A person reads it and approves it. This is the moment to catch &quot;that is not a use, that is a comment&quot;.</li>
+<li><strong>Build.</strong> The model writes the extractors.</li>
+<li><strong>Run until the known uses are found.</strong> See the next section.</li>
+</ol>
+<p>The model is good at writing a parser once. It should not be the parser every time. After the build, only scripts touch the code.</p>
+<h3>A test that stays: the uses a person knew</h3>
+<p>When the map is first made, how do you know it is not nonsense? A person writes down 5 to 10 uses they know are there, for example &quot;procedure A calls procedure B&quot;. These go into a file in the toolkit. It is better to write them before the extractor exists, and not to show them to the model while it writes, so the extractor is not tuned to just these. Every run of the map must find all of them. If a later change to an extractor loses one, the run fails.</p>
+<p>It is a regression test: a test that guards what already worked. It is small, and I do not pretend it measures the whole map. Whenever you meet a use the map missed, add it. <a href="8-3-kb-audit.html">Chapter 8.3</a> measures how complete the map is.</p>
+<p>The runner also reports, on every run:</p>
+<ul>
+<li>the files it could not read, and the files it read and found nothing in (both are suspicious);</li>
+<li>the names that are used but defined nowhere: they may be other systems, deleted code, or a form the extractor misreads. Look at a few.</li>
+</ul>
+<h3>Two samples, only as examples</h3>
+<p>The harness ships no toolkit of its own, only two samples that show the shape.</p>
+<ul>
+<li><strong>SQL Server:</strong> stored procedures, scheduled agent jobs, and integration packages.</li>
+<li><strong>Spring:</strong> a Spring Boot service, with controllers, repositories, entities and tables.</li>
+</ul>
+<p>I built the Spring sample on the open-source spring-petclinic project. On that code it found 58 objects in 35 files, and all 6 of the known uses; no file failed to read and none came back empty. That is a smoke test: it shows the toolkit runs on one small, tidy project. It does not show it works on yours. The hard cases (SQL built at run time, calls driven by configuration) are not in that project. Your stack, your conventions and your odd cases are what you write.</p>
+<p>The real files of the Spring sample show the shape. First the known uses a person wrote down for it:</p>
+<details class="code"><summary>Five of the sample&#x27;s known uses: one object, the kind of use, the other object.</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
+{&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
+{&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
+{&quot;from&quot;: &quot;entity:Owner&quot;, &quot;kind&quot;: &quot;maps&quot;, &quot;to&quot;: &quot;table:owners&quot;}
+{&quot;from&quot;: &quot;entity:Pet&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;entity:Visit&quot;}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/facts.jsonl#L4-L8">.harness/examples/kb-toolkits/spring/facts.jsonl L4–L8 @ 1.5.50</a></p></details>
+<p>Then the function that reads one Java file and prints its objects and uses:</p>
+<details class="code"><summary>The extractor for a Java file: find the class, its role, and the types it uses.</summary><pre><code class="language-python">def java(text: str, context: Dict[str, Any]) -&gt; List[Dict[str, Any]]:
+    clean = blank_comments(text)
+    match = TYPE.search(clean)
+    if not match:
+        return []
+    name, head = match.group(2), clean[:match.start()]
+    role = next((role for mark, role in ROLE if mark in head), &quot;class&quot;)
+    repository = REPOSITORY.search(match.group(3))
+    if repository:
+        role = &quot;repository&quot;
+    refs: List[Dict[str, Any]] = []
+    if repository:
+        refs.append({&quot;kind&quot;: &quot;reads&quot;, &quot;name&quot;: repository.group(1), &quot;as&quot;: &quot;entity&quot;, &quot;line&quot;: line_at(clean, match.start(3))})
+    parent = EXTENDS.search(match.group(3))
+    if parent and not repository:
+        refs.append({&quot;kind&quot;: &quot;extends&quot;, &quot;name&quot;: parent.group(1), &quot;line&quot;: line_at(clean, match.start(3))})
+    table = TABLE.search(head)
+    if table:
+        refs.append({&quot;kind&quot;: &quot;maps&quot;, &quot;name&quot;: table.group(1), &quot;as&quot;: &quot;table&quot;, &quot;line&quot;: line_at(clean, table.start(1))})
+    body = clean[match.end():]
+    offset = line_at(clean, match.end()) - 1
+    for used in used_types(body):
+        if used != name:
+            refs.append({&quot;kind&quot;: &quot;uses&quot;, &quot;name&quot;: used, &quot;line&quot;: offset + 1})
+    found = [{&quot;id&quot;: f&quot;{role}:{name}&quot;, &quot;type&quot;: role, &quot;name&quot;: name, &quot;line&quot;: line_at(clean, match.start(2)), &quot;dynamic&quot;: False, &quot;refs&quot;: refs}]
+    if role == &quot;controller&quot;:
+        found += endpoints(clean, head, body, offset, name)
+    return found</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/extract_spring.py#L50-L77">.harness/examples/kb-toolkits/spring/extract_spring.py L50–L77 @ 1.5.50</a></p></details>
+<p>And the sample's own record of how it was built, including the first run that missed one use and what it cannot see:</p>
+<details class="code"><summary>Two rounds of fixing the extractor, and the blind spots left.</summary><pre><code class="language-markdown">## Rounds
+
+1. 9 of 10 facts: `new ModelAndView(&quot;owners/ownerDetails&quot;)` not known. Also `welcome.html` at the top of `templates/` was not matched by `templates/**/*.html`: fixed in the harness (`**/` stands for no folder too).
+2. 10 of 10. An added fact on a view returned through a constant failed; constants are now read. 11 of 11.
+
+## Blind spots
+
+- Join tables named only in `@JoinTable` (`vet_specialties`) have no use.
+- Beans wired by the framework (`@Configuration`, formatters) show as `unused`: the framework calls them.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/DESIGN.md#L22-L30">.harness/examples/kb-toolkits/spring/DESIGN.md L22–L30 @ 1.5.50</a></p></details>
+<h3>Why a general harness does not include a toolkit</h3>
+<p>I did not ship parsers for the common stacks. A parser that is almost right fails silently, and each team writes code a little differently. A toolkit the team owns and audits (<a href="8-3-kb-audit.html">next chapter</a>) can be fixed when it misses, and it lives in the knowledge base, so upgrading the harness never overwrites it.</p>
+<h3>Test your own setup</h3>
+<ol>
+<li>Pick one repository. Write down 5 to 10 uses you know are there, each with a file and line.</li>
+<li>Ask an agent to draft what objects and uses look like in your stack, with examples from your code. Read it. Correct it.</li>
+<li>Have the agent write the extractors. Run them, and check that all your known uses appear.</li>
+<li>Run them twice. The two outputs must be identical.</li>
+</ol>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>toolkit 是什麼</h3>
+<p>一個預存程序、一個工作或一個類別在檔案裡長什麼樣，取決於堆疊。一種堆疊裡的呼叫是 <code>CALL name</code>，另一種是注入物件上的一個方法。所以沒有現成的解析器涵蓋你程式碼的每一種慣例。語言伺服器或程式碼搜尋服務已經給你物件和使用的地方，先用它們（見 <a href="#when-to-delete-it">什麼時候可以刪掉</a>）。你為它們沒涵蓋的部分寫抽取器。</p>
+<p><strong>toolkit</strong> 是一小組程式，加上一個設定檔，全都放在知識庫裡面：</p>
+<ul>
+<li><strong>抽取器</strong>讀一種檔案，印出它定義的物件和它找到的使用。</li>
+<li><strong>設定檔</strong>說明在你的程式碼裡什麼是物件、哪些種類的使用算數、哪些類型的物件是<strong>入口</strong>（外面的世界呼叫進來的地方：畫面、API、排程工作）、哪些資料夾已經退役，以及名字裡哪些詞要忽略。</li>
+</ul>
+<p>執行器把抽取器用在每個倉庫的主分支上，並把地圖存進快取。下一次執行時，只重讀上次之後改過的檔案。</p>
+<figure class="fig steps" id="fig-8-2-code-to-map" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <rect class="box" x="10" y="50" width="100" height="60" rx="6"/>
+  <text class="label" x="60" y="85" text-anchor="middle" data-t="code">程式碼</text>
+  <text class="label-muted" x="10" y="135" data-t="again" data-step="5">下次：</text>
+  <text class="label-muted" x="10" y="153" data-t="again2" data-step="5">只重讀改過的檔案</text>
+
+  <g data-step="2">
+    <path class="line" d="M110 80 H130"/>
+    <path class="head" d="M130 74 L140 80 L130 86 Z"/>
+    <rect class="box-lit" x="140" y="50" width="190" height="60" rx="6"/>
+    <text class="label-lit" x="235" y="78" text-anchor="middle" data-t="extractor">抽取器</text>
+    <text class="label-lit" x="235" y="96" text-anchor="middle" data-t="extractor-note">每種檔案一支腳本</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M330 80 H340"/>
+    <path class="head-lit" d="M340 74 L350 80 L340 86 Z"/>
+    <rect class="box" x="350" y="50" width="240" height="60" rx="6"/>
+    <text class="label" x="470" y="78" text-anchor="middle" data-t="map">地圖</text>
+    <text class="label-muted" x="470" y="96" text-anchor="middle" data-t="map-note">每個物件、每一個「用」</text>
+  </g>
+
+  <g data-step="4">
+    <rect class="box-plain" x="350" y="160" width="240" height="44" rx="6"/>
+    <text class="label-muted" x="470" y="187" text-anchor="middle" data-t="known">人本來就知道的「用」</text>
+    <path class="line" d="M470 160 V120"/>
+    <path class="head" d="M464 120 L470 110 L476 120 Z"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">程式碼才是真相。物件和「用」就寫在裡面，形式取決於你的技術棧。</li><li data-step-text="2">抽取器是小腳本。每支讀一種檔案，印出它找到的物件和「用」。同樣的輸入，同樣的輸出。</li><li data-step-text="3">輸出就是地圖：有哪些物件，誰用誰。</li><li data-step-text="4">幾個人本來就知道的「用」寫下來當測試。每次執行都必須全部找到。</li><li data-step-text="5">下一次，只重讀改過的檔案。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>地圖由腳本從程式碼算出來，每次一樣，不花 token。</figcaption></figure>
+<h3>誰寫：模型設計，人批准，腳本執行</h3>
+<p>你可能預期要自己寫抽取器。在我的設定裡，是模型寫，分四步：</p>
+<ol>
+<li><strong>調查</strong>。一個腳本數出每個倉庫裡各種檔案的數量。模型讀每一種的幾個樣本。</li>
+<li><strong>設計</strong>。模型寫下在這個堆疊裡，物件和使用長什麼樣，附上程式碼裡的例子。人讀它並批准。這是抓出「那不是使用，那是註解」的時刻。</li>
+<li><strong>建造</strong>。模型寫抽取器。</li>
+<li><strong>執行，直到已知的使用都找到</strong>。見下一節。</li>
+</ol>
+<p>模型擅長把解析器寫一次。它不該每一次都當解析器。建好之後，只有腳本碰程式碼。</p>
+<h3>一個一直留著的測試：人知道的那些使用</h3>
+<p>地圖第一次做出來時，你怎麼知道它不是胡說？人寫下 5 到 10 個他知道存在的使用，例如「預存程序 A 呼叫預存程序 B」。這些放進 toolkit 裡的一個檔案。最好在抽取器出現之前就寫，並且在模型寫的時候不給它看，這樣抽取器就不會只對這幾個調校。地圖的每次執行，都必須找到所有這些。如果之後對抽取器的改動弄丟了一個，這次執行就失敗。</p>
+<p>這是迴歸測試：守住已經行得通的東西的測試。它很小，我不假裝它量得出整張地圖。每次你遇到地圖漏掉的使用，就把它加進去。<a href="8-3-kb-audit.html">第 8.3 章</a> 量地圖有多完整。</p>
+<p>執行器每次執行也會回報：</p>
+<ul>
+<li>它讀不了的檔案，以及它讀了卻什麼都沒找到的檔案（兩者都可疑）；</li>
+<li>被使用卻沒在任何地方定義的名字：它們可能是別的系統、被刪掉的程式碼，或抽取器讀錯的寫法。看幾個。</li>
+</ul>
+<h3>兩個範例，只當例子</h3>
+<p>harness 沒有附帶自己的 toolkit，只有兩個範例，讓你看到它的形狀。</p>
+<ul>
+<li><strong>SQL Server</strong>：預存程序、排程的 agent 工作，和整合套件。</li>
+<li><strong>Spring</strong>：一個 Spring Boot 服務，有 controller、repository、entity 和資料表。</li>
+</ul>
+<p>我在開源專案 spring-petclinic 上建了 Spring 範例。在那份程式碼上，它在 35 個檔案裡找到 58 個物件，6 個已知的使用全都找到了；沒有檔案讀取失敗，也沒有檔案是空的。這是冒煙測試：它證明 toolkit 在一個小而整齊的專案上跑得起來。它不證明在你的專案上行得通。難的情況（執行時才組出來的 SQL、由設定驅動的呼叫）不在那個專案裡。你的堆疊、你的慣例和你那些奇怪的情況，要由你來寫。</p>
+<p>Spring 範例的真實檔案，讓你看到形狀。先是人為它寫下的已知使用：</p>
+<details class="code"><summary>範例的五個已知使用：一個物件、使用的種類、另一個物件。</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
+{&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
+{&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
+{&quot;from&quot;: &quot;entity:Owner&quot;, &quot;kind&quot;: &quot;maps&quot;, &quot;to&quot;: &quot;table:owners&quot;}
+{&quot;from&quot;: &quot;entity:Pet&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;entity:Visit&quot;}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/facts.jsonl#L4-L8">.harness/examples/kb-toolkits/spring/facts.jsonl L4–L8 @ 1.5.50</a></p></details>
+<p>然後是讀一個 Java 檔案、印出它的物件和使用的函式：</p>
+<details class="code"><summary>Java 檔案的抽取器：找出類別、它的角色，和它用到的型別。</summary><pre><code class="language-python">def java(text: str, context: Dict[str, Any]) -&gt; List[Dict[str, Any]]:
+    clean = blank_comments(text)
+    match = TYPE.search(clean)
+    if not match:
+        return []
+    name, head = match.group(2), clean[:match.start()]
+    role = next((role for mark, role in ROLE if mark in head), &quot;class&quot;)
+    repository = REPOSITORY.search(match.group(3))
+    if repository:
+        role = &quot;repository&quot;
+    refs: List[Dict[str, Any]] = []
+    if repository:
+        refs.append({&quot;kind&quot;: &quot;reads&quot;, &quot;name&quot;: repository.group(1), &quot;as&quot;: &quot;entity&quot;, &quot;line&quot;: line_at(clean, match.start(3))})
+    parent = EXTENDS.search(match.group(3))
+    if parent and not repository:
+        refs.append({&quot;kind&quot;: &quot;extends&quot;, &quot;name&quot;: parent.group(1), &quot;line&quot;: line_at(clean, match.start(3))})
+    table = TABLE.search(head)
+    if table:
+        refs.append({&quot;kind&quot;: &quot;maps&quot;, &quot;name&quot;: table.group(1), &quot;as&quot;: &quot;table&quot;, &quot;line&quot;: line_at(clean, table.start(1))})
+    body = clean[match.end():]
+    offset = line_at(clean, match.end()) - 1
+    for used in used_types(body):
+        if used != name:
+            refs.append({&quot;kind&quot;: &quot;uses&quot;, &quot;name&quot;: used, &quot;line&quot;: offset + 1})
+    found = [{&quot;id&quot;: f&quot;{role}:{name}&quot;, &quot;type&quot;: role, &quot;name&quot;: name, &quot;line&quot;: line_at(clean, match.start(2)), &quot;dynamic&quot;: False, &quot;refs&quot;: refs}]
+    if role == &quot;controller&quot;:
+        found += endpoints(clean, head, body, offset, name)
+    return found</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/extract_spring.py#L50-L77">.harness/examples/kb-toolkits/spring/extract_spring.py L50–L77 @ 1.5.50</a></p></details>
+<p>還有範例自己對建造過程的紀錄，包括漏了一個使用的第一次執行，以及它看不到的東西：</p>
+<details class="code"><summary>修抽取器的兩輪，和留下的盲點。</summary><pre><code class="language-markdown">## Rounds
+
+1. 9 of 10 facts: `new ModelAndView(&quot;owners/ownerDetails&quot;)` not known. Also `welcome.html` at the top of `templates/` was not matched by `templates/**/*.html`: fixed in the harness (`**/` stands for no folder too).
+2. 10 of 10. An added fact on a view returned through a constant failed; constants are now read. 11 of 11.
+
+## Blind spots
+
+- Join tables named only in `@JoinTable` (`vet_specialties`) have no use.
+- Beans wired by the framework (`@Configuration`, formatters) show as `unused`: the framework calls them.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/DESIGN.md#L22-L30">.harness/examples/kb-toolkits/spring/DESIGN.md L22–L30 @ 1.5.50</a></p></details>
+<h3>為什麼通用的 harness 不附 toolkit</h3>
+<p>我沒有為常見的堆疊附上解析器。幾乎正確的解析器會無聲地失敗，而且每個團隊寫程式碼的方式都有點不同。團隊自己擁有、自己抽查的 toolkit（<a href="8-3-kb-audit.html">下一章</a>），漏掉東西時可以修，而且它放在知識庫裡，所以升級 harness 不會覆蓋它。</p>
+<h3>測你自己的設定</h3>
+<ol>
+<li>挑一個倉庫。寫下 5 到 10 個你知道存在的使用，每個附上檔案和行號。</li>
+<li>請 agent 草擬在你的堆疊裡物件和使用長什麼樣，附上你程式碼裡的例子。讀它，修正它。</li>
+<li>讓 agent 寫抽取器。執行它們，檢查你所有已知的使用都出現了。</li>
+<li>執行兩次。兩次的輸出必須完全一樣。</li>
+</ol>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>The toolkit is code to maintain.</strong> When your stack changes, so does it. That is the price of owning it.</li>
+<li><strong>It is only as good as its reading of the forms.</strong> An extractor that handles three ways of writing a call and misses a fourth looks fine on the known uses. That is why we audit (<a href="8-3-kb-audit.html">8.3</a>).</li>
+<li><strong>Some things no script can see.</strong> A query built as a string at run time, or a call driven by a config table, is invisible to any parser. These are marked, not guessed (<a href="8-3-kb-audit.html">8.3</a>).</li>
+<li><strong>I have not tested the toolkit on a very large code base.</strong> The petclinic run is a small case.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>toolkit 是要維護的程式碼</strong>。你的堆疊改變，它也要改。這是擁有它的代價。</li>
+<li><strong>它只有讀懂寫法的程度那麼好</strong>。一個處理了呼叫的三種寫法、漏掉第四種的抽取器，在已知的使用上看起來沒問題。這就是為什麼要抽查（<a href="8-3-kb-audit.html">8.3</a>）。</li>
+<li><strong>有些東西沒有腳本看得到</strong>。執行時組成字串的查詢，或由設定表驅動的呼叫，任何解析器都看不見。這些要標出來，不要猜（<a href="8-3-kb-audit.html">8.3</a>）。</li>
+<li><strong>我沒有在很大的程式碼庫上測過 toolkit</strong>。petclinic 的執行是個小例子。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If a tool you trust, such as your language server or a code-search service, already gives you objects and uses with a measured accuracy, feed its output into the map and drop your extractors. The rest of the road does not care where the map came from.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果一個你信任的工具，例如你的語言伺服器或程式碼搜尋服務，已經給你物件和使用，並且有量過的準確度，就把它的輸出餵進地圖，放掉你的抽取器。路線的其餘部分不在乎地圖從哪裡來。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Scan this repository for the kinds of dependency that a script reading the code cannot see: queries or commands built as text at run time, calls chosen by a variable or a configuration row, and names that resolve to something outside this repository. Give a rough count of each kind, with three example locations (file and line). Say what share of the code looks hard to map by script. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>掃描這個倉庫，找出讀程式碼的腳本看不見的那幾種依賴：執行時組成文字的查詢或指令、由變數或設定列選擇的呼叫，以及解析到這個倉庫之外的名字。每一種給一個大略的數量，附三個例子的位置（檔案和行號）。說明程式碼中看起來難以用腳本畫地圖的比例。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a></li>
+<li><a href="8-3-kb-audit.html">The audit</a>: how to measure the map you just made.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a></li>
+<li><a href="8-3-kb-audit.html">地圖對不對：盲抽查</a>：怎麼量你剛畫出來的地圖。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has the commands that survey the code, build the map and run the checks, and the two sample toolkits. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The toolkit: scripts that draw a map of the code&quot;. Teach me topic 16, parts 16.1 and 16.2: how the map is built and cached. Open the Spring sample toolkit and its known-uses file with me, and show me what an extractor looks like.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有調查程式碼、建地圖和執行檢查的指令，也有那兩個範例 toolkit。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Toolkit：用腳本畫出程式碼的地圖」這一章。請教我主題 16 的 16.1 和 16.2：地圖是怎麼建出來和快取的。和我一起打開 Spring 範例 toolkit 和它的已知使用檔案，讓我看抽取器長什麼樣。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

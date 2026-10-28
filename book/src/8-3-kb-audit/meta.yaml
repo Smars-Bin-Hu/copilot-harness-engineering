@@ -1,0 +1,12 @@
+id: "8.3"
+part: case-kb
+title: {en: "Is the map right? A blind audit", zh-Hant: "地圖對不對：盲抽查"}
+harness_tag: "1.5.50"
+wondering: [16-knowledge-base]
+sources:
+  - what: "The audit: sample per type, read blind, score recall and precision per type, check every difference at its line, bar 0.95, re-audit with another seed; reader misreadings are kept in the notes"
+    where: "harness docs/08-knowledge-base.md ('How you know the map is right'); skill generic-kb-toolkit-audit"
+  - what: "What no map sees: SQL built at run time, calls driven by a configuration table, a package chosen by a variable, synonyms and linked servers; marked dynamic or outside and turned into requests"
+    where: "harness docs/08-knowledge-base.md ('How you know the map is right')"
+  - what: "A reading is not truth either; only a difference checked at its line counts"
+    where: "harness wondering topic 16-knowledge-base, chunk 16.3"

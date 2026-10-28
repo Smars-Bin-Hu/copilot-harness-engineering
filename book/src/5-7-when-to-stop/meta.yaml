@@ -1,0 +1,21 @@
+id: "5.7"
+part: flow
+title: {en: "Unattended: when it must stop", zh-Hant: 無人值守：什麼時候必須停}
+harness_tag: "1.5.50"
+wondering: [11-review, 15-design-choices]
+sources:
+  - what: "Autorun stop reasons judged by code: done, plan changed, checks used up, refused twice, pushed on 20 times, 120 minutes, 3 pushes with no progress, the agent says it cannot go on, the person switches it off; what the agent writes as the reason; decisions logged"
+    where: harness autorun skill and its when-to-stop reference, docs/02-features.md (autorun)
+  - what: "No total budget over the main agent and all subagents exists yet; the usage of subagents is counted in the task report"
+    where: harness gap list (G-3), docs/06-cost-optimization.md
+  - what: "Limits on turns and spend for non-interactive runs (--max-turns, --max-budget-usd with -p)"
+    where: https://code.claude.com/docs/en/cli-reference
+    checked: 2026-10-28
+  - what: "--max-turns and --max-budget-usd are print-mode only; the money cap uses a client-side estimate, can be passed, counts subagent spend, and blocks new subagents once reached"
+    where: https://code.claude.com/docs/en/cli-reference
+    checked: 2026-10-28
+  - what: "Cached input is read at about a tenth of the base input price"
+    where: 1.1 (Models and cost)
+  - what: "A later agent instance would look around, see that progress had been made, and declare the job done"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-27

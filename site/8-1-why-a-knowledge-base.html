@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>A knowledge base: an honest index of the code</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.1</p><h1><span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span></h1></header><div data-l="en" lang="en"><p>This chapter is the first of a case study. It assumes you have read <a href="3-1-context-budget.html">Context budget</a> and <a href="3-5-memory.html">What an agent should remember</a>, which give the general ideas. It fits a team with a large, old code base. If your code base is small, read it to decide that you do not need this. The most useful part is the small experiment in <a href="#test">Test your own setup</a>: you can run it before you build anything.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章是個案研究的第一章。讀它，你需要讀過 <a href="3-1-context-budget.html">上下文是一份預算</a> 和 <a href="3-5-memory.html">agent 該記住什麼</a>，它們講的是一般的想法。它適合有一大份老程式碼的團隊。如果你的程式碼很小，讀它是為了判斷你不需要。最有用的部分，是 <a href="#test">測你自己的設定</a> 裡那個小實驗：你在建任何東西之前，就可以先跑。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The code is the truth. A knowledge base is only an index and summary of it, which should be cheaper to read. It does not try to be complete on day one. It tries to be honest: each card says which version of the source file it read, and each gap is written down where the next reader will see it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>程式碼才是真相。知識庫只是它的索引和摘要，讀起來應該比較便宜。它不求第一天就完整，它求誠實：每張卡片說明它讀的是哪個版本的原始檔案，每個缺口都寫在下一個讀者會看到的地方。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> whether to fund a knowledge base (a folder of short notes about the code, written for agents), and who will own it. Test first whether searching the code is already enough.</li>
+<li><strong>The risk:</strong> searching starts to hurt when the code base is large, the same exploration is paid for in every session, or a wrong answer is expensive. I have not measured a knowledge base against plain search, so this is a bet, not a proven win. A base nobody refreshes becomes confidently wrong.</li>
+<li><strong>The cost of doing it right:</strong> the model reads each object's code once; for a large domain that is real money, and I have not priced it. Someone must own the refresh, and the notes need the same access rules as the code.</li>
+<li><strong>Ask the team:</strong> &quot;On ten questions we know the answers to, how often does an agent with plain search get it right?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要不要出錢做知識庫（一個資料夾，裡面是寫給 agent 的程式碼短筆記），以及誰負責。先測一下，只搜尋程式碼是不是已經夠了。</li>
+<li><strong>風險</strong>：程式碼庫很大、同樣的探索在每個會話都要再付一次、或者答錯很貴的時候，搜尋就開始吃力。我沒有拿知識庫和單純搜尋比較過，所以這是一場賭注，不是證明過的勝利。沒有人更新的知識庫，會變成很有自信地答錯。</li>
+<li><strong>做對的成本</strong>：模型把每個物件的程式碼讀一遍；對大的領域，這是真金白銀，我沒有算過價。要有人負責更新，筆記也需要和程式碼一樣的存取規則。</li>
+<li><strong>可以問團隊</strong>：「十個我們知道答案的問題，只用單純搜尋的 agent 答對幾個？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Say a team owns a code base with a few thousand objects. An <strong>object</strong> is a named thing in the code that other things use: a stored procedure, a scheduled job, a class, a table. You ask an agent to change one of them. To do it safely, the agent has to know what the object does, who uses it, and what breaks if it changes.</p>
+<p>A new agent session starts knowing none of this. The first question is the obvious one.</p>
+<h3>Why not just let the agent search the code?</h3>
+<p>An agent can search. It can run <code>grep</code> (find every line that contains a word), open files, and follow names. For many jobs that is the right answer, and it costs nothing to set up. I want to say clearly when it is enough. Searching also does not have to be bare <code>grep</code>: a language server (the editor service that answers &quot;where is this defined, who uses it&quot;) or a code-search service can help, and a short, good rules page helps too. The knowledge base has to beat that combination, not bare <code>grep</code>.</p>
+<p><strong>Searching is enough when:</strong></p>
+<ul>
+<li>The code base is small, or the part you need fits in one context.</li>
+<li>You know the name of what you are looking for.</li>
+<li>The task is a one-off, so nobody pays for the same exploration twice.</li>
+</ul>
+<p><strong>It starts to hurt when:</strong></p>
+<ul>
+<li><strong>The agent decides what to read next from what it just read.</strong> It can miss an object, follow a name that means something else, and stop too early. It cannot tell you how much it missed. Ask it twice and you may get two different answers.</li>
+<li><strong>The same exploration is paid for in every session.</strong> Every new session starts with an empty context (<a href="3-1-context-budget.html">context budget</a>), so the agent finds the same things again.</li>
+<li><strong>Some things are not in the code.</strong> Which environment runs a job, why a rule exists, what failed last year. No search finds them, because they are not written there.</li>
+<li><strong>A wrong answer is expensive.</strong> If the object touches shared data, a guess from a partial search is not good enough.</li>
+</ul>
+<p>A <strong>knowledge base</strong> is a folder of plain text files about the code, written for agents to read. The idea is to pay once for the exploration, keep the result, and read the result first because it should be cheaper than the code. I have not measured that.</p>
+<p><strong>I have not measured it against searching.</strong> I have not run the same questions once with plain search and once with a knowledge base, and I do not know by how much the second one wins, if it does. What I have is the reasoning above, and a way for you to test it on your own code (see <a href="#test">Test your own setup</a>). Treat the knowledge base as a bet that pays off under the conditions above, not as a proven win.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>假設一個團隊擁有一份有幾千個物件的程式碼庫。<strong>物件</strong>是程式碼裡一個有名字、被別的東西使用的東西：預存程序、排程工作、類別、資料表。你請 agent 改其中一個。要改得安全，agent 得知道這個物件做什麼、誰在用它、改了會壞掉什麼。</p>
+<p>新的 agent 會話開始時，這些一概不知道。第一個問題是顯而易見的。</p>
+<h3>為什麼不乾脆讓 agent 搜尋程式碼？</h3>
+<p>agent 會搜尋。它能執行 <code>grep</code>（找出每一行含有某個詞的地方）、開檔案、順著名字追。對很多工作，這就是正確的答案，而且不用任何設定。我想說清楚它什麼時候就夠了。搜尋也不必是單純的 <code>grep</code>：語言伺服器（回答「這個在哪裡定義、誰在用」的編輯器服務）或程式碼搜尋服務都可以幫忙，一頁簡短而好的規則也有幫助。知識庫要贏的是這一整套，不是單純的 <code>grep</code>。</p>
+<p><strong>搜尋就夠的時候</strong>：</p>
+<ul>
+<li>程式碼庫很小，或者你要的那一塊放得進一個上下文。</li>
+<li>你知道要找的東西的名字。</li>
+<li>任務只做一次，所以沒有人為同樣的探索付兩次。</li>
+</ul>
+<p><strong>開始吃力的時候</strong>：</p>
+<ul>
+<li><strong>agent 靠剛讀到的東西，決定下一步讀什麼</strong>。它可能漏掉一個物件，追到一個名字相同、意思不同的東西，太早停下來。它說不出自己漏了多少。問它兩次，可能得到兩個不同的答案。</li>
+<li><strong>同樣的探索，每個會話都要付一次</strong>。每個新會話都從空的上下文開始（<a href="3-1-context-budget.html">上下文預算</a>），所以 agent 又找到同樣的東西。</li>
+<li><strong>有些事不在程式碼裡</strong>。哪個環境執行一個工作、一條規則為什麼存在、去年什麼壞了。搜尋找不到，因為那裡沒有寫。</li>
+<li><strong>答錯很貴</strong>。如果物件碰到共用的資料，靠不完整的搜尋猜出來的答案，是不夠的。</li>
+</ul>
+<p><strong>知識庫</strong>是一個資料夾，裡面是關於程式碼的純文字檔案，寫給 agent 讀。想法是：探索只付一次錢，把結果留下來，並先讀結果，因為它應該比讀程式碼便宜。這一點我沒有量過。</p>
+<p><strong>我沒有拿它和搜尋比較過</strong>。我沒有把同樣的問題，一次用單純搜尋、一次用知識庫跑過，所以我不知道第二個贏多少，甚至贏不贏。我有的，是上面的推理，以及一個讓你在自己的程式碼上測試的辦法（見 <a href="#test">測你自己的設定</a>）。把知識庫看成一場賭注：在上面那些條件下才會有回報，不是證明過的勝利。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The shape of a knowledge base</h3>
+<p>A reader goes down only as far as the task needs.</p>
+<figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">overview: domains, glossary</text>
+  <rect class="box" x="10" y="60" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="85" text-anchor="middle" data-t="l2">architecture of one domain</text>
+  <rect class="box" x="10" y="110" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="135" text-anchor="middle" data-t="l3">cards: one per object</text>
+  <rect class="box-lit" x="10" y="190" width="330" height="40" rx="6"/>
+  <text class="label-lit" x="175" y="215" text-anchor="middle" data-t="l4">the code</text>
+
+  <path class="line" d="M175 50 V60"/>
+  <path class="line" d="M175 100 V110"/>
+  <path class="line-lit" d="M175 150 V180"/>
+  <path class="head-lit" d="M169 180 L175 190 L181 180 Z"/>
+
+  <text class="label-muted" x="360" y="35" data-t="cheap">cheapest to read</text>
+  <text class="label-muted" x="360" y="128" data-t="down">go down only as far</text>
+  <text class="label-muted" x="360" y="148" data-t="down2">as the task needs</text>
+  <text class="label-lit" x="360" y="215" data-t="truth">the source of truth</text>
+
+  <rect class="box-plain" x="360" y="56" width="230" height="56" rx="6"/>
+  <text class="label-muted" x="475" y="80" text-anchor="middle" data-t="gaps">gaps, open requests,</text>
+  <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">written down</text>
+</svg>
+<figcaption>A reader goes down the layers only as far as the task needs. The code is the truth; the layers above it are cheaper to read.</figcaption></figure>
+<ul>
+<li><strong>The overview</strong> lists the <strong>domains</strong> and has a glossary. A domain is a group of objects that serve one job, such as &quot;orders&quot; or &quot;payroll&quot;.</li>
+<li><strong>The architecture page</strong> of a domain says what the domain is for, its main flows, where to start reading, its traps and its limits.</li>
+<li><strong>A card</strong> is a short entry about one object: what it is for, its rules, who it uses, its traps. Each rule cites the lines of code it comes from. One file holds the cards of one type. An agent finds a card by walking down: overview, then the domain's page, then the card by its id.</li>
+<li><strong>The code</strong> is at the bottom. It is the source of truth. If a card and the code disagree, the code wins.</li>
+</ul>
+<p>So a card is a promise with a date, not a replacement for the code. An agent that needs more reads the code.</p>
+<h3>Scripts do the structure, the model does the meaning</h3>
+<p>Two kinds of work go into a card, and they are different.</p>
+<ul>
+<li><strong>Structure</strong> has one right answer: which objects exist, who uses whom (together, the <strong>map</strong> of the code), in what order to learn them, whether a card lists the right relations. A script can compute this. It gives the same answer every time and costs no tokens. A model asked to do it walks the code by judgment, and may miss things.</li>
+<li><strong>Meaning</strong> has no single answer: what an object is for, what its rule is, which trap catches people. Only a model, reading the code, can write it.</li>
+</ul>
+<p>The rest of this part follows from that split. <a href="8-2-kb-toolkit.html">The toolkit</a> is how scripts draw the map. <a href="8-3-kb-audit.html">The audit</a> measures that map. <a href="8-4-kb-learning.html">Learning in batches</a> is where the model writes the meaning, with scripts checking what they can. <a href="8-5-kb-keep-true.html">Keeping it true</a> is what happens after the code changes.</p>
+<h3>Honest, not complete</h3>
+<p>My guess is that most of a base can come from the code. That is a guess, not a measurement. The rest cannot: what runs in which environment, what failed and why, what someone decided. That part comes over time, from finished tasks, from root-cause reports, from what people export. So the base is never finished on day one, and pretending it is would make it worse, because a base that looks complete gets believed.</p>
+<p>Two habits keep it honest:</p>
+<ol>
+<li><strong>Every card says which version of its source file it read.</strong> It records a commit (a saved version of the code, named by a short id called a sha). The scripts also keep an <strong>object index</strong>: a list of every object, the source file it lives in, and that file's sha. That is how you can later list the cards the code has moved past. <a href="8-5-kb-keep-true.html">Chapter 8.5</a> shows how.</li>
+<li><strong>Every gap is written down.</strong> What the code cannot tell goes into a <strong>requests list</strong>: one row per thing a person must give, with the kind of thing it is and a read-only way to get it. The agent asks for these at its next stop, never in the middle of work. <a href="8-5-kb-keep-true.html">Chapter 8.5</a> has the details.</li>
+</ol>
+<h3>Every step is a task a person approves</h3>
+<p>Building the base is not one big prompt. Each step is a task (see <a href="5-1-tasks.html">Manage tasks, not chats</a>) with a plan the person approves and a write-back the person approves (the write-back copies the finished work into the base; see <a href="5-3-two-approvals.html">Two gates: where a person approves</a>). Scripts check what can be checked: the form of the files, the relations, the cited lines. And I do not let the agent connect to a live environment. What only an environment can tell, a person runs and hands over.</p>
+<h3>The road</h3>
+<ol>
+<li>Build a toolkit, once per code base (8.2).</li>
+<li>Compute the map, before each use (8.2).</li>
+<li>Audit the map (8.3).</li>
+<li>Split the code into domains, once (8.4).</li>
+<li>Learn each domain in batches (8.4).</li>
+<li>Write the architecture page (8.4).</li>
+<li>Keep it true: refresh, capture, requests (8.5).</li>
+</ol>
+<h3>Test your own setup {#test}</h3>
+<p>Before you build anything, find out whether you need it.</p>
+<ol>
+<li>Write 10 questions about your code whose right answers you know. Mix kinds: &quot;what calls X?&quot;, &quot;what happens if Y changes?&quot;, &quot;why does Z skip this case?&quot;.</li>
+<li>Ask an agent each question in a fresh chat, with plain search only. Score each answer right or wrong against what you know.</li>
+<li>Write cards for one small domain by hand or with the agent. Ask the same questions again with the cards available, in fresh chats.</li>
+<li>Compare: right answers, usage (the token numbers your tool shows for a run), time.</li>
+</ol>
+<p>Two cautions. Ask the questions in a form that cannot be answered from one file, such as &quot;what breaks if Y changes?&quot;, and let someone who has not read the cards choose them. Ten questions can only show a large difference.</p>
+<p>Do each condition several times, not once, because an agent does not do the same thing twice (see <a href="6-4-variance.html">Variance</a>). If search alone scores about the same, do not build the base.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>知識庫的形狀</h3>
+<p>讀者只往下走到任務需要的深度。</p>
+<figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">總覽：領域、詞彙表</text>
+  <rect class="box" x="10" y="60" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="85" text-anchor="middle" data-t="l2">單一領域的架構</text>
+  <rect class="box" x="10" y="110" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="135" text-anchor="middle" data-t="l3">卡片：每個物件一張</text>
+  <rect class="box-lit" x="10" y="190" width="330" height="40" rx="6"/>
+  <text class="label-lit" x="175" y="215" text-anchor="middle" data-t="l4">程式碼</text>
+
+  <path class="line" d="M175 50 V60"/>
+  <path class="line" d="M175 100 V110"/>
+  <path class="line-lit" d="M175 150 V180"/>
+  <path class="head-lit" d="M169 180 L175 190 L181 180 Z"/>
+
+  <text class="label-muted" x="360" y="35" data-t="cheap">讀起來最省</text>
+  <text class="label-muted" x="360" y="128" data-t="down">任務需要多深，</text>
+  <text class="label-muted" x="360" y="148" data-t="down2">就往下讀多深</text>
+  <text class="label-lit" x="360" y="215" data-t="truth">真相的來源</text>
+
+  <rect class="box-plain" x="360" y="56" width="230" height="56" rx="6"/>
+  <text class="label-muted" x="475" y="80" text-anchor="middle" data-t="gaps">缺口與待回答的請求，</text>
+  <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">寫下來</text>
+</svg>
+<figcaption>讀的人只往下讀到任務需要的那一層。程式碼才是真相；上面幾層只是讀起來更便宜。</figcaption></figure>
+<ul>
+<li><strong>總覽</strong>列出<strong>領域</strong>，並有一份詞彙表。領域是為了同一件工作的一組物件，例如「訂單」或「薪資」。</li>
+<li>一個領域的<strong>架構頁</strong>說明這個領域是做什麼的、主要的流程、從哪裡開始讀、它的陷阱和它的限制。</li>
+<li><strong>卡片</strong>是關於一個物件的短條目：它做什麼、它的規則、它用誰、它的陷阱。每條規則都註明它來自哪幾行程式碼。一個檔案放同一種類型的卡片。agent 往下走來找到卡片：總覽，然後是領域的頁面，再用 id 找到卡片。</li>
+<li><strong>程式碼</strong>在最底下。它是真相的來源。卡片和程式碼不一致時，程式碼贏。</li>
+</ul>
+<p>所以卡片是一份附日期的承諾，不是程式碼的替代品。需要更多的 agent，去讀程式碼。</p>
+<h3>腳本做結構，模型做意義</h3>
+<p>寫一張卡片有兩種工作，它們不一樣。</p>
+<ul>
+<li><strong>結構</strong>有一個正確答案：有哪些物件、誰用誰（合起來是程式碼的<strong>地圖</strong>）、照什麼順序學它們、一張卡片列的關係對不對。腳本能算出來。每次答案都一樣，也不花 token。要模型去做，它是憑判斷在程式碼裡走，可能漏掉東西。</li>
+<li><strong>意義</strong>沒有單一答案：一個物件是做什麼的、它的規則是什麼、哪個陷阱會絆住人。只有讀了程式碼的模型能寫。</li>
+</ul>
+<p>這一部其餘的內容，都從這個分工來。<a href="8-2-kb-toolkit.html">Toolkit</a> 是腳本怎麼畫出地圖。<a href="8-3-kb-audit.html">盲抽查</a> 量這張地圖。<a href="8-4-kb-learning.html">分批學</a> 是模型寫下意義的地方，腳本能檢查的就檢查。<a href="8-5-kb-keep-true.html">讓它一直是對的</a> 是程式碼改了之後的事。</p>
+<h3>誠實，不求完整</h3>
+<p>我的猜測是，知識庫的大部分可以從程式碼來。這是猜測，不是量測。其餘的不行：什麼在哪個環境執行、什麼壞了和為什麼、有人做了什麼決定。這一部分隨時間而來，來自做完的任務、根因報告、人們匯出的東西。所以知識庫第一天不會完成，假裝完成只會讓它更糟，因為看起來完整的知識庫，會被人相信。</p>
+<p>兩個習慣讓它誠實：</p>
+<ol>
+<li><strong>每張卡片說明它讀的是它的原始檔案的哪個版本</strong>。它記下一個 commit（程式碼的一個存下來的版本，用一個叫 sha 的短 id 命名）。腳本也維護一份<strong>物件索引</strong>：每個物件的清單、它所在的原始檔案，以及該檔案的 sha。這樣你之後才能列出程式碼已經走過去的卡片。<a href="8-5-kb-keep-true.html">第 8.5 章</a> 說明怎麼做。</li>
+<li><strong>每個缺口都寫下來</strong>。程式碼說不出的，進入一份<strong>請求清單</strong>：每一列是一件必須由人提供的事，附上它是哪一種，以及一個唯讀的取得辦法。agent 在下一個停下來的地方問這些，從不在工作到一半時問。<a href="8-5-kb-keep-true.html">第 8.5 章</a> 有細節。</li>
+</ol>
+<h3>每一步都是一個由人批准的任務</h3>
+<p>建知識庫不是一個大 prompt。每一步都是一個任務（見 <a href="5-1-tasks.html">管任務，不管對話</a>），有一份人批准的計劃，和一次人批准的寫回（寫回是把做完的工作複製進知識庫；見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。腳本檢查能檢查的：檔案的格式、關係、被引用的行。而且我不讓 agent 連上正在執行的環境。只有環境才說得出的事，由人執行並交過來。</p>
+<h3>路線</h3>
+<ol>
+<li>建一個 toolkit，每個程式碼庫一次（8.2）。</li>
+<li>計算地圖，每次使用之前（8.2）。</li>
+<li>抽查地圖（8.3）。</li>
+<li>把程式碼分成領域，一次（8.4）。</li>
+<li>分批學每個領域（8.4）。</li>
+<li>寫架構頁（8.4）。</li>
+<li>讓它一直是對的：更新、擷取、請求（8.5）。</li>
+</ol>
+<h3>測你自己的設定 {#test}</h3>
+<p>在你建任何東西之前，先弄清楚你需不需要它。</p>
+<ol>
+<li>寫 10 個關於你程式碼的問題，正確答案是你知道的。混合幾種：「什麼呼叫 X？」、「Y 改了會怎樣？」、「為什麼 Z 跳過這個情況？」</li>
+<li>在全新的對話裡，只用單純搜尋，把每個問題問 agent。照你知道的，每個答案判對或錯。</li>
+<li>為一個小領域寫卡片，自己寫或讓 agent 寫。在全新的對話裡，有卡片可用的情況下，再問同樣的問題。</li>
+<li>比較：答對的數量、用量（你的工具為一次運行顯示的 token 數字）、時間。</li>
+</ol>
+<p>兩個提醒。問題的形式要讓人無法只靠一個檔案回答，例如「Y 改了會壞掉什麼？」，並讓沒讀過卡片的人來選。十個問題只看得出很大的差別。</p>
+<p>每個條件都做好幾次，不要只做一次，因為 agent 不會做兩次同樣的事（見 <a href="6-4-variance.html">一次運行證明不了什麼</a>）。如果單靠搜尋得分差不多，就不要建知識庫。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>It needs upkeep.</strong> A base nobody refreshes becomes confidently wrong. If your code changes daily and nobody will own the refresh, search is the better choice.</li>
+<li><strong>A card can be wrong.</strong> It is a model's reading of the code. The checks catch the structure, not whether a rule is understood right. A person's review, or an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>), has to cover that.</li>
+<li><strong>A card can anchor the agent.</strong> An agent that reads a card first may look at less code and keep a wrong card's view. For work where a mistake is expensive, have it re-read the lines a card cites.</li>
+<li><strong>Reading cards costs tokens too.</strong> A base that is too long only moves the cost. Cards should be short, and the agent should open the lower layers only when it needs them.</li>
+<li><strong>Building has a price.</strong> The model reads each object's code once. For a large domain that is real money. It is a bet that the reading will be reused. A rough size: every object read once, plus the files that change each month. I have not priced it. Prompt caching (Anthropic's docs say a cached read costs about a tenth of the base price; I have not checked this on Copilot; see <a href="1-1-models-and-cost.html">Choosing a model</a>) may lower both the building and the reading, so test with it on, as you would really run.</li>
+<li><strong>Someone must own it, and the cards need the same access rules as the code.</strong> A card is a summary of internal code. Decide who refreshes it and who may read it, the same way you do for the code.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>它需要維護</strong>。沒有人更新的知識庫，會變成很有自信地答錯。如果你的程式碼每天都在變，又沒有人負責更新，搜尋是比較好的選擇。</li>
+<li><strong>卡片可能是錯的</strong>。它是模型對程式碼的解讀。檢查抓得到結構，抓不到一條規則是不是理解對了。這要靠人的審查，或獨立的 reviewer（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）來涵蓋。</li>
+<li><strong>卡片可能讓 agent 被錨定</strong>。先讀卡片的 agent，可能看比較少的程式碼，並保留錯誤卡片的看法。對答錯很貴的工作，讓它重讀卡片引用的那幾行。</li>
+<li><strong>讀卡片也花 token</strong>。太長的知識庫只是把成本搬到別處。卡片要短，agent 只在需要時才打開下面的層。</li>
+<li><strong>建它是有價錢的</strong>。模型把每個物件的程式碼讀一遍。對大的領域，這是真金白銀。這是賭讀過的東西會被重複使用。粗略的大小：每個物件讀一遍，加上每個月會變的檔案。我沒有算過價。prompt 快取（Anthropic 的文件說，快取讀取大約是基本價格的十分之一；我沒有在 Copilot 上確認過；見 <a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）可能同時降低建和讀的成本，所以測的時候要開著它，像你真正執行時那樣。</li>
+<li><strong>必須有人負責，而且卡片需要和程式碼一樣的存取規則</strong>。卡片是內部程式碼的摘要。決定誰更新它、誰可以讀它，像你對程式碼做的那樣。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If your own test shows that search alone gives the same answers at the same cost, delete the cards and keep only the requests list, because that is the part search can never give. And if the platform one day builds and refreshes a code index that you can measure as accurate, use it instead of keeping your own.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果你自己的測試顯示，單靠搜尋，用同樣的成本給出同樣的答案，就把卡片刪掉，只留請求清單，因為那是搜尋永遠給不了的部分。還有，如果有一天平台建立並更新一份程式碼索引，而且你量得出它是準確的，就用它，不要自己維護。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Judge whether this repository would gain from a written knowledge base of the code, or whether search is enough. Estimate how many objects it has (modules, jobs, tables, services) and how large the code base is. Name the kinds of facts that are not in the code at all, such as which environment runs a job or why a rule exists. Say how often the code changes. Then give a verdict: search is enough, or a base is worth testing, with the reasons. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>判斷這個倉庫是否會從一份寫下來的程式碼知識庫得到好處，還是搜尋就夠了。估計它有多少物件（模組、工作、資料表、服務），以及程式碼庫有多大。指出完全不在程式碼裡的那幾類事實，例如哪個環境執行一個工作，或一條規則為什麼存在。說明程式碼多久變一次。然後給出結論：搜尋就夠，或值得測一個知識庫，並附上理由。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="3-1-context-budget.html">Context budget</a>: why reading less matters, and the search-or-map choice in general.</li>
+<li><a href="3-5-memory.html">What an agent should remember</a>: memory in general; a knowledge base is one kind.</li>
+<li><a href="8-2-kb-toolkit.html">The toolkit</a>, the first step of the road.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="3-1-context-budget.html">上下文是一份預算</a>：為什麼少讀很重要，以及一般來說，搜尋還是地圖的選擇。</li>
+<li><a href="3-5-memory.html">agent 該記住什麼</a>：一般的記憶；知識庫是其中一種。</li>
+<li><a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>，路線的第一步。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A knowledge base: an honest index of the code&quot;. Teach me topic 16, the knowledge base from code. Open the real skills and files with me, show me the road step by step, and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用上面的路線，從程式碼建一個知識庫。它可以從裡面教你怎麼做，用真實的檔案和指令。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「知識庫：程式碼的誠實索引」這一章。請教我主題 16，從程式碼建知識庫。和我一起打開真實的 skill 和檔案，一步一步讓我看這條路線，並畫出各個部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Ten things at once: parallel tasks</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.2</p><h1><span data-l="en" lang="en">Ten things at once: parallel tasks</span><span data-l="zh-Hant" lang="zh-Hant">同時管十件事：並行的是任務</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a> 和 <a href="5-1-tasks.html">管任務，不管對話</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To run ten things at once, run ten separate tasks with one agent each, and call the person only at the gates. Split by task, not by file. Read-only work inside a task can still go to subagents.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要同時管十件事，就跑十個獨立的任務，每個任務一個 agent，只在門的地方叫人。按任務拆，不按檔案拆。任務裡唯讀的工作，仍然可以交給子 agent。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide whether people may run several tasks at once, how many to start with, and where a person is called.</li>
+<li><strong>The risk:</strong> the limit is a person's attention, not the number of agents. A gate that is always approved without reading is decoration. I have no evidence of a net speed-up: I have not measured ten tasks in parallel against ten in a row.</li>
+<li><strong>The cost of doing it right:</strong> usage grows with the number of tasks (ten tasks, ten times the usage), plus a board or a simple list of what waits. Start with two or three.</li>
+<li><strong>Ask the team:</strong> &quot;Which tasks are waiting for a person right now and since when, and what happens if two of them change the same files?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定人可不可以同時跑好幾個任務、一開始跑幾個、在哪裡叫人。</li>
+<li><strong>風險</strong>：限制是人的注意力，不是 agent 的數量。一道永遠不讀就批准的門，只是裝飾。我沒有淨加速的證據：我沒有量過十個任務並行，對比十個一個接一個。</li>
+<li><strong>做對的成本</strong>：用量隨任務數成長（十個任務，十倍的用量），再加上一個看板，或一份簡單的等待清單。從兩三個開始。</li>
+<li><strong>可以問團隊</strong>：「現在有哪些任務在等人，等多久了？如果其中兩個改了同樣的檔案，會怎樣？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent can do a lot while you are away. So the next thought is: if one agent is good, why not run many at once? There are two ways to read that thought, and only one of them works.</p>
+<p><strong>The first way is one big job with many agents.</strong> You hand over a large task, and a coordinator splits it among a team of agents, each with a role (plan, implement, check). This looks like a company org chart. It is the setup that <a href="2-3-subagents.html">Use subagents sparingly</a> tested: handovers lose understanding, and the same files get read again by every agent. That chapter does not argue against a fresh worker for each step of one task. What it argues against is several agents changing the same files at the same time, because then someone has to merge their work.</p>
+<p><strong>The second way is many jobs, one agent each.</strong> Ten requests from ten people, or ten different problems of your own. Each one is a separate piece of work with its own folder, its own agent, and its own finish line. Nothing is shared between them, so nothing needs to be merged.</p>
+<p>This chapter is about the second way. It is not clever, and it is what lets one person keep ten things moving.</p>
+<p>The thing in short supply is not agents. It is you. An agent can wait for a person for hours without using any compute. But what it waits with goes stale: the conversation's cache expires, and the repository may have moved on by the time you answer. A person cannot wait for ten agents without losing the thread either. So the design question is: how do you spend one person's attention across ten tasks?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>agent 在你不在的時候可以做很多事。所以下一個念頭是：一個 agent 好用，為什麼不同時跑很多個？這個念頭有兩種讀法，只有一種行得通。</p>
+<p><strong>第一種是一個大工作，很多個 agent</strong>。你交出一個大任務，由協調者把它分給一組 agent，每個有一個角色（計畫、實作、檢查）。這看起來像公司的組織圖。這就是 <a href="2-3-subagents.html">慎用子 agent</a> 測過的設定：交接會丟掉理解，同樣的檔案被每個 agent 再讀一遍。那一章並不反對為一個任務的每一步，用一個新的工人。它反對的，是好幾個 agent 同時改同樣的檔案，因為那時就得有人去合併它們的工作。</p>
+<p><strong>第二種是很多個工作，每個一個 agent</strong>。十個人提的十個要求，或你自己的十個不同問題。每一個都是獨立的一件工作，有自己的資料夾、自己的 agent、自己的終點線。它們之間不共用任何東西，所以不需要合併。</p>
+<p>這一章講的是第二種。它不聰明，卻是讓一個人能同時讓十件事前進的辦法。</p>
+<p>缺的不是 agent。是你。agent 可以等人好幾個小時，不用任何運算。但它等的時候帶著的東西會過期：對話的快取過期了，等你回答時，倉庫可能已經往前走了。人也沒辦法等十個 agent，而不弄丟線索。所以設計的問題是：怎麼把一個人的注意力，分配在十個任務上？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Parallel across tasks, not inside one</h3>
+<p>Each task is a folder, as in <a href="5-1-tasks.html">Manage tasks, not chats</a>: the requirement, the plan, the to-do list and the handover file all live in files. One agent session holds one task at a time. Ten tasks are ten folders and ten sessions.</p>
+<figure class="fig" id="fig-7-2-ten-lanes"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="20" data-t="head">time, left to right</text>
+  <text class="label" x="10" y="58" data-t="t1">task 1</text>
+  <path class="line" d="M90 54 H590"/>
+  <rect class="box-lit" x="200" y="42" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="440" y="42" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="108" data-t="t2">task 2</text>
+  <path class="line" d="M90 104 H590"/>
+  <rect class="box-lit" x="320" y="92" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="158" data-t="t3">task 3</text>
+  <path class="line" d="M90 154 H590"/>
+  <rect class="box-lit" x="140" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="380" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="540" y="142" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="208" data-t="t4">task 4</text>
+  <path class="line" d="M90 204 H590"/>
+  <rect class="box-lit" x="260" y="192" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="500" y="192" width="22" height="24" rx="4"/>
+  <text class="label-muted" x="10" y="248" data-t="t5">... up to ten</text>
+  <rect class="box-lit" x="10" y="256" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="32" y="265" data-t="key">a gate: the person is called here</text>
+</svg>
+<figcaption>Ten tasks, one agent each, side by side. Nothing is shared between lanes. The person appears only at the gates.</figcaption></figure>
+<p>Why this splits cleanly where the one-big-job split does not:</p>
+<ul>
+<li><strong>Nothing is shared.</strong> Each task has its own folder, so two agents never edit the same file at the same moment. There is no merge inside a task, because there is only one writer.</li>
+<li><strong>Each task is whole.</strong> The agent that does the work also holds the plan and the context. There is no handover from an agent that understood to an agent that must act. That was the cost in the three-role test.</li>
+<li><strong>The hand-off is a file, not a message.</strong> If a task stops for a day, whoever picks it up reads the folder.</li>
+</ul>
+<p>The agents do not talk to each other. The only thing that crosses between tasks is you.</p>
+<h3>When a task needs a person</h3>
+<p>Now the question that matters: when does a task need you? If the answer is &quot;often and unpredictably&quot;, ten tasks will eat your day. So the design pushes every need for a person into a few fixed points, the <strong>gates</strong>. A gate is a point where the agent stops and waits for a person's yes (the details are in <a href="5-3-two-approvals.html">Two gates: where a person approves</a>).</p>
+<p>A task waits for you only for reasons like these:</p>
+<ul>
+<li>the first gate: the requirement is written and the plan is ready, and both wait for you to confirm and approve;</li>
+<li>the second gate: the write-back (copying the finished changes into the repository) waits for your approval;</li>
+<li>a write failed halfway;</li>
+<li>it needs the results of a run that only you can do;</li>
+<li>its independent checks are used up and you decide what next;</li>
+<li>the agent stopped, or an unattended run ended.</li>
+</ul>
+<p>Between those points, the agent works and you are not needed. That is the whole idea: <strong>call the person only at the gates.</strong> A task that needs you &quot;now and then, when it has a question&quot; is the worst case, since you cannot plan around it. A task that asks only at named points can be scheduled.</p>
+<p>This also tells you what to build. Anything that makes the agent stop for a reason that is not a gate is a leak in your attention: a vague request, a missing permission, a confirmation box for a harmless action. Each one is worth removing (<a href="4-2-ask-vs-refuse.html">Ask or refuse</a>).</p>
+<h3>Tasks that touch the same code</h3>
+<p>This is the common case, so it comes early. Separate task folders do not make separate repositories. Two tasks that change the same files will meet when they are written back. One way to design for it: give each task its own branch or working copy (git worktree is one way), have the write-back check whether the files it touches changed since the task began, and stop and ask a person if they did. Write back one task at a time. I have not tested ten tasks changing one repository at once, so I cannot say how often this bites.</p>
+<h3>Attention is the expensive part</h3>
+<p>Running ten tasks does not make you ten times faster. It moves your time to the gates, and a gate is only worth something if you read it.</p>
+<ul>
+<li><strong>Keep every gate cheap to read.</strong> A plan you approve should fit on a page, in an editor, not scroll through a terminal. A requirement you confirm should be one page too (<a href="5-2-requirements.html">The agent writes the requirement, the person confirms it</a>). If reading takes twenty minutes, you will skim, and a skimmed approval is the &quot;click Allow&quot; problem again. A number worth watching is how often you reject or change a plan: if it is never, you may be skimming.</li>
+<li><strong>Do not hold more than you can read.</strong> The number of tasks you can run is set by how fast you can read plans and diffs, not by how many sessions fit on the screen. Start with two or three. How many you can hold well depends on the tasks, and I have not measured it.</li>
+<li><strong>Group similar gates.</strong> If three plans wait, read them in one sitting. Switching between a plan, a diff and a requirement costs more than reading three plans.</li>
+<li><strong>Cost adds up.</strong> Ten tasks are ten times the usage, so put a stop rule on each one (<a href="5-7-when-to-stop.html">Unattended: when it must stop</a>). A task that waits for you for longer than the prompt cache lives (five minutes or an hour on Anthropic's API, see <a href="1-1-models-and-cost.html">Models and cost</a>) pays full price to read its context again when you return. I have not checked how Copilot behaves here.</li>
+</ul>
+<h3>One list of what waits for you</h3>
+<p>With ten sessions open, how do you know which one is waiting? Going through the windows one by one is the exact cost you want to avoid.</p>
+<p>The answer is a <strong>board</strong>: one page that lists every open task, what it is waiting for, and for how long. Two design points make it trustworthy.</p>
+<figure class="fig" id="fig-7-2-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="22" data-t="c1">task</text>
+  <text class="label-muted" x="200" y="22" data-t="c2">state</text>
+  <text class="label-muted" x="350" y="22" data-t="c3">what it waits for</text>
+  <rect class="box-lit" x="10" y="32" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="54" data-t="n1">fix the formula</text>
+  <text class="label-lit" x="200" y="54" data-t="s1">waiting for you</text>
+  <text class="label-lit" x="350" y="54" data-t="w1">approve the plan</text>
+  <rect class="box-lit" x="10" y="72" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="94" data-t="n2">add a field</text>
+  <text class="label-lit" x="200" y="94" data-t="s2">waiting for you</text>
+  <text class="label-lit" x="350" y="94" data-t="w2">confirm requirement</text>
+  <rect class="box" x="10" y="112" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="134" data-t="n3">rename a pipeline</text>
+  <text class="label-muted" x="200" y="134" data-t="s3">agent working</text>
+  <text class="label-muted" x="350" y="134" data-t="w3">nothing</text>
+  <rect class="box" x="10" y="152" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="174" data-t="n4">why a job failed</text>
+  <text class="label-muted" x="200" y="174" data-t="s4">agent working</text>
+  <text class="label-muted" x="350" y="174" data-t="w4">nothing</text>
+  <text class="label-muted" x="20" y="212" data-t="note">State is written by hooks and code, not by the agent.</text>
+  <text class="label-muted" x="20" y="232" data-t="note2">Time waiting is shown too.</text>
+</svg>
+<figcaption>A board: one list of every open task and what it waits for. The ones that wait for you come first. An illustration, not a screenshot.</figcaption></figure>
+<ul>
+<li><strong>The state is written by code, not by the agent.</strong> A hook runs when the agent stops and notes &quot;waiting for you&quot;. The board reads that state from a file made for machines. It does not read progress notes that the agent wrote in prose, because an agent forgets to tick things or ticks too many.</li>
+<li><strong>Waiting is a number.</strong> The time since a task started waiting tells you which one to open first.</li>
+</ul>
+<p>The same page has a switch that I use at the end of the day. It pauses every open task the agent is not working on and takes them back in the morning. The waiting time while paused is not counted, so the numbers stay honest.</p>
+<p><strong>No board? Use a list.</strong> The idea works by hand: one terminal tab per task, titled with the task, and a short list you keep of which tab is waiting and since when.</p>
+<h3>Read-only helpers inside a task</h3>
+<p>The one-agent-per-task rule is about work that writes. Inside one task, helpers that only read can still run in parallel and hand in short summaries, because no helper changes a file (<a href="2-3-subagents.html">Use subagents sparingly</a>). A writer per task, and as many readers as the reading is worth.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>並行在任務之間，不在一個任務裡面</h3>
+<p>每個任務是一個資料夾，就像 <a href="5-1-tasks.html">管任務，不管對話</a> 講的：需求、計畫、待辦清單和交接檔，全都放在檔案裡。一個 agent 會話一次拿著一個任務。十個任務就是十個資料夾、十個會話。</p>
+<figure class="fig" id="fig-7-2-ten-lanes"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="20" data-t="head">時間，由左到右</text>
+  <text class="label" x="10" y="58" data-t="t1">任務 1</text>
+  <path class="line" d="M90 54 H590"/>
+  <rect class="box-lit" x="200" y="42" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="440" y="42" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="108" data-t="t2">任務 2</text>
+  <path class="line" d="M90 104 H590"/>
+  <rect class="box-lit" x="320" y="92" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="158" data-t="t3">任務 3</text>
+  <path class="line" d="M90 154 H590"/>
+  <rect class="box-lit" x="140" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="380" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="540" y="142" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="208" data-t="t4">任務 4</text>
+  <path class="line" d="M90 204 H590"/>
+  <rect class="box-lit" x="260" y="192" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="500" y="192" width="22" height="24" rx="4"/>
+  <text class="label-muted" x="10" y="248" data-t="t5">…… 最多十個</text>
+  <rect class="box-lit" x="10" y="256" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="32" y="265" data-t="key">一道門：在這裡叫人</text>
+</svg>
+<figcaption>十個任務，各一個 agent，並排進行。各條線之間不共用任何東西。人只在門口出現。</figcaption></figure>
+<p>為什麼這樣拆得乾淨，而一個大工作的拆法拆不乾淨：</p>
+<ul>
+<li><strong>沒有共用的東西</strong>。每個任務有自己的資料夾，所以兩個 agent 絕不會在同一刻編輯同一個檔案。任務裡面沒有合併，因為只有一個寫的人。</li>
+<li><strong>每個任務是完整的</strong>。做事的 agent 也拿著計畫和上下文。沒有從理解的 agent，交給必須動手的 agent 的交接。那正是三角色測試裡的成本。</li>
+<li><strong>交接是一個檔案，不是一則訊息</strong>。如果一個任務停了一天，接手的人讀資料夾就行。</li>
+</ul>
+<p>agent 之間不互相說話。唯一在任務之間來往的，是你。</p>
+<h3>任務什麼時候需要人</h3>
+<p>現在是要緊的問題：任務什麼時候需要你？如果答案是「常常，而且不可預測」，十個任務會吃掉你一整天。所以設計把每一次需要人的時候，推到少數固定的點，也就是<strong>門</strong>。門是 agent 停下來，等人說好的地方（細節在 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</p>
+<p>任務只因為這類理由等你：</p>
+<ul>
+<li>第一道門：需求寫好了，計畫也準備好了，兩者都在等你確認和批准；</li>
+<li>第二道門：寫回（把做完的改動複製進倉庫）在等你的批准；</li>
+<li>寫入做到一半失敗了；</li>
+<li>它需要一次只有你能做的運行的結果；</li>
+<li>它的獨立檢查用完了，由你決定下一步；</li>
+<li>agent 停了，或一次無人值守的執行結束了。</li>
+</ul>
+<p>在這些點之間，agent 在工作，不需要你。這就是整個想法：<strong>只在門的地方叫人</strong>。一個「偶爾，有問題的時候」就需要你的任務，是最糟的情況，因為你沒辦法圍繞它安排時間。只在指名的點上提問的任務，是可以排進行程的。</p>
+<p>這也告訴你要建什麼。任何讓 agent 因為不是門的理由而停下來的東西，都是你注意力的漏洞：模糊的要求、缺少的權限、一個為無害動作跳出來的確認框。每一個都值得移除（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
+<h3>碰同一份程式碼的任務</h3>
+<p>這是常見的情況，所以放在前面。分開的任務資料夾，不等於分開的倉庫。兩個改同樣檔案的任務，在寫回的時候會碰到。一種設計的辦法：讓每個任務有自己的分支或工作副本（git worktree 是一種辦法），讓寫回檢查它碰的檔案從任務開始後有沒有變，如果變了，就停下來問人。一次寫回一個任務。我沒有測過十個任務同時改一個倉庫，所以這種事有多常咬人，我說不上來。</p>
+<h3>注意力是貴的部分</h3>
+<p>跑十個任務，不會讓你快十倍。它把你的時間移到門上，而門只有在你讀了它的時候才有價值。</p>
+<ul>
+<li><strong>讓每一道門都容易讀</strong>。你批准的計畫，應該放得進一頁，在編輯器裡，不是在終端機裡捲動。你確認的需求，也應該是一頁（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。如果讀它要二十分鐘，你就會略讀，而略讀的批准又回到「點允許」的問題。一個值得看的數字是，你多常拒絕或修改計畫：如果從來沒有，你可能是在略讀。</li>
+<li><strong>不要拿超過你讀得完的</strong>。你能跑的任務數，由你讀計畫和 diff 的速度決定，不是由螢幕放得下幾個會話決定。從兩三個開始。你能拿好幾個，取決於任務，我沒有量過。</li>
+<li><strong>把類似的門放在一起</strong>。如果有三份計畫在等，一次坐下來全讀。在計畫、diff 和需求之間切換，比讀三份計畫更花力氣。</li>
+<li><strong>成本會累加</strong>。十個任務是十倍的用量，所以每個任務都要有一條停止規則（<a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>）。一個等你的時間超過 prompt 快取存活時間的任務（在 Anthropic 的 API 上是五分鐘或一小時，見 <a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），你回來時，它得付全額價格再讀一次它的上下文。Copilot 在這方面怎麼表現，我沒查過。</li>
+</ul>
+<h3>一份等你的清單</h3>
+<p>開著十個會話，你怎麼知道哪一個在等？一個一個視窗去翻，正是你想避免的成本。</p>
+<p>答案是<strong>看板</strong>：一頁，列出每一個還開著的任務、它在等什麼、等了多久。有兩個設計重點讓它可信。</p>
+<figure class="fig" id="fig-7-2-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="22" data-t="c1">任務</text>
+  <text class="label-muted" x="200" y="22" data-t="c2">狀態</text>
+  <text class="label-muted" x="350" y="22" data-t="c3">在等什麼</text>
+  <rect class="box-lit" x="10" y="32" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="54" data-t="n1">修正公式</text>
+  <text class="label-lit" x="200" y="54" data-t="s1">等你</text>
+  <text class="label-lit" x="350" y="54" data-t="w1">批准計畫</text>
+  <rect class="box-lit" x="10" y="72" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="94" data-t="n2">新增一個欄位</text>
+  <text class="label-lit" x="200" y="94" data-t="s2">等你</text>
+  <text class="label-lit" x="350" y="94" data-t="w2">確認需求</text>
+  <rect class="box" x="10" y="112" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="134" data-t="n3">重新命名一條 pipeline</text>
+  <text class="label-muted" x="200" y="134" data-t="s3">agent 工作中</text>
+  <text class="label-muted" x="350" y="134" data-t="w3">沒有</text>
+  <rect class="box" x="10" y="152" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="174" data-t="n4">失敗作業的根因</text>
+  <text class="label-muted" x="200" y="174" data-t="s4">agent 工作中</text>
+  <text class="label-muted" x="350" y="174" data-t="w4">沒有</text>
+  <text class="label-muted" x="20" y="212" data-t="note">狀態由 hook 和程式寫入，不是 agent 寫的。</text>
+  <text class="label-muted" x="20" y="232" data-t="note2">也顯示等了多久。</text>
+</svg>
+<figcaption>看板：一張列出所有未結束任務和它們在等什麼的清單。等你的排在最前面。這是示意圖，不是截圖。</figcaption></figure>
+<ul>
+<li><strong>狀態由程式寫，不是由 agent 寫</strong>。agent 停下來時，一個 hook 會執行，記下「在等你」。看板從一個給機器讀的檔案讀這個狀態。它不讀 agent 用散文寫的進度筆記，因為 agent 會忘了打勾，或打太多勾。</li>
+<li><strong>等待是一個數字</strong>。一個任務開始等待之後經過的時間，告訴你該先打開哪一個。</li>
+</ul>
+<p>同一頁上有一個開關，我在一天結束時用。它把每個 agent 沒在做的開著的任務暫停，隔天早上再接回來。暫停期間的等待時間不計，所以數字保持誠實。</p>
+<p><strong>沒有看板？用清單</strong>。這個想法手動也行：每個任務一個終端機分頁，用任務命名，再自己記一張短清單，寫哪個分頁在等、等了多久。</p>
+<h3>任務裡的唯讀幫手</h3>
+<p>一個任務一個 agent 的規則，講的是會寫入的工作。在一個任務裡，只讀的幫手仍然可以並行，並交回簡短的摘要，因為沒有幫手會改檔案（<a href="2-3-subagents.html">慎用子 agent</a>）。每個任務一個寫的，讀的則依讀取的價值，要多少有多少。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Context switching is yours.</strong> The agents do not mind switching. You do. Ten tasks in ten different domains cost more attention than ten in the same domain, because each gate needs different knowledge.</p>
+<p><strong>A gate that is always yes is a gate you do not read.</strong> If you approve ten plans in a row without opening one, the gates are decoration. The remedy is fewer, smaller gates, not more.</p>
+<p><strong>A board is only as good as its state.</strong> If the state came from the agent's own words, the board would lie. That is why the state comes from hooks and files.</p>
+<p><strong>I have not compared this with other ways.</strong> I have no evidence of a net speed-up: I have not measured ten parallel tasks against ten in a row, or against a team. The argument is the structure: nothing is shared, and a person's attention is the limit. The number ten in the title is an illustration, not a result.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>切換上下文是你的事</strong>。agent 不介意切換。你介意。十個任務在十個不同的領域，比十個在同一個領域，花更多注意力，因為每道門需要不同的知識。</p>
+<p><strong>永遠是「好」的門，就是你不讀的門</strong>。如果你連續批准十份計畫，一份都沒打開過，那些門就是裝飾。解法是更少、更小的門，不是更多。</p>
+<p><strong>看板只和它的狀態一樣好</strong>。如果狀態來自 agent 自己的話，看板就會說謊。這就是狀態來自 hook 和檔案的原因。</p>
+<p><strong>我沒有拿它和其他辦法比較過</strong>。我沒有淨加速的證據：我沒有量過十個並行任務，對比十個一個接一個，或對比一個團隊。論點是結構：沒有共用的東西，人的注意力是極限。標題裡的「十」是一個例子，不是結果。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The board exists because a session does not tell you that it is waiting. When the platform shows, in one place, every running agent session and what each is waiting for, the board can go. I have not checked how far Copilot has got with that.</p>
+<p>The idea does not go. Even when the platform does the listing, the split stays: one writer per task, and the person called at the gates.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>看板存在，是因為會話不會告訴你它在等。平台如果在一個地方，顯示每個執行中的 agent 會話，和各自在等什麼，看板就可以拿掉。Copilot 在這件事上做到哪裡，我沒查過。</p>
+<p>想法不會拿掉。就算由平台來列出，拆法還是留著：每個任務一個寫的，人在門的地方被叫來。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Using read-only git commands, list the branches, worktrees and open pull requests in this repository that have recent commits. For each, list the files it changes relative to the main branch. Then find pairs that change the same files, and say which would conflict if written back together. For each piece of work, say what it is probably waiting for (review, a decision, a test run). Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>只用唯讀的 git 指令，列出這個倉庫裡有最近 commit 的分支、worktree 和開著的 pull request。對每一個，列出它相對於主分支改了哪些檔案。然後找出改同樣檔案的配對，說明如果一起寫回，哪些會衝突。對每一件工作，說明它大概在等什麼（審查、一個決定、一次測試運行）。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="2-3-subagents.html">Use subagents sparingly</a>: why a team of agents on one task did not pay, and where parallel reading does.</li>
+<li><a href="5-1-tasks.html">Manage tasks, not chats</a>: the task folder that makes each lane independent.</li>
+<li><a href="5-3-two-approvals.html">Two gates: where a person approves</a>: what a gate is and how to make the yes real.</li>
+<li><a href="5-7-when-to-stop.html">Unattended: when it must stop</a>: the stop rules for a task that runs while you are away.</li>
+<li><a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>: who owns the rules when more than one person runs tasks.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="2-3-subagents.html">慎用子 agent</a>：為什麼一個任務上的一組 agent 不划算，以及並行讀在哪裡划算。</li>
+<li><a href="5-1-tasks.html">管任務，不管對話</a>：讓每條線獨立的任務資料夾。</li>
+<li><a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>：門是什麼，以及怎麼讓「好」是真的。</li>
+<li><a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>：你不在時執行的任務的停止規則。</li>
+<li><a href="7-4-rollout-and-governance.html">落地與治理</a>：不只一個人跑任務時，誰擁有規則。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The task folders, the board and the &quot;waiting for you&quot; state run in Copilot Harness. The harness can show you a board with real tasks on it. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Ten things at once&quot;. Teach me how this harness lets one person run several tasks: the task folder, the states a task can wait in, and how the board knows a task is waiting. Open the real files with me, and show me what the board reads and who writes it.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>任務資料夾、看板和「在等你」的狀態，在 Copilot Harness 裡執行。harness 可以給你看一個放著真實任務的看板。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「同時管十件事」這一章。請教我這個 harness 怎麼讓一個人跑好幾個任務：任務資料夾、任務可以等待的各種狀態，以及看板怎麼知道一個任務在等。帶我打開真實的檔案，讓我看看板讀什麼、誰寫它。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

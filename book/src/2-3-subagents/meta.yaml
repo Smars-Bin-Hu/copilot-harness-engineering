@@ -1,0 +1,20 @@
+id: "2.3"
+part: runtime
+core: true
+title: {en: Use subagents sparingly, zh-Hant: 慎用子 agent}
+# Moves to the newest tag in W9, after the harness is pushed.
+harness_tag: "1.5.50"
+wondering: [10-subagents, 11-review]
+# Only the code blocks use the tag; the reader-facing text does not name a version.
+sources:
+  - what: "One agent against three roles: 4 tasks, one run each"
+    where: harness docs/06-cost-optimization.md, section 9
+  - what: "Multi-agent research system beat single-agent Claude Opus 4 by 90.2% on an internal research eval; about 15x the tokens of a chat; most coding tasks less parallel; early versions spawned 50 subagents for simple queries"
+    where: https://www.anthropic.com/engineering/multi-agent-research-system
+    checked: 2026-10-27
+  - what: "Agent teams use approximately 7x more tokens than standard sessions when teammates run in plan mode"
+    where: https://code.claude.com/docs/en/costs
+    checked: 2026-10-27
+  - what: "Keep agent chains as shallow as practical"
+    where: https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide
+    checked: 2026-10-27

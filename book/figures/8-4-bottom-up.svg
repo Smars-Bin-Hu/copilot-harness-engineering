@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
+  <text class="label-muted" x="10" y="43" data-t="rl4">x</text>
+  <text class="label-muted" x="10" y="113" data-t="rl3">x</text>
+  <text class="label-muted" x="10" y="183" data-t="rl2">x</text>
+  <text class="label-muted" x="10" y="253" data-t="rl1">x</text>
+  <path class="line" d="M180 126 V150"/>
+  <path class="head" d="M175 150 L180 160 L185 150 Z"/>
+  <path class="line" d="M410 126 V150"/>
+  <path class="head" d="M405 150 L410 160 L415 150 Z"/>
+  <path class="line" d="M180 196 V220"/>
+  <path class="head" d="M175 220 L180 230 L185 220 Z"/>
+  <path class="line" d="M295 196 V220"/>
+  <path class="head" d="M290 220 L295 230 L300 220 Z"/>
+  <path class="line" d="M410 196 V220"/>
+  <path class="head" d="M405 220 L410 230 L415 220 Z"/>
+  <path class="line" d="M525 196 V220"/>
+  <path class="head" d="M520 220 L525 230 L530 220 Z"/>
+  <path class="line" d="M270 56 L210 90"/>
+  <path class="line" d="M365 56 L425 90"/>
+  <rect class="box" x="232" y="20" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="90" width="160" height="36" rx="6"/>
+  <rect class="box" x="340" y="90" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="130" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="230" width="100" height="36" rx="6"/>
+  <g data-step="1">
+    <rect class="box-lit" x="130" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="230" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="2">
+    <rect class="box-lit" x="130" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="160" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="130" y="90" width="160" height="36" rx="6"/>
+    <rect class="box-lit" x="340" y="90" width="170" height="36" rx="6"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-lit" x="232" y="20" width="170" height="36" rx="6"/>
+  </g>
+  <text class="label-muted" x="317" y="43" text-anchor="middle" data-t="n-ownercontroller">x</text>
+  <text class="label-muted" x="210" y="113" text-anchor="middle" data-t="n-ownerrepository">x</text>
+  <text class="label-muted" x="425" y="113" text-anchor="middle" data-t="n-pettyperepository">x</text>
+  <text class="label-muted" x="180" y="183" text-anchor="middle" data-t="n-owner">x</text>
+  <text class="label-muted" x="295" y="183" text-anchor="middle" data-t="n-pet">x</text>
+  <text class="label-muted" x="410" y="183" text-anchor="middle" data-t="n-pettype">x</text>
+  <text class="label-muted" x="525" y="183" text-anchor="middle" data-t="n-visit">x</text>
+  <text class="label-muted" x="180" y="253" text-anchor="middle" data-t="n-owners">x</text>
+  <text class="label-muted" x="295" y="253" text-anchor="middle" data-t="n-pets">x</text>
+  <text class="label-muted" x="410" y="253" text-anchor="middle" data-t="n-types">x</text>
+  <text class="label-muted" x="525" y="253" text-anchor="middle" data-t="n-visits">x</text>
+</svg>

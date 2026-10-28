@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 390">
+  <circle class="box" cx="260" cy="150" r="80"/>
+  <circle class="box" cx="340" cy="150" r="80"/>
+  <circle class="box" cx="300" cy="220" r="80"/>
+  <path class="box-lit" d="M300 143 L338 160 L322 194 L300 214 L278 194 L262 160 Z"/>
+  <text class="label-lit" x="300" y="182" text-anchor="middle" data-t="danger">x</text>
+  <text class="label" x="268" y="22" text-anchor="end" data-t="a">x</text>
+  <text class="label-muted" x="268" y="42" text-anchor="end" data-t="a-note">x</text>
+  <text class="label" x="332" y="22" text-anchor="start" data-t="b">x</text>
+  <text class="label-muted" x="332" y="42" text-anchor="start" data-t="b-note">x</text>
+  <text class="label" x="300" y="322" text-anchor="middle" data-t="c">x</text>
+  <text class="label-muted" x="300" y="342" text-anchor="middle" data-t="c-note">x</text>
+  <text class="label-muted" x="300" y="378" text-anchor="middle" data-t="rule">x</text>
+</svg>

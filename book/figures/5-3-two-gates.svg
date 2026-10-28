@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <g data-step="1">
+  <rect class="box" x="10" y="60" width="100" height="56" rx="8"/>
+  <text class="label" x="60" y="93" text-anchor="middle" data-t="plan">x</text>
+  <text class="label-muted" x="10" y="44" data-t="plan-n">x</text>
+  </g>
+  <g data-step="2">
+  <path class="line-lit" d="M110 88 H120"/>
+  <path class="head-lit" d="M120 82 L130 88 L120 94 Z"/>
+  <rect class="box-lit" x="130" y="60" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="180" y="93" text-anchor="middle" data-t="g1">x</text>
+  <text class="label-lit" x="180" y="138" text-anchor="middle" data-t="g1-n">x</text>
+  <text class="label-muted" x="180" y="156" text-anchor="middle" data-t="g1-n2">x</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M230 88 H240"/>
+  <path class="head" d="M240 82 L250 88 L240 94 Z"/>
+  <rect class="box" x="250" y="60" width="100" height="56" rx="8"/>
+  <text class="label" x="300" y="93" text-anchor="middle" data-t="work">x</text>
+  <text class="label-muted" x="300" y="26" text-anchor="middle" data-t="work-n">x</text>
+  <text class="label-muted" x="300" y="44" text-anchor="middle" data-t="work-n2">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M350 88 H360"/>
+  <path class="head-lit" d="M360 82 L370 88 L360 94 Z"/>
+  <rect class="box-lit" x="370" y="60" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="420" y="93" text-anchor="middle" data-t="g2">x</text>
+  <text class="label-lit" x="420" y="138" text-anchor="middle" data-t="g2-n">x</text>
+  <text class="label-muted" x="420" y="156" text-anchor="middle" data-t="g2-n2">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M470 88 H480"/>
+  <path class="head" d="M480 82 L490 88 L480 94 Z"/>
+  <rect class="box" x="490" y="60" width="100" height="56" rx="8"/>
+  <text class="label" x="540" y="93" text-anchor="middle" data-t="repo">x</text>
+  <text class="label-muted" x="590" y="44" text-anchor="end" data-t="repo-n">x</text>
+  </g>
+  <g data-step="5">
+  <path class="line" d="M60 182 H420"/>
+  <rect class="box-plain" x="60" y="196" width="480" height="40" rx="6"/>
+  <text class="label-muted" x="300" y="221" text-anchor="middle" data-t="void">x</text>
+  </g>
+</svg>

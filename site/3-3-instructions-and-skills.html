@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Instructions and skills</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.3</p><h1><span data-l="en" lang="en">Instructions and skills</span><span data-l="zh-Hant" lang="zh-Hant">指令與 skill：只載入需要的</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and read <a href="3-1-context-budget.html">the context budget</a> (everything the agent reads shares one window of limited size).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先用過 AI 寫程式的 agent，並讀過<a href="3-1-context-budget.html">上下文是一份預算</a>（agent 讀的所有東西共用一個大小有限的視窗）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Load the fewest rules by default and read the rest only when needed. A skill is a manual read on demand, and like any written rule it is not enforced.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>預設只載入最少的規則，其餘的在需要時才讀。skill 是一本按需要才讀的手冊，而且和任何寫下來的規則一樣，不會被強制執行。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> keep the always-loaded rules few, and decide who owns the rule files and cuts what is no longer needed.</li>
+<li><strong>The risk:</strong> a long rule file is followed less well than a short one, and two files that disagree make the model pick one. A rule in a file is still a request: the model can do otherwise. Anything that must hold goes into code. I have no measured case of an ignored rule to quote.</li>
+<li><strong>The cost of doing it right:</strong> an owner and a regular trim of the rule files. Cutting lines the agent would get right anyway costs little; in my own files I usually saw nothing get worse, but I have not tested this systematically.</li>
+<li><strong>Ask the team:</strong> &quot;Which lines in our always-loaded file would the agent get wrong without them, and who owns that file?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：讓一直載入的規則保持很少，並決定誰負責規則檔、誰去剪掉不再需要的。</li>
+<li><strong>風險</strong>：長的規則檔比短的更不容易被遵守，兩個互相矛盾的檔案會讓模型挑一個。寫在檔案裡的規則仍然只是請求：模型可以不照做。一定要成立的東西，要放進程式碼。我手上沒有可以引用的、規則被無視的實測案例。</li>
+<li><strong>做對的成本</strong>：一個負責人，和定期修剪規則檔。剪掉 agent 本來就會做對的行，成本很低；在我自己的檔案裡，我通常沒看到有什麼變差，但我沒有系統地測過。</li>
+<li><strong>可以問團隊</strong>：「我們一直載入的檔案裡，哪幾行是 agent 沒有它們就會做錯的？誰負責那個檔案？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The natural way to teach an agent your project is to write everything down in one file: the rules, the conventions, the warnings, the how-to for every job. Each time the agent makes a mistake, you add a line. After a few weeks the file is long, and the agent follows it less well than when it was short.</p>
+<p>Two things go wrong. They are the subject of this chapter.</p>
+<ul>
+<li><strong>Everything is paid for every turn.</strong> The file sits in the window all the time, whether or not this job needs it. A rule about database migrations takes room while you fix a typo. This room is the same budget that <a href="3-1-context-budget.html">the context budget</a> is about; what it costs per turn is in <a href="1-1-models-and-cost.html">Models and cost</a>.</li>
+<li><strong>More rules means each rule is followed less.</strong> Long files make rules compete. Two lines may disagree; an important line is lost among small ones. The docs of both Claude Code and VS Code advise keeping instruction files short, and Claude Code's warns that when two instructions contradict each other the model may pick one arbitrarily.</li>
+</ul>
+<p>Three words first.</p>
+<ul>
+<li><strong>Instructions</strong> are rule files written for the agent to read. Some are loaded in every conversation. Others are loaded only when the agent works on certain files.</li>
+<li>A <strong>skill</strong> is a folder with a manual for one kind of job. The agent reads the manual when the job comes up, not before.</li>
+<li><strong>Progressive disclosure</strong> is the idea behind both: show the agent a little, and let it read more only when it needs more. Like a shop with a menu at the door and the full recipe in the kitchen. Anthropic names it &quot;the core design principle that makes Agent Skills flexible and scalable&quot; (<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>).</li>
+</ul>
+<p>I have no measured case of an ignored rule to quote, so this chapter gives the reasoning and the checks.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>教 agent 認識你的專案，最自然的辦法是把一切都寫進一個檔案：規則、慣例、警告、每份工作的做法。agent 每犯一次錯，你就加一行。幾個星期後，檔案很長，agent 遵守它的程度比它還短的時候差。</p>
+<p>有兩件事出了問題。它們是這一章的主題。</p>
+<ul>
+<li><strong>每一輪都要為所有東西付錢</strong>。這個檔案一直在視窗裡，不管這份工作需不需要。你在改一個錯字，資料庫遷移的規則卻佔著位子。這個位子就是<a href="3-1-context-budget.html">上下文是一份預算</a>講的那份預算；每一輪要花多少，在<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>。</li>
+<li><strong>規則越多，每一條被遵守的程度越低</strong>。長的檔案讓規則互相競爭。兩行可能互相矛盾；要緊的一行淹沒在小的之間。Claude Code 和 VS Code 的文件都建議讓指令檔保持簡短，Claude Code 的還警告，兩條指令互相矛盾時，模型可能隨意挑一條。</li>
+</ul>
+<p>先說三個詞。</p>
+<ul>
+<li><strong>指令</strong>是寫給 agent 讀的規則檔。有些在每個對話裡都載入。其他的只在 agent 處理特定檔案時才載入。</li>
+<li><strong>skill</strong> 是一個資料夾，裡面是某一類工作的手冊。agent 在這份工作出現時才讀手冊，不是事先讀。</li>
+<li><strong>漸進式揭露</strong>（progressive disclosure）是兩者背後的想法：先給 agent 看一點，需要更多時才讓它多讀。就像一家店，門口有菜單，完整的食譜在廚房裡。Anthropic 稱它是「讓 Agent Skills 靈活、可擴展的核心設計原則」（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）。</li>
+</ul>
+<p>我手上沒有可以引用的、規則被無視的實測案例，所以這一章給的是推理和檢查的辦法。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>1. Three places for a rule</h3>
+<p>Where you put a rule decides when it costs room and when the agent sees it.</p>
+<figure class="fig" id="fig-3-3-places"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="20" y="30" width="170" height="60" rx="6"/>
+  <text class="label-lit" x="105" y="65" text-anchor="middle" data-t="always">always loaded</text>
+  <text class="label-muted" x="105" y="112" text-anchor="middle" data-t="always-note">rules all need</text>
+
+  <rect class="box" x="215" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="300" y="65" text-anchor="middle" data-t="by-file">loaded by file</text>
+  <text class="label-muted" x="300" y="112" text-anchor="middle" data-t="by-file-note">rules per file type</text>
+
+  <rect class="box" x="410" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="495" y="65" text-anchor="middle" data-t="on-demand">read on demand</text>
+  <text class="label-muted" x="495" y="112" text-anchor="middle" data-t="on-demand-note">skills and notes</text>
+
+  <path class="line" d="M20 150 H580"/>
+  <text class="label-muted" x="20" y="140" data-t="less">costs every turn</text>
+  <text class="label-muted" x="580" y="140" text-anchor="end" data-t="more">costs only when used</text>
+  <text class="label" x="300" y="190" text-anchor="middle" data-t="rule">Put each rule in the cheapest place that still reaches it.</text>
+  <text class="label-muted" x="300" y="216" text-anchor="middle" data-t="rule-note">Write it once. Elsewhere, keep a link and one sentence.</text>
+</svg>
+<figcaption>Three places for written guidance. The further right, the less it costs when it is not needed, and the more it depends on the agent choosing to read it.</figcaption></figure>
+<ul>
+<li><strong>Always loaded.</strong> A short file in the root of the repository, read in every conversation. Only the rules that every job needs go here: the safety limits, how to start, what to do when something is refused. In my setup this is one short page. If a rule is needed for one job in ten, it does not belong here.</li>
+<li><strong>Loaded by file.</strong> Rules that apply to one kind of file. In VS Code, an instruction file has a header line, <code>applyTo</code>, with a pattern like &quot;all files under this folder&quot;. The rules load only when the agent opens a file that matches. Rules for how to write a skill are loaded when it opens a skill file, and cost nothing when it edits a pipeline. Here is the top of one such file:</li>
+</ul>
+<details class="code"><summary>An instruction file that loads only for skill files: the applyTo line is the pattern.</summary><pre><code class="language-markdown">---
+description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
+applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
+<ul>
+<li><strong>Read on demand.</strong> Everything else: long how-tos, rarely needed details. This is where skills and reference notes go. The agent reads them when the job calls for them.</li>
+</ul>
+<p>A fourth way: a <strong>hook</strong> (a small program the platform runs at fixed moments; see <a href="2-2-hooks.html">Hooks</a>) can put a few lines at the top of every message you send, to repeat a rule near the point of use. Keep it to a few lines, or you rebuild the long file.</p>
+<p>The question for every rule is: <strong>how often is this needed, and what happens if the agent misses it?</strong> Needed every time and costly to miss: always loaded. Needed for one kind of file: by file. Needed for one job: a skill.</p>
+<h3>2. A skill loads in three levels</h3>
+<p>A skill is a folder. The main file, <code>SKILL.md</code>, has a header (a name and a description) and a body (the manual). Next to it can be longer notes, scripts and templates.</p>
+<figure class="fig steps" id="fig-3-3-three-layers" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <text class="label-muted" x="20" y="24" data-t="col-level">level</text>
+  <text class="label-muted" x="165" y="24" data-t="col-what">what is in the window</text>
+  <text class="label-muted" x="410" y="24" data-t="col-when">when</text>
+
+  <rect class="box" x="20" y="40" width="130" height="56" rx="6"/>
+  <text class="label" x="85" y="73" text-anchor="middle" data-t="l1">1. Menu</text>
+  <text class="label" x="165" y="73" data-t="l1-what">name + one description</text>
+  <text class="label-muted" x="410" y="73" data-t="l1-when">always, every skill</text>
+  <rect class="bar" x="20" y="104" width="40" height="8" rx="2"/>
+
+  <g data-step="2">
+    <rect class="box-lit" x="20" y="130" width="130" height="56" rx="6"/>
+    <text class="label-lit" x="85" y="163" text-anchor="middle" data-t="l2">2. Manual</text>
+    <text class="label" x="165" y="163" data-t="l2-what">the whole SKILL.md</text>
+    <text class="label-muted" x="410" y="163" data-t="l2-when">when the request fits</text>
+    <rect class="bar-lit" x="20" y="194" width="130" height="8" rx="2"/>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="220" width="130" height="56" rx="6"/>
+    <text class="label" x="85" y="253" text-anchor="middle" data-t="l3">3. Extras</text>
+    <text class="label" x="165" y="253" data-t="l3-what">scripts, notes, templates</text>
+    <text class="label-muted" x="410" y="253" data-t="l3-when">if the manual says</text>
+    <rect class="bar" x="20" y="284" width="90" height="8" rx="2"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Level 1: every skill shows only a name and a description, all the time. This is cheap, and it is all the agent has when it chooses.</li><li data-step-text="2">Level 2: when a request fits a description, the whole manual is read into the window.</li><li data-step-text="3">Level 3: files next to the manual are read only if the manual points at them and the step needs them.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A skill costs a line until it is used, a page when it is used, and more only if the job needs it. The description decides whether level 2 ever happens.</figcaption></figure>
+<p>The agent does not see all of it at once.</p>
+<ol>
+<li><strong>Always, the name and description of every skill.</strong> This is the menu. It is small, but it is paid for every turn, for every skill you have installed.</li>
+<li><strong>When the request fits a description, the whole manual.</strong> The agent decides this itself, or you type the skill's name.</li>
+<li><strong>Only when the manual points to them, the extra files.</strong> A long reference or a script is read at the step that needs it.</li>
+</ol>
+<p>So you can install many skills without filling the window.</p>
+<p><strong>The description decides whether the skill is ever found.</strong> At level 1 the description is all the agent has. A vague one (&quot;helps with code quality&quot;) never matches anything. A good description says three things: what the skill does, when to use it (&quot;use when...&quot;), and the words a person would actually say when they need it. The platform limits its length, and a wordy one costs room for every other skill too.</p>
+<p>Even a good description does not guarantee use. VS Code's documentation says plainly that discovery makes skills available but does not guarantee the model uses one. So test it (below).</p>
+<p><strong>A menu can grow too long.</strong> With a few dozen skills, the menu is a real cost and many are never chosen. One answer is to keep the skills of a single business area out of the menu until the task is about that area.</p>
+<h3>3. One rule, one source</h3>
+<p>If the same rule is written in three files, a change misses one of them, and the agent reads three versions that slowly differ. Write a rule in one place. Other places hold a link and one sentence. A rule you have to restate everywhere is a sign the structure is wrong. Rule files are shared code, so give them an owner who cuts the lines that are no longer needed.</p>
+<h3>4. Why a written rule is ignored</h3>
+<p>A rule can be loaded and still not followed. The usual causes:</p>
+<ol>
+<li><strong>The file is too long.</strong> Ask of each line: would the agent get it wrong without it? If not, delete the line.</li>
+<li><strong>Rules conflict.</strong> Two files say different things. The model picks one, and not always the one you want. VS Code's docs say instruction sources are additive and that you should not depend on file order to settle a conflict. So conflicts are your job to remove: search for them, and fix the wording so only one version remains.</li>
+<li><strong>The rule is far from where it applies.</strong> It was in the first message, now thousands of lines up. A rule-by-file or a hook reminder puts it nearer.</li>
+<li><strong>It has no reason.</strong> &quot;Never do X&quot; is easy to rationalise away. &quot;Never do X, because Y breaks&quot; lets the model apply the idea to cases you did not list.</li>
+<li><strong>It is a request.</strong> This is the deepest cause. Whatever you write in a file is read by the model, and the model can do otherwise. The Claude Code docs put it plainly: the memory files are &quot;context, not enforced configuration&quot;, and to block an action regardless of what the model decides, use a hook. The text of a skill is the same. It makes the work go smoothly; it does not make the wrong thing impossible. A skill's header may carry stronger settings on some platforms, and you should check what they do. In Claude Code, for example, <code>allowed-tools</code> only pre-approves tools and does not restrict them, and a skill can register hooks, which are code (<a href="https://code.claude.com/docs/en/skills">Skills</a>).</li>
+</ol>
+<p>For the fifth, the fix is not better wording. A rule that must hold goes into code. That choice is the subject of <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>. The text then only has to explain why, so the agent does not try again to get around the refusal. In my setup a rule that matters has both layers: the text teaches, the code stops.</p>
+<h3>5. One more choice: language</h3>
+<p>If you work in more than one language, I keep one copy of the rules and skills, in English, and tell the model which language to answer in. A second copy of prose slowly drifts from the first. That is my choice; the principle is only to have one copy.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions for any rule you add:</strong></p>
+<ol>
+<li>How often is this needed? If rarely, it does not go in the always-loaded file.</li>
+<li>Is it already written somewhere? If so, link to it.</li>
+<li>If the agent ignores it, what happens? If the answer is &quot;something bad that cannot be undone&quot;, it is not a text job.</li>
+</ol>
+<p><strong>A test you can run today, with no extra setup.</strong> Look at your always-loaded file. For every line, ask whether the agent would get it wrong without it. Cut every line that fails. Then run the same task as before and see whether anything got worse. When I have cut lines from my own rules file, I usually saw nothing get worse. I have not tested this systematically.</p>
+<p><strong>Test that a skill is found.</strong> Write the requests first, in the words a person would use, not the words of the description: three ways of asking for the job, and two neighbouring requests that should not trigger it. Open a new chat for each (an old chat may already hold the skill) and do not type the skill's name. Then look at which skills were loaded. Use the platform's log if it has one, since what the agent says is not evidence. If it did not load, the description lacks the user's words. If it loaded when it should not, the description is too wide.</p>
+<p><strong>Test that a skill changes anything.</strong> Run the same task twice in new chats, with and without the skill. If you cannot see a difference, cut the lines that make none. The agent already knew them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>1. 規則的三個位置</h3>
+<p>規則放在哪裡，決定它什麼時候佔位子、agent 什麼時候看得到。</p>
+<figure class="fig" id="fig-3-3-places"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="20" y="30" width="170" height="60" rx="6"/>
+  <text class="label-lit" x="105" y="65" text-anchor="middle" data-t="always">每次都載入</text>
+  <text class="label-muted" x="105" y="112" text-anchor="middle" data-t="always-note">每件事都需要的少數規則</text>
+
+  <rect class="box" x="215" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="300" y="65" text-anchor="middle" data-t="by-file">依檔案載入</text>
+  <text class="label-muted" x="300" y="112" text-anchor="middle" data-t="by-file-note">只管某一種檔案的規則</text>
+
+  <rect class="box" x="410" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="495" y="65" text-anchor="middle" data-t="on-demand">用到才讀</text>
+  <text class="label-muted" x="495" y="112" text-anchor="middle" data-t="on-demand-note">skill 和筆記</text>
+
+  <path class="line" d="M20 150 H580"/>
+  <text class="label-muted" x="20" y="140" data-t="less">每一輪都花錢</text>
+  <text class="label-muted" x="580" y="140" text-anchor="end" data-t="more">用到才花錢</text>
+  <text class="label" x="300" y="190" text-anchor="middle" data-t="rule">每條規則放在還找得到它的最便宜的地方。</text>
+  <text class="label-muted" x="300" y="216" text-anchor="middle" data-t="rule-note">只寫一次。別處放連結和一句話。</text>
+</svg>
+<figcaption>書面指引的三個位置。越往右，不需要時越省，但越依賴 agent 自己選擇去讀。</figcaption></figure>
+<ul>
+<li><strong>一直載入</strong>。倉庫根目錄裡一個簡短的檔案，每個對話都讀。只有每份工作都需要的規則放在這裡：安全限制、怎麼開始、被拒絕時該怎麼辦。在我的設定裡，它只有短短一頁。如果一條規則十份工作裡只有一份需要，它就不屬於這裡。</li>
+<li><strong>依檔案載入</strong>。只適用於某一類檔案的規則。在 VS Code 裡，指令檔有一行檔頭 <code>applyTo</code>，內容是像「這個資料夾底下所有檔案」這樣的模式。只有 agent 打開符合的檔案時，規則才載入。寫 skill 的規則，在它打開 skill 檔案時載入，編輯 pipeline 時不佔任何位子。下面是這樣一個檔案的開頭：</li>
+</ul>
+<details class="code"><summary>只在處理 skill 檔案時載入的指令檔：applyTo 那一行就是模式。</summary><pre><code class="language-markdown">---
+description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
+applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
+<ul>
+<li><strong>按需要才讀</strong>。其他一切：很長的做法說明、很少用到的細節。skill 和參考筆記放在這裡。工作需要時，agent 才去讀。</li>
+</ul>
+<p>第四種方式：<strong>hook</strong>（平台在固定時刻執行的小程式；見 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）可以在你送出的每則訊息最前面加上幾行，在用到的地方重複一條規則。只放幾行，不然你又重建了那個長檔案。</p>
+<p>對每一條規則的問題是：<strong>這條多常需要？agent 漏掉了會怎樣</strong>？每次都需要、漏掉代價高：一直載入。只有某一類檔案需要：依檔案載入。只有某一份工作需要：skill。</p>
+<h3>2. skill 分三層載入</h3>
+<p>skill 是一個資料夾。主檔案 <code>SKILL.md</code> 有一段檔頭（名稱和描述）和一段正文（手冊）。旁邊可以放更長的筆記、腳本和範本。</p>
+<figure class="fig steps" id="fig-3-3-three-layers" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <text class="label-muted" x="20" y="24" data-t="col-level">層</text>
+  <text class="label-muted" x="165" y="24" data-t="col-what">視窗裡有什麼</text>
+  <text class="label-muted" x="410" y="24" data-t="col-when">什麼時候</text>
+
+  <rect class="box" x="20" y="40" width="130" height="56" rx="6"/>
+  <text class="label" x="85" y="73" text-anchor="middle" data-t="l1">1. 目錄</text>
+  <text class="label" x="165" y="73" data-t="l1-what">名字 + 一句描述</text>
+  <text class="label-muted" x="410" y="73" data-t="l1-when">每個 skill 都一直在</text>
+  <rect class="bar" x="20" y="104" width="40" height="8" rx="2"/>
+
+  <g data-step="2">
+    <rect class="box-lit" x="20" y="130" width="130" height="56" rx="6"/>
+    <text class="label-lit" x="85" y="163" text-anchor="middle" data-t="l2">2. 說明書</text>
+    <text class="label" x="165" y="163" data-t="l2-what">整份 SKILL.md</text>
+    <text class="label-muted" x="410" y="163" data-t="l2-when">需求對得上時</text>
+    <rect class="bar-lit" x="20" y="194" width="130" height="8" rx="2"/>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="220" width="130" height="56" rx="6"/>
+    <text class="label" x="85" y="253" text-anchor="middle" data-t="l3">3. 附帶檔案</text>
+    <text class="label" x="165" y="253" data-t="l3-what">腳本、長筆記、範本</text>
+    <text class="label-muted" x="410" y="253" data-t="l3-when">說明書叫它讀才讀</text>
+    <rect class="bar" x="20" y="284" width="90" height="8" rx="2"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">第 1 層：每個 skill 一直只露出名字和描述。成本很低，agent 挑選時手上也只有這個。</li><li data-step-text="2">第 2 層：需求對上某個描述時，整份說明書才讀進視窗。</li><li data-step-text="3">第 3 層：說明書旁邊的檔案，只有說明書指到、而且這一步用得到時才讀。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一個 skill 沒用到時只佔一行，用到時佔一頁，工作需要時才再多一點。描述決定第 2 層會不會發生。</figcaption></figure>
+<p>agent 不會一次看到全部。</p>
+<ol>
+<li><strong>一直都在的，是每個 skill 的名稱和描述</strong>。這是菜單。它很小，但你裝了多少個 skill，每一輪就要為它們付多少錢。</li>
+<li><strong>請求符合某個描述時，載入整本手冊</strong>。這是 agent 自己決定的，或者你輸入 skill 的名稱。</li>
+<li><strong>只有手冊指向時，才載入額外的檔案</strong>。很長的參考資料或腳本，在需要它的那一步才讀。</li>
+</ol>
+<p>所以你可以裝很多 skill，而不會塞滿視窗。</p>
+<p><strong>描述決定 skill 到底找不找得到</strong>。在第 1 層，描述是 agent 手上全部的東西。含糊的描述（「幫助提升程式碼品質」）永遠對不上任何東西。好的描述說三件事：這個 skill 做什麼、什麼時候用（「use when……」），以及人真的需要它時會說的那些字。平台對長度有限制，而囉嗦的描述也會佔掉其他每個 skill 的位子。</p>
+<p>就算描述很好，也不保證會用。VS Code 的文件明確說，發現機制讓 skill 可以被用到，但不保證模型會用某一個。所以要測（見下面）。</p>
+<p><strong>菜單也可能太長</strong>。有幾十個 skill 時，菜單是一筆實實在在的成本，而且很多從不會被選到。一個辦法是，把單一業務領域的 skill 擋在菜單之外，直到任務和這個領域有關。</p>
+<h3>3. 一條規則，一個來源</h3>
+<p>同一條規則如果寫在三個檔案裡，改的時候會漏掉其中一個，agent 讀到三個慢慢分歧的版本。規則只寫在一個地方。其他地方放一個連結和一句話。一條規則如果得到處重述，說明結構錯了。規則檔是共用的程式碼，所以要給它們一個負責人，由他剪掉不再需要的行。</p>
+<h3>4. 寫下來的規則為什麼會被無視</h3>
+<p>規則載入了，仍然可能沒被遵守。常見的原因：</p>
+<ol>
+<li><strong>檔案太長</strong>。對每一行問：沒有它，agent 會做錯嗎？不會，就刪掉這一行。</li>
+<li><strong>規則互相衝突</strong>。兩個檔案說的不同。模型挑一個，而且不一定是你要的那個。VS Code 的文件說，指令的來源是疊加的，不要靠檔案的順序來解決衝突。所以消除衝突是你的工作：去搜尋，並修改措辭，只留下一個版本。</li>
+<li><strong>規則離適用的地方很遠</strong>。它在第一則訊息裡，現在在幾千行之上。依檔案載入的規則或 hook 的提醒，可以把它放得近一點。</li>
+<li><strong>它沒有理由</strong>。「絕對不要做 X」很容易被繞過去。「絕對不要做 X，因為 Y 會壞掉」，讓模型能把這個想法用在你沒列出來的情況上。</li>
+<li><strong>它只是請求</strong>。這是最根本的原因。你寫在檔案裡的任何東西，都是模型去讀的，而模型可以不照做。Claude Code 的文件說得很直白：memory 檔是「上下文，不是強制執行的設定」，不管模型怎麼決定，想擋掉某個動作，就用 hook。skill 的文字也一樣。它讓工作進行得順利；它不讓錯的事不可能發生。在某些平台上，skill 的檔頭可以帶更強的設定，你應該去查它們做什麼。例如在 Claude Code 裡，<code>allowed-tools</code> 只是預先批准工具，並不限制工具，而且 skill 可以註冊 hook，那是程式碼（<a href="https://code.claude.com/docs/en/skills">Skills</a>）。</li>
+</ol>
+<p>對第五點，補救不是更好的措辭。一條必須成立的規則要放進程式碼。這個選擇是<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>的主題。這時文字只需要解釋為什麼，免得 agent 再試著繞過那個拒絕。在我的設定裡，要緊的規則有兩層：文字負責教，程式碼負責擋。</p>
+<h3>5. 還有一個選擇：語言</h3>
+<p>如果你用不止一種語言工作，我只留一份規則和 skill，用英文寫，再告訴模型用哪種語言回答。第二份散文，會慢慢和第一份漂開。這是我的選擇；原則只是只有一份。</p>
+<h3>測一測你自己的設定</h3>
+<p><strong>你加的每一條規則，都問這三個問題</strong>：</p>
+<ol>
+<li>這條多常需要？很少的話，就不放進一直載入的檔案。</li>
+<li>別處已經寫過了嗎？有的話，連過去。</li>
+<li>agent 無視它會怎樣？答案如果是「很糟、而且無法挽回的事」，那就不是文字能做的事。</li>
+</ol>
+<p><strong>今天就能做、不用額外設定的測試</strong>。看你一直載入的檔案。每一行都問：沒有它，agent 會做錯嗎？把不通過的行都剪掉。然後跑和之前一樣的任務，看有沒有什麼變差。我從自己的規則檔剪掉一些行時，通常沒看到什麼變差。我沒有系統地測過。</p>
+<p><strong>測 skill 找不找得到</strong>。先把請求寫好，用人會說的字，不是描述裡的字：三種要求這份工作的說法，和兩個相鄰、不該觸發它的請求。每一個都開一個新的對話（舊的對話可能已經載入了這個 skill），而且不要輸入 skill 的名稱。然後看哪些 skill 被載入了。平台有紀錄的話就用紀錄，因為 agent 自己說的不算證據。沒載入，說明描述缺少使用者的字。不該載入時載入了，說明描述太寬。</p>
+<p><strong>測 skill 有沒有改變什麼</strong>。同一個任務在新的對話裡跑兩次，有 skill 和沒有 skill 各一次。看不出差別的話，就剪掉那些沒有差別的行。agent 本來就知道它們。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Splitting has a price.</strong> A rule in a skill is only read if the skill is found. A rule that matters but sits in a skill with a weak description may never be read. That is the cost of saving room. If missing it is costly, keep it in a place that loads.</p>
+<p><strong>A skill is not a setting.</strong> It depends on the model choosing it. The same request can load it once and not the next time.</p>
+<p><strong>More skills, harder choice.</strong> Even a good description may be confused with its neighbour. Keep each one narrow and say what it is not for.</p>
+<p><strong>Hooks that inject text add up.</strong> Each line is repeated on every message. The Claude Code docs suggest under about 200 lines for a project file; that is a rule of thumb, not a measured limit. Measure your own.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>拆開是有代價的</strong>。skill 裡的規則，只有 skill 被找到時才會被讀。一條要緊的規則，放在描述很弱的 skill 裡，可能永遠不會被讀。這是省位子的代價。漏掉的代價高的話，就把它留在會載入的地方。</p>
+<p><strong>skill 不是設定</strong>。它靠模型去選它。同一個請求，這次可能載入它，下次就不載入。</p>
+<p><strong>skill 越多，越難選</strong>。就算是好的描述，也可能和它的鄰居混淆。每一個都保持狹窄，並寫明它不是做什麼的。</p>
+<p><strong>注入文字的 hook 會累加</strong>。每一行都會在每則訊息裡重複。Claude Code 的文件建議專案檔低於約 200 行；那是經驗法則，不是量出來的限制。量你自己的。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
+<li><strong>VS Code</strong> has the three-level loading for skills: it reads the name and description first, loads the body &quot;once the skill is relevant&quot;, and reads other files &quot;only when it references them&quot;. It also says that discovery &quot;does not guarantee that it invokes a skill for every relevant prompt&quot;. For instruction files it advises to &quot;keep your instructions short and self-contained&quot;, to &quot;include the reasoning behind rules&quot;, and says the sources are &quot;additive&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>, <a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a>)</li>
+<li><strong>Anthropic</strong> describes the same three levels for Agent Skills: the name and description first, the body when the skill applies, linked files only as needed. (<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>)</li>
+<li><strong>Claude Code</strong> suggests keeping each memory file under 200 lines, moving part-of-the-code rules into files that load only for matching paths, and removing contradictions. It treats them as &quot;context, not enforced configuration&quot;. (<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>)</li>
+</ul>
+<p>The two platforms use the same shape: always-on file, path-scoped rules, on-demand skills. The idea is the same across tools, so what you build here moves with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><ul>
+<li><strong>VS Code</strong> 對 skill 也有三層載入：先讀名稱和描述，「skill 相關時」才載入正文，其他檔案「只有在被引用時」才讀。它還說，發現機制「不保證每個相關的 prompt 都會呼叫某個 skill」。對於指令檔，它建議「讓你的指令簡短而獨立」「附上規則背後的理由」，並說來源是「疊加的」。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>、<a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a>）</li>
+<li><strong>Anthropic</strong> 為 Agent Skills 描述了同樣的三層：先是名稱和描述，skill 適用時載入正文，連結的檔案只在需要時才載入。（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）</li>
+<li><strong>Claude Code</strong> 建議每個 memory 檔保持在 200 行以下，把屬於程式碼某一部分的規則移到只在路徑符合時才載入的檔案，並移除矛盾。它把這些當成「上下文，不是強制執行的設定」。（<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>）</li>
+</ul>
+<p>兩個平台用的是同一個形狀：一直開著的檔案、依路徑載入的規則、按需要才讀的 skill。想法在各個工具之間是一樣的，所以你在這裡做的東西可以帶著走。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The by-hand parts that the platform may take over: listing only the skills of the current area, and cutting a long menu. If the platform learns to load skills by relevance better, the area trick can go.</p>
+<p>The reasoning does not retire. A bigger window does not make a long rule file better; it only lets you hold more before the problem shows up. And no loading scheme makes a written rule enforced. I would look again if a platform could show, on my own tasks, that long rule files are followed as well as short ones.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>平台可能接手的手動部分：只列出目前領域的 skill，以及剪短過長的菜單。如果平台學會更好地按相關性載入 skill，領域這個辦法就可以不用了。</p>
+<p>道理不會退役。更大的視窗不會讓長的規則檔變好；它只是讓你在問題出現之前能放更多。而且沒有任何載入方式，能讓寫下來的規則變成強制執行。如果有平台能在我自己的任務上證明，長的規則檔被遵守的程度和短的一樣好，我會再看一次。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Audit the instruction files and skills in this repository. List: lines in the always-loaded file that you would get right without being told; rules written in more than one place; pairs of rules that contradict each other; rules that give no reason; and skills whose description is too vague to be found or too wide, with a better description for each. Mark the rules where a mistake would be costly and irreversible, since those need code and not text. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>審查這個倉庫裡的指令檔和 skill。列出：一直載入的檔案裡，不用說你也會做對的行；寫在不止一個地方的規則；互相矛盾的規則對；沒有給理由的規則；以及描述太含糊、找不到，或太寬的 skill，並為每一個給出更好的描述。標出犯錯會代價高昂又無法挽回的規則，那些需要程式碼，不是文字。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a></li>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a></li>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
+<li>In this book: <a href="3-4-skills-and-workflows.html">Skills and workflows</a>, <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a></li>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
+<li>本書：<a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a>、<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness uses all three places, the three levels of loading, and the rule that a rule has one source. The harness can show you each with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Instructions and skills&quot;. Teach me how this harness uses the three places for rules, how its skills load in three levels, and why it says a skill is not enforced (topics 2, 3 and 15). Open the real files with me, starting from the shortest one.</code></pre></div>
+<p>It teaches one small piece at a time and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用到了全部三個位置、三層載入，以及一條規則只有一個來源的做法。harness 可以用真實的檔案讓你看到每一樣。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「指令與 skill：只載入需要的」這一章。請教我這個 harness 怎麼用規則的三個位置、它的 skill 怎麼分三層載入，以及為什麼說 skill 不是強制執行的（主題 2、3 和 15）。帶我打開真實的檔案，從最短的那個開始。</code></pre></div>
+<p>它一次教一小塊，並和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

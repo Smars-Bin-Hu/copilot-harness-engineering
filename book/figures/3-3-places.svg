@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="20" y="30" width="170" height="60" rx="6"/>
+  <text class="label-lit" x="105" y="65" text-anchor="middle" data-t="always">x</text>
+  <text class="label-muted" x="105" y="112" text-anchor="middle" data-t="always-note">x</text>
+
+  <rect class="box" x="215" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="300" y="65" text-anchor="middle" data-t="by-file">x</text>
+  <text class="label-muted" x="300" y="112" text-anchor="middle" data-t="by-file-note">x</text>
+
+  <rect class="box" x="410" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="495" y="65" text-anchor="middle" data-t="on-demand">x</text>
+  <text class="label-muted" x="495" y="112" text-anchor="middle" data-t="on-demand-note">x</text>
+
+  <path class="line" d="M20 150 H580"/>
+  <text class="label-muted" x="20" y="140" data-t="less">x</text>
+  <text class="label-muted" x="580" y="140" text-anchor="end" data-t="more">x</text>
+  <text class="label" x="300" y="190" text-anchor="middle" data-t="rule">x</text>
+  <text class="label-muted" x="300" y="216" text-anchor="middle" data-t="rule-note">x</text>
+</svg>

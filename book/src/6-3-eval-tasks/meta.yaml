@@ -1,0 +1,14 @@
+id: "6.3"
+part: evidence
+core: true
+title: {en: "Fixed tasks, scored by a script", zh-Hant: "固定的任務，用腳本打分"}
+harness_tag: "1.5.50"
+wondering: [12-observe-report]
+sources:
+  - what: "The lab: a made-up repository of 93 files in 5 areas, four fixed tasks, a scoring script that reads the files and never runs them, and a self-test (the untouched repository fails every task, the right answers pass, 23 broken versions are all caught)"
+    where: labs/subagents/ in this repository (README.md, selftest.py)
+  - what: "The harness has a few fixed scenarios (a prompt plus what is expected) that are judged from the log and the files left behind; run by hand once in Copilot; batch evaluation does not work at the time of writing because hooks do not run in the non-interactive mode; a before-and-after comparison on real tasks is not done yet"
+    where: harness docs/02-features.md (Observability) and the observe lesson of the wondering course
+  - what: "Reading transcripts is how you verify an eval measures what matters; run multiple trials because outputs vary; code graders are brittle to valid variations, model graders are non-deterministic; choose deterministic graders where possible; eval saturation"
+    where: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+    checked: 2026-10-27

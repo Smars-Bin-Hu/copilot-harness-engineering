@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Turn your way of working into skills</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.4</p><h1><span data-l="en" lang="en">Turn your way of working into skills</span><span data-l="zh-Hant" lang="zh-Hant">把團隊的做法寫成 skill</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>: a skill is a manual that the agent reads when a job comes up.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>：skill 是一本手冊，工作出現時 agent 才去讀。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A good skill says how this job is done here and where it goes wrong, not what a textbook says. When a job with several steps has been done by hand about three times the same way, turn it into a workflow: the steps, the check on each, and which step needs a person.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>好的 skill 說的是這份工作在這裡怎麼做、哪裡容易出錯，不是教科書怎麼說。一份有好幾步的工作，如果用同樣的方式手動做過大約三次，就把它變成 workflow：每一步、每一步的檢查，以及哪一步需要人。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide which routines the team repeats by hand and is ready to write down, and who owns each written skill or workflow.</li>
+<li><strong>The risk:</strong> a skill that repeats what the agent already knows costs room and adds nothing. A written workflow runs the same way every time, including a wrong way, and it goes stale when how things are done here changes. I have no measured before-and-after for skills.</li>
+<li><strong>The cost of doing it right:</strong> my rule of thumb is to write a routine down the third time it is done by hand (a number I chose, not tested). Designing and testing a workflow, and keeping it up to date, is the real price.</li>
+<li><strong>Ask the team:</strong> &quot;Which multi-step job have we done by hand three times, and where did the agent go wrong last time?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定團隊有哪些例行工作是手動重複做的、而且已經準備好寫下來，以及誰負責每一份寫好的 skill 或 workflow。</li>
+<li><strong>風險</strong>：重複 agent 本來就知道的內容的 skill，佔位子，什麼也沒加。寫好的 workflow 每次都用同樣的方式跑，包括錯的方式；而且這裡做事的方式一變，它就過期。我沒有 skill 的前後實測數字。</li>
+<li><strong>做對的成本</strong>：我的經驗法則是，一個例行工作第三次手動做的時候，就把它寫下來（這個數字是我選的，沒測過）。設計和測試 workflow，並讓它保持最新，才是真正的價錢。</li>
+<li><strong>可以問團隊</strong>：「哪一份多步驟的工作，我們手動做過三次？上一次 agent 在哪裡做錯了？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first skill most people write is a tutorial. &quot;How to write a SQL query.&quot; &quot;How to do a code review.&quot; The agent read a thousand tutorials like that while it was trained. Your skill adds nothing it did not know, and it costs room in the window each time it loads.</p>
+<p>What the agent does not know is your place. Which table is the real one and which is a leftover. Which step people forget. Which file looks unused and is read by another team. That is what you know and it does not, and it is what is most worth putting in a skill.</p>
+<p>Two words first.</p>
+<ul>
+<li>A <strong>skill</strong> is a manual for one kind of job (see <a href="3-3-instructions-and-skills.html">Instructions and skills</a>).</li>
+<li>A <strong>workflow</strong> is a skill-sized idea one level up: a fixed order of several jobs, with a check after each and a note of where a person must decide. Think of a recipe card in a restaurant kitchen, as opposed to a cooking textbook. Careful: Anthropic uses the same word for something else, a system where code fixes the path and calls the model at set points (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). Here a workflow is a written routine that an agent follows.</li>
+</ul>
+<p>I do not have a measured before-and-after to give you for skills. The reasoning below is what I follow, and the tests at the end let you measure it yourself.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>大多數人寫的第一個 skill 是教學。「怎麼寫 SQL 查詢。」「怎麼做 code review。」agent 在訓練時讀過上千份這樣的教學。你的 skill 沒有加進任何它不知道的東西，而每次載入，還要佔視窗裡的位子。</p>
+<p>agent 不知道的，是你這個地方。哪張表是真的、哪張是遺留的。哪一步人們會忘。哪個檔案看起來沒人用，其實另一個團隊在讀。這些是你知道、它不知道的，也是最值得放進 skill 的。</p>
+<p>先說兩個詞。</p>
+<ul>
+<li><strong>skill</strong> 是某一類工作的手冊（見<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>）。</li>
+<li><strong>workflow</strong> 是比 skill 再高一層的想法：幾份工作的固定順序，每一份後面有檢查，並標明哪裡必須由人決定。想想餐廳廚房裡的食譜卡，而不是烹飪教科書。要小心：Anthropic 用同一個詞指別的東西，一種由程式碼固定路徑、在固定的點呼叫模型的系統（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。這裡的 workflow 是寫下來、讓 agent 照著做的例行流程。</li>
+</ul>
+<p>關於 skill，我沒有可以給你的前後實測。下面的推理是我遵循的，最後的測試讓你自己去量。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The difference in one picture:</p>
+<figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="20" y="24" data-t="skill-title">A skill: one job, read as a whole</text>
+  <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
+  <text class="label" x="150" y="66" text-anchor="middle" data-t="skill-body">how this job is done here</text>
+  <text class="label-muted" x="150" y="88" text-anchor="middle" data-t="skill-note">and where it goes wrong</text>
+
+  <text class="label-muted" x="20" y="146" data-t="flow-title">A workflow: several jobs in order</text>
+  <rect class="box-lit" x="20" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="70" y="185" text-anchor="middle" data-t="s1">step 1</text>
+  <path class="line-lit" d="M120 180 H150"/>
+  <path class="head-lit" d="M150 174 L160 180 L150 186 Z"/>
+  <rect class="box-lit" x="160" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="210" y="185" text-anchor="middle" data-t="s2">step 2</text>
+  <path class="line-lit" d="M260 180 H290"/>
+  <path class="head-lit" d="M290 174 L300 180 L290 186 Z"/>
+  <rect class="box-plain" x="300" y="158" width="100" height="44" rx="6"/>
+  <text class="label" x="350" y="185" text-anchor="middle" data-t="s3">step 3</text>
+  <path class="line-lit" d="M400 180 H430"/>
+  <path class="head-lit" d="M430 174 L440 180 L430 186 Z"/>
+  <rect class="box-lit" x="440" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="490" y="185" text-anchor="middle" data-t="s4">step 4</text>
+  <text class="label-muted" x="70" y="224" text-anchor="middle" data-t="check">has a check</text>
+  <text class="label-muted" x="210" y="224" text-anchor="middle" data-t="check">has a check</text>
+  <text class="label-muted" x="350" y="224" text-anchor="middle" data-t="person">a person decides</text>
+  <text class="label-muted" x="490" y="224" text-anchor="middle" data-t="check">has a check</text>
+</svg>
+<figcaption>A skill is one manual. A workflow is a chain of them, where each step says what must be true before it and what is checked after it, and which steps wait for a person.</figcaption></figure>
+<h3>1. Write only what the agent would get wrong</h3>
+<p>For every line in a draft skill, ask: if I delete this, will the agent get something wrong or miss something? If not, delete it.</p>
+<p>What stays:</p>
+<ul>
+<li><strong>Your conventions.</strong> Naming, layering, where a new thing is registered.</li>
+<li><strong>Defaults that are not obvious.</strong> The thing everyone on the team does without thinking about it.</li>
+<li><strong>Traps.</strong> What looks right and is not.</li>
+<li><strong>Your tools.</strong> The exact command, with the flag that matters.</li>
+</ul>
+<p>What goes: how the language works, what a library does, anything on the first page of its documentation. Anthropic's own guide to writing skills gives a small example: a paragraph that explains what a PDF is and that you need a library to read one teaches the model what it already knows, while one line, &quot;Use pdfplumber for text extraction&quot;, tells it the choice that was made. Their rule of thumb is &quot;Default assumption: Claude is already very smart. Only add context Claude doesn't already have.&quot; (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>)</p>
+<p>A skill with no such line is short. That is fine. A short skill is read whole and followed.</p>
+<h3>2. A skeleton to start from</h3>
+<p>A skill is a folder. The part that matters is one file, with a header and a body:</p>
+<ul>
+<li><strong>Header:</strong> a name, and a description that says what it does, when to use it, and the words a person would say.</li>
+<li><strong>When to use it</strong> (and when not to).</li>
+<li><strong>What it needs first.</strong> For example, an open task, or a tool installed.</li>
+<li><strong>The steps</strong>, if the job is a fixed process. For open-ended work, give the standards to judge by instead of fixed steps: a rigid recipe breaks when the case is a little different.</li>
+<li><strong>Gotchas.</strong></li>
+</ul>
+<p><strong>Gotchas are the most valuable part.</strong> They are warnings written ahead of time, one per line: the rule in bold, then the reason. Treat them as a living list: every time the agent gets this job wrong, add one line. That is the cheapest way to improve a skill, and it is the part that improves most with use.</p>
+<p>Examples of the shape, from an &quot;impact analysis&quot; skill, which finds everything a change touches before the plan is written:</p>
+<ul>
+<li>A column named only by its bare name matches everything. Search the table and the column together.</li>
+<li>Names built at run time are not found by any text search. Say so in the result instead of reporting &quot;no impact&quot;.</li>
+<li>No hit does not mean unused: readers outside the repositories you can see are invisible. Write that, and ask who else reads it.</li>
+</ul>
+<p>None of these is in a textbook. Each is something that a competent agent gets wrong the first time. The third also shows a habit worth teaching: <strong>the skill tells the agent to say what it could not see.</strong></p>
+<p><strong>Scripts.</strong> If part of the job has one right answer (find every file that mentions a name, count the uses), put it in a script the skill tells the agent to run. The script gives the same answer every time at no cost in reading; the model does the part that needs judgment. That skill does this: one command in place of a run of searches, then the model sorts the hits.</p>
+<p><strong>Length.</strong> When a skill grows past about 200 lines, move the detail into separate files and keep the main file as the flow and the links. The detail then loads only at the step that needs it.</p>
+<h3>3. Take it from real work, not from imagination</h3>
+<p>The best source of a skill is a job you have just done and corrected. Before you write, open the last real task of this kind and ask:</p>
+<ul>
+<li>Where did the agent go wrong? Each of those is a gotcha.</li>
+<li>Where did you correct it? Each of those is a convention.</li>
+<li>What did you have to look up that it could have been told?</li>
+</ul>
+<p>Write the skill from those, not from what you think a good manual should say. I have a skill that does only this: at the end of a task, it drafts what a later agent would get wrong, with the evidence from the task, and a person decides what stays. <a href="3-5-memory.html">Memory</a> covers why a person decides.</p>
+<h3>4. From skill to workflow</h3>
+<p>If you only write single skills, you can skip to &quot;Test your own setup&quot;. The rest is for routines of many steps.</p>
+<p>One job is a skill. A routine of several jobs is a workflow. &quot;Every time we add a pipeline, we do these eight steps.&quot; If you do it by hand and the agent has to be told each time, that is the sign.</p>
+<p>My rule of thumb: <strong>the third time you do the same multi-step thing, stop and write it down.</strong> One time is an accident. Two could be a coincidence. Three is a routine. I picked three myself; I have no test that shows it is the right number. A workflow pays when the routine comes back often and a missed step is costly. Against that stand the cost of designing it, testing it and keeping it up to date.</p>
+<p>How to get a workflow without inventing it:</p>
+<ol>
+<li>
+<p><strong>Take two or three finished examples.</strong> Real ones, already done by a person.</p>
+</li>
+<li>
+<p><strong>Put them side by side</strong> and replace each example's name with a placeholder. Parts that look the same in every example are the skeleton. Parts that change with the name are parameters. Parts that differ beyond the name are where judgment lives.</p>
+</li>
+<li>
+<p><strong>Sort every step into one of four kinds</strong>, asking in this order and stopping at the first yes:</p>
+<table>
+<thead>
+<tr>
+<th>Ask</th>
+<th>If yes, it is</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does it need authority (an approval, a production run, a protected file)?</td>
+<td><strong>Human</strong></td>
+<td>It stays with a person.</td>
+</tr>
+<tr>
+<td>Did the same inputs give the same result in the examples?</td>
+<td><strong>Fixed</strong></td>
+<td>A script can do it, with a test.</td>
+</tr>
+<tr>
+<td>Is it a check of a result?</td>
+<td><strong>Check</strong></td>
+<td>A script if a command can check it; otherwise a checklist for the model and an independent reviewer (<a href="2-3-subagents.html">Use subagents sparingly</a>).</td>
+</tr>
+<tr>
+<td>Does it need to understand the requirement?</td>
+<td><strong>Judgment</strong></td>
+<td>The model's job, with a checklist, pointers to your documents, and the common mistakes.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Do not design from the description alone.</strong> What people say they do and what the examples hold differ. That difference is the most useful finding. If you have no examples, say the design is a guess.</p>
+</li>
+<li>
+<p><strong>Write it down for approval before building anything.</strong> A workflow touches many files. A person approves the design first.</p>
+</li>
+</ol>
+<p>When unsure whether a step is fixed or judgment, choose judgment. Judgment can be turned into code later; code that was wrong about a judgment is harder to find.</p>
+<h3>5. What each step carries</h3>
+<p>A workflow is a chain, so each link says three things:</p>
+<ul>
+<li><strong>In:</strong> what must be true before this step.</li>
+<li><strong>Out:</strong> what exists after it, in a form the next step can read.</li>
+<li><strong>Check:</strong> how it is known to be right. A command if possible.</li>
+</ul>
+<p>And the steps that wait for a person say so. Two things to guard against. The workflow must not skip the approvals your setup already has. And it should leave room: write defaults and conditions (&quot;skip when...&quot;), not a fixed script, and say what to do when a case fits none of them.</p>
+<p>If a workflow has more than about a dozen steps, or two different kinds of result, split it.</p>
+<h3>6. Two examples</h3>
+<p><strong>Impact analysis</strong> (a skill with a script). Before a plan, find what a change touches. The script searches every repository for the names being changed. The skill makes the model sort the hits into must change, must check, and no effect, and requires a list of what the search cannot see. This is the case the <a href="2-3-subagents.html">subagents chapter</a> mentions: once, in one case, a builder missed two references across areas, and only an independent check found them. It is one case, not a rate. A skill that does this search first moves that catch earlier.</p>
+<p><strong>A test guide</strong> (a workflow step that ends at a person). After a change is written back, the agent cannot run anything in the test environments; a person does. So the skill writes what to run in each environment, with expected results and what to send back. When the person brings the results, the skill judges them against the criteria written before. The point of the design is where it stops: at the person, with a clear list of what to do and what to bring back.</p>
+<h3>Test your own setup</h3>
+<p><strong>Is it found, and does it change anything?</strong> The two tests for a single skill are in <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. Anthropic's guide adds one habit: build the test cases before you write much, from tasks the agent got wrong without the skill, then write just enough to fix them.</p>
+<p><strong>Does the workflow hold?</strong> Run it on a case that is not one of your examples. Where it fails is a missing variant or a step you sorted wrongly.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>用一張圖看差別：</p>
+<figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="20" y="24" data-t="skill-title">skill：一件事，整份讀</text>
+  <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
+  <text class="label" x="150" y="66" text-anchor="middle" data-t="skill-body">這件事在這裡怎麼做</text>
+  <text class="label-muted" x="150" y="88" text-anchor="middle" data-t="skill-note">還有哪裡會錯</text>
+
+  <text class="label-muted" x="20" y="146" data-t="flow-title">workflow：幾件事，按順序</text>
+  <rect class="box-lit" x="20" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="70" y="185" text-anchor="middle" data-t="s1">第 1 步</text>
+  <path class="line-lit" d="M120 180 H150"/>
+  <path class="head-lit" d="M150 174 L160 180 L150 186 Z"/>
+  <rect class="box-lit" x="160" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="210" y="185" text-anchor="middle" data-t="s2">第 2 步</text>
+  <path class="line-lit" d="M260 180 H290"/>
+  <path class="head-lit" d="M290 174 L300 180 L290 186 Z"/>
+  <rect class="box-plain" x="300" y="158" width="100" height="44" rx="6"/>
+  <text class="label" x="350" y="185" text-anchor="middle" data-t="s3">第 3 步</text>
+  <path class="line-lit" d="M400 180 H430"/>
+  <path class="head-lit" d="M430 174 L440 180 L430 186 Z"/>
+  <rect class="box-lit" x="440" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="490" y="185" text-anchor="middle" data-t="s4">第 4 步</text>
+  <text class="label-muted" x="70" y="224" text-anchor="middle" data-t="check">有檢查</text>
+  <text class="label-muted" x="210" y="224" text-anchor="middle" data-t="check">有檢查</text>
+  <text class="label-muted" x="350" y="224" text-anchor="middle" data-t="person">由人決定</text>
+  <text class="label-muted" x="490" y="224" text-anchor="middle" data-t="check">有檢查</text>
+</svg>
+<figcaption>skill 是一份說明書。workflow 是一串說明書：每一步寫明做之前什麼要成立、做完檢查什麼，哪幾步要等人。</figcaption></figure>
+<h3>1. 只寫 agent 會做錯的</h3>
+<p>草稿 skill 裡的每一行，都問：如果我刪掉它，agent 會做錯或漏掉什麼嗎？不會，就刪掉。</p>
+<p>留下的：</p>
+<ul>
+<li><strong>你的慣例</strong>。命名、分層、新東西在哪裡登記。</li>
+<li><strong>不明顯的預設</strong>。團隊裡每個人都不假思索在做的事。</li>
+<li><strong>陷阱</strong>。看起來對、其實不對的東西。</li>
+<li><strong>你的工具</strong>。確切的指令，附上要緊的那個參數。</li>
+</ul>
+<p>刪掉的：語言怎麼運作、函式庫做什麼，以及文件第一頁上的任何東西。Anthropic 自己的 skill 寫作指南給了一個小例子：一段解釋 PDF 是什麼、要讀它需要函式庫的文字，教的是模型已經知道的；而一行「用 pdfplumber 抽取文字」，說的是已經做好的選擇。他們的經驗法則是「預設假設：Claude 已經非常聰明。只加 Claude 還沒有的上下文。」（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
+<p>沒有這種行的 skill 很短。沒關係。短的 skill 會被整個讀完、也會被遵守。</p>
+<h3>2. 起步用的骨架</h3>
+<p>skill 是一個資料夾。要緊的部分是一個檔案，有檔頭和正文：</p>
+<ul>
+<li><strong>檔頭</strong>：名稱，和一段描述，說明它做什麼、什麼時候用，以及人會說的字。</li>
+<li><strong>什麼時候用</strong>（和什麼時候不用）。</li>
+<li><strong>先要有什麼</strong>。例如一個打開的任務，或一個裝好的工具。</li>
+<li><strong>步驟</strong>，如果這份工作是固定流程的話。開放式的工作，就給判斷用的標準，不給固定的步驟：死板的食譜遇到稍有不同的情況就壞了。</li>
+<li><strong>陷阱</strong>（gotchas）。</li>
+</ul>
+<p><strong>陷阱是最有價值的部分</strong>。它們是事先寫好的警告，一行一條：規則用粗體，然後是理由。把它們當成活的清單：每次 agent 把這份工作做錯，就加一行。這是改進 skill 最便宜的辦法，也是用得越多進步越多的部分。</p>
+<p>形狀的例子，來自一個「影響分析」skill，它在寫計劃之前，找出一項改動碰到的所有東西：</p>
+<ul>
+<li>只用光禿禿的欄位名稱，會對上所有東西。要把表和欄位一起搜尋。</li>
+<li>在執行時才組出來的名稱，任何文字搜尋都找不到。要在結果裡說明這一點，不要回報「沒有影響」。</li>
+<li>沒有命中不等於沒人用：你看不到的倉庫之外的讀取者是看不見的。把這寫下來，並問還有誰在讀。</li>
+</ul>
+<p>這些都不在教科書裡。每一條都是能幹的 agent 第一次會做錯的事。第三條還顯示了一個值得教的習慣：<strong>skill 要 agent 說出它看不到什麼</strong>。</p>
+<p><strong>腳本</strong>。如果工作的一部分只有一個正確答案（找出所有提到某個名稱的檔案、數有幾處用到），就放進腳本，由 skill 告訴 agent 去執行。腳本每次給出同樣的答案，不花任何閱讀的成本；模型做需要判斷的那部分。那個 skill 就是這樣做的：一條指令取代一連串的搜尋，然後模型把命中的結果分類。</p>
+<p><strong>長度</strong>。skill 長到超過約 200 行時，把細節移到另外的檔案，主檔案只留流程和連結。這樣細節就只在需要它的那一步才載入。</p>
+<h3>3. 從真實的工作取材，不要憑想像</h3>
+<p>skill 最好的來源，是你剛做完並修正過的一份工作。動筆之前，打開最近一次這類真實的任務，問：</p>
+<ul>
+<li>agent 在哪裡做錯了？每一處都是一條陷阱。</li>
+<li>你在哪裡糾正了它？每一處都是一條慣例。</li>
+<li>你得去查的什麼東西，本來可以直接告訴它？</li>
+</ul>
+<p>從這些寫 skill，不要從你覺得好手冊該說什麼來寫。我有一個 skill 只做這件事：在任務結束時，它起草後來的 agent 會做錯什麼，附上任務裡的證據，由人決定留下什麼。為什麼由人決定，見<a href="3-5-memory.html">agent 該記住什麼</a>。</p>
+<h3>4. 從 skill 到 workflow</h3>
+<p>如果你只寫單一的 skill，可以跳到「測一測你自己的設定」。其餘是給多步驟的例行工作的。</p>
+<p>一份工作是 skill。幾份工作組成的例行流程是 workflow。「每次我們加一條 pipeline，就做這八步。」如果你手動做，而且每次都得告訴 agent，這就是跡象。</p>
+<p>我的經驗法則：<strong>同樣的多步驟事情，做第三次時，停下來寫下來</strong>。一次是意外。兩次可能是巧合。三次就是例行工作。三次是我自己選的；我沒有測試顯示這是對的數字。當例行工作常常回來、漏掉一步代價又高時，workflow 才划算。和這相對的，是設計它、測試它、讓它保持最新的成本。</p>
+<p>怎麼得到 workflow 而不用憑空發明：</p>
+<ol>
+<li>
+<p><strong>拿兩三個做完的範例</strong>。真的，已經由人做完的。</p>
+</li>
+<li>
+<p><strong>把它們並排放</strong>，把每個範例的名稱換成佔位符。在每個範例裡看起來一樣的部分，是骨架。隨名稱變的部分，是參數。除了名稱之外還有不同的部分，是判斷所在的地方。</p>
+</li>
+<li>
+<p><strong>把每一步歸入四種之一</strong>，按這個順序問，第一個「是」就停：</p>
+<table>
+<thead>
+<tr>
+<th>問</th>
+<th>如果是，它是</th>
+<th>怎麼辦</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它需要權限嗎（批准、正式環境的執行、受保護的檔案）？</td>
+<td><strong>人</strong></td>
+<td>留給人。</td>
+</tr>
+<tr>
+<td>範例裡同樣的輸入給出同樣的結果嗎？</td>
+<td><strong>固定</strong></td>
+<td>腳本可以做，附上測試。</td>
+</tr>
+<tr>
+<td>它是對結果的檢查嗎？</td>
+<td><strong>檢查</strong></td>
+<td>指令能檢查的，用腳本；否則給模型一份檢查清單，和一個獨立的 reviewer（<a href="2-3-subagents.html">慎用子 agent</a>）。</td>
+</tr>
+<tr>
+<td>它需要理解需求嗎？</td>
+<td><strong>判斷</strong></td>
+<td>這是模型的工作，附上檢查清單、指向你的文件，和常見的錯誤。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>不要只憑描述來設計</strong>。人們說自己怎麼做，和範例裡實際有的，是不同的。這個差異是最有用的發現。如果你沒有範例，就說明這份設計是猜的。</p>
+</li>
+<li>
+<p><strong>在建造任何東西之前，先寫下來請人批准</strong>。workflow 會碰到很多檔案。先由人批准設計。</p>
+</li>
+</ol>
+<p>不確定一步是固定還是判斷時，選判斷。判斷以後可以變成程式碼；對判斷做錯了的程式碼，更難找出來。</p>
+<h3>5. 每一步帶什麼</h3>
+<p>workflow 是一條鏈，所以每個環節說三件事：</p>
+<ul>
+<li><strong>進</strong>：這一步之前必須成立的。</li>
+<li><strong>出</strong>：這一步之後存在的東西，形式要讓下一步讀得懂。</li>
+<li><strong>檢查</strong>：怎麼知道它是對的。可能的話用一條指令。</li>
+</ul>
+<p>等人的那些步驟要明說。有兩件事要提防。workflow 不能跳過你的設定裡已有的批准。而且它應該留有餘地：寫預設和條件（「……時跳過」），不要寫固定的腳本，並說明遇到都不符合的情況該怎麼辦。</p>
+<p>workflow 如果超過約十幾步，或有兩種不同的結果，就拆開。</p>
+<h3>6. 兩個例子</h3>
+<p><strong>影響分析</strong>（帶腳本的 skill）。計劃之前，找出一項改動碰到什麼。腳本在每個倉庫裡搜尋要改的名稱。skill 讓模型把命中的結果分成必須改、必須檢查、沒有影響，並要求列出搜尋看不到的東西。這就是<a href="2-3-subagents.html">慎用子 agent</a>那一章提到的情況：有一次，在一個案例裡，實作者漏掉了跨領域的兩處引用，只有獨立檢查找到了它們。這是一個案例，不是比率。先做這個搜尋的 skill，會把這個發現提前。</p>
+<p><strong>測試指南</strong>（一個終點是人的 workflow 步驟）。改動寫回去之後，agent 在測試環境裡無法執行任何東西；是由人來執行的。所以 skill 寫出在每個環境裡要跑什麼，附上預期的結果和要送回什麼。人帶著結果回來時，skill 按之前寫好的標準來判斷。這個設計的重點是它停在哪裡：停在人那裡，附上一份清楚的要做什麼、帶回什麼的清單。</p>
+<h3>測一測你自己的設定</h3>
+<p><strong>找得到嗎？有改變什麼嗎</strong>？單一 skill 的兩個測試在<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。Anthropic 的指南加了一個習慣：寫很多之前先建立測試案例，取自 agent 沒有這個 skill 時做錯的任務，然後只寫剛好能修好它們的部分。</p>
+<p><strong>workflow 站得住嗎</strong>？用一個不是你範例的案例去跑。失敗的地方，是缺少的變體，或是你歸錯類的步驟。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A skill can go stale.</strong> It states how things are done here, and here changes. A skill that says to use a command that no longer exists is worse than none. Look at each one when the thing it describes changes, and give each an owner.</p>
+<p><strong>Wrong gotchas teach wrongly.</strong> A gotcha written from a single case can mislead in the next. Keep the reason with the rule, so a reader can judge whether it still applies.</p>
+<p><strong>Fixed steps cost flexibility.</strong> A tight recipe is right for a fixed process and wrong for open work. If the agent follows your steps into a case they do not fit, they were too tight.</p>
+<p><strong>A workflow can be wrong in a way nobody sees.</strong> It runs the same way every time, including a wrong way. The checks are there for this; give each step one.</p>
+<p><strong>What I did not measure.</strong> I have not compared an agent with and without a given skill across many runs. The skill tests above are a first pass, not a measurement (<a href="6-4-variance.html">Run it several times</a> says how to measure).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>skill 會過期</strong>。它說的是這裡的做事方式，而這裡會變。一個說要用已經不存在的指令的 skill，比沒有還糟。它描述的東西一變，就去看一看每一個，並給每一個負責人。</p>
+<p><strong>錯的陷阱會教錯</strong>。根據單一案例寫的陷阱，在下一個案例可能誤導人。把理由和規則放在一起，讀的人才能判斷它是否仍然適用。</p>
+<p><strong>固定的步驟要付出彈性的代價</strong>。緊的食譜適合固定的流程，不適合開放的工作。如果 agent 照著你的步驟走進了它們不適用的情況，說明它們太緊了。</p>
+<p><strong>workflow 可能錯得沒人看得見</strong>。它每次都用同樣的方式跑，包括錯的方式。檢查就是為此而設的；每一步都給一個。</p>
+<p><strong>我沒量的</strong>。我沒有在很多次運行中，比較過有沒有某個 skill 的 agent。上面的 skill 測試是第一輪，不是量測（<a href="6-4-variance.html">一次運行證明不了什麼</a>說了怎麼量）。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's skills documentation describes the same format and the three-stage loading, and says to write instructions that are &quot;clear&quot; and &quot;specific&quot; with step-by-step procedures where they apply. It also says plainly that discovery does not guarantee a skill is used. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>) Anthropic's skill-writing guide gives the same advice I follow: assume the model is already very smart and add only what it does not have, and challenge each paragraph with &quot;Does this paragraph justify its token cost?&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>) It also suggests building the test cases first and keeping the skill under about 500 lines; my own limit of about 200 is stricter and is a habit, not a measured value.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 skill 文件描述了同樣的格式和三階段載入，並說要把指令寫得「清楚」、「具體」，在適用的地方附上一步步的程序。它也明確說，發現機制不保證 skill 一定會被使用。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）Anthropic 的 skill 寫作指南給的建議和我遵循的一樣：假設模型已經很聰明，只加它沒有的，並用「這一段值得它花的 token 嗎？」來質疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它還建議先建立測試案例，並讓 skill 低於約 500 行；我自己約 200 行的上限更嚴，那是習慣，不是量出來的值。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A gotcha goes when the model stops making the mistake, or when the code makes it impossible. Check them when you change models: some may be dead weight, and a dead gotcha only takes room. A fixed step goes when the platform does it for you. A whole workflow goes when it has not run for a long time, or when the routine itself is gone.</p>
+<p>What stays is the habit: after a real task, look at what the agent got wrong, and write that down in the place it will be read.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>模型不再犯那個錯，或程式碼讓它不可能發生時，陷阱就可以去掉。換模型時檢查它們：有些可能已經是死重，而死掉的陷阱只佔位子。平台替你做了的固定步驟，就可以去掉。整個 workflow，在很久沒跑過、或例行工作本身消失時，可以去掉。</p>
+<p>留下來的是習慣：做完一個真實的任務後，看 agent 做錯了什麼，把它寫在會被讀到的地方。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look through the recent git history of this repository for changes that repeat the same multi-step pattern (for example, adding a new module, a new endpoint or a new job, which touches the same set of places each time). List up to three such routines with the commits that show them. For each, say which steps looked identical every time, which varied with the name, and which needed a person&#x27;s decision. Say which routine is worth writing down first. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>翻一下這個倉庫最近的 git 歷史，找出重複同樣多步驟模式的改動（例如加一個新模組、新 endpoint 或新工作，每次都碰到同一組地方）。最多列出三個這樣的例行工作，附上能顯示它們的 commit。每一個，說明哪些步驟每次看起來都一樣、哪些隨名稱變、哪些需要人來決定。說明哪個例行工作最值得先寫下來。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>Anthropic: <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a></li>
+<li>In this book: <a href="3-3-instructions-and-skills.html">Instructions and skills</a>, <a href="3-5-memory.html">Memory</a>, <a href="2-3-subagents.html">Use subagents sparingly</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>Anthropic：<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a></li>
+<li>本書：<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>、<a href="3-5-memory.html">agent 該記住什麼</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness ships a skill that builds new skills, a skill that designs a workflow from examples, and the two examples above. The harness can open them with you. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Turn your way of working into skills&quot;. Teach me how this harness writes and tests skills (topic 3): open the skill that builds skills, then the workflow-design skill and the impact-analysis skill, and show me where their gotchas came from and how a skill is tested to be found.</code></pre></div>
+<p>It teaches one small piece at a time and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 附帶一個用來做新 skill 的 skill、一個從範例設計 workflow 的 skill，以及上面那兩個例子。harness 可以和你一起打開它們。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「把團隊的做法寫成 skill」這一章。請教我這個 harness 怎麼寫和測試 skill（主題 3）：打開那個用來做 skill 的 skill，再打開設計 workflow 的 skill 和影響分析的 skill，告訴我它們的陷阱是從哪裡來的，以及怎麼測試一個 skill 找不找得到。</code></pre></div>
+<p>它一次教一小塊，並和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

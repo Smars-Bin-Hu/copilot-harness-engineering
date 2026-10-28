@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>A minimal harness in 30 minutes</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">0.2</p><h1><span data-l="en" lang="en">A minimal harness in 30 minutes</span><span data-l="zh-Hant" lang="zh-Hant">30 分鐘搭一個最小 harness</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used Copilot in agent mode on a project of your own, and that you read <a href="0-1-the-gap-and-the-map.html">the first chapter</a> or know the word &quot;harness&quot;.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要在自己的專案裡用過 Copilot 的 agent 模式，並且讀過 <a href="0-1-the-gap-and-the-map.html">差距在模型外面</a>，或至少知道「harness」這個詞。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Start with one page of rules, one skill and one hook that blocks dangerous commands. Add more only when a real pain asks for it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>先從一頁規則、一個 skill 和一個擋危險指令的 hook 開始。有真的痛點了，再加別的。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> start with the smallest set (one page of rules, one skill, one blocking hook) and let each later part be approved by a real pain, not by a plan.</li>
+<li><strong>The risk:</strong> a big harness built in one go costs maintenance and you cannot tell which part helped. A rule is only a request; a hook is a rule the model cannot argue with, but it stops only the commands it recognizes.</li>
+<li><strong>The cost of doing it right:</strong> by my estimate about half an hour for one person who already has a project open. A team adds review of the rule and hook files, like code.</li>
+<li><strong>Ask the team:</strong> &quot;Which part of our setup came from a real failure, and which came from a template?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：從最小的組合開始（一頁規則、一個 skill、一個會擋指令的 hook），之後每加一部分，都要由真的痛點來批准，不由計劃來批准。</li>
+<li><strong>風險</strong>：一次搭出來的大 harness，維護起來很貴，而且你分不出哪一部分有用。規則只是請求；hook 是模型沒辦法跟它爭的規則，但它只擋得住它認得的指令。</li>
+<li><strong>做對的成本</strong>：我估計一個已經打開專案的人，約半小時。團隊要另外加上像審程式碼那樣審規則檔和 hook 檔。</li>
+<li><strong>可以問團隊</strong>：「我們的設定裡，哪一部分來自真的失敗，哪一部分來自範本？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When people hear &quot;harness&quot;, many picture a big system: <a href="5-3-two-approvals.html">two approval gates</a>, a <a href="7-2-many-tasks.html">task board</a>, a knowledge base, reports. Then they either give up or build all of it in one go. Both are mistakes.</p>
+<p>A big harness has a price. Every part is something to write, to keep true, and to debug when it misfires. And you cannot tell which part helped, because you added them all at once. Mine did not start big. It grew one pain at a time, and I have since removed parts that bought nothing (<a href="7-3-what-we-cut.html">chapter 7.3</a>).</p>
+<p>So this chapter is about the smallest set that is worth having, in the order I would build it. By my estimate it takes about half an hour if you already have a project open in VS Code.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>很多人聽到「harness」，想到的是一個大系統：<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>、<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>、知識庫、報告。然後他們不是放棄，就是一口氣全搭起來。兩種都是錯的。</p>
+<p>大 harness 是有代價的。每一部分都要寫、要保持是對的、出錯時要除錯。而且你分不出哪一部分有用，因為你是一次全加進去的。我的 harness 不是一開始就大的。它是一次一個痛點長出來的，後來我也拿掉了沒買到東西的部分（見 <a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>）。</p>
+<p>所以這一章講的是值得擁有的最小組合，以及我會怎樣排出搭的順序。如果你已經在 VS Code 裡打開了專案，我估計大約要半小時。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig steps" id="fig-0-2-grow-by-pain" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270">
+  <rect class="box-lit" x="20" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="115" y="47" text-anchor="middle" data-t="rules">One page of rules</text>
+  <path class="head" d="M220 38 L230 42 L220 46 Z"/>
+  <rect class="box-lit" x="235" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="330" y="47" text-anchor="middle" data-t="skill">One skill</text>
+  <path class="head" d="M435 38 L445 42 L435 46 Z"/>
+  <rect class="box-lit" x="450" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="545" y="47" text-anchor="middle" data-t="hook">One hook</text>
+  <text class="label-muted" x="115" y="84" text-anchor="middle" data-t="rules-note">a request</text>
+  <text class="label-muted" x="330" y="84" text-anchor="middle" data-t="skill-note">a manual, read on demand</text>
+  <text class="label-muted" x="545" y="84" text-anchor="middle" data-t="hook-note">a rule, enforced</text>
+
+  <g data-step="2">
+    <line class="line" x1="545" y1="100" x2="545" y2="124"/>
+    <text class="label-muted" x="350" y="146" text-anchor="middle" data-t="pain">Then add only what a real pain asks for</text>
+    <rect class="box-plain" x="10" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="92" y="188" text-anchor="middle" data-t="p1">ignores rules</text>
+    <rect class="box-plain" x="185" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="267" y="188" text-anchor="middle" data-t="p2">bill too high</text>
+    <rect class="box-plain" x="360" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="442" y="188" text-anchor="middle" data-t="p3">says done, fails</text>
+    <rect class="box-plain" x="535" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="617" y="188" text-anchor="middle" data-t="p4">forgets</text>
+  </g>
+  <g data-step="3">
+    <text class="label-muted" x="92" y="226" text-anchor="middle" data-t="c1">chapter 4.1</text>
+    <text class="label-muted" x="267" y="226" text-anchor="middle" data-t="c2">chapter 1.1</text>
+    <text class="label-muted" x="442" y="226" text-anchor="middle" data-t="c3">chapter 5.4</text>
+    <text class="label-muted" x="617" y="226" text-anchor="middle" data-t="c4">chapter 3.2</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Start small: a page of rules, one skill, one hook. Each holds the agent harder than the one before.</li><li data-step-text="2">Then work. When something hurts, you will know which pain it is.</li><li data-step-text="3">Each pain has a chapter. Add the part that answers it, and nothing else.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A minimal harness grows by pain, not by plan.</figcaption></figure>
+<h3>Why this order</h3>
+<p>The three parts differ in how hard they hold the agent.</p>
+<ol>
+<li><strong>Rules come first.</strong> They cost a few minutes and no code. They tell the agent what it cannot guess: how your project is built, what not to touch. A rule is a request, and the model may ignore it, but in my experience it does what is written most of the time.</li>
+<li><strong>A skill comes second.</strong> A <strong>skill</strong> is a short manual for one kind of job. The agent sees only its name and a one-line description at first, and reads the full text when a request matches. You need it because some knowledge is too long to put in the rules page: if every procedure sat there, the agent would carry all of it in every conversation (<a href="3-3-instructions-and-skills.html">chapter 3.3</a> explains why that is expensive).</li>
+<li><strong>A hook comes last.</strong> A <strong>hook</strong> is a small program the platform runs at fixed moments, for example just before the agent runs a tool. It can say no, and the model cannot argue with it. Rules and skills are requests. The hook is the first part that is a rule you can rely on. It is third because it is code you must write and maintain, so it should be spent on the few things that must never happen.</li>
+</ol>
+<h3>Step 1: one page of rules (about 10 minutes)</h3>
+<p>Create one instruction file at the root of your project. VS Code and Copilot read files such as <code>AGENTS.md</code> or <code>.github/copilot-instructions.md</code> and give them to the agent in every conversation. Check the current VS Code docs for the exact names it accepts.</p>
+<p>Write only what the model would get wrong or miss: your project's own commands, limits and traps. Do not write what it already knows, such as how to write a loop in your language. Shorter is better, because a long rules file is easy for the model to ignore. One line is worth adding early: the command to run after a change (the tests, the linter) and &quot;do not say done until it passes&quot;. It is the cheapest check there is (<a href="5-4-self-checks.html">chapter 5.4</a>).</p>
+<p>A good first page has five to ten lines. The real file in my setup is longer, but its core limits look like this:</p>
+<details class="code"><summary>Two core limits from the shipped rules page: look before you act, and keep the user&#x27;s own changes.</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
+- Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
+<p><strong>How to check it works.</strong> Open a new chat and ask a question that only your rules can answer, such as &quot;How do I run the tests in this project?&quot; If it answers from your rules, the file is loaded. If it guesses, check the file name and location.</p>
+<h3>Step 2: one skill (about 10 minutes)</h3>
+<p>Pick a job you explained to the agent more than once. A skill is a folder with a <code>SKILL.md</code> file. The top of the file has a name and a <strong>description</strong>, and the description matters most. It decides whether the agent finds the skill at all. A good description says what the skill does, when to use it, and which words a user might say.</p>
+<details class="code"><summary>The top of a real skill: the name and the description are what the agent sees first.</summary><pre><code class="language-markdown">---
+name: generic-code-standards
+description: &#x27;Check the code of a task against the company&#x27;&#x27;s code standards and fix what does not comply. The standards are written by the company in .harness/standards/code-standards.md; this skill only reads them. Use before the promote dry-run of a task that changed code, or when the user asks to check or fix code style, naming or conventions. Keywords: code standards, coding conventions, style check, lint, naming rules, comply with the rules.&#x27;
+type: workflow
+specificTo: generic
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-code-standards/SKILL.md#L1-L6">.github/skills/generic-code-standards/SKILL.md L1–L6 @ 1.5.50</a></p></details>
+<p>Below that, write the steps, and then a short list of traps: the places where the agent usually goes wrong. Adding a trap each time you see it fail is the most useful habit I know for skills (<a href="3-4-skills-and-workflows.html">chapter 3.4</a>).</p>
+<p><strong>How to check it works.</strong> Type <code>/</code> in the chat and look for the skill's name. Then say a request that matches the description without naming the skill, and see whether the agent uses it. A skill the agent never picks is usually a description problem.</p>
+<h3>Step 3: one hook that blocks dangerous commands (about 10 minutes)</h3>
+<p>The terminal is the most powerful tool an agent has, so start there. Pick commands whose damage you cannot undo, such as recursively deleting a folder, or downloading a script and running it in one line.</p>
+<p>The setup has two parts. A configuration file tells the platform which moments to call your program at. In my setup there is one file, and every moment points at the same program:</p>
+<details class="code"><summary>The configuration for the moment before a tool runs: it just names the program to call.</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
+      {
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;windows&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;bash&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;powershell&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;cwd&quot;: &quot;.&quot;,
+        &quot;timeout&quot;: 30,
+        &quot;timeoutSec&quot;: 30
+      }
+    ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
+<p>Your program reads the call it is given. If the command matches a pattern you blocked, it answers with a refusal and a reason. The reason matters: the agent sees it, so write what to do instead, or the agent will try the same thing again (<a href="4-2-ask-vs-refuse.html">chapter 4.2</a>). Here is one of my patterns. It is long because the same command can be spelled many ways:</p>
+<details class="code"><summary>One real refusal rule: recursive force-delete of the root, home or current folder, with a reason the agent can read.</summary><pre><code class="language-json">      {
+        &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
+        &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
+      },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
+<p>This is a real file, and it is far bigger than you need on day one. Start with three or four patterns.</p>
+<p><strong>How to check it works.</strong> Do not test it with a command that is actually dangerous. First add a harmless test rule, for example one that refuses the command <code>echo hook-test</code>, and ask the agent to run it. You should see a refusal with your reason. Then remove the test rule.</p>
+<p>Three traps I know from my own hooks:</p>
+<ul>
+<li><strong>If the hook program cannot start</strong> (for example, the interpreter is not found), the platform counts it as a refusal, and the agent cannot use any tool at all. The screen only says the hook errored. Test it once before you rely on it.</li>
+<li><strong>If the hook runs past its time limit</strong>, the platform lets the call through, with no notice. In my setup the limit is 30 seconds. This fails open: a slow hook is a hole, so keep the program fast.</li>
+<li><strong>Configuration is read when the window starts.</strong> After you change it, reload the VS Code window.</li>
+</ul>
+<p>What a hook cannot do is just as important. It sees a call, not what the command does once it runs (<a href="2-2-hooks.html">chapter 2.2</a>). A pattern list stops the common spellings of a dangerous command, not every spelling. It is a seat belt, not a sandbox.</p>
+<h3>How much harness do you need?</h3>
+<p>It depends on who is affected when the agent gets it wrong.</p>
+<table>
+<thead>
+<tr>
+<th>You are</th>
+<th>Probably enough</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One person on your own project</td>
+<td>The three parts above</td>
+<td>You see every change, and mistakes cost you only</td>
+</tr>
+<tr>
+<td>A small team on a shared repository</td>
+<td>The three parts, with the rules and hook files reviewed like code, plus a place to record what the agent did</td>
+<td>Others inherit the agent's mistakes, and &quot;who changed the rules&quot; becomes a question (<a href="7-4-rollout-and-governance.html">chapter 7.4</a>)</td>
+</tr>
+<tr>
+<td>A large team, or code with compliance duties</td>
+<td>The above, plus <a href="5-3-two-approvals.html">approval points</a>, <a href="5-5-counted-checks.html">counted checks</a> and reports, as your risks require</td>
+<td>A mistake costs others, and you must show what happened</td>
+</tr>
+</tbody>
+</table>
+<p>I guess most readers are in the first row. Two approval gates and a task board are not a starting point.</p>
+<h3>What to add next, by pain</h3>
+<p>Do not read the rest of the book front to back. Wait until something hurts, then go to the chapter that matches.</p>
+<table>
+<thead>
+<tr>
+<th>The pain</th>
+<th>Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The agent ignores a rule, again and again</td>
+<td><a href="4-1-requests-and-rules.html">4.1</a></td>
+</tr>
+<tr>
+<td>A command asked for approval a hundred times, and you click Allow without reading</td>
+<td><a href="4-2-ask-vs-refuse.html">4.2</a></td>
+</tr>
+<tr>
+<td>It says &quot;done&quot; and the tests fail</td>
+<td><a href="5-4-self-checks.html">5.4</a></td>
+</tr>
+<tr>
+<td>Long chats get worse and it forgets</td>
+<td><a href="3-2-long-sessions.html">3.2</a></td>
+</tr>
+<tr>
+<td>The bill is higher than you expected</td>
+<td><a href="1-1-models-and-cost.html">1.1</a></td>
+</tr>
+<tr>
+<td>You want to split work across agents</td>
+<td><a href="2-3-subagents.html">2.3</a></td>
+</tr>
+<tr>
+<td>You cannot tell what it did</td>
+<td><a href="6-1-observe.html">6.1</a></td>
+</tr>
+</tbody>
+</table>
+<h3>Did it get better?</h3>
+<p>Do not trust a feeling. Choose a few tasks you know the right answer to, run them before and after each change, and score them the same way. <a href="2-3-subagents.html">Chapter 2.3</a> shows one such comparison, and <a href="6-3-eval-tasks.html">Part 6</a> covers the method. Even a rough version, five tasks and a list of what &quot;right&quot; means, beats a guess. Write the list of what &quot;right&quot; means before you run, and run each task a few times, because one run can be luck (<a href="6-4-variance.html">chapter 6.4</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><figure class="fig steps" id="fig-0-2-grow-by-pain" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270">
+  <rect class="box-lit" x="20" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="115" y="47" text-anchor="middle" data-t="rules">一頁規則</text>
+  <path class="head" d="M220 38 L230 42 L220 46 Z"/>
+  <rect class="box-lit" x="235" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="330" y="47" text-anchor="middle" data-t="skill">一個 skill</text>
+  <path class="head" d="M435 38 L445 42 L435 46 Z"/>
+  <rect class="box-lit" x="450" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="545" y="47" text-anchor="middle" data-t="hook">一個 hook</text>
+  <text class="label-muted" x="115" y="84" text-anchor="middle" data-t="rules-note">是請求</text>
+  <text class="label-muted" x="330" y="84" text-anchor="middle" data-t="skill-note">說明書，用到才讀</text>
+  <text class="label-muted" x="545" y="84" text-anchor="middle" data-t="hook-note">是規則，會強制</text>
+
+  <g data-step="2">
+    <line class="line" x1="545" y1="100" x2="545" y2="124"/>
+    <text class="label-muted" x="350" y="146" text-anchor="middle" data-t="pain">之後只加真實痛點要求的東西</text>
+    <rect class="box-plain" x="10" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="92" y="188" text-anchor="middle" data-t="p1">不聽規則</text>
+    <rect class="box-plain" x="185" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="267" y="188" text-anchor="middle" data-t="p2">帳單太高</text>
+    <rect class="box-plain" x="360" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="442" y="188" text-anchor="middle" data-t="p3">說做完卻沒過</text>
+    <rect class="box-plain" x="535" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="617" y="188" text-anchor="middle" data-t="p4">會忘</text>
+  </g>
+  <g data-step="3">
+    <text class="label-muted" x="92" y="226" text-anchor="middle" data-t="c1">第 4.1 章</text>
+    <text class="label-muted" x="267" y="226" text-anchor="middle" data-t="c2">第 1.1 章</text>
+    <text class="label-muted" x="442" y="226" text-anchor="middle" data-t="c3">第 5.4 章</text>
+    <text class="label-muted" x="617" y="226" text-anchor="middle" data-t="c4">第 3.2 章</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">從小的開始：一頁規則、一個 skill、一個 hook。後面的比前面的管得更緊。</li><li data-step-text="2">然後開始工作。哪裡痛，你自己會知道是哪一種痛。</li><li data-step-text="3">每種痛都有對應的章。只加能回答它的那一部分。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>最小的 harness 按痛點長大，不按計畫長大。</figcaption></figure>
+<h3>為什麼是這個順序</h3>
+<p>這三部分，抓住 agent 的力道不一樣。</p>
+<ol>
+<li><strong>規則放第一</strong>。它只要幾分鐘，不用寫程式。它告訴 agent 它猜不到的事：你的專案怎麼建、哪些東西不要碰。規則是請求，模型可能不理，但依我的經驗，它大多數時候會照寫的做。</li>
+<li><strong>skill 放第二</strong>。 <strong>skill</strong> 是為某一類工作寫的一份簡短手冊。agent 一開始只看到它的名字和一行描述，需求對上了才去讀全文。你需要它，是因為有些知識太長，放不進規則那一頁：如果每個流程都放在那裡，agent 每次對話都得背著全部（<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 說明了為什麼這樣很貴）。</li>
+<li><strong>hook 放最後</strong>。 <strong>hook</strong> 是平台在固定時刻執行的小程式，例如在 agent 執行工具之前。它可以說不，而且模型沒辦法跟它爭。規則和 skill 都是請求。hook 是第一個你可以靠得住的規則。它排第三，是因為它是你得寫、得維護的程式碼，所以要把它用在少數絕對不能發生的事上。</li>
+</ol>
+<h3>第 1 步：一頁規則（約 10 分鐘）</h3>
+<p>在專案根目錄建一個指令檔。VS Code 和 Copilot 會讀 <code>AGENTS.md</code> 或 <code>.github/copilot-instructions.md</code> 這樣的檔案，並在每次對話都交給 agent。它接受哪些確切的檔名，請查目前的 VS Code 文件。</p>
+<p>只寫模型會弄錯或漏掉的：你專案自己的指令、限制和陷阱。不要寫它本來就知道的，例如在你的語言裡怎麼寫迴圈。越短越好，因為太長的規則檔，模型很容易不理。有一行值得早點加：改完之後要執行的指令（測試、linter），再加上「通過之前，不要說做完了」。這是最便宜的檢查（<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>）。</p>
+<p>好的第一頁有五到十行。我的設定裡，真正的檔案比這長，但它的核心限制長這樣：</p>
+<details class="code"><summary>出貨規則頁裡的兩條核心限制：動手前先看，並保留使用者自己的改動。</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
+- Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
+<p><strong>怎麼確認它有用</strong>。打開新的對話，問一個只有你的規則才答得出的問題，例如「這個專案怎麼執行測試？」如果它照你的規則回答，檔案就載入了。如果它在猜，就檢查檔名和位置。</p>
+<h3>第 2 步：一個 skill（約 10 分鐘）</h3>
+<p>挑一件你對 agent 解釋過不只一次的工作。skill 是一個資料夾，裡面有一個 <code>SKILL.md</code> 檔。檔案開頭有名字和<strong>描述</strong>，描述最重要。它決定 agent 找不找得到這個 skill。好的描述會寫：這個 skill 做什麼、什麼時候用、使用者可能會說哪些詞。</p>
+<details class="code"><summary>真實 skill 的開頭：agent 最先看到的是名字和描述。</summary><pre><code class="language-markdown">---
+name: generic-code-standards
+description: &#x27;Check the code of a task against the company&#x27;&#x27;s code standards and fix what does not comply. The standards are written by the company in .harness/standards/code-standards.md; this skill only reads them. Use before the promote dry-run of a task that changed code, or when the user asks to check or fix code style, naming or conventions. Keywords: code standards, coding conventions, style check, lint, naming rules, comply with the rules.&#x27;
+type: workflow
+specificTo: generic
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-code-standards/SKILL.md#L1-L6">.github/skills/generic-code-standards/SKILL.md L1–L6 @ 1.5.50</a></p></details>
+<p>下面寫步驟，再寫一份簡短的陷阱清單：agent 通常會出錯的地方。每看到它失敗一次，就加一條陷阱，這是我所知道對 skill 最有用的習慣（<a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a>）。</p>
+<p><strong>怎麼確認它有用</strong>。在對話裡輸入 <code>/</code>，找 skill 的名字。然後說一個符合描述、但沒點名這個 skill 的需求，看 agent 有沒有用它。agent 從來不選的 skill，通常是描述的問題。</p>
+<h3>第 3 步：一個擋危險指令的 hook（約 10 分鐘）</h3>
+<p>終端機是 agent 最強的工具，所以從這裡開始。挑那些損害無法復原的指令，例如遞迴刪除一個資料夾，或者下載一個腳本並在同一行執行。</p>
+<p>設定有兩部分。一個設定檔告訴平台，在哪些時刻呼叫你的程式。在我的設定裡只有一個檔，每個時刻都指向同一個程式：</p>
+<details class="code"><summary>工具執行前那個時刻的設定：只是寫出要呼叫哪個程式。</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
+      {
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;windows&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;bash&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;powershell&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;cwd&quot;: &quot;.&quot;,
+        &quot;timeout&quot;: 30,
+        &quot;timeoutSec&quot;: 30
+      }
+    ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
+<p>你的程式讀取收到的呼叫。指令對上了你擋掉的樣式，它就回一個拒絕和一個原因。原因很重要：agent 看得到，所以要寫該改做什麼，不然 agent 會再試同一件事（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。這是我的其中一條樣式。它很長，因為同一個指令有很多種寫法：</p>
+<details class="code"><summary>一條真實的拒絕規則：對根目錄、家目錄或目前資料夾做遞迴強制刪除，並附上 agent 讀得懂的原因。</summary><pre><code class="language-json">      {
+        &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
+        &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
+      },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
+<p>這是一個真實的檔案，比你第一天需要的大得多。先從三、四條樣式開始。</p>
+<p><strong>怎麼確認它有用</strong>。不要拿真的危險的指令來測。先加一條無害的測試規則，例如拒絕指令 <code>echo hook-test</code>，再請 agent 執行它。你應該會看到帶著你寫的原因的拒絕。然後把測試規則移除。</p>
+<p>我自己的 hook 有三個陷阱：</p>
+<ul>
+<li><strong>hook 程式啟動不了</strong>（例如找不到直譯器），平台會當成拒絕，agent 一個工具也用不了。畫面上只會說 hook 出錯。依賴它之前先測一次。</li>
+<li><strong>hook 執行超過時間限制</strong>，平台會放行這次呼叫，而且不會通知。在我的設定裡，限制是 30 秒。這是失效時放行：慢的 hook 就是一個洞，所以要讓程式快。</li>
+<li><strong>設定是在視窗啟動時讀的</strong>。改完之後，重新載入 VS Code 視窗。</li>
+</ul>
+<p>hook 做不到的事，同樣重要。它看到的是一次呼叫，看不到指令執行起來會做什麼（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）。樣式清單擋得住危險指令的常見寫法，擋不住每一種寫法。它是安全帶，不是沙箱。</p>
+<h3>你需要多少 harness？</h3>
+<p>看 agent 出錯時，誰會受影響。</p>
+<table>
+<thead>
+<tr>
+<th>你是</th>
+<th>大概夠了</th>
+<th>為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一個人，做自己的專案</td>
+<td>上面三部分</td>
+<td>每個改動你都看得到，錯了只有你付代價</td>
+</tr>
+<tr>
+<td>小團隊，共用一個倉庫</td>
+<td>三部分，規則檔和 hook 檔像程式碼一樣審，再加一個記錄 agent 做了什麼的地方</td>
+<td>別人會承接 agent 的錯，而「誰改了規則」成了問題（<a href="7-4-rollout-and-governance.html">落地與治理</a>）</td>
+</tr>
+<tr>
+<td>大團隊，或有合規責任的程式碼</td>
+<td>上面這些，再依你的風險加上<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>、<a href="5-5-counted-checks.html">讓「通過」可信</a>和報告</td>
+<td>錯了要別人付代價，而你必須拿得出發生了什麼</td>
+</tr>
+</tbody>
+</table>
+<p>我猜大多數讀者在第一列。兩道批准的門和任務看板，都不是起點。</p>
+<h3>接下來按痛點加什麼</h3>
+<p>不要從頭到尾讀完整本書。等到有地方痛了，再去讀對得上的那一章。</p>
+<table>
+<thead>
+<tr>
+<th>痛點</th>
+<th>讀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>agent 一次又一次不理一條規則</td>
+<td><a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a></td>
+</tr>
+<tr>
+<td>一個指令問過上百次要不要批准，你不看就按了允許</td>
+<td><a href="4-2-ask-vs-refuse.html">詢問不是限制</a></td>
+</tr>
+<tr>
+<td>它說「做完了」，測試卻失敗</td>
+<td><a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a></td>
+</tr>
+<tr>
+<td>長對話越來越差，它會忘事</td>
+<td><a href="3-2-long-sessions.html">長對話會變差</a></td>
+</tr>
+<tr>
+<td>帳單比你預期的高</td>
+<td><a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a></td>
+</tr>
+<tr>
+<td>你想把工作拆給幾個 agent</td>
+<td><a href="2-3-subagents.html">慎用子 agent</a></td>
+</tr>
+<tr>
+<td>你說不清它做了什麼</td>
+<td><a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a></td>
+</tr>
+</tbody>
+</table>
+<h3>有變好嗎？</h3>
+<p>不要信感覺。挑幾個你知道正確答案的任務，每次改動前後各跑一遍，用同樣的方式打分。<a href="2-3-subagents.html">慎用子 agent</a> 展示了一個這樣的比較，<a href="6-3-eval-tasks.html">第 6 部</a>講方法。就算是粗糙的版本，五個任務加一份「怎樣算對」的清單，也比猜強。這份清單要在跑之前寫好，而且每個任務要跑幾次，因為一次可能只是運氣（<a href="6-4-variance.html">一次運行證明不了什麼</a>）。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The first page of rules grows and goes stale.</strong> People add a line for every incident. After a while it is long, parts contradict each other, and the model ignores it. Cut it back from time to time and keep each rule in one place.</p>
+<p><strong>A hook gives false comfort.</strong> It stops what it recognizes. Do not describe it as &quot;the agent cannot delete things&quot;. Describe it as &quot;the agent cannot run these specific commands&quot;.</p>
+<p><strong>I have not tested every VS Code setting.</strong> File names, hook support and settings change between versions. The steps above work in my setup; check the current docs for yours.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>第一頁規則會越長越舊</strong>。大家每出一次事故，就加一行。過一陣子它變長了，有的互相矛盾，模型就不理它。要不時刪減，每條規則只放在一個地方。</p>
+<p><strong>hook 會給人虛假的安心</strong>。它只擋它認得的。不要把它說成「agent 不能刪東西」，要說成「agent 不能執行這幾個特定的指令」。</p>
+<p><strong>VS Code 的設定，我沒有每一項都測過</strong>。檔名、hook 的支援和設定，不同版本之間會變。上面的步驟在我的設定裡行得通；你的請查目前的文件。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Every part of this starter set is on the list of things platforms are absorbing. When the platform's own permission system refuses the same dangerous commands out of the box, drop your hook. When it learns your project's commands by itself, shorten your rules page. Re-read your rules after every major model upgrade (<a href="6-5-model-upgrades.html">chapter 6.5</a>); lines written for an older model may be dead weight.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這組入門的每一部分，都在平台正在吸收的清單上。等平台自己的權限系統，開箱就拒絕同樣的危險指令，就丟掉你的 hook。等它自己學會你專案的指令，就把你的規則頁縮短。每次大的模型升級之後，重讀你的規則（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）；為舊模型寫的行，可能已經是累贅。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Check this repository against a minimal setup of three parts: one short page of rules, one skill, one blocking hook. For each part, say whether it exists, where, and whether it works. For the rules, list lines that are long, stale or contradict each other, and say which commands and limits the model could not guess are missing. For the hook, list which irreversible commands (such as recursive delete) nothing stops. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>用一個最小設定的三部分來檢查這個倉庫：一頁簡短的規則、一個 skill、一個會擋指令的 hook。每一部分都說明有沒有、在哪裡、能不能用。規則的部分，列出太長、過期或互相矛盾的行，並說明缺了哪些模型猜不到的指令和限制。hook 的部分，列出哪些不可逆的指令（例如遞迴刪除）沒有任何東西擋住。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/overview">Create and manage agent customizations</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/overview">Create and manage agent customizations</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My own setup is the grown-up version of this chapter: a rules page, many skills, and a hook that guards every tool call. The harness can show you each one from the inside, and help you set up your own. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A minimal harness in 30 minutes&quot;. Teach me how this harness does its rules page, its skills and its hook. Open the real files with me, show me how the hook refuses a command, and help me see what I could copy into my own project.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我自己的設定，就是這一章的成熟版：一頁規則、很多 skill，以及一個守著每次工具呼叫的 hook。harness 可以從裡面把每一項展示給你看，也能幫你設定自己的。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「30 分鐘搭一個最小 harness」這一章。請教我這個 harness 怎麼做它的規則頁、skill 和 hook。每一項都帶我打開真實的檔案，讓我看 hook 怎麼拒絕一個指令，並幫我看出哪些可以抄進自己的專案。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

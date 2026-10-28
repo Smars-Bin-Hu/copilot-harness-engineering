@@ -1,0 +1,32 @@
+en:
+  main: the main agent
+  main-note: holds the task, does the work
+  other: other agents
+  other-note: refused
+  folder: the task folder
+  folder-files: "request · plan · to-do · checks"
+  writes-verdict: verdict
+  writes-summary: summaries
+  reviewer: reviewer
+  reviewer-1: "an independent check"
+  reviewer-2: "you switch it on per task"
+  mapper: "mapper × N"
+  mapper-1: "reads in parallel, never writes"
+  mapper-2: "you switch it on by a command"
+  caption: "Only two subagents, and the user switches each on. They hand over through files in the task folder; every other subagent is refused."
+zh-Hant:
+  main: 主 agent
+  main-note: 拿著任務，做事的是它
+  other: 其他 agent
+  other-note: 一律拒絕
+  folder: 任務資料夾
+  folder-files: "需求 · 計劃 · 待辦 · 檢查結果"
+  writes-verdict: 結論
+  writes-summary: 摘要
+  reviewer: reviewer
+  reviewer-1: "獨立檢查"
+  reviewer-2: "使用者按任務開啟"
+  mapper: "mapper × N"
+  mapper-1: "並行讀檔，只讀不寫"
+  mapper-2: "使用者輸入指令才開"
+  caption: "只有兩種子 agent，都要使用者來開。它們靠任務資料夾裡的檔案交接；其他子 agent 一律拒絕。"

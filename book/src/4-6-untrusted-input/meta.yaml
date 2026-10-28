@@ -1,0 +1,22 @@
+id: "4.6"
+part: control
+core: true
+title: {en: "Text the agent reads can give it orders", zh-Hant: "agent 讀到的文字可能在指揮它"}
+harness_tag: "1.5.50"
+wondering: [08-permission-sandbox]
+sources:
+  - what: "The lethal trifecta: access to your private data, exposure to untrusted content, the ability to externally communicate; the only safe way is to avoid the combination"
+    where: https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/
+    checked: 2026-10-27
+  - what: "Direct vs indirect prompt injection ('when an LLM accepts input from external sources, such as websites or files'); mitigations include least privilege, human approval for high-risk actions, segregating external content"
+    where: https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+    checked: 2026-10-27
+  - what: "'Prompt injection is far from a solved problem'; 'No browser agent is immune'; with safeguards the attack success rate fell to 1.4% to 2.4% in an internal test (100 attempts per environment), which still 'represents meaningful risk'"
+    where: https://www.anthropic.com/research/prompt-injection-defenses
+    checked: 2026-10-27
+  - what: "Tool output can carry instructions that override the agent's task; untrusted content can enter the workspace through tool operations and file edits; fetched URLs are shown for review before they reach the model; auto-approval rules are best-effort"
+    where: https://code.visualstudio.com/docs/copilot/security
+    checked: 2026-10-27
+  - what: "Hooks are not substitutes for enforced permissions or sandboxing"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27

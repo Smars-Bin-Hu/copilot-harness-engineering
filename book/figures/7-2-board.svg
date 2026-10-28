@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="22" data-t="c1">x</text>
+  <text class="label-muted" x="200" y="22" data-t="c2">x</text>
+  <text class="label-muted" x="350" y="22" data-t="c3">x</text>
+  <rect class="box-lit" x="10" y="32" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="54" data-t="n1">x</text>
+  <text class="label-lit" x="200" y="54" data-t="s1">x</text>
+  <text class="label-lit" x="350" y="54" data-t="w1">x</text>
+  <rect class="box-lit" x="10" y="72" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="94" data-t="n2">x</text>
+  <text class="label-lit" x="200" y="94" data-t="s2">x</text>
+  <text class="label-lit" x="350" y="94" data-t="w2">x</text>
+  <rect class="box" x="10" y="112" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="134" data-t="n3">x</text>
+  <text class="label-muted" x="200" y="134" data-t="s3">x</text>
+  <text class="label-muted" x="350" y="134" data-t="w3">x</text>
+  <rect class="box" x="10" y="152" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="174" data-t="n4">x</text>
+  <text class="label-muted" x="200" y="174" data-t="s4">x</text>
+  <text class="label-muted" x="350" y="174" data-t="w4">x</text>
+  <text class="label-muted" x="20" y="212" data-t="note">x</text>
+  <text class="label-muted" x="20" y="232" data-t="note2">x</text>
+</svg>

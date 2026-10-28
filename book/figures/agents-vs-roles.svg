@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="20" y="22" data-t="usage-title">x</text>
+  <text class="label" x="20" y="54" data-t="one">x</text>
+  <rect class="bar-lit" x="170" y="41" width="85" height="18" rx="3"/>
+  <text class="label-muted" x="263" y="55" data-t="one-usage">x</text>
+  <text class="label" x="20" y="86" data-t="three">x</text>
+  <rect class="bar" x="170" y="73" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="87" data-t="three-usage">x</text>
+
+  <text class="label-muted" x="20" y="132" data-t="time-title">x</text>
+  <text class="label" x="20" y="164" data-t="one">x</text>
+  <rect class="bar-lit" x="170" y="151" width="71" height="18" rx="3"/>
+  <text class="label-muted" x="249" y="165" data-t="one-time">x</text>
+  <text class="label" x="20" y="196" data-t="three">x</text>
+  <rect class="bar" x="170" y="183" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="197" data-t="three-time">x</text>
+
+  <text class="label-muted" x="20" y="242" data-t="result-title">x</text>
+  <text class="label" x="20" y="274" data-t="one">x</text>
+  <rect class="box-lit" x="170" y="258" width="190" height="24" rx="4"/>
+  <text class="label-lit" x="182" y="275" data-t="pass">x</text>
+  <text class="label" x="20" y="306" data-t="three">x</text>
+  <rect class="box" x="170" y="290" width="190" height="24" rx="4"/>
+  <text class="label" x="182" y="307" data-t="pass">x</text>
+</svg>

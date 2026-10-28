@@ -1,0 +1,12 @@
+id: "7.3"
+part: people
+title: {en: "What I cut, and what the data says", zh-Hant: "我砍掉了什麼，數據怎麼說"}
+harness_tag: "1.5.50"
+wondering: [15-design-choices]
+sources:
+  - what: "The only measured removal: one agent against three job-title agents, 4 tasks, one run each"
+    where: harness docs/06-cost-optimization.md, section 9 (reported in this book's Use subagents sparingly)
+  - what: "Why there are no Levels; the list of what is deliberately not done and when to reconsider each"
+    where: harness wondering course, topic 15 (15.1 and 15.9)
+  - what: "What 1.1.0 retired: task Levels, the multi-agent flow with its commands, two agents, a skill, a policy file and the request folder; what it changed: shorter rules injected with each prompt, no limit by count on searches and tool calls"
+    where: harness docs/07-release-notes.md, version 1.1.0 (2026-10-11); 1.0.0 (2026-10-04)

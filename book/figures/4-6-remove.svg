@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box-lit" x="10" y="15" width="580" height="48" rx="8"/>
+  <text class="label-lit" x="30" y="44" data-t="a">x</text>
+  <text class="label-muted" x="230" y="44" data-t="a-how">x</text>
+  <rect class="box" x="10" y="73" width="580" height="48" rx="8"/>
+  <text class="label" x="30" y="102" data-t="b">x</text>
+  <text class="label-muted" x="230" y="102" data-t="b-how">x</text>
+  <rect class="box" x="10" y="131" width="580" height="48" rx="8"/>
+  <text class="label" x="30" y="160" data-t="c">x</text>
+  <text class="label-muted" x="230" y="160" data-t="c-how">x</text>
+  <text class="label-muted" x="300" y="208" text-anchor="middle" data-t="pick">x</text>
+  <text class="label-muted" x="300" y="228" text-anchor="middle" data-t="pick2">x</text>
+</svg>

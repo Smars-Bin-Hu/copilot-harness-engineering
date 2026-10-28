@@ -1,0 +1,15 @@
+id: "5.4"
+part: flow
+core: true
+title: {en: "Let the agent check its own work", zh-Hant: "讓 agent 能檢查自己的活"}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop, 11-review]
+sources:
+  - what: "Give Claude something it can run that comes back pass or fail; the check can be a test, a build exit code, a linter, a diff against a fixture, a screenshot; ask for evidence (the command and its output); a separate reviewer in a fresh context is another option; /verify catches what tests and typechecks miss"
+    where: https://code.claude.com/docs/en/best-practices
+    checked: 2026-10-27
+  - what: "Models lean towards reporting success; an agent checking its own work shares its own blind spots"
+    where: harness wondering course, lesson 1 (why an agent goes wrong) and lesson 11 (honest limits)
+  - what: "A later agent instance would look around, see that progress had been made, and declare the job done"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-28

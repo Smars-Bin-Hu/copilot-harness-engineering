@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
+  <text class="label-muted" x="10" y="16" data-t="h-q">x</text>
+  <text class="label-muted" x="370" y="16" data-t="h-t">x</text>
+  <rect class="box" x="10" y="28" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="50" data-t="q1">x</text>
+  <path class="line" d="M350 45 H364"/>
+  <path class="head" d="M364 39 L374 45 L364 51 Z"/>
+  <rect class="box-lit" x="374" y="28" width="216" height="34" rx="6"/>
+  <text class="label-lit" x="386" y="50" data-t="t1">x</text>
+  <rect class="box" x="10" y="71" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="93" data-t="q2">x</text>
+  <path class="line" d="M350 88 H364"/>
+  <path class="head" d="M364 82 L374 88 L364 94 Z"/>
+  <rect class="box" x="374" y="71" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="93" data-t="t2">x</text>
+  <rect class="box" x="10" y="114" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="136" data-t="q3">x</text>
+  <path class="line" d="M350 131 H364"/>
+  <path class="head" d="M364 125 L374 131 L364 137 Z"/>
+  <rect class="box" x="374" y="114" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="136" data-t="t3">x</text>
+  <rect class="box" x="10" y="157" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="179" data-t="q4">x</text>
+  <path class="line" d="M350 174 H364"/>
+  <path class="head" d="M364 168 L374 174 L364 180 Z"/>
+  <rect class="box" x="374" y="157" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="179" data-t="t4">x</text>
+  <rect class="box" x="10" y="200" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="222" data-t="q5">x</text>
+  <path class="line" d="M350 217 H364"/>
+  <path class="head" d="M364 211 L374 217 L364 223 Z"/>
+  <rect class="box" x="374" y="200" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="222" data-t="t5">x</text>
+  <rect class="box" x="10" y="243" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="265" data-t="q6">x</text>
+  <path class="line" d="M350 260 H364"/>
+  <path class="head" d="M364 254 L374 260 L364 266 Z"/>
+  <rect class="box" x="374" y="243" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="265" data-t="t6">x</text>
+  <rect class="box" x="10" y="286" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="308" data-t="q7">x</text>
+  <path class="line" d="M350 303 H364"/>
+  <path class="head" d="M364 297 L374 303 L364 309 Z"/>
+  <rect class="box" x="374" y="286" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="308" data-t="t7">x</text>
+  <rect class="box" x="10" y="329" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="351" data-t="q8">x</text>
+  <path class="line" d="M350 346 H364"/>
+  <path class="head" d="M364 340 L374 346 L364 352 Z"/>
+  <rect class="box" x="374" y="329" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="351" data-t="t8">x</text>
+</svg>

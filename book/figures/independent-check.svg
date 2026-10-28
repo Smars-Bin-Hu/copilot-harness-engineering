@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label" x="150" y="28" text-anchor="middle" data-t="author">x</text>
+  <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="69" text-anchor="middle" data-t="request">x</text>
+  <rect class="box" x="40" y="94" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="119" text-anchor="middle" data-t="reasoning">x</text>
+  <rect class="box" x="40" y="144" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="169" text-anchor="middle" data-t="work">x</text>
+
+  <g data-step="2">
+    <text class="label-muted" x="150" y="216" text-anchor="middle" data-t="author-note">x</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="450" y="28" text-anchor="middle" data-t="reviewer">x</text>
+    <rect class="box-lit" x="340" y="44" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="69" text-anchor="middle" data-t="request">x</text>
+    <rect class="box-plain" x="340" y="94" width="220" height="40" rx="6"/>
+    <text class="label-muted" x="450" y="119" text-anchor="middle" data-t="unseen">x</text>
+    <rect class="box-lit" x="340" y="144" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="169" text-anchor="middle" data-t="work">x</text>
+    <text class="label-lit" x="450" y="216" text-anchor="middle" data-t="reviewer-note">x</text>
+  </g>
+</svg>

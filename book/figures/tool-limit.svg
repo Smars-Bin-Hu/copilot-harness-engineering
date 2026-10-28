@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
+  <text class="label-lit" x="20" y="45" data-t="main">x</text>
+  <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="45" text-anchor="middle" data-t="read">x</text>
+  <rect class="box" x="292" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="45" text-anchor="middle" data-t="search">x</text>
+  <rect class="box" x="394" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="45" text-anchor="middle" data-t="run">x</text>
+  <rect class="box" x="496" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="542" y="45" text-anchor="middle" data-t="change">x</text>
+
+  <text class="label" x="20" y="105" data-t="reviewer">x</text>
+  <rect class="box" x="190" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="105" text-anchor="middle" data-t="read">x</text>
+  <rect class="box" x="292" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="105" text-anchor="middle" data-t="search">x</text>
+  <rect class="box" x="394" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="105" text-anchor="middle" data-t="run">x</text>
+  <rect class="box-plain" x="496" y="82" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="105" text-anchor="middle" data-t="change">x</text>
+  <path class="line" d="M512 100 H572"/>
+
+  <text class="label" x="20" y="165" data-t="mapper">x</text>
+  <rect class="box" x="190" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="165" text-anchor="middle" data-t="read">x</text>
+  <rect class="box" x="292" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="165" text-anchor="middle" data-t="search">x</text>
+  <rect class="box-plain" x="394" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="440" y="165" text-anchor="middle" data-t="run">x</text>
+  <path class="line" d="M410 160 H470"/>
+  <rect class="box-plain" x="496" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="165" text-anchor="middle" data-t="change">x</text>
+  <path class="line" d="M512 160 H572"/>
+</svg>

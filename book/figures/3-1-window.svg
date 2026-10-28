@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box" x="30" y="60" width="540" height="56" rx="6"/>
+
+  <rect class="bar" x="32" y="62" width="60" height="52"/>
+  <rect class="bar" x="92" y="62" width="70" height="52"/>
+  <text class="label-muted" x="62" y="134" text-anchor="middle" data-t="rules">x</text>
+  <text class="label-muted" x="127" y="134" text-anchor="middle" data-t="tools">x</text>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="162" y="62" width="150" height="52"/>
+    <text class="label-lit" x="237" y="134" text-anchor="middle" data-t="files">x</text>
+  </g>
+  <g data-step="3">
+    <rect class="bar-lit" x="312" y="62" width="180" height="52"/>
+    <text class="label-lit" x="402" y="134" text-anchor="middle" data-t="results">x</text>
+  </g>
+  <g data-step="4">
+    <rect class="bar" x="492" y="62" width="76" height="52"/>
+    <text class="label-muted" x="530" y="134" text-anchor="middle" data-t="chat">x</text>
+    <text class="label-big" x="300" y="195" text-anchor="middle" data-t="full">x</text>
+  </g>
+  <text class="label" x="300" y="40" text-anchor="middle" data-t="window">x</text>
+  <text class="label-muted" x="300" y="222" text-anchor="middle" data-t="illus">x</text>
+</svg>

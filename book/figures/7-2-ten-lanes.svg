@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="20" data-t="head">x</text>
+  <text class="label" x="10" y="58" data-t="t1">x</text>
+  <path class="line" d="M90 54 H590"/>
+  <rect class="box-lit" x="200" y="42" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="440" y="42" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="108" data-t="t2">x</text>
+  <path class="line" d="M90 104 H590"/>
+  <rect class="box-lit" x="320" y="92" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="158" data-t="t3">x</text>
+  <path class="line" d="M90 154 H590"/>
+  <rect class="box-lit" x="140" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="380" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="540" y="142" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="208" data-t="t4">x</text>
+  <path class="line" d="M90 204 H590"/>
+  <rect class="box-lit" x="260" y="192" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="500" y="192" width="22" height="24" rx="4"/>
+  <text class="label-muted" x="10" y="248" data-t="t5">x</text>
+  <rect class="box-lit" x="10" y="256" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="32" y="265" data-t="key">x</text>
+</svg>

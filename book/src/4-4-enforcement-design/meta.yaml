@@ -1,0 +1,16 @@
+id: "4.4"
+part: control
+title: {en: "Build the enforcement layer like software", zh-Hant: "把執行層當軟體來設計"}
+harness_tag: "1.5.50"
+wondering: [14-internals, 15-design-choices]
+sources:
+  - what: "One hook entry, one adapter, pluggable modules that each give a view, a core that merges (deny over ask over allow); numbers in policy files; state in files; texts in a table per language; any exception is recorded and the call let through"
+    where: harness docs/05-design.md and the internals lesson of the wondering course (topic 14)
+  - what: "Why the hook lets a call through when it fails itself; a failed start counts as a refusal and a timeout as a pass on the platform side (measured 2026-10-10); the doctor command tries to run the hook and warns when the gate time nears the timeout"
+    where: harness docs/05-design.md ('The hook lets a call through when it fails itself') and wondering topic 15.5
+  - what: "Command preToolUse errors are documented as denying the tool call; timeouts fall through to normal permissions; test the exit-code and timeout rules; hooks are not substitutes for enforced permissions or sandboxing"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27
+  - what: "For preToolUse command hooks, exit 2 is a deny and any other non-zero exit also denies ('hook errored'); crashes fail closed; on other events a non-zero exit is logged and the run continues; timeouts are fail-open for every event (the call goes through the normal permission flow)"
+    where: https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks
+    checked: 2026-10-28

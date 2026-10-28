@@ -1,0 +1,20 @@
+id: "3.2"
+part: context
+title: {en: Long chats get worse, zh-Hant: 長對話會變差}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop, 09-task-lifecycle]
+sources:
+  - what: "How the harness keeps state in files so a new session can go on (handover file, to-do list)"
+    where: harness docs/05-design.md and the task-lifecycle lesson in the wondering course
+  - what: "Context rot: recall weakens as the window fills; compaction; tool result clearing; structured note-taking; just-in-time retrieval"
+    where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+    checked: 2026-10-27
+  - what: "Project-root CLAUDE.md is re-read from disk after /compact; instructions given only in the conversation do not survive"
+    where: https://code.claude.com/docs/en/memory
+    checked: 2026-10-27
+  - what: "Long-running agents keep a progress file and git history, and read them at the start of each session"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-28
+  - what: "Context editing: clear_tool_uses_20250919 clears the oldest tool results past a threshold; in beta; invalidates cached prompt prefixes"
+    where: https://platform.claude.com/docs/en/build-with-claude/context-editing
+    checked: 2026-10-28

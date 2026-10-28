@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <g>
+    <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="115" y="236" text-anchor="middle" data-t="base">x</text>
+    <rect class="box-lit" x="40" y="184" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="115" y="200" text-anchor="middle" data-t="write">x</text>
+    <text class="label-muted" x="115" y="276" text-anchor="middle" data-t="t1">x</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="230" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="236" text-anchor="middle" data-t="base">x</text>
+    <rect class="box" x="230" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="200" text-anchor="middle" data-t="r1">x</text>
+    <rect class="box-lit" x="230" y="148" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="305" y="164" text-anchor="middle" data-t="write">x</text>
+    <text class="label-muted" x="305" y="276" text-anchor="middle" data-t="t2">x</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="420" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="236" text-anchor="middle" data-t="base">x</text>
+    <rect class="box" x="420" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="200" text-anchor="middle" data-t="r1">x</text>
+    <rect class="box" x="420" y="142" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="164" text-anchor="middle" data-t="r2">x</text>
+    <rect class="box-lit" x="420" y="112" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="495" y="128" text-anchor="middle" data-t="write">x</text>
+    <text class="label-muted" x="495" y="276" text-anchor="middle" data-t="t3">x</text>
+  </g>
+  <g data-step="4">
+    <text class="label-lit" x="300" y="30" text-anchor="middle" data-t="cache">x</text>
+    <line class="line-lit" x1="40" y1="44" x2="570" y2="44"/>
+  </g>
+</svg>

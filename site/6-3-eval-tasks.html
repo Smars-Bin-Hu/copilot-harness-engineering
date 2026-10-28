@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Fixed tasks, scored by a script</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.3</p><h1><span data-l="en" lang="en">Fixed tasks, scored by a script</span><span data-l="zh-Hant" lang="zh-Hant">固定的任務，用腳本打分</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and that you have changed its rules or setup at least once. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，而且至少改過一次它的規則或設定。不需要別的。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To know whether a change helped, run the same fixed tasks before and after the change and score them with a script. Then read the runs that failed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要知道一個改動有沒有幫助，就在改動前後，跑同樣的固定任務，用腳本打分。然後讀失敗的那幾次運行。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require that a change to the agent's rules or setup comes with a before-and-after run on the same fixed tasks, scored by a script.</li>
+<li><strong>The risk:</strong> you cannot tell from one good result whether a change helped. My own set is four tasks: enough to show a gap of four to six times, not a gap of ten percent.</li>
+<li><strong>The cost of doing it right:</strong> an afternoon to build the scorer and test it on a good answer and a broken one, then the cost of every run. In my lab the three-role team took about 16 minutes and about 456 AI credits for four tasks, once.</li>
+<li><strong>Ask the team:</strong> &quot;Which fixed tasks did you run before and after this change, and how do you know the script that scores them catches a wrong answer?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要求對 agent 的規則或設定做的改動，都要附上改動前後在同樣固定任務上的運行，並用腳本打分。</li>
+<li><strong>風險</strong>：光看一個好結果，你分辨不出改動有沒有幫助。我自己的這組是四個任務：足以顯示四到六倍的差距，顯示不出百分之十的差距。</li>
+<li><strong>做對的成本</strong>：一個下午，建評分腳本，並用一個好答案和一個壞答案測試它；再加上每一次運行的成本。在我的實驗裡，三角色團隊做四個任務，一次大約 16 分鐘、大約 456 個 AI credits。</li>
+<li><strong>可以問團隊</strong>：「這個改動前後，你們跑了哪些固定任務？你們怎麼知道給它們打分的腳本，抓得到錯的答案？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You add a rule. You change a prompt. You switch on a check. The next task goes well. Did the change help?</p>
+<p>You cannot tell. The next task may have been easy. The agent may have done well by luck (<a href="6-4-variance.html">the next chapter</a> is about that). And you are not a neutral judge: you made the change and you want it to work. Looking at a result and feeling that it is better is not evidence.</p>
+<p>Here is what I did instead for <a href="2-3-subagents.html">Use subagents sparingly</a>. I wanted to know whether three job-title agents were better than one agent. I did not take one task and look. I took four fixed tasks, ran both setups on each (once each), and let the same script score all of the results. The result changed my design: the team cost far more and got nothing more right (the numbers are in that chapter, with their limits). I would not have believed it from looking at a few results.</p>
+<p>Three words first.</p>
+<ul>
+<li>An <strong>eval</strong> (short for evaluation) is a test for an agent setup: a set of tasks, a way to run them, and a way to score the results.</li>
+<li>A <strong>fixed task</strong> is a task whose request, starting files and right answer do not change between runs.</li>
+<li>A <strong>grader</strong> is whatever scores a result: here, mostly a script.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你加了一條規則。你改了一個 prompt。你打開了一個檢查。下一個任務做得很順利。是改動有幫助嗎？</p>
+<p>你分辨不出來。下一個任務可能本來就簡單。agent 也可能只是運氣好（<a href="6-4-variance.html">下一章</a> 就講這個）。而且你不是中立的評審：改動是你做的，你希望它有用。看著一個結果，覺得變好了，這不是證據。</p>
+<p>我在 <a href="2-3-subagents.html">慎用子 agent</a> 時，是這樣做的。我想知道，三個有職稱的 agent，是不是比一個 agent 好。我沒有拿一個任務來看看。我拿了四個固定任務，兩種設定各跑一次，再讓同一個腳本替所有結果打分。結果改變了我的設計：團隊花的錢多得多，卻沒有多做對任何一件事（數字在那一章，連同它們的限制）。光看幾個結果，我不會相信這一點。</p>
+<p>先交代三個詞。</p>
+<ul>
+<li><strong>評測</strong>（eval，evaluation 的縮寫）是對 agent 設定的測試：一組任務、一種執行它們的方法、一種為結果打分的方法。</li>
+<li><strong>固定任務</strong>是這樣的任務：要求、起始檔案和正確答案，在每次運行之間都不變。</li>
+<li><strong>評分器</strong>（grader）是為結果打分的東西：這裡主要是腳本。</li>
+</ul>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The method has four steps. The picture shows them; the sections below say how to do each well.</p>
+<figure class="fig steps" id="fig-6-3-eval-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <rect class="box" x="10" y="120" width="112" height="64" rx="8"/>
+  <text class="label" x="66" y="148" text-anchor="middle" data-t="tasks">fixed tasks</text>
+  <text class="label-muted" x="66" y="167" text-anchor="middle" data-t="tasks-note">unchanged</text>
+
+  <g data-step="2">
+    <path class="line" d="M122 140 H128 V70 H134 M122 164 H128 V230 H134"/>
+    <path class="line" d="M248 70 H260 M248 230 H260"/>
+    <path class="head" d="M134 64 L144 70 L134 76 Z M134 224 L144 230 L134 236 Z M260 64 L270 70 L260 76 Z M260 224 L270 230 L260 236 Z"/>
+    <rect class="box" x="144" y="42" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="66" text-anchor="middle" data-t="run-before">run before</text>
+    <text class="label-muted" x="196" y="85" text-anchor="middle" data-t="run-note">same way</text>
+    <rect class="box" x="144" y="202" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="226" text-anchor="middle" data-t="run-after">run after</text>
+    <text class="label-muted" x="196" y="245" text-anchor="middle" data-t="run-note">same way</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-lit" x="270" y="42" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="66" text-anchor="middle" data-t="score">script scores</text>
+    <text class="label-muted" x="335" y="85" text-anchor="middle" data-t="score-note">pass or fail</text>
+    <rect class="box-lit" x="270" y="202" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="226" text-anchor="middle" data-t="score">script scores</text>
+    <text class="label-muted" x="335" y="245" text-anchor="middle" data-t="score-note">pass or fail</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M400 70 H420 V140 H430 M400 230 H420 V164 H430"/>
+    <path class="head" d="M430 134 L440 140 L430 146 Z"/>
+    <rect class="box" x="440" y="116" width="150" height="72" rx="8"/>
+    <text class="label" x="515" y="146" text-anchor="middle" data-t="compare">compare</text>
+    <text class="label-muted" x="515" y="166" text-anchor="middle" data-t="compare-note">before vs after</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line-lit" d="M515 188 V220"/>
+    <path class="head-lit" d="M509 220 L515 230 L521 220 Z"/>
+    <rect class="box-lit" x="440" y="230" width="150" height="58" rx="8"/>
+    <text class="label-lit" x="515" y="255" text-anchor="middle" data-t="read">read failures</text>
+    <text class="label-muted" x="515" y="274" text-anchor="middle" data-t="read-note">see why</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Write down a small set of fixed tasks, each with a known right answer. They do not change between runs.</li><li data-step-text="2">Run the same tasks before the change and after it, in the same way.</li><li data-step-text="3">A script reads the results and scores each item, pass or fail. The same script, every time.</li><li data-step-text="4">Compare the two score sheets. Did the change help, hurt, or do nothing?</li><li data-step-text="5">Then read the runs that failed. The score says that something failed; reading says why.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>An eval: fixed tasks, run before and after a change, scored by a script, then the failed runs read by a person.</figcaption></figure>
+<h3>What a good task looks like</h3>
+<p>Not every task makes a good eval. I look for three things.</p>
+<ol>
+<li><strong>It is real.</strong> It should look like the work the agent does for you, not like an exam question. If you only ever add pipelines and fix formulas, do not test poetry. A change that helps on made-up work and not on yours teaches you nothing.</li>
+<li><strong>It has one right answer you can check.</strong> &quot;Add a pipeline&quot; is checkable: five files exist, in the right places, and agree with each other. &quot;Make the code nicer&quot; is not. If two reasonable people would disagree on whether the result is right, a script cannot score it.</li>
+<li><strong>It covers the mistakes people actually make.</strong> A good set has an easy case, and also the traps. In my lab, one task asks the agent to change a file that the rules forbid it to change. A good result is to refuse. That task is there because a real request can ask for exactly that, and an agent that obeys it has done wrong.</li>
+</ol>
+<p>The four tasks of my lab are small to medium: add a pipeline; pass a column downstream through three pipelines (one column is renamed on the way); rename a pipeline across areas and delete its old files; fix a formula that lives in two places, where the request also asks to change a protected file. Four is few. It suggested a gap of four to six times, and it would not show a gap of ten percent.</p>
+<p>Tasks of this kind come in two sorts. A <strong>capability</strong> task checks something the setup cannot do yet, so you expect it to fail often at first. A <strong>regression</strong> task checks something that already works, so you expect it to pass every time, and a failure means a change broke it. Mix the two on purpose, and read a pass rate differently for each.</p>
+<p>The repository is made up (93 files, 5 areas) and cannot be run. That is a choice. The right answers are known in advance, so the script can say which result is right, and nobody needs to run code to find out.</p>
+<h3>Outcome or process?</h3>
+<p>There are two things a grader can look at.</p>
+<ul>
+<li><strong>The outcome:</strong> the files the agent left behind. Did it add the five files? Does the registry list the new pipeline? Is the protected file untouched?</li>
+<li><strong>The process:</strong> what the agent did to get there. Did it get refused? Did it write to a place before the plan was approved?</li>
+</ul>
+<p>For most tasks, grade the outcome. There are usually many valid ways to reach a right answer, and a grader that insists on one path marks good work as wrong. Grade the process only when the process is the thing you care about, such as &quot;the rules refuse a write before the plan is approved&quot;. In my harness, those scenarios look at two things: the log must show the refusal, and the file must be unchanged. The log is why <a href="6-1-observe.html">recording every call</a> comes first.</p>
+<p>In my lab's scoring, the outcome is a checklist. Some items are the same for every task: the repository is still consistent (valid files, every pipeline has its five files, columns agree, the protected area is untouched). Some are for one task: the request itself is done. One more checks the scope: only the files that should change were changed. A task passes only when every item passes. That is all-or-nothing; if you want to see progress on a long task, score it in parts (partial credit), and report the parts. For a short task like these, one wrong item usually means a wrong result, so I do not split.</p>
+<h3>A script or a model as the grader</h3>
+<p>A script reads the files and answers pass or fail. A model can read the result and give a judgment. Each has a weak side.</p>
+<ul>
+<li><strong>A script</strong> is cheap, quick and gives the same answer every time. Its weakness is that it is brittle: it can mark a valid result wrong because it looks for one particular form. You find those by reading failures.</li>
+<li><strong>A model grader</strong> can accept valid variations and judge things a script cannot, such as whether an explanation is clear. But its answer can change from run to run, and it can share blind spots with the agent it grades (<a href="5-6-model-checks-model.html">Can a model check a model?</a>).</li>
+</ul>
+<p>Anthropic's advice agrees: &quot;We recommend choosing deterministic graders where possible, LLM graders where necessary or for additional flexibility.&quot; (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>) I use a script wherever the answer can be checked in files, and I keep a model grader for the few things a script cannot see. The lab here has no model grader.</p>
+<h3>Prove the grader first</h3>
+<p>A grader is a program, and programs have bugs. A grader that passes everything makes every change look harmless. A grader that fails everything makes every change look harmful. So before I trust any score, I test the grader. My lab has a self-test with three parts:</p>
+<ul>
+<li>The <strong>untouched</strong> repository must fail every task (nothing was done).</li>
+<li>The <strong>right answers</strong>, written by hand, must pass every task.</li>
+<li><strong>Broken versions</strong> of the right answers must all be caught. There are 23, each with one mistake such as a missing registry line or a wrong column. If the grader lets one pass, the grader is wrong.</li>
+</ul>
+<p>The smallest version is one good answer and one answer you broke by hand: the grader must pass the first and catch the second. For my lab it took an afternoon, and it is the part people skip. It is also the reason I can say that a failed item means something.</p>
+<h3>Read the failed runs</h3>
+<p>Here is a habit I do not give up, even with a script. <strong>When a run fails, I open it and read what happened.</strong> The score says that something failed. It does not say why, and the why can be one of three very different things:</p>
+<ol>
+<li><strong>The agent made a real mistake.</strong> That is what the eval is for.</li>
+<li><strong>The grader is wrong.</strong> The result was right, but in a form the script did not expect.</li>
+<li><strong>The task is unclear.</strong> Two answers were reasonable, and the request did not say which.</li>
+</ol>
+<p>Only the first one tells you about the agent. If you take every failure as the first kind, you will throw away good changes and keep bad ones. Anthropic puts it this way: &quot;Reading transcripts is how you verify that your eval is measuring what actually matters.&quot; (the same article)</p>
+<p>So the script does not replace looking. It replaces looking at everything, with a guess about what to look at. The script picks the runs that failed. A person then reads those.</p>
+<h3>Your tasks and public benchmarks</h3>
+<p>A <strong>benchmark</strong> is a public set of tasks, scored the same way for everyone, so models can be compared. Benchmarks are useful for one question: how does this model do on someone else's tasks? They cannot answer a different one: did my change to my setup help on my work? For that you need tasks from your repository, and your rules, such as the protected file in my lab. That is why I build my own.</p>
+<p>The cost of my own is that it is small, it is mine, and it goes stale. When the repository changes, the tasks must change.</p>
+<h3>What my harness does today</h3>
+<p>In my setup there are a few fixed scenarios. Each one is a prompt plus what is expected: a few calls that must appear in the log (such as a refusal) and a few files that must or must not change. I run a scenario by hand once, in Copilot, and a check reads the log and the files and says whether it went right. At the time of writing (October 2026), in my own setup I see that the non-interactive mode of Copilot does not run hooks, so I cannot run the scenarios in a batch, and a before-and-after comparison on real tasks is not done yet. What I have done with numbers is the lab in this repository. In daily use that is one scenario run by hand and a look at the log it leaves. The scored, repeated comparison of this chapter is the lab.</p>
+<h3>Run it yourself</h3>
+<p>The lab is the test behind the numbers in <a href="2-3-subagents.html">Use subagents sparingly</a>: the made-up repository, the four tasks and the scoring script. It works with any agent tool. <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a> says how to run the self-test first and then your own comparison. Replace the tasks with tasks of your own once you see how it works.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions</strong> for any change you are about to make to an agent setup:</p>
+<ol>
+<li>What would I see if this change helped, and what if it did not?</li>
+<li>Can a script tell the two apart?</li>
+<li>Does the script itself pass the untouched, right and broken test?</li>
+</ol>
+<p><strong>A small start, with no tools.</strong> Pick three tasks you have done with your agent. For each, write down the files you would expect in the end, and one mistake you have seen. Write a short script that checks the files. (If your work is not code, check the output instead: the columns of a table, the row count, a total.) Run it on a good result and on a result you break by hand. If it catches the broken one and passes the good one, you have an eval. It is small. Use it the next time you change a rule.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>方法有四步。圖裡有；下面的小節說每一步怎麼做好。</p>
+<figure class="fig steps" id="fig-6-3-eval-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <rect class="box" x="10" y="120" width="112" height="64" rx="8"/>
+  <text class="label" x="66" y="148" text-anchor="middle" data-t="tasks">固定任務</text>
+  <text class="label-muted" x="66" y="167" text-anchor="middle" data-t="tasks-note">每次都一樣</text>
+
+  <g data-step="2">
+    <path class="line" d="M122 140 H128 V70 H134 M122 164 H128 V230 H134"/>
+    <path class="line" d="M248 70 H260 M248 230 H260"/>
+    <path class="head" d="M134 64 L144 70 L134 76 Z M134 224 L144 230 L134 236 Z M260 64 L270 70 L260 76 Z M260 224 L270 230 L260 236 Z"/>
+    <rect class="box" x="144" y="42" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="66" text-anchor="middle" data-t="run-before">改之前跑</text>
+    <text class="label-muted" x="196" y="85" text-anchor="middle" data-t="run-note">同樣方式</text>
+    <rect class="box" x="144" y="202" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="226" text-anchor="middle" data-t="run-after">改之後跑</text>
+    <text class="label-muted" x="196" y="245" text-anchor="middle" data-t="run-note">同樣方式</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-lit" x="270" y="42" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="66" text-anchor="middle" data-t="score">腳本打分</text>
+    <text class="label-muted" x="335" y="85" text-anchor="middle" data-t="score-note">過或不過</text>
+    <rect class="box-lit" x="270" y="202" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="226" text-anchor="middle" data-t="score">腳本打分</text>
+    <text class="label-muted" x="335" y="245" text-anchor="middle" data-t="score-note">過或不過</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M400 70 H420 V140 H430 M400 230 H420 V164 H430"/>
+    <path class="head" d="M430 134 L440 140 L430 146 Z"/>
+    <rect class="box" x="440" y="116" width="150" height="72" rx="8"/>
+    <text class="label" x="515" y="146" text-anchor="middle" data-t="compare">比較</text>
+    <text class="label-muted" x="515" y="166" text-anchor="middle" data-t="compare-note">改前 vs 改後</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line-lit" d="M515 188 V220"/>
+    <path class="head-lit" d="M509 220 L515 230 L521 220 Z"/>
+    <rect class="box-lit" x="440" y="230" width="150" height="58" rx="8"/>
+    <text class="label-lit" x="515" y="255" text-anchor="middle" data-t="read">讀失敗的運行</text>
+    <text class="label-muted" x="515" y="274" text-anchor="middle" data-t="read-note">用眼睛看原因</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">寫下一小組固定任務，每個都有已知的正確答案。每次運行之間不變。</li><li data-step-text="2">改動之前和之後，用同樣的方式跑同一組任務。</li><li data-step-text="3">腳本讀結果，逐項打分，過或不過。每次都是同一個腳本。</li><li data-step-text="4">比較兩份成績單。改動是有幫助、有壞處，還是沒差？</li><li data-step-text="5">然後讀失敗的運行。分數告訴你有東西失敗了；讀過才知道為什麼。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>Eval：固定任務，改動前後各跑一次，用腳本打分，再由人讀失敗的運行。</figcaption></figure>
+<h3>好的任務長什麼樣</h3>
+<p>不是每個任務都適合做評測。我找三樣東西。</p>
+<ol>
+<li><strong>它是真的</strong>。它應該像 agent 平常替你做的工作，不是像考試題。如果你只加 pipeline、修公式，就不要測寫詩。一個改動在虛構的工作上有幫助、在你的工作上沒有，什麼也教不了你。</li>
+<li><strong>它有一個你能檢查的正確答案</strong>。「加一個 pipeline」可以檢查：五個檔案存在、位置對、彼此一致。「讓程式碼更漂亮」不行。如果兩個講理的人會對結果對不對有不同意見，腳本就沒辦法打分。</li>
+<li><strong>它涵蓋人真的會犯的錯</strong>。好的一組有簡單的案例，也有陷阱。在我的實驗裡，有一個任務要求 agent 改一個規則禁止它改的檔案。好的結果是拒絕。這個任務在這裡，是因為真實的要求可能就是這樣要求，而照做的 agent 就是做錯了。</li>
+</ol>
+<p>我的實驗的四個任務，從小到中等：加一個 pipeline；把一個欄位經過三個 pipeline 往下游傳（其中一個欄位途中改了名）；跨區域重新命名一個 pipeline 並刪掉舊檔案；修一個存在兩個地方的公式，而要求裡也要求改一個受保護的檔案。四個很少。它提示了四到六倍的差距，但它顯示不出百分之十的差距。</p>
+<p>這類任務分兩種。<strong>能力</strong>任務檢查設定還做不到的事，所以一開始預期常常失敗。<strong>回歸</strong>任務檢查已經能用的事，所以預期每次都通過，失敗就表示有改動把它弄壞了。有意地把兩種混在一起，並且對兩種用不同的方式讀通過率。</p>
+<p>這個倉庫是虛構的（93 個檔案、5 個區域），而且不能執行。這是一個選擇。正確答案事先就知道，所以腳本可以說哪個結果是對的，沒有人需要執行程式碼去查。</p>
+<h3>看結果，還是看過程？</h3>
+<p>評分器可以看兩樣東西。</p>
+<ul>
+<li><strong>結果</strong>：agent 留下來的檔案。它加了五個檔案嗎？登記表列出了新的 pipeline 嗎？受保護的檔案沒動嗎？</li>
+<li><strong>過程</strong>：agent 怎麼做到的。它有被拒絕嗎？它有沒有在計畫批准之前就寫到某個地方？</li>
+</ul>
+<p>大多數任務，給結果打分。到達正確答案通常有很多有效的路，堅持只走一條路的評分器，會把好的工作判成錯的。只有過程本身就是你在乎的東西時，才給過程打分，例如「規則在計畫批准之前，拒絕寫入」。在我的 harness 裡，這類情境看兩件事：日誌必須顯示拒絕，檔案必須沒有變。這就是 <a href="6-1-observe.html">記錄每一次呼叫</a> 要排在最前面的原因。</p>
+<p>在我的實驗的評分裡，結果是一張檢查清單。有些項目每個任務都一樣：倉庫仍然一致（檔案有效、每個 pipeline 有它的五個檔案、欄位一致、受保護的區域沒動）。有些項目只屬於一個任務：要求本身做完了。還有一項檢查範圍：只有該改的檔案被改了。一個任務要每一項都通過才算通過。這是全有或全無；如果你想在長任務上看到進度，就分段打分（部分給分），並報告各段。對這些短任務來說，一項錯通常就表示結果是錯的，所以我不拆。</p>
+<h3>用腳本還是用模型當評分器</h3>
+<p>腳本讀檔案，回答通過或失敗。模型可以讀結果，給出判斷。各有弱點。</p>
+<ul>
+<li><strong>腳本</strong>便宜、快，每次給同樣的答案。弱點是脆：它可能把有效的結果判成錯的，因為它找的是某一種特定的形式。你要靠讀失敗的結果才找得出來。</li>
+<li><strong>模型評分器</strong>可以接受有效的變化，也能判斷腳本做不到的事，例如一段解釋清不清楚。但它的答案每次運行可能不同，而且可能和被它評分的 agent 有同樣的盲點（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）。</li>
+</ul>
+<p>Anthropic 的建議也一致：「我們建議盡量選確定性的評分器，必要時，或需要額外彈性時，才用 LLM 評分器。」（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）答案能在檔案裡檢查的地方，我就用腳本；模型評分器只留給腳本看不到的少數東西。這裡的實驗沒有模型評分器。</p>
+<h3>先證明評分器是對的</h3>
+<p>評分器是程式，程式有 bug。什麼都放行的評分器，會讓每個改動看起來都無害。什麼都擋的評分器，會讓每個改動看起來都有害。所以在相信任何分數之前，我先測評分器。我的實驗有一個自我測試，分三部分：</p>
+<ul>
+<li><strong>沒動過</strong>的倉庫，必須每個任務都失敗（什麼都沒做）。</li>
+<li>手寫的<strong>正確答案</strong>，必須每個任務都通過。</li>
+<li>正確答案的<strong>壞版本</strong>，必須全部被抓到。有 23 個，每個有一個錯誤，例如少了一行登記，或欄位錯了。評分器放過一個，評分器就是錯的。</li>
+</ul>
+<p>最小的版本是一個好答案，和一個你手動弄壞的答案：評分器必須放行第一個、抓到第二個。對我的實驗來說，這花了一個下午，而這正是大家會跳過的部分。這也是我能說「一項失敗是有意義的」的原因。</p>
+<h3>讀失敗的運行</h3>
+<p>有一個習慣，就算有腳本我也不放棄。<strong>一次運行失敗，我會打開它，讀發生了什麼</strong>。分數說有東西失敗了。它不說為什麼，而為什麼可能是三種很不一樣的事：</p>
+<ol>
+<li><strong>agent 真的犯了錯</strong>。這是評測要找的。</li>
+<li><strong>評分器錯了</strong>。結果是對的，但形式是腳本沒預期的。</li>
+<li><strong>任務不清楚</strong>。兩個答案都講得通，而要求沒有說是哪一個。</li>
+</ol>
+<p>只有第一種告訴你 agent 的事。如果你把每個失敗都當成第一種，你會丟掉好的改動、留下壞的。Anthropic 是這麼說的：「讀對話紀錄，是你驗證評測量的是不是真正重要的東西的辦法。」（同一篇文章）</p>
+<p>所以腳本不取代看。它取代的是什麼都看、靠猜該看哪裡。腳本挑出失敗的運行。然後由人去讀那些。</p>
+<h3>你的任務和公開的基準測試</h3>
+<p><strong>基準測試</strong>（benchmark）是一組公開的任務，對每個人用同樣的方式打分，讓模型可以比較。基準測試只對一個問題有用：這個模型在別人的任務上表現如何？它們回答不了另一個問題：我對我的設定做的改動，在我的工作上有沒有幫助？那需要你的倉庫裡的任務，和你的規則，例如我的實驗裡那個受保護的檔案。這就是我自己建的原因。</p>
+<p>自己建的代價是：它很小，它是我的，而且會過期。倉庫變了，任務也得跟著變。</p>
+<h3>我的 harness 今天怎麼做</h3>
+<p>在我的設定裡有幾個固定情境。每一個是一個 prompt，加上預期的結果：日誌裡必須出現的幾個呼叫（例如一次拒絕），和必須變或不能變的幾個檔案。我在 Copilot 裡手動跑一個情境一次，再由一個檢查讀日誌和檔案，說有沒有做對。寫這段的時候（2026 年 10 月），在我自己的設定裡，我看到 Copilot 的非互動模式不會執行 hook，所以我沒辦法批次跑這些情境，在真實任務上做前後比較也還沒做。我用數字做過的，是這個倉庫裡的實驗。日常使用中，那是手動跑一個情境，再看它留下的日誌。這一章講的有打分、可重複的比較，是那個實驗。</p>
+<h3>自己跑</h3>
+<p>這個實驗是 <a href="2-3-subagents.html">慎用子 agent</a> 裡那些數字背後的測試：虛構的倉庫、四個任務和評分腳本。它適用於任何 agent 工具。<a href="../labs/subagents/README.md"><code>labs/subagents/</code></a> 說了怎麼先跑自我測試，再跑你自己的比較。看懂怎麼運作之後，把任務換成你自己的。</p>
+<h3>測你自己的設定</h3>
+<p>對你即將在 agent 設定上做的任何改動，<strong>問三個問題</strong>：</p>
+<ol>
+<li>如果這個改動有幫助，我會看到什麼？如果沒有，又會看到什麼？</li>
+<li>腳本分得出這兩種嗎？</li>
+<li>腳本自己有沒有通過「沒動過、正確、壞掉」的測試？</li>
+</ol>
+<p><strong>一個不用工具的小開始</strong>。挑三個你和 agent 做過的任務。對每一個，寫下你預期最後會有的檔案，和一個你見過的錯誤。寫一個短腳本檢查這些檔案。（如果你的工作不是程式碼，就檢查輸出：表格的欄位、列數、總和。）在一個好結果和一個你手動弄壞的結果上各跑一次。它抓到壞的、放行好的，你就有一個評測了。它很小。下次你改規則時就用它。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Four tasks are a thin base.</strong> They can show a large gap. They cannot show a small one, and they do not cover what you did not think of. Add a task each time a real failure surprises you.</p>
+<p><strong>You can fit the setup to the test.</strong> If you change the setup until the tasks pass, you have measured how well you fit those four tasks. Keep some tasks aside that you do not tune against.</p>
+<p><strong>A static score does not run the code.</strong> My grader reads files. It cannot say that the code works. For work where running matters, the grader has to run the tests (<a href="5-4-self-checks.html">Let the agent check its own work</a>).</p>
+<p><strong>Tasks saturate.</strong> Anthropic's word is &quot;Eval saturation occurs when an agent passes all of the solvable tasks, leaving no room for improvement.&quot; When every setup passes every task, the eval can no longer tell them apart. Add harder tasks.</p>
+<p><strong>Tasks must not share state.</strong> Start every run from the same clean copy. If one run leaves files, caches or a changed setting behind, the next run is not a fair test, and the score measures the leftovers.</p>
+<p><strong>Running costs money and time.</strong> In my lab, the team took about 16 minutes and about 456 AI credits for four tasks, once. Prompt caching changes the sum: on Anthropic's API a cached read costs about a tenth of the base price (<a href="1-1-models-and-cost.html">Models and cost</a>), but I have not checked how Copilot bills it. A set of ten tasks, run several times on two setups, is a real bill. Decide before you start what you will do with the answer. And in my setup the non-interactive mode of Copilot does not run hooks, so real work cannot be run in a batch for this (see &quot;What my harness does today&quot;).</p>
+<p><strong>One run is thin.</strong> My results are one run per task. <a href="6-4-variance.html">The next chapter</a> says how to run more and how to report what you find.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>四個任務是很薄的基礎</strong>。它們能顯示大的差距。顯示不出小的，也涵蓋不了你沒想到的。每次有真實的失敗讓你意外，就加一個任務。</p>
+<p><strong>你可能把設定調成配合測試</strong>。如果你一直改設定，直到任務通過，你量到的是你配合這四個任務配合得多好。留一些不拿來調的任務。</p>
+<p><strong>靜態的分數不執行程式碼</strong>。我的評分器讀檔案。它沒辦法說程式碼能不能用。對執行很重要的工作，評分器得去跑測試（<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>）。</p>
+<p><strong>任務會飽和</strong>。Anthropic 的說法是「當 agent 通過所有可解的任務，沒有留下任何進步空間，就是評測飽和。」當每種設定都通過每個任務，評測就再也分不出它們。加更難的任務。</p>
+<p><strong>任務之間不能共用狀態</strong>。每次運行都從同一份乾淨的副本開始。如果一次運行留下了檔案、快取或改過的設定，下一次運行就不是公平的測試，分數量到的是殘留的東西。</p>
+<p><strong>運行要花錢和時間</strong>。在我的實驗裡，團隊做四個任務，一次大約 16 分鐘、大約 456 個 AI credits。prompt 快取會改變總額：在 Anthropic 的 API 上，快取讀取大約是基本價格的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），但 Copilot 怎麼計費，我沒查過。十個任務，在兩種設定上各跑幾次，是一筆真的帳單。開始之前先決定，你拿到答案要做什麼。而且在我的設定裡，Copilot 的非互動模式不會執行 hook，所以真實的工作沒辦法為此批次跑（見「我的 harness 今天怎麼做」）。</p>
+<p><strong>一次運行很薄</strong>。我的結果是每個任務一次運行。<a href="6-4-variance.html">下一章</a> 說怎麼跑更多次、怎麼報告你發現的東西。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The scripts and the habit of running by hand exist because I have no built-in way to run a setup through a fixed set of tasks and compare. If a platform adds that, with logs and scoring, I would use it and drop my glue.</p>
+<p>The fixed tasks do not retire. A model is upgraded, a rule is added, a prompt is rewritten: each is a change, and each needs the same answer to the same question (<a href="6-5-model-upgrades.html">When the model is upgraded</a>). A task retires when every setup passes it. I would look again at the lab's four tasks if they stopped telling the setups apart.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這些腳本和手動跑的習慣存在，是因為我沒有內建的辦法，讓一種設定跑一組固定任務並比較。如果平台加了這個功能，有日誌也有打分，我會用它，把我自己黏起來的東西丟掉。</p>
+<p>固定任務不會退役。模型升級了、加了一條規則、重寫了一個 prompt：每一個都是改動，每一個都需要對同一個問題給同一種答案（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。一個任務在每種設定都通過它的時候退役。如果實驗裡的四個任務不再分得出各種設定，我會重新檢視它們。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at the last ten commits that changed instruction, skill, agent or hook files in this repository. For each, say what evidence (if any) was given that the change helped. Then propose three fixed tasks taken from this repository&#x27;s real history: for each, the request, the starting commit, and an end state that a script could check from the files alone. Include one task where the right result is a refusal. Do not create or change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看這個倉庫裡最近十個改過指令、skill、agent 或 hook 檔案的 commit。對每一個，說明有沒有（如果有，是什麼）證據顯示這個改動有幫助。然後從這個倉庫的真實歷史，提出三個固定任務：每個任務寫出要求、起始的 commit，以及一個腳本只靠檔案就能檢查的結束狀態。其中包含一個正確結果是拒絕的任務。不要建立或改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></li>
+<li>In this repository: <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>, with the scorer and its self-test</li>
+<li>In this book: <a href="6-1-observe.html">Record what happened, not what the agent said</a>, <a href="6-4-variance.html">One run proves nothing</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></li>
+<li>本倉庫：<a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，有評分腳本和它的自我測試</li>
+<li>本書：<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>、<a href="6-4-variance.html">一次運行證明不了什麼</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a few fixed scenarios that are judged from the log and from the files left behind. The harness can show you how one is written and how it is checked. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Fixed tasks, scored by a script&quot;. Teach me how this harness&#x27;s fixed scenarios work (topic 12): what a scenario holds, how a check reads the log and the files, and what the scenarios cannot do yet. Open one real scenario with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有幾個固定情境，由日誌和留下來的檔案來判斷。harness 可以給你看一個情境怎麼寫、怎麼檢查。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「固定的任務，用腳本打分」這一章。請教我這個 harness 的固定情境怎麼運作（主題 12）：一個情境放什麼、檢查怎麼讀日誌和檔案、這些情境還做不到什麼。帶我打開一個真的情境，並畫出這些部分怎麼接在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

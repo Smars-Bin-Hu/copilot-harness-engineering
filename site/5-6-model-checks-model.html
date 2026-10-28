@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Can a model check a model?</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.6</p><h1><span data-l="en" lang="en">Can a model check a model?</span><span data-l="zh-Hant" lang="zh-Hant">模型能檢查模型嗎</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read the independent check in <a href="2-3-subagents.html">Use subagents sparingly</a>, and how its passes are counted in <a href="5-5-counted-checks.html">Make a pass count</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a> 裡的獨立檢查，以及 <a href="5-5-counted-checks.html">讓「通過」可信</a> 裡它的通過怎麼計算。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A model checking a model catches some errors, but the two share blind spots. Hiding the author's reasoning, or using another angle or model, helps; it does not remove them, and how much it helps has to be measured.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型檢查模型，能抓到一些錯誤，但兩者有共同的盲點。藏起作者的推理，或換個角度、換個模型，都有幫助；但去不掉盲點，而且幫助有多大，必須去量。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide how far to trust a model that reviews another model's work, and pay for a small measurement before relying on it for anything important.</li>
+<li><strong>The risk:</strong> the checker and the author share blind spots, so a pass means &quot;a second reader found nothing&quot;, not &quot;it is correct&quot;. A wrong FAIL also costs real work. I have not measured how often my checker fails good work or passes bad work. My one weak signal is that two checkers gave different verdicts on the same work.</li>
+<li><strong>The cost of doing it right:</strong> the cheap moves cost little: hide the author's reasoning, and ask a narrower question. A different model costs the most. The small measurement in the chapter takes about ten minutes: plant three errors, run the checker three times, and count.</li>
+<li><strong>Ask the team:</strong> &quot;Have we ever planted known errors and counted how many our reviewing agent finds?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定要多相信一個審查另一個模型的工作的模型，並且在把它用在重要的事情之前，花一點成本做一次小小的量測。</li>
+<li><strong>風險</strong>：檢查者和作者有共同的盲點，所以一次通過的意思是「第二個讀者什麼都沒找到」，不是「它是對的」。錯誤的 FAIL 也會花掉實際的工作。我沒有量過我的檢查者多常讓好的工作失敗、多常讓壞的工作通過。我唯一的弱訊號是：兩個檢查者對同一份工作給出了不同的結論。</li>
+<li><strong>做對的成本</strong>：便宜的做法花不了多少：藏起作者的推理，問一個更窄的問題。換一個不同的模型花得最多。這一章裡的小量測大約花十分鐘：放進三個錯誤，把檢查者跑三次，然後數。</li>
+<li><strong>可以問團隊</strong>：「我們有沒有放進已知的錯誤，再數我們的審查 agent 找到幾個？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An independent check is a model reading another model's work. That should make you a little uneasy. If the author model has a blind spot, why would a second copy of the same model not have it too?</p>
+<p>There is research behind the unease. Huang and colleagues tested whether a model can fix its own reasoning when nothing outside tells it what is wrong. Their finding: models &quot;struggle to self-correct their responses without external feedback&quot;, and sometimes &quot;their performance even degrades after self-correction&quot; (<a href="https://arxiv.org/abs/2310.01798">Large Language Models Cannot Self-Correct Reasoning Yet</a>, ICLR 2024). That paper is about a model revising its own answer, not about a second model checking. But it warns against the lazy reading of &quot;ask the model to look again&quot;.</p>
+<p>Two more papers are close to the checking case, though neither tests my checker. Panickssery and colleagues found that a model used as an evaluator can score its own outputs higher than others' (&quot;self-preference&quot;), and that this grows with how well it recognizes its own text (<a href="https://arxiv.org/abs/2404.13076">LLM Evaluators Recognize and Favor Their Own Generations</a>). Zheng and colleagues, studying models as judges, list position, verbosity and self-enhancement biases (<a href="https://arxiv.org/abs/2306.05685">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>, NeurIPS 2023). I use them as a reason to doubt a same-family checker, not as a measurement of one.</p>
+<p>So the honest question is not &quot;does a model check work?&quot; It is <strong>&quot;which errors does the checker see that the author did not, and which does it miss with the author?&quot;</strong></p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>獨立檢查是一個模型在讀另一個模型的工作。這應該讓你有點不安。如果作者模型有盲點，同一個模型的第二份副本，為什麼會沒有？</p>
+<p>這份不安背後有研究。Huang 等人測試過：當外面沒有任何東西告訴模型哪裡錯了，模型能不能修正自己的推理。他們的發現是：模型「在沒有外部回饋的情況下，很難自己修正答案」，有時「自我修正之後，表現甚至變差」（<a href="https://arxiv.org/abs/2310.01798">Large Language Models Cannot Self-Correct Reasoning Yet</a>，ICLR 2024）。那篇論文講的是模型修改自己的答案，不是第二個模型來檢查。但它提醒我們，不要對「叫模型再看一次」做偷懶的解讀。</p>
+<p>還有兩篇論文和檢查的情況很接近，雖然沒有一篇測試過我的檢查者。Panickssery 等人發現，當作評估者的模型，給自己的輸出打的分，可以比給別人的高（「self-preference」），而且這和它辨認出自己文字的能力一起增長（<a href="https://arxiv.org/abs/2404.13076">LLM Evaluators Recognize and Favor Their Own Generations</a>）。Zheng 等人研究把模型當評審，列出位置、冗長和自我偏好的偏誤（<a href="https://arxiv.org/abs/2306.05685">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>，NeurIPS 2023）。我拿它們當作懷疑同一家族檢查者的理由，不是對檢查者的量測。</p>
+<p>所以誠實的問題不是「模型檢查有沒有用？」而是：<strong>「檢查者看得到哪些作者沒看到的錯誤？又和作者一起漏掉哪些</strong>？」</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>Picture the errors in a piece of work as a set. The author misses some of them. The checker misses some of them. What you want to know is how much the two misses overlap.</p>
+<figure class="fig" id="fig-5-6-blind-spots"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="20" y="50" width="320" height="130" rx="14"/>
+  <rect class="box-plain" x="220" y="50" width="360" height="130" rx="14"/>
+  <rect class="box-lit" x="220" y="50" width="120" height="130" rx="0"/>
+  <text class="label" x="130" y="40" text-anchor="middle" data-t="author">errors the author misses</text>
+  <text class="label" x="460" y="40" text-anchor="middle" data-t="checker">errors the checker misses</text>
+  <text class="label" x="120" y="120" text-anchor="middle" data-t="only-a">checker catches</text>
+  <text class="label" x="460" y="120" text-anchor="middle" data-t="only-c">author catches</text>
+  <text class="label-lit" x="280" y="115" text-anchor="middle" data-t="shared">missed by</text>
+  <text class="label-lit" x="280" y="135" text-anchor="middle" data-t="shared2">both</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">A different angle or model shrinks the shared part. It does not remove it.</text>
+</svg>
+<figcaption>A checker catches what lies outside the author&#x27;s blind spots. The overlap is what both miss.</figcaption></figure>
+<p>Every method below tries to make the circle of the checker different from the circle of the author. None can make them fully apart.</p>
+<h3>1. Hide the author's reasoning</h3>
+<p>When you proofread your own essay, you read what you meant. An author's context is full of its own reasoning, and that reasoning explains away its own mistakes. A checker that has seen the reasoning is pulled along the same path.</p>
+<p>So the first move is to give the checker only the request, the work and the diff (the list of changed lines), and keep the author's notes out on purpose (<a href="2-3-subagents.html">Use subagents sparingly</a> explains why). This is cheap, and it should reduce the part of the overlap that comes from shared reasoning; I have not tested how much. It does not touch the part that comes from the shared model.</p>
+<h3>2. A different angle</h3>
+<p>The same model asked a different question looks at different things. &quot;Is this right?&quot; invites a general skim. A checklist tied to the requirement is narrower: for each item of the requirement, find the evidence in the work; for each conclusion in the work, find its source. The checker has to go and look, not to feel.</p>
+<p>Two more rules push the angle: every finding names a file and line, and the checker points out but never writes the fix. Both are in <a href="2-3-subagents.html">Use subagents sparingly</a>.</p>
+<h3>3. A different model</h3>
+<p>A checker from another model family, or at least another size, has different habits and different holes. This should shrink the shared circle the most, and it is also the one with the most cost: another model to set up, to pay for and to keep in step. It is a good candidate for a small trial before you commit to it. In my setup the checker runs on a model chosen separately from the main agent's, but I have not tested whether choosing a different family changes how many errors it finds.</p>
+<h3>4. A different kind of check</h3>
+<p>Some errors a model reading text will not find, by any means. A test that runs the code finds them. The same goes for the checker itself: if you give it tools to run the code and look at files, it stops guessing from the text and starts verifying. A person who knows the business finds others. A script finds anything that has one right answer. Put these next to the model checker, not behind it. <a href="5-4-self-checks.html">Let the agent check its own work</a> covers tests; <a href="5-9-who-decides.html">Who decides</a> covers which kind of judge fits which question.</p>
+<h3>Where I would start</h3>
+<p>My order, which I have not tested: first the two cheap moves (hide the reasoning, ask a narrower question), then a different kind of check that runs things, and only then a different model, because it costs the most.</p>
+<h3>How much does it catch?</h3>
+<p>Here I do not have an answer. I have not measured how often my checker fails good work or passes bad work. What I do have is one weak signal: two checkers gave different verdicts on the same work. That tells me a single verdict is not a fact.</p>
+<p>The way to measure it is simple to state. Take work whose right answer you know, with some errors put in on purpose, and some &quot;wrong-looking but fine&quot; cases. Run the checker several times. Count the good work it failed, the bad work it passed, and how often its findings point at the right line. The measuring itself is the subject of <a href="6-3-eval-tasks.html">the chapters on evidence</a>; here the point is only that you should do it before you trust the checker with something important. A small version takes about ten minutes: put three errors into a piece of work you know, run the checker three times, and count how many it finds each time.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>把一份工作裡的錯誤想成一個集合。作者漏掉其中一些。檢查者也漏掉其中一些。你想知道的是，兩邊漏掉的有多少重疊。</p>
+<figure class="fig" id="fig-5-6-blind-spots"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="20" y="50" width="320" height="130" rx="14"/>
+  <rect class="box-plain" x="220" y="50" width="360" height="130" rx="14"/>
+  <rect class="box-lit" x="220" y="50" width="120" height="130" rx="0"/>
+  <text class="label" x="130" y="40" text-anchor="middle" data-t="author">作者看不到的錯</text>
+  <text class="label" x="460" y="40" text-anchor="middle" data-t="checker">檢查者看不到的錯</text>
+  <text class="label" x="120" y="120" text-anchor="middle" data-t="only-a">檢查者能抓到</text>
+  <text class="label" x="460" y="120" text-anchor="middle" data-t="only-c">作者能抓到</text>
+  <text class="label-lit" x="280" y="115" text-anchor="middle" data-t="shared">兩邊都</text>
+  <text class="label-lit" x="280" y="135" text-anchor="middle" data-t="shared2">看不到</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">換角度或換模型能縮小重疊的部分，但不能讓它消失。</text>
+</svg>
+<figcaption>檢查者抓得到作者盲點以外的錯。重疊的部分是兩邊都漏掉的。</figcaption></figure>
+<p>下面每一種方法，都是想讓檢查者的圓，和作者的圓不一樣。沒有一種能讓兩個圓完全分開。</p>
+<h3>1. 藏起作者的推理</h3>
+<p>你校對自己的文章時，讀到的是你想寫的東西。作者的上下文裡全是它自己的推理，這些推理會把它自己的錯誤解釋掉。看過推理的檢查者，會被拉著走上同一條路。</p>
+<p>所以第一步，是只給檢查者要求、工作和 diff（改動的行的清單），刻意把作者的筆記擋在外面（<a href="2-3-subagents.html">慎用子 agent</a> 解釋了原因）。這很便宜，而且它應該能減少來自共同推理的那部分重疊；我沒有測過減少多少。它碰不到來自共同模型的那部分。</p>
+<h3>2. 換個角度</h3>
+<p>同一個模型被問不同的問題，會看不同的東西。「這樣對嗎？」會引來泛泛的掃一眼。綁在需求上的檢查清單比較窄：對需求的每一項，在工作裡找證據；對工作裡的每個結論，找它的來源。檢查者得去找，不是去感覺。</p>
+<p>還有兩條規則會推動角度：每個發現都要指出檔案和行號，檢查者只指出問題，絕不寫修正。兩條都在 <a href="2-3-subagents.html">慎用子 agent</a> 裡。</p>
+<h3>3. 換個模型</h3>
+<p>來自另一個模型家族、或至少是另一種大小的檢查者，有不同的習慣和不同的洞。這應該最能縮小共同的圓，但它的成本也最高：多一個模型要設定、要付費、要保持同步。在你投入之前，它很適合先做一個小試驗。在我的設定裡，檢查者跑在一個和主 agent 分開挑選的模型上，但我沒有測過換成不同家族，找到的錯誤數量會不會改變。</p>
+<h3>4. 換一種檢查</h3>
+<p>有些錯誤，讀文字的模型怎麼樣都找不到。執行程式碼的測試找得到。檢查者本身也一樣：如果你給它能執行程式碼、能看檔案的工具，它就不再憑文字猜測，開始驗證。懂業務的人會找到另一些。腳本能找到任何只有一個正確答案的東西。把這些放在模型檢查者旁邊，不要放在它後面。<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a> 講測試；<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a> 講哪一種評審適合哪一種問題。</p>
+<h3>我會從哪裡開始</h3>
+<p>我的順序，我沒有測過：先做兩個便宜的做法（藏起推理，問更窄的問題），然後是會執行東西的另一種檢查，最後才是換個模型，因為它花得最多。</p>
+<h3>它能抓到多少？</h3>
+<p>這裡我沒有答案。我沒有量過我的檢查者多常讓好的工作失敗，或讓壞的工作通過。我有的只是一個弱訊號：兩個檢查者對同一份工作給出了不同的結論。這告訴我，單一的結論不是事實。</p>
+<p>量測的辦法，說起來很簡單。拿一份你知道正確答案的工作，故意放進一些錯誤，再放一些「看起來不對、其實沒問題」的情況。把檢查者跑幾次。數它讓幾份好的工作失敗、讓幾份壞的工作通過，以及它的發現多常指到對的那一行。量測本身是關於證據的那幾章的主題（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）；這裡的重點只是：在你把重要的事交給檢查者之前，應該先做這件事。小版本大約十分鐘：在一份你熟悉的工作裡放進三個錯誤，把檢查者跑三次，數它每次找到幾個。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A pass lowers the risk. It does not remove it.</strong> Treat it as &quot;a second reader found nothing&quot;, not &quot;it is correct&quot;.</p>
+<p><strong>A wrong FAIL costs real money.</strong> Each false FAIL sends the author back to fix a problem that is not there, and may make the work worse. The rule that findings must point to a real file and line cuts this, but only for the form of a finding, not for its truth.</p>
+<p><strong>Agreement is not independence.</strong> If both models are the same one and have seen the same reasoning, two passes may be one opinion twice. That is why the checker is a new one every time, with a clean context.</p>
+<p><strong>A model checker does not replace a person.</strong> It narrows what a person has to read. Approval of the final result stays with a person (<a href="5-3-two-approvals.html">Two approvals</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>一次通過會降低風險，不會消除它</strong>。把它當成「第二個讀者什麼都沒找到」，不是「它是對的」。</p>
+<p><strong>錯誤的 FAIL 要花真的錢</strong>。每個假的 FAIL，都會讓作者回去修一個不存在的問題，還可能讓工作變得更糟。要求發現必須指向真實的檔案和行號，這條規則能減少這種情況，但只管發現的形式，不管它是不是真的。</p>
+<p><strong>意見一致不等於獨立</strong>。如果兩個模型是同一個，看過同樣的推理，兩次通過可能只是同一個意見說了兩次。這就是為什麼檢查者每次都是新的，上下文是乾淨的。</p>
+<p><strong>模型檢查者不能代替人</strong>。它縮小的是人必須讀的範圍。最後結果的批准留給人（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If you measure your checker and find that it catches nothing the author's own run of the tests did not, drop it and keep the tests. If the platform later offers a way to see how well a checker does on your own tasks, use that instead of a feeling.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果你量了你的檢查者，發現它抓到的，作者自己執行測試時都已經抓到了，那就拿掉它，留下測試。如果平台之後提供一種辦法，能看到檢查者在你自己的任務上表現得多好，就用那個，不要靠感覺。</p>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Huang et al.: <a href="https://arxiv.org/abs/2310.01798">Large Language Models Cannot Self-Correct Reasoning Yet</a> (ICLR 2024)</li>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/best-practices">Best practices</a>, on giving the agent something to check against</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Huang 等人：<a href="https://arxiv.org/abs/2310.01798">Large Language Models Cannot Self-Correct Reasoning Yet</a>（ICLR 2024）</li>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>，講給 agent 一個可以對照檢查的東西</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The checker that cannot see the author's reasoning, the format it must follow, and the script that drops findings without a real line all run in Copilot Harness. The harness can teach them to you from the inside, with the real agent file. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Can a model check a model?&quot;. Teach me how this harness builds its independent checker (topic 11): what it is and is not allowed to see, how its answer is shaped, and what the honest limits are. Open the checker&#x27;s agent file with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>看不到作者推理的檢查者、它必須遵守的格式，以及丟掉沒有真實行號的發現的腳本，都在 Copilot Harness 裡執行。harness 可以從裡面教你這些，附上真實的 agent 檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「模型能檢查模型嗎」這一章。請教我這個 harness 怎麼建立它的獨立檢查者（主題 11）：它能看什麼、不能看什麼，它的答案是什麼形狀，以及誠實的限制是什麼。帶我打開檢查者的 agent 檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

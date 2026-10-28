@@ -1,0 +1,16 @@
+id: "A"
+part: appendix
+kind: appendix
+title: {en: "Extension points cheat sheet", zh-Hant: "擴充點速查表"}
+harness_tag: "1.5.50"
+wondering: []
+sources:
+  - what: "Customization types, file names and locations, when instructions load, settings (VS Code Copilot)"
+    where: https://code.visualstudio.com/docs/copilot/customization/overview, and the pages for custom instructions, prompt files, agent skills, custom agents, hooks, MCP servers and agent tools under https://code.visualstudio.com/docs/copilot/
+    checked: 2026-10-27
+  - what: "Claude Code counterparts: memory and rules, skills (commands merged into skills), subagents, hooks, MCP scopes"
+    where: https://code.claude.com/docs/en/memory, /skills, /sub-agents, /hooks, /mcp
+    checked: 2026-10-27
+  - what: "Codex counterparts: AGENTS.md discovery, skills, hooks, custom agents, custom prompts (deprecated), MCP, config.toml"
+    where: https://developers.openai.com/codex/ (guides/agents-md, skills, hooks, subagents, custom-prompts, mcp, config-basic)
+    checked: 2026-10-27

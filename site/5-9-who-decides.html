@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Who decides: code, a cheap model, the main model, a person</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.9</p><h1><span data-l="en" lang="en">Who decides: code, a cheap model, the main model, a person</span><span data-l="zh-Hant" lang="zh-Hant">誰來判斷：程式、便宜模型、主模型、人</span></h1></header><div data-l="en" lang="en"><p>This chapter is about cost, not about safety. <a href="4-1-requests-and-rules.html">Requests and rules</a> asks how hard a rule is enforced: a request, a command, a hook. This chapter asks something else: for each judgment in your workflow, who is the cheapest one that can make it?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章講的是成本，不是安全。<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 問的是規則被執行得多硬：請求、命令、hook。這一章問的是另一件事：對工作流程裡的每一個判斷，誰是能做出它的最便宜的那個？</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Give each judgment to the cheapest level that can make it: code first, then a cheap model, the main model, a person. Cheap models tend to be weakest at the vague calls (my rule of thumb, not measured).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個判斷，交給能做出它的最便宜的那一層：先是程式，再來是便宜的模型、主模型、人。便宜的模型，往往在模糊的判斷上最弱（這是我的經驗法則，沒有量過）。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> assign each judgment in the workflow to the cheapest level that can make it well: code first, then a cheap model, then the main model, then a person.</li>
+<li><strong>The risk:</strong> giving everything to the main model wastes usage, gives different answers on different days and is slow. Pushing everything into code is brittle and fails with full confidence on the first case it did not foresee. A cheap model on a vague question is the worst case; this is my rule of thumb, which I have not measured.</li>
+<li><strong>The cost of doing it right:</strong> mostly setup time. Every level you add is one more thing to configure and to fail, so do not add a cheap judge for a call that happens twice a week. Levels are guesses until tested on cases where you know the answer.</li>
+<li><strong>Ask the team:</strong> &quot;Which judgments in our workflow does a model make that a script could settle, and which does a script make that needs judgment?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：把工作流程裡的每個判斷，交給能把它做好的最便宜的那一層：先是程式，再來是便宜的模型，然後是主模型，然後是人。</li>
+<li><strong>風險</strong>：把一切都交給主模型，浪費用量，不同天給不同答案，也慢。把一切都推進程式，則很脆，碰到第一個它沒預料到的情況，就信心十足地錯。便宜的模型碰上模糊的問題，是最糟的情況；這是我的經驗法則，我沒有量過。</li>
+<li><strong>做對的成本</strong>：多半是設定的時間。你每加一層，就多一樣要設定、也會壞的東西，所以不要為一週只發生兩次的判斷加一個便宜的評審。在拿你知道答案的案例測過之前，這些層級都只是猜測。</li>
+<li><strong>可以問團隊</strong>：「我們的工作流程裡，哪些判斷是模型在做、腳本就能解決的？哪些是腳本在做、卻需要判斷的？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent workflow is full of small judgments. Is this path inside the allowed folder? Has the check passed three times? Is this Excel sheet a mapping table? Does this step go beyond the approved plan? Is this design good?</p>
+<p>The easy habit is to give all of them to the main model, because it can answer anything. It gets answers, and it is wasteful in three ways. It costs tokens for questions code answers for free. It answers the same question differently on different days. And it is slow: a model call takes seconds, a check in code takes milliseconds.</p>
+<p>The opposite habit is just as bad. Code is the cheapest and most reliable judge, so people push everything into code: a pattern list for &quot;dangerous commands&quot;, a keyword match for &quot;is this a bug report&quot;. It works until the first case the pattern did not foresee, and then it is wrong with full confidence.</p>
+<p>So the real question is: <strong>what is the cheapest level that is still good enough for this judgment?</strong></p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>agent 的工作流程裡，滿是小小的判斷。這個路徑在允許的資料夾裡嗎？檢查連續通過三次了嗎？這張 Excel 工作表是對照表嗎？這一步超出已批准的計畫了嗎？這個設計好不好？</p>
+<p>最省事的習慣，是把它們全交給主模型，因為它什麼都能回答。它確實給出答案，但在三個地方浪費。程式免費就能回答的問題，它要花 token。它在不同的日子，對同一個問題給不同的答案。而且它慢：一次模型呼叫要幾秒，程式裡的檢查只要幾毫秒。</p>
+<p>相反的習慣一樣糟。程式是最便宜、最可靠的評審，所以人們把一切都推進程式：用一份樣式清單判斷「危險指令」，用關鍵字比對判斷「這是不是 bug 報告」。這在碰到第一個樣式沒預料到的情況之前都行得通，之後它就信心十足地錯。</p>
+<p>所以真正的問題是：<strong>對這個判斷，仍然夠好的最便宜的一層是哪一層</strong>？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Four levels</h3>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Good at</th>
+<th>Cost</th>
+<th>Weak at</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Code</strong></td>
+<td>Anything with one right answer that can be computed</td>
+<td>Nearly none, same answer every time</td>
+<td>Anything that needs meaning</td>
+<td>Count passes in a row; is the path inside the allowed folder; does the data have the required fields; has a file changed since it was read</td>
+</tr>
+<tr>
+<td><strong>2. A cheap model</strong></td>
+<td>Narrow, frequent judgments with clear options</td>
+<td>Low</td>
+<td>Vague calls; long context; cases with no clear options</td>
+<td>Sort a request into one of four kinds; does this step name a file outside the plan</td>
+</tr>
+<tr>
+<td><strong>3. The main model</strong></td>
+<td>Reasoning, design, reading a lot, judgments that need context</td>
+<td>High</td>
+<td>Being the same every time; being cheap</td>
+<td>What does this change mean; write the plan; decide which of two designs fits</td>
+</tr>
+<tr>
+<td><strong>4. A person</strong></td>
+<td>What costs money, grants power, cannot be undone, or needs the business to decide</td>
+<td>Their time, which is the most expensive</td>
+<td>Speed; being there at night</td>
+<td>Approve the plan; decide between two readings of a requirement; accept the result</td>
+</tr>
+</tbody>
+</table>
+<p>Everyday cases for level 1, where a model is often asked by habit: does this file exist, how many rows does this table have, do these two files differ. A script answers each exactly and for free.</p>
+<p>Read the table from the top. For each judgment, ask: can code do this? If yes, stop. If not, can a narrow cheap judge? If not, the main model. If the answer has consequences nobody should delegate, a person.</p>
+<p>Each level also has a clear failure.</p>
+<ul>
+<li><strong>Code used for a vague question</strong> is brittle. It passes what it has seen and misses the rest.</li>
+<li><strong>A cheap model used for a vague question</strong> is the worst case. It answers fast, in the same confident tone as for an easy question, and is wrong more often. That is why cheap models are weakest at the vague calls, and why the example for level 2 is a question with clear options. I hold this as a rule of thumb from how these models behave; I have not measured the gap on my own tasks.</li>
+<li><strong>The main model used for a code question</strong> is just a waste.</li>
+<li><strong>A person used for what code could settle</strong> wears out the person, until they approve without reading (<a href="5-3-two-approvals.html">Two approvals</a>).</li>
+</ul>
+<h3>Prepare the input in code too</h3>
+<p>The same idea reaches before the model. Turning a Word file or an Excel sheet into plain text is a fixed job, so a program does it, not a model: the model should not pay for cover pages, hidden sheets and comments, or take that noise for a requirement (<a href="5-2-requirements.html">The agent writes the requirement</a> has the details). The model then reads the small, clean result and never sees the originals.</p>
+<figure class="fig" id="fig-5-9-convert-first"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
+  <text class="label" x="72" y="60" text-anchor="middle" data-t="file">Word or Excel</text>
+  <path class="line-lit" d="M140 55 H165"/>
+  <path class="head-lit" d="M165 49 L175 55 L165 61 Z"/>
+  <rect class="box-lit" x="175" y="30" width="170" height="50" rx="8"/>
+  <text class="label-lit" x="260" y="60" text-anchor="middle" data-t="prog">a program converts</text>
+  <path class="line-lit" d="M345 55 H370"/>
+  <path class="head-lit" d="M370 49 L380 55 L370 61 Z"/>
+  <rect class="box" x="380" y="30" width="100" height="50" rx="8"/>
+  <text class="label" x="430" y="60" text-anchor="middle" data-t="text">plain text</text>
+  <path class="line-lit" d="M480 55 H485"/>
+  <path class="head-lit" d="M485 49 L495 55 L485 61 Z"/>
+  <rect class="box" x="495" y="30" width="95" height="50" rx="8"/>
+  <text class="label" x="542" y="60" text-anchor="middle" data-t="model">model</text>
+  <text class="label-lit" x="300" y="104" text-anchor="middle" data-t="good">the model reads only the clean text;</text>
+  <text class="label-lit" x="300" y="121" text-anchor="middle" data-t="good2">same result every time, no tokens spent on converting</text>
+  <rect class="box-plain" x="5" y="145" width="135" height="50" rx="8"/>
+  <text class="label-muted" x="72" y="175" text-anchor="middle" data-t="file">Word or Excel</text>
+  <path class="line" d="M140 170 H485"/>
+  <path class="head" d="M485 164 L495 170 L485 176 Z"/>
+  <rect class="box-plain" x="495" y="145" width="95" height="50" rx="8"/>
+  <text class="label-muted" x="542" y="175" text-anchor="middle" data-t="model">model</text>
+  <text class="label-muted" x="300" y="163" text-anchor="middle" data-t="raw">reads the raw file</text>
+  <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">pays for covers, hidden sheets and noise, and may guess</text>
+</svg>
+<figcaption>A fixed job such as converting a file goes to a program. The model gets only what needs judgment.</figcaption></figure>
+<p>The split is the point. Converting is level 1. Deciding what the requirement means is level 3 or 4. Mixing the two makes the model do both, badly.</p>
+<h3>Make questions computable</h3>
+<p>You can move more work down to level 1 by changing the data, not the judge. If &quot;is this knowledge still right?&quot; is asked of a model, it reads everything, guesses, and guesses differently next time. If each card of knowledge records the version of the code it was read from, then &quot;which cards are stale?&quot; is a comparison a script does exactly. The rule is: <strong>where a question has one right answer that a program can compute, put the data in a fixed form and let a program compute it.</strong> The model keeps what needs judgment.</p>
+<h3>When to go up</h3>
+<p>Move a judgment up a level when:</p>
+<ul>
+<li>The lower level is unsure, and says so. Code can be built to say &quot;I cannot tell&quot; and hand on. A model's own statement of confidence is a weak signal, so for a model the safer trigger is the sample you check by hand (next bullet).</li>
+<li>Its answers disagree with a sample you checked by hand.</li>
+<li>The cost of a wrong answer is higher than the cost of the next level. Wrong on a write-back (copying finished work into the real repository, <a href="5-3-two-approvals.html">Two gates</a>) costs more than a call to the main model.</li>
+<li>The judgment turned out to need context it does not have.</li>
+</ul>
+<p>And move one down when you notice you are using a big judge on a question with a stable answer. Most judgments start at level 3 because that is the quickest way to get something working; the work is in noticing which ones can sink.</p>
+<h3>What my setup does</h3>
+<p>My harness's decisions in code include: path and command checks, counting passes, working out fingerprints, the board of task states (<a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a>), the staleness of knowledge cards (<a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>), scoring of fixed test tasks, and the conversion of business documents. The main model does the thinking and the writing. The independent checker is a model, because reading a result against a requirement is not a narrow call. People hold the approvals.</p>
+<p>I have designed a place for a level 2 judge: a cheap model for judgments that are frequent and too varied for rules, such as &quot;has this step gone beyond the approved scope?&quot; It is not built. The first step would be to check whether code can do it, and only then add the cheap judge, with code deciding what to do with its answer, and a fallback to rules when it fails. I have not tested whether a cheap model is good enough for that call.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>四層</h3>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>擅長</th>
+<th>成本</th>
+<th>不擅長</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 程式</strong></td>
+<td>任何只有一個正確答案、可以算出來的事</td>
+<td>幾乎沒有，每次答案都一樣</td>
+<td>任何需要理解意思的事</td>
+<td>數連續的通過；路徑在不在允許的資料夾裡；資料有沒有必要的欄位；檔案被讀過之後有沒有變</td>
+</tr>
+<tr>
+<td><strong>2. 便宜的模型</strong></td>
+<td>窄的、頻繁的、選項清楚的判斷</td>
+<td>低</td>
+<td>模糊的判斷；長的上下文；沒有清楚選項的情況</td>
+<td>把一個請求分到四類之一；這一步有沒有點名計畫以外的檔案</td>
+</tr>
+<tr>
+<td><strong>3. 主模型</strong></td>
+<td>推理、設計、讀大量內容、需要上下文的判斷</td>
+<td>高</td>
+<td>每次都一樣；便宜</td>
+<td>這個改動是什麼意思；寫計畫；決定兩種設計哪一個合適</td>
+</tr>
+<tr>
+<td><strong>4. 人</strong></td>
+<td>花錢、給權力、不能反悔、或需要業務來決定的事</td>
+<td>他們的時間，這是最貴的</td>
+<td>速度；晚上在不在</td>
+<td>批准計畫；在需求的兩種讀法之間決定；驗收結果</td>
+</tr>
+</tbody>
+</table>
+<p>第 1 層的日常例子，這些是人們常憑習慣去問模型的：這個檔案存在嗎、這張表有幾列、這兩個檔案有沒有不同。腳本對每一個都能精確回答，而且免費。</p>
+<p>從表的上面往下讀。對每個判斷，問：程式做得到嗎？做得到，就停。做不到，一個窄的、便宜的評審做得到嗎？不行，就主模型。如果答案的後果是誰都不該代為決定的，就交給人。</p>
+<p>每一層也都有明確的失敗方式。</p>
+<ul>
+<li><strong>用程式處理模糊的問題</strong>，會很脆。它放行見過的，漏掉其餘的。</li>
+<li><strong>用便宜的模型處理模糊的問題</strong>，是最糟的情況。它回答得很快，語氣和回答簡單問題時一樣有把握，卻錯得更多。這就是為什麼便宜的模型在模糊的判斷上最弱，也是為什麼第 2 層的例子是選項清楚的問題。我把這當作一個經驗法則，來自這些模型的行為；我沒有在自己的任務上量過這個差距。</li>
+<li><strong>用主模型處理程式的問題</strong>，純粹是浪費。</li>
+<li><strong>用人處理程式就能解決的事</strong>，會把人累垮，直到他不讀就批准（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
+</ul>
+<h3>輸入也用程式準備</h3>
+<p>同樣的想法，在模型之前就開始了。把 Word 檔或 Excel 工作表轉成純文字，是一件固定的工作，所以由程式做，不是模型：模型不該為封面、隱藏的工作表和註解付錢，也不該把這些雜訊當成需求（細節見 <a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。模型接著讀的是小而乾淨的結果，永遠看不到原始檔。</p>
+<figure class="fig" id="fig-5-9-convert-first"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
+  <text class="label" x="72" y="60" text-anchor="middle" data-t="file">Word 或 Excel</text>
+  <path class="line-lit" d="M140 55 H165"/>
+  <path class="head-lit" d="M165 49 L175 55 L165 61 Z"/>
+  <rect class="box-lit" x="175" y="30" width="170" height="50" rx="8"/>
+  <text class="label-lit" x="260" y="60" text-anchor="middle" data-t="prog">程式轉換</text>
+  <path class="line-lit" d="M345 55 H370"/>
+  <path class="head-lit" d="M370 49 L380 55 L370 61 Z"/>
+  <rect class="box" x="380" y="30" width="100" height="50" rx="8"/>
+  <text class="label" x="430" y="60" text-anchor="middle" data-t="text">純文字</text>
+  <path class="line-lit" d="M480 55 H485"/>
+  <path class="head-lit" d="M485 49 L495 55 L485 61 Z"/>
+  <rect class="box" x="495" y="30" width="95" height="50" rx="8"/>
+  <text class="label" x="542" y="60" text-anchor="middle" data-t="model">模型</text>
+  <text class="label-lit" x="300" y="104" text-anchor="middle" data-t="good">模型只讀乾淨的文字；</text>
+  <text class="label-lit" x="300" y="121" text-anchor="middle" data-t="good2">每次結果相同，轉換不花 token</text>
+  <rect class="box-plain" x="5" y="145" width="135" height="50" rx="8"/>
+  <text class="label-muted" x="72" y="175" text-anchor="middle" data-t="file">Word 或 Excel</text>
+  <path class="line" d="M140 170 H485"/>
+  <path class="head" d="M485 164 L495 170 L485 176 Z"/>
+  <rect class="box-plain" x="495" y="145" width="95" height="50" rx="8"/>
+  <text class="label-muted" x="542" y="175" text-anchor="middle" data-t="model">模型</text>
+  <text class="label-muted" x="300" y="163" text-anchor="middle" data-t="raw">直接讀原始檔案</text>
+  <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">要為封面、隱藏工作表和雜訊付費，還可能猜錯</text>
+</svg>
+<figcaption>轉檔這種固定的活交給程式，模型只拿到需要判斷的部分。</figcaption></figure>
+<p>分工就是重點。轉換是第 1 層。決定需求是什麼意思，是第 3 層或第 4 層。把兩者混在一起，會讓模型兩件事都做，而且都做不好。</p>
+<h3>讓問題可以被計算</h3>
+<p>你可以改資料，不改評審，把更多工作移到第 1 層。如果「這份知識還對嗎？」是問模型的，它會把所有東西都讀一遍，猜一個答案，下次又猜得不一樣。如果每張知識卡片都記下它是從哪個版本的程式碼讀來的，那麼「哪些卡片過期了？」就是腳本能精確做的一個比對。規則是：<strong>只要一個問題有一個程式能算出來的正確答案，就把資料放成固定的形式，讓程式來算</strong>。需要判斷的，留給模型。</p>
+<h3>什麼時候往上移</h3>
+<p>出現以下情況，就把一個判斷往上移一層：</p>
+<ul>
+<li>較低的一層不確定，而且說出來了。程式可以做成說「我判斷不了」並交出去。模型自己說的把握是個弱訊號，所以對模型，比較安全的觸發條件是你用手檢查的抽樣（下一條）。</li>
+<li>它的答案和你用手檢查過的抽樣不一致。</li>
+<li>答錯的成本，高過下一層的成本。寫回出錯（把做完的工作複製到真實的倉庫，<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），比呼叫一次主模型更貴。</li>
+<li>事實證明，這個判斷需要它沒有的上下文。</li>
+</ul>
+<p>當你發現自己拿一個大評審去回答答案穩定的問題，就往下移一層。大多數判斷一開始都在第 3 層，因為那是讓東西動起來最快的辦法；功夫在於注意到哪些可以沉下去。</p>
+<h3>我的設定做什麼</h3>
+<p>我的 harness 裡由程式做的決定包括：路徑和指令的檢查、計算通過、算出指紋、任務狀態的看板（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）、知識卡片的過期（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）、固定測試任務的打分，以及商業文件的轉換。主模型負責思考和寫作。獨立的檢查者是個模型，因為拿結果去對照需求來讀，不是一個窄的判斷。批准由人掌握。</p>
+<p>我設計過一個放第 2 層評審的位置：一個便宜的模型，處理頻繁、又多樣到規則寫不完的判斷，例如「這一步超出已批准的範圍了嗎？」它還沒做。第一步是檢查程式能不能做，之後才加便宜的評審，由程式決定怎麼處理它的答案，失敗時退回規則。便宜的模型對這個判斷夠不夠好，我沒有測過。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Levels are guesses until you test.</strong> Whether a judgment fits level 2 depends on the model you use this month. Measure it on cases where you know the answer (<a href="6-3-eval-tasks.html">Eval tasks</a>).</p>
+<p><strong>More levels, more parts.</strong> Each level you add is something to configure and to fail. Do not add a cheap judge for a call that happens twice a week.</p>
+<p><strong>Code can be confidently wrong.</strong> A pattern that blocks &quot;dangerous commands&quot; will not see a dangerous command in a form it has not met. For safety, how hard the rule is enforced is the question, and <a href="4-1-requests-and-rules.html">Requests and rules</a> is the chapter.</p>
+<p><strong>Cost per call is not the whole bill.</strong> Input the provider has cached is read at about a tenth of the base price, so a repeated long prefix is cheaper than it looks (<a href="1-1-models-and-cost.html">Models and cost</a>). I have not checked how Copilot applies this, so measure on your own setup before you decide that moving a judgment saves money.</p>
+<p><strong>Moving down saves money but can hide errors.</strong> Cheaper judgments are less often looked at. Keep a sample you read by eye.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>層級在測過之前都是猜測</strong>。一個判斷適不適合第 2 層，取決於你這個月用的模型。拿你知道答案的案例去量（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
+<p><strong>層越多，零件越多</strong>。你每加一層，就多一樣要設定、也會壞的東西。不要為一週只發生兩次的判斷加一個便宜的評審。</p>
+<p><strong>程式可能信心十足地錯</strong>。擋「危險指令」的樣式，看不出它沒見過的形式的危險指令。談安全，問題是規則被執行得多硬，那是 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 的內容。</p>
+<p><strong>每次呼叫的成本不是整張帳單</strong>。供應商快取過的輸入，讀取的價格大約是基本價格的十分之一，所以重複的長前綴比看起來便宜（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。Copilot 怎麼套用這點，我沒有檢查過，所以在你決定移動一個判斷能省錢之前，先在你自己的設定上量。</p>
+<p><strong>往下移省錢，但可能藏住錯誤</strong>。越便宜的判斷，越少有人去看。保留一份你用眼睛讀的抽樣。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The levels stay; the line between them moves. As cheap models get better at vague calls, level 2 will take more. As the main model gets cheaper, level 3 will matter less as a cost and more as a reliability question. Re-run your own test of each judgment when the model changes (<a href="6-5-model-upgrades.html">After a model upgrade</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>層級會留著；它們之間的線會移動。便宜的模型在模糊的判斷上越來越好，第 2 層會接下更多。主模型越來越便宜，第 3 層就越不是成本問題，更像是可靠性的問題。模型換了，就對每個判斷重做你自己的測試（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List the judgments in this project&#x27;s agent workflow: what the instruction files, skills, hooks, scripts and review steps each decide (for example, is this path allowed, did the check pass, is this change in scope, is this design good). For each, name who decides today: code, a cheap model, the main model, or a person. Then mark the ones where a model decides something a script could settle, and the ones where a script or pattern decides something that needs meaning. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個專案的 agent 工作流程裡的判斷：指令檔、skill、hook、腳本和審查步驟各自決定什麼（例如：這個路徑允許嗎、檢查通過了嗎、這個改動在範圍內嗎、這個設計好不好）。對每一個，說出今天是誰決定：程式、便宜的模型、主模型，還是人。然後標出：模型在決定、腳本就能解決的那些，以及腳本或樣式在決定、卻需要理解意思的那些。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/costs">Manage costs</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/costs">Manage costs</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The code-first judgments, the conversion of business files, and the places where a person decides all run in Copilot Harness. The cheap-model level is not built. The harness can teach what exists from the inside, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Who decides&quot;. Teach me which judgments this harness gives to code, which to the model and which to a person (topic 15), and how it converts business documents before the model reads them. Open the real files with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>先交給程式的判斷、商業檔案的轉換，以及由人決定的地方，都在 Copilot Harness 裡執行。便宜模型那一層還沒做。harness 可以從裡面教你現有的部分，附上真實的檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「誰來判斷」這一章。請教我這個 harness 把哪些判斷交給程式、哪些交給模型、哪些交給人（主題 15），以及它在模型讀之前，怎麼轉換商業文件。帶我打開真實的檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Roll out and govern a harness</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.4</p><h1><span data-l="en" lang="en">Roll out and govern a harness</span><span data-l="zh-Hant" lang="zh-Hant">落地與治理</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, <a href="3-3-instructions-and-skills.html">Instructions and skills</a> and <a href="6-1-observe.html">Record what happened, not what the agent said</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="4-3-guardrails.html">保護規則本身的檔案</a>、<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Rolling an agent setup out to a team is mostly a question of who owns the rules and who reviews changes to them. Widen it only when the logs show the rules hold.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>把 agent 設定推給一個團隊，主要是問：誰擁有規則，誰審查對規則的改動。只有紀錄顯示規則撐得住的時候，才擴大範圍。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> name an owner for each layer of rules, require a second reviewer for any change to them, and agree what has to be true before the setup goes to the next team.</li>
+<li><strong>The risk:</strong> without owners, the rules drift into one copy per person and stale rules stay. I have no team data, so I cannot put a number on it. The chapter gives the design I would use, not a measured result.</li>
+<li><strong>The cost of doing it right:</strong> mostly people's time: owners for the core and each area, and a reviewer's time on every rule change. The setup itself adds little.</li>
+<li><strong>Ask the team:</strong> &quot;Who owns this rule, who reviewed the last change to it, and what would the logs show if it were wrong?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：為每一層規則指定一個負責人，要求任何改動都有第二位審查者，並先講好：要符合什麼條件，設定才能交給下一個團隊。</li>
+<li><strong>風險</strong>：沒有負責人，規則會漂成每人一份，過期的規則會留著。我沒有團隊的數據，所以給不出數字。這一章給的是我會用的設計，不是量過的結果。</li>
+<li><strong>做對的成本</strong>：主要是人的時間：核心和每個領域的負責人，以及審查者在每次改規則時花的時間。設定本身加的很少。</li>
+<li><strong>可以問團隊</strong>：「這條規則誰負責，上一次改它是誰審查的？如果它是錯的，紀錄會顯示什麼？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A setup that suits one person has one owner by accident: that person. They write the rules, they notice when a rule is wrong, and they know why each one is there. Hand the same files to ten colleagues and three things go wrong, none of them about the tools.</p>
+<ul>
+<li><strong>Copies drift.</strong> Everyone fixes the rules for their own task, in their own copy. After a month there are ten versions, and no one can say which one is &quot;the rules&quot;.</li>
+<li><strong>Nobody owns a rule.</strong> A rule that was right last year is now wrong, and everyone has learned to ignore it. Rules go stale unless someone is paid in attention to prune them.</li>
+<li><strong>A change breaks someone else.</strong> Tightening a rule for one project blocks another team's normal work. The person who made the change never sees the damage.</li>
+</ul>
+<p>A fourth worry is a leader's: after the rollout, how do you know what the agents did? That needs a record that someone looks at.</p>
+<p>I should be honest about my own position. I built my setup for one person and I have not run a team rollout with measurements. What follows is the design I would use, built from what the setup already does (the parts I can point to), and from the questions I ask before adding anything. Where something is only a proposal, I say so.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>適合一個人的設定，只是碰巧有一個負責人：那個人。他寫規則，規則錯了他會發現，每一條為什麼在那裡他也知道。把同樣的檔案交給十個同事，會出三個問題，沒有一個和工具有關。</p>
+<ul>
+<li><strong>副本會漂移</strong>。每個人為自己的任務，在自己的副本裡修規則。一個月後有十個版本，沒有人說得清哪一個是「規則」。</li>
+<li><strong>沒有人負責一條規則</strong>。去年還對的規則，現在錯了，每個人都學會了不理它。規則會過期，除非有人用心力去修剪它。</li>
+<li><strong>一個改動弄壞別人的事</strong>。為一個專案收緊一條規則，擋住了另一個團隊的正常工作。做改動的人，永遠看不到傷害。</li>
+</ul>
+<p>第四個擔心是主管的：推出去之後，你怎麼知道 agent 做了什麼？這需要一份有人在看的紀錄。</p>
+<p>我該老實說我自己的位置。我的設定是為一個人建的，我沒有帶著量測做過團隊推行。下面是我會用的設計，建在設定現在已經做到的事上（我能指出來的部分），以及我加任何東西之前問的問題上。只是提議的地方，我會說明。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Who owns the rules</h3>
+<p>The question &quot;who owns the rules&quot; has no single answer, because not all rules are alike. I split them into three layers, by who is hurt when one is wrong.</p>
+<figure class="fig" id="fig-7-4-rule-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="20" data-t="h1">layer</text>
+  <text class="label-muted" x="258" y="20" data-t="h2">owner</text>
+  <text class="label-muted" x="400" y="20" data-t="h3">who reviews a change</text>
+  <rect class="box-lit" x="10" y="35" width="230" height="55" rx="8"/>
+  <text class="label-lit" x="25" y="58" data-t="l1">Core</text>
+  <text class="label-muted" x="25" y="78" data-t="l1n">rules for every task</text>
+  <text class="label" x="258" y="68" data-t="o1">1 or 2 people</text>
+  <text class="label" x="400" y="68" data-t="r1">always a 2nd person</text>
+  <rect class="box" x="10" y="100" width="230" height="55" rx="8"/>
+  <text class="label" x="25" y="123" data-t="l2">Team</text>
+  <text class="label-muted" x="25" y="143" data-t="l2n">skills and knowledge</text>
+  <text class="label" x="258" y="133" data-t="o2">one per area</text>
+  <text class="label" x="400" y="133" data-t="r2">owner + one more</text>
+  <rect class="box-plain" x="10" y="165" width="230" height="55" rx="8"/>
+  <text class="label" x="25" y="188" data-t="l3">Personal</text>
+  <text class="label-muted" x="25" y="208" data-t="l3n">my name, paths</text>
+  <text class="label" x="258" y="198" data-t="o3">the individual</text>
+  <text class="label" x="400" y="198" data-t="r3">none; not committed</text>
+</svg>
+<figcaption>Three layers of rules. The wider the harm of a mistake, the fewer the owners and the stricter the review.</figcaption></figure>
+<ul>
+<li><strong>The core.</strong> The short rules every task must follow, and the files that enforce them (the fence from <a href="4-3-guardrails.html">Guard the files that hold the rules</a>). A mistake here reaches everyone. It has one or two named owners, and nobody else edits it.</li>
+<li><strong>The team layer.</strong> Domain skills, the team's knowledge base (an index of the code, see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>), and settings that are the same for everyone, such as which paths no agent may touch. Each area has one owner: the person who knows that part of the code. A skill about deployment belongs to whoever deploys.</li>
+<li><strong>The personal layer.</strong> A user name, a language, the folder where your repositories sit on your machine. It belongs to the individual. It is not committed, because it holds paths that exist on one computer only.</li>
+</ul>
+<p>Two mechanisms make this workable in my setup, and a team can copy the idea without the tool.</p>
+<p><strong>An override is a small config next to the default, not a copy of it.</strong> It lists only what you change. A person who wants to add one forbidden path writes one line; they do not fork the whole rule file. So the team's customisation stays a few lines that anyone can read, and an upgrade of the core does not collide with it. In my implementation the core's guardrails cannot be removed by an override: if an override drops them, the engine puts them back and reports an error. The setup's health check also lists what every override changes, which gives a reviewer one place to look.</p>
+<p><strong>One rule has one main source.</strong> The same rule written in three files is how copies drift (<a href="3-3-instructions-and-skills.html">Instructions and skills</a>). When you assign owners, assign them to sources. A rule with two homes has two owners, which means none.</p>
+<h3>Who reviews a change to a rule</h3>
+<p>A rule file is not documentation. It is what the agent obeys, so changing it changes what the team's agents do tomorrow. I treat it like code, with four habits.</p>
+<ol>
+<li><strong>The agent does not edit the rules.</strong> The files are fenced. A person opens the fence for one session, makes the change, closes it, and reads the diff in git afterwards (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>). That leaves a diff that someone else can review.</li>
+<li><strong>The author is not the only reviewer.</strong> The owner of the layer reads the change, and so does someone who was not in the discussion. Treat a rule change like a change to code that an attacker would love to make: a careless or hostile pull request, or a shared skill or knowledge-base file that carries instructions the agent will read as its own, is a way in (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>). Agree who may approve exceptions, and who takes over a layer when its owner leaves. A rule that makes sense only to its author is a poor rule for an agent too: it will read it cold.</li>
+<li><strong>The review asks six questions.</strong> They are the ones I ask before adding anything to my own setup.
+<ul>
+<li>What failure does this prevent? Is there a real example, log or measurement?</li>
+<li>Does the platform already do it? Did anyone read its current docs?</li>
+<li>What does it cost, in context, tokens and time?</li>
+<li>Is it a request in words, or a rule in code (<a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>)? Is that the right one for the harm?</li>
+<li>When can it be deleted? What would have to change?</li>
+<li>If we moved to another tool, would what we learned still be useful?</li>
+</ul>
+</li>
+<li><strong>A claim of &quot;this helps&quot; needs the same tasks before and after.</strong> If the change is meant to improve results, the review should ask for a before-and-after on fixed tasks (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>), not an opinion.</li>
+</ol>
+<p>One more rule helps the review. <strong>Write down only what the model gets wrong.</strong> A line the model would follow anyway costs context and gives a reviewer more to read. If you cannot name an error it prevents, leave it out.</p>
+<h3>Audit: what the setup leaves behind</h3>
+<p>A leader who was not there needs to answer &quot;what did the agents do, and who let them?&quot;. That is an audit. It works only if the setup writes records that the agent does not control, so here is what mine writes. The first five are built; the last two are ideas.</p>
+<ul>
+<li><strong>One log line per tool call.</strong> The kind of call, whether it was let through or refused, which rule refused it, and how long it took. No arguments and no prompt text, except that a refused call keeps its path and command (<a href="6-1-observe.html">Record what happened, not what the agent said</a>).</li>
+<li><strong>Refusals, and a count of them.</strong> A statistics command sums the prompts, the calls and the refusals, and which part of the setup refused.</li>
+<li><strong>Approvals.</strong> Each task's approvals are kept as records that only a person can create, and the task's report shows the time of both.</li>
+<li><strong>The task report.</strong> Written by code when a task closes: what was asked, what changed, how many checks and the verdict of each, and what was refused (<a href="6-2-task-report.html">A report a person can read in five minutes</a>).</li>
+<li><strong>Changes to the rules.</strong> The agent cannot edit the rule files. A person does it in a session where every logged call is marked as admin, and the change is a diff in git.</li>
+<li><strong>Idea, not built: who approved.</strong> The approval records carry a time. I have not checked whether they carry a person's name, and my setup has one user, so I never needed it. A team does.</li>
+<li><strong>Idea, not built: one place for the logs.</strong> In my setup the logs stay on each computer and are not put into git. I have not built any way to gather them across a team.</li>
+</ul>
+<p>Who looks, and how often? In my own setup I read the log when a run fails and when I change a rule, not every day (<a href="6-1-observe.html">Record what happened, not what the agent said</a>). For a team I would add a short routine, as a proposal: the owner of each layer looks at the refusal counts now and then, and reads the diff of every rule change. A log that nobody owns is not an audit trail.</p>
+<h3>A rollout in stages</h3>
+<p>Going wide first and adding review later is how you get ten copies. So I would widen in stages, and I would write down, for each stage, what has to be true before entering it.</p>
+<figure class="fig" id="fig-7-4-rollout-stages"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="16" data-t="h-stage">stage</text>
+  <text class="label-muted" x="300" y="16" data-t="h-gate">enter it when</text>
+  <rect class="box" x="10" y="28" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="53" data-t="s1">1  One team, core only</text>
+  <path class="line-lit" d="M250 48 H290"/>
+  <path class="head-lit" d="M290 42 L300 48 L290 54 Z"/>
+  <rect class="box-lit" x="300" y="28" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="53" data-t="e1">a team asks, owns its code</text>
+  <path class="line" d="M130 68 V82"/>
+  <path class="head" d="M124 82 L130 88 L136 82 Z"/>
+  <rect class="box" x="10" y="88" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="113" data-t="s2">2  Add the team layer</text>
+  <path class="line-lit" d="M250 108 H290"/>
+  <path class="head-lit" d="M290 102 L300 108 L290 114 Z"/>
+  <rect class="box-lit" x="300" y="88" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="113" data-t="e2">core owned; logs readable</text>
+  <path class="line" d="M130 128 V142"/>
+  <path class="head" d="M124 142 L130 148 L136 142 Z"/>
+  <rect class="box" x="10" y="148" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="173" data-t="s3">3  Open to the next team</text>
+  <path class="line-lit" d="M250 168 H290"/>
+  <path class="head-lit" d="M290 162 L300 168 L290 174 Z"/>
+  <rect class="box-lit" x="300" y="148" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="173" data-t="e3">rules get a 2nd reviewer</text>
+  <path class="line" d="M130 188 V202"/>
+  <path class="head" d="M124 202 L130 208 L136 202 Z"/>
+  <rect class="box" x="10" y="208" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="233" data-t="s4">4  Everyone</text>
+  <path class="line-lit" d="M250 228 H290"/>
+  <path class="head-lit" d="M290 222 L300 228 L290 234 Z"/>
+  <rect class="box-lit" x="300" y="208" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="233" data-t="e4">logs show the rules hold</text>
+</svg>
+<figcaption>A rollout in stages. Each stage has a condition to enter it, and the condition is something you can look at. A proposal, not a record.</figcaption></figure>
+<ol>
+<li><strong>One team, core only.</strong> Pick a team that wants the setup and owns its own code. Give the core to one or two owners from day one. <em>Enter when:</em> the team asks for it. Nothing needs to be proven yet.</li>
+<li><strong>Add the team layer.</strong> Domain skills, shared settings and the knowledge base come after the team has used the core long enough to know what it needs. <em>Enter when:</em> the core has named owners, and the owner can say what happened in a recent task from the records, not from the agent's summary.</li>
+<li><strong>Open it to the next team.</strong> <em>Enter when:</em> the review habit works in the first team. Every rule change had a second reviewer, the diff was read, and any change meant to improve results came with a before-and-after on fixed tasks.</li>
+<li><strong>Everyone, including the colleague who did not ask for it.</strong> <em>Enter when:</em> the logs show the rules hold. The signals are in the next section.</li>
+</ol>
+<p>These conditions are my proposal. I have not run them on a team, and the thresholds (how long is &quot;long enough&quot;) are for you to set.</p>
+<h3>How you would know it is working</h3>
+<p>I have no numbers from a team, so this is what I would watch, not what I measured:</p>
+<ul>
+<li><strong>Do people open tasks, or go around the setup?</strong> Counts of tasks opened, against work done in plain chats.</li>
+<li><strong>What do the rules refuse, and is it the same thing every week?</strong> A rule that refuses the same normal work is a rule to fix (<a href="4-2-ask-vs-refuse.html">Ask or refuse</a>).</li>
+<li><strong>How often does work come back after approval?</strong> Rework after a yes means the gate was read too fast.</li>
+<li><strong>How many local overrides exist, and do they match?</strong> See the fork trap below.</li>
+</ul>
+<p>Stage 4 asks that these have stopped moving: the refusals are steady and mostly the ones you meant, rework is low, and the overrides are few. &quot;The logs show the rules hold&quot; means that, and nothing grander.</p>
+<h3>How strong the evidence in this book is</h3>
+<p>Read the rest of the book with these limits in mind.</p>
+<ul>
+<li><strong>One platform.</strong> Everything was built and tried on VS Code Copilot. Other tools have counterparts, but I have not tested them.</li>
+<li><strong>One person's harness.</strong> I built it and I use it. Nobody else has tested it, and I am not a neutral judge of it.</li>
+<li><strong>No team data and no incidents.</strong> I have not measured adoption, and I have no record of a rule failing in a team. My one measured comparison is four tasks, one run each (<a href="2-3-subagents.html">Use subagents sparingly</a>).</li>
+<li><strong>Numbers carry their conditions.</strong> Where a chapter gives a figure, it gives the run count and the setup next to it, so you can see how far to trust it.</li>
+</ul>
+<p>So use the book for its questions and its design, and not as proof. Take a design from it, state what you expect it to do, and check that on your own tasks (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>, <a href="6-4-variance.html">One run proves nothing</a>). Your numbers should replace mine.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>誰擁有規則</h3>
+<p>「誰擁有規則」沒有單一的答案，因為規則不都一樣。我把它們分成三層，看一條規則錯了會傷到誰。</p>
+<figure class="fig" id="fig-7-4-rule-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="20" data-t="h1">層</text>
+  <text class="label-muted" x="258" y="20" data-t="h2">擁有者</text>
+  <text class="label-muted" x="400" y="20" data-t="h3">誰審修改</text>
+  <rect class="box-lit" x="10" y="35" width="230" height="55" rx="8"/>
+  <text class="label-lit" x="25" y="58" data-t="l1">核心</text>
+  <text class="label-muted" x="25" y="78" data-t="l1n">每個任務的規則、圍欄</text>
+  <text class="label" x="258" y="68" data-t="o1">一兩位指定的人</text>
+  <text class="label" x="400" y="68" data-t="r1">一定要有第二個人</text>
+  <rect class="box" x="10" y="100" width="230" height="55" rx="8"/>
+  <text class="label" x="25" y="123" data-t="l2">團隊</text>
+  <text class="label-muted" x="25" y="143" data-t="l2n">領域 skill、知識、共用設定</text>
+  <text class="label" x="258" y="133" data-t="o2">每個領域一位</text>
+  <text class="label" x="400" y="133" data-t="r2">領域擁有者再加一位</text>
+  <rect class="box-plain" x="10" y="165" width="230" height="55" rx="8"/>
+  <text class="label" x="25" y="188" data-t="l3">個人</text>
+  <text class="label-muted" x="25" y="208" data-t="l3n">名字、語言、本機路徑</text>
+  <text class="label" x="258" y="198" data-t="o3">個人自己</text>
+  <text class="label" x="400" y="198" data-t="r3">不審；不提交</text>
+</svg>
+<figcaption>規則分三層。錯了影響越廣，擁有者越少，審查越嚴。</figcaption></figure>
+<ul>
+<li><strong>核心</strong>。每個任務都必須遵守的短規則，以及執行它們的檔案（<a href="4-3-guardrails.html">保護規則本身的檔案</a> 裡的圍欄）。這裡錯了，影響所有人。它有一、兩位指名的負責人，其他人不改它。</li>
+<li><strong>團隊層</strong>。領域的 skill、團隊的知識庫（程式碼的索引，見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>），以及對所有人都一樣的設定，例如哪些路徑任何 agent 都不能碰。每個領域有一位負責人：懂那一塊程式碼的人。部署的 skill 屬於負責部署的人。</li>
+<li><strong>個人層</strong>。使用者名稱、語言、你的倉庫放在你機器上的哪個資料夾。它屬於個人。它不提交，因為裡面是只存在於一台電腦的路徑。</li>
+</ul>
+<p>在我的設定裡，有兩個機制讓這件事做得起來。團隊不用那個工具，也可以拿走這個想法。</p>
+<p><strong>override 是放在預設旁邊的一個小設定，不是預設的副本</strong>。它只列出你要改的。想多加一個禁止路徑的人，寫一行；他不用分叉整份規則檔。所以團隊的客製化，只是幾行誰都讀得懂的東西，核心升級時也不會和它衝突。在我的實作裡，核心的護欄不能被 override 移除：如果 override 把它們拿掉，引擎會放回去並回報錯誤。設定的健康檢查也會列出每個 override 改了什麼，審查者就有一個地方可以看。</p>
+<p><strong>一條規則有一個主要來源</strong>。同一條規則寫在三個檔案裡，就是副本漂移的起點（<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>）。指定負責人的時候，指定給來源。有兩個家的規則有兩個負責人，也就是沒有。</p>
+<h3>誰審查對規則的改動</h3>
+<p>規則檔不是文件。它是 agent 服從的東西，所以改它，就是改團隊的 agent 明天會做什麼。我把它當程式碼，有四個習慣。</p>
+<ol>
+<li><strong>agent 不改規則</strong>。這些檔案被圍起來。由人為一個會話打開圍欄，做改動，再關上，之後在 git 裡讀 diff（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）。這樣會留下一份別人可以審查的 diff。</li>
+<li><strong>作者不是唯一的審查者</strong>。那一層的負責人讀這個改動，另一位沒參與討論的人也讀。把規則的改動，當成攻擊者很想做的程式碼改動：一個草率或惡意的 pull request，或一個共用的 skill 或知識庫檔案，帶著 agent 會當成自己的指令讀進去的內容，都是入口（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。講好誰可以批准例外，以及負責人離開時誰接手那一層。只有作者看得懂的規則，對 agent 也是差的規則：它是從零開始讀的。</li>
+<li><strong>審查要問六個問題</strong>。這是我在為自己的設定加任何東西之前問的問題。
+<ul>
+<li>這防止什麼失敗？有真實的例子、紀錄或量測嗎？</li>
+<li>平台已經做了嗎？有人讀過它現在的文件嗎？</li>
+<li>它花多少，在上下文、token 和時間上？</li>
+<li>它是用文字寫的請求，還是程式碼裡的規則（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）？對這個傷害來說，選對了嗎？</li>
+<li>什麼時候可以刪掉？要變成什麼樣？</li>
+<li>如果我們換到別的工具，學到的東西還有用嗎？</li>
+</ul>
+</li>
+<li><strong>說「這有幫助」，需要同樣的任務前後各跑一次</strong>。如果這個改動是要改善結果，審查就該要求在固定任務上的前後比較（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>），不是一個意見。</li>
+</ol>
+<p>還有一條規則對審查有幫助。<strong>只寫模型會做錯的</strong>。模型本來就會照做的一行，花上下文，還讓審查者多讀一行。說不出它防止哪個錯誤，就不要寫。</p>
+<h3>稽核：設定留下什麼</h3>
+<p>沒在場的主管，需要回答「agent 做了什麼，誰讓它做的？」這就是稽核。只有設定寫下 agent 控制不了的紀錄，它才行得通，所以下面是我的設定寫下的東西。前五項已經做了；後兩項是想法。</p>
+<ul>
+<li><strong>每次工具呼叫一行紀錄</strong>。呼叫的種類、放行還是拒絕、哪條規則拒絕的，以及花了多久。沒有參數，也沒有 prompt 的文字，只有被拒絕的呼叫會保留路徑和指令（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>）。</li>
+<li><strong>拒絕，以及它的計數</strong>。一個統計指令，加總 prompt、呼叫和拒絕，以及設定的哪個部分拒絕的。</li>
+<li><strong>批准</strong>。每個任務的批准，存成只有人能建立的紀錄，任務的報告會顯示兩道批准的時間。</li>
+<li><strong>任務報告</strong>。任務結束時由程式碼寫出：問了什麼、改了什麼、有多少檢查和每個檢查的結論，以及什麼被拒絕了（<a href="6-2-task-report.html">一份五分鐘讀得完的報告</a>）。</li>
+<li><strong>規則的改動</strong>。agent 不能改規則檔。由人在一個會話裡改，這個會話裡記下的每個呼叫都標成 admin，而改動是 git 裡的一份 diff。</li>
+<li><strong>想法，沒做：誰批准的</strong>。批准的紀錄帶有時間。它們有沒有帶人名，我沒有確認，而我的設定只有一位使用者，所以我從沒需要過。團隊需要。</li>
+<li><strong>想法，沒做：紀錄放在同一個地方</strong>。在我的設定裡，紀錄留在每台電腦上，不放進 git。我沒有做任何跨團隊收集它們的辦法。</li>
+</ul>
+<p>誰來看，多久看一次？在我自己的設定裡，我在一次運行失敗和我改規則的時候讀紀錄，不是每天（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>）。對團隊，我會加一個簡短的例行，當作提議：每一層的負責人，每隔一陣子看一下拒絕的計數，並讀每次規則改動的 diff。沒有人負責的紀錄，不是稽核的軌跡。</p>
+<h3>分階段推行</h3>
+<p>先鋪開、之後再補審查，就是得到十份副本的辦法。所以我會分階段擴大，並為每個階段寫下：要符合什麼條件才能進入。</p>
+<figure class="fig" id="fig-7-4-rollout-stages"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="16" data-t="h-stage">階段</text>
+  <text class="label-muted" x="300" y="16" data-t="h-gate">什麼時候進入</text>
+  <rect class="box" x="10" y="28" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="53" data-t="s1">1  一個團隊，只有核心</text>
+  <path class="line-lit" d="M250 48 H290"/>
+  <path class="head-lit" d="M290 42 L300 48 L290 54 Z"/>
+  <rect class="box-lit" x="300" y="28" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="53" data-t="e1">有團隊想要，且自己管程式碼</text>
+  <path class="line" d="M130 68 V82"/>
+  <path class="head" d="M124 82 L130 88 L136 82 Z"/>
+  <rect class="box" x="10" y="88" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="113" data-t="s2">2  加上團隊層</text>
+  <path class="line-lit" d="M250 108 H290"/>
+  <path class="head-lit" d="M290 102 L300 108 L290 114 Z"/>
+  <rect class="box-lit" x="300" y="88" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="113" data-t="e2">核心有擁有者，紀錄看得懂</text>
+  <path class="line" d="M130 128 V142"/>
+  <path class="head" d="M124 142 L130 148 L136 142 Z"/>
+  <rect class="box" x="10" y="148" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="173" data-t="s3">3  開放給下一個團隊</text>
+  <path class="line-lit" d="M250 168 H290"/>
+  <path class="head-lit" d="M290 162 L300 168 L290 174 Z"/>
+  <rect class="box-lit" x="300" y="148" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="173" data-t="e3">規則修改有第二位審查者</text>
+  <path class="line" d="M130 188 V202"/>
+  <path class="head" d="M124 202 L130 208 L136 202 Z"/>
+  <rect class="box" x="10" y="208" width="240" height="40" rx="8"/>
+  <text class="label" x="24" y="233" data-t="s4">4  所有人</text>
+  <path class="line-lit" d="M250 228 H290"/>
+  <path class="head-lit" d="M290 222 L300 228 L290 234 Z"/>
+  <rect class="box-lit" x="300" y="208" width="290" height="40" rx="8"/>
+  <text class="label-lit" x="314" y="233" data-t="e4">紀錄顯示規則站得住</text>
+</svg>
+<figcaption>分階段上線。每個階段都有進入的條件，而且是看得到的東西。這是提議，不是紀錄。</figcaption></figure>
+<ol>
+<li><strong>一個團隊，只有核心</strong>。挑一個想要這套設定、自己擁有程式碼的團隊。從第一天就把核心交給一、兩位負責人。<em>進入條件</em>：團隊要它。現在還不需要證明什麼。</li>
+<li><strong>加上團隊層</strong>。領域的 skill、共用設定和知識庫，在團隊用核心夠久、知道自己需要什麼之後再加。<em>進入條件</em>：核心有指名的負責人，而且負責人能靠紀錄，不是靠 agent 的摘要，說出最近一個任務發生了什麼。</li>
+<li><strong>開放給下一個團隊</strong>。<em>進入條件</em>：審查的習慣在第一個團隊行得通。每次規則改動都有第二位審查者，diff 有人讀，任何要改善結果的改動，都附有固定任務上的前後比較。</li>
+<li><strong>所有人，包括沒有要求的同事</strong>。<em>進入條件</em>：紀錄顯示規則撐得住。訊號在下一節。</li>
+</ol>
+<p>這些條件是我的提議。我沒有在團隊上跑過，而門檻（多久才算「夠久」）要你自己定。</p>
+<h3>你怎麼知道它有效</h3>
+<p>我沒有團隊的數字，所以這是我會看的，不是我量到的：</p>
+<ul>
+<li><strong>人們是開任務，還是繞過設定</strong>？開了多少任務，對比在一般對話裡做的工作。</li>
+<li><strong>規則拒絕什麼，每週都是同樣的東西嗎</strong>？一條一直拒絕同樣正常工作的規則，是該修的規則（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</li>
+<li><strong>批准之後，多常需要返工</strong>？批准後返工，表示那道門被看得太快。</li>
+<li><strong>本機的 override 有多少，它們一致嗎</strong>？見下面的分叉陷阱。</li>
+</ul>
+<p>第 4 階段要求這些都不再變動：拒絕的數量穩定，而且多半是你想要它拒絕的，返工少，override 也少。「紀錄顯示規則撐得住」，就是這個意思，沒有更大的意思。</p>
+<h3>這本書的證據有多強</h3>
+<p>讀這本書其餘的部分時，請記住這些限制。</p>
+<ul>
+<li><strong>一個平台</strong>。一切都是在 VS Code Copilot 上建立和試的。別的工具有對應的東西，但我沒有測過。</li>
+<li><strong>一個人的 harness</strong>。我建了它，我用它。沒有別人測過，我也不是它的中立評審。</li>
+<li><strong>沒有團隊數據，也沒有事故</strong>。我沒有量過採用情況，也沒有團隊裡規則失敗的紀錄。我唯一量過的比較，是四個任務、各跑一次（<a href="2-3-subagents.html">慎用子 agent</a>）。</li>
+<li><strong>數字都附著它的條件</strong>。一章給出數字時，旁邊會給運行次數和設定，讓你看出該信多少。</li>
+</ul>
+<p>所以請把這本書用在它的問題和設計上，不要當成證明。從裡面拿一個設計，說出你預期它做到什麼，再在你自己的任務上檢查（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>、<a href="6-4-variance.html">一次運行證明不了什麼</a>）。你的數字應該取代我的。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The owner becomes a bottleneck.</strong> If every rule change goes through two people, people stop proposing changes and start keeping private copies, which is the problem you were solving. Keep the core small, so that few changes need the strict path, and let the team layer move fast.</p>
+<p><strong>Review of rules is unglamorous.</strong> No one is thanked for a rule that was not added. Put the owner's time in someone's plan, or the review turns into a rubber stamp.</p>
+<p><strong>A reviewer must be able to judge the rule.</strong> A rule about a deployment path reviewed by someone who has never deployed is only a spelling check.</p>
+<p><strong>Too many local overrides is a fork.</strong> If most users carry the same override, it belongs in the team layer. Look at the overrides now and then, and promote the common ones.</p>
+<p><strong>Logs hold things about people.</strong> A log of every call says when someone worked and what they asked the agent to touch. Decide who may read it and how long it is kept before you collect it centrally.</p>
+<p><strong>A stage gate is only as good as the record.</strong> A hole in the logs (<a href="6-1-observe.html">Record what happened, not what the agent said</a>) makes &quot;the rules hold&quot; look true when it is not known.</p>
+<p><strong>I have no team data.</strong> The three layers, the review habits, the audit routine and the stages are a design built on one person's use. I have not measured adoption or tracked who edits what in a team. Treat them as a starting point to check, not as results.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>負責人變成瓶頸</strong>。如果每次改規則都要經過兩個人，人們就不再提改動，轉而留私人副本，也就是你本來要解決的問題。核心要小，讓需要嚴格流程的改動很少，團隊層則讓它走得快。</p>
+<p><strong>審查規則不風光</strong>。沒有人會因為一條沒加的規則被感謝。把負責人的時間排進某個人的計劃，不然審查會變成蓋章。</p>
+<p><strong>審查者必須能判斷這條規則</strong>。一條關於部署路徑的規則，讓從沒部署過的人審查，只是拼字檢查。</p>
+<p><strong>太多本機 override，就是分叉</strong>。如果多數使用者都帶著同一個 override，它就屬於團隊層。時不時看一下 override，把常見的升上去。</p>
+<p><strong>紀錄裡有關於人的事</strong>。一份每個呼叫的紀錄，會說某人什麼時候工作，以及他要 agent 碰什麼。在集中收集之前，先決定誰可以讀它，以及保留多久。</p>
+<p><strong>階段的門，只有紀錄那麼可靠</strong>。紀錄裡的一個洞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>），會讓「規則撐得住」看起來是真的，其實並不知道。</p>
+<p><strong>我沒有團隊數據</strong>。三層、審查的習慣、稽核的例行和各階段，是建在一個人使用上的設計。我沒有量過採用情況，也沒有追蹤團隊裡誰改了什麼。把它們當成要檢查的起點，不是結果。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The three-layer split exists because the platform gives you files and no way to own them. If your platform lets an organisation publish rules centrally, with its own review, audit and roll-out, use that for the core layer and keep only the team layer yourself. I have not checked what Copilot offers here today, so look at its current docs before building your own.</p>
+<p>The review questions do not retire. They are how you decide whether any rule, skill or agent deserves to exist.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>三層的劃分存在，是因為平台給你檔案，卻沒有辦法擁有它們。如果你的平台讓組織集中發布規則，並附帶自己的審查、稽核和推行，核心層就用它，只留團隊層自己做。Copilot 今天在這方面提供什麼，我沒有確認，所以在自己動手之前，先看它目前的文件。</p>
+<p>審查的問題不會退役。它們是你決定任何規則、skill 或 agent 值不值得存在的辦法。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at the files in this repository that tell an AI agent what to do or what it may not do (instruction files, skills, agent definitions, hook and permission settings). For each one, tell me from git history who last changed it, when, and whether the commit had a reviewer other than the author. List any rule that is written in more than one file. Then list what records exist of what the agent did here (logs, transcripts, reports) and who could read them. Mark every gap. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看這個倉庫裡告訴 AI agent 該做什麼、不可以做什麼的檔案（指令檔、skill、agent 定義、hook 和權限設定）。每一個，從 git 歷史告訴我：最後是誰改的、什麼時候，以及那個 commit 除了作者之外有沒有審查者。列出寫在不只一個檔案裡的規則。然後列出有哪些紀錄記下了 agent 在這裡做過什麼（日誌、對話紀錄、報告），以及誰能讀它們。標出每一個缺口。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="4-3-guardrails.html">Guard the files that hold the rules</a>: how the fence is held and when a person opens it.</li>
+<li><a href="3-3-instructions-and-skills.html">Instructions and skills</a>: where rules live and why one rule has one source.</li>
+<li><a href="6-1-observe.html">Record what happened, not what the agent said</a>: what to record and how to read it.</li>
+<li><a href="7-1-people-and-teams.html">People and teams</a>: what stays with a person, and how to start a newcomer.</li>
+<li><a href="7-3-what-we-cut.html">What we cut</a>: the same admission questions, applied to my own setup.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="4-3-guardrails.html">保護規則本身的檔案</a>：圍欄怎麼守住，什麼時候由人打開。</li>
+<li><a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>：規則放在哪裡，以及為什麼一條規則只有一個來源。</li>
+<li><a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>：記什麼，以及怎麼讀。</li>
+<li><a href="7-1-people-and-teams.html">人與團隊：留給人的事</a>：什麼事留給人，以及怎麼帶新人上手。</li>
+<li><a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>：同樣的准入問題，用在我自己的設定上。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Overrides, the health check, the fenced rule files and the logs all run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Roll out and govern a harness&quot;. Teach me how this harness lets a team customise it without forking it (policy overrides, the health check that lists them), how it guards its own rule files, and what its logs and reports record. Open the real files with me, and show where a team&#x27;s changes go and where they must not go.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>override、健康檢查、被圍起來的規則檔和紀錄，都在 Copilot Harness 裡執行。harness 可以用真實的檔案帶你看。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「落地與治理」這一章。請教我這個 harness 怎麼讓團隊客製化卻不用分叉（policy override，和列出它們的健康檢查），怎麼保護它自己的規則檔，以及它的紀錄和報告記下什麼。和我一起打開真實的檔案，讓我看團隊的改動該放在哪裡，不該放在哪裡。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

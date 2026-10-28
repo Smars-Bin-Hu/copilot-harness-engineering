@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260">
+  <text class="label-muted" x="160" y="22" text-anchor="middle" data-t="agent-head">x</text>
+  <text class="label-muted" x="520" y="22" text-anchor="middle" data-t="person-head">x</text>
+  <rect class="box-plain" x="10" y="40" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="65" text-anchor="middle" data-t="a1">x</text>
+  <rect class="box-plain" x="10" y="90" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="115" text-anchor="middle" data-t="a2">x</text>
+  <rect class="box-plain" x="10" y="140" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="165" text-anchor="middle" data-t="a3">x</text>
+  <rect class="box-plain" x="10" y="190" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="215" text-anchor="middle" data-t="a4">x</text>
+  <rect class="box-lit" x="370" y="40" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="65" text-anchor="middle" data-t="p1">x</text>
+  <rect class="box-lit" x="370" y="90" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="115" text-anchor="middle" data-t="p2">x</text>
+  <rect class="box-lit" x="370" y="140" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="165" text-anchor="middle" data-t="p3">x</text>
+  <rect class="box-lit" x="370" y="190" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="215" text-anchor="middle" data-t="p4">x</text>
+  <path class="line" d="M315 135 H355"/>
+  <path class="head" d="M355 129 L365 135 L355 141 Z"/>
+</svg>

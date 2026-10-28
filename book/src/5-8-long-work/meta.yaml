@@ -1,0 +1,14 @@
+id: "5.8"
+part: flow
+title: {en: "Long work across sessions", zh-Hant: 跨會話的長任務}
+harness_tag: "1.5.50"
+wondering: [09-task-lifecycle]
+sources:
+  - what: "A goal kept as files (central idea, list of steps, progress pointer, change log, acceptance guides); one step at a time; a step passes only when the person says so; when the record and the disk disagree the disk wins; no code stops an agent that declares a pass itself"
+    where: harness goal-driven skill and docs/05-design.md (Long tasks), task lifecycle lesson (9.1, 9.3, 9.8) of the wondering course
+  - what: "Agents tried to do too much at once; a later instance would declare the job done; progress file, feature list and one feature at a time as the fix"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-27
+  - what: "Commit to git after each step; run a basic end-to-end test before new work in each session; feature list kept in JSON because the model is less likely to change JSON than Markdown"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-28

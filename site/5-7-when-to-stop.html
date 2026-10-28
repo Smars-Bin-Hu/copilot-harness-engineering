@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Unattended: when it must stop</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.7</p><h1><span data-l="en" lang="en">Unattended: when it must stop</span><span data-l="zh-Hant" lang="zh-Hant">無人值守：什麼時候必須停</span></h1></header><div data-l="en" lang="en"><p>This chapter picks up the unattended run from <a href="2-3-subagents.html">Use subagents sparingly</a>: a hook keeps the agent working down a to-do list while nobody watches. That chapter showed how it runs. This one is about how it ends.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接著 <a href="2-3-subagents.html">慎用子 agent</a> 裡的無人值守的執行：一個 hook 讓 agent 在沒人看著的時候，沿著待辦清單繼續做。那一章講它怎麼跑。這一章講它怎麼結束。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An unattended agent goes only as far as its stop rules reach. Set them in advance as a total budget, not only a step count, and guard against it declaring the job done too early.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>無人值守的 agent，只會走到停止規則所及的地方。事先設好規則，要設成總預算，不只是步數，並且防著它太早宣布完成。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> before approving an unattended run, set its stop rules in advance, as a total budget and not only a step count, and require a stop to hand back a reason.</li>
+<li><strong>The risk:</strong> when you leave, you stop being the stop rule. The run could loop for hours, spend a night's usage on a step that cannot succeed, or stop early and say it is finished. My setup has step and time limits but not a total budget yet, and I call unattended runs beta. I have not measured whether an unattended run beats a person watching to the end.</li>
+<li><strong>The cost of doing it right:</strong> a few rules and one budget number per task. The price of tight rules is more stops, and a person on call in the morning. A vague hand-back costs more time than watching would.</li>
+<li><strong>Ask the team:</strong> &quot;If this runs overnight and goes wrong, what stops it, and what will I find in the morning?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：批准無人值守的執行之前，先設好它的停止規則，要設成總預算，不只是步數，並要求每次停止都交回一個原因。</li>
+<li><strong>風險</strong>：你一離開，就不再是停止規則了。這次運行可能繞幾個小時，把一整晚的用量花在一個不可能成功的步驟上，也可能太早停下來還說自己做完了。我的設定有步數和時間的上限，但還沒有總預算，我也把無人值守的執行稱為 beta。無人值守的執行是否勝過有人看到最後，我沒有量過。</li>
+<li><strong>做對的成本</strong>：每個任務幾條規則和一個預算數字。規則緊的代價，是更多次停止，以及早上要有一個人待命。含糊的交回，花的時間比看著還多。</li>
+<li><strong>可以問團隊</strong>：「如果這個整晚在跑，結果出了問題，什麼會讓它停下來？早上我會看到什麼？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When you watch an agent, you are the stop rule. You see it go wrong and you press stop. When you leave, that rule leaves with you. What remains is whatever you wrote down before going.</p>
+<p>So the question for an unattended run is not &quot;will it work?&quot; It is &quot;what happens when it does not?&quot; It could loop for hours. It could spend a night's worth of usage on a step that cannot succeed. It could hit a choice that only you can make, and make it anyway. Or it could do the opposite: stop early and say it is finished.</p>
+<p>Each of these needs a different rule, set before you leave. There are three questions: when must it stop, what does it hand back, and how do we know it is really done.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你看著 agent 的時候，你就是停止規則。你看到它出錯，就按停止。你離開時，這條規則也跟著你走了。剩下的，就是你離開前寫下來的東西。</p>
+<p>所以對無人值守的執行，問題不是「它會成功嗎？」而是「它不成功的時候會怎樣？」它可能繞幾個小時。它可能把一整晚的用量花在一個不可能成功的步驟上。它可能碰到只有你能做的選擇，卻自己做了。或者反過來：太早停下來，說自己做完了。</p>
+<p>這幾種情況，各需要一條不同的規則，在你離開之前設好。有三個問題：它什麼時候必須停？它交回什麼？我們怎麼知道它真的做完了？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig steps" id="fig-5-7-stop-points" data-steps="6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <rect class="box" x="10" y="120" width="70" height="40" rx="8"/>
+  <text class="label" x="45" y="145" text-anchor="middle" data-t="start">start</text>
+  <path class="line" d="M80 140 H500"/>
+  <path class="head" d="M500 134 L510 140 L500 146 Z"/>
+  <rect class="box" x="510" y="120" width="80" height="40" rx="8"/>
+  <text class="label" x="550" y="145" text-anchor="middle" data-t="done">done</text>
+  <g data-step="2">
+  <path class="line-lit" d="M140 140 V119"/>
+  <rect class="box-lit" x="65" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="140" y="107" text-anchor="middle" data-t="budget">budget spent</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M250 140 V69"/>
+  <rect class="box-lit" x="175" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="250" y="57" text-anchor="middle" data-t="refuse">refused often</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M360 140 V119"/>
+  <rect class="box-lit" x="285" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="360" y="107" text-anchor="middle" data-t="stall">no progress</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M460 140 V69"/>
+  <rect class="box-lit" x="385" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="460" y="57" text-anchor="middle" data-t="choice">needs a person</text>
+  </g>
+  <g data-step="6">
+  <rect class="box-plain" x="40" y="195" width="520" height="44" rx="8"/>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="hand">At every stop the run hands back:</text>
+  <text class="label-muted" x="300" y="231" text-anchor="middle" data-t="hand2">why it stopped, where it is, what a person must decide</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">An unattended run goes along a road from the start to done, with nobody watching.</li><li data-step-text="2">Stop 1: the total budget (usage and time, main agent and helpers together) is spent.</li><li data-step-text="3">Stop 2: the agent keeps trying things it is not allowed to do.</li><li data-step-text="4">Stop 3: it pushes on but no step gets done.</li><li data-step-text="5">Stop 4: it reaches a choice that only a person can make.</li><li data-step-text="6">Whichever stop it hits, it hands back the reason, the place it reached and the open question.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>The run goes only as far as its stop rules reach. Each stop hands the work back with a reason.</figcaption></figure>
+<h3>1. Kinds of stop rule</h3>
+<p>Each rule catches a different way a run goes wrong. What is common to them: <strong>code judges them from facts, not the agent.</strong> An agent that is stuck is the worst judge of whether it is stuck.</p>
+<ul>
+<li><strong>The three basic rules.</strong> A cap on steps and time, a stop after the guardrails refuse the agent twice in a run, and a stop when no step gets ticked. They are in <a href="2-3-subagents.html">Use subagents sparingly</a>, with their numbers. (A <strong>step</strong> is one item on the to-do list. This stop rule is not the breaker of <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, which reacts to one refusal repeating inside a session.)</li>
+<li><strong>The plan changed.</strong> The person approved a plan; the run is allowed to carry out that plan. If the plan changes, the permission ends at once.</li>
+<li><strong>The checks are used up.</strong> The independent check keeps failing and its limit is reached (<a href="5-5-counted-checks.html">Make a pass count</a>).</li>
+<li><strong>The agent says it cannot go on.</strong> Some stops the facts cannot show: two tables define a field differently and the plan does not say which to use. Only the agent can see that. So it may stop itself, but only with a reason, and only for the cases that need a person, not for small choices.</li>
+</ul>
+<p>These are the numbers in my setup. They are examples, not wisdom: I chose them, and I have not measured whether they are the right ones.</p>
+<h3>2. A budget is a total, not a count</h3>
+<p>The rules above count things: steps and refusals. But what you are afraid of is <strong>spending</strong>. A count does not limit spending. Twenty small steps and twenty steps that each launch helpers are not the same bill.</p>
+<p>A <strong>budget</strong> is a total over usage and time, covering the main agent and all its helpers together. A helper gets what is left, not a new allowance of its own. When the first line is crossed, the run stops.</p>
+<p>Here is a way to build it; my own setup does not have it yet (it has the counts above and a time limit). The person sets one task-level budget, in usage and minutes. Before each step, a hook adds up the usage of the main session and every helper session from the platform's own session record. At the line it stops the run and writes &quot;budget&quot; as the reason. Whether helpers' usage shows up in the record in time to stop on, I have not checked.</p>
+<p>Usage is also not the same as money: input the provider has cached is read at about a tenth of the base price (<a href="1-1-models-and-cost.html">Models and cost</a>). I have not checked how Copilot bills it.</p>
+<p>Some tools already offer a simple version for non-interactive runs. Claude Code has <code>--max-turns</code> and <code>--max-budget-usd</code>, both for print mode (<code>claude -p</code>) only. The money cap is checked against a client-side estimate, not your bill, and can be passed; spend from subagents counts toward it, and once it is reached no new subagent can start (<a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>). I have not tried them.</p>
+<h3>3. What a stop hands back</h3>
+<p>A run that stops without saying why is a puzzle for the person who comes back. So a stop has to hand back three things:</p>
+<ol>
+<li><strong>Why it stopped</strong>, in a word the person can act on: budget, refused, no progress, needs a decision.</li>
+<li><strong>Where it is</strong>: the steps done, the step it was on, and the state of the work.</li>
+<li><strong>What a person has to decide</strong>, in one sentence.</li>
+</ol>
+<p>In my setup, the code writes the reason when it stops on facts, and the agent writes one sentence when it stops itself. The instruction for that sentence is: which step is stuck, why, and what you must decide. &quot;Ran into a problem&quot; is not enough.</p>
+<p>The decisions the agent made along the way matter too. For anything the plan left open and the agent chose, it writes a line: what it chose and why. That is the log a person reads on return, and it is what makes unattended work reviewable.</p>
+<h3>4. Guarding against &quot;done&quot; said too early</h3>
+<p>The failure on the other side is just as real. Anthropic described it in a long-running coding agent: &quot;a later agent instance would look around, see that progress had been made, and declare the job done&quot; (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>).</p>
+<p>The agent has a reason to say it is done: the stop is what it was asked for. So a run should not end when the agent says &quot;done&quot;. A tick on the list is itself only a claim, as the next paragraphs explain, so the end of a run goes by the facts:</p>
+<ul>
+<li><strong>Every step on the list is ticked.</strong></li>
+<li><strong>The independent check passed</strong>, counted by code, on the version of the work as it is now.</li>
+<li><strong>The plan is the one that was approved.</strong></li>
+<li><strong>The write-back plan is made</strong>, for a person to read (<a href="5-3-two-approvals.html">Two gates</a>).</li>
+</ul>
+<p>Only then is &quot;done&quot; a state, not a claim.</p>
+<p>This is not airtight. An agent can tick a step without finishing it. The checker reads the whole result at the end, and the person reads the whole diff, but nothing in code proves that step 7 was really done. I treat ticks as claims and the end-of-run check as the thing that counts.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><figure class="fig steps" id="fig-5-7-stop-points" data-steps="6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <rect class="box" x="10" y="120" width="70" height="40" rx="8"/>
+  <text class="label" x="45" y="145" text-anchor="middle" data-t="start">開始</text>
+  <path class="line" d="M80 140 H500"/>
+  <path class="head" d="M500 134 L510 140 L500 146 Z"/>
+  <rect class="box" x="510" y="120" width="80" height="40" rx="8"/>
+  <text class="label" x="550" y="145" text-anchor="middle" data-t="done">完成</text>
+  <g data-step="2">
+  <path class="line-lit" d="M140 140 V119"/>
+  <rect class="box-lit" x="65" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="140" y="107" text-anchor="middle" data-t="budget">預算用完</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M250 140 V69"/>
+  <rect class="box-lit" x="175" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="250" y="57" text-anchor="middle" data-t="refuse">常被拒絕</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M360 140 V119"/>
+  <rect class="box-lit" x="285" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="360" y="107" text-anchor="middle" data-t="stall">沒有進展</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M460 140 V69"/>
+  <rect class="box-lit" x="385" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="460" y="57" text-anchor="middle" data-t="choice">需要人決定</text>
+  </g>
+  <g data-step="6">
+  <rect class="box-plain" x="40" y="195" width="520" height="44" rx="8"/>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="hand">每次停下，都要交回：</text>
+  <text class="label-muted" x="300" y="231" text-anchor="middle" data-t="hand2">為什麼停、走到哪、人要決定什麼</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">無人值守的運行沿著一條路從開始走到完成，沒有人看著。</li><li data-step-text="2">停點 1：總預算（用量和時間，主 agent 和幫手合計）用完了。</li><li data-step-text="3">停點 2：agent 一再嘗試不被允許的事。</li><li data-step-text="4">停點 3：一直往前推，卻沒有完成任何一步。</li><li data-step-text="5">停點 4：遇到只有人才能做的選擇。</li><li data-step-text="6">不管在哪個停點停下，都交回原因、走到的位置和還沒決定的問題。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>運行只能走到停止規則管得到的地方。每個停點都帶著理由把工作交回來。</figcaption></figure>
+<h3>1. 停止規則的種類</h3>
+<p>每一條規則，抓的是運行出錯的一種方式。它們的共同點：<strong>由程式根據事實來判斷，不是由 agent</strong>。卡住的 agent，是判斷自己有沒有卡住最差的人。</p>
+<ul>
+<li><strong>三條基本規則</strong>。步數和時間的上限、一次運行中圍欄拒絕 agent 兩次就停止，以及沒有任何一步被勾掉時停止。它們和數字都在 <a href="2-3-subagents.html">慎用子 agent</a> 裡。（<strong>一步</strong>是待辦清單上的一項。這條停止規則，不是 <a href="4-3-guardrails.html">保護規則本身的檔案</a> 裡的斷路器，斷路器處理的是一個會話裡同一個拒絕一再重複。）</li>
+<li><strong>計畫變了</strong>。人批准的是一份計畫；這次運行只被允許執行那份計畫。計畫一變，許可立刻結束。</li>
+<li><strong>檢查用完了</strong>。獨立檢查一直失敗，到了它的上限（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
+<li><strong>agent 說它做不下去了</strong>。有些停止，事實顯示不出來：兩張表對同一個欄位的定義不同，計畫沒說該用哪個。只有 agent 看得到這一點。所以它可以自己停下來，但必須附上原因，而且只限於需要人的情況，不是為了小選擇。</li>
+</ul>
+<p>這些是我的設定裡的數字。它們是例子，不是智慧：是我選的，我沒有量過它們是不是對的。</p>
+<h3>2. 預算是總量，不是次數</h3>
+<p>上面的規則數的是東西：步數和拒絕次數。但你擔心的是<strong>花費</strong>。次數限制不了花費。二十個小步驟，和二十個各自啟動幫手的步驟，帳單不一樣。</p>
+<p><strong>預算</strong>是對用量和時間的總量，主 agent 和它所有的幫手合在一起算。幫手拿到的是剩下的，不是自己另有一份新的額度。越過第一條線，運行就停止。</p>
+<p>這裡有一種建法；我自己的設定還沒有（它有上面的次數和一個時間上限）。人設一個任務層級的預算，用量和分鐘數。每一步之前，一個 hook 從平台自己的會話紀錄，把主會話和每個幫手會話的用量加起來。到了那條線，它停止運行，並把「budget」寫成原因。幫手的用量會不會及時出現在紀錄裡，讓它來得及據以停止，我沒有檢查過。</p>
+<p>用量也不等於錢：供應商快取過的輸入，讀取的價格大約是基本價格的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。Copilot 怎麼計費，我沒有檢查過。</p>
+<p>有些工具已經為非互動的執行，提供了簡單的版本。Claude Code 有 <code>--max-turns</code> 和 <code>--max-budget-usd</code>，兩者都只用於 print 模式（<code>claude -p</code>）。金額上限是拿用戶端的估計值來比對，不是你的帳單，而且可能被超過；子 agent 的花費也算進去，一旦達到上限，就不能再啟動新的子 agent（<a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>）。我沒有試過它們。</p>
+<h3>3. 一次停止交回什麼</h3>
+<p>不說原因就停下來的運行，對回來的人是個謎。所以一次停止要交回三樣東西：</p>
+<ol>
+<li><strong>為什麼停止</strong>，用一個人能據以行動的詞：budget、refused、no progress、needs a decision。</li>
+<li><strong>現在在哪裡</strong>：做完的步驟、它正在做的那一步，以及工作的狀態。</li>
+<li><strong>人要決定什麼</strong>，用一句話。</li>
+</ol>
+<p>在我的設定裡，根據事實停止時，原因由程式寫；agent 自己停止時，由 agent 寫一句話。那一句話的指令是：哪一步卡住、為什麼、你必須決定什麼。「遇到了問題」不夠。</p>
+<p>agent 一路上做過的決定也很重要。計畫沒定、由 agent 選的任何事，它都寫一行：選了什麼、為什麼。人回來時讀的就是這份紀錄，也是它讓無人值守的工作可以被審查。</p>
+<h3>4. 防著太早說「做完了」</h3>
+<p>另一邊的失敗一樣真實。Anthropic 在一個長時間運行的寫程式 agent 上描述過：「後來的 agent 實例會看一圈，見到已經有進展，就宣布工作完成」（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。</p>
+<p>agent 有理由說自己做完了：停下來正是它被要求的。所以運行不應該在 agent 說「做完了」時結束。清單上的勾，本身也只是一個說法，下面幾段會解釋，所以運行的結束要看事實：</p>
+<ul>
+<li><strong>清單上的每一步都勾了</strong>。</li>
+<li><strong>獨立檢查通過了</strong>，由程式計數，對的是現在這個樣子的工作。</li>
+<li><strong>計畫就是被批准的那份</strong>。</li>
+<li><strong>寫回的計畫已經做好</strong>，給人讀（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
+</ul>
+<p>這時「做完了」才是一個狀態，不是一個說法。</p>
+<p>這並不密不透風。agent 可以勾掉一步卻沒做完。檢查者在最後讀整個結果，人讀整份 diff，但程式裡沒有任何東西證明第 7 步真的做了。我把勾當成說法，把運行結束時的檢查當成算數的東西。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More rules, fewer wins.</strong> A run with tight stop rules will stop on many nights and hand back little. The price of safe is a person on call in the morning. I have not measured whether an unattended run is better than a person watching to the end. In my setup it is still called beta for this reason.</p>
+<p><strong>A stop is not an answer.</strong> The run stops, and the work is half done. The snapshots taken at the gates (<a href="5-3-two-approvals.html">Two gates</a>) are where a person can look at the state it stopped in. If the hand-back is vague, it costs the person more time than watching would.</p>
+<p><strong>Some work should not run unattended at all.</strong> The three points of <a href="5-3-two-approvals.html">Two gates</a> apply: work that spends real money, grants power such as writing to a shared repository, or cannot be undone needs a person, however good the stop rules are.</p>
+<p><strong>Do not take a detour to avoid a refusal.</strong> A refusal is the system telling you a step is out of scope. The rule I give the agent is: change it once as the reason says; if that does not work, stop.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>規則越多，贏的越少</strong>。停止規則緊的運行，很多個晚上都會停下來，交回的很少。安全的代價，是早上要有一個人待命。無人值守的執行是否比有人看到最後更好，我沒有量過。在我的設定裡，它因此仍被稱為 beta。</p>
+<p><strong>停止不是答案</strong>。運行停了，工作只做了一半。在門上拍的快照（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），是人可以看它停下來時狀態的地方。如果交回得含糊，花掉人的時間比看著還多。</p>
+<p><strong>有些工作根本不該無人值守</strong>。<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 的那三個點適用：花真錢、給權力（例如寫入共用的倉庫）、或不能反悔的工作，不管停止規則多好，都需要人。</p>
+<p><strong>不要為了避開拒絕而繞路</strong>。拒絕是系統在告訴你，這一步超出範圍。我給 agent 的規則是：照原因說的改一次；如果不行，就停下來。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The stop rules exist because the platform does not provide them. If the platform gives you a total budget over the whole run, helpers included, use it. The stop-on-fact idea stays: the agent's &quot;I'm done&quot; is not a finish line.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>停止規則存在，是因為平台沒有提供它們。如果平台給你一個涵蓋整次運行、包括幫手的總預算，就用它。根據事實停止的想法會留下：agent 的「我做完了」不是終點線。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every place in this project where an agent can run without a person watching: scheduled jobs, CI steps that call an agent, auto-approve or autopilot settings, loops, background tasks. For each, tell me what stops it (a step or time limit, a spend limit, a refusal count, a check), whether the limit covers helper agents too, and what it leaves behind when it stops: reason, state, and the decision a person must make. Flag any run with no stop rule at all. Do not change any files and do not start any run.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個專案裡，agent 可以在沒有人看著的情況下執行的每個地方：排程的工作、呼叫 agent 的 CI 步驟、自動批准或 autopilot 的設定、迴圈、背景任務。對每一個，告訴我什麼讓它停下來（步數或時間上限、花費上限、拒絕次數、某個檢查）、這個上限有沒有涵蓋幫手 agent，以及它停下來時留下什麼：原因、狀態，以及人必須做的決定。標出完全沒有停止規則的運行。不要改任何檔案，也不要啟動任何運行。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a> (<code>--max-turns</code>, <code>--max-budget-usd</code>)</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>（<code>--max-turns</code>、<code>--max-budget-usd</code>）</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The stop rules, the facts that decide each stop, and what the agent writes when it stops itself all run in Copilot Harness (the unattended run is in beta there). The budget over helpers is not built yet. The harness can teach the rest from the inside, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Unattended: when it must stop&quot;. Teach me how this harness&#x27;s unattended run (autorun) decides when to stop (topics 11 and 15): the stop reasons, who judges each one, and what is handed back. Open the real files with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>停止規則、決定每次停止的事實，以及 agent 自己停止時寫下的東西，都在 Copilot Harness 裡執行（無人值守的執行在那裡是 beta）。涵蓋幫手的預算還沒做。其餘的，harness 可以從裡面教你，附上真實的檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「無人值守：什麼時候必須停」這一章。請教我這個 harness 的無人值守執行（autorun）怎麼決定什麼時候停止（主題 11 和 15）：有哪些停止的原因、每一個由誰判斷，以及交回什麼。帶我打開真實的檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
+  <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">x</text>
+  <text class="label-muted" x="300" y="52" text-anchor="middle" data-t="question">x</text>
+
+  <g data-step="1">
+    <path class="line" d="M300 60 V78 M90 78 H510 M90 78 V94 M230 78 V94 M370 78 V94 M510 78 V94"/>
+    <path class="head" d="M84 94 L90 104 L96 94 Z M224 94 L230 104 L236 94 Z M364 94 L370 104 L376 94 Z M504 94 L510 104 L516 94 Z"/>
+    <rect class="box" x="30" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="170" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="310" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="450" y="104" width="120" height="50" rx="8"/>
+    <text class="label" x="90" y="126" text-anchor="middle" data-t="mapper">x</text>
+    <text class="label" x="230" y="126" text-anchor="middle" data-t="mapper">x</text>
+    <text class="label" x="370" y="126" text-anchor="middle" data-t="mapper">x</text>
+    <text class="label" x="510" y="126" text-anchor="middle" data-t="mapper">x</text>
+    <text class="label-muted" x="90" y="145" text-anchor="middle" data-t="part1">x</text>
+    <text class="label-muted" x="230" y="145" text-anchor="middle" data-t="part2">x</text>
+    <text class="label-muted" x="370" y="145" text-anchor="middle" data-t="part3">x</text>
+    <text class="label-muted" x="510" y="145" text-anchor="middle" data-t="part4">x</text>
+  </g>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="30" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="170" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="310" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="450" y="160" width="120" height="8" rx="3"/>
+    <text class="label-muted" x="300" y="190" text-anchor="middle" data-t="same-time">x</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="55" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="195" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="335" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="475" y="206" width="70" height="30" rx="5"/>
+    <text class="label-muted" x="90" y="226" text-anchor="middle" data-t="summary">x</text>
+    <text class="label-muted" x="230" y="226" text-anchor="middle" data-t="summary">x</text>
+    <text class="label-muted" x="370" y="226" text-anchor="middle" data-t="summary">x</text>
+    <text class="label-muted" x="510" y="226" text-anchor="middle" data-t="summary">x</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M90 236 V256 M230 236 V256 M370 236 V256 M510 236 V256 M90 256 H510 M300 256 V270"/>
+    <path class="head-lit" d="M294 270 L300 280 L306 270 Z"/>
+    <rect class="box-lit" x="140" y="280" width="320" height="48" rx="8"/>
+    <text class="label-lit" x="300" y="302" text-anchor="middle" data-t="main">x</text>
+    <text class="label-muted" x="300" y="320" text-anchor="middle" data-t="answer">x</text>
+  </g>
+</svg>

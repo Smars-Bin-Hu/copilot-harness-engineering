@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <rect class="box" x="10" y="120" width="70" height="40" rx="8"/>
+  <text class="label" x="45" y="145" text-anchor="middle" data-t="start">x</text>
+  <path class="line" d="M80 140 H500"/>
+  <path class="head" d="M500 134 L510 140 L500 146 Z"/>
+  <rect class="box" x="510" y="120" width="80" height="40" rx="8"/>
+  <text class="label" x="550" y="145" text-anchor="middle" data-t="done">x</text>
+  <g data-step="2">
+  <path class="line-lit" d="M140 140 V119"/>
+  <rect class="box-lit" x="65" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="140" y="107" text-anchor="middle" data-t="budget">x</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M250 140 V69"/>
+  <rect class="box-lit" x="175" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="250" y="57" text-anchor="middle" data-t="refuse">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M360 140 V119"/>
+  <rect class="box-lit" x="285" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="360" y="107" text-anchor="middle" data-t="stall">x</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M460 140 V69"/>
+  <rect class="box-lit" x="385" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="460" y="57" text-anchor="middle" data-t="choice">x</text>
+  </g>
+  <g data-step="6">
+  <rect class="box-plain" x="40" y="195" width="520" height="44" rx="8"/>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="hand">x</text>
+  <text class="label-muted" x="300" y="231" text-anchor="middle" data-t="hand2">x</text>
+  </g>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="10" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="60" y="64" text-anchor="middle" data-t="c1">x</text>
+  <text class="label" x="60" y="84" text-anchor="middle" data-t="c1v">x</text>
+  <text class="label" x="60" y="150" text-anchor="middle" data-t="n1">x</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M110 68 H120"/>
+  <path class="head" d="M120 62 L130 68 L120 74 Z"/>
+  <rect class="box" x="125" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="175" y="64" text-anchor="middle" data-t="c2">x</text>
+  <text class="label" x="175" y="84" text-anchor="middle" data-t="c2v">x</text>
+  <text class="label" x="175" y="150" text-anchor="middle" data-t="n2">x</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M225 68 H235"/>
+  <path class="head" d="M235 62 L245 68 L235 74 Z"/>
+  <rect class="box" x="240" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="290" y="64" text-anchor="middle" data-t="c3">x</text>
+  <text class="label" x="290" y="84" text-anchor="middle" data-t="c3v">x</text>
+  <text class="label" x="290" y="150" text-anchor="middle" data-t="n3">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M340 68 H350"/>
+  <path class="head" d="M350 62 L360 68 L350 74 Z"/>
+  <rect class="box-lit" x="355" y="40" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="405" y="64" text-anchor="middle" data-t="c4">x</text>
+  <text class="label-lit" x="405" y="84" text-anchor="middle" data-t="c4v">x</text>
+  <text class="label-lit" x="405" y="150" text-anchor="middle" data-t="n4">x</text>
+  </g>
+  <g data-step="5">
+  <path class="line" d="M455 68 H465"/>
+  <path class="head" d="M465 62 L475 68 L465 74 Z"/>
+  <rect class="box-plain" x="470" y="40" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="530" y="64" text-anchor="middle" data-t="edit">x</text>
+  <text class="label-muted" x="530" y="84" text-anchor="middle" data-t="edit2">x</text>
+  <text class="label-muted" x="530" y="150" text-anchor="middle" data-t="n5">x</text>
+  </g>
+  <text class="label-muted" x="300" y="195" text-anchor="middle" data-t="axis">x</text>
+</svg>

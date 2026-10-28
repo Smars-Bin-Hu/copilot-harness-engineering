@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Is the map right? A blind audit</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.3</p><h1><span data-l="en" lang="en">Is the map right? A blind audit</span><span data-l="zh-Hant" lang="zh-Hant">地圖對不對：盲抽查</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-2-kb-toolkit.html">The toolkit</a>. It is step three of the road. The ideas of recall and precision are explained in plain words here; you need no statistics. The method is not tied to code maps: it fits any list a model or a script produces that you can check against a source.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a> 後面。它是路線的第三步。召回率和精確率的意思，這裡用白話解釋；你不需要懂統計。這個方法不限於程式碼地圖：任何由模型或腳本產生、而你能拿原始資料來檢查的清單，都適用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>No map of code is complete, but you can measure how accurate it is and where it is blind. Take a sample of objects, have an agent read them blind, check every difference at its line, and compare with the map.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>沒有程式碼的地圖是完整的，但你可以量它有多準，以及它在哪裡看不見。抽一批物件的樣本，讓 agent 盲讀，在每一處差異的那一行去檢查，再和地圖比較。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require that the map of the code is measured before anyone learns from it, and set the pass bar. I use 0.95, a line I chose and did not derive.</li>
+<li><strong>The risk:</strong> a map can find the ten uses you knew and still miss a third of the rest, and every note built on it inherits the hole. A pass on a sample of 20 to 40 objects is a floor for starting, not a proof.</li>
+<li><strong>The cost of doing it right:</strong> an agent reads 20 to 40 sampled objects, once per toolkit change, and a person or script checks every difference at its line.</li>
+<li><strong>Ask the team:</strong> &quot;How many uses does our map miss or invent, and how was that measured by a reader that never saw the map?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要求在任何人拿程式碼地圖去學之前，先把地圖量過，並定下合格線。我用 0.95，這是我選的線，不是推導出來的。</li>
+<li><strong>風險</strong>：地圖可以找到你知道的那十個使用，卻漏掉其餘的三分之一，而建在它上面的每份筆記，都繼承這個洞。在 20 到 40 個物件的樣本上通過，是開始的底線，不是證明。</li>
+<li><strong>做對的成本</strong>：每次 toolkit 改動，一個 agent 讀 20 到 40 個抽樣的物件，一次；再由人或腳本在每一處差異的那一行去檢查。</li>
+<li><strong>可以問團隊</strong>：「我們的地圖漏掉或編造了多少使用？這是被一個從沒看過地圖的讀者怎麼量出來的？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You built a map (<a href="8-2-kb-toolkit.html">the toolkit</a>). The five or ten known uses are all found. Can you trust it?</p>
+<p>Not yet. Those known uses prove the toolkit <em>can</em> find a use. They say nothing about how many it misses, or whether some of what it found is not there. A map that finds the 10 uses you knew and misses a third of the rest looks perfect on that test.</p>
+<p>If you learn from a map that misses a third of the uses, every card built on it inherits the hole. So measure first. The audit is the measuring.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你建了一張地圖（<a href="8-2-kb-toolkit.html">toolkit</a>）。五、六個已知的使用全找到了。你能信它嗎？</p>
+<p>還不能。那些已知的使用只證明 toolkit <em>找得到</em>一個使用。它們沒說漏掉多少，也沒說找到的有沒有不存在的。一張找到你知道的那 10 個使用、卻漏掉其餘三分之一的地圖，在那個測試上看起來是完美的。</p>
+<p>如果你從一張漏掉三分之一使用的地圖去學，建在它上面的每張卡片都繼承這個洞。所以先量。抽查就是在量。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The idea: ask an independent reader, then compare</h3>
+<p>The map is one opinion about what the code says. Get a second opinion that does not copy the first. An agent reads the code of some objects and writes down every use it sees. Then we compare the two lists.</p>
+<p>For that second opinion to be worth anything, it must be <strong>blind</strong>. The agent writes down every use it finds <em>before</em> it looks at the map. A reading made after looking at the map copies the map. The two lists then agree because one was copied from the other, and the audit measures nothing. The same reasoning is behind an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>): the checker must not see the thing it is checking.</p>
+<h3>What gets sampled</h3>
+<p>A script picks the sample: a few objects of each type (for example 5 per type, so about 20 to 40 in all). It hands the agent only the file and line range of each object, not its uses. The sample is picked at random with a <strong>seed</strong> (a number that fixes the random choice), so a second audit with another seed picks different objects.</p>
+<h3>Reading blind</h3>
+<p>For each object the agent reads its lines and writes one record per use: what it uses, which kind of use, and the line number. If an object uses nothing, it writes &quot;none&quot;. Two special cases:</p>
+<ul>
+<li>A name built at run time: the agent writes what is fixed and marks it <strong>dynamic</strong>. It is not scored.</li>
+<li>A short name that could mean several objects: the agent writes it in full, with the database or package it resolves to. Otherwise the score cannot tell if the map picked the right one.</li>
+</ul>
+<h3>Recall and precision, in plain words</h3>
+<p>Think of a library with a card catalogue. The shelves are the code. The catalogue is the map.</p>
+<ul>
+<li><strong>Recall</strong> asks: of the books on the shelves, how many are in the catalogue? Low recall means the map <strong>missed</strong> things.</li>
+<li><strong>Precision</strong> asks: of the entries in the catalogue, how many are really on the shelves? Low precision means the map <strong>made things up</strong>.</li>
+</ul>
+<p>Each is a fraction. An example to show the arithmetic, not a result: suppose the code has 20 uses in the sample, and the map lists 22 entries: 19 of the 20, plus 3 that are not real. Recall is 19 out of 20, which is 0.95. Precision is 19 out of 22, which is about 0.86. The &quot;20&quot; is not known for certain either: it is the blind reader's list after every difference was checked (next section), so these numbers are estimates of the truth.</p>
+<figure class="fig" id="fig-8-3-blind-vs-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">only the reader</text>
+  <text class="label-muted" x="100" y="80" text-anchor="middle" data-t="miss-note">map missed it</text>
+
+  <rect class="box-lit" x="200" y="20" width="200" height="90" rx="8"/>
+  <text class="label-lit" x="300" y="58" text-anchor="middle" data-t="both">both have it</text>
+  <text class="label-lit" x="300" y="80" text-anchor="middle" data-t="both-note">agreement</text>
+
+  <rect class="box-plain" x="410" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="500" y="58" text-anchor="middle" data-t="fake">only the map</text>
+  <text class="label-muted" x="500" y="80" text-anchor="middle" data-t="fake-note">in the code?</text>
+
+  <path class="line" d="M10 130 V140 H400 V130"/>
+  <text class="label" x="205" y="164" text-anchor="middle" data-t="recall">recall: share of found uses on the map</text>
+  <text class="label-muted" x="205" y="182" text-anchor="middle" data-t="recall-note">the reader&#x27;s list = left + middle</text>
+
+  <path class="line" d="M200 196 V206 H590 V196"/>
+  <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">precision: share of map uses that are real</text>
+</svg>
+<figcaption>Two lists of uses for the same objects. Every difference is looked up again at its line, because the reader can be wrong too.</figcaption></figure>
+<p>You need both. A map can have perfect recall by listing everything, true or not. It can have perfect precision by listing three safe uses. Only the pair tells you the truth. And they are scored <strong>per type</strong>, because a toolkit can be good at one kind of object and poor at another, and an average hides that.</p>
+<h3>The reader can be wrong too</h3>
+<p>This is the part I want to be plain about. The blind reader is a model. It can misread, miss a use, or invent one. If we scored raw differences, we would blame the map for the reader's mistakes.</p>
+<p>So after scoring, <strong>every difference is checked again at its line</strong>:</p>
+<ul>
+<li><strong>In the map but not in the reader's list.</strong> Look in the file. If the use is there, the reader missed it: add it to the reader's list and write a note. If it is not there, it is a false use in the map.</li>
+<li><strong>In the reader's list but not in the map.</strong> Look at the line again. If the reader was wrong, correct the list and write a note. If the use is there, it is a real miss of the map.</li>
+</ul>
+<p>Then score again. Only what is left counts against the map. The notes about the reader's own mistakes stay in the report. They tell you how far a reading can be trusted, which is itself useful.</p>
+<h3>The bar, and what to do with the differences</h3>
+<p>The bar I use is 0.95 for both recall and precision, in every type. This is a line I chose; I did not derive it. Below it, the audit fails for that type. The line should depend on what a mistake costs: a missed use leaves a card without a relation, a made-up use adds a relation that is not there, and an object on shared data deserves a higher bar. I did not weigh recall and precision differently. With 20 to 40 objects, 0.95 and 0.90 cannot be told apart; the audit shows large gaps, not small ones.</p>
+<p>A failure is not bad news. The differences are a list of real examples of what the toolkit gets wrong, each with a file and a line. Look for what they have in common: one form of call, one kind of file. Those are the examples to fix the extractor with. Then audit again with another seed, so you do not tune the toolkit to one lucky sample.</p>
+<h3>What no map sees</h3>
+<p>Some uses are out of reach of any static map, however good:</p>
+<ul>
+<li>SQL built as a string at run time and then executed;</li>
+<li>calls driven by a row in a configuration table;</li>
+<li>a package or class chosen by a variable;</li>
+<li>synonyms and linked servers the toolkit was not taught.</li>
+</ul>
+<p>These are marked, not guessed. A name that resolves to something outside the repository is marked <strong>outside</strong>; one that is built at run time is marked <strong>dynamic</strong>. Each becomes an entry in the requests list (<a href="8-5-kb-keep-true.html">8.5</a>), so that a person can answer it with a read-only query against the real system.</p>
+<h3>What the report looks like</h3>
+<p>The audit ends in one report: the pass or fail, the score per type, every miss and false use with its file and line, the patterns, and the readings that were corrected.</p>
+<details class="code"><summary>The audit report template: result, score per type, misses, false uses, patterns, corrected readings, what was not counted.</summary><pre><code class="language-markdown"># Map audit
+
+Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
+
+Result: **pass** | **fail**
+
+## Score per type
+
+| Type | Objects | Uses read | Uses in the map | Both | Recall | Precision | Pass |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+## The map&#x27;s misses (in the code, not in the map)
+
+| Object | Use | Path:line | Why the toolkit misses it |
+| --- | --- | --- | --- |
+
+## The map&#x27;s false uses (in the map, not in the code)
+
+| Object | Use | Path | Why the toolkit sees it |
+| --- | --- | --- | --- |
+
+## Patterns
+
+- &lt;one line per form the toolkit gets wrong, with how common it looks in the code&gt;
+
+## Names the map could not place (`unresolved` of `kb map`, most used)
+
+- &lt;name: used by n; what it is&gt;
+
+## Readings corrected after checking the line
+
+- &lt;object, use: what was misread. Or &quot;none&quot;&gt;
+
+## Not counted
+
+- Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
+<h3>Test your own setup</h3>
+<ol>
+<li>Take your map. Pick 5 objects of each type at random.</li>
+<li>In a fresh chat, without showing the map, ask an agent to list every use in each, with line numbers.</li>
+<li>Compare. Check each difference at its line.</li>
+<li>Compute recall and precision per type, as above.</li>
+<li>Repeat with another random sample and see if the numbers move.</li>
+</ol>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>想法：問一個獨立的讀者，再比較</h3>
+<p>地圖是對程式碼說了什麼的一個意見。要拿到不抄第一個的第二個意見。一個 agent 讀某些物件的程式碼，寫下它看到的每個使用。然後我們比較兩份清單。</p>
+<p>這第二個意見要有價值，它必須是<strong>盲</strong>的。agent 在看地圖<em>之前</em>，就寫下它找到的每個使用。看過地圖之後做的解讀，會抄地圖。兩份清單一致，是因為一份抄自另一份，抽查就什麼也量不到。獨立 reviewer 背後也是同樣的道理（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）：檢查者不能看到它檢查的東西。</p>
+<h3>抽什麼樣本</h3>
+<p>一個腳本挑出樣本：每種類型挑幾個物件（例如每種 5 個，所以全部約 20 到 40 個）。它只把每個物件的檔案和行的範圍交給 agent，不給它的使用。樣本用一個<strong>種子</strong>（固定隨機選擇的一個數字）隨機挑，所以用另一個種子的第二次抽查，會挑出不同的物件。</p>
+<h3>盲讀</h3>
+<p>對每個物件，agent 讀它的那幾行，每個使用寫一筆紀錄：它用了什麼、哪一種使用，以及行號。如果一個物件什麼都沒用，就寫「none」。兩個特殊情況：</p>
+<ul>
+<li>執行時才組出來的名字：agent 寫下固定的部分，並標成<strong>動態</strong>。它不計分。</li>
+<li>可能指幾個物件的短名字：agent 寫完整，附上它解析到的資料庫或套件。不然計分的時候，看不出地圖有沒有選對。</li>
+</ul>
+<h3>召回率和精確率，用白話說</h3>
+<p>想像一個有卡片目錄的圖書館。書架是程式碼。目錄是地圖。</p>
+<ul>
+<li><strong>召回率</strong>問：書架上的書，有幾本在目錄裡？召回率低，表示地圖<strong>漏掉</strong>了東西。</li>
+<li><strong>精確率</strong>問：目錄裡的條目，有幾條真的在書架上？精確率低，表示地圖<strong>編造</strong>了東西。</li>
+</ul>
+<p>兩者都是分數。舉個例子來看算術，不是結果：假設樣本裡的程式碼有 20 個使用，地圖列了 22 條：20 個裡的 19 個，加上 3 個不是真的。召回率是 20 個裡的 19 個，也就是 0.95。精確率是 22 條裡的 19 條，大約 0.86。這個「20」也不是確定知道的：它是盲讀者的清單，在每一處差異都檢查過之後（下一節），所以這些數字是對真相的估計。</p>
+<figure class="fig" id="fig-8-3-blind-vs-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">只有盲讀的人有</text>
+  <text class="label-muted" x="100" y="80" text-anchor="middle" data-t="miss-note">地圖漏了</text>
+
+  <rect class="box-lit" x="200" y="20" width="200" height="90" rx="8"/>
+  <text class="label-lit" x="300" y="58" text-anchor="middle" data-t="both">兩邊都有</text>
+  <text class="label-lit" x="300" y="80" text-anchor="middle" data-t="both-note">吻合</text>
+
+  <rect class="box-plain" x="410" y="20" width="180" height="90" rx="8"/>
+  <text class="label" x="500" y="58" text-anchor="middle" data-t="fake">只有地圖有</text>
+  <text class="label-muted" x="500" y="80" text-anchor="middle" data-t="fake-note">程式碼裡有嗎？</text>
+
+  <path class="line" d="M10 130 V140 H400 V130"/>
+  <text class="label" x="205" y="164" text-anchor="middle" data-t="recall">召回：讀的人找到的「用」，地圖有多少</text>
+  <text class="label-muted" x="205" y="182" text-anchor="middle" data-t="recall-note">讀的人的清單 = 左 + 中</text>
+
+  <path class="line" d="M200 196 V206 H590 V196"/>
+  <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">精度：地圖裡的「用」，有多少是真的</text>
+</svg>
+<figcaption>同一批物件的兩份「用」清單。每個差異都回到原行再看一次，因為讀的人也可能錯。</figcaption></figure>
+<p>兩個都需要。一張地圖把所有東西都列出來，不管真假，召回率就可以是滿分。它只列三個保險的使用，精確率就可以是滿分。只有兩個放在一起，才說出真相。而且它們是<strong>每種類型</strong>分開計分的，因為 toolkit 可能對一種物件很好、對另一種很差，平均會把這點藏起來。</p>
+<h3>讀者也可能錯</h3>
+<p>這是我想說清楚的部分。盲讀者是一個模型。它可能讀錯、漏掉一個使用，或編造一個。如果我們對原始的差異計分，我們就會把讀者的錯怪到地圖頭上。</p>
+<p>所以計分之後，<strong>每一處差異都在它的那一行再檢查一次</strong>：</p>
+<ul>
+<li><strong>在地圖裡，但不在讀者的清單裡</strong>。去檔案裡看。如果使用在那裡，是讀者漏掉了：把它加進讀者的清單，並寫一則備註。如果不在那裡，它就是地圖裡一個假的使用。</li>
+<li><strong>在讀者的清單裡，但不在地圖裡</strong>。再看一次那一行。如果讀者錯了，修正清單並寫一則備註。如果使用在那裡，那就是地圖真正漏掉的。</li>
+</ul>
+<p>然後再計一次分。只有剩下的，才算在地圖頭上。關於讀者自己犯的錯的備註，留在報告裡。它們告訴你一份解讀能信到什麼程度，這本身就有用。</p>
+<h3>合格線，以及差異怎麼處理</h3>
+<p>我用的線，是每種類型的召回率和精確率都 0.95。這是我選的線；不是推導出來的。低於它，那種類型的抽查就失敗。這條線應該取決於出錯的代價：漏掉的使用，讓一張卡片少了一個關係；編造的使用，多加了一個不存在的關係；碰到共用資料的物件，值得更高的線。我沒有給召回率和精確率不同的權重。樣本是 20 到 40 個物件時，0.95 和 0.90 分不出來；抽查看得出大的差距，看不出小的。</p>
+<p>失敗不是壞消息。這些差異是一份真實例子的清單，說明 toolkit 哪裡做錯了，每個都有檔案和行號。找出它們的共同點：一種呼叫的寫法、一種檔案。這些就是修抽取器用的例子。然後用另一個種子再抽查一次，這樣你就不會只對一個幸運的樣本調校 toolkit。</p>
+<h3>沒有地圖看得到的</h3>
+<p>有些使用，任何靜態地圖都碰不到，不管它多好：</p>
+<ul>
+<li>執行時組成字串、再執行的 SQL；</li>
+<li>由設定表裡的一列驅動的呼叫；</li>
+<li>由變數選擇的套件或類別；</li>
+<li>toolkit 沒被教過的同義詞（synonym）和連結的伺服器。</li>
+</ul>
+<p>這些要標出來，不要猜。解析到倉庫之外的名字，標成<strong>外部</strong>；執行時才組出來的，標成<strong>動態</strong>。每一個都變成請求清單裡的一個條目（<a href="8-5-kb-keep-true.html">8.5</a>），讓人可以用對真實系統的唯讀查詢來回答它。</p>
+<h3>報告長什麼樣</h3>
+<p>抽查以一份報告結束：通過或失敗、每種類型的分數、每個漏掉和假的使用及其檔案和行號、規律，以及被修正過的解讀。</p>
+<details class="code"><summary>抽查報告的範本：結果、每種類型的分數、漏掉的、假的使用、規律、被修正的解讀，以及沒有計入的部分。</summary><pre><code class="language-markdown"># Map audit
+
+Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
+
+Result: **pass** | **fail**
+
+## Score per type
+
+| Type | Objects | Uses read | Uses in the map | Both | Recall | Precision | Pass |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+## The map&#x27;s misses (in the code, not in the map)
+
+| Object | Use | Path:line | Why the toolkit misses it |
+| --- | --- | --- | --- |
+
+## The map&#x27;s false uses (in the map, not in the code)
+
+| Object | Use | Path | Why the toolkit sees it |
+| --- | --- | --- | --- |
+
+## Patterns
+
+- &lt;one line per form the toolkit gets wrong, with how common it looks in the code&gt;
+
+## Names the map could not place (`unresolved` of `kb map`, most used)
+
+- &lt;name: used by n; what it is&gt;
+
+## Readings corrected after checking the line
+
+- &lt;object, use: what was misread. Or &quot;none&quot;&gt;
+
+## Not counted
+
+- Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
+<h3>測你自己的設定</h3>
+<ol>
+<li>拿你的地圖。每種類型隨機挑 5 個物件。</li>
+<li>在全新的對話裡，不給它看地圖，請 agent 列出每個物件裡的每個使用，附上行號。</li>
+<li>比較。每一處差異都在它的那一行檢查。</li>
+<li>如上面那樣，每種類型計算召回率和精確率。</li>
+<li>用另一個隨機樣本再做一次，看數字會不會動。</li>
+</ol>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>A sample is a sample.</strong> The audit cannot see types or forms that are not in it. If a rare form matters, take more objects per type, or pick them by hand.</li>
+<li><strong>The audit reads about 20 to 40 objects.</strong> That is real tokens, spent once per toolkit change.</li>
+<li><strong>The blind rule is easy to break.</strong> If the agent opens the map &quot;just to check&quot;, the audit is spoiled. Hold the line.</li>
+<li><strong>Passing 0.95 is not safety.</strong> It is a statement about the sample. I treat it as a floor for starting to learn, not as a proof.</li>
+<li><strong>The reader and the toolkit may share a blind spot.</strong> They are both built by models, so they could miss the same odd form. Checking every difference at its line helps, but cannot catch a use both overlooked. Two cheap ways to reduce it: use a different model or prompt for the reader, and have a person read a few objects by hand as an anchor.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>樣本就是樣本</strong>。抽查看不到不在樣本裡的類型或寫法。如果某個少見的寫法很重要，每種類型多拿一些物件，或者用手挑。</li>
+<li><strong>抽查要讀約 20 到 40 個物件</strong>。那是真的 token，每次 toolkit 改動花一次。</li>
+<li><strong>盲讀的規則很容易破</strong>。如果 agent「只是為了確認」打開了地圖，抽查就毀了。守住那條線。</li>
+<li><strong>過了 0.95 不等於安全</strong>。它只是對樣本的一個說法。我把它當成開始學習的底線，不是證明。</li>
+<li><strong>讀者和 toolkit 可能有共同的盲點</strong>。它們都是模型建的，所以可能漏掉同一個奇怪的寫法。每一處差異都在它的那一行檢查，有幫助，但抓不到兩者都忽略的使用。兩個便宜的減少辦法：讀者用不同的模型或 prompt，並讓人手動讀幾個物件當作錨點。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If the map comes from a tool whose accuracy has been measured by someone else, on code like yours, skip the audit. Otherwise rerun it whenever the toolkit changes.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果地圖來自一個準確度已經被別人量過的工具，而且是在和你相似的程式碼上，就跳過抽查。否則，每次 toolkit 改動就重跑一次。</p>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="8-2-kb-toolkit.html">The toolkit</a>: where the map comes from.</li>
+<li><a href="8-4-kb-learning.html">Learning in batches</a>: the next step, and where a missed use found later goes back to the toolkit.</li>
+<li><a href="5-6-model-checks-model.html">A model checking a model</a>: why the second reader must not see the first.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>：地圖從哪裡來。</li>
+<li><a href="8-4-kb-learning.html">分批學一個領域</a>：下一步，以及之後發現漏掉的使用，怎麼回到 toolkit。</li>
+<li><a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>：為什麼第二個讀者不能看到第一個。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has an audit that samples, scores per type and lists every difference with its line. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Is the map right? A blind audit&quot;. Teach me topic 16, part 16.3: how the audit samples objects, why the reading must be blind, and how a score is worked out. Open the audit skill with me and walk through one example of checking a difference at its line.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有一個抽查，會抽樣、每種類型計分，並列出每一處差異及其行號。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「地圖對不對：盲抽查」這一章。請教我主題 16 的 16.3：抽查怎麼抽物件、為什麼解讀必須是盲的，以及分數是怎麼算出來的。和我一起打開抽查的 skill，走一遍在某一行檢查一處差異的例子。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

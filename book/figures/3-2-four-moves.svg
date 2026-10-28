@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <text class="label-muted" x="20" y="24" data-t="cheap">x</text>
+  <text class="label-muted" x="580" y="24" text-anchor="end" data-t="drastic">x</text>
+  <path class="line" d="M20 36 H570"/>
+  <path class="head" d="M570 30 L580 36 L570 42 Z"/>
+  <rect class="box-lit" x="20" y="60" width="130" height="80" rx="6"/>
+  <text class="label-lit" x="85" y="94" text-anchor="middle" data-t="m1a">x</text>
+  <text class="label-lit" x="85" y="116" text-anchor="middle" data-t="m1b">x</text>
+  <rect class="box" x="163" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="228" y="94" text-anchor="middle" data-t="m2a">x</text>
+  <text class="label" x="228" y="116" text-anchor="middle" data-t="m2b">x</text>
+  <rect class="box" x="306" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="371" y="94" text-anchor="middle" data-t="m3a">x</text>
+  <text class="label" x="371" y="116" text-anchor="middle" data-t="m3b">x</text>
+  <rect class="box" x="449" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="514" y="94" text-anchor="middle" data-t="m4a">x</text>
+  <text class="label" x="514" y="116" text-anchor="middle" data-t="m4b">x</text>
+  <text class="label-muted" x="85" y="170" text-anchor="middle" data-t="k1">x</text>
+  <text class="label-muted" x="228" y="170" text-anchor="middle" data-t="k2">x</text>
+  <text class="label-muted" x="371" y="170" text-anchor="middle" data-t="k3">x</text>
+  <text class="label-muted" x="514" y="170" text-anchor="middle" data-t="k4">x</text>
+  <text class="label-muted" x="300" y="210" text-anchor="middle" data-t="all">x</text>
+</svg>

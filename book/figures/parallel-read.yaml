@@ -1,0 +1,32 @@
+en:
+  main: the main agent
+  question: "a question with a lot to read"
+  mapper: mapper
+  part1: reads part 1
+  part2: reads part 2
+  part3: reads part 3
+  part4: reads part 4
+  same-time: "all at the same time"
+  summary: summary
+  answer: "one answer, from the summaries"
+  step-1: "Map: the main agent splits the reading into parts and starts one mapper per part."
+  step-2: "Each mapper reads only its part. They all read at the same time."
+  step-3: "Each hands back a short summary. The raw material stays with the mapper."
+  step-4: "Reduce: the main agent reads only the summaries and combines them into one answer."
+  caption: "Map-reduce: split the reading, read in parallel, combine the summaries. The main agent's context holds only the summaries."
+zh-Hant:
+  main: 主 agent
+  question: "一個要讀很多東西的問題"
+  mapper: mapper
+  part1: 讀第 1 份
+  part2: 讀第 2 份
+  part3: 讀第 3 份
+  part4: 讀第 4 份
+  same-time: "同時進行"
+  summary: 摘要
+  answer: "根據摘要，得出一個答案"
+  step-1: "Map：主 agent 把要讀的東西分成幾份，每份開一個 mapper。"
+  step-2: "每個 mapper 只讀自己那一份，大家同時讀。"
+  step-3: "每個 mapper 交回一份簡短的摘要，原始材料留在它那裡。"
+  step-4: "Reduce：主 agent 只讀摘要，把它們合成一個答案。"
+  caption: "Map-reduce：把閱讀拆開、並行地讀、再合併摘要。主 agent 的上下文裡只有摘要。"

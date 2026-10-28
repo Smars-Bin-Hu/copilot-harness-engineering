@@ -1,0 +1,15 @@
+id: "0.1"
+part: start
+core: true
+title: {en: "The gap is outside the model", zh-Hant: "差距在模型外面"}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop]
+sources:
+  - what: "Same model (gpt-5.2-codex), only the harness changed: Terminal Bench 2.0 from 52.8% to 66.5%"
+    where: https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering
+    checked: 2026-10-27
+  - what: "Two failure modes of long-running agents: trying to do too much at once, and declaring the job done too early"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-27
+  - what: "The seven-layer frame (model, tools, runtime, context, control, flow, evidence) and the three kinds of failure"
+    where: the author's own framework

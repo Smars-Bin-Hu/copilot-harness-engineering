@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Choosing a model: cost per finished task</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">1.1</p><h1><span data-l="en" lang="en">Choosing a model: cost per finished task</span><span data-l="zh-Hant" lang="zh-Hant">選模型：算的是每次成功的成本</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and have seen a usage or billing page for it. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過 AI 寫程式 agent，並且看過它的用量或帳單頁面。其他都不用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Judge a model by what it costs to get one task done, not by its price per token. Most of the cost is what the model reads, so reading less and redoing less saves the most.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>評斷模型，看的是做完一個任務要花多少，不是每個 token 的單價。大部分的成本是模型在讀的東西，所以少讀、少重做，省得最多。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> judge models and setups by what it costs to finish one task, not by the price per token. And when a result is bad, try the cheaper fixes (missing rule, missing check, lost thread) before paying for a bigger model.</li>
+<li><strong>The risk:</strong> in a long agent task most of the tokens are the model re-reading the same material. In my worked example, with round numbers I chose, reading was over 90% of the tokens. A cache can cut the bill a lot, but only while the start of the input stays unchanged.</li>
+<li><strong>The cost of doing it right:</strong> mostly setup time and a habit of measuring. A fair model comparison is a few tasks, run about three times each.</li>
+<li><strong>Ask the team:</strong> &quot;What does one finished task cost us, and when did we last check that number?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：評斷模型和設定，看做完一個任務的成本，不看每個 token 的單價。結果不好的時候，先試比較便宜的修法（缺一條規則、缺一道檢查、丟了線索），再考慮付錢換更大的模型。</li>
+<li><strong>風險</strong>：長的 agent 任務裡，大部分 token 是模型在重讀同樣的材料。在我的例子裡，數字是我挑的整數，讀的部分占了 token 的九成以上。快取（cache）可以大幅降低帳單，但只在輸入的開頭保持不變時才有用。</li>
+<li><strong>做對的成本</strong>：主要是設定的時間，加上量測的習慣。公平的模型比較，是幾個任務，每個跑大約三次。</li>
+<li><strong>可以問團隊</strong>：「我們做完一個任務要花多少？上次確認這個數字是什麼時候？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A model comparison usually starts with a price list: so many dollars per million tokens. It is the number you can look up, so it is the number people use. But you never buy tokens for their own sake. You buy a task finished: a bug fixed, a report written. What matters is the total for that.</p>
+<p>Two things make the price list a poor guide. A cheap model that fails the task and has to be asked again may cost more than a strong one that gets it right the first time. And in an agent, the number of tokens is not what you expect, as the next section shows.</p>
+<h3>Five words first</h3>
+<ul>
+<li>A <strong>token</strong> is a small piece of text, roughly a short word or part of one. Models read and write in tokens, and bills are counted in them.</li>
+<li><strong>Input</strong> tokens are what the model reads in a call. <strong>Output</strong> tokens are what it writes. They are priced differently, and output is usually the more expensive per token.</li>
+<li>The <strong>context window</strong> is how much text the model can see at once: your request, the rules, the files it read, the results of earlier tools. It has a size limit. <a href="3-1-context-budget.html">Chapter 3.1</a> is about managing it.</li>
+<li><strong>Reasoning effort</strong> is a setting on some models that controls how long they think before they answer. More thinking usually means more output tokens and more time.</li>
+<li>The <strong>prompt cache</strong> lets the provider remember a long beginning of your input, so a later call that starts with the same text can be charged less for it.</li>
+</ul>
+<h3>Where the tokens go in an agent</h3>
+<p>In a chat, you send a question and get an answer. In an agent loop (<a href="2-1-agent-loop.html">chapter 2.1</a>) the model is called again after every tool result. And every call sends the whole conversation so far: rules, request, every file it read, every result. The model has no memory between calls, so that is the only way it knows what happened.</p>
+<figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <g>
+    <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="115" y="236" text-anchor="middle" data-t="base">rules + request</text>
+    <rect class="box-lit" x="40" y="184" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="115" y="200" text-anchor="middle" data-t="write">writes a little</text>
+    <text class="label-muted" x="115" y="276" text-anchor="middle" data-t="t1">turn 1</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="230" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="236" text-anchor="middle" data-t="base">rules + request</text>
+    <rect class="box" x="230" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="200" text-anchor="middle" data-t="r1">result 1</text>
+    <rect class="box-lit" x="230" y="148" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="305" y="164" text-anchor="middle" data-t="write">writes a little</text>
+    <text class="label-muted" x="305" y="276" text-anchor="middle" data-t="t2">turn 2</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="420" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="236" text-anchor="middle" data-t="base">rules + request</text>
+    <rect class="box" x="420" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="200" text-anchor="middle" data-t="r1">result 1</text>
+    <rect class="box" x="420" y="142" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="164" text-anchor="middle" data-t="r2">result 2</text>
+    <rect class="box-lit" x="420" y="112" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="495" y="128" text-anchor="middle" data-t="write">writes a little</text>
+    <text class="label-muted" x="495" y="276" text-anchor="middle" data-t="t3">turn 3</text>
+  </g>
+  <g data-step="4">
+    <text class="label-lit" x="300" y="30" text-anchor="middle" data-t="cache">The repeated part is cheaper, from the prompt cache</text>
+    <line class="line-lit" x1="40" y1="44" x2="570" y2="44"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Turn 1: the model reads the rules and your request, and writes a short tool call.</li><li data-step-text="2">Turn 2: it reads all of that again, plus the result of the first call, and writes a little more.</li><li data-step-text="3">Turn 3: it reads everything again, plus the second result. What it reads grows each turn; what it writes stays small.</li><li data-step-text="4">The prompt cache charges less for the part that repeats exactly. This is why cache hits change the cost of a long task.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>In a loop, every turn re-reads the whole context. Reading, not writing, is what a long task mostly consists of.</figcaption></figure>
+<p>Here is the arithmetic with round numbers I chose to make it easy, not numbers I measured. Say the rules and your request are 10,000 tokens, and each tool result adds 5,000. Over 10 calls, the model reads about 10,000 + 15,000 + 20,000 + ... = 325,000 tokens, but writes perhaps a few hundred tokens per call. In this example reading is more than 90% of the tokens. The real share depends on your task, but the longer the loop, the more it leans toward reading.</p>
+<p>Output costs more per token, so tokens are not the same as money. But the shape holds: a long agent task is mostly the model reading the same material again and again. That is why the chapter's second half is about reading less.</p>
+<p>I can show one real case. In <a href="2-3-subagents.html">chapter 2.3</a> I gave the same four tasks to a team of three agents with job titles and to a single agent. Both got every task right. The team used about 4.5 times as much. The largest waste was re-reading: each new agent started with an empty context and had to read the same files again. It was four small tasks, each run once, so trust the direction and not the ratio.</p>
+<h3>The prompt cache changes the sum</h3>
+<p>Because so much of every call is the same beginning, providers offer a <strong>prompt cache</strong>. On Anthropic's API, reading cached input costs a tenth of the base input price on most models, and less on some. Writing to the cache costs more than a normal read: 1.25 times for a five-minute cache, 2 times for a one-hour cache. (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>)</p>
+<p>Three things follow, and they change how you save money:</p>
+<ul>
+<li><strong>A stable beginning pays.</strong> The cache works on an exact match from the start of the input. If you change something near the top (an edited rule, a different tool list), everything after it misses the cache.</li>
+<li><strong>A pause can cost you.</strong> A cache lives for a short time. A conversation you leave for an hour and return to may pay full price to rebuild.</li>
+<li><strong>The cheapest token is one that is not sent.</strong> Even a cache read is not free. Reading less is still the first thing to try.</li>
+</ul>
+<p>Here is the same example with a cache that hits every time, counting input only and using the five-minute prices. The first call writes 10,000 tokens at 1.25 times, which is 12,500. Each of the next nine calls reads the earlier text from the cache (10,000 up to 50,000 tokens, 270,000 in all, at 0.1 times, which is 27,000) and writes its 5,000 new tokens (45,000 in all, at 1.25 times, which is 56,250). The total is about 96,000 token-prices instead of 325,000, and now the repeated reading is less than a third of it. So the cache changes where the money goes: from re-reading to new material. That is why the earlier &quot;more than 90%&quot; is a count of tokens read, not a share of the bill, and why a team with a well-kept cache can read a lot and still pay little. Misses, which the first two bullets describe, bring the cost back toward the 325,000.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>比較模型，通常從價目表開始：每百萬個 token 多少美元。這是查得到的數字，所以大家用它。但你買 token，從來不是為了 token 本身。你買的是做完的任務：修好一個 bug、寫好一份報告。重要的是那件事的總花費。</p>
+<p>價目表是個差勁的指引，有兩個原因。一個便宜的模型，任務失敗又得再問一次，可能比一個第一次就做對的強模型還貴。而且在 agent 裡，token 的數量和你預期的不一樣，下一節會說明。</p>
+<h3>先講五個詞</h3>
+<ul>
+<li><strong>token</strong> 是一小段文字，大約是一個短字或字的一部分。模型用 token 讀和寫，帳單也用 token 算。</li>
+<li><strong>輸入</strong> token 是模型在一次呼叫裡讀的。<strong>輸出</strong> token 是它寫的。兩者的價格不同，通常輸出每個 token 比較貴。</li>
+<li><strong>上下文視窗</strong>是模型一次能看到多少文字：你的需求、規則、它讀過的檔案、之前工具的結果。它有大小上限。<a href="3-1-context-budget.html">上下文是一份預算</a> 講怎麼管它。</li>
+<li><strong>推理強度</strong>是某些模型有的設定，控制它回答前想多久。想得多，通常輸出的 token 更多，時間也更長。</li>
+<li><strong>prompt 快取</strong>讓供應商記住你輸入的一大段開頭，這樣之後的呼叫，只要開頭是同樣的文字，那一段就可以收得便宜些。</li>
+</ul>
+<h3>在 agent 裡，token 去哪了</h3>
+<p>在對話裡，你送一個問題，得到一個回答。在 agent 迴圈裡（<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>），每個工具結果出來之後，模型都會被再呼叫一次。而且每次呼叫，都要送出到目前為止的整段對話：規則、需求、它讀過的每個檔案、每個結果。模型在兩次呼叫之間沒有記憶，所以這是它知道發生過什麼的唯一辦法。</p>
+<figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <g>
+    <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="115" y="236" text-anchor="middle" data-t="base">規則 + 需求</text>
+    <rect class="box-lit" x="40" y="184" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="115" y="200" text-anchor="middle" data-t="write">只寫一點點</text>
+    <text class="label-muted" x="115" y="276" text-anchor="middle" data-t="t1">第 1 輪</text>
+  </g>
+  <g data-step="2">
+    <rect class="box" x="230" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="236" text-anchor="middle" data-t="base">規則 + 需求</text>
+    <rect class="box" x="230" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="305" y="200" text-anchor="middle" data-t="r1">結果 1</text>
+    <rect class="box-lit" x="230" y="148" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="305" y="164" text-anchor="middle" data-t="write">只寫一點點</text>
+    <text class="label-muted" x="305" y="276" text-anchor="middle" data-t="t2">第 2 輪</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="420" y="214" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="236" text-anchor="middle" data-t="base">規則 + 需求</text>
+    <rect class="box" x="420" y="178" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="200" text-anchor="middle" data-t="r1">結果 1</text>
+    <rect class="box" x="420" y="142" width="150" height="34" rx="5"/>
+    <text class="label" x="495" y="164" text-anchor="middle" data-t="r2">結果 2</text>
+    <rect class="box-lit" x="420" y="112" width="150" height="24" rx="5"/>
+    <text class="label-lit" x="495" y="128" text-anchor="middle" data-t="write">只寫一點點</text>
+    <text class="label-muted" x="495" y="276" text-anchor="middle" data-t="t3">第 3 輪</text>
+  </g>
+  <g data-step="4">
+    <text class="label-lit" x="300" y="30" text-anchor="middle" data-t="cache">重複的部分可以走 prompt cache，價錢較低</text>
+    <line class="line-lit" x1="40" y1="44" x2="570" y2="44"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">第 1 輪：模型讀規則和你的需求，寫出一個很短的工具呼叫。</li><li data-step-text="2">第 2 輪：它把這些再讀一遍，加上第一次呼叫的結果，再寫一點點。</li><li data-step-text="3">第 3 輪：全部再讀一遍，加上第二個結果。讀的越來越多，寫的一直很少。</li><li data-step-text="4">prompt cache 對完全重複的部分收費較低。所以快取命中會改變長任務的成本。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>在迴圈裡，每一輪都把整個上下文重讀一遍。長任務主要是在讀，不是在寫。</figcaption></figure>
+<p>下面用整數算一遍。這些數字是我為了好算而挑的，不是量出來的。假設規則加你的需求是 10,000 個 token，每個工具結果再加 5,000。呼叫 10 次，模型讀的大約是 10,000 + 15,000 + 20,000 + …… = 325,000 個 token，但每次呼叫大概只寫幾百個 token。在這個例子裡，讀的部分占了 token 的九成以上。實際的比例看你的任務，但迴圈越長，越偏向讀。</p>
+<p>輸出每個 token 比較貴，所以 token 不等於錢。但形狀不變：長的 agent 任務，大多是模型一遍又一遍讀同樣的材料。這就是為什麼這一章的後半，講的是怎麼少讀。</p>
+<p>我可以給一個真實的例子。在 <a href="2-3-subagents.html">慎用子 agent</a> 裡，我把同樣的四個任務，交給有三個職位的三個 agent 組成的團隊，也交給單個 agent。兩邊每個任務都答對。團隊用掉的大約是 4.5 倍。最大的浪費是重讀：每個新的 agent 都從空的上下文開始，得把同樣的檔案再讀一遍。那是四個小任務，每個只跑一次，所以相信方向，不要相信倍數。</p>
+<h3>prompt 快取改變了算式</h3>
+<p>每次呼叫有這麼大一段開頭都一樣，所以供應商提供 <strong>prompt 快取</strong>。在 Anthropic 的 API 上，大多數模型讀快取的輸入，只收基本輸入價的十分之一，有些更低。寫入快取比一般的讀貴：五分鐘的快取是 1.25 倍，一小時的快取是 2 倍。（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）</p>
+<p>由此得到三件事，它們改變了你省錢的方式：</p>
+<ul>
+<li><strong>穩定的開頭有回報</strong>。快取要求從輸入的開頭起完全一致。如果你改了靠近頂端的東西（改了一條規則、換了工具清單），後面的全都會沒命中。</li>
+<li><strong>停一下可能要付錢</strong>。快取只活很短的時間。一段對話你離開一小時再回來，可能要付全價重建。</li>
+<li><strong>最便宜的 token，是沒送出去的那個</strong>。就算是讀快取，也不是免費的。少讀，仍然是第一件該試的事。</li>
+</ul>
+<p>下面是同一個例子，假設快取每次都命中，只算輸入，用五分鐘的價格。第一次呼叫寫入 10,000 個 token，乘 1.25 倍，是 12,500。接下來九次呼叫，每次從快取讀之前的文字（從 10,000 到 50,000 個 token，共 270,000，乘 0.1 倍，是 27,000），再寫入新的 5,000 個 token（共 45,000，乘 1.25 倍，是 56,250）。總共大約 96,000 個 token 的價格，而不是 325,000，重複讀取的部分現在不到三分之一。所以快取改變的是錢花在哪裡：從重讀變成新材料。這就是為什麼前面說的「九成以上」，算的是讀了多少 token，不是帳單的占比，也是為什麼快取維護得好的團隊，可以讀很多卻付得很少。沒命中（前兩點說的情況）會把成本拉回 325,000 附近。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What a task costs</h3>
+<p>Think of a task's cost as three parts.</p>
+<figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+  <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
+  <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">What it reads</text>
+  <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">every call, minus cache hits</text>
+  <text class="label-big" x="259" y="84" text-anchor="middle" data-t="plus">+</text>
+  <rect class="box" x="273" y="40" width="235" height="70" rx="6"/>
+  <text class="label" x="390" y="68" text-anchor="middle" data-t="write">What it writes</text>
+  <text class="label-muted" x="390" y="90" text-anchor="middle" data-t="write-note">answers, code, thinking</text>
+  <text class="label-big" x="522" y="84" text-anchor="middle" data-t="times">×</text>
+  <rect class="box-plain" x="536" y="40" width="166" height="70" rx="6"/>
+  <text class="label" x="619" y="68" text-anchor="middle" data-t="redo">Redoing</text>
+  <text class="label-muted" x="619" y="90" text-anchor="middle" data-t="redo-note">how many attempts</text>
+  <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">Cost of one finished task. Most savings are in the first and the last.</text>
+</svg>
+<figcaption>A task&#x27;s cost is what the model reads plus what it writes, multiplied by how often the work is redone.</figcaption></figure>
+<p>In detail:</p>
+<ol>
+<li><strong>What the model reads</strong>, across every call, discounted where the cache hits.</li>
+<li><strong>What the model writes</strong>: the answer, the code, the thinking.</li>
+<li><strong>Redoing</strong>: a wrong answer, a lost thread, a repeated attempt. Redoing is a multiplier on parts 1 and 2.</li>
+</ol>
+<p>Most savings come from the first and the third. A good rule of thumb is: <strong>do things in the cheapest way that is enough</strong>.</p>
+<h3>When a strong model is cheaper</h3>
+<p>A stronger model costs more per token. It can still cost less per finished task when it gets the answer in one pass and the weaker one needs three. It can also be a waste, if the task was easy.</p>
+<p>I have no measurement of my own for where this flips. It is an argument, not a result, and the way to find the point is to test it on your own tasks: run the same few tasks on two models and compare the cost per success, not per call. <a href="6-4-variance.html">Chapter 6.4</a> says how to do that honestly.</p>
+<h3>Pick by task, and check the setting</h3>
+<p>My rule of thumb, which I have not measured: use a strong model for thinking (a plan, an approach, a hard bug) and a medium model for doing (a change whose plan is already clear). Some tools let you set reasoning effort too. I have not tested whether Copilot lets you set it from a harness, so check your own tool.</p>
+<h3>How you are billed in Copilot (as of late October 2026)</h3>
+<p>This part changes often, so check the date and your own plan.</p>
+<ul>
+<li><strong>Monthly Copilot plans:</strong> since June 1, 2026 Copilot has been moving to usage-based billing. Premium request units were replaced by GitHub AI Credits, and usage is calculated from input, output and cached tokens, at the listed API rates of each model. Code completions and next edit suggestions stay included. (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>)</li>
+<li><strong>Annual Pro and Pro+ plans</strong> stay on the older premium request model until they expire. There, each prompt you send counts as a request multiplied by the model's multiplier, and the tool calls the agent makes do not count. (<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>)</li>
+</ul>
+<p>The two models reward different habits. Under per-request billing a long autonomous run is cheap to you, so doing big tasks in a single prompt can pay. Under token billing, a long run costs in proportion to how much it reads. Which one you are on decides how much the rest of this chapter matters. If your plan is billed by tokens, it matters a lot.</p>
+<h3>When the result is wrong, change the model last</h3>
+<p>The easy reaction to a bad result is to switch to a bigger model. It is the most expensive fix, and often the wrong one. Look at what went wrong first:</p>
+<table>
+<thead>
+<tr>
+<th>What went wrong</th>
+<th>Try first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>It did not know a rule, a name or how the project does it</td>
+<td>Write it into the rules or a knowledge file. A bigger model does not know it either</td>
+</tr>
+<tr>
+<td>It said &quot;done&quot; and it was not</td>
+<td>Add a check: run the tests (<a href="5-4-self-checks.html">chapter 5.4</a>)</td>
+</tr>
+<tr>
+<td>It lost the thread in a long session</td>
+<td>Start a new session and carry the state in files (<a href="3-2-long-sessions.html">chapter 3.2</a>)</td>
+</tr>
+<tr>
+<td>It knew everything and still reasoned badly</td>
+<td>Now try a stronger model</td>
+</tr>
+</tbody>
+</table>
+<h3>Four ways to save, and how each can go too far</h3>
+<ol>
+<li><strong>Use the model less.</strong> If code can do it, do not ask a model. Counting, copying files, converting a Word file into text, checking a format: a script does these the same way every time and uses no tokens. The danger is moving judgment into code that cannot judge. <a href="5-9-who-decides.html">Chapter 5.9</a> draws that line.</li>
+<li><strong>Read less.</strong> Keep the rules short, load details only when needed, and ask for a diff and not the whole file. Danger: if it reads too little, it guesses, and the rework costs more than the reading saved.</li>
+<li><strong>Write less.</strong> Ask for short answers, a one-line verdict, a short list. Danger: terse output the next step cannot use.</li>
+<li><strong>Redo less.</strong> Agree the plan before the work starts, keep state in files so a lost session can be picked up, and cap the number of retries. Danger: caps that cut off useful work. Set them from what you saw, not from fear.</li>
+</ol>
+<p>Also mind the standing costs. Every tool the agent has adds its name, description and parameters to the input of every call (<a href="1-2-tool-calling.html">chapter 1.2</a>), and every rule you inject rides along on every turn.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions</strong> when a bill surprises you:</p>
+<ol>
+<li>Which call or turn read the most? Look at the usage page of your tool, and the biggest tasks.</li>
+<li>What was in the context that did not need to be there? Old tool results, a large file read in full, a long rules file?</li>
+<li>Did the task get redone? If so, why did the first attempt fail?</li>
+</ol>
+<p><strong>A small experiment.</strong> Take one task you know the right answer to. Run it on two models, three times each, and note the usage and whether it was right. Then compare cost per success. Do not decide from one run. A table with four columns is enough:</p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Model</th>
+<th>Usage (from your usage page)</th>
+<th>Right?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>一個任務花多少</h3>
+<p>把一個任務的成本，想成三個部分。</p>
+<figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+  <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
+  <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">讀的</text>
+  <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">每次呼叫，扣掉快取命中</text>
+  <text class="label-big" x="259" y="84" text-anchor="middle" data-t="plus">+</text>
+  <rect class="box" x="273" y="40" width="235" height="70" rx="6"/>
+  <text class="label" x="390" y="68" text-anchor="middle" data-t="write">寫的</text>
+  <text class="label-muted" x="390" y="90" text-anchor="middle" data-t="write-note">回答、程式碼、思考</text>
+  <text class="label-big" x="522" y="84" text-anchor="middle" data-t="times">×</text>
+  <rect class="box-plain" x="536" y="40" width="166" height="70" rx="6"/>
+  <text class="label" x="619" y="68" text-anchor="middle" data-t="redo">返工</text>
+  <text class="label-muted" x="619" y="90" text-anchor="middle" data-t="redo-note">做了幾次</text>
+  <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">一件事做成的成本。多數省錢發生在第一項和最後一項。</text>
+</svg>
+<figcaption>一個任務的成本是模型讀的加寫的，再乘上返工的次數。</figcaption></figure>
+<p>細看：</p>
+<ol>
+<li><strong>模型讀的</strong>，每次呼叫都算，快取命中的地方有折扣。</li>
+<li><strong>模型寫的</strong>：回答、程式碼、思考。</li>
+<li><strong>重做</strong>：答錯、丟了線索、再試一次。重做是第 1 和第 2 部的乘數。</li>
+</ol>
+<p>大部分省下來的錢，來自第一和第三部分。一個好用的經驗法則是：<strong>用夠用的最便宜的方式做事</strong>。</p>
+<h3>強模型什麼時候比較便宜</h3>
+<p>更強的模型，每個 token 更貴。但它只要一次就得到答案，弱的要三次，這時它做完一個任務的成本仍然可能更低。如果任務很簡單，它也可能是浪費。</p>
+<p>這個轉折點在哪裡，我自己沒有量過。這是論證，不是結果，找到那一點的辦法，是在你自己的任務上測：同樣幾個任務跑在兩個模型上，比較每次成功的成本，不是每次呼叫的成本。<a href="6-4-variance.html">一次運行證明不了什麼</a> 說了怎麼誠實地做。</p>
+<h3>依任務挑，並確認設定</h3>
+<p>我的經驗法則（沒有量過）：用強模型來想（計劃、做法、難的 bug），用中等的模型來做（計劃已經清楚的改動）。有些工具也讓你設推理強度。Copilot 能不能從 harness 裡設定，我還沒測過，所以請查你自己的工具。</p>
+<h3>在 Copilot 裡怎麼計費（2026 年 10 月下旬）</h3>
+<p>這一段常常變，請確認日期和你自己的方案。</p>
+<ul>
+<li><strong>按月的 Copilot 方案</strong>：從 2026 年 6 月 1 日起，Copilot 一直在轉向按用量計費。premium request unit 換成了 GitHub AI Credits，用量依輸入、輸出和快取的 token 算，按每個模型公開的 API 費率。程式碼補全和 next edit suggestions 仍包含在內。（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）</li>
+<li><strong>年繳的 Pro 和 Pro+ 方案</strong>，在到期之前仍用舊的 premium request 模式。在那裡，你送出的每個 prompt 算一次請求，再乘上該模型的倍率，agent 做的工具呼叫不算。（<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>）</li>
+</ul>
+<p>兩種模式獎勵的習慣不同。按請求計費時，一次長的自主執行對你很便宜，所以把大任務放進一個 prompt 做可能划算。按 token 計費時，長的執行花多少，和它讀了多少成比例。你用哪一種，決定了這一章其餘的部分有多重要。如果你的方案按 token 計費，它就很重要。</p>
+<h3>結果不對時，最後才換模型</h3>
+<p>結果不好時，最容易的反應是換成更大的模型。這是最貴的修法，而且常常是錯的。先看哪裡出了問題：</p>
+<table>
+<thead>
+<tr>
+<th>出了什麼問題</th>
+<th>先試</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它不知道一條規則、一個名字，或專案怎麼做這件事</td>
+<td>把它寫進規則或知識檔。更大的模型也不知道</td>
+</tr>
+<tr>
+<td>它說「做完了」，其實沒有</td>
+<td>加一道檢查：執行測試（<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>）</td>
+</tr>
+<tr>
+<td>在長會話裡丟了線索</td>
+<td>開一個新會話，把狀態放在檔案裡帶過去（<a href="3-2-long-sessions.html">長對話會變差</a>）</td>
+</tr>
+<tr>
+<td>它什麼都知道，推理還是不好</td>
+<td>這時再試更強的模型</td>
+</tr>
+</tbody>
+</table>
+<h3>四種省法，以及各自怎樣過頭</h3>
+<ol>
+<li><strong>少用模型</strong>。程式碼能做的，就不要問模型。計數、複製檔案、把 Word 檔轉成文字、檢查格式：腳本每次都做得一樣，也不用 token。危險是把判斷搬進一段不會判斷的程式。<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a> 畫了那條線。</li>
+<li><strong>少讀</strong>。規則寫短，細節要用時才載入，要 diff 而不是整個檔案。危險：讀太少，它就會猜，而重做花的錢比省下來的讀取還多。</li>
+<li><strong>少寫</strong>。要簡短的回答、一行結論、一份短清單。危險：簡短到下一步用不上。</li>
+<li><strong>少重做</strong>。工作開始前先談好計劃，把狀態放在檔案裡，這樣丟掉的會話可以接著做，再限制重試的次數。危險：上限切斷了有用的工作。上限要依你看到的情況設，不要依恐懼設。</li>
+</ol>
+<p>還要留意固定的成本。agent 有的每個工具，都會把它的名字、描述和參數，加進每次呼叫的輸入裡（<a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>），而你注入的每條規則，每一輪都跟著走。</p>
+<h3>測你自己的設定</h3>
+<p>帳單讓你吃驚的時候，<strong>問三個問題</strong>：</p>
+<ol>
+<li>哪一次呼叫或哪一輪讀得最多？看你工具的用量頁面，和最大的幾個任務。</li>
+<li>上下文裡有什麼是不必要在那裡的？舊的工具結果、整份讀進來的大檔案、很長的規則檔？</li>
+<li>任務有沒有被重做？如果有，第一次為什麼失敗？</li>
+</ol>
+<p><strong>一個小實驗</strong>。挑一個你知道正確答案的任務。在兩個模型上各跑三次，記下用量和對不對。然後比較每次成功的成本。不要憑一次運行下決定。一個四欄的表就夠了：</p>
+<table>
+<thead>
+<tr>
+<th>運行</th>
+<th>模型</th>
+<th>用量（從你的用量頁面）</th>
+<th>對嗎？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>A</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>B</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>What I can and cannot see.</strong> My own harness records no token counts in its log. For how much a task really used, I read the platform's session record, which reports credits and premium requests and which I do not convert to money. So everything I say about savings is &quot;by design&quot;, not a bill.</p>
+<p><strong>The savings are not free.</strong> A <a href="2-2-hooks.html">hook</a> that runs on tool calls adds a small delay. Independent checks call the model again. Rules injected on every prompt cost tokens on every prompt. I accept those on purpose, for control, but they are costs.</p>
+<p><strong>Reading too little is the trap that looks like thrift.</strong> The cheapest call is the one that guesses wrong and is thrown away. If a task keeps failing for lack of context, the answer is to give it the right context, not to give it less.</p>
+<p><strong>Prices and plans change.</strong> The cache multipliers and the Copilot billing above are as of the dates in the sources, and I would expect them to move.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>我看得到的和看不到的</strong>。我自己的 harness，日誌裡沒有記 token 數。一個任務真正用了多少，我讀的是平台的會話紀錄，它回報 credits 和 premium request，我不把它們換算成錢。所以我說的所有節省，都是「依設計」，不是帳單。</p>
+<p><strong>省下來的東西不是免費的</strong>。在工具呼叫上執行的 <a href="2-2-hooks.html">hook</a>，會加一點小延遲。獨立檢查要再呼叫模型。每個 prompt 都注入的規則，每個 prompt 都花 token。我是為了控制才刻意接受這些，但它們是成本。</p>
+<p><strong>讀太少，是看起來像節儉的陷阱</strong>。最便宜的呼叫，是猜錯然後被丟掉的那一個。如果一個任務一直因為缺上下文而失敗，答案是給它對的上下文，不是給它更少。</p>
+<p><strong>價格和方案會變</strong>。上面的快取倍率和 Copilot 計費，是來源上那些日期的情況，我預期它們會變。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
+<li><strong>Anthropic</strong> prices cached reads at a fraction of normal input, and says tool definitions are counted as input tokens on every request. (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>)</li>
+<li><strong>GitHub</strong> moved Copilot from counting requests to counting tokens. (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>)</li>
+</ul>
+<p>The direction is the same: the market now charges for what the model reads and writes, which is the argument of this chapter.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><ul>
+<li><strong>Anthropic</strong> 把讀取快取的價格，訂成一般輸入的一小部分，並說工具定義在每個請求裡都算輸入 token。（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>、<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>）</li>
+<li><strong>GitHub</strong> 把 Copilot 從算請求，改成算 token。（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）</li>
+</ul>
+<p>方向一致：市場現在按模型讀和寫的東西收費，這正是這一章的論點。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Much of this chapter is advice for a world where reading is expensive. If reading becomes cheap enough that the extra work of trimming context costs more than it saves, drop the tricks and keep the habit of measuring cost per finished task. I would also look again if a platform started showing per-task cost on its own, because then you would need to guess less.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這一章有很多是為「讀取很貴」的世界寫的建議。如果讀取便宜到，修剪上下文多出來的工夫，比省下的還貴，就丟掉這些技巧，只留下量測每個完成任務成本的習慣。如果某個平台開始自己顯示每個任務的成本，我也會重新看一遍，因為那時你要猜的就少了。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Estimate what is sent to the model on every call in this repository, before I type anything. List each always-loaded item: instruction files, rules, tool and server definitions, anything injected automatically. Give each an approximate size in tokens (a rough count is fine) and sort the list from largest to smallest. Mark items that look stale, duplicated or rarely useful. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>估算在這個倉庫裡，我還沒打任何字之前，每次呼叫都會送給模型什麼。列出每一個一直載入的項目：指令檔、規則、工具和 server 的定義、任何自動注入的東西。給每一項一個大概的 token 大小（粗略估計就好），並由大到小排序。標出看起來過期、重複或很少用到的項目。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic docs: <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
+<li>GitHub: <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">Copilot is moving to usage-based billing</a></li>
+<li>GitHub docs: <a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic 文件：<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
+<li>GitHub：<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">Copilot is moving to usage-based billing</a></li>
+<li>GitHub 文件：<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness is built around the idea of reading less and redoing less: rules are loaded in layers, state lives in files, checks are off unless you ask. It also says plainly what it cannot see about cost. The harness can show you each of these from the inside, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Choosing a model: cost per finished task&quot;. Teach me how this harness reads less, writes less and redoes less, and what it can and cannot tell me about the real usage of a task. Open the real files with me and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 是圍繞「少讀、少重做」這個想法搭的：規則分層載入、狀態放在檔案裡、檢查除非你要求否則是關的。它也直接說出它看不到哪些成本。harness 可以從裡面把這些一項項展示給你看，帶著真實的檔案。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「選模型：算的是每次成功的成本」這一章。請教我這個 harness 怎麼少讀、少寫、少重做，以及它能和不能告訴我一個任務的真實用量。帶我打開真實的檔案，並畫出各部分怎麼接在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

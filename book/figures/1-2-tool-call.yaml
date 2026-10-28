@@ -1,0 +1,30 @@
+en:
+  m: the model
+  p: the program around it
+  t: the tool
+  ask: "asks: read_file(src/app.py)"
+  run: "runs the tool"
+  hook: "can allow, change"
+  hook2: "or refuse here"
+  res: "file contents"
+  back: "the result, as text"
+  step-1: "The model writes a request: which tool, which arguments. It does nothing else."
+  step-2: "The program around it runs the tool. This is the point where a rule can allow, change or refuse the call."
+  step-3: "The tool returns something: file contents, a command's output, or an error."
+  step-4: "The program puts the result into the conversation as text. The model reads it and decides what to do next."
+  caption: "One tool call. The model only asks; the program around it does the work, and can step in before and after."
+zh-Hant:
+  m: 模型
+  p: 外面的程式
+  t: 工具
+  ask: "read_file(src/app.py)"
+  run: "執行工具"
+  hook: "這裡可以放行、修改"
+  hook2: "或拒絕"
+  res: "檔案內容"
+  back: "結果，以文字形式"
+  step-1: "模型寫出一個請求：用哪個工具、什麼參數。它不做別的。"
+  step-2: "外面的程式去執行工具。規則可以在這一步放行、修改或拒絕這次呼叫。"
+  step-3: "工具回傳東西：檔案內容、指令的輸出，或一個錯誤。"
+  step-4: "程式把結果當成文字放進對話。模型讀完，決定下一步。"
+  caption: "一次工具呼叫。模型只提出請求；外面的程式做事，並且在前後都能插手。"

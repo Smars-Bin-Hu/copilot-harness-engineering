@@ -1,0 +1,11 @@
+id: "4.3"
+part: control
+title: {en: Guard the files that hold the rules, zh-Hant: 保護規則本身的檔案}
+harness_tag: "1.5.50"
+wondering: [07-guardrails, 08-permission-sandbox]
+sources:
+  - what: "Which files are guardrails; how edit tools and terminal writes are stopped; path spellings brought to one form; companies can add paths but not remove defaults; files only commands may write; the breaker after repeated refusals; admin mode bound to the session"
+    where: harness docs/02-features.md, docs/05-design.md and the guardrails and permissions lessons of the wondering course
+  - what: "Hooks and instructions are not substitutes for enforced permissions or sandboxing; recommends sandboxing over approval rules alone"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks and https://code.visualstudio.com/docs/copilot/security
+    checked: 2026-10-27

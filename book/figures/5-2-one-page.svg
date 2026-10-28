@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="5" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="72" y="83" text-anchor="middle" data-t="say">x</text>
+  <text class="label-muted" x="72" y="22" text-anchor="middle" data-t="say-n">x</text>
+  <text class="label-muted" x="72" y="38" text-anchor="middle" data-t="say-n2">x</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M140 78 H150"/>
+  <path class="head" d="M150 72 L158 78 L150 84 Z"/>
+  <rect class="box" x="158" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="225" y="83" text-anchor="middle" data-t="ask">x</text>
+  <text class="label-muted" x="225" y="22" text-anchor="middle" data-t="ask-n">x</text>
+  <text class="label-muted" x="225" y="38" text-anchor="middle" data-t="ask-n2">x</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M293 78 H303"/>
+  <path class="head" d="M303 72 L311 78 L303 84 Z"/>
+  <rect class="box-lit" x="311" y="50" width="135" height="56" rx="8"/>
+  <text class="label-lit" x="378" y="77" text-anchor="middle" data-t="page">x</text>
+  <text class="label-lit" x="378" y="95" text-anchor="middle" data-t="page2">x</text>
+  <text class="label-muted" x="378" y="22" text-anchor="middle" data-t="page-n">x</text>
+  <text class="label-muted" x="378" y="38" text-anchor="middle" data-t="page-n2">x</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M446 78 H456"/>
+  <path class="head" d="M456 72 L464 78 L456 84 Z"/>
+  <rect class="box" x="464" y="50" width="131" height="56" rx="8"/>
+  <text class="label" x="529" y="77" text-anchor="middle" data-t="confirm">x</text>
+  <text class="label" x="529" y="95" text-anchor="middle" data-t="confirm2">x</text>
+  <text class="label-muted" x="525" y="22" text-anchor="middle" data-t="confirm-n">x</text>
+  <text class="label-muted" x="525" y="38" text-anchor="middle" data-t="confirm-n2">x</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M529 106 V175 H378 V118"/>
+  <path class="head-lit" d="M372 118 L378 108 L384 118 Z"/>
+  <text class="label-lit" x="445" y="200" text-anchor="middle" data-t="change-n">x</text>
+  </g>
+</svg>

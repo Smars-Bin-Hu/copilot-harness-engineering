@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 230">
+  <g data-step="1">
+  <rect class="box" x="5" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="68" y="83" text-anchor="middle" data-t="ask">x</text>
+  <text class="label-muted" x="5" y="38" data-t="ask-n">x</text>
+  </g>
+  <g data-step="2">
+  <path class="head" d="M131 72 L141 78 L131 84 Z"/>
+  <rect class="box-lit" x="141" y="50" width="126" height="56" rx="8"/>
+  <text class="label-lit" x="204" y="83" text-anchor="middle" data-t="folder">x</text>
+  <text class="label-muted" x="204" y="125" text-anchor="middle" data-t="folder-n1">x</text>
+  <text class="label-muted" x="204" y="142" text-anchor="middle" data-t="folder-n2">x</text>
+  </g>
+  <g data-step="3">
+  <path class="head" d="M267 72 L277 78 L267 84 Z"/>
+  <rect class="box" x="277" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="340" y="83" text-anchor="middle" data-t="work">x</text>
+  <text class="label-muted" x="340" y="38" text-anchor="middle" data-t="work-n">x</text>
+  </g>
+  <g data-step="4">
+  <path class="head" d="M403 72 L413 78 L403 84 Z"/>
+  <rect class="box" x="413" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="476" y="83" text-anchor="middle" data-t="back">x</text>
+  <text class="label-muted" x="476" y="125" text-anchor="middle" data-t="back-n">x</text>
+  </g>
+  <g data-step="5">
+  <path class="head" d="M539 72 L549 78 L539 84 Z"/>
+  <rect class="box" x="549" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="612" y="83" text-anchor="middle" data-t="close">x</text>
+  <text class="label-muted" x="675" y="38" text-anchor="end" data-t="close-n">x</text>
+  </g>
+  <g data-step="6">
+  <path class="line" d="M204 160 V190 H340 V114"/>
+  <path class="head" d="M334 116 L340 106 L346 116 Z"/>
+  <text class="label-muted" x="272" y="212" text-anchor="middle" data-t="more-n">x</text>
+  </g>
+</svg>

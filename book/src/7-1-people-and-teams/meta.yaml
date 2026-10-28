@@ -1,0 +1,10 @@
+id: "7.1"
+part: people
+title: {en: "People and teams: what stays with a person", zh-Hant: "人與團隊：留給人的事"}
+harness_tag: "1.5.50"
+wondering: [15-design-choices]
+sources:
+  - what: "Which judgments stay with a person; what to learn and what not to spend time on"
+    where: the author's own working principles for the harness
+  - what: "The first-setup and first-lesson skills; the first lesson's practice scenario can be replaced by the team's own"
+    where: harness docs/05-design.md section 3, and docs/07-release-notes.md (1.1.0, quick-start skill)

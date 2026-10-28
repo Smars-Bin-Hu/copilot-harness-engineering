@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
+  <text class="label" x="300" y="42" text-anchor="middle" data-t="broken">x</text>
+
+  <path class="line" d="M250 59 L150 110"/>
+  <path class="line-lit" d="M350 59 L450 110"/>
+
+  <rect class="box" x="10" y="110" width="280" height="60" rx="8"/>
+  <text class="label" x="150" y="136" text-anchor="middle" data-t="closed">x</text>
+  <text class="label-muted" x="150" y="156" text-anchor="middle" data-t="closed-cost">x</text>
+  <text class="label-muted" x="150" y="195" text-anchor="middle" data-t="closed-for">x</text>
+
+  <rect class="box-lit" x="310" y="110" width="280" height="60" rx="8"/>
+  <text class="label-lit" x="450" y="136" text-anchor="middle" data-t="open">x</text>
+  <text class="label-muted" x="450" y="156" text-anchor="middle" data-t="open-cost">x</text>
+  <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">x</text>
+</svg>

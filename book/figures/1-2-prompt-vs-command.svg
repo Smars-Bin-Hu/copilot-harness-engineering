@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">x</text>
+  <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="62" text-anchor="middle" data-t="l1">x</text>
+  <rect class="box-plain" x="30" y="84" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="106" text-anchor="middle" data-t="l2">x</text>
+  <rect class="box-plain" x="30" y="128" width="240" height="34" rx="5"/>
+  <text class="label" x="150" y="150" text-anchor="middle" data-t="l3">x</text>
+  <text class="label-muted" x="150" y="190" text-anchor="middle" data-t="left-note">x</text>
+
+  <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">x</text>
+  <rect class="box-lit" x="330" y="40" width="240" height="34" rx="5"/>
+  <text class="label-lit" x="450" y="62" text-anchor="middle" data-t="r1">x</text>
+  <rect class="box" x="330" y="84" width="240" height="78" rx="5"/>
+  <text class="label" x="450" y="108" text-anchor="middle" data-t="r2">x</text>
+  <text class="label" x="450" y="128" text-anchor="middle" data-t="r3">x</text>
+  <text class="label" x="450" y="148" text-anchor="middle" data-t="r4">x</text>
+  <text class="label-muted" x="450" y="190" text-anchor="middle" data-t="right-note">x</text>
+  <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">x</text>
+</svg>

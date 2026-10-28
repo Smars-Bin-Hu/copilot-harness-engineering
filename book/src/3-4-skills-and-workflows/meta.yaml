@@ -1,0 +1,21 @@
+id: "3.4"
+part: context
+title: {en: Turn your way of working into skills, zh-Hant: 把團隊的做法寫成 skill}
+harness_tag: "1.5.50"
+wondering: [03-skills]
+sources:
+  - what: "Rules for writing a skill: only what the model would get wrong, gotchas first, flexible guidance for open work, split past about 200 lines, test that it loads and that it changes behaviour"
+    where: harness skill-building guide (references of the skill that builds skills)
+  - what: "Designing a workflow from 2-3 finished examples; sorting each step as fixed, judgment, human or check"
+    where: harness workflow-design skill and its step-sorting note
+  - what: "Examples: impact analysis (one search, sorted hits, listed blind spots) and test guide (the agent cannot run other environments; a person does)"
+    where: harness impact-analysis and test-guide skills
+  - what: "Skill format, description role, three-stage loading"
+    where: https://code.visualstudio.com/docs/copilot/customization/agent-skills
+    checked: 2026-10-27
+  - what: "Default assumption: the model is already very smart, only add context it does not have; build evaluations first; keep SKILL.md under 500 lines"
+    where: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+    checked: 2026-10-28
+  - what: "Workflows are systems where LLMs and tools are orchestrated through predefined code paths; find the simplest solution possible"
+    where: https://www.anthropic.com/engineering/building-effective-agents
+    checked: 2026-10-28

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <text class="label" x="30" y="30" data-t="a-title">x</text>
+  <rect class="box" x="30" y="40" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="42" width="450" height="36"/>
+  <text class="label-muted" x="257" y="66" text-anchor="middle" data-t="a-all">x</text>
+  <text class="label-muted" x="527" y="66" text-anchor="middle" data-t="a-left">x</text>
+
+  <text class="label-lit" x="30" y="130" data-t="b-title">x</text>
+  <rect class="box-lit" x="30" y="140" width="540" height="40" rx="6"/>
+  <rect class="bar" x="32" y="142" width="70" height="36"/>
+  <rect class="bar-lit" x="102" y="142" width="84" height="36"/>
+  <text class="label-muted" x="67" y="166" text-anchor="middle" data-t="b-index">x</text>
+  <text class="label-lit" x="144" y="166" text-anchor="middle" data-t="b-page">x</text>
+  <text class="label-muted" x="380" y="166" text-anchor="middle" data-t="b-room">x</text>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">x</text>
+</svg>

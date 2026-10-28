@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <path class="line" d="M20 150 H575"/>
+  <path class="head" d="M575 144 L587 150 L575 156 Z"/>
+  <text class="label-muted" x="580" y="175" text-anchor="end" data-t="time">x</text>
+
+  <g data-step="1">
+    <rect class="box" x="30" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="120" y="68" text-anchor="middle" data-t="on">x</text>
+    <path class="line" d="M120 86 V150"/>
+  </g>
+  <g data-step="2">
+    <rect class="bar-lit" x="120" y="136" width="280" height="28" rx="4"/>
+    <text class="label-lit" x="260" y="125" text-anchor="middle" data-t="open">x</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="310" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="400" y="68" text-anchor="middle" data-t="off">x</text>
+    <path class="line" d="M400 86 V150"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-plain" x="100" y="185" width="400" height="34" rx="6"/>
+    <text class="label-muted" x="300" y="207" text-anchor="middle" data-t="record">x</text>
+  </g>
+</svg>

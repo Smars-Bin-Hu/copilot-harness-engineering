@@ -1,0 +1,8 @@
+id: "6.2"
+part: evidence
+title: {en: "A report a person can read in five minutes", zh-Hant: "一份五分鐘讀得完的報告"}
+harness_tag: "1.5.50"
+wondering: [12-observe-report]
+sources:
+  - what: "The task report written at close (plan, times of the approvals, files fetched, lines added and removed, verdict of every independent check, refused calls); the analysis page (time and usage by stage, waiting time for the person); the board (what each task waits for and for how long); numbers read from the hook log and the platform's session record; a saved copy that opens offline; no systematic quality score across tasks yet"
+    where: harness docs/00-overview.md, docs/02-features.md (Observability; the task page), and the observe lesson of the wondering course

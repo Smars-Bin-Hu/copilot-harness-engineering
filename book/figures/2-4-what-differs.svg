@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-lit" x="330" y="26" text-anchor="middle" data-t="col-default">x</text>
+  <text class="label-lit" x="500" y="26" text-anchor="middle" data-t="col-custom">x</text>
+
+  <text class="label" x="20" y="68" data-t="row-model">x</text>
+  <rect class="box" x="250" y="42" width="160" height="40" rx="6"/>
+  <text class="label-muted" x="330" y="67" text-anchor="middle" data-t="model-default">x</text>
+  <rect class="box-lit" x="420" y="42" width="160" height="40" rx="6"/>
+  <text class="label-lit" x="500" y="67" text-anchor="middle" data-t="model-custom">x</text>
+
+  <text class="label" x="20" y="128" data-t="row-tools">x</text>
+  <rect class="box" x="250" y="102" width="160" height="40" rx="6"/>
+  <text class="label-muted" x="330" y="127" text-anchor="middle" data-t="tools-default">x</text>
+  <rect class="box-lit" x="420" y="102" width="160" height="40" rx="6"/>
+  <text class="label-lit" x="500" y="127" text-anchor="middle" data-t="tools-custom">x</text>
+
+  <text class="label" x="20" y="188" data-t="row-know">x</text>
+  <rect class="box-plain" x="250" y="162" width="330" height="40" rx="6"/>
+  <text class="label-muted" x="415" y="187" text-anchor="middle" data-t="know">x</text>
+
+  <text class="label-muted" x="300" y="240" text-anchor="middle" data-t="note">x</text>
+</svg>

@@ -1,0 +1,20 @@
+id: "4.2"
+part: control
+core: true
+title: {en: Asking is not a limit, zh-Hant: 詢問不是限制}
+harness_tag: "1.5.50"
+wondering: [08-permission-sandbox, 05-tools, 07-guardrails]
+sources:
+  - what: "Allow all shows no box; one click on Allow in this Session stops further asking; under Autopilot the person is often away; only a refusal held in every mode I tried (default, Allow all, Autopilot)"
+    where: harness docs/02-features.md and the permissions lesson of the wondering course
+  - what: "Grading by consequence; git reads pass, git writes need a person's typed approval within a time limit, push and similar can never be approved by the agent"
+    where: harness docs/05-design.md and docs/02-features.md
+  - what: "Global auto-approval bypasses all user approvals; terminal command parsing for auto-approval is best-effort; assisted permissions are not a security boundary; sandboxing is recommended over approval rules alone"
+    where: https://code.visualstudio.com/docs/copilot/security
+    checked: 2026-10-27
+  - what: "ask requires an interactive approval flow and may not pause an unattended session; hooks are not a substitute for enforced permissions or sandboxing"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-27
+  - what: "Sandboxing needs both file system and network isolation; in Anthropic's internal use it 'safely reduces permission prompts by 84%'"
+    where: https://www.anthropic.com/engineering/claude-code-sandboxing
+    checked: 2026-10-28

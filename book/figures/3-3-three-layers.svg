@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <text class="label-muted" x="20" y="24" data-t="col-level">x</text>
+  <text class="label-muted" x="165" y="24" data-t="col-what">x</text>
+  <text class="label-muted" x="410" y="24" data-t="col-when">x</text>
+
+  <rect class="box" x="20" y="40" width="130" height="56" rx="6"/>
+  <text class="label" x="85" y="73" text-anchor="middle" data-t="l1">x</text>
+  <text class="label" x="165" y="73" data-t="l1-what">x</text>
+  <text class="label-muted" x="410" y="73" data-t="l1-when">x</text>
+  <rect class="bar" x="20" y="104" width="40" height="8" rx="2"/>
+
+  <g data-step="2">
+    <rect class="box-lit" x="20" y="130" width="130" height="56" rx="6"/>
+    <text class="label-lit" x="85" y="163" text-anchor="middle" data-t="l2">x</text>
+    <text class="label" x="165" y="163" data-t="l2-what">x</text>
+    <text class="label-muted" x="410" y="163" data-t="l2-when">x</text>
+    <rect class="bar-lit" x="20" y="194" width="130" height="8" rx="2"/>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="220" width="130" height="56" rx="6"/>
+    <text class="label" x="85" y="253" text-anchor="middle" data-t="l3">x</text>
+    <text class="label" x="165" y="253" data-t="l3-what">x</text>
+    <text class="label-muted" x="410" y="253" data-t="l3-when">x</text>
+    <rect class="bar" x="20" y="284" width="90" height="8" rx="2"/>
+  </g>
+</svg>

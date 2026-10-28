@@ -1,0 +1,12 @@
+id: "B"
+part: appendix
+kind: appendix
+title: {en: "Troubleshooting", zh-Hant: "排錯"}
+harness_tag: "1.5.50"
+wondering: []
+sources:
+  - what: "Symptoms and first checks, collected from the costs-and-traps sections and the test sections of the chapters"
+    where: this book, chapters 0.2 to 7.3
+  - what: "Cache reads cost one tenth of the base input price on most models"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-28

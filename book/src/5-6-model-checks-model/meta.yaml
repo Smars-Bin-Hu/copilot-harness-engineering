@@ -1,0 +1,20 @@
+id: "5.6"
+part: flow
+title: {en: "Can a model check a model?", zh-Hant: 模型能檢查模型嗎}
+harness_tag: "1.5.50"
+wondering: [11-review]
+sources:
+  - what: "LLMs struggle to self-correct reasoning without external feedback; performance can even degrade after self-correction (ICLR 2024)"
+    where: https://arxiv.org/abs/2310.01798
+    checked: 2026-10-27
+  - what: "The checker sees only the requirement, the work and the diff, not the author's reasoning; it points out findings and never fixes; two checkers gave different verdicts on the same work; the checker's own accuracy has not been measured"
+    where: harness reviewer agent file, docs/02-features.md (Independent checks), review lesson (11.7) of the wondering course, and the harness gap list (G-1)
+  - what: "Give Claude something it can run and check against"
+    where: https://code.claude.com/docs/en/best-practices
+    checked: 2026-10-27
+  - what: "An LLM evaluator can score its own outputs higher than others' (self-preference), linked to how well it recognizes its own outputs"
+    where: https://arxiv.org/abs/2404.13076
+    checked: 2026-10-28
+  - what: "LLM judges show position, verbosity and self-enhancement biases"
+    where: https://arxiv.org/abs/2306.05685
+    checked: 2026-10-28

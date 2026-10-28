@@ -1,0 +1,18 @@
+en:
+  main: the main agent
+  reviewer: reviewer
+  mapper: mapper
+  read: read
+  search: search
+  run: run
+  change: change
+  caption: "Which tools each agent has. A missing tool is a rule the platform enforces; a prompt that says \"do not change files\" is only a request."
+zh-Hant:
+  main: 主 agent
+  reviewer: reviewer
+  mapper: mapper
+  read: 讀
+  search: 搜尋
+  run: 執行
+  change: 修改
+  caption: "每個 agent 有哪些工具。少了的工具是平台強制的規則；提示裡寫「不要改檔案」只是請求。"

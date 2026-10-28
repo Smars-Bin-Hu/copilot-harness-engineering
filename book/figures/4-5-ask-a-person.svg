@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="10" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="80" y="60" text-anchor="middle" data-t="agent">x</text>
+  <rect class="box-lit" x="230" y="30" width="140" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="60" text-anchor="middle" data-t="person">x</text>
+  <rect class="box-plain" x="450" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="520" y="60" text-anchor="middle" data-t="env">x</text>
+
+  <path class="line-lit" d="M150 55 H222"/>
+  <path class="head-lit" d="M222 49 L230 55 L222 61 Z"/>
+  <path class="line" d="M370 55 H442" stroke-dasharray="4 4"/>
+
+  <g data-step="1">
+    <rect class="box-lit" x="10" y="115" width="170" height="50" rx="6"/>
+    <text class="label-lit" x="95" y="136" text-anchor="middle" data-t="q">x</text>
+    <text class="label-lit" x="95" y="154" text-anchor="middle" data-t="q2">x</text>
+  </g>
+  <g data-step="2">
+    <path class="line-lit" d="M300 80 V108"/>
+    <path class="line-lit" d="M370 55 H442"/>
+    <path class="head-lit" d="M442 49 L450 55 L442 61 Z"/>
+    <text class="label-muted" x="300" y="128" text-anchor="middle" data-t="run">x</text>
+    <text class="label-muted" x="300" y="146" text-anchor="middle" data-t="run2">x</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="410" y="115" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="500" y="136" text-anchor="middle" data-t="a">x</text>
+    <text class="label-lit" x="500" y="154" text-anchor="middle" data-t="a2">x</text>
+  </g>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">x</text>
+</svg>

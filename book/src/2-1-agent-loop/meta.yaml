@@ -1,0 +1,18 @@
+id: "2.1"
+part: runtime
+core: true
+title: {en: The agent loop, and where you can step in, zh-Hant: agent 循環，和你能插手的地方}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop]
+sources:
+  - what: "How a coding agent works: the loop, the context window, why an agent goes wrong"
+    where: harness wondering topic 1 (references/01-agent-loop.md)
+  - what: "Agents are \"LLMs autonomously using tools in a loop\""
+    where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+    checked: 2026-10-27
+  - what: "Agents vs fixed workflows; find the simplest solution possible, and add complexity only when needed"
+    where: https://www.anthropic.com/engineering/building-effective-agents
+    checked: 2026-10-28
+  - what: "Cache reads cost one tenth of the base input price on most models"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-28

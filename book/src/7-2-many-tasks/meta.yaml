@@ -1,0 +1,12 @@
+id: "7.2"
+part: people
+title: {en: "Ten things at once: parallel tasks", zh-Hant: "同時管十件事：並行的是任務"}
+harness_tag: "1.5.50"
+wondering: [09-task-lifecycle, 10-subagents]
+sources:
+  - what: "Why the single-task multi-agent flow was dropped; subagents are worth it only for an independent check, parallel read-only work or unattended work; agents hand over by files, not messages"
+    where: harness docs/05-design.md, section 2 (Dividing the work has no value in itself)
+  - what: "The task board: every open task, what it waits for from you and for how long; a hook notes 'waiting for you' when the agent stops; pausing tasks at the end of the day; machine-readable task state"
+    where: harness docs/02-features.md, sections on the board and the task page
+  - what: "When a task waits for the person: requirement not confirmed, plan or write-back waiting for approval, results to bring back, checks used up, the agent stopped, autorun ended"
+    where: harness docs/02-features.md, section on states

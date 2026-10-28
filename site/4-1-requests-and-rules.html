@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>A rule in a prompt is a request</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.1</p><h1><span data-l="en" lang="en">A rule in a prompt is a request</span><span data-l="zh-Hant" lang="zh-Hant">提示裡的規則只是請求</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>: a hook is code that tool calls pass through, and it can refuse the call.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>：hook 是工具呼叫都要經過的程式碼，它可以拒絕這次呼叫。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A rule in a prompt is only a request; a rule in code is a rule. Start with words, and move a rule into code when it keeps being broken or the harm cannot be undone.</p>
+<p>This chapter is about how firmly a rule is held (safety). It is not about which is the cheapest thing that can make a call; that is <a href="5-9-who-decides.html">Who decides</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>寫在提示裡的規則只是請求；寫在程式碼裡的規則才是規則。先從文字開始，當一條規則一直被違反、或傷害無法挽回時，再把它搬進程式碼。</p>
+<p>這一章談的是一條規則守得多牢（安全）。它不談哪個最便宜的東西能做出判斷；那是<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a>。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide which rules may stay as written words and which must be enforced by code. A rule moves to code when it keeps being broken, when the harm cannot be undone, or when other steps rely on it.</li>
+<li><strong>The risk:</strong> a rule written in a prompt is only a request. In my own setup, a hook that put my rules at the start of each prompt ran every time, yet many prompts still arrived without them. That was one setup and one batch in October 2026, not a general rate, and I have no numbers on how often written rules are broken.</li>
+<li><strong>The cost of doing it right:</strong> code has a price: it must be written, tested and kept up when the platform changes. Most rules do not need it, so this is a few rules, not all of them.</li>
+<li><strong>Ask the team:</strong> &quot;Which of our rules would do damage we cannot undo if the agent broke it once, and is each of those held by code or only written in a prompt?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定哪些規則可以只留作寫下來的文字，哪些必須由程式碼強制執行。一條規則在一直被違反、傷害無法挽回、或其他步驟依賴它時，就搬進程式碼。</li>
+<li><strong>風險</strong>：寫在提示裡的規則只是請求。在我自己的設定裡，有個 hook 把我的規則放在每個 prompt 的開頭，它每次都執行了，但還是有很多 prompt 到達時沒有帶著規則。那是一個設定、2026 年 10 月的一批資料，不是一般的比率，而寫下來的規則多常被違反，我沒有數字。</li>
+<li><strong>做對的成本</strong>：程式碼有價錢：要寫、要測、平台變動時要維護。大多數規則不需要它，所以是少數幾條規則，不是全部。</li>
+<li><strong>可以問團隊</strong>：「我們的規則裡，哪些如果 agent 違反一次就會造成無法挽回的傷害？其中每一條是由程式碼守著，還是只寫在提示裡？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You write a rule in the instruction file: &quot;never touch the generated files&quot;. The agent follows it for a week. Then it does not. You read the rule again. It is still there, and it is clear. Nothing in the file changed. What changed is that the agent had other things to think about.</p>
+<p>A <strong>prompt</strong> is the text the model reads: your request, the instruction files, the skills it loaded. A rule written there is a sentence like any other. The model weighs it against the other sentences, and sometimes the others win. The longer the chat, the more other sentences there are (<a href="3-2-long-sessions.html">Long chats get worse</a>).</p>
+<p>Even getting the sentence in front of the model is not certain. In <a href="2-2-hooks.html">Hooks</a> I counted a batch of prompts in my own setup in October 2026: a hook that put my rules at the start of each prompt ran every time, yet many prompts still arrived without them. It is one setup and one batch, not a general rate. If delivering a rule can fail, obeying it can fail more.</p>
+<p>So there are two kinds of rule, and they are easy to mix up:</p>
+<ul>
+<li><strong>A request.</strong> You ask the model to behave. It usually does. No one can promise it always will.</li>
+<li><strong>A rule.</strong> Code stands in the way. As long as the code runs and sees the call, it is refused whatever the model thinks.</li>
+</ul>
+<p>Anything that must hold has to be the second kind. But code is not free, and most rules do not need it. The question of this chapter is: which rule goes where?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你在指令檔裡寫了一條規則：「絕對不要碰產生出來的檔案」。agent 遵守了一個星期。然後它沒有。你再讀一遍規則。它還在，也很清楚。檔案裡什麼都沒變。變的是，agent 有別的事要想。</p>
+<p><strong>prompt</strong> 是模型讀的文字：你的請求、指令檔、它載入的 skill。寫在那裡的規則，和別的句子一樣是一句話。模型把它和其他句子放在一起權衡，有時其他句子贏。對話越長，其他句子越多（<a href="3-2-long-sessions.html">長對話會變差</a>）。</p>
+<p>就連把這句話送到模型面前，也不是確定的。在 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>裡，我數了我自己設定在 2026 年 10 月的一批 prompt：有個 hook 把我的規則放在每個 prompt 的開頭，它每次都執行了，但還是有很多 prompt 到達時沒有帶著規則。那是一個設定、一批資料，不是一般的比率。傳達規則都可能失敗，遵守規則更可能失敗。</p>
+<p>所以規則有兩種，而且很容易搞混：</p>
+<ul>
+<li><strong>請求</strong>。你請模型照這樣做。它通常會。沒有人能保證它永遠會。</li>
+<li><strong>規則</strong>。有程式碼擋在路上。只要程式碼在執行、看得到這次呼叫，不管模型怎麼想，它都會被拒絕。</li>
+</ul>
+<p>任何一定要成立的東西，必須是第二種。但程式碼不是免費的，大多數規則也不需要它。這一章的問題是：哪條規則放在哪裡？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Four levels of firmness</h3>
+<p>A rule can be held at four levels. Each one promises something different, and each one has a limit.</p>
+<figure class="fig" id="fig-4-1-ladder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="20" y="20" width="560" height="50" rx="8"/>
+  <text class="label-lit" x="36" y="50" data-t="hook">A hook refuses</text>
+  <text class="label-lit" x="200" y="50" data-t="hook-note">stopped at run time; sees calls only</text>
+
+  <rect class="box" x="20" y="80" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="110" data-t="cmd">A command checks</text>
+  <text class="label" x="200" y="110" data-t="cmd-note">same every time; guards only its own path</text>
+
+  <rect class="box" x="20" y="140" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="170" data-t="words">Words</text>
+  <text class="label" x="200" y="170" data-t="words-note">the agent knows why; may not comply</text>
+
+  <rect class="box-plain" x="20" y="210" width="560" height="44" rx="8"/>
+  <text class="label-muted" x="36" y="237" data-t="after">Found afterwards</text>
+  <text class="label-muted" x="200" y="237" data-t="after-note">can find a breach, cannot prevent it</text>
+
+  <path class="line-lit" d="M8 190 V30"/>
+  <path class="head-lit" d="M2 38 L8 28 L14 38 Z"/>
+</svg>
+<figcaption>Three levels hold a rule at rising firmness. The last one only tells you whether they held.</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What it is</th>
+<th>What it promises</th>
+<th>Its limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Words</strong></td>
+<td>The rule is written in an instruction file, a skill, or the body of an agent</td>
+<td>The agent knows the rule and why it exists</td>
+<td>It may not comply</td>
+</tr>
+<tr>
+<td><strong>A command that checks itself</strong></td>
+<td>The agent does the operation through a small program of yours, which checks the conditions before it acts</td>
+<td>The same result every time, on any platform</td>
+<td>It guards only what goes through it. If the agent edits the file by hand, the command is never called</td>
+</tr>
+<tr>
+<td><strong>A hook that refuses</strong></td>
+<td>Code the platform runs before tool calls, which can say no</td>
+<td>The call is stopped, in the modes I tried, even when no one is watching</td>
+<td>It depends on the platform, and it sees the call, not the effect (<a href="2-2-hooks.html">Hooks</a>)</td>
+</tr>
+<tr>
+<td><strong>Found afterwards</strong></td>
+<td>A health check (a command that tests whether the setup is sound), a test run, a read of the logs</td>
+<td>A breach can be found and counted</td>
+<td>It cannot prevent anything. It is detection, not prevention</td>
+</tr>
+</tbody>
+</table>
+<p>The last level is different in kind. It does not hold the rule; it tells you whether the others held. You need it at every level, because a rule you cannot see being broken is a rule you are guessing about.</p>
+<p>The middle two need a word of explanation. A <strong>command</strong> here is a program you give the agent next to its built-in tools. Instead of &quot;create the folder, copy the files, write the state&quot;, the agent runs one command that does all three and refuses to start if a precondition is false. The rule is inside the command. A <strong>hook</strong> is the other way round: the agent does what it likes, and the hook looks at each call before it runs.</p>
+<h3>Where does a rule go</h3>
+<p>Start every rule at the bottom, in words. A sentence is cheap to write and cheap to change, and for most rules the model will follow it. Move it up when one of three things is true.</p>
+<ol>
+<li><strong>It keeps being broken.</strong> You have seen it happen more than once, and a better sentence did not fix it. Rewording is the wrong answer to a rule that is ignored for being far away; code is the right one.</li>
+<li><strong>The harm cannot be undone.</strong> A deleted branch, a pushed commit, an overwritten file nobody backed up. One breach is one too many, so do not wait for the second.</li>
+<li><strong>Other parts rely on it.</strong> If a later step trusts that an earlier rule held (a &quot;check passed&quot; record, an approval), then a broken rule breaks the later step too.</li>
+</ol>
+<p>Then pick the lowest level that is enough. If a command can hold the rule, do not build a hook. A hook has to be written, tested, and kept alive across platform changes (<a href="4-4-enforcement-design.html">Enforcement design</a>). Use the hook when the agent can get to the thing in many ways and you cannot route them all through your command.</p>
+<h3>Stop with code, teach with text</h3>
+<p>When you move a rule into code, do not delete the sentence. Keep one. They do different jobs.</p>
+<ul>
+<li><strong>The code stops.</strong> It does not depend on what the model remembers.</li>
+<li><strong>The text teaches.</strong> It tells the agent why the rule exists and what to do instead, before it runs into the wall.</li>
+</ul>
+<p>Without the text, the agent runs into the refusal again and again, and tries other ways round it. Without the code, the text is a request again. The refusal message is the bridge: it is code that carries a sentence. A good one says why it was refused and what to do next (<a href="4-2-ask-vs-refuse.html">Asking is not a limit</a> is about writing these).</p>
+<p>The other side of the same split: do not put into code what only a judgment can decide. &quot;Is this the right requirement?&quot; and &quot;is this change good?&quot; have no pattern to match. Those stay as words, and you check them from outside, with an independent reviewer (<a href="2-3-subagents.html">Use subagents sparingly</a>).</p>
+<h3>An example of moving up</h3>
+<p>Say your rule is: &quot;generated files are never edited by hand&quot;. The steps look like this.</p>
+<ol>
+<li><strong>Words.</strong> One line in the instructions, with the reason: they are rebuilt, and hand edits are lost.</li>
+<li><strong>It happens twice.</strong> You add a check at the level of the hook: a call to the edit tool on those paths is refused, with the reason and the command that regenerates them.</li>
+<li><strong>A new gap.</strong> The agent now uses the terminal to write the file. You add the common spellings of that to the hook. You also know it will not catch a script written first and run later, so you keep the one sentence of words, and a test that finds changed generated files after the fact.</li>
+</ol>
+<p>This is a made-up case to show the steps. At each step a level was added and none was removed.</p>
+<h3>Test your own setup</h3>
+<p><strong>A three-minute exercise.</strong> Write down three rules you give your agent today. For each, answer: is it words, a command, a hook, or a check afterwards? Would one breach be undoable? Has it been broken twice? Any rule that is &quot;no&quot; to the first question, &quot;cannot undo&quot; to the second, and &quot;yes&quot; to the third is the one to move up first.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>四個牢固程度</h3>
+<p>一條規則可以守在四個程度。每一個保證的東西不同，每一個也都有限制。</p>
+<figure class="fig" id="fig-4-1-ladder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="20" y="20" width="560" height="50" rx="8"/>
+  <text class="label-lit" x="36" y="50" data-t="hook">hook 拒絕</text>
+  <text class="label-lit" x="200" y="50" data-t="hook-note">執行時就擋下；只看得到呼叫</text>
+
+  <rect class="box" x="20" y="80" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="110" data-t="cmd">指令自己檢查</text>
+  <text class="label" x="200" y="110" data-t="cmd-note">每次結果一樣；只管走它的路</text>
+
+  <rect class="box" x="20" y="140" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="170" data-t="words">文字</text>
+  <text class="label" x="200" y="170" data-t="words-note">agent 知道原因；可能不照做</text>
+
+  <rect class="box-plain" x="20" y="210" width="560" height="44" rx="8"/>
+  <text class="label-muted" x="36" y="237" data-t="after">事後發現</text>
+  <text class="label-muted" x="200" y="237" data-t="after-note">能發現違規，不能阻止</text>
+
+  <path class="line-lit" d="M8 190 V30"/>
+  <path class="head-lit" d="M2 38 L8 28 L14 38 Z"/>
+</svg>
+<figcaption>三級把規則守得越來越緊。最後一級只告訴你前面守住了沒有。</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>程度</th>
+<th>它是什麼</th>
+<th>它保證什麼</th>
+<th>它的限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文字</strong></td>
+<td>規則寫在指令檔、skill 或 agent 的正文裡</td>
+<td>agent 知道這條規則和它存在的理由</td>
+<td>它可能不遵守</td>
+</tr>
+<tr>
+<td><strong>自己檢查的指令</strong></td>
+<td>agent 透過你的一個小程式來做這個操作，程式在動手之前先檢查條件</td>
+<td>在任何平台上，每次都是同樣的結果</td>
+<td>它只守經過它的東西。agent 如果手動編輯檔案，這個指令根本不會被呼叫</td>
+</tr>
+<tr>
+<td><strong>會拒絕的 hook</strong></td>
+<td>平台在工具呼叫之前執行的程式碼，可以說不</td>
+<td>在我試過的模式裡，呼叫會被擋下，即使沒有人看著</td>
+<td>它依賴平台，而且它看到的是呼叫，不是效果（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）</td>
+</tr>
+<tr>
+<td><strong>事後發現</strong></td>
+<td>健康檢查（一個測試設定是否健全的指令）、跑一次測試、讀紀錄</td>
+<td>違反可以被發現、被計數</td>
+<td>它什麼也預防不了。它是偵測，不是預防</td>
+</tr>
+</tbody>
+</table>
+<p>最後一個程度的種類不同。它不守規則；它告訴你其他的有沒有守住。每一個程度你都需要它，因為你看不到它被違反的規則，是你在猜的規則。</p>
+<p>中間兩個需要解釋一下。這裡的<strong>指令</strong>，是你在 agent 內建工具旁邊給它的一個程式。agent 不再「建資料夾、複製檔案、寫狀態」，而是執行一個指令，三件事一次做完，如果前提條件不成立，就拒絕開始。規則在指令裡面。<strong>hook</strong> 則相反：agent 想做什麼就做什麼，hook 在每次呼叫執行前先看一眼。</p>
+<h3>規則該放哪裡</h3>
+<p>每條規則都從最底層開始，用文字。一句話寫起來便宜、改起來也便宜，而且對大多數規則，模型會照做。三件事有一件成立時，再往上搬。</p>
+<ol>
+<li><strong>它一直被違反</strong>。你看到它發生不止一次，而更好的句子沒有解決。對一條因為離得太遠而被無視的規則，重新措辭是錯的答案；程式碼才是對的。</li>
+<li><strong>傷害無法挽回</strong>。一個被刪掉的分支、一個推上去的 commit、一個沒人備份就被覆寫的檔案。違反一次就太多了，所以不要等第二次。</li>
+<li><strong>其他部分依賴它</strong>。如果後面的步驟相信前面的規則守住了（一筆「檢查通過」的紀錄、一個批准），那麼規則一破，後面的步驟也跟著破。</li>
+</ol>
+<p>然後選夠用的最低程度。如果指令能守住這條規則，就不要做 hook。hook 要寫、要測、要在平台變動中一直維持（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>）。agent 有很多方式可以接觸到那樣東西、而你無法把它們全部導到你的指令時，才用 hook。</p>
+<h3>用程式碼擋，用文字教</h3>
+<p>把一條規則搬進程式碼時，不要刪掉那句話。留一句。它們做不同的事。</p>
+<ul>
+<li><strong>程式碼負責擋</strong>。它不依賴模型記得什麼。</li>
+<li><strong>文字負責教</strong>。它在 agent 撞上牆之前，告訴它這條規則為什麼存在、該改做什麼。</li>
+</ul>
+<p>沒有文字，agent 一次又一次撞上拒絕，並試別的方式繞過去。沒有程式碼，文字又變回請求。拒絕的訊息是橋樑：它是帶著一句話的程式碼。好的訊息說明為什麼被拒絕、接下來做什麼（怎麼寫這些，見<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
+<p>同一種拆分的另一面：只有判斷才能決定的事，不要放進程式碼。「這是對的需求嗎？」「這個改動好不好？」沒有可以比對的模式。這些仍然是文字，你從外面去檢查，用獨立的 reviewer（<a href="2-3-subagents.html">慎用子 agent</a>）。</p>
+<h3>一個往上搬的例子</h3>
+<p>假設你的規則是：「產生出來的檔案絕不手動編輯」。步驟看起來是這樣。</p>
+<ol>
+<li><strong>文字</strong>。指令裡一行，附上理由：它們會被重新建置，手動編輯會丟掉。</li>
+<li><strong>它發生了兩次</strong>。你加一個 hook 層級的檢查：對那些路徑呼叫編輯工具，會被拒絕，附上理由和重新產生它們的指令。</li>
+<li><strong>出現新的缺口</strong>。agent 現在用終端機去寫那個檔案。你把這個做法常見的寫法加進 hook。你也知道它抓不到先寫好一支腳本、之後再執行的情況，所以你留著那一句文字，再加一個測試，事後找出被改過的產生檔案。</li>
+</ol>
+<p>這是一個編出來顯示步驟的案例。每一步都加上了一個程度，沒有拿掉任何一個。</p>
+<h3>測一測你自己的設定</h3>
+<p><strong>一個三分鐘的練習</strong>。寫下你今天給 agent 的三條規則。每一條回答：它是文字、指令、hook，還是事後檢查？違反一次能挽回嗎？它被違反過兩次嗎？第一個問題答「不是」、第二個答「不能挽回」、第三個答「是」的規則，就是最先要往上搬的。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Code has a price.</strong> It has to be written, tested, and updated when the platform changes tool names or events. The more rules you move into code, the more of that you carry.</p>
+<p><strong>Code stops the wrong things too.</strong> A pattern that is too wide blocks real work. The agent cannot argue with a refusal, so a false refusal is a stuck task. Every code rule needs a reason in the message, and a way to see which rule fired.</p>
+<p><strong>A hook only sees calls.</strong> A rule in a hook holds for the spellings it knows. It does not hold against an agent set on getting around it. For things that must never be touched, see <a href="4-5-least-privilege.html">Least privilege</a>.</p>
+<p><strong>Code can fail too.</strong> A hook is software. If it breaks, the platform may refuse every call, or let every call through, depending on how it broke (<a href="4-4-enforcement-design.html">Enforcement design</a>).</p>
+<p><strong>A rule that only the agent keeps is not a record.</strong> Do not let the agent be the only witness that it followed a rule. For anything you will rely on later, have code write the record (<a href="5-5-counted-checks.html">Counted checks</a>).</p>
+<p><strong>I did not count how often each level fails.</strong> The ladder comes from experience with one harness and from the docs. I do not have numbers for how often words alone are broken, and I would not trust anyone who gave you one without saying what model and what task.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>程式碼有價錢</strong>。它要寫、要測，平台改工具名稱或事件時要更新。你搬進程式碼的規則越多，要背的就越多。</p>
+<p><strong>程式碼也會擋錯東西</strong>。太寬的模式會擋掉真正的工作。agent 沒辦法跟拒絕爭辯，所以一次誤拒絕，就是一個卡住的任務。每條程式碼規則，訊息裡都需要一個理由，還要有辦法看出是哪條規則觸發了。</p>
+<p><strong>hook 只看得到呼叫</strong>。hook 裡的規則，對它認得的寫法有效。對一個一心想繞過它的 agent，它守不住。對於絕不能碰的東西，見<a href="4-5-least-privilege.html">有些東西根本不給</a>。</p>
+<p><strong>程式碼也會失敗</strong>。hook 是軟體。它壞了，平台可能拒絕每一次呼叫，也可能放行每一次呼叫，看它是怎麼壞的（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>）。</p>
+<p><strong>只有 agent 自己守著的規則，不算紀錄</strong>。別讓 agent 成為它遵守了規則的唯一見證。凡是之後你要依賴的，都讓程式碼來寫紀錄（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</p>
+<p><strong>我沒有數每個程度多常失敗</strong>。這個階梯來自對一個 harness 的經驗和文件。光靠文字多常被違反，我沒有數字，而任何人如果給你一個數字、卻不說是什麼模型和什麼任務，我不會相信。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The platform docs agree on the split, though they put it in their own words. The VS Code hooks page says hooks and instructions are not substitutes for enforced permissions, sandboxing or enterprise controls (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>). Read that both ways: instructions are the weakest level, and a hook is not the strongest level either. The next chapters go up that ladder.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>平台文件在這種拆分上是一致的，只是各有各的說法。VS Code 的 hooks 頁面說，hook 和指令不能替代強制執行的權限、沙箱或企業控制（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。兩個方向都要這樣讀：指令是最弱的程度，而 hook 也不是最強的程度。接下來的幾章，就是沿著這個階梯往上走。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Two things shrink the ladder over time.</p>
+<ul>
+<li><strong>The model gets better at following words.</strong> Some rules you moved to code because the model ignored them may now be followed. The way to find out is to run the same tasks with the code rule switched off and count (<a href="6-5-model-upgrades.html">When the model is upgraded</a>). Choose tasks that used to trip the rule, run each a few times, and count the breaches. A handful of runs shows only a large change. I have not run this. Switch it off only where a breach can be undone.</li>
+<li><strong>The platform takes over.</strong> When the platform itself can refuse a path or a command in every mode, your own hook for it can go. Keep the sentence of text.</li>
+</ul>
+<p>What does not go away is the question: which rule is held how firmly, and why.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>有兩件事會讓這個階梯隨時間縮短。</p>
+<ul>
+<li><strong>模型越來越會遵守文字</strong>。有些你因為模型無視而搬進程式碼的規則，現在可能已經被遵守了。找出來的辦法，是把程式碼規則關掉，跑同樣的任務並計數（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。選過去曾經觸發這條規則的任務，每個跑幾次，數違反的次數。跑幾次只能看出很大的變化。我沒有跑過。只在違反可以挽回的地方才關掉。</li>
+<li><strong>平台接手</strong>。當平台自己能在每種模式下拒絕一個路徑或指令時，你自己為它做的 hook 就可以去掉。留著那一句文字。</li>
+</ul>
+<p>不會消失的是這個問題：哪條規則守得多牢，為什麼。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Read every rule this project gives the agent: instruction files, skills, agent files, hook and permission settings. For each rule, say which level holds it: words only, a command that checks itself, a hook or permission setting that refuses, or a check run afterwards. Then list the rules that are words only but would cause harm that cannot be undone, or that other steps rely on. Output a table with the rule, its level, and your recommendation to keep or move up. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>讀這個專案給 agent 的每一條規則：指令檔、skill、agent 檔、hook 和權限設定。每一條規則，說明它由哪個程度守著：只有文字、自己檢查的指令、會拒絕的 hook 或權限設定，還是事後執行的檢查。然後列出只有文字、但違反會造成無法挽回的傷害、或其他步驟依賴它的規則。輸出一張表，包含規則、它的程度，以及你建議保留還是往上搬。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>In this book: <a href="2-2-hooks.html">Hooks</a>, <a href="3-3-instructions-and-skills.html">Instructions and skills</a>, <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>本書：<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>、<a href="4-2-ask-vs-refuse.html">詢問不是限制</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The four levels all exist in Copilot Harness: rules in text, commands that check their own conditions, a hook that refuses, and checks that look back. The harness can show you which rule sits at which level, and why, with the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A rule in a prompt is a request&quot;. Teach me how this harness decides where each rule lives: the ladder of enforcement (topic 14) and the design choices behind it (topic 15). Pick three rules, show me which level each one is at and what would make you move it, and open the real files with me.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>四個程度在 Copilot Harness 裡都有：文字寫的規則、自己檢查條件的指令、會拒絕的 hook，和往回看的檢查。harness 可以用真實的檔案讓你看到哪條規則在哪個程度、為什麼。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「提示裡的規則只是請求」這一章。請教我這個 harness 怎麼決定每條規則放在哪裡：執行的階梯（主題 14）和背後的設計選擇（主題 15）。挑三條規則，告訴我每一條在哪個程度、什麼情況會讓你把它往上搬，並帶我打開真實的檔案。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

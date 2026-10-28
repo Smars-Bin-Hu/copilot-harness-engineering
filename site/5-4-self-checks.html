@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Let the agent check its own work</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.4</p><h1><span data-l="en" lang="en">Let the agent check its own work</span><span data-l="zh-Hant" lang="zh-Hant">讓 agent 能檢查自己的活</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="2-1-agent-loop.html">The agent loop</a>: the agent asks the model, runs a tool, and feeds the result back.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent。它建立在 <a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 上：agent 問模型、執行工具、把結果餵回去。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Give the agent a way to check its own work: run the tests, the linter, the program. A check it can run and read gives it feedback inside the loop; a reviewer only finds problems afterwards.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>讓 agent 有辦法檢查自己的活：跑測試、跑 linter、跑程式。它能跑、也能讀的檢查，在循環裡就給它回饋；reviewer 只能在事後找問題。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require that every task comes with a check the agent can run and read itself, such as tests, a build or a linter, and decide which of those checks the agent may not edit.</li>
+<li><strong>The risk:</strong> an agent stops when its work looks done, and in my own use models often lean towards reporting success; I have not recorded how often. Anthropic describes a later agent that would &quot;declare the job done&quot; after seeing progress. An agent can also pass by weakening the test. I have not recorded such a case, so it is a risk to design for.</li>
+<li><strong>The cost of doing it right:</strong> often one line in the instruction file: the command that runs the project's check. Slow suites need a fast subset to run often. I have not measured how much a self-check improves results.</li>
+<li><strong>Ask the team:</strong> &quot;What can the agent run to know that its work is done, and can it change that check?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要求每個任務都附一個 agent 自己能跑、能讀的檢查，例如測試、建置或 linter，並決定這些檢查裡，哪些 agent 不能改。</li>
+<li><strong>風險</strong>：agent 在活「看起來」做完時就停了；就我自己的使用經驗，模型常常傾向於回報成功，我沒有記錄過頻率。Anthropic 描述過，後來的 agent 看到已有進展，就會「宣布工作完成」。agent 也可能靠削弱測試來通過。我沒有記錄過這樣的案例，所以它是要為之設計的風險。</li>
+<li><strong>做對的成本</strong>：常常只是指令檔裡的一行：執行專案檢查的指令。慢的測試集需要一個快的子集，讓它常常跑。自我檢查能把結果改善多少，我沒有量過。</li>
+<li><strong>可以問團隊</strong>：「agent 能跑什麼來知道它的活做完了？它能改這個檢查嗎？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent stops when its work <em>looks</em> done. Looks done is a feeling the model has about its own code. It has not run anything. It says &quot;I have made the change&quot;, you read it, and you find the bug.</p>
+<p>If the agent has nothing to run that says whether the work is done, you are the test suite. Every mistake waits until you notice it. That is slow, and it needs you in front of the screen.</p>
+<p>In my own use I have often seen models lean towards reporting success; I have not recorded how often. Anthropic describes the same pull in long runs, where a later agent instance would &quot;declare the job done&quot; after seeing that progress had been made (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>). And an agent that checks its own work by reading it shares its own blind spots, since the same reasoning that wrote the mistake reads it (<a href="2-3-subagents.html">Use subagents sparingly</a>).</p>
+<p>The way out is not a smarter agent. It is a check that does not depend on the agent's feeling.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>agent 在活「看起來」做完時就停了。看起來做完，是模型對自己程式碼的一種感覺。它什麼都沒跑過。它說「我已經做了這個改動」，你一讀，找到了 bug。</p>
+<p>如果 agent 沒有東西可以跑來判斷活有沒有做完，你就是測試集。每個錯誤都要等你發現。這很慢，也需要你坐在螢幕前。</p>
+<p>就我自己的使用經驗，我常看到模型傾向於回報成功；我沒有記錄過頻率。Anthropic 描述過長時間運行裡同樣的拉力：後來的 agent 看到已有進展，就會「宣布工作完成」（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。而且靠讀來檢查自己的活的 agent，有自己的盲點，因為寫出錯誤的那套推理，同時也在讀它（<a href="2-3-subagents.html">慎用子 agent</a>）。</p>
+<p>出路不是更聰明的 agent，而是一個不靠 agent 的感覺的檢查。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>One of the most useful things you can add</h3>
+<p>Compare two cases.</p>
+<p>In the first, the agent changes code and says &quot;done&quot;. You run the tests; two fail. You tell the agent. It fixes one. You run again.</p>
+<p>In the second, the agent changes code and runs the tests itself. Two fail. It reads the output and fixes both. It runs the tests again. They pass. It says &quot;done&quot; and shows the output.</p>
+<p>Same model. The difference is that in the second case the result of the check came back <strong>inside the loop</strong>, before the agent finished. The loop in <a href="2-1-agent-loop.html">The agent loop</a> already has a place for this: a tool result goes back to the model, and the model decides the next step. A test run is just a tool whose result says, plainly, pass or fail.</p>
+<figure class="fig steps" id="fig-5-4-check-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <g data-step="1">
+  <rect class="box" x="10" y="50" width="140" height="56" rx="8"/>
+  <text class="label" x="80" y="83" text-anchor="middle" data-t="change">change code</text>
+  <text class="label-muted" x="80" y="130" text-anchor="middle" data-t="change-n">the agent edits</text>
+  </g>
+  <g data-step="2">
+  <path class="line-lit" d="M150 78 H215"/>
+  <path class="head-lit" d="M215 72 L225 78 L215 84 Z"/>
+  <rect class="box-lit" x="225" y="50" width="140" height="56" rx="8"/>
+  <text class="label-lit" x="295" y="83" text-anchor="middle" data-t="run">run the check</text>
+  <text class="label-lit" x="295" y="130" text-anchor="middle" data-t="run-n">test, linter, program</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M365 78 H430"/>
+  <path class="head-lit" d="M430 72 L440 78 L430 84 Z"/>
+  <rect class="box-lit" x="440" y="50" width="150" height="56" rx="8"/>
+  <text class="label-lit" x="515" y="83" text-anchor="middle" data-t="read">read result</text>
+  <text class="label-muted" x="515" y="130" text-anchor="middle" data-t="read-n">short and clear</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M515 142 V165 H80 V118"/>
+  <path class="head-lit" d="M74 118 L80 108 L86 118 Z"/>
+  <text class="label-lit" x="300" y="187" text-anchor="middle" data-t="fix-n">fails: fix and run it again; passes: go on</text>
+  </g>
+  <g data-step="5">
+  <rect class="box-plain" x="100" y="205" width="400" height="36" rx="6"/>
+  <text class="label-muted" x="300" y="228" text-anchor="middle" data-t="rev">a reviewer finds problems afterwards</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The agent changes the code.</li><li data-step-text="2">It runs a check it can start itself: the tests, the linter, the program.</li><li data-step-text="3">It reads the result. The result must be short enough, and clear enough, to act on.</li><li data-step-text="4">If the check fails, it fixes the problem and runs the check again, inside the same loop. No person is needed.</li><li data-step-text="5">A reviewer works after the loop. It can point out problems, but the agent has already moved on.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A check the agent can run and read puts feedback inside the loop.</figcaption></figure>
+<p>Anthropic's guide for Claude Code says the same thing in its own words: give the agent something it can run that comes back pass or fail, and it can keep going on its own, so that you do not have to watch. (<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>) I put this near the top of the levers. A reviewer is also valuable, but it works afterwards, on finished work. A self-check changes what the agent does while it works.</p>
+<h3>What can be run</h3>
+<p>Anything that gives a result the agent can read:</p>
+<ul>
+<li><strong>Tests:</strong> the project's own tests, or a new test written for this change.</li>
+<li><strong>A build or typecheck:</strong> the exit code alone says it works or not.</li>
+<li><strong>A linter or formatter:</strong> quick, and it catches a class of mistakes.</li>
+<li><strong>A script that compares output with a known-good file:</strong> good for data work, where the right answer is a table.</li>
+<li><strong>Running the program:</strong> for a pipeline, run it on a small input and look at the output.</li>
+<li><strong>A screenshot next to a mockup:</strong> for user interfaces.</li>
+</ul>
+<p>If a repository already has one of these, the most useful single line in the agent's instruction file is the command that runs it. The agent cannot guess which command the project trusts.</p>
+<p>There are also levels of how firmly you ask for it, from soft to hard. This is the ladder from <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>:</p>
+<ol>
+<li><strong>In the prompt:</strong> &quot;run the tests after, and keep going until they pass&quot;. The agent decides when it is satisfied.</li>
+<li><strong>As a stop condition:</strong> a hook (<a href="2-2-hooks.html">Hooks</a>) runs at the moment the agent tries to stop. If the check fails, the hook sends the agent back to work. The platform enforces it, so the agent cannot end its turn with a failing check. Claude Code's documentation describes this with a Stop hook (<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>). I have not tested the same in Copilot for this chapter.</li>
+<li><strong>Counted by code:</strong> the number of passes is counted by a program, not reported by the agent (<a href="5-5-counted-checks.html">Counted checks</a>).</li>
+</ol>
+<h3>Make the result short and readable</h3>
+<p>The agent reads the check's output, and the output goes into its context (<a href="3-1-context-budget.html">Context is a budget</a>). Two things go wrong.</p>
+<ul>
+<li><strong>Too long.</strong> A test run that prints thousands of lines fills the context, and the failure the agent needs is lost in them. Print the failures, with the file and line, and a count. Hide the passing noise.</li>
+<li><strong>Too vague.</strong> &quot;Error&quot; alone gives the agent nothing to act on. A good failure says what was expected, what happened, and where.</li>
+</ul>
+<p>This is the same advice as for tool messages in <a href="1-2-tool-calling.html">Tool calling</a>: the agent is an unreliable user, and what it reads decides what it does next. A check whose output is cheap and clear is worth more than a thorough check that nobody can read.</p>
+<p>Ask also for evidence. &quot;All tests pass&quot; is a claim. The command that was run, and its output, is evidence. When you were not watching, it is the only evidence you have.</p>
+<h3>What a self-check cannot catch</h3>
+<p>A passing check says: &quot;this does what the check tests.&quot; It does not say: &quot;this is what you wanted.&quot; Two gaps matter.</p>
+<p><strong>The requirement is wrong.</strong> If the page the agent works from is not what the person meant (<a href="5-2-requirements.html">The agent writes the requirement</a>), then perfect code that passes every test is perfect code for the wrong thing. No test the agent writes from a wrong requirement will find that. Only a person, reading the requirement, can.</p>
+<p><strong>The test is weak.</strong> A test may check too little: it passes with the bug in. A test the agent wrote in the same session was written with the same understanding as the code, so it shares the same blind spot. If the agent misread the rule, its code and its test will agree with each other and both be wrong.</p>
+<p>A third thing sits beside these: some mistakes only show when the program is run in the real setting, with real data, and the agent cannot run it there. That is a person's check, or a test environment's.</p>
+<h3>The failure mode: the agent weakens the test</h3>
+<p>Here is a failure that follows from giving the agent a check. The agent wants the loop to end with a pass. The easy way to get a pass is to change the check, not the code. It can:</p>
+<ul>
+<li>loosen an assertion until it passes,</li>
+<li>delete or skip the test that fails,</li>
+<li>change the expected value to whatever the code now gives,</li>
+<li>catch an error and swallow it.</li>
+</ul>
+<p>Nothing here needs bad intent. The agent is doing what the loop rewards: finishing with a pass. I have not recorded a case of this in my own runs, so I describe it as a risk to design for, not as something I measured.</p>
+<p>Three defences, from cheapest to hardest:</p>
+<ol>
+<li><strong>Say it in words.</strong> &quot;Fix the code, not the tests. If a test seems wrong, say so and stop.&quot; It helps and it is a request (<a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>).</li>
+<li><strong>Keep the tests out of its reach.</strong> If the tests are part of what must not be edited, a hook refuses the change. <a href="4-3-guardrails.html">Guardrails</a> explains why files that check the agent should be outside what the agent can write. This does not fit work where adding new tests is part of the job. There, protect the existing tests and let it add new ones.</li>
+<li><strong>Do not trust the report; count.</strong> Look at the diff of the tests (the list of changed lines). A change to a test that was failing is a flag. And let code, not the agent, count passes, with a record that the check ran (<a href="5-5-counted-checks.html">Counted checks</a>).</li>
+</ol>
+<h3>How it divides work with an independent check</h3>
+<p>The two are not rivals; they catch different things.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Self-check</th>
+<th>Independent reviewer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When</td>
+<td>While the agent works</td>
+<td>After it finishes</td>
+</tr>
+<tr>
+<td>Catches</td>
+<td>Things a program can judge: it runs, it passes, it matches a file</td>
+<td>Things a program cannot judge: does it match the request, is the logic sound</td>
+</tr>
+<tr>
+<td>Misses</td>
+<td>Wrong requirement, weak test</td>
+<td>Blind spots the reviewer shares with the author</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Cheap, runs again and again</td>
+<td>One more agent, several times the usage (<a href="2-3-subagents.html">Use subagents sparingly</a>)</td>
+</tr>
+</tbody>
+</table>
+<p>So the order is: self-checks first, as many and as cheap as you can, inside the loop. Then, where it is worth the cost, an independent check on the result. A reviewer who sees a green test run can spend its attention on the question tests cannot answer: is this the right thing?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>你能加的最有用的東西之一</h3>
+<p>比較兩種情況。</p>
+<p>第一種，agent 改了程式碼，說「做完了」。你跑測試，兩個失敗。你告訴 agent。它修好一個。你再跑一次。</p>
+<p>第二種，agent 改了程式碼，自己跑測試。兩個失敗。它讀輸出，把兩個都修好。再跑一次測試。通過了。它說「做完了」，並附上輸出。</p>
+<p>同一個模型。差別是：第二種情況裡，檢查的結果在 agent 結束之前，就<strong>在循環裡</strong>回來了。<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 裡的循環，本來就有放這件事的位置：工具的結果回到模型，模型決定下一步。跑測試只是一個工具，它的結果直白地說通過或失敗。</p>
+<figure class="fig steps" id="fig-5-4-check-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <g data-step="1">
+  <rect class="box" x="10" y="50" width="140" height="56" rx="8"/>
+  <text class="label" x="80" y="83" text-anchor="middle" data-t="change">改程式碼</text>
+  <text class="label-muted" x="80" y="130" text-anchor="middle" data-t="change-n">agent 動手改</text>
+  </g>
+  <g data-step="2">
+  <path class="line-lit" d="M150 78 H215"/>
+  <path class="head-lit" d="M215 72 L225 78 L215 84 Z"/>
+  <rect class="box-lit" x="225" y="50" width="140" height="56" rx="8"/>
+  <text class="label-lit" x="295" y="83" text-anchor="middle" data-t="run">跑檢查</text>
+  <text class="label-lit" x="295" y="130" text-anchor="middle" data-t="run-n">測試、linter、程式</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M365 78 H430"/>
+  <path class="head-lit" d="M430 72 L440 78 L430 84 Z"/>
+  <rect class="box-lit" x="440" y="50" width="150" height="56" rx="8"/>
+  <text class="label-lit" x="515" y="83" text-anchor="middle" data-t="read">讀結果</text>
+  <text class="label-muted" x="515" y="130" text-anchor="middle" data-t="read-n">短而清楚</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M515 142 V165 H80 V118"/>
+  <path class="head-lit" d="M74 118 L80 108 L86 118 Z"/>
+  <text class="label-lit" x="300" y="187" text-anchor="middle" data-t="fix-n">沒過：修了再跑；過了：往下走</text>
+  </g>
+  <g data-step="5">
+  <rect class="box-plain" x="100" y="205" width="400" height="36" rx="6"/>
+  <text class="label-muted" x="300" y="228" text-anchor="middle" data-t="rev">檢查者事後才找問題</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">agent 改程式碼。</li><li data-step-text="2">它跑一個自己能啟動的檢查：測試、linter、程式本身。</li><li data-step-text="3">它讀結果。結果要夠短、夠清楚，才讀得懂、改得動。</li><li data-step-text="4">檢查沒過，它就修，再跑一次，全在同一個循環裡，不需要人。</li><li data-step-text="5">檢查者在循環之後才工作。它能指出問題，但 agent 已經往下走了。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>agent 自己能跑、能讀的檢查，把回饋放進循環裡。</figcaption></figure>
+<p>Anthropic 給 Claude Code 的指南，用自己的話說了同一件事：給 agent 一個能跑、結果是通過或失敗的東西，它就能自己繼續做下去，你不用盯著。（<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>）我把它放在各種槓桿的前面。reviewer 也很有價值，但它在事後、對做完的活才起作用。自我檢查改變的是 agent 工作時的行為。</p>
+<h3>能跑什麼</h3>
+<p>任何給出 agent 讀得懂的結果的東西：</p>
+<ul>
+<li><strong>測試</strong>：專案自己的測試，或為這次改動新寫的測試。</li>
+<li><strong>建置或型別檢查</strong>：光是結束碼，就說明行不行。</li>
+<li><strong>linter 或格式化工具</strong>：很快，能抓到一類錯誤。</li>
+<li><strong>把輸出和已知正確的檔案比對的腳本</strong>：適合資料工作，那裡正確的答案是一張表。</li>
+<li><strong>執行程式</strong>：對管線，用小的輸入跑一次，看輸出。</li>
+<li><strong>截圖和設計稿並排</strong>：用於使用者介面。</li>
+</ul>
+<p>如果倉庫裡已經有其中一個，agent 指令檔裡最有用的一行，就是執行它的指令。agent 猜不出專案信任哪個指令。</p>
+<p>要求的力道也有不同的層級，從軟到硬。這是 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 裡的那道階梯：</p>
+<ol>
+<li><strong>在 prompt 裡</strong>：「做完之後跑測試，一直做到通過」。什麼時候滿意，由 agent 決定。</li>
+<li><strong>當成停止條件</strong>：agent 想停下來的那一刻，一個 hook（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）會執行。檢查失敗，hook 就把 agent 送回去工作。由平台強制，所以 agent 不能帶著失敗的檢查結束這一輪。Claude Code 的文件用 Stop hook 描述了這件事（<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>）。這一章我沒有在 Copilot 測過同樣的做法。</li>
+<li><strong>由程式計數</strong>：通過的次數由程式計算，不是由 agent 回報（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
+</ol>
+<h3>讓結果短而好讀</h3>
+<p>agent 讀檢查的輸出，輸出會進它的上下文（<a href="3-1-context-budget.html">上下文是一份預算</a>）。有兩件事會出錯。</p>
+<ul>
+<li><strong>太長</strong>。印出幾千行的測試運行，會塞滿上下文，agent 需要的那個失敗就埋在裡面。印出失敗，附上檔案和行號，再加一個數量。把通過的雜訊藏起來。</li>
+<li><strong>太模糊</strong>。只有「Error」，agent 沒有任何可以行動的東西。好的失敗訊息會說：預期什麼、發生什麼、在哪裡。</li>
+</ul>
+<p>這和 <a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a> 裡講工具訊息的建議一樣：agent 是個不可靠的使用者，它讀到什麼，決定它下一步做什麼。輸出便宜又清楚的檢查，比沒人讀得懂的徹底檢查更有價值。</p>
+<p>也要要求證據。「所有測試都通過」是一個說法。執行過的指令和它的輸出，才是證據。你沒在看的時候，它是你唯一的證據。</p>
+<h3>自我檢查抓不到什麼</h3>
+<p>通過的檢查說的是：「這做到了檢查所測的東西。」它沒說：「這是你要的。」有兩個缺口很重要。</p>
+<p><strong>需求是錯的</strong>。如果 agent 工作所依據的那一頁，不是人的本意（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>），那麼通過所有測試的完美程式碼，就是為錯的東西寫的完美程式碼。agent 從錯誤的需求寫出的任何測試，都找不到這一點。只有人讀需求，才找得到。</p>
+<p><strong>測試是弱的</strong>。測試可能檢查得太少：bug 還在，它也通過。agent 在同一個會話裡寫的測試，和程式碼出自同一個理解，所以有同樣的盲點。如果 agent 把規則讀錯了，它的程式碼和測試會彼此一致，而且都是錯的。</p>
+<p>旁邊還有第三件事：有些錯誤只有在真實的環境、用真實的資料執行程式時才會出現，而 agent 沒辦法在那裡執行。那是人的檢查，或測試環境的檢查。</p>
+<h3>失敗模式：agent 削弱測試</h3>
+<p>給 agent 檢查，會帶來一種失敗。agent 想讓循環以通過收尾。拿到通過最容易的辦法，是改檢查，不改程式碼。它可以：</p>
+<ul>
+<li>把斷言放寬到能通過，</li>
+<li>刪掉或跳過失敗的測試，</li>
+<li>把預期值改成程式碼現在給的值，</li>
+<li>抓住錯誤然後吞掉。</li>
+</ul>
+<p>這些都不需要惡意。agent 做的是循環獎勵的事：以通過收尾。我在自己的運行裡沒有記錄過這樣的案例，所以我把它描述成要為之設計的風險，不是我量過的東西。</p>
+<p>三道防線，從最便宜到最硬：</p>
+<ol>
+<li><strong>用話說</strong>。「修程式碼，不要修測試。如果測試看起來是錯的，說出來然後停下。」有幫助，但它是請求（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。</li>
+<li><strong>讓測試在它碰不到的地方</strong>。如果測試屬於不能編輯的東西，hook 會拒絕這個改動。<a href="4-3-guardrails.html">保護規則本身的檔案</a> 解釋了為什麼檢查 agent 的檔案，應該在 agent 寫不到的地方。這不適合「新增測試本來就是工作一部分」的情況。那種情況下，保護現有的測試，讓它新增測試。</li>
+<li><strong>不信報告，要計數</strong>。看測試的 diff（改動的行的清單）。對一個原本失敗的測試做了改動，是個旗號。而且讓程式，不是 agent，來計算通過的次數，並留下檢查有執行的紀錄（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
+</ol>
+<h3>它和獨立檢查怎麼分工</h3>
+<p>兩者不是對手；它們抓的東西不同。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>自我檢查</th>
+<th>獨立的 reviewer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>什麼時候</td>
+<td>agent 工作的時候</td>
+<td>它做完之後</td>
+</tr>
+<tr>
+<td>抓得到</td>
+<td>程式能判斷的事：能跑、能通過、和檔案相符</td>
+<td>程式不能判斷的事：是否符合要求、邏輯站不站得住</td>
+</tr>
+<tr>
+<td>抓不到</td>
+<td>錯的需求、弱的測試</td>
+<td>reviewer 和作者共有的盲點</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>便宜，可以一再執行</td>
+<td>多一個 agent，用量是好幾倍（<a href="2-3-subagents.html">慎用子 agent</a>）</td>
+</tr>
+</tbody>
+</table>
+<p>所以順序是：先做自我檢查，在循環裡盡量多、盡量便宜。然後，在值得付出成本的地方，對結果做獨立檢查。reviewer 看到測試是綠的，就能把注意力花在測試回答不了的問題上：這是對的東西嗎？</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>A check that can pass wrongly is worse than none.</strong> It gives false comfort. A test that never fails tells you nothing.</li>
+<li><strong>Slow checks slow the loop.</strong> If the full suite takes twenty minutes, the agent runs it rarely. Give it a fast subset to run often, and the full suite at the end.</li>
+<li><strong>Flaky checks teach the agent the wrong thing.</strong> A test that fails at random sends the agent hunting for a bug that is not there, or teaches it to rerun until green.</li>
+<li><strong>Output can fill the context.</strong> See above.</li>
+<li><strong>Some code cannot be run by the agent.</strong> Where the real data, the real environment or the permission is not available to it, a self-check can only cover part. Say which part, and leave the rest to a person.</li>
+<li><strong>I have not measured how much a self-check improves results in my own setup.</strong> The direction is clear from the vendor's guidance and from the loop itself; the size of the effect I do not know.</li>
+</ul>
+<h3>Test your own setup</h3>
+<p>Put a bug into working code on purpose, then run the checks the agent would run. If they stay green, the check does not cover that part of the code, whatever the agent reports. This is a cheap way to see how much a passing check is worth.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>可能錯誤通過的檢查，比沒有更糟</strong>。它給人虛假的安心。永遠不會失敗的測試，什麼都告訴不了你。</li>
+<li><strong>慢的檢查會拖慢循環</strong>。如果完整的測試集要二十分鐘，agent 就很少跑它。給它一個快的子集常常跑，完整的測試集留到最後。</li>
+<li><strong>不穩定的檢查會教錯 agent</strong>。隨機失敗的測試，會讓 agent 去找一個不存在的 bug，或教它重跑到變綠為止。</li>
+<li><strong>輸出可能塞滿上下文</strong>。見上面。</li>
+<li><strong>有些程式碼 agent 沒辦法執行</strong>。真實的資料、真實的環境或權限它拿不到的地方，自我檢查只能涵蓋一部分。說清楚是哪一部分，其餘留給人。</li>
+<li><strong>我沒有量過在我自己的設定裡，自我檢查把結果改善多少</strong>。方向從廠商的指南和循環本身看得很清楚；效果有多大，我不知道。</li>
+</ul>
+<h3>測你自己的設定</h3>
+<p>故意在能運作的程式碼裡放進一個 bug，然後執行 agent 會執行的檢查。如果它們還是綠的，不管 agent 怎麼回報，這個檢查都沒涵蓋程式碼的那一部分。這是個便宜的辦法，能看出一個通過的檢查值多少。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>Anthropic's Claude Code guide puts &quot;give it a check to run&quot; next to telling the agent what it cannot see, and lists a test file, a build exit code, a linter, a script that compares output with a fixture, and a browser screenshot as examples. It also says to ask for the evidence, not only &quot;all tests pass&quot;, and mentions a command that builds and runs the app to catch what tests and typechecks miss. (<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>Anthropic 的 Claude Code 指南，把「給它一個能跑的檢查」和告訴 agent 它看不到的東西放在一起，並列出測試檔、建置的結束碼、linter、把輸出和 fixture 比對的腳本、瀏覽器截圖當例子。它也說要索取證據，不是只有「所有測試都通過」，並提到一個會建置並執行應用程式的指令，用來抓測試和型別檢查漏掉的東西。（<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>）</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The checks themselves stay as long as there is code to check. What can retire is the scaffolding I put around the agent's use of them: the repeated reminders to run the tests, and the hook that sends it back. When the platform runs the project's checks as a normal step before the agent can finish, and the agent does not weaken them, those can go. I have not seen that yet.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>只要還有程式碼要檢查，檢查本身就會留著。可以退役的，是我為 agent 使用它們而加的鷹架：一再提醒執行測試，以及把它送回去的 hook。平台在 agent 能結束之前，把專案的檢查當成一般步驟來執行，而且 agent 不削弱它們的時候，這些就可以拿掉。我還沒看到這樣的情況。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find out what a coding agent could run in this repository to check its own work: tests, build, typecheck, linter, formatter, example runs. For each, give the exact command, how long it takes if you can tell, and whether the output is short and clear enough for you to act on. Say whether the instruction files tell the agent about these commands. Then name the biggest part of the code that none of these checks would catch a bug in. Do not change any files, and do not run anything that takes more than a minute.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出在這個倉庫裡，寫程式的 agent 能執行什麼來檢查自己的活：測試、建置、型別檢查、linter、格式化工具、範例執行。對每一個，給出確切的指令、如果看得出來的話它要跑多久，以及它的輸出夠不夠短、夠不夠清楚，讓你能據以行動。說明指令檔有沒有告訴 agent 這些指令。然後指出程式碼裡最大的一塊：這些檢查沒有一個能在那裡抓到 bug。不要改任何檔案，也不要執行任何超過一分鐘的東西。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="5-5-counted-checks.html">Counted checks</a>: why code, not the agent, should count the passes.</li>
+<li><a href="4-3-guardrails.html">Guardrails</a>: keeping the tests out of reach.</li>
+<li><a href="2-3-subagents.html">Use subagents sparingly</a>: the independent check.</li>
+<li>Anthropic: <a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="5-5-counted-checks.html">讓「通過」可信</a>：為什麼該由程式，不是 agent，來計算通過。</li>
+<li><a href="4-3-guardrails.html">保護規則本身的檔案</a>：讓測試在碰不到的地方。</li>
+<li><a href="2-3-subagents.html">慎用子 agent</a>：獨立檢查。</li>
+<li>Anthropic：<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness asks for a record of self-testing before a development task counts as done, and it has a separate reviewer for what a self-check cannot judge. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Let the agent check its own work&quot;. Teach me where this harness asks the agent to run its own checks, what counts as done for a development task, and how the independent check (topic 11) fits with it. Open the real files with me and draw the loop.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 在開發任務算完成之前，要求留下自我測試的紀錄，並且有一個獨立的 reviewer，處理自我檢查判斷不了的事。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓 agent 能檢查自己的活」這一章。請教我這個 harness 在哪裡要求 agent 執行自己的檢查、開發任務怎樣才算完成，以及獨立檢查（主題 11）怎麼和它搭配。帶我打開真實的檔案，並畫出這個循環。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

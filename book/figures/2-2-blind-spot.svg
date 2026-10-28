@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box" x="20" y="50" width="130" height="50" rx="8"/>
+  <text class="label" x="85" y="80" text-anchor="middle" data-t="call">x</text>
+
+  <path class="line-lit" d="M150 75 H200"/>
+  <path class="head-lit" d="M200 69 L210 75 L200 81 Z"/>
+  <rect class="box-lit" x="210" y="50" width="110" height="50" rx="8"/>
+  <text class="label-lit" x="265" y="80" text-anchor="middle" data-t="hook">x</text>
+  <text class="label-lit" x="265" y="38" text-anchor="middle" data-t="sees">x</text>
+
+  <path class="line" d="M320 75 H370"/>
+  <path class="head" d="M370 69 L380 75 L370 81 Z"/>
+  <rect class="box" x="380" y="50" width="200" height="50" rx="8"/>
+  <text class="label" x="480" y="80" text-anchor="middle" data-t="runs">x</text>
+
+  <g data-step="2">
+    <rect class="box-plain" x="380" y="130" width="200" height="40" rx="6"/>
+    <text class="label-muted" x="480" y="155" text-anchor="middle" data-t="unseen">x</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="130" width="330" height="40" rx="6"/>
+    <text class="label-muted" x="185" y="155" text-anchor="middle" data-t="unseen2">x</text>
+  </g>
+</svg>

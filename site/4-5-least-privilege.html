@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Some things you never hand over</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.5</p><h1><span data-l="en" lang="en">Some things you never hand over</span><span data-l="zh-Hant" lang="zh-Hant">有些東西根本不給</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a> and <a href="4-4-enforcement-design.html">Enforcement design</a>, or know that a hook can refuse a tool call but can itself fail.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>和<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>，或者知道 hook 能拒絕工具呼叫，但它自己也會出錯。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A hook only blocks what it can see. For things that must never be touched (production, credentials, other people's repositories), the best defence is never giving them to the agent.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>hook 只擋得住它看得到的。對絕對不能碰的東西（正式環境、憑證、別人的倉庫），最好的防禦是根本不交給 agent。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> for production systems, credentials and other teams' repositories, decide that the agent is never given access at all, instead of guarding the access with a hook.</li>
+<li><strong>The risk:</strong> a hook sees the text of a call, not its effect, and it can fail. A guard that holds most of the time is the wrong tool for something that cannot be undone or is not yours. I have no count of incidents prevented.</li>
+<li><strong>The cost of doing it right:</strong> people time. A person runs the query and pastes the answer back, which is slower than a connection. A real sandbox is a bigger step, and I have not built one. Use this where harm is large or cannot be undone, not everywhere.</li>
+<li><strong>Ask the team:</strong> &quot;Make a list of everything this agent can open, run or connect to. Which of those must never be touched, and why can the agent reach them?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：對正式環境、憑證和其他團隊的倉庫，決定 agent 完全不給存取，而不是用 hook 去守著存取。</li>
+<li><strong>風險</strong>：hook 看到的是呼叫的文字，不是它的效果，而且它會出錯。大多數時候守得住的守衛，用在無法撤銷、或不屬於你的東西上，是錯的工具。我沒有擋掉了幾次事故的數字。</li>
+<li><strong>做對的成本</strong>：人的時間。由人去執行查詢，再把答案貼回來，比直接連線慢。真正的沙箱是更大的一步，我沒有做。用在傷害大、或無法撤銷的地方，不是到處都用。</li>
+<li><strong>可以問團隊</strong>：「列出這個 agent 能打開、能執行、能連上的所有東西。其中哪些絕對不能碰，為什麼 agent 碰得到它們？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A good guard on a door is still a guard. It can be tricked, it can be asleep, and it can be given the wrong list. A wall with no door has none of these problems.</p>
+<p>Everything so far in this part is a guard. A hook reads the text of a call and cannot see its effect (<a href="2-2-hooks.html">Hooks</a>), and the hook itself is software that can fail (<a href="4-4-enforcement-design.html">Enforcement design</a>). Hooks and instructions are, in the words of the VS Code docs, &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;.</p>
+<p>For most of what an agent does, this is fine. A missed stop on a file edit in a code project can be seen in the diff and undone. But some things cannot be undone, and some things are not yours:</p>
+<ul>
+<li>a production system, where one wrong command changes real data;</li>
+<li>credentials, where one leak cannot be taken back;</li>
+<li>another team's repository, where you have no right to make a mistake.</li>
+</ul>
+<p>For these, a guard that holds &quot;most of the time&quot; is the wrong tool. The idea of this chapter is older than agents: <strong>least privilege</strong>. Give a program only what it needs for the job, and nothing else. The security guidance on prompt injection lists the same idea first among its defences: &quot;Enforce privilege control and least privilege access&quot; (<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP</a>). If the agent cannot reach a thing, it cannot be talked, tricked or confused into touching it, and no hook has to catch anything. For high-risk work this is the first choice, and the hooks of the earlier chapters come second. (A one-minute test is at the end of the chapter.)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>門口有個好守衛，也還是個守衛。他會被騙，會打瞌睡，也可能拿到錯的名單。沒有門的牆，沒有這些問題。</p>
+<p>這一部分到目前為止講的都是守衛。hook 讀呼叫的文字，看不到它的效果（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>），而 hook 本身是會出錯的軟體（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>）。用 VS Code 文件的話說，hooks 和指令「不能代替強制的權限、沙箱或企業管控」。</p>
+<p>agent 做的大部分事，這樣就夠了。程式碼專案裡編輯檔案時漏掉的一次攔截，可以在 diff 裡看到，也撤得回。但有些事無法撤銷，有些事不是你的：</p>
+<ul>
+<li>正式環境，一個錯的指令就會改到真實的資料；</li>
+<li>憑證，一次洩漏收不回來；</li>
+<li>另一個團隊的倉庫，你沒有權利在那裡犯錯。</li>
+</ul>
+<p>對這些，「大多數時候」守得住的守衛，是錯的工具。這一章的想法比 agent 還老：<strong>最小權限</strong>。只給程式做這份工作所需要的，別的都不給。關於 prompt injection 的安全指引，把同一個想法列在防禦的第一條：「落實權限控制和最小權限存取」（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP</a>）。agent 碰不到的東西，它就不會被說服、被騙、或被搞糊塗而去碰它，也不需要任何 hook 去攔。對高風險的工作，這是第一選擇，前面幾章的 hook 排第二。（章末有一個一分鐘的測試。）</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig" id="fig-4-5-reach"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="10" y="20" width="265" height="240" rx="14"/>
+  <text class="label-lit" x="142" y="46" text-anchor="middle" data-t="in-title">what the agent is given</text>
+  <rect class="box" x="20" y="66" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="90" text-anchor="middle" data-t="in1">copies of files to edit</text>
+  <rect class="box" x="20" y="116" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="140" text-anchor="middle" data-t="in2">read-only facts and docs</text>
+  <rect class="box" x="20" y="166" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="190" text-anchor="middle" data-t="in3">answers pasted back</text>
+  <text class="label-muted" x="142" y="226" text-anchor="middle" data-t="in-note">A hook is a second line here,</text>
+  <text class="label-muted" x="142" y="244" text-anchor="middle" data-t="in-note2">not the first.</text>
+
+  <path class="line" d="M275 135 H335"/>
+  <text class="label-muted" x="305" y="116" text-anchor="middle" data-t="wall">never</text>
+  <text class="label-muted" x="305" y="132" text-anchor="middle" data-t="wall2">given</text>
+
+  <rect class="box-plain" x="335" y="20" width="255" height="240" rx="14"/>
+  <text class="label" x="462" y="46" text-anchor="middle" data-t="out-title">what it never reaches</text>
+  <rect class="box-plain" x="345" y="66" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="90" text-anchor="middle" data-t="out1">production, test systems</text>
+  <rect class="box-plain" x="345" y="116" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="140" text-anchor="middle" data-t="out2">credentials and keys</text>
+  <rect class="box-plain" x="345" y="166" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="190" text-anchor="middle" data-t="out3">others&#x27; repositories</text>
+  <text class="label-muted" x="462" y="226" text-anchor="middle" data-t="out-note">Nothing to block,</text>
+  <text class="label-muted" x="462" y="244" text-anchor="middle" data-t="out-note2">because nothing is there.</text>
+</svg>
+<figcaption>The strongest limit is a thing that is not there. A hook can only refuse what it sees; what the agent cannot reach needs no hook.</figcaption></figure>
+<p>The method is a question you ask once for each dangerous thing: <strong>can I arrange the work so the agent never needs it?</strong> Often you can. Four ways.</p>
+<h3>1. Give it a copy of the files to change, not the whole workspace</h3>
+<p>Suppose the agent works on code that lives in a large shared repository. The easy way is to open that repository and let the agent roam. Every file is then in reach: the ones it should change, and a thousand it should not.</p>
+<p>The other way is to decide first what the work will touch, and hand over only that. In my setup, for a target repository, the agent works from a plan that names the files to change. Only those files are fetched, as copies, into the task's own folder (see <a href="5-1-tasks.html">Manage tasks, not chats</a>). The agent edits the copies. Your working tree, your current branch and your existing commits are not changed.</p>
+<p>The write-back to the real repository is a separate step that a person approves (the second gate in <a href="5-3-two-approvals.html">Two gates</a>). It writes the files on a <strong>new branch</strong> and does not commit. If anything is wrong, you delete the branch. So the agent's mistakes are limited to a folder that exists only for this task. A hook still guards that folder, but if the hook fails, the worst case is a bad copy, not a bad repository.</p>
+<p>Also here: commands that push, open a pull request, reset hard or clean are never run by the agent. A person runs them. A guard that is wrong about a push is a leak you cannot fetch back. A command that is not available cannot be wrong.</p>
+<h3>2. Never connect to the environment; ask a person to run the query</h3>
+<p>What does the agent need from production? Usually not a connection. It needs a fact: &quot;what is in this table&quot;, &quot;which version is deployed&quot;, &quot;does this job exist&quot;. A fact can be fetched by a person.</p>
+<p>My setup gives the agent no credentials and no tools to connect to an environment. This is a rule of use, not a sandbox guarantee (see the last section). When it needs something only an environment can tell it, it writes the question in one fixed place. Each question comes with a command or a query that only reads, which the person can run as it is. The person runs it and pastes the answer back. The agent asks at its next stop, not in the middle of work.</p>
+<figure class="fig steps" id="fig-4-5-ask-a-person" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="10" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="80" y="60" text-anchor="middle" data-t="agent">the agent</text>
+  <rect class="box-lit" x="230" y="30" width="140" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="60" text-anchor="middle" data-t="person">a person</text>
+  <rect class="box-plain" x="450" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="520" y="60" text-anchor="middle" data-t="env">environment</text>
+
+  <path class="line-lit" d="M150 55 H222"/>
+  <path class="head-lit" d="M222 49 L230 55 L222 61 Z"/>
+  <path class="line" d="M370 55 H442" stroke-dasharray="4 4"/>
+
+  <g data-step="1">
+    <rect class="box-lit" x="10" y="115" width="170" height="50" rx="6"/>
+    <text class="label-lit" x="95" y="136" text-anchor="middle" data-t="q">question +</text>
+    <text class="label-lit" x="95" y="154" text-anchor="middle" data-t="q2">read-only query</text>
+  </g>
+  <g data-step="2">
+    <path class="line-lit" d="M300 80 V108"/>
+    <path class="line-lit" d="M370 55 H442"/>
+    <path class="head-lit" d="M442 49 L450 55 L442 61 Z"/>
+    <text class="label-muted" x="300" y="128" text-anchor="middle" data-t="run">the person reads it,</text>
+    <text class="label-muted" x="300" y="146" text-anchor="middle" data-t="run2">then runs it</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="410" y="115" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="500" y="136" text-anchor="middle" data-t="a">answer,</text>
+    <text class="label-lit" x="500" y="154" text-anchor="middle" data-t="a2">pasted back</text>
+  </g>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">No line from the agent to the environment.</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">The agent writes down what it needs to know, with a query that only reads.</li><li data-step-text="2">A person reads the query and runs it against the environment.</li><li data-step-text="3">The person pastes the answer back. The agent goes on, and the answer is on record.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A person stands between the agent and the environment. The agent has no connection to misuse.</figcaption></figure>
+<p>This costs time, and I will not pretend otherwise: a person is slower than a connection. In return, three things become true. The agent has no path to production, so no injected text, no bad guess and no failing hook can reach it. (The answer a person pastes back is itself untrusted text; see <a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>.) Every fact that came from an environment is written down, with who ran it. And the person sees the query before it runs, which is the review you wanted anyway.</p>
+<h3>3. Keep credentials and keys out of the context</h3>
+<p>Anything in the agent's context can be sent somewhere else: written to a file, put in a command, repeated in a summary. So a secret that the agent has seen is a secret that can leak, and the agent does not have to be malicious. A model that copies a token into a log line while debugging has done the damage.</p>
+<p>I describe this as a design, not as something I measured:</p>
+<ul>
+<li><strong>Do not put secrets in files the agent reads.</strong> Rules, notes and knowledge files hold no values, only where a value lives and who owns it.</li>
+<li><strong>Let the program that needs the secret get it,</strong> at the moment of use, from the place meant for it, instead of passing it through the agent. The agent writes &quot;run the deploy script&quot;; the script holds the key.</li>
+<li><strong>For the agent's own access, use a limited key:</strong> read-only, one project, and expiring soon. Then a leak is small.</li>
+<li><strong>Keep the secrets out of what the agent can read by accident:</strong> environment variables of the shell it runs in, config files in the home folder. These are easy to forget.</li>
+</ul>
+<h3>4. Close the way out</h3>
+<p>Reading is not the only danger. A secret that cannot be sent anywhere is much less dangerous. If the agent's commands can reach any address on the internet, then anything it can read can be sent out. If it can reach only a short list, the damage is limited. This is the third circle in <a href="4-6-untrusted-input.html">Untrusted input</a>, and I treat it there. The point here is that network access is a privilege like any other: ask what the agent needs, and give that.</p>
+<h3>When it is time for a real sandbox</h3>
+<p>The measures above give the agent less. A <strong>sandbox</strong> or <strong>container</strong> is different: it is a boundary set by the operating system, around everything the agent runs. Inside it, the agent can do what it likes, and the walls hold even if the command is cleverly written. A hook cannot offer that, because it only reads the text.</p>
+<p>My harness has none. Terminal commands can write any path the user can, and the hook stops only the common spellings. The design notes say plainly that for strong isolation you use the operating system or a container. Look at one sooner than I did if:</p>
+<ul>
+<li>the agent runs commands without a person watching (<a href="2-3-subagents.html">Use subagents sparingly</a> and the later chapters on unattended work);</li>
+<li>the project handles anything the three lists above name;</li>
+<li>the agent can run code that came from somewhere you do not control.</li>
+</ul>
+<p>Anthropic's write-up on sandboxing Claude Code makes a point worth copying: effective sandboxing needs both file system and network isolation. Without network isolation, a hijacked agent can send out your files; without file system isolation, it can escape the sandbox to the network (<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>). One without the other is not enough. In practice that means a container or a virtual machine with its own network rules, not just a folder.</p>
+<p>Note what the VS Code docs say about sandboxing: it is &quot;an added layer&quot;, and &quot;not a virtual machine or user-account boundary&quot;. A sandbox is not magic either. Read what yours does and does not cover. I have not tested VS Code's sandbox.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions</strong> for each thing that must never be touched:</p>
+<ol>
+<li>Is it in the agent's reach at all? List what the agent can open, run and connect to, and cross out what it does not need.</li>
+<li>If your hook and your instructions both failed today, what is the worst thing the agent could do with it?</li>
+<li>Is there a person-run step that could replace a connection or a key?</li>
+</ol>
+<p><strong>A test you can run today.</strong> In a terminal opened the way your agent opens it, run <code>env</code> and look at the names of the variables. Then list the files in your home folder that hold keys or tokens. Ask: could the agent read these? If you do not like the answer, that is your first fix, and it does not need a hook.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><figure class="fig" id="fig-4-5-reach"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="10" y="20" width="265" height="240" rx="14"/>
+  <text class="label-lit" x="142" y="46" text-anchor="middle" data-t="in-title">交給 agent 的</text>
+  <rect class="box" x="20" y="66" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="90" text-anchor="middle" data-t="in1">要改的檔案的副本</text>
+  <rect class="box" x="20" y="116" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="140" text-anchor="middle" data-t="in2">唯讀的事實與文件</text>
+  <rect class="box" x="20" y="166" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="190" text-anchor="middle" data-t="in3">人貼回來的答案</text>
+  <text class="label-muted" x="142" y="226" text-anchor="middle" data-t="in-note">hook 在這裡是第二道線，</text>
+  <text class="label-muted" x="142" y="244" text-anchor="middle" data-t="in-note2">不是第一道。</text>
+
+  <path class="line" d="M275 135 H335"/>
+  <text class="label-muted" x="305" y="116" text-anchor="middle" data-t="wall">根本</text>
+  <text class="label-muted" x="305" y="132" text-anchor="middle" data-t="wall2">不給</text>
+
+  <rect class="box-plain" x="335" y="20" width="255" height="240" rx="14"/>
+  <text class="label" x="462" y="46" text-anchor="middle" data-t="out-title">它永遠碰不到的</text>
+  <rect class="box-plain" x="345" y="66" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="90" text-anchor="middle" data-t="out1">生產與測試環境</text>
+  <rect class="box-plain" x="345" y="116" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="140" text-anchor="middle" data-t="out2">憑證與金鑰</text>
+  <rect class="box-plain" x="345" y="166" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="190" text-anchor="middle" data-t="out3">別人的儲存庫</text>
+  <text class="label-muted" x="462" y="226" text-anchor="middle" data-t="out-note">東西不在，</text>
+  <text class="label-muted" x="462" y="244" text-anchor="middle" data-t="out-note2">就沒有什麼要擋。</text>
+</svg>
+<figcaption>最強的限制，是那樣東西不在。hook 只能拒絕它看得見的；agent 碰不到的東西，不需要 hook。</figcaption></figure>
+<p>方法是對每一樣危險的東西問一次的一個問題：<strong>我能不能安排這份工作，讓 agent 根本不需要它</strong>？常常可以。有四種辦法。</p>
+<h3>1. 給它要改的檔案的副本，不給整個工作區</h3>
+<p>假設 agent 做的程式碼放在一個大的共用倉庫裡。最省事的辦法是打開那個倉庫，讓 agent 隨便逛。那樣每個檔案都碰得到：它該改的，和它不該碰的一千個。</p>
+<p>另一種辦法是先決定這份工作會碰什麼，只交出那些。在我的設定裡，對目標倉庫，agent 照一份點名要改哪些檔案的計劃工作。只有那些檔案會被取出，作為副本，放進任務自己的資料夾（見<a href="5-1-tasks.html">管任務，不管對話</a>）。agent 編輯副本。你的工作樹、目前的分支和已有的提交，都不會被改。</p>
+<p>寫回真正的倉庫，是另一個要由人批准的步驟（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>的第二道門）。它把檔案寫在一個<strong>新分支</strong>上，而且不提交。有哪裡不對，你就刪掉那個分支。所以 agent 的錯誤，只限於一個只為這個任務存在的資料夾。hook 仍然守著那個資料夾，但 hook 失靈的話，最壞也只是一份壞掉的副本，不是一個壞掉的倉庫。</p>
+<p>還有：push、開 pull request、reset --hard、clean 這類指令，agent 永遠不執行。由人執行。守衛在 push 上判斷錯了，是一次收不回來的洩漏。一個不存在的指令不可能出錯。</p>
+<h3>2. 絕不連到環境；請人去跑查詢</h3>
+<p>agent 要從正式環境得到什麼？通常不是一條連線。它要的是一個事實：「這張表裡有什麼」、「部署的是哪個版本」、「這個作業存不存在」。事實可以由人去取。</p>
+<p>我的設定不給 agent 憑證，也不給它連到環境的工具。這是使用規則，不是沙箱的保證（見最後一節）。它需要只有環境才答得出來的東西時，就把問題寫在一個固定的地方。每個問題都附一條只讀的指令或查詢，人可以原樣執行。人執行後，把答案貼回來。agent 在它下一次停下來時提問，不在工作做到一半時。</p>
+<figure class="fig steps" id="fig-4-5-ask-a-person" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="10" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="80" y="60" text-anchor="middle" data-t="agent">agent</text>
+  <rect class="box-lit" x="230" y="30" width="140" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="60" text-anchor="middle" data-t="person">人</text>
+  <rect class="box-plain" x="450" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="520" y="60" text-anchor="middle" data-t="env">環境</text>
+
+  <path class="line-lit" d="M150 55 H222"/>
+  <path class="head-lit" d="M222 49 L230 55 L222 61 Z"/>
+  <path class="line" d="M370 55 H442" stroke-dasharray="4 4"/>
+
+  <g data-step="1">
+    <rect class="box-lit" x="10" y="115" width="170" height="50" rx="6"/>
+    <text class="label-lit" x="95" y="136" text-anchor="middle" data-t="q">問題＋</text>
+    <text class="label-lit" x="95" y="154" text-anchor="middle" data-t="q2">唯讀查詢</text>
+  </g>
+  <g data-step="2">
+    <path class="line-lit" d="M300 80 V108"/>
+    <path class="line-lit" d="M370 55 H442"/>
+    <path class="head-lit" d="M442 49 L450 55 L442 61 Z"/>
+    <text class="label-muted" x="300" y="128" text-anchor="middle" data-t="run">人先看過，</text>
+    <text class="label-muted" x="300" y="146" text-anchor="middle" data-t="run2">再去跑</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="410" y="115" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="500" y="136" text-anchor="middle" data-t="a">答案，</text>
+    <text class="label-lit" x="500" y="154" text-anchor="middle" data-t="a2">貼回來</text>
+  </g>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">agent 和環境之間沒有連線。</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">agent 寫下它想知道的事，附上一個只讀的查詢。</li><li data-step-text="2">人看過查詢，再對環境執行。</li><li data-step-text="3">人把答案貼回來。agent 繼續做，答案也留下了紀錄。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>人站在 agent 和環境之間。agent 沒有可被濫用的連線。</figcaption></figure>
+<p>這要花時間，我不假裝沒有：人比連線慢。換來的是三件事成真。agent 沒有通往正式環境的路，所以被注入的文字、錯誤的猜測、失靈的 hook 都碰不到它。（人貼回來的答案本身是不可信的文字；見<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>。）每一個來自環境的事實都寫下來了，也寫了是誰執行的。而且人在查詢執行之前就看到它，這本來就是你想要的審查。</p>
+<h3>3. 讓憑證和金鑰不進上下文</h3>
+<p>agent 上下文裡的任何東西，都可能被送到別的地方：寫進檔案、放進指令、在摘要裡重複。所以 agent 看過的祕密，就是可能洩漏的祕密，而且 agent 不必是惡意的。模型在除錯時把一個 token 複製進一行日誌，傷害就造成了。</p>
+<p>我把這當作一種設計來講，不是我量過的東西：</p>
+<ul>
+<li><strong>不要把祕密放在 agent 會讀的檔案裡</strong>。規則、筆記和知識檔裡不放值，只寫值放在哪裡、誰負責。</li>
+<li><strong>讓需要祕密的程式自己去拿</strong>，在用的那一刻，從專門放它的地方拿，而不是經過 agent 傳遞。agent 寫「執行部署腳本」；金鑰在腳本手上。</li>
+<li><strong>agent 自己的存取，用受限的金鑰</strong>：唯讀、一個專案、很快過期。這樣洩漏也很小。</li>
+<li><strong>讓祕密不出現在 agent 可能意外讀到的地方</strong>：它所在的 shell 的環境變數、家目錄裡的設定檔。這些很容易忘。</li>
+</ul>
+<h3>4. 把出路關上</h3>
+<p>讀取不是唯一的危險。送不出去的祕密，危險小得多。如果 agent 的指令能連到網路上的任何位址，它讀得到的任何東西就都能送出去。如果它只能連一張短清單，傷害就有限。這是<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>裡的第三個圈，我在那裡處理。這裡的重點是：網路存取和其他權限一樣，是一種特權：問 agent 需要什麼，就給什麼。</p>
+<h3>什麼時候該用真正的沙箱</h3>
+<p>上面的辦法，是讓 agent 得到的更少。<strong>沙箱</strong>或<strong>容器</strong>不一樣：它是作業系統設下的邊界，圍住 agent 執行的一切。在裡面，agent 想做什麼都行，而且即使指令寫得很巧妙，牆還是守得住。hook 做不到，因為它只讀文字。</p>
+<p>我的 harness 沒有。終端機指令可以寫使用者能寫的任何路徑，而 hook 只攔得住常見的寫法。設計筆記直接說：要強的隔離，就用作業系統或容器。出現下面這些情況時，比我更早去看一個：</p>
+<ul>
+<li>agent 在沒有人看著時執行指令（<a href="2-3-subagents.html">慎用子 agent</a>，以及後面講無人值守工作的幾章）；</li>
+<li>專案處理上面三份清單裡的任何東西；</li>
+<li>agent 能執行來源你控制不了的程式碼。</li>
+</ul>
+<p>Anthropic 那篇講 Claude Code 沙箱的文章，有一點值得照抄：有效的沙箱需要同時有檔案系統和網路的隔離。沒有網路隔離，被劫持的 agent 能把你的檔案送出去；沒有檔案系統隔離，它能逃出沙箱連到網路（<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>）。只有一邊是不夠的。實際上這意味著有自己網路規則的容器或虛擬機，不只是一個資料夾。</p>
+<p>注意 VS Code 文件對沙箱怎麼說：它是「額外的一層」，而且「不是虛擬機或使用者帳號的邊界」。沙箱也不是魔法。讀清楚你的沙箱涵蓋什麼、不涵蓋什麼。VS Code 的沙箱我沒有測過。</p>
+<h3>測一下你自己的設定</h3>
+<p>對每一樣絕對不能碰的東西，<strong>三個問題</strong>：</p>
+<ol>
+<li>它到底在不在 agent 碰得到的範圍內？列出 agent 能打開、能執行、能連上的東西，把它不需要的劃掉。</li>
+<li>如果你的 hook 和你的指令今天都失靈，agent 拿它最糟能做什麼？</li>
+<li>有沒有一個由人執行的步驟，可以取代一條連線或一把金鑰？</li>
+</ol>
+<p><strong>今天就能跑的測試</strong>。在以你的 agent 打開終端機的方式打開的終端機裡，執行 <code>env</code>，看變數的名稱。然後列出你家目錄裡存放金鑰或 token 的檔案。問：agent 讀得到這些嗎？不喜歡答案的話，那就是你的第一個修正，而且不需要 hook。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Less access can also mean a task that fails.</strong> An agent that cannot reach something it needs will stop or do a worse job. I have no numbers on how many tasks that costs; watch for it when you remove access.</p>
+<p><strong>Less access means more work for people.</strong> The ask-a-person step is slower than a connection. It is worth it for production. It is not worth it for a read of a public file. Use the method where the harm is large or cannot be undone, not everywhere.</p>
+<p><strong>A copy can drift from the original.</strong> The agent works on copies of the files. If the real repository moves while the work is going on, the write-back has to cope with that. Keep tasks short, and check the diff before the write-back.</p>
+<p><strong>Least privilege is only as good as your list.</strong> If you forgot a key in a config file, the agent has it. The test above is for finding such things.</p>
+<p><strong>The hook still matters.</strong> Not giving the thing is the best defence for what must never be touched. For everything else, the hook is the cheap, always-on check, and the next-best defence. I use both. The chapter's claim is about order: first remove, then guard.</p>
+<p><strong>I have not measured any of this.</strong> I have no count of incidents prevented. I know the design is simpler to reason about: a thing that is not there cannot be misused.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>少給存取，也可能讓任務失敗</strong>。碰不到所需東西的 agent，會停下來或做得更差。這樣會讓多少任務失敗，我沒有數字；去掉存取時要留意。</p>
+<p><strong>少給存取，意味著人要多做事</strong>。請人去問的步驟比連線慢。對正式環境值得。對讀一個公開檔案就不值得。用在傷害大、或無法撤銷的地方，不是到處都用。</p>
+<p><strong>副本可能和原件漂開</strong>。agent 在檔案的副本上工作。工作進行時真正的倉庫動了，寫回就得應付這件事。任務要短，寫回之前檢查 diff。</p>
+<p><strong>最小權限只和你的清單一樣好</strong>。你要是忘了設定檔裡的一把金鑰，agent 就拿到了。上面的測試就是用來找這種東西的。</p>
+<p><strong>hook 仍然重要</strong>。不給，是對絕對不能碰的東西最好的防禦。對其他所有東西，hook 是便宜的、一直開著的檢查，是次好的防禦。我兩個都用。這一章的主張是關於順序：先拿掉，再守著。</p>
+<p><strong>這些我都沒有量過</strong>。我沒有擋掉了幾次事故的數字。我只知道這個設計比較好推理：不在那裡的東西，不可能被誤用。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The OWASP list of defences against prompt injection includes &quot;Enforce privilege control and least privilege access&quot; and &quot;Require human approval for high-risk actions&quot;. (<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>) The VS Code docs say hooks and instructions &quot;are not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;, and describe their sandbox as &quot;an added layer&quot;, not &quot;a virtual machine or user-account boundary&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">Security</a>) Neither says that a hook is useless; both say it is not enough alone.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>OWASP 對 prompt injection 的防禦清單包括「落實權限控制和最小權限存取」和「高風險動作要求人批准」。（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>）VS Code 文件說 hooks 和指令「不能代替強制的權限、沙箱或企業管控」，並把它們的沙箱描述成「額外的一層」，不是「虛擬機或使用者帳號的邊界」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>）兩邊都沒有說 hook 沒用；都說只靠它不夠。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A step in which a person runs a query exists because I do not trust an agent with a live connection. If one day a platform offers a connection that is enforced read-only, scoped to one table, logged, and cannot be changed by the agent, the ask-a-person step can go for that data. The other part, not handing over what is not needed, does not retire. It is the principle, not a workaround.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>由人執行查詢的那個步驟，存在是因為我不信任讓 agent 拿著即時的連線。如果有一天平台提供一種連線，強制唯讀、限定在一張表、有紀錄、agent 又改不了它，那麼這份資料的「請人去問」就可以去掉。另一部分，不交出不需要的東西，不會退場。它是原則，不是繞路的辦法。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List everything this agent could reach from the way it runs in this project: folders and files it can read or write, shell commands it can run, tools and servers it is connected to, accounts or credentials visible in its environment or config files, and network addresses it can call. Do this by reading the configuration and project files, not by connecting to anything. Mark each item as needed for the work, or not needed, and mark anything that is production, a credential, or another team&#x27;s repository. Do not change any files and do not print secret values, only where they live.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個 agent 在這個專案裡以它目前的執行方式能碰到的一切：它能讀或寫的資料夾和檔案、它能執行的 shell 指令、它連著的工具和 server、在它的環境或設定檔裡看得到的帳號或憑證，以及它能呼叫的網路位址。靠讀設定檔和專案檔來做，不要連到任何東西。把每一項標成工作需要或不需要，並把任何屬於正式環境、憑證或其他團隊倉庫的標出來。不要改任何檔案，也不要印出祕密的值，只說它們放在哪裡。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>OWASP: <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01 Prompt Injection</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li><a href="4-6-untrusted-input.html">Untrusted input</a>: the chapter on what to do when the agent reads text that gives it orders</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>OWASP：<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01 Prompt Injection</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li><a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>：agent 讀到會對它下命令的文字時怎麼辦</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has the pieces for the first two ways: the copies in the task folder, the write-back to a new branch, the commands that only a person runs, and the place where the agent asks a person for facts from an environment. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Some things you never hand over&quot;. Teach me how this harness keeps the agent away from the real repository and from any environment (topic 8, especially 8.5 and 8.7). Open the real files with me, and show me what the gate can see and what it cannot.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 有前兩種辦法的零件：任務資料夾裡的副本、寫回新分支、只有人才執行的指令，以及 agent 向人要環境裡的事實的地方。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「有些東西根本不給」這一章。請教我這個 harness 怎麼讓 agent 遠離真正的倉庫和任何環境（主題 8，特別是 8.5 和 8.7）。和我一起打開真實的檔案，讓我看門能看到什麼、看不到什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

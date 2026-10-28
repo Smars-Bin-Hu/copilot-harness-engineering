@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Guard the files that hold the rules</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.3</p><h1><span data-l="en" lang="en">Guard the files that hold the rules</span><span data-l="zh-Hant" lang="zh-Hant">保護規則本身的檔案</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a>: a limit is a refusal the agent cannot argue with.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>：限制是 agent 吵不贏的拒絕。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>If the agent can edit the rules, the rules mean nothing. Keep the rules and the hook files out of its reach, and make any human override last one session, expire, and leave a record.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 能改規則，規則就沒有意義。把規則檔和 hook 檔放在它碰不到的地方；人給的任何 override，都只管一個會話，會過期，並留下紀錄。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> decide that the agent may not edit the files that hold its rules, its hooks or its evidence, and that any human override is limited to one session, expires and leaves a record.</li>
+<li><strong>The risk:</strong> a rule the agent can edit is a rule the agent can remove, and a &quot;passed&quot; record it can write is a pass it can give itself. I have no incident to report. The argument is the point, not a count.</li>
+<li><strong>The cost of doing it right:</strong> a list of protected files, kept up to date as parts are added, and a way for a person to open the fence on purpose. My override depends on a person remembering to switch it off; a time limit and a second reader are better, and I do not have them.</li>
+<li><strong>Ask the team:</strong> &quot;Can the agent edit the files that hold its own rules and records, and can you show me a refusal when it tries?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：決定 agent 不能編輯存放它自己規則、hook 和證據的檔案；人給的任何 override，只限一個會話，會過期，並留下紀錄。</li>
+<li><strong>風險</strong>：agent 能改的規則，agent 就能刪掉；它能寫的「通過」紀錄，就是它能自己給自己的通過。我沒有事故可報告。重點是這個論證，不是次數。</li>
+<li><strong>做對的成本</strong>：一份受保護檔案的清單，加了新部件就更新；還有一個讓人刻意打開圍欄的辦法。我的 override 要靠人記得關掉；有時間限制和第二個人來讀會更好，我沒有做。</li>
+<li><strong>可以問團隊</strong>：「agent 能不能編輯存放它自己規則和紀錄的檔案？它試的時候，你能給我看一次被拒絕的紀錄嗎？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Who is the threat here? Mostly a careless agent, not a hostile one: an agent that is under pressure to finish a task and loosens a rule that is in the way. An agent led by injected text is a second case (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>); it needs the same fence, and more.</p>
+<p>You have a hook that refuses dangerous commands. It works. Now ask: where does the hook live? In a file. The configuration that tells the platform to run it is a file. The numbers it uses are a file. And the agent has an edit tool.</p>
+<p>An agent that is stuck behind a refusal does not need bad intent to change the file. It only needs to be trying to finish the task, see that the rule is in the way, and do the sensible-looking thing: loosen the rule. I have no incident to report. The argument is the point: a rule the agent can edit is a rule the agent can remove.</p>
+<p>The same is true of records. If a check leaves a &quot;passed&quot; file and the agent can write that file, the agent can pass itself. So the question is not only &quot;which commands are refused&quot;, it is &quot;who can change the things that do the refusing and the proving&quot;.</p>
+<p>I call the files that must be out of reach <strong>guardrail files</strong>: a fence, in the sense that the agent works inside it and cannot move it.</p>
+<p>If you only do one thing from this chapter: make the rule files and the hook files unwritable for the agent.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>這裡的威脅是誰？多半是個粗心的 agent，不是惡意的：它趕著完成任務，就把擋路的規則放鬆了。被注入的文字帶偏的 agent 是第二種情況（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）；它需要同樣的圍欄，而且更多。</p>
+<p>你有一個 hook，會拒絕危險的指令，它管用。現在問：這個 hook 放在哪裡？在一個檔案裡。告訴平台要執行它的設定，是一個檔案。它用到的數字，是一個檔案。而 agent 有編輯工具。</p>
+<p>一個被拒絕卡住的 agent，不需要惡意就會去改那個檔案。它只是想完成任務，看到規則擋路，就做了看起來合理的事：放鬆規則。我沒有事故可報告。重點是這個論證：agent 能編輯的規則，agent 就能刪掉。</p>
+<p>紀錄也一樣。檢查通過後留下一個「通過」的檔案，如果 agent 能寫這個檔案，它就能讓自己通過。所以問題不只是「哪些指令被拒絕」，而是「誰能改那些負責拒絕和證明的東西」。</p>
+<p>我把必須放在碰不到的地方的檔案叫作<strong>護欄檔案</strong>：一道圍欄，agent 在裡面工作，但移不動它。</p>
+<p>這一章只做一件事的話：讓規則檔和 hook 檔對 agent 不可寫。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Which files are the fence</h3>
+<figure class="fig" id="fig-4-3-fence"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-plain" x="10" y="20" width="260" height="200" rx="10"/>
+  <text class="label-muted" x="140" y="44" text-anchor="middle" data-t="inside">the agent can write here</text>
+  <rect class="box" x="20" y="60" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="85" text-anchor="middle" data-t="work">task folders, code</text>
+  <rect class="box" x="20" y="112" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="137" text-anchor="middle" data-t="text">instructions, skills</text>
+  <rect class="box" x="20" y="164" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="189" text-anchor="middle" data-t="agent">the agent</text>
+
+  <path class="line-lit" d="M270 125 H330"/>
+  <path class="head-lit" d="M330 119 L340 125 L330 131 Z"/>
+  <text class="label-lit" x="305" y="108" text-anchor="middle" data-t="no">refused</text>
+
+  <rect class="box-lit" x="340" y="20" width="250" height="200" rx="10"/>
+  <text class="label-lit" x="465" y="44" text-anchor="middle" data-t="outside">out of its reach</text>
+  <text class="label-lit" x="465" y="80" text-anchor="middle" data-t="f1">hook configuration</text>
+  <text class="label-lit" x="465" y="110" text-anchor="middle" data-t="f2">engine and commands</text>
+  <text class="label-lit" x="465" y="140" text-anchor="middle" data-t="f3">policies (the numbers)</text>
+  <text class="label-lit" x="465" y="170" text-anchor="middle" data-t="f4">records, approvals, logs</text>
+  <text class="label-lit" x="465" y="200" text-anchor="middle" data-t="f5">settings that disable hooks</text>
+</svg>
+<figcaption>The fence is the set of files that decide what is refused and what counts as proof. The agent works inside it.</figcaption></figure>
+<p>In my setup these are:</p>
+<ul>
+<li>the <strong>hook configuration</strong>, the file that tells the platform which hook to run;</li>
+<li>the <strong>engine</strong>, the code of the hook itself, and the commands the agent is allowed to call;</li>
+<li>the <strong>policies</strong>, the plain files that hold the numbers and patterns of the rules;</li>
+<li>the <strong>runtime state</strong>, the files the hook writes while it runs: session state, approval records and logs;</li>
+<li>the editor settings that could switch the hooks off;</li>
+<li>the license files of the repository.</li>
+</ul>
+<p>Instruction files and skills are not on the list. They are text, a request, and the agent is meant to read them. Changing them does not change what the code refuses.</p>
+<h3>How the fence is held</h3>
+<ul>
+<li><strong>Edit tools: refused before the call.</strong> This is the easy one. The path is in the call.</li>
+<li><strong>The terminal: the common spellings.</strong> A redirect, <code>rm</code>, <code>mv</code>, <code>sed -i</code>, <code>cp</code>, <code>tee</code>, and so on. The limits in <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a> apply: an indirect spelling is not caught.</li>
+<li><strong>One form for a path before comparing.</strong> The same file can be written with other letter case, with <code>..</code>, as an absolute path, or with the backslash of Windows. The rule brings them all to one form first. Otherwise the fence would have gaps in the spelling. Two more gaps worth checking in your own setup: a symbolic link that points into a guarded folder, and a disk that ignores letter case. I have not tested either.</li>
+<li><strong>A company can add paths, not take the defaults away.</strong> Anyone who sets up a team can protect more files. An override that removes a default would be the same hole as an agent that can edit the rule.</li>
+</ul>
+<p>This is a guard against mistakes. It is not a sandbox, and I do not call it one. An agent set on getting round it, with a script it writes first, can. For the strong version, see <a href="4-5-least-privilege.html">Least privilege</a>.</p>
+<h3>Files only a command may write</h3>
+<p>Some files are not rules, but they are evidence: the state of a task, the verdicts of the independent checks (<a href="5-6-model-checks-model.html">Can a model check a model?</a>), snapshots (copies of files taken at a point in time), the diff an approval is based on, the final report.</p>
+<p>If the agent could write them, it could declare a check passed, or change what was approved. So the agent never writes them with its edit tools. A command writes them, and the command judges the result itself. &quot;The agent recorded a result&quot; means the agent asked the command to record it, and the command decided.</p>
+<p>The same goes for folders that hold what the person brought: documents, reference code, results from a run. The agent reads them. The person (through a page or a command) writes them. Evidence that the agent could edit is not evidence.</p>
+<h3>The breaker</h3>
+<p>When a refusal keeps coming, an agent may keep trying. A hook can only refuse a call; it cannot stop the agent. So when the same refusal comes up three times in a row (three is my setting), the <strong>breaker</strong> trips and the reason is replaced with a different one: stop trying this, and tell the person. It is a request in the form of a message, but it is the only thing a hook can do. It also keeps the log from filling with the same refusal.</p>
+<h3>When a person must open the fence</h3>
+<p>Sometimes the rules themselves have to change. When I extend the harness, I change guardrail files. So there must be a way in. How do you give that right without giving it to the agent?</p>
+<p><strong>Not by agent.</strong> I first thought to let one named agent edit the fence. But in Copilot today the event a hook receives does not carry the name of the main agent (<a href="2-2-hooks.html">Hooks</a>), so the hook cannot tell which agent is calling. Any agent could pass for the named one. Rights that follow a name can be claimed by anyone who uses the name.</p>
+<p><strong>By session, set by the person.</strong> The ground is a switch in the state of the session. Only the person can turn it on, by typing a code in their own terminal. The agent cannot run that command, and the hook refuses it if it tries. This is the same channel as in <a href="5-3-two-approvals.html">Two approvals</a>.</p>
+<figure class="fig steps" id="fig-4-3-admin" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <path class="line" d="M20 150 H575"/>
+  <path class="head" d="M575 144 L587 150 L575 156 Z"/>
+  <text class="label-muted" x="580" y="175" text-anchor="end" data-t="time">time</text>
+
+  <g data-step="1">
+    <rect class="box" x="30" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="120" y="68" text-anchor="middle" data-t="on">person types a code</text>
+    <path class="line" d="M120 86 V150"/>
+  </g>
+  <g data-step="2">
+    <rect class="bar-lit" x="120" y="136" width="280" height="28" rx="4"/>
+    <text class="label-lit" x="260" y="125" text-anchor="middle" data-t="open">fence open, this session only</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="310" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="400" y="68" text-anchor="middle" data-t="off">switched off</text>
+    <path class="line" d="M400 86 V150"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-plain" x="100" y="185" width="400" height="34" rx="6"/>
+    <text class="label-muted" x="300" y="207" text-anchor="middle" data-t="record">calls marked admin; person reads the diff</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">A person types a code in their own terminal. The agent cannot do this.</li><li data-step-text="2">For this session only, the guardrail files can be changed. The approval records stay locked.</li><li data-step-text="3">When the work is done, the person switches it off.</li><li data-step-text="4">The log marked every call in between, and the person reads the diff of what changed.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A person opens the fence for one session, then closes it. The override is bound to the session, not to an agent.</figcaption></figure>
+<p>What makes the override safe:</p>
+<ol>
+<li><strong>It belongs to a session, not to an agent.</strong> It ends with that session.</li>
+<li><strong>It is turned off when the work is done.</strong> My rule is to switch it off, and then read the diff of what changed with git. I rely on that; I do not have a timer in my setup. This is the weak point of the design: it depends on a person remembering. A time limit is a better design, and the approval of git writes already uses one. For a team, add an expiry and a second person who reads the diff.</li>
+<li><strong>It leaves a record.</strong> While it is on, every logged call is marked as admin.</li>
+<li><strong>Some doors stay shut.</strong> In my setup even admin cannot write the runtime state, which holds the approval records. If it could, it could forge an approval. And no task can be opened in the same session, and no subagent called.</li>
+</ol>
+<p>Each of these removes a way that a short exception turns into a standing hole.</p>
+<h3>Test your own setup</h3>
+<p>In a copy of your project, ask your agent to loosen one rule in its own hook configuration. Does it succeed? If it does, your rules are a request. Then protect the file and try again.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>哪些檔案是圍欄</h3>
+<figure class="fig" id="fig-4-3-fence"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-plain" x="10" y="20" width="260" height="200" rx="10"/>
+  <text class="label-muted" x="140" y="44" text-anchor="middle" data-t="inside">agent 可以寫的地方</text>
+  <rect class="box" x="20" y="60" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="85" text-anchor="middle" data-t="work">任務資料夾、程式碼</text>
+  <rect class="box" x="20" y="112" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="137" text-anchor="middle" data-t="text">指令、skill（文字）</text>
+  <rect class="box" x="20" y="164" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="189" text-anchor="middle" data-t="agent">agent</text>
+
+  <path class="line-lit" d="M270 125 H330"/>
+  <path class="head-lit" d="M330 119 L340 125 L330 131 Z"/>
+  <text class="label-lit" x="305" y="108" text-anchor="middle" data-t="no">拒絕</text>
+
+  <rect class="box-lit" x="340" y="20" width="250" height="200" rx="10"/>
+  <text class="label-lit" x="465" y="44" text-anchor="middle" data-t="outside">它碰不到</text>
+  <text class="label-lit" x="465" y="80" text-anchor="middle" data-t="f1">hook 設定</text>
+  <text class="label-lit" x="465" y="110" text-anchor="middle" data-t="f2">引擎和指令</text>
+  <text class="label-lit" x="465" y="140" text-anchor="middle" data-t="f3">政策（那些數字）</text>
+  <text class="label-lit" x="465" y="170" text-anchor="middle" data-t="f4">紀錄、批准、日誌</text>
+  <text class="label-lit" x="465" y="200" text-anchor="middle" data-t="f5">能關掉 hook 的設定</text>
+</svg>
+<figcaption>圍欄是決定「拒絕什麼」和「什麼算證明」的那些檔案。agent 在圍欄裡面工作。</figcaption></figure>
+<p>在我的設定裡是這些：</p>
+<ul>
+<li><strong>hook 設定</strong>，告訴平台要執行哪個 hook 的檔案；</li>
+<li><strong>引擎</strong>，也就是 hook 本身的程式碼，以及 agent 被允許呼叫的指令；</li>
+<li><strong>政策</strong>，存放規則的數字和模式的純文字檔；</li>
+<li><strong>執行期狀態</strong>，hook 執行時寫出的檔案：會話狀態、批准紀錄和日誌；</li>
+<li>能把 hook 關掉的編輯器設定；</li>
+<li>倉庫的授權檔案。</li>
+</ul>
+<p>指令檔和 skill 不在清單上。它們是文字，是請求，而且本來就是要給 agent 讀的。改了它們，程式拒絕的東西並不會變。</p>
+<h3>圍欄怎麼守住</h3>
+<ul>
+<li><strong>編輯工具：呼叫之前就拒絕</strong>。這是容易的一種。路徑就在呼叫裡。</li>
+<li><strong>終端機：攔常見的寫法</strong>。重新導向、<code>rm</code>、<code>mv</code>、<code>sed -i</code>、<code>cp</code>、<code>tee</code> 等等。<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>裡的限制在這裡也適用：間接的寫法攔不到。</li>
+<li><strong>比較之前先把路徑變成同一種形式</strong>。同一個檔案可以用不同的大小寫、<code>..</code>、絕對路徑，或 Windows 的反斜線來寫。規則先把它們都變成同一種形式。不然圍欄在寫法上就會有縫。你自己的設定裡，還有兩個縫值得檢查：指向受保護資料夾的符號連結，以及不分大小寫的磁碟。這兩個我都沒有測過。</li>
+<li><strong>公司可以加路徑，不能拿掉預設的</strong>。替團隊做設定的人可以保護更多檔案。一個能拿掉預設項的 override，就和能編輯規則的 agent 是同一個洞。</li>
+</ul>
+<p>這是防失誤的，不是沙箱，我也不叫它沙箱。一個鐵了心要繞過去的 agent，先寫一個腳本再執行，就繞得過去。想要強的版本，見<a href="4-5-least-privilege.html">有些東西根本不給</a>。</p>
+<h3>只有指令能寫的檔案</h3>
+<p>有些檔案不是規則，而是證據：任務的狀態、獨立檢查的裁決（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）、快照（在某個時間點複製下來的檔案）、批准所依據的 diff、最終報告。</p>
+<p>agent 如果能寫它們，就能宣布一次檢查通過，或者改掉被批准的內容。所以 agent 從不用編輯工具寫它們。由一個指令來寫，並且由這個指令自己判斷結果。「agent 記錄了一個結果」的意思是：agent 請指令去記錄，而指令做了決定。</p>
+<p>人帶來的東西所在的資料夾也一樣：文件、參考程式碼、一次運行的結果。agent 讀它們。人（透過一個頁面或一個指令）來寫。agent 能編輯的證據，就不是證據。</p>
+<h3>斷路器</h3>
+<p>拒絕不斷出現時，agent 可能一直試。hook 只能拒絕一次呼叫，它停不了 agent。所以同一個拒絕連續出現三次（三是我的設定），<strong>斷路器</strong>就跳開，把原因換成另一句：別再試這個了，告訴人。這是以訊息形式出現的請求，但這是 hook 唯一能做的。它也讓日誌不會被同一個拒絕塞滿。</p>
+<h3>什麼時候要由人打開圍欄</h3>
+<p>有時規則本身要改。我擴充 harness 的時候，就會改護欄檔案。所以必須有一條路進去。怎麼把這個權利給出去，又不給 agent？</p>
+<p><strong>不能按 agent</strong>。我一開始想過讓一個指定名字的 agent 編輯圍欄。但在今天的 Copilot 裡，hook 收到的事件不帶主 agent 的名字（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>），所以 hook 分不出是哪個 agent 在呼叫。任何 agent 都能冒充那個名字。跟著名字走的權利，誰用了這個名字誰就能拿到。</p>
+<p><strong>按會話，由人設定</strong>。依據是會話狀態裡的一個開關。只有人能打開它，方法是在自己的終端機裡打一個代碼。agent 不能執行那條指令，它試的話 hook 會拒絕。這和<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>是同一個管道。</p>
+<figure class="fig steps" id="fig-4-3-admin" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <path class="line" d="M20 150 H575"/>
+  <path class="head" d="M575 144 L587 150 L575 156 Z"/>
+  <text class="label-muted" x="580" y="175" text-anchor="end" data-t="time">時間</text>
+
+  <g data-step="1">
+    <rect class="box" x="30" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="120" y="68" text-anchor="middle" data-t="on">人輸入驗證碼</text>
+    <path class="line" d="M120 86 V150"/>
+  </g>
+  <g data-step="2">
+    <rect class="bar-lit" x="120" y="136" width="280" height="28" rx="4"/>
+    <text class="label-lit" x="260" y="125" text-anchor="middle" data-t="open">圍欄打開，只限這個會話</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="310" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="400" y="68" text-anchor="middle" data-t="off">關掉</text>
+    <path class="line" d="M400 86 V150"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-plain" x="100" y="185" width="400" height="34" rx="6"/>
+    <text class="label-muted" x="300" y="207" text-anchor="middle" data-t="record">呼叫都標為 admin；人讀 diff</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">人在自己的終端機輸入驗證碼。agent 做不到這件事。</li><li data-step-text="2">只在這個會話內，圍欄的檔案可以改。批准紀錄仍然鎖著。</li><li data-step-text="3">工作做完，人把它關掉。</li><li data-step-text="4">這中間的每次呼叫日誌都做了標記，人再讀一次改了什麼的 diff。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>人為一個會話打開圍欄，再關上。放開的權限綁在會話上，不綁在 agent 上。</figcaption></figure>
+<p>讓 override 安全的是這幾點：</p>
+<ol>
+<li><strong>它屬於一個會話，不屬於某個 agent</strong>。會話結束，它就結束。</li>
+<li><strong>工作做完就關掉</strong>。我的規則是關掉它，然後用 git 讀一遍改了什麼的 diff。我靠這一點；我的設定裡沒有計時器。這是設計的弱點：它要靠人記得。時間限制是更好的設計，git 寫入的批准已經在用。團隊的話，加上過期，以及第二個人來讀 diff。</li>
+<li><strong>它會留下紀錄</strong>。開著的時候，每一次被記錄的呼叫都標上 admin。</li>
+<li><strong>有些門仍然關著</strong>。在我的設定裡，連 admin 也不能寫執行期狀態，那裡存著批准紀錄。能寫的話，它就能偽造批准。而且同一個會話裡不能打開任何任務，也不能呼叫子 agent。</li>
+</ol>
+<p>每一條都是在去掉一個讓短期例外變成長期漏洞的路。</p>
+<h3>測一下你自己的設定</h3>
+<p>在你專案的副本裡，請你的 agent 放鬆它自己 hook 設定裡的一條規則。成功了嗎？成功的話，你的規則就只是請求。那就保護這個檔案，再試一次。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The fence is as good as its list.</strong> A guardrail file missing from the list is open. When you add a part to the engine, add its path.</p>
+<p><strong>Admin is real power.</strong> It can change the engine, so what it does is not hard-limited. The control is a person reading the diff afterwards. I do not claim more than that.</p>
+<p><strong>Spelling gaps remain.</strong> Because the terminal is guarded by pattern, in theory a spelling it does not know could change a record that lives in a task folder (the folder that holds one piece of work; see <a href="5-1-tasks.html">Manage tasks, not chats</a>). I have not tried to build one. The fix, again, is to keep what must never be touched out of reach altogether.</p>
+<p><strong>A fence you cannot see is a puzzle.</strong> If an agent hits a refusal on a file it does not know is guarded, the reason must say so and what to do. See the last chapter.</p>
+<p><strong>I did not measure how often agents try to edit rules.</strong> I wrote the fence because the argument is simple, not because I watched a specific incident.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>圍欄只和它的清單一樣好</strong>。不在清單上的護欄檔案是開著的。給引擎加了新部件，就把它的路徑加進去。</p>
+<p><strong>admin 是真正的權力</strong>。它能改引擎，所以它做的事沒有被硬性限制。控制手段是人事後讀 diff。我不聲稱比這更多。</p>
+<p><strong>寫法上的縫還在</strong>。因為終端機是按模式防護的，理論上有一種它不認識的寫法，可以改動放在任務資料夾裡的紀錄（存放一件工作的資料夾；見<a href="5-1-tasks.html">管任務，不管對話</a>）。我沒有試著做出來。解法還是一樣：把絕對不能碰的東西整個放到碰不到的地方。</p>
+<p><strong>看不見的圍欄是個謎題</strong>。agent 碰到一個它不知道受保護的檔案而被拒絕時，原因必須說明這一點，以及該怎麼做。見上一章。</p>
+<p><strong>我沒有量過 agent 多常想編輯規則</strong>。我寫這道圍欄，是因為論證很簡單，不是因為我看到了某次具體的事故。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's hooks page says hooks and instructions are not substitutes for enforced permissions or sandboxing, and its security page recommends sandboxing over approval rules alone (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">security</a>). A fence made of hooks is a fence inside the same machine the agent runs on. That is why this chapter says &quot;out of reach&quot; and not &quot;safe&quot;.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 hooks 頁面說，hooks 和指令不能代替強制的權限或沙箱；它的 security 頁面建議用沙箱，不要只靠批准規則（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。用 hook 做的圍欄，是在 agent 所在的同一台機器裡面的圍欄。所以這一章說「碰不到」，不說「安全」。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>If the agent runs in an environment where the rule files are mounted read-only, or the hook runs outside the machine the agent can touch, the list of guarded paths is not needed; the environment is the fence. Keep the other lesson: any override a person grants should be bound to the session, time-limited, and recorded.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>如果 agent 跑在一個規則檔以唯讀方式掛載的環境，或者 hook 跑在 agent 碰不到的機器之外，就不需要受保護路徑的清單；環境本身就是圍欄。另一條教訓要留著：人給的任何 override，都應該綁在會話上、有時間限制、並留下紀錄。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every file in this project that defines what the agent may or may not do: instruction files, hook scripts and their configuration, permission settings, editor settings, and any file that records a check or an approval. For each, tell me whether the agent&#x27;s own edit tools and terminal could change it today, using the rules and permissions you can see. Output a list sorted by how bad it would be if the file were changed. Do not change any files, and do not try to edit them to find out.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個專案裡每一個定義了 agent 能做什麼、不能做什麼的檔案：指令檔、hook 腳本和它們的設定、權限設定、編輯器設定，以及任何記錄檢查或批准的檔案。對每一個，根據你看得到的規則和權限，告訴我 agent 自己的編輯工具和終端機今天能不能改它。輸出一份清單，按「這個檔案被改了會有多糟」排序。不要改任何檔案，也不要為了確認而去試著編輯它們。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li>In this book: <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a>, <a href="4-5-least-privilege.html">Least privilege</a>, <a href="5-3-two-approvals.html">Two approvals</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li>本書：<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>、<a href="4-5-least-privilege.html">有些東西根本不給</a>、<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a list of guarded files, files only commands may write, a breaker, and an admin mode tied to the session. The harness can show you each of them in the real files. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Guard the files that hold the rules&quot;. Teach me how this harness keeps its own rules out of the agent&#x27;s reach: which files are guardrails and how they are protected (topic 7), the breaker, and admin mode (topic 8). Open the real policy and show me what the agent sees when it is refused.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有一份受保護檔案的清單、只有指令能寫的檔案、一個斷路器，以及綁在會話上的 admin 模式。harness 可以在真實的檔案裡一個一個給你看。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「保護規則本身的檔案」這一章。請教我這個 harness 怎麼讓自己的規則碰不到 agent：哪些檔案是護欄、怎麼保護它們（主題 7）、斷路器，以及 admin 模式（主題 8）。帶我打開真實的政策，讓我看 agent 被拒絕時看到什麼。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

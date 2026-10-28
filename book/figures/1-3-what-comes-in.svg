@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="20" y="20" width="120" height="210" rx="6"/>
+  <text class="label" x="80" y="130" text-anchor="middle" data-t="server">x</text>
+  <rect class="box-lit" x="460" y="20" width="120" height="210" rx="6"/>
+  <text class="label-lit" x="520" y="130" text-anchor="middle" data-t="agent">x</text>
+  <line class="line" x1="140" y1="70" x2="450" y2="70"/>
+  <path class="head" d="M450 66 L460 70 L450 74 Z"/>
+  <text class="label" x="300" y="61" text-anchor="middle" data-t="i1">x</text>
+  <line class="line" x1="140" y1="110" x2="450" y2="110"/>
+  <path class="head" d="M450 106 L460 110 L450 114 Z"/>
+  <text class="label" x="300" y="101" text-anchor="middle" data-t="i2">x</text>
+  <line class="line" x1="140" y1="150" x2="450" y2="150"/>
+  <path class="head" d="M450 146 L460 150 L450 154 Z"/>
+  <text class="label" x="300" y="141" text-anchor="middle" data-t="i3">x</text>
+  <line class="line" x1="140" y1="190" x2="450" y2="190"/>
+  <path class="head" d="M450 186 L460 190 L450 194 Z"/>
+  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">x</text>
+</svg>

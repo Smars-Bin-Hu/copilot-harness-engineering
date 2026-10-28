@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Use subagents sparingly</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.3</p><h1><span data-l="en" lang="en">Use subagents sparingly</span><span data-l="zh-Hant" lang="zh-Hant">慎用子 agent</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過一個寫程式的 AI agent，例如 Copilot 的 agent 模式。其他都不用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Dividing the work has no value in itself. Another agent is worth it only when it buys one of four things: an independent check, parallel work, work that runs unattended, or a hard limit on tools.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>分工本身沒有價值。多一個 agent，只有在它買到下面四樣之一時才值得：獨立檢查、並行工作、無人值守，或對工具的硬性限制。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> approve an extra agent only when it buys one of the four: an independent check, parallel work, work that runs unattended, or a hard limit on tools.</li>
+<li><strong>The risk:</strong> a team of role agents can cost several times the usage and time for the same result. In my test it was about 4.5 times the usage and 6 times the time, on four tasks run once each.</li>
+<li><strong>The cost of doing it right:</strong> usually one extra agent, a reviewer, per task.</li>
+<li><strong>Ask the team:</strong> &quot;Which of the four does this agent buy, and did you try the task without it?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：多開一個 agent，只在它買到四樣之一時才批：獨立檢查、並行、無人值守、工具的硬限制。</li>
+<li><strong>風險</strong>：按職位分工的一組 agent，可能花幾倍的用量和時間，結果卻一樣。在我的測試裡，用量約 4.5 倍、時間約 6 倍；四個任務，各跑一次。</li>
+<li><strong>做對的成本</strong>：通常是每個任務多一個 agent，也就是檢查者。</li>
+<li><strong>可以問團隊</strong>：「這個 agent 買到的是四樣裡的哪一樣？不用它做過同一個任務嗎？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>I once gave one AI three job titles. On the same four tasks it cost about 4.5 times as much, took about 6 times as long, and got nothing more right. Now one agent does the work, and a second one only checks.</p>
+<p>First, three words this chapter uses all the time.</p>
+<ul>
+<li>An <strong>agent</strong> is an AI model that runs in a loop: it reads files, runs commands, changes code, and decides the next step by itself.</li>
+<li>Its <strong>context</strong> is everything it has seen in one conversation: your request, the files it read, what it tried. It is the agent's working memory, and it has a size limit.</li>
+<li>A <strong>subagent</strong> is a second agent that the first one starts for a piece of the work. It begins with an empty context.</li>
+</ul>
+<h3>The idea that feels right</h3>
+<p>Give the AI job titles: a planner, a developer, a reviewer, each its own agent. Teams of people work that way, and many tools make it a few clicks.</p>
+<p>I built exactly that in an early version of my own Copilot setup. A <strong>coordinator</strong> read the request and wrote a plan. A <strong>builder</strong> made the changes. A <strong>reviewer</strong> checked them. Then I measured it against one agent working alone.</p>
+<h3>How I tested it</h3>
+<ul>
+<li><strong>The repository:</strong> a made-up data engineering project, 93 files in 5 areas. Made up, so the tasks and the right answers were known in advance.</li>
+<li><strong>Four tasks, small to medium:</strong> add a pipeline; add a field across several areas; rename a pipeline and delete its old files; fix a formula, where the request also asked to change a file that must not be touched.</li>
+<li><strong>Two ways:</strong> each task was done once by the three-role team, which also had a knowledge base to read (notes about the repository, written for agents). And once by a single agent on a top model, with no extra setup and the rules written into the request.</li>
+<li><strong>Scoring:</strong> the same script checked every result by reading the files. Nobody judged by eye.</li>
+<li><strong>What I counted:</strong> did it pass on the first try, how much usage it took (AI credits, what the platform charges you), and how long.</li>
+</ul>
+<figure class="fig" id="fig-agents-vs-roles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="20" y="22" data-t="usage-title">USAGE (AI CREDITS, 4 TASKS)</text>
+  <text class="label" x="20" y="54" data-t="one">one agent</text>
+  <rect class="bar-lit" x="170" y="41" width="85" height="18" rx="3"/>
+  <text class="label-muted" x="263" y="55" data-t="one-usage">≈101</text>
+  <text class="label" x="20" y="86" data-t="three">three roles</text>
+  <rect class="bar" x="170" y="73" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="87" data-t="three-usage">≈456</text>
+
+  <text class="label-muted" x="20" y="132" data-t="time-title">TIME (MINUTES, 4 TASKS)</text>
+  <text class="label" x="20" y="164" data-t="one">one agent</text>
+  <rect class="bar-lit" x="170" y="151" width="71" height="18" rx="3"/>
+  <text class="label-muted" x="249" y="165" data-t="one-time">≈3</text>
+  <text class="label" x="20" y="196" data-t="three">three roles</text>
+  <rect class="bar" x="170" y="183" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="197" data-t="three-time">≈16</text>
+
+  <text class="label-muted" x="20" y="242" data-t="result-title">RESULT</text>
+  <text class="label" x="20" y="274" data-t="one">one agent</text>
+  <rect class="box-lit" x="170" y="258" width="190" height="24" rx="4"/>
+  <text class="label-lit" x="182" y="275" data-t="pass">4 of 4 passed</text>
+  <text class="label" x="20" y="306" data-t="three">three roles</text>
+  <rect class="box" x="170" y="290" width="190" height="24" rx="4"/>
+  <text class="label" x="182" y="307" data-t="pass">4 of 4 passed</text>
+</svg>
+<figcaption>Same four tasks, same result. Splitting the work into plan, build and review cost about 4.5 times the usage and 6 times the time. One run per task.</figcaption></figure>
+<p>Both ways got all four right. So the team bought nothing in correctness, and paid about 4.5 times the usage and about 6 times the time.</p>
+<p>Before you quote these numbers: four tasks, each run once, and the two sides were not set up the same way. Trust the direction (the team cost several times more for the same result), not the exact ratio. <a href="#costs-and-traps">Costs and traps</a> says more.</p>
+<h3>Where the extra cost went</h3>
+<p>I read the records of each run. The biggest waste was the handover. The coordinator studied the task carefully: it read the request and the files, and understood what had to change. Then it wrote a short plan and handed it over. The builder started with an empty context, read the plan, and had to study the same files again. The same understanding was paid for twice.</p>
+<figure class="fig steps" id="fig-handoff-relearn" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
+  <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
+  <text class="label" x="300" y="46" text-anchor="middle" data-t="files">request + files</text>
+
+  <rect class="box" x="30" y="110" width="200" height="50" rx="8"/>
+  <text class="label" x="130" y="141" text-anchor="middle" data-t="coordinator">coordinator</text>
+  <text class="label-muted" x="30" y="190" data-t="context">its context</text>
+  <rect class="box" x="30" y="198" width="200" height="16" rx="3"/>
+
+  <g data-step="1">
+    <path class="line-lit" d="M240 64 V86 H130 V100"/>
+    <path class="head-lit" d="M124 100 L130 110 L136 100 Z"/>
+    <rect class="bar-lit" x="30" y="198" width="184" height="16" rx="3"/>
+  </g>
+
+  <g data-step="2">
+    <path class="line" d="M230 135 H245"/>
+    <path class="head" d="M245 129 L255 135 L245 141 Z"/>
+    <rect class="box-lit" x="255" y="117" width="90" height="36" rx="6"/>
+    <text class="label-lit" x="300" y="141" text-anchor="middle" data-t="plan">plan</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line" d="M345 135 H360"/>
+    <path class="head" d="M360 129 L370 135 L360 141 Z"/>
+    <rect class="box" x="370" y="110" width="200" height="50" rx="8"/>
+    <text class="label" x="470" y="141" text-anchor="middle" data-t="builder">builder</text>
+    <text class="label-muted" x="370" y="190" data-t="context">its context</text>
+    <rect class="box" x="370" y="198" width="200" height="16" rx="3"/>
+    <rect class="bar" x="370" y="198" width="24" height="16" rx="3"/>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M360 64 V86 H470 V100"/>
+    <path class="head-lit" d="M464 100 L470 110 L476 100 Z"/>
+    <rect class="bar-lit" x="370" y="198" width="184" height="16" rx="3"/>
+    <text class="label-big" x="300" y="264" text-anchor="middle" data-t="twice">the same reading, paid twice</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The coordinator reads the request and the files. Now it understands the task.</li><li data-step-text="2">To hand over, it squeezes that understanding into a short plan.</li><li data-step-text="3">The builder starts with an empty context. All it has is the plan.</li><li data-step-text="4">To change the code, the builder has to read the same files again.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A handover passes a summary, not understanding. The next agent learns the task again, and you pay for it again.</figcaption></figure>
+<h3>Why job titles do not help an AI</h3>
+<ol>
+<li><strong>People split roles because of human limits.</strong> No one learns every specialty, a day has 8 hours, and one person cannot be in two places at once. A model does not have these limits. Its real limit is the size of its context, and the four cases in the next section are all about that.</li>
+<li><strong>A title carries no knowledge; a fitted setup does.</strong> &quot;You are a designer&quot; changes the tone, not what the agent knows. Two things do help: the know-how of the field written in files that any agent can read, and a set of tools fitted to the job. The first needs no second agent. The second can be a reason for one (case 4 below).</li>
+<li><strong>Handoffs lose understanding.</strong> That is the picture above. Understanding has to be squeezed into a summary to be handed over, and the next agent needs more than the summary to act.</li>
+<li><strong>What a fixed rule can decide, do not leave to a model.</strong> &quot;Who works next&quot; and &quot;is it finished&quot; often have fixed answers. A small program answers them right every time; a model answers them right most of the time.</li>
+<li><strong>Rework starts from zero.</strong> In my setup, every round of checks starts a new reviewer, which reads the work again from the start.</li>
+</ol>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>我曾經給一個 AI 安排了三個職位。同樣四個任務，用量約是 4.5 倍，時間約是 6 倍，答對的一個也沒多。現在一個 agent 做事，另一個只負責檢查。</p>
+<p>先說這一章一直會用到的三個詞。</p>
+<ul>
+<li><strong>agent</strong>：一個在迴圈裡工作的 AI 模型。它讀檔案、執行指令、改程式碼，自己決定下一步。</li>
+<li><strong>上下文</strong>：它在一次對話裡看過的全部東西：你的需求、它讀過的檔案、它試過的做法。這是 agent 的工作記憶，大小有上限。</li>
+<li><strong>子 agent</strong>：第一個 agent 為了一部分工作而開的第二個 agent。它從空的上下文開始。</li>
+</ul>
+<h3>感覺很對的做法</h3>
+<p>給 AI 安排職位：計劃的、開發的、檢查的，各是一個 agent。人的團隊就是這樣分工的，很多工具點幾下就能搭好。</p>
+<p>我在自己早期的 Copilot 設定裡就是這樣搭的。<strong>協調者</strong>讀需求、寫計劃，<strong>實作者</strong>改程式碼，<strong>reviewer</strong> 做檢查。然後我拿它和一個 agent 單獨做事來比。</p>
+<h3>我怎麼測的</h3>
+<ul>
+<li><strong>倉庫</strong>：一個虛構的資料工程專案，5 個領域、93 個檔案。用虛構的，是為了事先就知道任務和正確答案。</li>
+<li><strong>四個任務，從小到中等</strong>：加一條 pipeline；跨幾個領域加一個欄位；改一條 pipeline 的名字並刪掉舊檔案；修一個公式，而需求同時要求改一個不准動的檔案。</li>
+<li><strong>兩種做法</strong>：每個任務由三角色團隊做一次，團隊還有一份知識庫可讀（為 agent 寫的倉庫說明）；再由一個用頂級模型的 agent 做一次，沒有額外設定，規則寫在需求裡。</li>
+<li><strong>打分</strong>：同一個腳本讀檔案來檢查每個結果，沒有人憑眼睛判斷。</li>
+<li><strong>數什麼</strong>：第一次就通過了沒有、用了多少用量（AI credits，也就是平台向你收的錢）、花了多久。</li>
+</ul>
+<figure class="fig" id="fig-agents-vs-roles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="20" y="22" data-t="usage-title">用量（AI credits，4 個任務）</text>
+  <text class="label" x="20" y="54" data-t="one">一個 agent</text>
+  <rect class="bar-lit" x="170" y="41" width="85" height="18" rx="3"/>
+  <text class="label-muted" x="263" y="55" data-t="one-usage">≈101</text>
+  <text class="label" x="20" y="86" data-t="three">三個角色</text>
+  <rect class="bar" x="170" y="73" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="87" data-t="three-usage">≈456</text>
+
+  <text class="label-muted" x="20" y="132" data-t="time-title">時間（分鐘，4 個任務）</text>
+  <text class="label" x="20" y="164" data-t="one">一個 agent</text>
+  <rect class="bar-lit" x="170" y="151" width="71" height="18" rx="3"/>
+  <text class="label-muted" x="249" y="165" data-t="one-time">≈3</text>
+  <text class="label" x="20" y="196" data-t="three">三個角色</text>
+  <rect class="bar" x="170" y="183" width="380" height="18" rx="3"/>
+  <text class="label-muted" x="558" y="197" data-t="three-time">≈16</text>
+
+  <text class="label-muted" x="20" y="242" data-t="result-title">結果</text>
+  <text class="label" x="20" y="274" data-t="one">一個 agent</text>
+  <rect class="box-lit" x="170" y="258" width="190" height="24" rx="4"/>
+  <text class="label-lit" x="182" y="275" data-t="pass">4 個全部通過</text>
+  <text class="label" x="20" y="306" data-t="three">三個角色</text>
+  <rect class="box" x="170" y="290" width="190" height="24" rx="4"/>
+  <text class="label" x="182" y="307" data-t="pass">4 個全部通過</text>
+</svg>
+<figcaption>同樣四個任務，結果一樣。拆成計劃、實作、檢查三個角色，用量約 4.5 倍，時間約 6 倍。每個任務只跑了一次。</figcaption></figure>
+<p>兩種做法四個都答對了。所以團隊在正確性上什麼也沒多買到，卻付了約 4.5 倍的用量、約 6 倍的時間。</p>
+<p>引用這兩個數字之前要知道：只有四個任務，每個只跑一次，而且兩邊的設定不一樣。可以相信方向（同樣的結果，團隊貴了好幾倍），不要相信確切的倍數。<a href="#costs-and-traps">代價和陷阱</a>有更多說明。</p>
+<h3>多出來的錢花在哪</h3>
+<p>我讀了每一次執行的紀錄。最大的浪費在交接。協調者很認真地研究了任務：讀了需求和檔案，搞懂了要改什麼。然後它寫了一份簡短的計劃交出去。實作者從空的上下文開始，讀了計劃，只好把同樣的檔案再研究一遍。同一份理解付了兩次錢。</p>
+<figure class="fig steps" id="fig-handoff-relearn" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
+  <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
+  <text class="label" x="300" y="46" text-anchor="middle" data-t="files">需求 + 檔案</text>
+
+  <rect class="box" x="30" y="110" width="200" height="50" rx="8"/>
+  <text class="label" x="130" y="141" text-anchor="middle" data-t="coordinator">協調者</text>
+  <text class="label-muted" x="30" y="190" data-t="context">它的上下文</text>
+  <rect class="box" x="30" y="198" width="200" height="16" rx="3"/>
+
+  <g data-step="1">
+    <path class="line-lit" d="M240 64 V86 H130 V100"/>
+    <path class="head-lit" d="M124 100 L130 110 L136 100 Z"/>
+    <rect class="bar-lit" x="30" y="198" width="184" height="16" rx="3"/>
+  </g>
+
+  <g data-step="2">
+    <path class="line" d="M230 135 H245"/>
+    <path class="head" d="M245 129 L255 135 L245 141 Z"/>
+    <rect class="box-lit" x="255" y="117" width="90" height="36" rx="6"/>
+    <text class="label-lit" x="300" y="141" text-anchor="middle" data-t="plan">計劃</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line" d="M345 135 H360"/>
+    <path class="head" d="M360 129 L370 135 L360 141 Z"/>
+    <rect class="box" x="370" y="110" width="200" height="50" rx="8"/>
+    <text class="label" x="470" y="141" text-anchor="middle" data-t="builder">實作者</text>
+    <text class="label-muted" x="370" y="190" data-t="context">它的上下文</text>
+    <rect class="box" x="370" y="198" width="200" height="16" rx="3"/>
+    <rect class="bar" x="370" y="198" width="24" height="16" rx="3"/>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M360 64 V86 H470 V100"/>
+    <path class="head-lit" d="M464 100 L470 110 L476 100 Z"/>
+    <rect class="bar-lit" x="370" y="198" width="184" height="16" rx="3"/>
+    <text class="label-big" x="300" y="264" text-anchor="middle" data-t="twice">同樣的閱讀，付了兩次</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">協調者讀了需求和檔案，看懂了這個任務。</li><li data-step-text="2">為了交接，它把理解壓成一份簡短的計劃。</li><li data-step-text="3">實作者從空的上下文開始，手上只有這份計劃。</li><li data-step-text="4">要動手改程式碼，實作者只好把同樣的檔案再讀一遍。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>交接傳過去的是摘要，不是理解。下一個 agent 要重新學一遍這個任務，你也要再付一次錢。</figcaption></figure>
+<h3>為什麼職位對 AI 沒用</h3>
+<ol>
+<li><strong>人分工是因為人的限制</strong>。沒有人學得會所有專業，一天只有 8 小時，一個人也不能同時在兩個地方。模型沒有這些限制。它真正的限制是上下文的大小，下一節的四種情況都和這有關。</li>
+<li><strong>職位不帶知識，合適的配置才有用</strong>。「你是設計師」只改變語氣，不改變 agent 知道什麼。真正有用的是兩樣：寫在檔案裡、任何 agent 都能讀的領域知識，以及一組適合這份工作的工具。前者不需要第二個 agent，後者可以是多開一個的理由（下面第 4 種情況）。</li>
+<li><strong>交接會丟掉理解</strong>。就是上面那張圖。理解要壓成摘要才能交出去，而下一個 agent 要動手，光有摘要不夠。</li>
+<li><strong>固定規則能決定的，別交給模型</strong>。「誰做下一步」「做完了沒」常常有固定的答案。一個小程式每次都答對，模型大多數時候答對。</li>
+<li><strong>返工從零開始</strong>。在我的設定裡，每一輪檢查都開一個新的 reviewer，從頭再讀一遍。</li>
+</ol>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What a subagent can and cannot do</h3>
+<p>Think of a subagent as a contractor you send a written brief to:</p>
+<ul>
+<li><strong>It sees only the brief.</strong> It cannot read your conversation or your notes.</li>
+<li><strong>It cannot call you back.</strong> If the brief is missing something, it guesses or stops.</li>
+<li><strong>It sends back a report, not its understanding.</strong> Everything it read stays with it.</li>
+</ul>
+<p>So before you split off any work, ask one question: <strong>will a short report be enough for the main agent to go on?</strong></p>
+<p>If yes, a split can work. If the main agent needs everything the helper understood, do not split. A designer handing work to a developer fails this test: the developer needs everything the designer understood, not a summary of it.</p>
+<p>Passing the test is not enough. The split also has to buy something one agent cannot get alone. There are four such things.</p>
+<h3>1. An independent check</h3>
+<p>When you proofread your own essay, you read what you meant, not what you wrote. An agent checking its own work has the same problem: its context is full of its own reasoning, and that reasoning leads it past its own mistakes.</p>
+<p>A checker who has never seen that reasoning reads only the request and the result. If the result does not match, it sees it. That checker is a <strong>reviewer</strong>. It has to be a separate agent, because it needs a separate context.</p>
+<figure class="fig steps" id="fig-independent-check" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label" x="150" y="28" text-anchor="middle" data-t="author">the author</text>
+  <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="69" text-anchor="middle" data-t="request">the request</text>
+  <rect class="box" x="40" y="94" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="119" text-anchor="middle" data-t="reasoning">its own reasoning</text>
+  <rect class="box" x="40" y="144" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="169" text-anchor="middle" data-t="work">the work</text>
+
+  <g data-step="2">
+    <text class="label-muted" x="150" y="216" text-anchor="middle" data-t="author-note">reads what it meant</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="450" y="28" text-anchor="middle" data-t="reviewer">the reviewer</text>
+    <rect class="box-lit" x="340" y="44" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="69" text-anchor="middle" data-t="request">the request</text>
+    <rect class="box-plain" x="340" y="94" width="220" height="40" rx="6"/>
+    <text class="label-muted" x="450" y="119" text-anchor="middle" data-t="unseen">reasoning: never seen</text>
+    <rect class="box-lit" x="340" y="144" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="169" text-anchor="middle" data-t="work">the work</text>
+    <text class="label-lit" x="450" y="216" text-anchor="middle" data-t="reviewer-note">reads what is there</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The author&#x27;s context holds the request, its own reasoning and the work.</li><li data-step-text="2">When it checks itself, its reasoning leads it past its own mistakes.</li><li data-step-text="3">The reviewer sees only the request and the work. If they do not match, it notices.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>An independent check needs a context without the author&#x27;s reasoning. That is why it has to be a separate agent.</figcaption></figure>
+<p>A separate context is needed, but it is not enough. The reviewer is often the same model, with the same blind spots, and it can be wrong: fail good work, or pass bad work. So an independent check lowers the risk; it does not remove it.</p>
+<p><strong>How to build a good one:</strong></p>
+<ul>
+<li><strong>Give it a package, not the conversation:</strong> the request, the changed files, and the diff (exactly which lines changed). Leave the author's notes out on purpose.</li>
+<li><strong>Take away its tools to change files.</strong> It cannot &quot;just fix it&quot;, even when it wants to.</li>
+<li><strong>Let it point out, not fix.</strong> If it wrote the fix, the next check would be checking its own solution.</li>
+<li><strong>Every finding names a file and a line.</strong> What it cannot point to is not a finding. This keeps out vague worries.</li>
+<li><strong>Fix the first line: PASS or FAIL.</strong> Then a small program can read the verdict, without asking another AI what the reviewer meant.</li>
+<li><strong>Limit the rounds.</strong> A few checks per task; after that, a person decides. From the second round on, report only what affects correctness, or the checks never end over wording.</li>
+</ul>
+<h3>2. Parallel reading</h3>
+<p>Some questions need a lot of reading. &quot;What does each of these five areas own, and what are its rules?&quot; One agent would read the five areas one after another. That is slow, and by the end its context is full of raw material it no longer needs.</p>
+<p>Instead, the work can be split the way big data jobs are split: <strong>map</strong> each part to a helper that reads it and writes a short summary, then <strong>reduce</strong> the summaries into one answer. The method is called <strong>map-reduce</strong>, and each helper is a <strong>mapper</strong>. The parts are read at the same time, and the main agent only ever sees the summaries.</p>
+<figure class="fig steps" id="fig-parallel-read" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
+  <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">the main agent</text>
+  <text class="label-muted" x="300" y="52" text-anchor="middle" data-t="question">a question with a lot to read</text>
+
+  <g data-step="1">
+    <path class="line" d="M300 60 V78 M90 78 H510 M90 78 V94 M230 78 V94 M370 78 V94 M510 78 V94"/>
+    <path class="head" d="M84 94 L90 104 L96 94 Z M224 94 L230 104 L236 94 Z M364 94 L370 104 L376 94 Z M504 94 L510 104 L516 94 Z"/>
+    <rect class="box" x="30" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="170" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="310" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="450" y="104" width="120" height="50" rx="8"/>
+    <text class="label" x="90" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="230" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="370" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="510" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label-muted" x="90" y="145" text-anchor="middle" data-t="part1">reads part 1</text>
+    <text class="label-muted" x="230" y="145" text-anchor="middle" data-t="part2">reads part 2</text>
+    <text class="label-muted" x="370" y="145" text-anchor="middle" data-t="part3">reads part 3</text>
+    <text class="label-muted" x="510" y="145" text-anchor="middle" data-t="part4">reads part 4</text>
+  </g>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="30" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="170" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="310" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="450" y="160" width="120" height="8" rx="3"/>
+    <text class="label-muted" x="300" y="190" text-anchor="middle" data-t="same-time">all at the same time</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="55" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="195" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="335" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="475" y="206" width="70" height="30" rx="5"/>
+    <text class="label-muted" x="90" y="226" text-anchor="middle" data-t="summary">summary</text>
+    <text class="label-muted" x="230" y="226" text-anchor="middle" data-t="summary">summary</text>
+    <text class="label-muted" x="370" y="226" text-anchor="middle" data-t="summary">summary</text>
+    <text class="label-muted" x="510" y="226" text-anchor="middle" data-t="summary">summary</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M90 236 V256 M230 236 V256 M370 236 V256 M510 236 V256 M90 256 H510 M300 256 V270"/>
+    <path class="head-lit" d="M294 270 L300 280 L306 270 Z"/>
+    <rect class="box-lit" x="140" y="280" width="320" height="48" rx="8"/>
+    <text class="label-lit" x="300" y="302" text-anchor="middle" data-t="main">the main agent</text>
+    <text class="label-muted" x="300" y="320" text-anchor="middle" data-t="answer">one answer, from the summaries</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Map: the main agent splits the reading into parts and starts one mapper per part.</li><li data-step-text="2">Each mapper reads only its part. They all read at the same time.</li><li data-step-text="3">Each hands back a short summary. The raw material stays with the mapper.</li><li data-step-text="4">Reduce: the main agent reads only the summaries and combines them into one answer.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Map-reduce: split the reading, read in parallel, combine the summaries. The main agent&#x27;s context holds only the summaries.</figcaption></figure>
+<p><strong>This is where several agents clearly win.</strong> Anthropic built a research system on this pattern: a lead agent plans, and subagents search different directions at the same time. On their internal research tests it beat a single agent (Claude Opus 4) by 90.2%, and it shines on broad questions that split into independent directions. The price: such systems use about 15 times the tokens of a chat. They also note that most coding tasks have fewer truly parallel parts than research. (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>)</p>
+<p>So the test is two questions: does the job split into parts that do not need each other, and is the answer worth several times the cost?</p>
+<p>This only works for reading. If several helpers changed the same files at the same time, someone would have to merge their changes, and conflicts hide in a merge.</p>
+<p><strong>How to build it:</strong></p>
+<ul>
+<li><strong>The person switches it on, not the agent.</strong> It costs several times as much, and that is your decision. A small program counts the helpers (for example, four within an hour), so the agent cannot start more. Only a command the person types counts; the agent cannot type it for itself.</li>
+<li><strong>Each mapper can read and search, nothing else.</strong></li>
+<li><strong>Every brief has three parts:</strong> the question, the scope (which files or folders to read, and only those), and what to hand in. Anthropic saw what vague briefs do: helpers duplicate work, leave gaps, or misread the task. Early versions even started 50 subagents for a simple question.</li>
+<li><strong>Every summary has a fixed shape:</strong> conclusions, each with the file and line it comes from; what it could not find; what it is not sure of.</li>
+</ul>
+<h3>3. Work that runs unattended</h3>
+<p>Normally an agent stops after each step and waits for you. Sometimes you want to hand over a whole to-do list and come back when it is done.</p>
+<p><strong>The simplest version</strong> needs a <strong>hook</strong>: a small program that the tool runs at fixed moments. Copilot and Claude Code both have them. Here the moment is &quot;the agent has stopped&quot;. The hook looks at the to-do list. If a step is still open, it tells the agent to go on. Only the person can switch this on, for one task at a time.</p>
+<p>It also needs to know when to stop pushing. Each stop rule catches a different way it can go wrong:</p>
+<ul>
+<li><strong>A cap on steps and on time</strong> (for example, 20 steps or 2 hours): a runaway run cannot spend all night.</li>
+<li><strong>Stop after a few refusals</strong> (for example, two): when the agent keeps trying things it is not allowed to do, something is wrong, and a person should look.</li>
+<li><strong>Stop when nothing moves</strong> (for example, three pushes in a row with no step done): the agent is stuck in a loop.</li>
+</ul>
+<p>In this simplest version, one agent does every step. That is fine for a short list. On a long one, its context fills up with everything from the earlier steps: files it read for step 2, commands it ran for step 5, a test that failed and was fixed. By step 15 it is carrying fourteen steps of leftovers, and an overfull context forgets and mixes things up.</p>
+<p><strong>The better version</strong> works like a site manager on a building site. The manager does not lay bricks. They keep the plan and the checklist, give each job to a worker on a written job card, and tick the job off when the worker reports back. The manager's head stays clear, because the details of each job stay with the worker who did it.</p>
+<figure class="fig steps" id="fig-autorun-manager" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">the main agent</text>
+  <text class="label-muted" x="300" y="53" text-anchor="middle" data-t="main-note">starts workers, keeps the task files</text>
+
+  <path class="line" d="M300 62 V80 M110 80 H490 M110 80 V96 M300 80 V96 M490 80 V96"/>
+  <path class="head" d="M104 96 L110 106 L116 96 Z M294 96 L300 106 L306 96 Z M484 96 L490 106 L496 96 Z"/>
+  <rect class="box" x="40" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="110" y="131" text-anchor="middle" data-t="todo-1">step 1</text>
+  <rect class="box" x="230" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="300" y="131" text-anchor="middle" data-t="todo-2">step 2</text>
+  <rect class="box" x="420" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="490" y="131" text-anchor="middle" data-t="todo-3">step 3</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M110 146 V164"/>
+    <path class="head-lit" d="M104 164 L110 174 L116 164 Z"/>
+    <rect class="box" x="40" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="110" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="110" y="214" text-anchor="middle" data-t="worker-note">work + tests</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="164" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <path class="line-lit" d="M150 174 V156"/>
+    <path class="head-lit" d="M144 156 L150 146 L156 156 Z"/>
+    <text class="label-muted" x="160" y="166" data-t="report">report</text>
+  </g>
+
+  <g data-step="4">
+    <text class="label-lit" x="354" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <text class="label-lit" x="544" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <path class="line-lit" d="M300 146 V164 M490 146 V164"/>
+    <path class="head-lit" d="M294 164 L300 174 L306 164 Z M484 164 L490 174 L496 164 Z"/>
+    <rect class="box" x="230" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="300" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="300" y="214" text-anchor="middle" data-t="worker-note">work + tests</text>
+    <rect class="box" x="420" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="490" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="490" y="214" text-anchor="middle" data-t="worker-note">work + tests</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line" d="M110 224 V244 M300 224 V244 M490 224 V244 M110 244 H490 M300 244 V260"/>
+    <path class="head" d="M294 260 L300 270 L306 260 Z"/>
+    <rect class="box-lit" x="170" y="270" width="260" height="50" rx="8"/>
+    <text class="label-lit" x="300" y="292" text-anchor="middle" data-t="reviewer">reviewer</text>
+    <text class="label-muted" x="300" y="310" text-anchor="middle" data-t="reviewer-note">checks the whole result</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">You hand over the whole to-do list. The main agent takes your place as the one in charge.</li><li data-step-text="2">For step 1 it writes a brief and starts a fresh worker. The worker does the step and its tests.</li><li data-step-text="3">The worker reports back in a few lines. The main agent ticks the step off in the task files.</li><li data-step-text="4">Every step gets a new worker with an empty context. The main agent holds only the plan, the checklist and the reports.</li><li data-step-text="5">When all steps are done, the reviewer checks the whole result.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A manager and many workers: the main agent keeps the plan and the checklist; each step goes to a fresh worker with a written brief.</figcaption></figure>
+<ol>
+<li><strong>You hand over the whole to-do list.</strong> The main agent takes your place as the one in charge.</li>
+<li><strong>For each step, the main agent writes a brief</strong> (what to do, which files, what &quot;done&quot; looks like, how to test it) and starts a fresh subagent: a worker.</li>
+<li><strong>The worker does the step and its tests</strong>, writes down what it did, and reports back in a few lines: done or not, tests passed or not, which files changed.</li>
+<li><strong>The main agent ticks the step off</strong> and starts a new worker for the next step. Its own context only ever holds the plan, the checklist and the short reports.</li>
+<li><strong>When every step is done, the reviewer checks the whole result.</strong> If it fails, the main agent starts a worker to fix what the reviewer found.</li>
+</ol>
+<p>Why does this split work, when the three-role team did not? The team split one piece of work by phase: one agent understood it, and another had to act on that understanding. Here the split is by piece. Each worker gets a whole small job, both the doing and the testing, and the main agent needs only &quot;done, tests pass&quot; to go on. That passes the summary test.</p>
+<p>The price:</p>
+<ul>
+<li><strong>Every brief must be complete.</strong> The worker cannot ask back, so whatever it needs has to be written down.</li>
+<li><strong>Every worker starts from zero.</strong> It reads its files again, so many small steps cost more than one agent doing them in a row.</li>
+<li><strong>A report is not proof.</strong> A worker that says &quot;tests pass&quot; may be wrong, and the main agent, seeing only reports, cannot tell. That is why the independent check at the end matters, and why the main agent should open the files of a step now and then.</li>
+<li><strong>Steps that depend on each other's details do not fit.</strong> If step 4 needs to know exactly how step 3 was done, either write that down for the next worker or keep both steps with one agent.</li>
+</ul>
+<p>So it pays for a long list of steps that each stand on their own. For a short list, one agent is still cheaper. And if you are there to watch, splitting a long task into several smaller tasks gets most of the same benefit.</p>
+<h3>4. A hard limit on tools</h3>
+<p>Each agent has a list of tools it may use: read files, search, run commands, change files. In Copilot it is the <code>tools</code> list in an agent file; Claude Code's subagents have one too. The platform enforces that list. An agent without the &quot;change files&quot; tool cannot change a file, however it is asked.</p>
+<p>The main agent usually has every tool. If a job must not change anything, telling the main agent &quot;please do not change files&quot; is only a request. Giving the job to a subagent that has no such tool makes it a rule.</p>
+<figure class="fig" id="fig-tool-limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
+  <text class="label-lit" x="20" y="45" data-t="main">the main agent</text>
+  <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="45" text-anchor="middle" data-t="read">read</text>
+  <rect class="box" x="292" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="45" text-anchor="middle" data-t="search">search</text>
+  <rect class="box" x="394" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="45" text-anchor="middle" data-t="run">run</text>
+  <rect class="box" x="496" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="542" y="45" text-anchor="middle" data-t="change">change</text>
+
+  <text class="label" x="20" y="105" data-t="reviewer">reviewer</text>
+  <rect class="box" x="190" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="105" text-anchor="middle" data-t="read">read</text>
+  <rect class="box" x="292" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="105" text-anchor="middle" data-t="search">search</text>
+  <rect class="box" x="394" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="105" text-anchor="middle" data-t="run">run</text>
+  <rect class="box-plain" x="496" y="82" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="105" text-anchor="middle" data-t="change">change</text>
+  <path class="line" d="M512 100 H572"/>
+
+  <text class="label" x="20" y="165" data-t="mapper">mapper</text>
+  <rect class="box" x="190" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="165" text-anchor="middle" data-t="read">read</text>
+  <rect class="box" x="292" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="165" text-anchor="middle" data-t="search">search</text>
+  <rect class="box-plain" x="394" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="440" y="165" text-anchor="middle" data-t="run">run</text>
+  <path class="line" d="M410 160 H470"/>
+  <rect class="box-plain" x="496" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="165" text-anchor="middle" data-t="change">change</text>
+  <path class="line" d="M512 160 H572"/>
+</svg>
+<figcaption>Which tools each agent has. A missing tool is a rule the platform enforces; a prompt that says &quot;do not change files&quot; is only a request.</figcaption></figure>
+<h3>Make it a rule, not a request</h3>
+<p>How do you make sure no other subagent runs? Writing &quot;do not start other subagents&quot; in the instructions is only a request: the model follows it most of the time.</p>
+<p>A hook makes it a rule. One that runs just before any subagent starts can read the subagent's name and say yes or no. It runs every time, and the model cannot talk it out of its answer. A good refusal also says what to do instead, so the agent does not try the same thing again.</p>
+<h3>Hand over through files</h3>
+<p>Agents should not send each other messages. Give each piece of work its own <strong>task folder</strong>, holding the request, the plan, the to-do list and the results of every check. Agents hand over by writing files there.</p>
+<p>This buys three things at once. You can open the same files and see what happened. If you stop for a day, the next session picks the work up from the files. And afterwards, the folder is a record of who did what and what the checks said.</p>
+<figure class="fig" id="fig-subagent-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
+  <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">the main agent</text>
+  <text class="label-muted" x="300" y="61" text-anchor="middle" data-t="main-note">holds the task, does the work</text>
+
+  <rect class="box-plain" x="470" y="16" width="120" height="58" rx="8"/>
+  <text class="label-muted" x="530" y="41" text-anchor="middle" data-t="other">other agents</text>
+  <text class="label-muted" x="530" y="61" text-anchor="middle" data-t="other-note">refused</text>
+  <path class="line" d="M430 45 H462"/>
+  <path class="line" d="M440 37 L452 53 M452 37 L440 53"/>
+
+  <path class="line-lit" d="M300 74 V122"/>
+  <path class="head-lit" d="M294 116 L300 128 L306 116 Z"/>
+
+  <rect class="box" x="130" y="130" width="340" height="70" rx="8"/>
+  <text class="label" x="300" y="158" text-anchor="middle" data-t="folder">the task folder</text>
+  <text class="label-muted" x="300" y="182" text-anchor="middle" data-t="folder-files">request · plan · to-do · checks</text>
+
+  <path class="line" d="M190 200 V252"/>
+  <path class="head" d="M184 208 L190 196 L196 208 Z"/>
+  <path class="line" d="M410 200 V252"/>
+  <path class="head" d="M404 208 L410 196 L416 208 Z"/>
+  <text class="label-muted" x="200" y="232" data-t="writes-verdict">verdict</text>
+  <text class="label-muted" x="420" y="232" data-t="writes-summary">summaries</text>
+
+  <rect class="box" x="20" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="36" y="282" data-t="reviewer">reviewer</text>
+  <text class="label-muted" x="36" y="306" data-t="reviewer-1">an independent check</text>
+  <text class="label-muted" x="36" y="328" data-t="reviewer-2">you switch it on per task</text>
+
+  <rect class="box" x="310" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="326" y="282" data-t="mapper">mapper × N</text>
+  <text class="label-muted" x="326" y="306" data-t="mapper-1">reads in parallel, never writes</text>
+  <text class="label-muted" x="326" y="328" data-t="mapper-2">you switch it on by a command</text>
+</svg>
+<figcaption>Only two subagents, and the user switches each on. They hand over through files in the task folder; every other subagent is refused.</figcaption></figure>
+<h3>Test your own setup</h3>
+<p><strong>Three questions</strong> for any extra agent, in your own setup or in a proposal you are asked to approve:</p>
+<ol>
+<li>Which of the four does it buy?</li>
+<li>Will a short report be enough for the main agent to go on?</li>
+<li>Did you try the same task without it?</li>
+</ol>
+<p><strong>A test you can run today, with no extra setup.</strong> Take a task you know the right answer to. Do it twice in your own tool. Once, ask the agent to check its own work. Once, open a new chat, give it only the request and the result, and ask it to check. Compare what each one found.</p>
+<p><strong>To compare two setups fairly:</strong></p>
+<ul>
+<li>Run each one several times, not once. An agent does not do the same thing twice.</li>
+<li>Score both the same way, ideally with a script.</li>
+<li>Write down three numbers: was it right, how much usage, how long.</li>
+<li>Do not decide from a single run.</li>
+</ul>
+<p><strong>To repeat my test.</strong> The made-up repository, the four tasks and the scoring script are in <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>. They work with any agent tool.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>子 agent 能做什麼、不能做什麼</h3>
+<p>把子 agent 想成一個你寄了書面說明過去的外包：</p>
+<ul>
+<li><strong>它只看得到說明</strong>。它讀不到你們的對話，也讀不到你的筆記。</li>
+<li><strong>它不能回頭問你</strong>。說明裡少了什麼，它只能猜，或者停下來。</li>
+<li><strong>它交回的是報告，不是理解</strong>。它讀過的東西都留在它那裡。</li>
+</ul>
+<p>所以在拆出任何工作之前，先問一個問題：<strong>一份簡短的報告，夠不夠主 agent 接著做</strong>？</p>
+<p>夠，就可以拆。主 agent 要接著做，卻需要幫手的全部理解，就不要拆。設計師把工作交給開發者就過不了這一關：開發者需要的是設計師的全部理解，不是一份摘要。</p>
+<p>過了這一關還不夠。拆分還得買到一個 agent 自己得不到的東西。這樣的東西有四種。</p>
+<h3>1. 獨立檢查</h3>
+<p>校對自己的文章時，你讀到的是你想寫的，不是你寫出來的。agent 檢查自己的工作也一樣：它的上下文裡全是它自己的思路，這些思路會帶著它繞過自己的錯。</p>
+<p>一個從沒看過那些思路的檢查者，只讀需求和結果。結果對不上，它就看得出來。這個檢查者就是 <strong>reviewer</strong>。它必須是另一個 agent，因為它需要另一個上下文。</p>
+<figure class="fig steps" id="fig-independent-check" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label" x="150" y="28" text-anchor="middle" data-t="author">作者</text>
+  <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="69" text-anchor="middle" data-t="request">需求</text>
+  <rect class="box" x="40" y="94" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="119" text-anchor="middle" data-t="reasoning">它自己的思路</text>
+  <rect class="box" x="40" y="144" width="220" height="40" rx="6"/>
+  <text class="label" x="150" y="169" text-anchor="middle" data-t="work">做出來的東西</text>
+
+  <g data-step="2">
+    <text class="label-muted" x="150" y="216" text-anchor="middle" data-t="author-note">讀到的是它想寫的</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="450" y="28" text-anchor="middle" data-t="reviewer">reviewer</text>
+    <rect class="box-lit" x="340" y="44" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="69" text-anchor="middle" data-t="request">需求</text>
+    <rect class="box-plain" x="340" y="94" width="220" height="40" rx="6"/>
+    <text class="label-muted" x="450" y="119" text-anchor="middle" data-t="unseen">思路：從沒看過</text>
+    <rect class="box-lit" x="340" y="144" width="220" height="40" rx="6"/>
+    <text class="label-lit" x="450" y="169" text-anchor="middle" data-t="work">做出來的東西</text>
+    <text class="label-lit" x="450" y="216" text-anchor="middle" data-t="reviewer-note">讀到的是實際寫的</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">作者的上下文裡有需求、它自己的思路和做出來的東西。</li><li data-step-text="2">自己檢查自己時，思路會帶著它繞過自己的錯。</li><li data-step-text="3">reviewer 只看需求和做出來的東西。兩者對不上，它就會發現。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>獨立檢查需要一個沒有作者思路的上下文，所以必須是另一個 agent。</figcaption></figure>
+<p>另一個上下文是必要的，但不夠。reviewer 常常是同一個模型，有同樣的盲點，它也會判錯：把好的判成不通過，把壞的放過去。所以獨立檢查降低風險，但不能消除風險。</p>
+<p><strong>怎麼搭一個好的</strong>：</p>
+<ul>
+<li><strong>給它一個檢查包，不給對話</strong>。包裡有需求、改過的檔案和 diff（到底改了哪幾行）。作者的筆記故意不給。</li>
+<li><strong>拿掉它改檔案的工具</strong>。就算它想「順手修掉」，也做不到。</li>
+<li><strong>只讓它指出問題，不讓它修</strong>。它寫了修法，下一輪檢查就是在檢查它自己的方案。</li>
+<li><strong>每個問題都要指到檔案和行號</strong>。指不出來的就不算問題。這樣可以擋掉含糊的擔心。</li>
+<li><strong>第一行固定寫 PASS 或 FAIL</strong>。這樣一個小程式就能讀出結論，不用再問另一個 AI「reviewer 是什麼意思」。</li>
+<li><strong>限制輪數</strong>。每個任務檢查幾次就好，之後由人決定。從第二輪起只報影響正確性的問題，不然檢查會為了措辭沒完沒了。</li>
+</ul>
+<h3>2. 並行閱讀</h3>
+<p>有些問題要讀很多東西。「這五個領域各自負責什麼？各有什麼規則？」一個 agent 只能一個領域接一個領域地讀。這很慢，而且讀到最後，它的上下文塞滿了已經用不著的原始材料。</p>
+<p>換個做法，像處理大數據那樣拆：把每一份 <strong>map</strong>（分派）給一個幫手，它讀完寫一份簡短的摘要；再把這些摘要 <strong>reduce</strong>（合併）成一個答案。這個方法叫 <strong>map-reduce</strong>，每個幫手叫 <strong>mapper</strong>。幾份同時讀，主 agent 自始至終只看到摘要。</p>
+<figure class="fig steps" id="fig-parallel-read" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
+  <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
+  <text class="label-muted" x="300" y="52" text-anchor="middle" data-t="question">一個要讀很多東西的問題</text>
+
+  <g data-step="1">
+    <path class="line" d="M300 60 V78 M90 78 H510 M90 78 V94 M230 78 V94 M370 78 V94 M510 78 V94"/>
+    <path class="head" d="M84 94 L90 104 L96 94 Z M224 94 L230 104 L236 94 Z M364 94 L370 104 L376 94 Z M504 94 L510 104 L516 94 Z"/>
+    <rect class="box" x="30" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="170" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="310" y="104" width="120" height="50" rx="8"/>
+    <rect class="box" x="450" y="104" width="120" height="50" rx="8"/>
+    <text class="label" x="90" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="230" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="370" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label" x="510" y="126" text-anchor="middle" data-t="mapper">mapper</text>
+    <text class="label-muted" x="90" y="145" text-anchor="middle" data-t="part1">讀第 1 份</text>
+    <text class="label-muted" x="230" y="145" text-anchor="middle" data-t="part2">讀第 2 份</text>
+    <text class="label-muted" x="370" y="145" text-anchor="middle" data-t="part3">讀第 3 份</text>
+    <text class="label-muted" x="510" y="145" text-anchor="middle" data-t="part4">讀第 4 份</text>
+  </g>
+
+  <g data-step="2">
+    <rect class="bar-lit" x="30" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="170" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="310" y="160" width="120" height="8" rx="3"/>
+    <rect class="bar-lit" x="450" y="160" width="120" height="8" rx="3"/>
+    <text class="label-muted" x="300" y="190" text-anchor="middle" data-t="same-time">同時進行</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="55" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="195" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="335" y="206" width="70" height="30" rx="5"/>
+    <rect class="box" x="475" y="206" width="70" height="30" rx="5"/>
+    <text class="label-muted" x="90" y="226" text-anchor="middle" data-t="summary">摘要</text>
+    <text class="label-muted" x="230" y="226" text-anchor="middle" data-t="summary">摘要</text>
+    <text class="label-muted" x="370" y="226" text-anchor="middle" data-t="summary">摘要</text>
+    <text class="label-muted" x="510" y="226" text-anchor="middle" data-t="summary">摘要</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M90 236 V256 M230 236 V256 M370 236 V256 M510 236 V256 M90 256 H510 M300 256 V270"/>
+    <path class="head-lit" d="M294 270 L300 280 L306 270 Z"/>
+    <rect class="box-lit" x="140" y="280" width="320" height="48" rx="8"/>
+    <text class="label-lit" x="300" y="302" text-anchor="middle" data-t="main">主 agent</text>
+    <text class="label-muted" x="300" y="320" text-anchor="middle" data-t="answer">根據摘要，得出一個答案</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Map：主 agent 把要讀的東西分成幾份，每份開一個 mapper。</li><li data-step-text="2">每個 mapper 只讀自己那一份，大家同時讀。</li><li data-step-text="3">每個 mapper 交回一份簡短的摘要，原始材料留在它那裡。</li><li data-step-text="4">Reduce：主 agent 只讀摘要，把它們合成一個答案。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>Map-reduce：把閱讀拆開、並行地讀、再合併摘要。主 agent 的上下文裡只有摘要。</figcaption></figure>
+<p><strong>這正是多個 agent 明顯佔優的地方</strong>。Anthropic 用這個模式做了一個研究系統：一個主 agent 做規劃，幾個子 agent 同時往不同方向搜尋。在他們內部的研究評測上，它比單個 agent（Claude Opus 4）好 90.2%，尤其擅長能拆成幾個獨立方向的廣泛問題。代價是：這類系統用的 token 約是聊天的 15 倍。他們也說，大多數寫程式的任務，真正能並行的部分比研究少。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</p>
+<p>所以判斷只有兩個問題：這份工作能不能拆成彼此不需要對方的幾部分？答案值不值得好幾倍的成本？</p>
+<p>這只適用於讀。幾個幫手同時改同樣的檔案，就得有人合併它們的改動，而衝突會藏在合併裡。</p>
+<p><strong>怎麼搭</strong>：</p>
+<ul>
+<li><strong>由人來開，不由 agent 開</strong>。它貴好幾倍，該由你決定。一個小程式負責計數（例如一小時內最多四個），agent 開不了更多。只有人輸入的指令才算，agent 不能替自己輸入。</li>
+<li><strong>每個 mapper 只能讀和搜尋，別的都不行</strong>。</li>
+<li><strong>每份說明都有三部分</strong>：問題、範圍（讀哪些檔案或資料夾，只讀這些）、要交回什麼。Anthropic 看到過說明含糊的後果：幫手重複工作、漏掉該查的、誤解任務。早期版本甚至為一個簡單問題開了 50 個子 agent。</li>
+<li><strong>每份摘要格式固定</strong>：結論，每條附上出自哪個檔案、哪一行；找不到的；不確定的。</li>
+</ul>
+<h3>3. 無人值守</h3>
+<p>平常 agent 做完一步就停下來等你。有時你想把整份待辦清單交出去，做完再回來看。</p>
+<p><strong>最簡單的做法</strong>要用到 <strong>hook</strong>：工具在固定時刻會執行的一個小程式。Copilot 和 Claude Code 都有。這裡的時刻是「agent 停下來了」。hook 看一眼待辦清單，還有沒做完的步驟，就叫 agent 繼續。只有人能開，一次只對一個任務。</p>
+<p>它還得知道什麼時候不再推。每條停止規則防的是一種不同的出錯：</p>
+<ul>
+<li><strong>步數和時間有上限</strong>（例如 20 步或 2 小時）：失控的執行不會跑一整夜。</li>
+<li><strong>被拒絕幾次就停</strong>（例如兩次）：agent 一直在試不准做的事，說明哪裡不對了，該由人來看。</li>
+<li><strong>沒有進展就停</strong>（例如連推三次都沒有完成任何一步）：agent 卡在迴圈裡了。</li>
+</ul>
+<p>在這個最簡單的做法裡，所有步驟都由一個 agent 做。清單短，沒問題。清單長，它的上下文會塞滿前面每一步留下的東西：第 2 步讀過的檔案、第 5 步跑過的指令、一個失敗後又修好的測試。到第 15 步，它背著前 14 步的殘留，上下文太滿就會忘事、搞混。</p>
+<p><strong>更好的做法</strong>像工地上的管理者。管理者不砌磚。他手上拿著計劃和清單，把每份活寫在工作卡上交給工人，工人回報後就打勾。管理者腦子一直是清楚的，因為每份活的細節都留在做活的工人那裡。</p>
+<figure class="fig steps" id="fig-autorun-manager" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
+  <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
+  <text class="label-muted" x="300" y="53" text-anchor="middle" data-t="main-note">開 worker，維護任務檔案</text>
+
+  <path class="line" d="M300 62 V80 M110 80 H490 M110 80 V96 M300 80 V96 M490 80 V96"/>
+  <path class="head" d="M104 96 L110 106 L116 96 Z M294 96 L300 106 L306 96 Z M484 96 L490 106 L496 96 Z"/>
+  <rect class="box" x="40" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="110" y="131" text-anchor="middle" data-t="todo-1">第 1 步</text>
+  <rect class="box" x="230" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="300" y="131" text-anchor="middle" data-t="todo-2">第 2 步</text>
+  <rect class="box" x="420" y="106" width="140" height="40" rx="6"/>
+  <text class="label" x="490" y="131" text-anchor="middle" data-t="todo-3">第 3 步</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M110 146 V164"/>
+    <path class="head-lit" d="M104 164 L110 174 L116 164 Z"/>
+    <rect class="box" x="40" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="110" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="110" y="214" text-anchor="middle" data-t="worker-note">實作 + 測試</text>
+  </g>
+
+  <g data-step="3">
+    <text class="label-lit" x="164" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <path class="line-lit" d="M150 174 V156"/>
+    <path class="head-lit" d="M144 156 L150 146 L156 156 Z"/>
+    <text class="label-muted" x="160" y="166" data-t="report">簡短匯報</text>
+  </g>
+
+  <g data-step="4">
+    <text class="label-lit" x="354" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <text class="label-lit" x="544" y="132" text-anchor="middle" data-t="tick">✓</text>
+    <path class="line-lit" d="M300 146 V164 M490 146 V164"/>
+    <path class="head-lit" d="M294 164 L300 174 L306 164 Z M484 164 L490 174 L496 164 Z"/>
+    <rect class="box" x="230" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="300" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="300" y="214" text-anchor="middle" data-t="worker-note">實作 + 測試</text>
+    <rect class="box" x="420" y="174" width="140" height="50" rx="8"/>
+    <text class="label" x="490" y="196" text-anchor="middle" data-t="worker">worker</text>
+    <text class="label-muted" x="490" y="214" text-anchor="middle" data-t="worker-note">實作 + 測試</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line" d="M110 224 V244 M300 224 V244 M490 224 V244 M110 244 H490 M300 244 V260"/>
+    <path class="head" d="M294 260 L300 270 L306 260 Z"/>
+    <rect class="box-lit" x="170" y="270" width="260" height="50" rx="8"/>
+    <text class="label-lit" x="300" y="292" text-anchor="middle" data-t="reviewer">reviewer</text>
+    <text class="label-muted" x="300" y="310" text-anchor="middle" data-t="reviewer-note">檢查整體結果</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">你把整份待辦清單交出去，主 agent 代替你負責。</li><li data-step-text="2">第 1 步：它寫好說明，開一個新的 worker。worker 負責這一步和它的測試。</li><li data-step-text="3">worker 用幾行字匯報結果，主 agent 在任務檔案裡把這一步打勾。</li><li data-step-text="4">每一步都換一個上下文是空的新 worker。主 agent 只記著計劃、清單和匯報。</li><li data-step-text="5">所有步驟做完後，reviewer 檢查整體結果。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一個管理者加多個 worker：主 agent 管計劃和清單，每一步交給一個拿著書面說明的新 worker。</figcaption></figure>
+<ol>
+<li><strong>你把整份待辦清單交出去</strong>。主 agent 代替你負責。</li>
+<li><strong>每一步，主 agent 寫一份說明</strong>（做什麼、哪些檔案、怎樣算做完、怎麼測），開一個新的子 agent：一個 worker。</li>
+<li><strong>worker 做這一步和它的測試</strong>，記下自己做了什麼，用幾行字回報：做完沒有、測試過沒過、改了哪些檔案。</li>
+<li><strong>主 agent 把這一步打勾</strong>，為下一步開一個新的 worker。它自己的上下文裡永遠只有計劃、清單和簡短的回報。</li>
+<li><strong>全部做完後，reviewer 檢查整體結果</strong>。不通過，主 agent 就開一個 worker 去修 reviewer 找到的問題。</li>
+</ol>
+<p>三角色團隊不行，為什麼這樣拆就行？團隊是把同一件事按階段拆：一個 agent 搞懂，另一個要接著那份理解去做。這裡是按塊拆：每個 worker 拿到的是一整件小事，做和測都包含在內，主 agent 只需要知道「做完了、測試通過」就能往下走。這過得了摘要那一關。</p>
+<p>代價：</p>
+<ul>
+<li><strong>每份說明都要寫全</strong>。worker 不能回頭問，它需要的都得寫下來。</li>
+<li><strong>每個 worker 都從零開始</strong>。它要重讀自己的檔案，所以很多小步驟加起來，比一個 agent 一路做下來貴。</li>
+<li><strong>回報不是證明</strong>。worker 說「測試通過」也可能是錯的，而只看回報的主 agent 分辨不出來。所以最後的獨立檢查很重要，主 agent 也該不時打開某一步的檔案看看。</li>
+<li><strong>彼此依賴細節的步驟不適合</strong>。第 4 步要確切知道第 3 步怎麼做的，就把它寫下來交給下一個 worker，或者乾脆兩步都由一個 agent 做。</li>
+</ul>
+<p>所以它適合很長、每一步都能獨立完成的清單。清單短，一個 agent 還是更便宜。要是你人在旁邊，把長任務拆成幾個小任務，也能拿到大部分好處。</p>
+<h3>4. 工具的硬性限制</h3>
+<p>每個 agent 都有一份能用的工具清單：讀檔案、搜尋、執行指令、改檔案。在 Copilot 裡，這是 agent 檔案裡的 <code>tools</code> 清單；Claude Code 的子 agent 也有。平台會強制執行這份清單。沒有「改檔案」這個工具的 agent，怎麼叫它都改不了檔案。</p>
+<p>主 agent 通常什麼工具都有。一份工作絕不能改任何東西時，跟主 agent 說「請不要改檔案」只是請求。把這份工作交給一個沒有這個工具的子 agent，它才變成規則。</p>
+<figure class="fig" id="fig-tool-limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
+  <text class="label-lit" x="20" y="45" data-t="main">主 agent</text>
+  <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="45" text-anchor="middle" data-t="read">讀</text>
+  <rect class="box" x="292" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="45" text-anchor="middle" data-t="search">搜尋</text>
+  <rect class="box" x="394" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="45" text-anchor="middle" data-t="run">執行</text>
+  <rect class="box" x="496" y="22" width="92" height="36" rx="6"/>
+  <text class="label" x="542" y="45" text-anchor="middle" data-t="change">修改</text>
+
+  <text class="label" x="20" y="105" data-t="reviewer">reviewer</text>
+  <rect class="box" x="190" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="105" text-anchor="middle" data-t="read">讀</text>
+  <rect class="box" x="292" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="105" text-anchor="middle" data-t="search">搜尋</text>
+  <rect class="box" x="394" y="82" width="92" height="36" rx="6"/>
+  <text class="label" x="440" y="105" text-anchor="middle" data-t="run">執行</text>
+  <rect class="box-plain" x="496" y="82" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="105" text-anchor="middle" data-t="change">修改</text>
+  <path class="line" d="M512 100 H572"/>
+
+  <text class="label" x="20" y="165" data-t="mapper">mapper</text>
+  <rect class="box" x="190" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="236" y="165" text-anchor="middle" data-t="read">讀</text>
+  <rect class="box" x="292" y="142" width="92" height="36" rx="6"/>
+  <text class="label" x="338" y="165" text-anchor="middle" data-t="search">搜尋</text>
+  <rect class="box-plain" x="394" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="440" y="165" text-anchor="middle" data-t="run">執行</text>
+  <path class="line" d="M410 160 H470"/>
+  <rect class="box-plain" x="496" y="142" width="92" height="36" rx="6"/>
+  <text class="label-muted" x="542" y="165" text-anchor="middle" data-t="change">修改</text>
+  <path class="line" d="M512 160 H572"/>
+</svg>
+<figcaption>每個 agent 有哪些工具。少了的工具是平台強制的規則；提示裡寫「不要改檔案」只是請求。</figcaption></figure>
+<h3>讓它成為規則，而不是請求</h3>
+<p>怎麼確保不會有別的子 agent 跑起來？在指示裡寫「不要開別的子 agent」只是請求：模型大多數時候會照做。</p>
+<p>hook 能把它變成規則。一個在任何子 agent 啟動前執行的 hook，可以讀出子 agent 的名字，決定准或不准。它每次都會執行，模型也說服不了它。好的拒絕還會說明該改做什麼，免得 agent 再試同一件事。</p>
+<h3>靠檔案交接</h3>
+<p>agent 之間不該互相傳訊息。給每件工作一個自己的<strong>任務資料夾</strong>，裡面放需求、計劃、待辦清單和每次檢查的結果。agent 透過把檔案寫進這裡來交接。</p>
+<p>這一下買到三樣東西。你能打開同樣的檔案，看到發生了什麼。中斷一天，下一個會話能從檔案接著做。事後，這個資料夾就是一份紀錄：誰做了什麼，檢查怎麼說。</p>
+<figure class="fig" id="fig-subagent-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
+  <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">主 agent</text>
+  <text class="label-muted" x="300" y="61" text-anchor="middle" data-t="main-note">拿著任務，做事的是它</text>
+
+  <rect class="box-plain" x="470" y="16" width="120" height="58" rx="8"/>
+  <text class="label-muted" x="530" y="41" text-anchor="middle" data-t="other">其他 agent</text>
+  <text class="label-muted" x="530" y="61" text-anchor="middle" data-t="other-note">一律拒絕</text>
+  <path class="line" d="M430 45 H462"/>
+  <path class="line" d="M440 37 L452 53 M452 37 L440 53"/>
+
+  <path class="line-lit" d="M300 74 V122"/>
+  <path class="head-lit" d="M294 116 L300 128 L306 116 Z"/>
+
+  <rect class="box" x="130" y="130" width="340" height="70" rx="8"/>
+  <text class="label" x="300" y="158" text-anchor="middle" data-t="folder">任務資料夾</text>
+  <text class="label-muted" x="300" y="182" text-anchor="middle" data-t="folder-files">需求 · 計劃 · 待辦 · 檢查結果</text>
+
+  <path class="line" d="M190 200 V252"/>
+  <path class="head" d="M184 208 L190 196 L196 208 Z"/>
+  <path class="line" d="M410 200 V252"/>
+  <path class="head" d="M404 208 L410 196 L416 208 Z"/>
+  <text class="label-muted" x="200" y="232" data-t="writes-verdict">結論</text>
+  <text class="label-muted" x="420" y="232" data-t="writes-summary">摘要</text>
+
+  <rect class="box" x="20" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="36" y="282" data-t="reviewer">reviewer</text>
+  <text class="label-muted" x="36" y="306" data-t="reviewer-1">獨立檢查</text>
+  <text class="label-muted" x="36" y="328" data-t="reviewer-2">使用者按任務開啟</text>
+
+  <rect class="box" x="310" y="256" width="270" height="88" rx="8"/>
+  <text class="label" x="326" y="282" data-t="mapper">mapper × N</text>
+  <text class="label-muted" x="326" y="306" data-t="mapper-1">並行讀檔，只讀不寫</text>
+  <text class="label-muted" x="326" y="328" data-t="mapper-2">使用者輸入指令才開</text>
+</svg>
+<figcaption>只有兩種子 agent，都要使用者來開。它們靠任務資料夾裡的檔案交接；其他子 agent 一律拒絕。</figcaption></figure>
+<h3>測一測你自己的設定</h3>
+<p><strong>三個問題</strong>，問你自己設定裡的、或別人要你批准的任何一個額外 agent：</p>
+<ol>
+<li>它買到的是四種裡的哪一種？</li>
+<li>一份簡短的報告，夠不夠主 agent 接著做？</li>
+<li>同一個任務，你試過不用它嗎？</li>
+</ol>
+<p><strong>今天就能做、不用任何額外設定的測試</strong>。挑一個你知道正確答案的任務，在你自己的工具裡做兩遍。一遍讓 agent 檢查自己的工作。另一遍開一個新對話，只給它需求和結果，請它檢查。比一比兩邊各找到了什麼。</p>
+<p><strong>公平地比較兩種設定</strong>：</p>
+<ul>
+<li>每種跑幾次，不是一次。agent 不會兩次做出一樣的事。</li>
+<li>兩邊用同一種方式打分，最好用腳本。</li>
+<li>記下三個數：對不對、用量多少、花多久。</li>
+<li>不要憑一次結果下結論。</li>
+</ul>
+<p><strong>想重做我的測試</strong>：虛構的倉庫、四個任務和打分腳本都在 <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，任何 agent 工具都能用。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>How sure I am.</strong> Sure of the direction, not of the exact ratio. Two reasons:</p>
+<ul>
+<li><strong>Each task ran once.</strong> Run it again and the numbers move.</li>
+<li><strong>The two sides were not equal.</strong> The single agent used a top model and had no extra setup. The team had a knowledge base to read. Each difference could push the numbers either way.</li>
+</ul>
+<p>A gap of four to six times is large enough to take seriously. To be sure of it, the test has to be run several times.</p>
+<p><strong>What I did not measure.</strong> A vague request in a very large, messy repository. That is where splitting might pay off. I have no data either way.</p>
+<p><strong>What the extra money did buy.</strong> Once, the builder missed two references across areas. The reviewer caught them and sent the work back, with no person stepping in. That is why I kept the reviewer when the rest of the team went.</p>
+<p><strong>Parallel reading is not free.</strong> Every mapper starts from an empty context and reads its part from zero. Four mappers cost several times one agent. Use it when the reading is too much for one context, not to save time on a few files.</p>
+<p><strong>Subagent usage is easy to miss.</strong> A tool often shows the usage of the main conversation only. Check whether yours counts subagents too.</p>
+<p><strong>A count is not a budget.</strong> Limiting how many helpers start does not limit what they spend together. The better design gives the main agent and all its subagents one budget, and a subagent gets what is left of it, not a fresh one of its own.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>我有多確定</strong>。確定方向，不確定確切的倍數。兩個原因：</p>
+<ul>
+<li><strong>每個任務只跑了一次</strong>。再跑一次，數字就會變。</li>
+<li><strong>兩邊不對等</strong>。單個 agent 用的是頂級模型，沒有額外設定；團隊多了一份知識庫可讀。每個差別都可能把數字往任一邊推。</li>
+</ul>
+<p>四到六倍的差距，大到值得認真對待。要確定它，得多跑幾次。</p>
+<p><strong>我沒測的</strong>。一個含糊的需求，配上一個很大、很亂的倉庫。拆分也許在那裡划算。我兩邊都沒有資料。</p>
+<p><strong>多花的錢確實買到了什麼</strong>。有一次，實作者漏改了兩處跨領域的引用。reviewer 抓到了，把工作退回去，全程沒有人插手。所以團隊的其他角色都撤了，我留下了 reviewer。</p>
+<p><strong>並行閱讀不是免費的</strong>。每個 mapper 都從空的上下文開始，從零讀自己那一份。四個 mapper 的成本是一個 agent 的好幾倍。要讀的東西一個上下文裝不下時才用它，別為了幾個檔案省時間。</p>
+<p><strong>子 agent 的用量很容易漏看</strong>。工具常常只顯示主對話的用量。看看你的工具有沒有把子 agent 也算進去。</p>
+<p><strong>計數不等於預算</strong>。限制開幾個幫手，不等於限制它們一共花多少。更好的設計是讓主 agent 和所有子 agent 共用一個預算，子 agent 拿到的是剩下的部分，而不是自己另起一份。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The platform makers agree on the direction: more agents, many more tokens.</p>
+<ul>
+<li><strong>Anthropic's research system</strong> (above): about 15 times the tokens of a chat, worth it for broad research, less so for most coding. (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>)</li>
+<li><strong>Claude Code</strong> has <em>agent teams</em>: several agents that act as a team and message each other. Its docs say they &quot;use approximately 7x more tokens than standard sessions when teammates run in plan mode&quot; (plan mode: each teammate plans before it acts). That is a different setup from my test, so the numbers do not compare directly. Agent teams are experimental and off by default. (<a href="https://code.claude.com/docs/en/costs">Manage costs</a>)</li>
+<li><strong>VS Code</strong>: &quot;Keep agent chains as shallow as practical and limit tools to what each agent actually needs.&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>)</li>
+</ul>
+<p>None of them says one agent is always better. Together with my test: for one task with a clear request, do not orchestrate; for broad work that splits into independent parts, several agents can be worth their cost.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>平台廠商在方向上一致：agent 越多，token 多得越多。</p>
+<ul>
+<li><strong>Anthropic 的研究系統</strong>（見上文）：token 約是聊天的 15 倍，做廣泛的研究值得，大多數寫程式的任務就沒那麼值得。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</li>
+<li><strong>Claude Code</strong> 有 <em>agent teams</em>：幾個 agent 組成團隊、互相傳訊息。它的文件說，「teammates 在 plan mode 下執行時，token 用量約是一般會話的 7 倍」（plan mode：每個成員先規劃再動手）。這和我的測試設定不同，數字不能直接比。agent teams 是實驗功能，預設關閉。（<a href="https://code.claude.com/docs/en/costs">Manage costs</a>）</li>
+<li><strong>VS Code</strong>：「讓 agent 鏈盡量淺，每個 agent 只給它真正需要的工具。」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</li>
+</ul>
+<p>沒有一家說一個 agent 永遠比較好。加上我的測試：需求清楚的單一任務，不要編排；能拆成獨立幾部分的廣泛工作，多個 agent 可能值得它的成本。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The hooks in this chapter (allow only named subagents, count the helpers, push an unattended run) exist because the platform does not do these things yet. When Copilot itself can allow only named subagents and cap the usage of the main agent and all its subagents together, drop the hooks.</p>
+<p>The reasoning does not retire with them. Two things would make me look again at the split itself:</p>
+<ul>
+<li><strong>The platform can resume a finished subagent.</strong> Rework would stop starting from zero, and a thin coordinator inside one task might pay off. I have not tested whether Copilot can do this today.</li>
+<li><strong>A comparison shows a self-check catches everything an independent check catches.</strong> Then even the reviewer can go.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這一章裡的 hook（只准指定的子 agent、替幫手計數、推動無人值守的執行）之所以存在，是因為平台還不做這些事。等 Copilot 自己能只准指定的子 agent，並且能給主 agent 和所有子 agent 的用量設一個總上限，就刪掉這些 hook。</p>
+<p>背後的道理不會跟著退役。有兩件事會讓我重新考慮拆分本身：</p>
+<ul>
+<li><strong>平台能接著用一個做完的子 agent</strong>。返工就不用從零開始，一個任務裡放一個很薄的協調者也許就划算了。Copilot 今天能不能做到，我還沒測過。</li>
+<li><strong>一次比較顯示，自我檢查能抓到獨立檢查抓到的一切</strong>。那麼連 reviewer 都可以撤掉。</li>
+</ul>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every custom agent, subagent or role this project defines (look in the agent and instruction files). For each one, tell me which of these it buys: an independent check, parallel work, work that runs unattended, or a hard limit on tools. Mark any that buys none of them, and say what would break if it were removed. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個專案定義的所有自訂 agent、子 agent 或角色（看 agent 檔和 instructions 檔）。每一個都告訴我它買到下面哪一樣：獨立檢查、並行、無人值守、工具的硬限制。哪一個都沒買到的標出來，並說明拿掉它會壞掉什麼。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a></li>
+<li>Claude Code docs: <a href="https://code.claude.com/docs/en/costs">Manage costs</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a></li>
+<li>Claude Code 文件：<a href="https://code.claude.com/docs/en/costs">Manage costs</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Most of this chapter runs in Copilot Harness: the reviewer, parallel reading, the simplest unattended run, the tool limits, the hook that refuses other subagents, and the task folder. The harness can teach it to you from the inside, with the real files and code. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Use subagents sparingly&quot;. Teach me how this harness builds what it describes: subagents (topic 10), independent checks (topic 11), and the unattended run (autorun). For each one, open the real files and code with me, and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>這一章的大部分內容都在 Copilot Harness 裡運行：reviewer、並行閱讀、最簡單的無人值守、工具限制、拒絕其他子 agent 的 hook，以及任務資料夾。harness 可以從裡面教你，帶著真實的檔案和程式碼。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「慎用子 agent」這一章。請教我這個 harness 怎麼實作章裡講的東西：子 agent（主題 10）、獨立檢查（主題 11），以及無人值守的執行（autorun）。每一項都帶我打開真實的檔案和程式碼，並畫出各部分怎麼接在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

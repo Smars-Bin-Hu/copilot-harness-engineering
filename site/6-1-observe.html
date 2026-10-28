@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Record what happened, not what the agent said</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.1</p><h1><span data-l="en" lang="en">Record what happened, not what the agent said</span><span data-l="zh-Hant" lang="zh-Hant">記下發生了什麼，不是 agent 說了什麼</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，例如 agent 模式的 Copilot。不需要別的。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent's summary can be wrong; a log can be checked. Record every call (one line each, without its arguments) and every refusal, and when something fails, read the trace.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 的總結可能是錯的，紀錄可以查。每一次呼叫記一行（不記參數），每一次拒絕也記下來；出了問題，就去讀軌跡。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require that every agent task leaves a record written by code, and decide who reads it and when.</li>
+<li><strong>The risk:</strong> the agent's own summary is then the only account of what happened, and a summary can be wrong. In the one run I read closely (one run, not a pattern), the agent's own account said nothing about the handover that cost the most.</li>
+<li><strong>The cost of doing it right:</strong> one small program that writes a line per tool call, plus someone's time to read the record when a run fails. Mostly setup time.</li>
+<li><strong>Ask the team:</strong> &quot;For the last task that mattered, show me what the agent did from the record, not from its summary.&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：要求每個 agent 任務都留下由程式寫的紀錄，並決定誰在什麼時候讀它。</li>
+<li><strong>風險</strong>：不這樣做，agent 自己的總結就是唯一的說法，而總結可能是錯的。在我仔細讀過的那一次運行裡（只有一次，不是通則），agent 自己的說法，沒有提到花得最多的那次交接。</li>
+<li><strong>做對的成本</strong>：一個小程式，每次工具呼叫寫一行；再加上運行失敗時，有人花時間讀紀錄。大多是設定的時間。</li>
+<li><strong>可以問團隊</strong>：「上一個重要的任務，請你用紀錄，不是用 agent 的總結，告訴我它做了什麼。」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>At the end of a task the agent writes something like: &quot;I changed three files, ran the tests, and they pass.&quot; That is a story about what happened, told by the one who did it. Most of the time it is right. When it is wrong, you cannot tell from the story alone.</p>
+<p>Three words first.</p>
+<ul>
+<li>A <strong>log</strong> is a list of what happened, written down at the moment it happened, one line per event.</li>
+<li>A <strong>trace</strong> is the log of one run, read from the first call to the last: what the agent did, in order.</li>
+<li>A <strong>record</strong> is any such written-down fact that you can look at later. In this chapter, &quot;record&quot; means something the agent did not write.</li>
+</ul>
+<p>The idea is simple. When a fact matters, get it from a record that code wrote, not from the agent's own words. I used this idea first in <a href="2-3-subagents.html">Use subagents sparingly</a>. There I read the records of the runs to see where the extra money in the three-role team went. In the one run I read closely (so this is one run, not a pattern), the agent's own account said nothing about the handover that cost the most. And a later chapter, <a href="5-5-counted-checks.html">Make a pass count</a>, rests on the same thing: the checker's answer is saved by code, not by the agent.</p>
+<p>So the question is what to record, who writes it, and how to read it when a run goes wrong.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>任務結束時，agent 會寫類似這樣的話：「我改了三個檔案，跑了測試，都通過。」這是做事的那一方講的、關於發生了什麼的故事。多半是對的。錯的時候，光看這個故事，你分辨不出來。</p>
+<p>先交代三個詞。</p>
+<ul>
+<li><strong>日誌</strong>（log）是一份清單，記下發生的事，在事情發生的當下寫，每件事一行。</li>
+<li><strong>軌跡</strong>（trace）是一次運行的日誌，從第一次呼叫讀到最後一次：agent 依序做了什麼。</li>
+<li><strong>紀錄</strong>是任何這類寫下來、以後可以回頭看的事實。在這一章裡，「紀錄」指的是不是 agent 寫的東西。</li>
+</ul>
+<p>想法很簡單。一件事重要的時候，要從程式寫的紀錄去查，不要聽 agent 自己怎麼說。我第一次用這個想法，是在 <a href="2-3-subagents.html">慎用子 agent</a>。我讀了那些運行的紀錄，看三角色團隊多花的錢花到哪裡去。在我仔細讀過的那一次運行裡（所以是一次，不是通則），agent 自己的說法，沒有提到花得最多的那次交接。後面的 <a href="5-5-counted-checks.html">讓「通過」可信</a> 也建立在同一件事上：檢查者的答案由程式存下來，不是由 agent 存。</p>
+<p>所以問題是：記什麼、誰來寫、運行出錯時怎麼讀。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The log is written by code that the agent does not control</h3>
+<p>A <strong>hook</strong> is a small program that the tool runs at fixed moments, for example just before each tool call, where it can refuse a command before it runs, and just after. (<a href="2-2-hooks.html">Hooks</a> says how they work and where they have gaps.) A hook is a good place to write the log, for two reasons. It runs on every call, so nothing depends on the agent remembering to write something down. And the agent's tools do not write the log, the hook does; the files that hold it can be put out of the agent's reach like any other protected file (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>). This holds only while the hook sees the call and the fence holds. See the gaps in Costs below.</p>
+<p>What each line holds is a choice. In my setup there is one line per hook call:</p>
+<ul>
+<li><strong>The event:</strong> before a call, after a call, a prompt, the agent stopping.</li>
+<li><strong>The kind of tool:</strong> read, edit, run a command, start a subagent.</li>
+<li><strong>The result:</strong> let through, or refused, and which rule refused it.</li>
+<li><strong>The time it took.</strong></li>
+<li><strong>The skills used.</strong> Using a skill is one tool call, so it shows up for free.</li>
+</ul>
+<p><strong>What the log leaves out is as deliberate as what it keeps.</strong> It does not record the arguments of a call or the text of the prompts, because those can hold code or secrets. The exception is a call that was refused or needed a person's confirmation: for that one, the path and the command are recorded, cut to a fixed length. The reason is simple. When something was refused, the one thing you will want to know is what the agent tried. The logs stay on the computer and are not put into git. Old ones can be deleted.</p>
+<p>There is a middle way that I have not built: keep the light line for every call, and switch on a full record (arguments and all) only for refused calls, for one task you are debugging, or when a switch is on. That keeps the secrets out by default and still gives you something to replay when it matters. A full transcript of the run is better than any log for this, because it shows what the agent saw and said between the calls; the log tells you which transcript to open.</p>
+<h3>Reading a bad run</h3>
+<p>This is the part that earns the whole chapter. A run failed, or went strangely. You have the trace. What do you do with it?</p>
+<ol>
+<li><strong>Start from the symptom, not from the start of the log.</strong> What was wrong with the result? Which file, which turn?</li>
+<li><strong>Find the first refusal or failed call.</strong> A rule that refused something is a clue. A tool that failed and was retried is another. Many bad runs begin with one small refusal that the agent worked around in a way nobody wanted.</li>
+<li><strong>Put the agent's account next to the record.</strong> Did it say it ran the tests? Is there a call that ran them? Did it say a file was untouched? Is there an edit of that file? Where the two disagree, believe the record.</li>
+<li><strong>Look at where the time and usage jump.</strong> One prompt that took far longer than the others, or one turn that read the same files again, tells you where the run went off course.</li>
+<li><strong>Decide which kind of problem it is.</strong> A missing rule? A rule the agent could not understand? A refusal message that did not say what to do instead? A step the model is simply bad at? The fix depends on the answer, and a trace is how you get to the answer instead of guessing.</li>
+</ol>
+<p>For example, suppose the agent's last message says &quot;the tests pass&quot;, and the log has no call that ran a test command. Step 3 catches that in a minute, and no amount of reading the message would.</p>
+<p>Anthropic makes the same point about evaluations: &quot;You won't know if your graders are working well unless you read the transcripts and grades from many trials.&quot; (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>)</p>
+<h3>Eight questions</h3>
+<p>Once the log exists, other records can grow around it. In my setup there are eight, and the clearest way to see why is to list the question each one answers. If you build only one thing, build the hook log, with the refusals in it.</p>
+<figure class="fig" id="fig-6-1-eight-questions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
+  <text class="label-muted" x="10" y="16" data-t="h-q">THE QUESTION</text>
+  <text class="label-muted" x="370" y="16" data-t="h-t">WHAT ANSWERS IT</text>
+  <rect class="box" x="10" y="28" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="50" data-t="q1">What happened on each call?</text>
+  <path class="line" d="M350 45 H364"/>
+  <path class="head" d="M364 39 L374 45 L364 51 Z"/>
+  <rect class="box-lit" x="374" y="28" width="216" height="34" rx="6"/>
+  <text class="label-lit" x="386" y="50" data-t="t1">the session log</text>
+  <rect class="box" x="10" y="71" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="93" data-t="q2">How many calls, refusals?</text>
+  <path class="line" d="M350 88 H364"/>
+  <path class="head" d="M364 82 L374 88 L364 94 Z"/>
+  <rect class="box" x="374" y="71" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="93" data-t="t2">stats over the logs</text>
+  <rect class="box" x="10" y="114" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="136" data-t="q3">Which knowledge files get read?</text>
+  <path class="line" d="M350 131 H364"/>
+  <path class="head" d="M364 125 L374 131 L364 137 Z"/>
+  <rect class="box" x="374" y="114" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="136" data-t="t3">a reading record</text>
+  <rect class="box" x="10" y="157" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="179" data-t="q4">What did a task do? Who approved?</text>
+  <path class="line" d="M350 174 H364"/>
+  <path class="head" d="M364 168 L374 174 L364 180 Z"/>
+  <rect class="box" x="374" y="157" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="179" data-t="t4">the task report</text>
+  <rect class="box" x="10" y="200" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="222" data-t="q5">Where did time and usage go?</text>
+  <path class="line" d="M350 217 H364"/>
+  <path class="head" d="M364 211 L374 217 L364 223 Z"/>
+  <rect class="box" x="374" y="200" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="222" data-t="t5">an analysis page</text>
+  <rect class="box" x="10" y="243" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="265" data-t="q6">Which task waits for me?</text>
+  <path class="line" d="M350 260 H364"/>
+  <path class="head" d="M364 254 L374 260 L364 266 Z"/>
+  <rect class="box" x="374" y="243" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="265" data-t="t6">the board</text>
+  <rect class="box" x="10" y="286" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="308" data-t="q7">Is the setup itself healthy?</text>
+  <path class="line" d="M350 303 H364"/>
+  <path class="head" d="M364 297 L374 303 L364 309 Z"/>
+  <rect class="box" x="374" y="286" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="308" data-t="t7">a health check</text>
+  <rect class="box" x="10" y="329" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="351" data-t="q8">Did behaviour change after edits?</text>
+  <path class="line" d="M350 346 H364"/>
+  <path class="head" d="M364 340 L374 346 L364 352 Z"/>
+  <rect class="box" x="374" y="329" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="351" data-t="t8">fixed scenarios</text>
+</svg>
+<figcaption>Eight questions, eight records. The first one, the log of every call, is what the others are built on.</figcaption></figure>
+<p>I did not plan eight. Each was added because I kept asking the question and had no way to answer it. Two are worth a word, and the third is one line.</p>
+<ul>
+<li><strong>The reading record</strong> (of the knowledge base, see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>) answers &quot;which knowledge-base files does the agent read, and which does nobody read?&quot; It is the one exception to &quot;a call that is let through records nothing about what it touched&quot;: it keeps file names only, and it can be switched off. A file that nobody reads is a candidate for deletion.</li>
+<li><strong>The health check</strong> is the odd one. It does not look at the agent. It looks at the setup: are all the files there, are the rule files valid, does the hook run (it runs it once, for real), when was it last called, and is the slowest recent call too close to its time limit? Its output has three grades: fine, warning (does not block), error (must be fixed). It finds problems after the fact; it cannot prevent them.</li>
+<li><strong>The fixed scenarios</strong> answer &quot;did the behaviour change after I changed something?&quot; That is <a href="6-3-eval-tasks.html">the next chapters</a>. The other four records are listed in the picture.</li>
+</ul>
+<h3>Tokens and time</h3>
+<p>A hook sees calls, not how many tokens the model read. In my setup the hook log records no tokens, on purpose: the platform keeps its own record of time and usage, and a second copy would drift. The page that shows where a task's time and usage went reads that platform record, and falls back to times from the hook log when it cannot. Whatever you read usage from, find out what it counts: the main conversation's number may not include the subagents' (<a href="2-3-subagents.html">Use subagents sparingly</a> has the same warning).</p>
+<h3>When the recorder fails</h3>
+<p>The hook is software, and it will fail. In my setup, when the hook itself fails it lets the call through and writes the error into a separate file; the health check reminds me to look. That was a deliberate choice, and <a href="4-4-enforcement-design.html">Build the enforcement layer like software</a> says why it fits a coding harness and what to do where it does not. For a recorder it is easy to accept: a missed log line is a gap in the evidence, not an accident. But know it: a log with no lines in a period can mean &quot;nothing happened&quot; or &quot;the recorder was down&quot;. The error file is how you tell them apart.</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions:</strong></p>
+<ol>
+<li>For the last agent task that mattered, can you say what it did from a record, not from its summary?</li>
+<li>If it had done something you did not want, would you have found out, and when?</li>
+<li>Does your record say what was refused, or only what succeeded?</li>
+</ol>
+<p><strong>A test you can run today, with no extra setup.</strong> Ask your agent to do a small task and to say at the end which commands it ran. Then look at your tool's own history of tool calls (where it shows is different in each tool, and I have not checked each). Compare the two lists. If they match, you have learned how much to trust the summary on this kind of task. If they do not, you have found out why you want a record.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>日誌由 agent 控制不了的程式來寫</h3>
+<p><strong>hook</strong> 是工具在固定時刻執行的小程式，例如每次工具呼叫之前（這時它可以在指令執行前拒絕它），和之後。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 講它怎麼運作、哪裡有缺口。）hook 很適合用來寫日誌，有兩個原因。它每次呼叫都會執行，所以不用靠 agent 記得寫下什麼。而且寫日誌的是 hook，不是 agent 的工具；放日誌的檔案，可以像其他受保護的檔案一樣，放到 agent 碰不到的地方（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）。這只在 hook 看得到呼叫、圍欄守得住的時候成立。缺口見下面的「代價」。</p>
+<p>每一行放什麼，是一個選擇。在我的設定裡，每次 hook 呼叫一行：</p>
+<ul>
+<li><strong>事件</strong>：呼叫之前、呼叫之後、一個 prompt、agent 停下來。</li>
+<li><strong>工具的種類</strong>：讀、改、執行指令、啟動子 agent。</li>
+<li><strong>結果</strong>：放行，或拒絕，以及是哪條規則拒絕的。</li>
+<li><strong>花了多久</strong>。</li>
+<li><strong>用了哪些 skill</strong>。用 skill 就是一次工具呼叫，所以不用額外做就會出現。</li>
+</ul>
+<p><strong>日誌不記什麼，和它記什麼一樣是刻意的</strong>。它不記呼叫的參數，也不記 prompt 的文字，因為那些可能含有程式碼或機密。例外是被拒絕、或需要人確認的呼叫：這種呼叫會記下路徑和指令，並截成固定長度。理由很簡單。有東西被拒絕時，你唯一想知道的，就是 agent 想做什麼。日誌留在電腦上，不放進 git。舊的可以刪。</p>
+<p>有一條折衷的路，我還沒做：每次呼叫都記輕的一行；只在被拒絕的呼叫、你正在除錯的某個任務、或開關打開的時候，才開啟完整紀錄（連參數都有）。這樣預設不會留下機密，需要時又有東西可以重播。為了這個目的，一次運行的完整對話紀錄比任何日誌都好，因為它顯示 agent 在兩次呼叫之間看到了什麼、說了什麼；日誌告訴你該打開哪一份。</p>
+<h3>讀一次出錯的運行</h3>
+<p>整章的價值在這一段。一次運行失敗了，或是怪怪的。你手上有軌跡。要拿它做什麼？</p>
+<ol>
+<li><strong>從症狀開始，不要從日誌的開頭開始</strong>。結果哪裡不對？哪個檔案、哪一輪？</li>
+<li><strong>找第一次拒絕或失敗的呼叫</strong>。一條規則拒絕了什麼，是一條線索。一個工具失敗後又重試，是另一條。很多壞掉的運行，起點都是一次小小的拒絕，agent 用沒人想要的方式繞了過去。</li>
+<li><strong>把 agent 的說法和紀錄放在一起看</strong>。它說跑了測試，有沒有一次呼叫跑了測試？它說某個檔案沒動，有沒有改過那個檔案的紀錄？兩者不一致的地方，相信紀錄。</li>
+<li><strong>看時間和用量在哪裡跳高</strong>。某一個 prompt 花的時間比其他的長很多，或某一輪又把同樣的檔案讀了一遍，就告訴你運行是在哪裡走偏的。</li>
+<li><strong>判斷這是哪一種問題</strong>。少了一條規則？一條 agent 看不懂的規則？一則沒說該改做什麼的拒絕訊息？還是模型單純不擅長的一步？怎麼修，取決於答案；有軌跡，你是找到答案，不是猜。</li>
+</ol>
+<p>舉個例子：agent 的最後一則訊息說「測試通過」，日誌裡卻沒有任何一次呼叫執行過測試指令。第 3 步一分鐘就抓到，讀再多遍那則訊息也看不出來。</p>
+<p>Anthropic 對評測也說過同樣的話：「你不讀很多次試驗的對話紀錄和評分，就不會知道你的評分器有沒有在好好工作。」（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
+<h3>八個問題</h3>
+<p>日誌有了之後，其他紀錄可以圍著它長出來。在我的設定裡有八種，最清楚的看法，是列出每一種回答哪個問題。如果你只做一件事，就做 hook 日誌，並把拒絕記進去。</p>
+<figure class="fig" id="fig-6-1-eight-questions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
+  <text class="label-muted" x="10" y="16" data-t="h-q">問題</text>
+  <text class="label-muted" x="370" y="16" data-t="h-t">誰來回答</text>
+  <rect class="box" x="10" y="28" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="50" data-t="q1">每次呼叫發生了什麼？</text>
+  <path class="line" d="M350 45 H364"/>
+  <path class="head" d="M364 39 L374 45 L364 51 Z"/>
+  <rect class="box-lit" x="374" y="28" width="216" height="34" rx="6"/>
+  <text class="label-lit" x="386" y="50" data-t="t1">工作階段紀錄</text>
+  <rect class="box" x="10" y="71" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="93" data-t="q2">多少提示、呼叫、拒絕？</text>
+  <path class="line" d="M350 88 H364"/>
+  <path class="head" d="M364 82 L374 88 L364 94 Z"/>
+  <rect class="box" x="374" y="71" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="93" data-t="t2">對紀錄做統計</text>
+  <rect class="box" x="10" y="114" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="136" data-t="q3">哪些知識庫檔案被讀過？</text>
+  <path class="line" d="M350 131 H364"/>
+  <path class="head" d="M364 125 L374 131 L364 137 Z"/>
+  <rect class="box" x="374" y="114" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="136" data-t="t3">讀取紀錄</text>
+  <rect class="box" x="10" y="157" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="179" data-t="q4">這個任務做了什麼？誰批准？</text>
+  <path class="line" d="M350 174 H364"/>
+  <path class="head" d="M364 168 L374 174 L364 180 Z"/>
+  <rect class="box" x="374" y="157" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="179" data-t="t4">任務報告</text>
+  <rect class="box" x="10" y="200" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="222" data-t="q5">時間和用量花在哪？</text>
+  <path class="line" d="M350 217 H364"/>
+  <path class="head" d="M364 211 L374 217 L364 223 Z"/>
+  <rect class="box" x="374" y="200" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="222" data-t="t5">分析頁</text>
+  <rect class="box" x="10" y="243" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="265" data-t="q6">哪個任務在等我？</text>
+  <path class="line" d="M350 260 H364"/>
+  <path class="head" d="M364 254 L374 260 L364 266 Z"/>
+  <rect class="box" x="374" y="243" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="265" data-t="t6">看板</text>
+  <rect class="box" x="10" y="286" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="308" data-t="q7">設定本身健康嗎？</text>
+  <path class="line" d="M350 303 H364"/>
+  <path class="head" d="M364 297 L374 303 L364 309 Z"/>
+  <rect class="box" x="374" y="286" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="308" data-t="t7">健康檢查</text>
+  <rect class="box" x="10" y="329" width="340" height="34" rx="6"/>
+  <text class="label" x="22" y="351" data-t="q8">我改完之後，行為變了嗎？</text>
+  <path class="line" d="M350 346 H364"/>
+  <path class="head" d="M364 340 L374 346 L364 352 Z"/>
+  <rect class="box" x="374" y="329" width="216" height="34" rx="6"/>
+  <text class="label" x="386" y="351" data-t="t8">固定情境</text>
+</svg>
+<figcaption>八個問題，八種紀錄。第一種，記下每次呼叫的紀錄，是其他幾種的基礎。</figcaption></figure>
+<p>我沒有計畫要八種。每一種都是因為我一直在問那個問題，卻沒有辦法回答才加的。其中兩種值得多說一句，第三種只用一行帶過。</p>
+<ul>
+<li><strong>讀取紀錄</strong>（知識庫的，見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）回答「agent 讀了哪些知識庫檔案，哪些沒人讀？」它是「放行的呼叫不記它碰了什麼」這條的唯一例外：它只記檔名，而且可以關掉。沒人讀的檔案，是可以刪的候選。</li>
+<li><strong>健康檢查</strong>是個特別的。它不看 agent，它看設定：檔案都在嗎、規則檔有效嗎、hook 能執行嗎（它真的執行一次）、上次呼叫是什麼時候、最近最慢的一次呼叫是不是太接近時間上限？它的輸出分三級：正常、警告（不擋）、錯誤（必須修）。它是事後發現問題，沒辦法預防。</li>
+<li><strong>固定情境</strong>回答「我改了東西之後，行為有沒有變？」那是 <a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a> 和後面幾章。其他四種紀錄，列在圖裡。</li>
+</ul>
+<h3>token 和時間</h3>
+<p>hook 看到的是呼叫，看不到模型讀了多少 token。在我的設定裡，hook 日誌刻意不記 token：平台自己有時間和用量的紀錄，再留一份只會對不上。顯示一個任務的時間和用量花在哪裡的那一頁，讀的是平台的紀錄，讀不到時就退回用 hook 日誌裡的時間。不管你從哪裡讀用量，都要先弄清楚它算了什麼：主對話的數字，可能不含子 agent 的（<a href="2-3-subagents.html">慎用子 agent</a> 有同樣的提醒）。</p>
+<h3>記錄器壞掉的時候</h3>
+<p>hook 是軟體，會壞。在我的設定裡，hook 自己失敗時會放行這次呼叫，並把錯誤寫進另一個檔案；健康檢查會提醒我去看。這是刻意的選擇，<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a> 說了為什麼它適合寫程式的 harness，以及不適合時該怎麼辦。對記錄器來說，這很容易接受：少一行日誌，是證據裡的一個缺口，不是一場事故。但要知道這件事：某段時間日誌沒有任何一行，可能表示「什麼都沒發生」，也可能表示「記錄器停了」。錯誤檔就是用來分辨這兩種的。</p>
+<h3>測你自己的設定</h3>
+<p><strong>三個問題</strong>：</p>
+<ol>
+<li>上一個重要的 agent 任務，你能不能用紀錄，而不是它的總結，說出它做了什麼？</li>
+<li>如果它做了你不想要的事，你會發現嗎？什麼時候發現？</li>
+<li>你的紀錄有沒有記被拒絕的，還是只記成功的？</li>
+</ol>
+<p><strong>今天就能跑的測試，不用額外設定</strong>。請你的 agent 做一件小任務，並在最後說出它執行了哪些指令。然後去看你的工具自己的工具呼叫歷史（顯示在哪裡，每個工具都不同，我沒有一一確認過）。比對兩份清單。如果一致，你就知道在這類任務上，可以多信任總結一點。如果不一致，你就知道為什麼需要紀錄了。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Usage comes from a file that is not a public format.</strong> It may change under you, and then the page shows times only. This is a dependency on the platform: an update can make your usage numbers stop working, and I have not tested what mine does after one.</p>
+<p><strong>A log nobody reads is a cost with no benefit.</strong> Decide who reads it, and when. For me it is: when a run fails, and when I change a rule. Not every day. If a team keeps logs, also decide how long they stay, who may read them, and whether they can hold personal data. A log is an audit trail only if someone owns it.</p>
+<p><strong>A hook sees only what the platform shows it.</strong> Some actions happen outside the tool calls a hook can see. Then the log has a hole you cannot see from the log. (<a href="2-2-hooks.html">Hooks</a> says what Copilot covers today.)</p>
+<p><strong>Leaving out arguments is a trade.</strong> It protects code and secrets in the log. The price is that you cannot replay a run from the log alone. For that you need the platform's own record, which you cannot count on keeping.</p>
+<p><strong>The log shows what happened, not whether it was right.</strong> A clean trace can still end in wrong code. That is what the checks in <a href="5-4-self-checks.html">Let the agent check its own work</a> and <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a> are for.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>用量來自一個不是公開格式的檔案</strong>。它可能在你不知道的時候改變，到時候那一頁就只會顯示時間。這是對平台的依賴：一次更新就可能讓你的用量數字失效，我沒有測過更新之後我的會怎樣。</p>
+<p><strong>沒人讀的日誌，是有成本、沒好處</strong>。決定誰讀、什麼時候讀。對我來說是：運行失敗的時候，和我改規則的時候。不是每天。如果團隊要留日誌，還要決定留多久、誰可以讀、能不能含個人資料。日誌要有人負責，才算稽核軌跡。</p>
+<p><strong>hook 只看得到平台給它看的</strong>。有些動作發生在 hook 看不到的工具呼叫之外。那時日誌有個洞，而你從日誌裡看不到這個洞。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 說了 Copilot 今天涵蓋什麼。）</p>
+<p><strong>不記參數是一個取捨</strong>。它保護日誌裡的程式碼和機密。代價是，光靠日誌你沒辦法重播一次運行。要重播，需要平台自己的紀錄，而你不能指望它一直留著。</p>
+<p><strong>日誌顯示發生了什麼，不顯示對不對</strong>。一份乾淨的軌跡，仍然可能以錯的程式碼收場。這就是 <a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a> 和 <a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a> 裡的檢查要做的事。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The hook that writes my log exists because I want one record format that I own and can read. If a platform gives you a trace of every tool call that you can export and the agent cannot change, use that and drop the hook. The same goes for the usage page: if the platform shows usage per task, drop the part that reads its session file.</p>
+<p>The reasoning does not retire. When a fact matters, it should come from a record that was written by code and not by the one being judged. I would look again at the eight records if I found that I never open one of them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>寫我的日誌的那個 hook 存在，是因為我想要一種我自己擁有、自己讀得懂的紀錄格式。如果平台提供每次工具呼叫的軌跡，可以匯出、agent 又改不了，就用那個，把 hook 丟掉。用量那一頁也一樣：如果平台直接顯示每個任務的用量，就把讀它會話檔的那部分丟掉。</p>
+<p>道理不會退役。一件事重要的時候，它應該來自程式寫的紀錄，不是來自被評判的那一方。如果我發現八種紀錄裡有一種我從來沒打開過，我會重新檢視這八種。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find out what records exist of what AI agents do in this project and on this machine: the tool&#x27;s own logs or transcripts, any hook or audit settings, and any reports. For each record, tell me where it is, what one entry holds, whether the agent itself could edit or delete it, whether it could contain secrets or personal data, and who can read it. Then say which of these questions I could answer from records alone and not from the agent&#x27;s summary: what it ran, what it changed, what was refused. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>查一下這個專案裡、這台機器上，有哪些關於 AI agent 做了什麼的紀錄：工具自己的日誌或對話紀錄、任何 hook 或稽核設定、任何報告。對每一種紀錄，告訴我它在哪裡、一筆裡面放什麼、agent 自己能不能改或刪、可能含不含機密或個人資料、誰可以讀。然後說說，下面這些問題裡，哪些我可以只靠紀錄回答，不用靠 agent 的總結：它執行了什麼、改了什麼、什麼被拒絕。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>, on reading transcripts and not only the score</li>
+<li>In this book: <a href="2-2-hooks.html">Hooks</a>, <a href="5-5-counted-checks.html">Make a pass count</a>, <a href="6-2-task-report.html">A report a person can read in five minutes</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>，講要讀對話紀錄，不只看分數</li>
+<li>本書：<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="5-5-counted-checks.html">讓「通過」可信</a>、<a href="6-2-task-report.html">一份五分鐘讀得完的報告</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes the log with a hook, keeps the other seven records on top of it, and has a health check for the setup. The harness can show them to you from the inside, with a real log. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Record what happened, not what the agent said&quot;. Teach me how this harness records and reports (topic 12): what the session log holds and leaves out, where usage comes from, and what the health check looks at. Open a real log with me, and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用 hook 寫日誌，在它上面再放另外七種紀錄，還有一個檢查設定的健康檢查。harness 可以用一份真的日誌，從裡面帶你看。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「記下發生了什麼，不是 agent 說了什麼」這一章。請教我這個 harness 怎麼記錄和回報（主題 12）：會話日誌放什麼、不放什麼，用量從哪裡來，健康檢查看什麼。帶我打開一份真的日誌，並畫出這些部分怎麼接在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

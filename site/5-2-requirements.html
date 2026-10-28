@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>The agent writes the requirement, the person confirms it</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.2</p><h1><span data-l="en" lang="en">The agent writes the requirement, the person confirms it</span><span data-l="zh-Hant" lang="zh-Hant">需求由 agent 寫，人確認</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="5-1-tasks.html">Manage tasks, not chats</a>: a task is one job with one folder of files.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你用過 AI 程式 agent。它建立在<a href="5-1-tasks.html">管任務，不管對話</a>上：任務是一份工作，配一個放檔案的資料夾。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>People's requests are vague and they shift. Have the agent write the requirement on one page and the person confirm that page; everyone then works from it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>人的請求含糊，而且會變。讓 agent 把需求寫成一頁，由人確認這一頁；之後大家都照它做。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> require, for anything bigger than a small change, a one-page requirement that the agent writes and the requester confirms before work starts.</li>
+<li><strong>The risk:</strong> requests are vague, leave things out and shift over time. If the agent starts from the first message, every guess is built into the result and you find out at the end. I have no numbers on how often this happens.</li>
+<li><strong>The cost of doing it right:</strong> a few minutes of reading from the requester per task. For a one-line change it is too much, so small tasks can skip it. Too many questions also wear people out, and I have not measured how many is too many.</li>
+<li><strong>Ask the team:</strong> &quot;Where is the page the requester confirmed, and what does its 'not clear yet' list say?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：比小修改大的事，都要求一頁需求，由 agent 寫，由提出需求的人在開工前確認。</li>
+<li><strong>風險</strong>：請求含糊、會漏東西、會隨時間改變。agent 從第一則訊息開始做的話，每個猜測都會被做進結果，到最後你才發現。這有多常發生，我沒有數字。</li>
+<li><strong>做對的成本</strong>：每個任務請提出需求的人花幾分鐘讀。一行的修改就太多了，所以小任務可以跳過。問題太多也會讓人累，多少算太多，我沒有量過。</li>
+<li><strong>可以問團隊</strong>：「提出需求的人確認過的那一頁在哪裡？它的『還不清楚』清單寫了什麼？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You write: &quot;add the customer region to the daily report.&quot; The agent does it. It is not what you meant. You meant the region of the shipping address; it used the billing one. Neither of you was wrong about the words. The words were not enough.</p>
+<p>This is the normal case, not the odd one. A request to an agent has three weaknesses:</p>
+<ul>
+<li><strong>It leaves things out.</strong> You know the context, so you skip it. The agent does not know it, and it fills the gap with a guess.</li>
+<li><strong>It is read in more than one way.</strong> &quot;Region&quot; can mean several things.</li>
+<li><strong>It changes.</strong> Over a few turns you add a condition, drop another, change your mind. Which version is the request?</li>
+</ul>
+<p>Here is the trap. If you let the agent start work from the first message, every guess is built into the result, and you find out at the end.</p>
+<p>So the question is what the whole job should go by. The tempting answer is: the person's words, kept exactly. I tried to design that, and gave it up.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你寫：「在每日報表加上客戶的地區。」agent 做了。這不是你的意思。你指的是收貨地址的地區；它用了帳單地址的。你們誰也沒有搞錯字面。字面不夠用。</p>
+<p>這是常態，不是特例。對 agent 的請求有三個弱點：</p>
+<ul>
+<li><strong>它會漏東西</strong>。你知道背景，所以就略過了。agent 不知道，它用猜測填補空缺。</li>
+<li><strong>它可以有不止一種讀法</strong>。「地區」可以指好幾種東西。</li>
+<li><strong>它會變</strong>。幾輪之內，你加一個條件、拿掉另一個、改變主意。哪一版才是請求？</li>
+</ul>
+<p>陷阱在這裡。讓 agent 從第一則訊息就開工，每個猜測都會被做進結果，到最後你才發現。</p>
+<p>所以問題是：整份工作要以什麼為準。誘人的答案是：人說的原話，原封不動地留著。我試著設計過，放棄了。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Why I do not keep the person's exact words</h3>
+<p>My first idea was to record every prompt, so that &quot;what the person asked&quot; is always on disk. It fails for the reasons above. The words leave things out and are unclear. The requirement shifts over turns, so the first prompt is not it and the last prompt alone is not it either. Keeping them all also fills the context (<a href="3-1-context-budget.html">Context is a budget</a>) with chatter that the agent then has to sort out again.</p>
+<p>So the exact words are not the requirement. The requirement is what the person <em>means</em>, written down so that they can check it.</p>
+<h3>The agent writes it; the person confirms it</h3>
+<p>The agent writes the requirement from the conversation, as <strong>one page</strong>. The person reads that page and confirms it. This is the <strong>requirement file</strong>, the one file every later step goes by.</p>
+<figure class="fig steps" id="fig-5-2-one-page" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="5" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="72" y="83" text-anchor="middle" data-t="say">vague words</text>
+  <text class="label-muted" x="72" y="22" text-anchor="middle" data-t="say-n">may leave</text>
+  <text class="label-muted" x="72" y="38" text-anchor="middle" data-t="say-n2">things out</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M140 78 H150"/>
+  <path class="head" d="M150 72 L158 78 L150 84 Z"/>
+  <rect class="box" x="158" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="225" y="83" text-anchor="middle" data-t="ask">agent asks</text>
+  <text class="label-muted" x="225" y="22" text-anchor="middle" data-t="ask-n">about what it</text>
+  <text class="label-muted" x="225" y="38" text-anchor="middle" data-t="ask-n2">cannot look up</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M293 78 H303"/>
+  <path class="head" d="M303 72 L311 78 L303 84 Z"/>
+  <rect class="box-lit" x="311" y="50" width="135" height="56" rx="8"/>
+  <text class="label-lit" x="378" y="77" text-anchor="middle" data-t="page">one-page</text>
+  <text class="label-lit" x="378" y="95" text-anchor="middle" data-t="page2">requirement</text>
+  <text class="label-muted" x="378" y="22" text-anchor="middle" data-t="page-n">written by</text>
+  <text class="label-muted" x="378" y="38" text-anchor="middle" data-t="page-n2">the agent</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M446 78 H456"/>
+  <path class="head" d="M456 72 L464 78 L456 84 Z"/>
+  <rect class="box" x="464" y="50" width="131" height="56" rx="8"/>
+  <text class="label" x="529" y="77" text-anchor="middle" data-t="confirm">person</text>
+  <text class="label" x="529" y="95" text-anchor="middle" data-t="confirm2">confirms</text>
+  <text class="label-muted" x="525" y="22" text-anchor="middle" data-t="confirm-n">reads the page,</text>
+  <text class="label-muted" x="525" y="38" text-anchor="middle" data-t="confirm-n2">not the chat</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M529 106 V175 H378 V118"/>
+  <path class="head-lit" d="M372 118 L378 108 L384 118 Z"/>
+  <text class="label-lit" x="445" y="200" text-anchor="middle" data-t="change-n">a change goes into the page first</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">The person says what they want. It is short, it leaves things out, and it may change next hour.</li><li data-step-text="2">The agent first looks up what it can find itself. It asks only about what it cannot: intent, scope, what counts as done.</li><li data-step-text="3">The agent writes the answer as one page the person can read in minutes.</li><li data-step-text="4">The person confirms the page. From now on the plan, the work and the checks all go by this page.</li><li data-step-text="5">When the request changes, the page changes first, and the person confirms it again.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>The requirement is a page the agent writes and the person confirms. The person&#x27;s first words are not it.</figcaption></figure>
+<p>Why this order, and not &quot;the person writes it&quot;? Because people do not like writing specifications, and the page is much easier to check than to write. Reading &quot;you will use the shipping address&quot; and saying &quot;yes&quot; or &quot;no, billing&quot; is cheap. Producing the whole page from nothing is not. It uses what the agent is good at (turning a mess into a structure) and what the person is good at (knowing what they meant).</p>
+<p>It also gives the confirmation a clear meaning. The person is not confirming &quot;I understood you&quot;. They are confirming &quot;this page is what I want&quot;.</p>
+<h3>What goes on the page</h3>
+<p>Keep it to what the later steps need:</p>
+<ul>
+<li><strong>The goal:</strong> what should be true when this is done.</li>
+<li><strong>What to do, and what not to do:</strong> the scope and its limits.</li>
+<li><strong>Done when:</strong> the checks that show it is finished, each one something a person or a program can verify.</li>
+<li><strong>Where each point came from:</strong> the file and place in the sources, or the person's answer.</li>
+<li><strong>Not clear yet:</strong> the open questions. This is an honest list, not a hidden guess.</li>
+</ul>
+<p>&quot;Done when&quot; matters most. The independent check (<a href="2-3-subagents.html">Use subagents sparingly</a>) goes by this page alone, and so do the self-checks in <a href="5-4-self-checks.html">Let the agent check its own work</a>.</p>
+<h3>How the agent asks</h3>
+<p>An agent that asks too much is as bad as one that guesses. The rules I give it come from my own use; I have not tested them against other ways of asking:</p>
+<ol>
+<li><strong>Stop before work.</strong> While things are unclear it only reads. It changes nothing.</li>
+<li><strong>Look up what can be looked up.</strong> Which test framework the project uses is in the repository. Asking about it wastes the person's time.</li>
+<li><strong>Ask only what cannot be looked up:</strong> intent, preference, trade-offs, what counts as done.</li>
+<li><strong>Give options and a recommendation.</strong> &quot;A, B or C; I suggest B because...&quot; is easier to answer than &quot;what do you want?&quot;. A recommendation is advice; it does not count until the person confirms.</li>
+<li><strong>Do not take a shrug as a yes.</strong> &quot;Whatever&quot; is not a confirmation. Ask back once: &quot;I will do X. Is that all right?&quot; and write down that the person agreed to leave it to the agent.</li>
+<li><strong>Ask in batches that follow dependencies.</strong> Upstream questions first, a few at a time.</li>
+</ol>
+<p>The method is plain, and the point is the first rule: <strong>the agent must not fill in with its own guess what the person did not say.</strong> The default that looks obvious is where a guess goes wrong most easily.</p>
+<h3>When the requirement is a pile of documents</h3>
+<p>This part matters only when the request comes as business documents.</p>
+<p>Sometimes the request is a business paper, a spreadsheet of mappings and some emails. Giving these to the agent as they are costs context and invites mistakes: a Word file carries a cover page, a revision history and comments; a spreadsheet has hidden sheets and colours that mean something. A binary file is not text at all.</p>
+<p>So a program, not a model, turns them into plain text first. Word becomes Markdown; each sheet becomes a table in a text file. The original is kept untouched, and a short report lists what the program left out, such as hidden sheets or pictures. This costs no tokens, and it should change no number, though it can lose meaning that sits in layout or colour (see Costs). The person trims the text and adds a short note on what the job is. Then the agent reads that and writes the one page.</p>
+<p>Two rules keep the agent honest here. A number that looks wrong is quoted and asked about, never corrected. Two sources that disagree are a finding to report, not something to settle by itself. This is the same split as <a href="5-9-who-decides.html">Who decides</a>: a program for the fixed conversion, a model for the reading.</p>
+<h3>The review of the requirement</h3>
+<p>Once the page exists, it can be checked before any work starts. In my setup the agent compares it with what is known about the system, such as the knowledge base (an index of the code kept for the agent, <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>; skip this step if you have none), and writes each problem into the &quot;not clear yet&quot; list: the question, why it matters, and the source. It asks the person the few most blocking questions, puts each answer into the page, and repeats until the list is empty and the person confirms.</p>
+<p>Two things guard against a bad review. The agent asks only where the documents contradict each other, are wrong, or do not match the system. It does not ask the person to confirm what the documents clearly say. And it leaves the confirmation line to the person: only they fill it in.</p>
+<h3>When the request changes</h3>
+<p>It will change. The rule is that the <strong>page changes first</strong>. The agent edits the requirement, adds a line to the change record, and only then touches the work. If the person's latest instruction conflicts with the page, a hook reminds the agent to bring them in line before doing anything.</p>
+<p>A plan stands on a confirmed requirement. In my setup, approving a plan is refused while the requirement is unconfirmed or has changed since (<a href="5-3-two-approvals.html">Two gates</a>). If the requirement changes after work began, the person confirms it again, approves the plan again, and the work already done is checked again, not thrown away.</p>
+<h3>Test your own setup</h3>
+<p>Give the agent a short request with two sentences that contradict each other, for example one that says the report is daily and one that says it is weekly. See whether the page it writes lists the conflict under &quot;not clear yet&quot;, or quietly picks one. If it picks one, the page is sounding sure about a guess.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>為什麼我不留人的原話</h3>
+<p>我的第一個想法是記錄每個 prompt，讓「人要求了什麼」永遠在磁碟上。它因為上面的理由行不通。原話會漏東西，也不清楚。需求在幾輪之間會變，所以第一個 prompt 不是它，只看最後一個 prompt 也不是。全部留著，還會用閒聊塞滿上下文（<a href="3-1-context-budget.html">上下文是一份預算</a>），而 agent 還得再整理一遍。</p>
+<p>所以原話不是需求。需求是人<em>想表達</em>的意思，寫下來，讓他能檢查。</p>
+<h3>agent 寫，人確認</h3>
+<p>agent 根據對話把需求寫成<strong>一頁</strong>。人讀這一頁並確認。這就是<strong>需求檔</strong>，之後每一步都以這一個檔案為準。</p>
+<figure class="fig steps" id="fig-5-2-one-page" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="5" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="72" y="83" text-anchor="middle" data-t="say">幾句含糊的話</text>
+  <text class="label-muted" x="72" y="22" text-anchor="middle" data-t="say-n">可能</text>
+  <text class="label-muted" x="72" y="38" text-anchor="middle" data-t="say-n2">漏東西</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M140 78 H150"/>
+  <path class="head" d="M150 72 L158 78 L150 84 Z"/>
+  <rect class="box" x="158" y="50" width="135" height="56" rx="8"/>
+  <text class="label" x="225" y="83" text-anchor="middle" data-t="ask">agent 追問</text>
+  <text class="label-muted" x="225" y="22" text-anchor="middle" data-t="ask-n">問它</text>
+  <text class="label-muted" x="225" y="38" text-anchor="middle" data-t="ask-n2">查不到的</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M293 78 H303"/>
+  <path class="head" d="M303 72 L311 78 L303 84 Z"/>
+  <rect class="box-lit" x="311" y="50" width="135" height="56" rx="8"/>
+  <text class="label-lit" x="378" y="77" text-anchor="middle" data-t="page">一頁</text>
+  <text class="label-lit" x="378" y="95" text-anchor="middle" data-t="page2">需求</text>
+  <text class="label-muted" x="378" y="22" text-anchor="middle" data-t="page-n">由 agent</text>
+  <text class="label-muted" x="378" y="38" text-anchor="middle" data-t="page-n2">來寫</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M446 78 H456"/>
+  <path class="head" d="M456 72 L464 78 L456 84 Z"/>
+  <rect class="box" x="464" y="50" width="131" height="56" rx="8"/>
+  <text class="label" x="529" y="77" text-anchor="middle" data-t="confirm">人</text>
+  <text class="label" x="529" y="95" text-anchor="middle" data-t="confirm2">確認</text>
+  <text class="label-muted" x="525" y="22" text-anchor="middle" data-t="confirm-n">讀這一頁，</text>
+  <text class="label-muted" x="525" y="38" text-anchor="middle" data-t="confirm-n2">不是讀聊天</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M529 106 V175 H378 V118"/>
+  <path class="head-lit" d="M372 118 L378 108 L384 118 Z"/>
+  <text class="label-lit" x="445" y="200" text-anchor="middle" data-t="change-n">有變動，先改這一頁</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">人說出想要什麼。話很短，會漏東西，一小時後還可能變。</li><li data-step-text="2">agent 先查自己查得到的。只問查不到的：意圖、範圍、怎樣才算完成。</li><li data-step-text="3">agent 把答案寫成一頁，人幾分鐘就能讀完。</li><li data-step-text="4">人確認這一頁。之後計畫、工作、檢查都以這一頁為準。</li><li data-step-text="5">請求變了，先改這一頁，人再確認一次。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>需求是 agent 寫、人確認的一頁。人最初說的話不是需求。</figcaption></figure>
+<p>為什麼是這個順序，不是「人來寫」？因為人不喜歡寫規格，而這一頁檢查起來比寫容易得多。讀到「你會用收貨地址」，回答「對」或「不，用帳單的」，成本很低。從零產出整頁就不是了。這個順序用上了 agent 擅長的（把一團亂變成結構）和人擅長的（知道自己的意思）。</p>
+<p>它也讓確認有了清楚的意義。人確認的不是「我懂你了」。他確認的是「這一頁就是我要的」。</p>
+<h3>這一頁寫什麼</h3>
+<p>只寫後面幾步需要的：</p>
+<ul>
+<li><strong>目標</strong>：做完時什麼應該成立。</li>
+<li><strong>要做什麼、不做什麼</strong>：範圍和它的邊界。</li>
+<li><strong>做完的條件</strong>：顯示它做完了的檢查，每一項都是人或程式能驗證的。</li>
+<li><strong>每一點的來源</strong>：來源資料裡的檔案和位置，或人的回答。</li>
+<li><strong>還不清楚</strong>：未解決的問題。這是一張誠實的清單，不是藏起來的猜測。</li>
+</ul>
+<p>「做完的條件」最重要。獨立檢查（<a href="2-3-subagents.html">慎用子 agent</a>）只看這一頁，<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>裡的自我檢查也是。</p>
+<h3>agent 怎麼問</h3>
+<p>問太多的 agent 和亂猜的一樣糟。我給它的規則來自我自己的使用；我沒有拿它們和別的問法比較過：</p>
+<ol>
+<li><strong>開工之前先停</strong>。還不清楚的時候它只讀，什麼也不改。</li>
+<li><strong>查得到的先查</strong>。專案用哪個測試框架，在倉庫裡看得到。問這個是浪費人的時間。</li>
+<li><strong>只問查不到的</strong>：意圖、偏好、取捨、什麼算做完。</li>
+<li><strong>給選項，也給建議</strong>。「A、B 或 C；我建議 B，因為……」比「你要什麼？」好回答。建議只是建議；人確認之前不算數。</li>
+<li><strong>不把聳肩當成同意</strong>。「隨便」不是確認。反問一次：「我打算做 X。可以嗎？」並寫下人同意交給 agent 決定。</li>
+<li><strong>按相依關係分批問</strong>。上游的問題先問，一次幾個。</li>
+</ol>
+<p>方法很平淡，重點是第一條：<strong>agent 不可以用自己的猜測，填補人沒說的東西</strong>。看起來理所當然的預設，是猜測最容易出錯的地方。</p>
+<h3>需求是一堆文件的時候</h3>
+<p>這一部分只在請求以業務文件的形式送來時才重要。</p>
+<p>有時請求是一份業務文件、一張對應表的試算表和幾封信。原樣交給 agent，既花上下文，也容易出錯：Word 檔帶著封面、修訂歷史和註解；試算表有隱藏的工作表，還有帶意義的顏色。二進位檔案根本不是文字。</p>
+<p>所以先由程式，不是模型，把它們轉成純文字。Word 變成 Markdown；每張工作表變成文字檔裡的一個表。原件原封不動地保留，並由一份簡短的報告列出程式漏掉的東西，例如隱藏的工作表或圖片。這不花 token，而且不該改動任何數字，不過它可能丟掉藏在版面或顏色裡的意義（見代價）。人修剪這份文字，加一小段說明這份工作是什麼。然後 agent 讀它，寫出那一頁。</p>
+<p>有兩條規則讓 agent 在這裡保持誠實。看起來不對的數字要引用出來、提出來問，絕不修正。兩份互相矛盾的來源是要回報的發現，不是自己去裁決的事。這和<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a>是同一種分工：固定的轉換交給程式，閱讀交給模型。</p>
+<h3>需求的審查</h3>
+<p>這一頁一旦存在，就可以在任何工作開始之前被檢查。在我的設定裡，agent 拿它和已知的系統資訊對照，例如知識庫（為 agent 保存的一份程式碼索引，<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>；沒有的話跳過這一步），並把每個問題寫進「還不清楚」清單：問題、為什麼重要，和來源。它向人問最卡住的幾個問題，把每個答案放進這一頁，一直重複，直到清單空了、人確認為止。</p>
+<p>有兩件事防止糟糕的審查。agent 只在文件互相矛盾、有錯、或和系統對不上的地方問。文件寫得清楚的，它不請人確認。而且確認那一行留給人：只有人才能填。</p>
+<h3>請求改變的時候</h3>
+<p>它一定會變。規則是：<strong>先改這一頁</strong>。agent 編輯需求，在變更紀錄裡加一行，然後才碰工作。如果人最新的指示和這一頁衝突，hook 會提醒 agent 先把兩者對齊，再做任何事。</p>
+<p>計劃建立在已確認的需求上。在我的設定裡，需求還沒確認、或確認後又改了的時候，批准計劃會被拒絕（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。開工之後需求才改的話，人要重新確認，重新批准計劃，已經做完的工作要重新檢查，不是丟掉。</p>
+<h3>測一下你自己的設定</h3>
+<p>給 agent 一個簡短的請求，裡面有兩句互相矛盾的話，例如一句說報表是每天的，一句說是每週的。看它寫的那一頁，是把衝突列在「還不清楚」下面，還是悄悄選了一個。選了一個的話，這一頁就是對一個猜測說得很有把握。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
+<li><strong>It costs the person a few minutes of reading.</strong> For a one-line change this is too much. A small task can skip the page; see the sizes in <a href="5-1-tasks.html">Manage tasks, not chats</a>.</li>
+<li><strong>A confirmation is not a proof.</strong> People confirm pages they skimmed. The page can be wrong and confirmed. It makes the misunderstanding visible earlier, nothing more.</li>
+<li><strong>The agent can write a page that sounds sure.</strong> A good page has an honest &quot;not clear yet&quot; list. An empty list on a complex request is a warning sign, not a good sign.</li>
+<li><strong>Questions can become a chore.</strong> Too many, or questions about what could be looked up, and the person starts answering &quot;whatever&quot;. I have not measured how many questions is too many.</li>
+<li><strong>Conversion drops things.</strong> Colours, comments and pictures do not survive. The report says what was left out; read it.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
+<li><strong>它花提出需求的人幾分鐘讀</strong>。一行的修改，這太多了。小任務可以跳過這一頁；見<a href="5-1-tasks.html">管任務，不管對話</a>裡的大小。</li>
+<li><strong>確認不是證明</strong>。人會確認只掃過一眼的頁面。這一頁可能是錯的，卻被確認了。它只是讓誤解更早被看見，僅此而已。</li>
+<li><strong>agent 可以寫出聽起來很有把握的一頁</strong>。好的一頁有一張誠實的「還不清楚」清單。複雜的請求，這張清單卻是空的，是警訊，不是好事。</li>
+<li><strong>問題可能變成苦差事</strong>。太多，或者問的是查得到的事，人就開始回答「隨便」。多少個問題算太多，我沒有量過。</li>
+<li><strong>轉換會丟東西</strong>。顏色、註解和圖片都留不下來。報告會說漏掉了什麼；去讀它。</li>
+</ul>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><ul>
+<li><strong>The asking method.</strong> As models ask better questions on their own, shorten the rules for asking. Keep the one page and the confirmation: they are about the person, not the model.</li>
+<li><strong>The conversion program.</strong> If agents read Word and Excel reliably, with the noise left out, the program can go. I have not tested this.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><ul>
+<li><strong>提問的方法</strong>。隨著模型自己會問出更好的問題，就把提問的規則縮短。一頁和確認要留著：它們是為了人，不是為了模型。</li>
+<li><strong>轉換程式</strong>。如果 agent 能可靠地讀 Word 和 Excel，把雜訊去掉，這個程式就可以丟。我沒有測過。</li>
+</ul>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at the most recent merged pull request or the latest few commits in this repository, together with any issue or ticket text they link to. Reconstruct the request as a one-page requirement: the goal, what was in and out of scope, what &quot;done&quot; would have meant, and where each point comes from. Then list what the request left out or left open, and what in the change shows that someone guessed. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看這個倉庫最近一個合併的 pull request，或最新的幾個 commit，連同它們連結的任何 issue 或工單文字。把請求重建成一頁需求：目標、範圍內和範圍外的是什麼、「做完」會是什麼意思，以及每一點的來源。然後列出這個請求漏掉了什麼、留下什麼沒說，以及修改裡有哪些地方顯示有人在猜。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li><a href="5-1-tasks.html">Manage tasks, not chats</a>: where the requirement file lives.</li>
+<li><a href="5-3-two-approvals.html">Two gates</a>: a plan is approved against a confirmed requirement.</li>
+<li><a href="5-4-self-checks.html">Let the agent check its own work</a>: the checks go by &quot;done when&quot;.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li><a href="5-1-tasks.html">管任務，不管對話</a>：需求檔放在哪裡。</li>
+<li><a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>：計劃是對著已確認的需求批准的。</li>
+<li><a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>：檢查照「做完的條件」來做。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The requirement file, the asking method, the review of a requirement and the conversion of business files all run in Copilot Harness. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The agent writes the requirement, the person confirms it&quot;. Teach me how this harness does it (topic 9, the requirement part, and topic 15 on why the exact words are not kept). Open a real requirement file with me, show how a change goes into it first, and draw how the pieces fit together.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>需求檔、提問的方法、需求的審查，和業務檔案的轉換，都在 Copilot Harness 裡運行。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「需求由 agent 寫，人確認」這一章。請教我這個 harness 怎麼做（主題 9 的需求部分，以及主題 15 講為什麼不留原話）。和我一起打開一個真實的需求檔，讓我看一個修改怎麼先進到它裡面，並畫出各部分怎麼接在一起。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

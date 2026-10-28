@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>When the model is upgraded, delete</title>
+<style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
+:root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+.fig [data-step]{transition:opacity .35s}
+.fig [data-step].step-later{opacity:0}
+@media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
+/* terminal: dark terminal look from the brand style (one accent, lit and dimmed,
+   no gradients or shadows). Body text is sans for long reading; code, prompts
+   and labels are mono. A light variant follows the system setting. */
+
+:root {
+  --bg: #0b1220;
+  --fg: #e6edf3;
+  --muted: #7d8ba1;
+  --accent: #2dd4bf;
+  --dim: #1a2436;
+  --dimfg: #4b5870;
+  --lit-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+  --lit-line: color-mix(in srgb, var(--accent) 55%, transparent);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  --mono: "SF Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --measure: 42rem;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7f9fb;
+    --fg: #0b1220;
+    --muted: #52607a;
+    --accent: #0f766e;
+    --dim: #e7edf3;
+    --dimfg: #8a96a8;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--fg); }
+body { margin: 0; font: 17px/1.7 var(--sans); }
+::selection { background: var(--lit-bg); }
+a { color: var(--accent); text-decoration-color: var(--lit-line); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+/* top bar */
+.top {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .7rem 1.5rem; background: var(--bg); border-bottom: 1px solid var(--dim);
+  font: 14px/1.4 var(--mono);
+}
+.home { color: var(--fg); text-decoration: none; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.prompt-sign { color: var(--accent); }
+.langs { flex-shrink: 0; display: flex; border: 1px solid var(--dim); border-radius: 6px; overflow: hidden; }
+.langs button {
+  font: 13px var(--mono); color: var(--muted); background: none; border: 0;
+  padding: .3rem .7rem; cursor: pointer;
+}
+.langs button[aria-pressed="true"] { color: var(--accent); background: var(--lit-bg); }
+
+/* layout: contents on the left on wide screens */
+.page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+article { max-width: var(--measure); min-width: 0; }
+@media (min-width: 64rem) {
+  .chapter .page { grid-template-columns: 14rem minmax(0, var(--measure)); }
+  .toc { position: sticky; top: 4.5rem; align-self: start; max-height: calc(100vh - 6rem); overflow: auto; }
+}
+.toc { font: 13px/1.5 var(--mono); }
+.toc-title { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin: 0 0 .6rem; }
+.toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--dim); }
+.toc a { display: block; padding: .25rem .8rem; color: var(--muted); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* headings */
+.chapter-head { margin-bottom: 2.5rem; }
+.chapter-no { font: 15px var(--mono); color: var(--accent); margin: 0 0 .3rem; }
+.chapter-no::before { content: "> "; }
+h1 { font-size: 2.2rem; line-height: 1.25; margin: 0; letter-spacing: -.01em; }
+h2 { font-size: 1.35rem; line-height: 1.35; margin: 3rem 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; }
+h3 { font-size: 1.1rem; margin: 2rem 0 .6rem; }
+
+/* the two parts of a chapter */
+.part-head { margin: 3rem 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--lit-line); }
+.part-head:first-child, .chapter-head + .part-head { margin-top: 1rem; }
+.part-name { margin: 0; font: 600 13px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stop-here { margin: 3rem 0 0; padding: 1rem 1.2rem; border: 1px dashed var(--lit-line); border-radius: 8px; color: var(--muted); }
+.practice-box { margin: 0 0 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--lit-bg); border: 1px solid var(--lit-line); }
+.practice-box p { margin: 0 0 .5rem; }
+.practice-box p:last-child { margin: 0; }
+.toc-part > a { color: var(--accent); }
+.toc-part > ol { margin: .2rem 0 .8rem .8rem; }
+
+/* status badges: dashed = planned, dimmed = industry */
+.status {
+  font: 11px/1 var(--mono); letter-spacing: .04em;
+  padding: .35em .6em; border-radius: 4px; border: 1px solid; white-space: nowrap;
+}
+.status-in-harness .status, .status.status-in-harness { color: var(--accent); background: var(--lit-bg); border-color: var(--lit-line); }
+.status.status-planned { color: var(--accent); border-style: dashed; border-color: var(--lit-line); background: none; }
+.status.status-industry { color: var(--dimfg); background: var(--dim); border-color: var(--dim); }
+section.status-planned, section.status-industry { padding-left: 1.2rem; margin-left: -1.2rem; }
+section.status-planned { border-left: 2px dashed var(--lit-line); }
+section.status-industry { border-left: 2px solid var(--dim); }
+section > div > h2:first-child { margin-top: 3rem; }
+
+/* text */
+p, ul, ol, table, blockquote, figure, .prompt { margin: 0 0 1.2rem; }
+li { margin: .25rem 0; }
+strong { color: var(--fg); }
+blockquote { margin-left: 0; padding: .2rem 0 .2rem 1rem; border-left: 2px solid var(--accent); color: var(--muted); }
+:not(pre) > code { font: .88em var(--mono); background: var(--dim); padding: .1em .35em; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--dim); margin: 2.5rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th { font: 12px var(--mono); letter-spacing: .04em; color: var(--muted); text-align: left; }
+[data-l="en"] th { text-transform: uppercase; }
+th, td { padding: .55rem .7rem; border-bottom: 1px solid var(--dim); vertical-align: top; }
+
+/* real code from the harness: folded, the summary says what it shows */
+details.code { margin: 0 0 1.2rem; border: 1px solid var(--dim); border-radius: 8px; overflow: hidden; }
+details.code summary { padding: .55rem 1.1rem; cursor: pointer; font: 13px var(--mono); color: var(--muted); }
+details.code summary::marker { color: var(--accent); }
+details.code[open] summary { color: var(--fg); border-bottom: 1px solid var(--dim); }
+details.code pre { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; background: var(--dim); font: 13px/1.6 var(--mono); }
+details.code .code-link { margin: 0; padding: .5rem 1.1rem; font: 12px var(--mono); }
+details.code .code-link a { color: var(--muted); }
+details.code .code-link a::before { content: "↗ "; color: var(--accent); }
+
+/* prompts the reader can copy */
+.prompt { position: relative; border: 1px solid var(--lit-line); border-radius: 8px; background: var(--lit-bg); }
+.prompt pre { margin: 0; padding: 1rem 5rem 1rem 2.2rem; white-space: pre-wrap; font: 14px/1.6 var(--mono); }
+.prompt pre::before { content: ">"; position: absolute; left: 1rem; color: var(--accent); }
+.prompt .copy {
+  position: absolute; top: .6rem; right: .6rem; font: 12px var(--mono); color: var(--accent);
+  background: var(--bg); border: 1px solid var(--lit-line); border-radius: 4px; padding: .25rem .6rem; cursor: pointer;
+}
+.prompt .copy.done { background: var(--accent); color: var(--bg); }
+
+/* figures */
+figure.fig { margin-left: 0; margin-right: 0; padding: 1.2rem; border: 1px solid var(--dim); border-radius: 8px; }
+figure.fig svg { display: block; width: 100%; height: auto; }
+figure.fig figcaption { margin-top: .8rem; font-size: .88rem; color: var(--muted); text-align: center; }
+/* step figures: the text of the step, then Back / Next */
+.step-text { margin: .9rem 0 0; padding-left: 1.4rem; font-size: .95rem; }
+figure.stepping .step-text { list-style: none; padding: 0; min-height: 3.2em; text-align: center; }
+.step-nav { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: .6rem; font: 12px var(--mono); color: var(--muted); }
+.step-nav[hidden] { display: none; }
+.step-nav button {
+  font: 12px var(--mono); color: var(--accent); background: var(--bg);
+  border: 1px solid var(--lit-line); border-radius: 4px; padding: .3rem .8rem; cursor: pointer;
+}
+.step-nav button:disabled { color: var(--muted); border-color: var(--dim); cursor: default; }
+img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
+
+/* footer: copyright and licenses */
+.foot { max-width: 72rem; margin: -3rem auto 0; padding: 0 1.5rem 2rem; font: 12px var(--mono); color: var(--muted); }
+.foot p { margin: 0; padding-top: 1.2rem; border-top: 1px solid var(--dim); }
+.foot a { color: var(--muted); }
+
+/* index page */
+.book-head { margin: 1rem 0 3rem; }
+.book-head h1 { font-size: 2.6rem; }
+.part { margin-bottom: 2rem; }
+.part h2 { font: 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 .6rem; }
+.part ol { list-style: none; margin: 0; padding: 0; }
+.part li a, .part li.soon {
+  display: flex; gap: 1rem; align-items: baseline; padding: .7rem 1rem; margin-bottom: .4rem;
+  border: 1px solid var(--lit-line); border-radius: 6px; background: var(--lit-bg);
+  color: var(--fg); text-decoration: none;
+}
+.part li a:hover { border-color: var(--accent); }
+.part li.soon { border-color: var(--dim); background: var(--dim); color: var(--dimfg); font: 13px var(--mono); }
+.part .chapter-no { margin: 0; font-size: 13px; }
+.part .chapter-no::before { content: ""; }
+
+@media (max-width: 64rem) {
+  .chapter .toc { display: none; }
+}
+@media (max-width: 40rem) {
+  body { font-size: 16px; }
+  table { display: block; overflow-x: auto; }
+  figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
+  h1 { font-size: 1.8rem; }
+  .top { padding: .6rem 1rem; }
+  .page { padding: 1.5rem 1rem 4rem; }
+}
+.leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
+.leaders h2 { margin-top: 1rem; }
+.core-mark { margin-left: .4em; color: var(--accent); }
+.core-note { color: var(--muted); font-size: .9rem; }
+
+/* Figure classes. Figures use only these; the colours come from the theme. */
+.fig svg { font-family: var(--mono); }
+.fig .box { fill: var(--dim); stroke: var(--dimfg); stroke-width: 1; }
+.fig .box-lit { fill: var(--lit-bg); stroke: var(--lit-line); stroke-width: 1; }
+.fig .box-plain { fill: none; stroke: var(--dimfg); stroke-width: 1; stroke-dasharray: 4 3; }
+.fig .label { fill: var(--fg); font-size: 15px; }
+.fig .label-lit { fill: var(--accent); font-size: 15px; }
+.fig .label-muted { fill: var(--muted); font-size: 13px; }
+.fig .label-big { fill: var(--fg); font-size: 22px; font-weight: 700; }
+.fig .line { stroke: var(--dimfg); stroke-width: 1.5; fill: none; }
+.fig .line-lit { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+.fig .head { fill: var(--dimfg); }
+.fig .head-lit { fill: var(--accent); }
+.fig .bar { fill: var(--dimfg); }
+.fig .bar-lit { fill: var(--accent); }
+</style>
+</head>
+<body class="chapter">
+<header class="top">
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+</header>
+<main class="page">
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.5</p><h1><span data-l="en" lang="en">When the model is upgraded, delete</span><span data-l="zh-Hant" lang="zh-Hant">模型升級了，就要刪</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and that you have written rules or steps for it. Nothing else.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，而且替它寫過規則或步驟。不需要別的。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>When the model is upgraded, rerun your evals first. Then delete the rules, checks and steps that the new model no longer needs, because scaffolding built for an old model may slow the new one.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型升級時，先重跑你的評測。然後刪掉新模型不再需要的規則、檢查和步驟，因為為舊模型搭的鷹架，可能會拖慢新模型。</p>
+</div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
+<li><strong>The decision:</strong> schedule a review of the setup after each model change, and decide who reruns the evals and who may delete a rule.</li>
+<li><strong>The risk:</strong> rules and steps built for an old model may slow the new one. I have not measured this on an upgrade; it is a worry, not a result. Hard limits against damage, the record and the evals are not on the list to cut.</li>
+<li><strong>The cost of doing it right:</strong> a rerun of your fixed tasks, more than once, plus one person's time to remove one piece at a time. Mostly money and time; I have no numbers.</li>
+<li><strong>Ask the team:</strong> &quot;If the model changed tomorrow, which rules would we test removing first, and which evals would tell us?&quot;</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
+<li><strong>要做的決定</strong>：每次換模型之後，排一次對設定的檢視，並決定誰重跑評測、誰可以刪規則。</li>
+<li><strong>風險</strong>：為舊模型搭的規則和步驟，可能會拖慢新模型。我沒有在一次升級上量過這件事；它是個擔心，不是結果。防止損害的硬限制、紀錄和評測，不在要砍的清單上。</li>
+<li><strong>做對的成本</strong>：重跑你的固定任務，而且不只一次，再加上一個人的時間，一次移除一塊。大多是錢和時間；我沒有數字。</li>
+<li><strong>可以問團隊</strong>：「如果模型明天換了，我們會先測試拿掉哪些規則？哪些評測能告訴我們答案？」</li>
+</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Think of the setup around an agent as <strong>scaffolding</strong>, the frame builders put up around a building while they work. Every rule, check and written-out step in it was put there for a reason. Each one covers something the model of that day got wrong, or did badly, or forgot.</p>
+<p>Then the model is upgraded. The reasons were about the old model. Some of them are gone. Nobody told your setup.</p>
+<p>This is a real worry, though I have not measured it on an upgrade. The first version of my own harness had levels and three job-title agents. The three agents were taken out after a few days of use, on the evidence in <a href="2-3-subagents.html">Use subagents sparingly</a>, which has the cost numbers and their limits. The levels went for a different reason (<a href="7-3-what-we-cut.html">What I cut, and what the data says</a>). Both had seemed reasonable on the day. What I take from it is a question, not a result: structure built when the model was weaker may stop earning its cost when the model improves, and it keeps costing until someone tests it and removes it. The rest of this chapter is how to test it.</p>
+<p>Dead scaffolding costs in three ways.</p>
+<ul>
+<li><strong>Time and money.</strong> Every extra step is paid for at every task.</li>
+<li><strong>Room.</strong> A long rule file uses part of the context window on every turn (<a href="3-1-context-budget.html">Context is a budget</a>).</li>
+<li><strong>Confusion.</strong> A rule written for an old model's habit can pull a new model the wrong way. I have not tested how often this happens. It is a risk, not a measured effect.</li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>把 agent 周圍的設定，想成<strong>鷹架</strong>（scaffolding），也就是蓋房子時，工人在建築周圍搭的架子。裡面每一條規則、每個檢查、每一個寫出來的步驟，都是有原因才放進去的。每一個，都在補當時的模型做錯、做不好或忘記的事。</p>
+<p>然後模型升級了。那些原因是關於舊模型的。有些已經不在了。沒有人通知你的設定。</p>
+<p>這是個真實的擔心，雖然我沒有在一次升級上量過。我自己的 harness 的第一版，有等級，還有三個有職稱的 agent。三個 agent 用了幾天就拿掉了，依據是 <a href="2-3-subagents.html">慎用子 agent</a> 裡的證據，那一章有成本數字和它們的限制。等級被拿掉的原因不同（<a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>）。兩者在當時都看起來合理。我從中帶走的是一個問題，不是一個結果：模型比較弱時搭的結構，在模型進步後，可能不再值回它的成本，而且在有人測試、移除它之前，它會一直花錢。這一章其餘的部分，講怎麼測。</p>
+<p>沒用的鷹架，花的成本有三種。</p>
+<ul>
+<li><strong>時間和金錢</strong>。每多一步，每個任務都要付一次。</li>
+<li><strong>空間</strong>。一份長的規則檔，每一輪都占用上下文視窗的一部分（<a href="3-1-context-budget.html">上下文是一份預算</a>）。</li>
+<li><strong>混亂</strong>。為舊模型的習慣寫的規則，可能把新模型拉向錯的方向。這有多常發生，我沒有測過。它是風險，不是量到的效果。</li>
+</ul>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The rule is simple: <strong>do not delete by feeling, and do not keep by habit. Run the evals.</strong> The picture shows the order.</p>
+<figure class="fig steps" id="fig-6-5-thinner" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="110" y="20" text-anchor="middle" data-t="old">FOR THE OLD MODEL</text>
+  <text class="label-muted" x="490" y="20" text-anchor="middle" data-t="new">AFTER THE EVALS SAY SO</text>
+  <rect class="box" x="20" y="34" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="59" text-anchor="middle" data-t="b1">written steps</text>
+  <rect class="box" x="20" y="84" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="109" text-anchor="middle" data-t="b2">extra checks</text>
+  <rect class="box" x="20" y="134" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="159" text-anchor="middle" data-t="b3">reminders, fixes</text>
+  <rect class="box" x="20" y="184" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="209" text-anchor="middle" data-t="b4">prompt wording</text>
+  <rect class="box-lit" x="20" y="250" width="180" height="50" rx="6"/>
+  <text class="label-lit" x="110" y="280" text-anchor="middle" data-t="floor">hard limits (stay)</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M210 150 H380"/>
+    <path class="head-lit" d="M380 144 L390 150 L380 156 Z"/>
+    <text class="label-lit" x="300" y="136" text-anchor="middle" data-t="rerun">rerun the evals</text>
+    <text class="label-muted" x="300" y="172" text-anchor="middle" data-t="rerun2">new model, same tasks</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="400" y="34" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="59" text-anchor="middle" data-t="b1">written steps</text>
+    <rect class="box" x="400" y="84" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="109" text-anchor="middle" data-t="b2">extra checks</text>
+    <rect class="box-plain" x="400" y="134" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="159" text-anchor="middle" data-t="b3">reminders, fixes</text>
+    <rect class="box" x="400" y="184" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="209" text-anchor="middle" data-t="b4">prompt wording</text>
+    <rect class="box-lit" x="400" y="250" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="490" y="280" text-anchor="middle" data-t="floor">hard limits (stay)</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">Over time I added steps, checks, reminders and wording, each to cover something the old model got wrong.</li><li data-step-text="2">The model is upgraded. Run the same fixed tasks again, with and without each piece.</li><li data-step-text="3">Pieces the evals show are no longer needed can go (dashed). Pieces that still help stay. Hard limits do not depend on the model&#x27;s skill, so they stay.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>After a model upgrade, the scaffolding gets thinner where the evals say it can. The limits that guard against damage stay.</figcaption></figure>
+<h3>1. Before you upgrade, have something to rerun</h3>
+<p>This is why <a href="6-3-eval-tasks.html">fixed tasks</a> come first. If you have no set of fixed tasks with a script to score them, an upgrade is a change you cannot judge. Keep the set and its old results. They are the baseline.</p>
+<h3>2. Rerun with only the model changed</h3>
+<p>Run the same tasks on the new model with the same setup. Compare with the baseline. Check that the model is the only thing that moved: a new model can tokenize text differently, change the default amount of thinking, and miss the prompt cache at first, and each of these changes cost without changing quality. Record them next to the numbers. If the provider publishes notes on moving from the old model to the new one, read them before the rerun, so you know what to watch. Two things can happen.</p>
+<ul>
+<li><strong>It got worse somewhere.</strong> A rule that held with the old model may not hold with the new one. Better to know this first. A model upgrade is a change like any other and can break things.</li>
+<li><strong>It got better, or the same.</strong> Then the gap to look at is the cost: time, usage, turns.</li>
+</ul>
+<p>Because runs differ (<a href="6-4-variance.html">One run proves nothing</a>), run each more than once, or you will read noise as a result.</p>
+<h3>3. What does not go, whatever the evals say</h3>
+<p>Some things should not be on the list at all, and it is better to know that before you start removing.</p>
+<ul>
+<li><strong>Hard limits against damage.</strong> A refusal to touch production, a guard on the rule files, a person approving what cannot be undone. These do not depend on how clever the model is; they protect against what happens if it is wrong or fooled. <strong>A better model is not a reason to remove them</strong> (<a href="4-5-least-privilege.html">Some things you never hand over</a>).</li>
+<li><strong>The record.</strong> A better model still needs a log, a report and a person to read them (<a href="6-1-observe.html">Record what happened</a>).</li>
+<li><strong>The evals.</strong> They are how you decide everything else.</li>
+</ul>
+<p>Layers move at different speeds. Text (rules and steps) changes first and is easiest to cut. Enforcement in code changes more slowly, and by the evals. A platform change sits underneath all of it.</p>
+<h3>4. Take out one piece at a time</h3>
+<p>Now ask of each piece of scaffolding: does the new model still need it? You find out by removing it and running the tasks again. One piece per round, or you will not know which one mattered.</p>
+<p>For a piece like an independent check, the experiment is direct. Run the tasks with the check on and with it off, and compare. If the evals show no difference, the check is not earning its cost for those tasks (<a href="2-3-subagents.html">Use subagents sparingly</a> has the same reasoning for the second agent). If it still catches things, keep it.</p>
+<h3>5. What I would look at first</h3>
+<p>These are the parts that I expect to be the first candidates in my own setup. I list them as things to test, not as results; I have not rerun them after a model upgrade.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Why it may change</th>
+<th>What I would do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Written-out playbooks for kinds of work</td>
+<td>A newer model may need steps spelled out less</td>
+<td>Shorten them. Keep the lists of what counts as done: they say what you want, not how to get it (<a href="5-1-tasks.html">Manage tasks, not chats</a>)</td>
+</tr>
+<tr>
+<td>Independent checks</td>
+<td>A model may check itself more reliably</td>
+<td>Compare no check and one check. Only if the evals show no difference between them does the default become no check</td>
+</tr>
+<tr>
+<td>Reminders and workarounds</td>
+<td>They cover a habit the old model had</td>
+<td>Test with them off (<a href="3-4-skills-and-workflows.html">Turn your way of working into skills</a> says the same of &quot;gotchas&quot;)</td>
+</tr>
+<tr>
+<td>Rules moved into code because the model ignored them</td>
+<td>The new model may follow them</td>
+<td>Switch the code rule off where a breach can be undone, and count (<a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>)</td>
+</tr>
+<tr>
+<td>Which model each role uses</td>
+<td>New models come out</td>
+<td>Change the one setting, and run the tasks</td>
+</tr>
+<tr>
+<td>Wording tuned for the old model</td>
+<td>Emphasis written to be heard by one model may be too strong for another</td>
+<td>Rewrite it plainly and run the tasks. I have not tested this</td>
+</tr>
+</tbody>
+</table>
+<p>Almost every chapter of this book ends with a section called &quot;When to delete it&quot;. That section is the list for this step. After an upgrade I go through those sections in order, and for each one ask whether its condition now holds.</p>
+<h3>6. Write down what you deleted, and when you would put it back</h3>
+<p>When I take something out, I write one line: what, why, and what evidence would bring it back. This is what keeps the setup from becoming a guess. When the next model is worse at something, you know which line to look at. (The same habit runs through <a href="7-3-what-we-cut.html">What I cut, and what the data says</a>.)</p>
+<h3>Test your own setup</h3>
+<p><strong>Three questions:</strong></p>
+<ol>
+<li>If the model were upgraded tomorrow, what would you rerun to find out whether your setup still works?</li>
+<li>Which rule or step do you keep only because you added it once?</li>
+<li>Which one would hurt if it were removed, and how do you know?</li>
+</ol>
+<p><strong>A test for today.</strong> Pick one rule or step in your setup that you suspect is dead weight. Choose three tasks where it should matter. Copy the rule file first, so you can put the rule back. Run the tasks with and without it, more than once, and compare pass and usage. If you cannot tell the two apart, you have learned something. If it does matter, you have learned what the rule is worth.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>規則很簡單：<strong>不要憑感覺刪，也不要憑習慣留。跑評測</strong>。圖顯示順序。</p>
+<figure class="fig steps" id="fig-6-5-thinner" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="110" y="20" text-anchor="middle" data-t="old">為舊模型搭的</text>
+  <text class="label-muted" x="490" y="20" text-anchor="middle" data-t="new">eval 說可以之後</text>
+  <rect class="box" x="20" y="34" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="59" text-anchor="middle" data-t="b1">寫出來的步驟</text>
+  <rect class="box" x="20" y="84" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="109" text-anchor="middle" data-t="b2">額外的檢查</text>
+  <rect class="box" x="20" y="134" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="159" text-anchor="middle" data-t="b3">提醒和變通辦法</text>
+  <rect class="box" x="20" y="184" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="209" text-anchor="middle" data-t="b4">提示的措辭</text>
+  <rect class="box-lit" x="20" y="250" width="180" height="50" rx="6"/>
+  <text class="label-lit" x="110" y="280" text-anchor="middle" data-t="floor">硬性限制（留著）</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M210 150 H380"/>
+    <path class="head-lit" d="M380 144 L390 150 L380 156 Z"/>
+    <text class="label-lit" x="300" y="136" text-anchor="middle" data-t="rerun">重跑 eval</text>
+    <text class="label-muted" x="300" y="172" text-anchor="middle" data-t="rerun2">新模型，同一組任務</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="400" y="34" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="59" text-anchor="middle" data-t="b1">寫出來的步驟</text>
+    <rect class="box" x="400" y="84" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="109" text-anchor="middle" data-t="b2">額外的檢查</text>
+    <rect class="box-plain" x="400" y="134" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="159" text-anchor="middle" data-t="b3">提醒和變通辦法</text>
+    <rect class="box" x="400" y="184" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="209" text-anchor="middle" data-t="b4">提示的措辭</text>
+    <rect class="box-lit" x="400" y="250" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="490" y="280" text-anchor="middle" data-t="floor">硬性限制（留著）</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">隨著時間，我加了步驟、檢查、提醒和措辭，每一項都是為了補舊模型會犯的錯。</li><li data-step-text="2">模型升級了。把同一組固定任務再跑一次，每一項有它和沒有它各跑。</li><li data-step-text="3">eval 顯示已經不需要的可以拿掉（虛線）。還有幫助的留下。硬性限制不靠模型的本事，所以留著。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>模型升級之後，eval 說可以的地方，腳手架就變薄。防止出事的限制留著。</figcaption></figure>
+<h3>1. 升級之前，先有東西可以重跑</h3>
+<p>這就是 <a href="6-3-eval-tasks.html">固定的任務</a> 排在前面的原因。如果你沒有一組固定任務和給它們打分的腳本，升級就是一個你沒辦法評判的改動。把這組任務和它舊的結果留著。它們是基準。</p>
+<h3>2. 只改模型，重跑</h3>
+<p>在新模型上，用同樣的設定跑同樣的任務。和基準比較。確認只有模型變了：新模型可能用不同的方式把文字切成 token、改變預設的思考量、一開始又沒命中 prompt 快取，這每一項都會改變成本，卻不改變品質。把它們和數字一起記下來。如果供應商發布了從舊模型換到新模型的說明，在重跑之前先讀，這樣你就知道要留意什麼。有兩種情況可能發生。</p>
+<ul>
+<li><strong>某處變差了</strong>。舊模型下守得住的規則，在新模型下可能守不住。先知道比較好。模型升級和任何其他改動一樣，可能弄壞東西。</li>
+<li><strong>變好了，或一樣</strong>。那麼要看的差距就是成本：時間、用量、輪數。</li>
+</ul>
+<p>因為各次運行不同（<a href="6-4-variance.html">一次運行證明不了什麼</a>），每個都要跑不只一次，不然你會把雜訊讀成結果。</p>
+<h3>3. 不管評測怎麼說，都不能拿掉的</h3>
+<p>有些東西根本不該在清單上，開始移除之前先知道比較好。</p>
+<ul>
+<li><strong>防止損害的硬限制</strong>。拒絕碰正式環境、保護規則檔的防護、由人批准無法復原的事。這些不取決於模型有多聰明；它們保護的，是模型錯了或被騙了會怎樣。<strong>更好的模型不是拿掉它們的理由</strong>（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</li>
+<li><strong>紀錄</strong>。更好的模型仍然需要日誌、報告，和讀它們的人（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>）。</li>
+<li><strong>評測</strong>。其他一切，都靠它們來決定。</li>
+</ul>
+<p>各層的變化速度不同。文字（規則和步驟）最先變，也最容易砍。程式碼裡的執行，變得比較慢，而且要靠評測。平台的改變，在這一切底下。</p>
+<h3>4. 一次拿掉一塊</h3>
+<p>現在對每一塊鷹架問：新模型還需要它嗎？你要靠拿掉它、再跑一次任務才知道。一輪一塊，不然你不知道是哪一塊有影響。</p>
+<p>對像獨立檢查這樣的一塊，實驗很直接。開著檢查跑任務，關掉檢查再跑，然後比較。如果評測顯示沒有差別，這個檢查在這些任務上就沒有值回它的成本（<a href="2-3-subagents.html">慎用子 agent</a> 對第二個 agent 有同樣的推理）。如果它還是抓得到東西，就留著。</p>
+<h3>5. 我會先看什麼</h3>
+<p>這些是我預期，在我自己的設定裡會最先成為候選的部分。我把它們列成要測試的東西，不是結果；模型升級之後，我還沒有重跑過它們。</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>為什麼可能變</th>
+<th>我會怎麼做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>為各種工作寫出來的手冊</td>
+<td>較新的模型，可能不需要把步驟寫得那麼細</td>
+<td>縮短它們。留著「什麼才算做完」的清單：它們說的是你要什麼，不是怎麼得到（<a href="5-1-tasks.html">管任務，不管對話</a>）</td>
+</tr>
+<tr>
+<td>獨立檢查</td>
+<td>模型可能更可靠地檢查自己</td>
+<td>比較沒有檢查和有一次檢查。只有評測顯示兩者沒有差別，預設才變成不檢查</td>
+</tr>
+<tr>
+<td>提醒和變通辦法</td>
+<td>它們補的是舊模型的習慣</td>
+<td>關掉它們來測試（<a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a> 對「gotchas」也這麼說）</td>
+</tr>
+<tr>
+<td>因為模型不聽，而搬進程式碼的規則</td>
+<td>新模型可能會遵守</td>
+<td>在違反了還能復原的地方，把程式碼規則關掉，並計數（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）</td>
+</tr>
+<tr>
+<td>每個角色用哪個模型</td>
+<td>新模型會出來</td>
+<td>改那一個設定，然後跑任務</td>
+</tr>
+<tr>
+<td>為舊模型調過的措辭</td>
+<td>為了讓一個模型聽見而寫的強調，對另一個可能太重</td>
+<td>改寫得平實一點，然後跑任務。我沒有測過這個</td>
+</tr>
+</tbody>
+</table>
+<p>這本書幾乎每一章，都以一節「什麼時候可以刪掉」結尾。那一節就是這一步的清單。升級之後，我依序走過這些節，對每一節問它的條件現在成不成立。</p>
+<h3>6. 寫下你刪了什麼，以及什麼時候會放回去</h3>
+<p>拿掉東西時，我寫一行：什麼、為什麼、什麼證據會讓它回來。這讓設定不會變成猜測。下一個模型在某件事上比較差時，你知道該看哪一行。（同樣的習慣貫穿 <a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>。）</p>
+<h3>測你自己的設定</h3>
+<p><strong>三個問題</strong>：</p>
+<ol>
+<li>如果模型明天升級，你會重跑什麼，來知道你的設定還行不行？</li>
+<li>哪一條規則或步驟，你留著只是因為你曾經加過它？</li>
+<li>哪一個拿掉會痛，你怎麼知道？</li>
+</ol>
+<p><strong>今天就能做的測試</strong>。挑你設定裡一條你懷疑是廢物的規則或步驟。選三個它應該有影響的任務。先複製規則檔，這樣你能把規則放回去。有它和沒它各跑任務，而且不只一次，比較通過和用量。如果你分不出兩者，你就學到了東西。如果它確實有影響，你就學到了這條規則值多少。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Removing something is a change, and it can break things.</strong> Remove one piece at a time, and run the evals after each.</p>
+<p><strong>The evals are the limit.</strong> You can only say that a piece is not needed for the tasks you tested. If the tasks are few, say so and be careful with anything that guards against damage.</p>
+<p><strong>A rerun costs money.</strong> A full rerun after every model release is not always affordable. Rerun when you change model family, when the version number changes, or when you notice a change in behaviour. The cache matters here: cached reads cost about a tenth of the base input price on Anthropic's API (<a href="1-1-models-and-cost.html">Models and cost</a>), but the first runs on a new model start cold, and I have not checked how Copilot bills any of this.</p>
+<p><strong>New models can be worse at something.</strong> An upgrade is not always better at every task. The evals are for this too.</p>
+<p><strong>Scaffolding can hide a weak spot.</strong> A check that always caught the same mistake may be the thing that kept you from noticing it. When you remove it, look at the failed runs.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>拿掉東西也是改動，也可能弄壞東西</strong>。一次拿掉一塊，每次之後都跑評測。</p>
+<p><strong>評測就是極限</strong>。你只能說，某一塊在你測過的任務上不需要。如果任務很少，就說出來，並且對任何防止損害的東西要小心。</p>
+<p><strong>重跑要花錢</strong>。每次模型發布之後都完整重跑，不一定負擔得起。換模型系列、版本號變了，或你注意到行為變了的時候再重跑。快取在這裡有影響：在 Anthropic 的 API 上，快取讀取大約是基本輸入價格的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），但新模型上最先的幾次運行是冷啟動，而這一切 Copilot 怎麼計費，我沒查過。</p>
+<p><strong>新模型可能在某件事上比較差</strong>。升級不一定在每個任務上都更好。評測也是為了這個。</p>
+<p><strong>鷹架可能藏著弱點</strong>。一個總是抓到同一種錯誤的檢查，可能正是讓你沒注意到那種錯誤的東西。拿掉它的時候，去看失敗的運行。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>This chapter is itself a procedure for deleting, so what is there to delete? The step-by-step rerun. If a platform tells you, on your own tasks, what an upgrade changed, or runs your evals on each release, I would use that. The habit stays: nothing in the setup is permanent, and every piece has to earn its place against the model you have now.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這一章本身就是一套刪東西的程序，那有什麼可刪的？一步一步重跑的做法。如果平台在你自己的任務上告訴你升級改變了什麼，或在每次發布時替你跑評測，我會用那個。習慣會留著：設定裡沒有東西是永久的，每一塊都要對照你現在有的模型，證明自己該在那裡。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every rule, step and check in this repository&#x27;s agent instruction, skill and hook files. Sort each into one of: hard limit against damage, record or log, workaround for a habit of an older model, written-out playbook, or emphasis in the wording. For each workaround, playbook or emphasis, say from git history what failure it was added for, or &quot;no reason found&quot;. Then name the five I should test removing first after a model upgrade, and which of my tasks should be rerun to check. Do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個倉庫的 agent 指令檔、skill 和 hook 檔案裡，每一條規則、步驟和檢查。把每一個分到其中一類：防止損害的硬限制、紀錄或日誌、補舊模型習慣的變通辦法、寫出來的手冊、措辭裡的強調。對每個變通辦法、手冊或強調，從 git 歷史說明它是為了什麼失敗而加的，或寫「找不到原因」。然後指出，模型升級之後，我該最先測試拿掉的五個，以及我該重跑哪些任務來檢查。不要改任何檔案。</code></pre></div>
+</div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
+<li>In this book: <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>, <a href="6-4-variance.html">One run proves nothing</a>, <a href="7-3-what-we-cut.html">What I cut, and what the data says</a></li>
+</ul>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
+<li>本書：<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>、<a href="6-4-variance.html">一次運行證明不了什麼</a>、<a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness keeps a list of what it expects to change first after a model upgrade, and a list of what it chose not to build and when it would reconsider. The harness can walk you through both. After the setup above, type:</p>
+<div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;When the model is upgraded, delete&quot;. Teach me what this harness expects to change after a model upgrade (topic 15) and what it will never remove. For each part, open the real files with me and show how I would test whether it is still needed.</code></pre></div>
+<p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有一份清單，列出它預期模型升級後最先會變的東西，另有一份清單，列出它選擇不做的東西，以及什麼時候會重新考慮。harness 可以帶你走過這兩份。照上面的說明準備好之後，輸入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「模型升級了，就要刪」這一章。請教我這個 harness 預期模型升級後哪些東西會變（主題 15），以及哪些東西它永遠不會拿掉。對每一部分，帶我打開真實的檔案，並示範我該怎麼測試它是不是還需要。</code></pre></div>
+<p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div></section></article>
+</main>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<script>// Behaviour every theme gets: the language switch, the copy button and step figures.
+// A theme only styles; it does not need to know about either.
+(function () {
+  var KEY = 'book-lang';
+  var root = document.documentElement;
+  var langs = JSON.parse(root.getAttribute('data-langs') || '["en"]');
+
+  function sectionAtTop() {
+    var secs = document.querySelectorAll('article section[id]');
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().bottom > 0) return secs[i];
+    }
+    return null;
+  }
+
+  function setLang(lang, keepPlace) {
+    if (langs.indexOf(lang) < 0) return;
+    var anchor = keepPlace ? sectionAtTop() : null;
+    root.setAttribute('data-lang', lang);
+    root.lang = lang;
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    if (anchor) anchor.scrollIntoView();
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  setLang(saved || root.getAttribute('data-lang'), false);
+
+  // Step figures: show step 1 first; Back and Next move through the steps.
+  // Without JS the whole figure and the list of all steps show instead.
+  function showStep(fig, n) {
+    var last = +fig.getAttribute('data-steps');
+    n = Math.max(1, Math.min(last, n));
+    fig.setAttribute('data-step-now', n);
+    fig.querySelectorAll('[data-step]').forEach(function (el) {
+      el.classList.toggle('step-later', +el.getAttribute('data-step') > n);
+    });
+    fig.querySelectorAll('[data-step-text]').forEach(function (li) {
+      li.hidden = +li.getAttribute('data-step-text') !== n;
+    });
+    fig.querySelector('.step-count').textContent = n + ' / ' + last;
+    fig.querySelector('[data-step-go="-1"]').disabled = n === 1;
+    fig.querySelector('[data-step-go="1"]').disabled = n === last;
+  }
+  document.querySelectorAll('figure.steps').forEach(function (fig) {
+    fig.querySelector('.step-nav').hidden = false;
+    fig.classList.add('stepping');
+    showStep(fig, 1);
+  });
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-set-lang]');
+    if (b) { setLang(b.getAttribute('data-set-lang'), true); return; }
+    var g = e.target.closest('[data-step-go]');
+    if (g) {
+      var fig = g.closest('figure.steps');
+      showStep(fig, +fig.getAttribute('data-step-now') + +g.getAttribute('data-step-go'));
+      return;
+    }
+    var c = e.target.closest('[data-copy]');
+    if (c && navigator.clipboard) {
+      var pre = c.parentNode.querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(function () {
+        c.classList.add('done');
+        setTimeout(function () { c.classList.remove('done'); }, 1200);
+      });
+    }
+  });
+})();
+</script>
+</body>
+</html>

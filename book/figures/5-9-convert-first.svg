@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
+  <text class="label" x="72" y="60" text-anchor="middle" data-t="file">x</text>
+  <path class="line-lit" d="M140 55 H165"/>
+  <path class="head-lit" d="M165 49 L175 55 L165 61 Z"/>
+  <rect class="box-lit" x="175" y="30" width="170" height="50" rx="8"/>
+  <text class="label-lit" x="260" y="60" text-anchor="middle" data-t="prog">x</text>
+  <path class="line-lit" d="M345 55 H370"/>
+  <path class="head-lit" d="M370 49 L380 55 L370 61 Z"/>
+  <rect class="box" x="380" y="30" width="100" height="50" rx="8"/>
+  <text class="label" x="430" y="60" text-anchor="middle" data-t="text">x</text>
+  <path class="line-lit" d="M480 55 H485"/>
+  <path class="head-lit" d="M485 49 L495 55 L485 61 Z"/>
+  <rect class="box" x="495" y="30" width="95" height="50" rx="8"/>
+  <text class="label" x="542" y="60" text-anchor="middle" data-t="model">x</text>
+  <text class="label-lit" x="300" y="104" text-anchor="middle" data-t="good">x</text>
+  <text class="label-lit" x="300" y="121" text-anchor="middle" data-t="good2">x</text>
+  <rect class="box-plain" x="5" y="145" width="135" height="50" rx="8"/>
+  <text class="label-muted" x="72" y="175" text-anchor="middle" data-t="file">x</text>
+  <path class="line" d="M140 170 H485"/>
+  <path class="head" d="M485 164 L495 170 L485 176 Z"/>
+  <rect class="box-plain" x="495" y="145" width="95" height="50" rx="8"/>
+  <text class="label-muted" x="542" y="175" text-anchor="middle" data-t="model">x</text>
+  <text class="label-muted" x="300" y="163" text-anchor="middle" data-t="raw">x</text>
+  <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">x</text>
+</svg>

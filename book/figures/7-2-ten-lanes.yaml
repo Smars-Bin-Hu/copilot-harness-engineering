@@ -1,0 +1,18 @@
+en:
+  head: "time, left to right"
+  t1: "task 1"
+  t2: "task 2"
+  t3: "task 3"
+  t4: "task 4"
+  t5: "... up to ten"
+  key: "a gate: the person is called here"
+  caption: "Ten tasks, one agent each, side by side. Nothing is shared between lanes. The person appears only at the gates."
+zh-Hant:
+  head: "時間，由左到右"
+  t1: "任務 1"
+  t2: "任務 2"
+  t3: "任務 3"
+  t4: "任務 4"
+  t5: "…… 最多十個"
+  key: "一道門：在這裡叫人"
+  caption: "十個任務，各一個 agent，並排進行。各條線之間不共用任何東西。人只在門口出現。"

@@ -1,0 +1,21 @@
+id: "3.1"
+part: context
+core: true
+title: {en: Context is a budget, zh-Hant: 上下文是一份預算}
+harness_tag: "1.5.50"
+wondering: [01-agent-loop, 02-instructions]
+sources:
+  - what: "Step-by-step disclosure; only a short piece of rules injected with each prompt; a new session reads only the task summary file; the reviewer runs in its own small context"
+    where: harness docs/06-cost-optimization.md, section 3; wondering topic 1 (1.2)
+  - what: "Context must be treated as a finite resource with diminishing marginal returns; agents using a just-in-time approach keep lightweight identifiers and load data at run time"
+    where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+    checked: 2026-10-27
+  - what: "Avoid context overload that can dilute focus; start with concise context and expand only when needed; keep different types of work in separate chat sessions; open a new chat and reference the plan file"
+    where: https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide
+    checked: 2026-10-27
+  - what: "The most effective agents might employ a hybrid strategy, retrieving some data up front for speed; Claude Code drops CLAUDE.md into context up front and uses glob and grep just in time"
+    where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+    checked: 2026-10-28
+  - what: "The /context command shows live context usage by category in Claude Code"
+    where: https://code.claude.com/docs/en/context-window
+    checked: 2026-10-28
