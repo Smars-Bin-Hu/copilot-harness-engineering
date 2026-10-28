@@ -221,49 +221,39 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">2.3</p><h1><span data-l="en" lang="en">Use subagents sparingly</span><span data-l="zh-Hant" lang="zh-Hant">慎用子 agent</span><span data-l="zh-Hans" lang="zh-Hans">慎用子 agent</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過一個寫程式的 AI agent，例如 Copilot 的 agent 模式。其他都不用。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个写代码的 AI agent，比如 Copilot 的 agent 模式。别的都不需要。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What did a team of role agents buy?</span><span data-l="zh-Hant" lang="zh-Hant">按職位分工的 agent 團隊，換來了什麼？</span><span data-l="zh-Hans" lang="zh-Hans">按岗位分工的 agent 团队，换来了什么？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">When is a second agent worth it?</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候值得多開一個 agent？</span><span data-l="zh-Hans" lang="zh-Hans">什么时候值得多开一个 agent？</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">How sure I am, and what else it costs</span><span data-l="zh-Hant" lang="zh-Hant">我有多確定，拆分還有哪些代價</span><span data-l="zh-Hans" lang="zh-Hans">我有多大把握，拆分还有哪些代价</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Do the platform makers agree?</span><span data-l="zh-Hant" lang="zh-Hant">平台廠商也這麼看嗎？</span><span data-l="zh-Hans" lang="zh-Hans">平台厂商也这么看吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the hooks, and when to rethink the split</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候刪掉這些 hook，什麼時候重新考慮拆分</span><span data-l="zh-Hans" lang="zh-Hans">什么时候删掉这些 hook，什么时候重新考虑拆分</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.3</p><h1><span data-l="en" lang="en">Use subagents sparingly</span><span data-l="zh-Hant" lang="zh-Hant">慎用子 agent</span><span data-l="zh-Hans" lang="zh-Hans">慎用子 agent</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes only that you have used an AI coding agent, such as Copilot in agent mode.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過一個寫程式的 AI agent，例如 Copilot 的 agent 模式。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个写代码的 AI agent，比如 Copilot 的 agent 模式。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Dividing the work has no value in itself. Another agent is worth it only when it buys one of four things: an independent check, parallel work, work that runs unattended, or a hard limit on tools.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>分工本身沒有價值。多一個 agent，只有在它買到下面四樣之一時才值得：獨立檢查、並行工作、無人值守，或對工具的硬性限制。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>分工本身沒有價值。多一個 agent，只有在它換來下面四樣之一時才值得：獨立檢查、並行工作、無人值守，或對工具的硬性限制。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>分工本身不值钱。多加一个 agent，只有在它换来下面四样之一时才划算：独立检查、并行干活、无人值守，或者对工具的硬性限制。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> approve an extra agent only when it buys one of the four: an independent check, parallel work, work that runs unattended, or a hard limit on tools.</li>
-<li><strong>The risk:</strong> a team of role agents can cost several times the usage and time for the same result. In my test it was about 4.5 times the usage and 6 times the time, on four tasks run once each.</li>
-<li><strong>The cost of doing it right:</strong> usually one extra agent, a reviewer, per task.</li>
+<li><strong>The risk:</strong> a team of role agents can cost several times the usage and time for the same result. In my test, on four tasks run once each, it took about 4.5 times the usage and 6 times the time.</li>
+<li><strong>The cost of doing it right:</strong> usually one extra agent per task, a reviewer.</li>
 <li><strong>Ask the team:</strong> &quot;Which of the four does this agent buy, and did you try the task without it?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：多開一個 agent，只在它買到四樣之一時才批：獨立檢查、並行、無人值守、工具的硬限制。</li>
-<li><strong>風險</strong>：按職位分工的一組 agent，可能花幾倍的用量和時間，結果卻一樣。在我的測試裡，用量約 4.5 倍、時間約 6 倍；四個任務，各跑一次。</li>
-<li><strong>做對的成本</strong>：通常是每個任務多一個 agent，也就是檢查者。</li>
-<li><strong>可以問團隊</strong>：「這個 agent 買到的是四樣裡的哪一樣？不用它做過同一個任務嗎？」</li>
+<li><strong>要做的決定</strong>：多開一個 agent，只在它換來四樣之一時才批：獨立檢查、並行、無人值守、工具的硬限制。</li>
+<li><strong>風險</strong>：按職位分工的一組 agent，可能花幾倍的用量和時間，結果卻一樣。在我的測試裡，四個任務各跑一次，用量約是 4.5 倍，時間約是 6 倍。</li>
+<li><strong>做對的成本</strong>：通常是每個任務多一個 agent，也就是負責檢查的 reviewer。</li>
+<li><strong>可以問團隊</strong>：「這個 agent 換來的是四樣裡的哪一樣？同一個任務，試過不用它嗎？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
 <li><strong>要拍板的事</strong>：多加一个 agent，只在它换来四样之一时才批：独立检查、并行、无人值守、工具的硬性限制。</li>
-<li><strong>风险</strong>：按岗位分工的一组 agent，可能多花好几倍的用量和时间，结果却没差别。在我的测试里，用量约 4.5 倍，时间约 6 倍；一共四个任务，每个只跑了一次。</li>
-<li><strong>做对的代价</strong>：一般是每个任务多一个 agent，也就是负责检查的那个。</li>
+<li><strong>风险</strong>：按岗位分工的一组 agent，可能多花好几倍的用量和时间，结果却没差别。在我的测试里，四个任务各跑一次，用量约是 4.5 倍，时间约是 6 倍。</li>
+<li><strong>做对的代价</strong>：一般是每个任务多一个 agent，也就是负责检查的 reviewer。</li>
 <li><strong>可以问团队</strong>：“这个 agent 换来的是四样里的哪一样？同一个任务，不用它试过吗？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>I once gave one AI three job titles. On the same four tasks it cost about 4.5 times as much, took about 6 times as long, and got nothing more right. Now one agent does the work, and a second one only checks.</p>
-<p>First, three words this chapter uses all the time.</p>
-<ul>
-<li>An <strong>agent</strong> is an AI model that runs in a loop: it reads files, runs commands, changes code, and decides the next step by itself.</li>
-<li>Its <strong>context</strong> is everything it has seen in one conversation: your request, the files it read, what it tried. It is the agent's working memory, and it has a size limit.</li>
-<li>A <strong>subagent</strong> is a second agent that the first one starts for a piece of the work. It begins with an empty context.</li>
-</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>What did a team of role agents buy?</h2><p>I once gave one AI three job titles. On the same four tasks, the three-agent team cost about 4.5 times as much as one agent alone and took about 6 times as long, yet it got nothing more right. Now one agent does the work, and a second one only checks it.</p>
+<p>This whole story turns on what each agent can see. An <strong>agent</strong> is an AI model that runs in a loop: it reads files, runs commands, changes code, and decides the next step by itself. Everything it has seen in one conversation, from your request to the files it read and what it tried, is its <strong>context</strong>, which works as the agent's working memory and has a size limit. A <strong>subagent</strong> is a second agent that the first one starts for a piece of the work, and it does not share that memory. It begins with an empty context.</p>
 <h3>The idea that feels right</h3>
-<p>Give the AI job titles: a planner, a developer, a reviewer, each its own agent. Teams of people work that way, and many tools make it a few clicks.</p>
-<p>I built exactly that in an early version of my own Copilot setup. A <strong>coordinator</strong> read the request and wrote a plan. A <strong>builder</strong> made the changes. A <strong>reviewer</strong> checked them. Then I measured it against one agent working alone.</p>
+<p>It seems natural to give the AI job titles: a planner, a developer, a reviewer, each its own agent. Teams of people work that way, and many tools make it a few clicks.</p>
+<p>I built exactly that in an early version of my own Copilot setup. A <strong>coordinator</strong> read the request and wrote a plan, a <strong>builder</strong> made the changes, and a <strong>reviewer</strong> checked them. Then I measured it against one agent working alone.</p>
 <h3>How I tested it</h3>
-<ul>
-<li><strong>The repository:</strong> a made-up data engineering project, 93 files in 5 areas. Made up, so the tasks and the right answers were known in advance.</li>
-<li><strong>Four tasks, small to medium:</strong> add a pipeline; add a field across several areas; rename a pipeline and delete its old files; fix a formula, where the request also asked to change a file that must not be touched.</li>
-<li><strong>Two ways:</strong> each task was done once by the three-role team, which also had a knowledge base to read (notes about the repository, written for agents). And once by a single agent on a top model, with no extra setup and the rules written into the request.</li>
-<li><strong>Scoring:</strong> the same script checked every result by reading the files. Nobody judged by eye.</li>
-<li><strong>What I counted:</strong> did it pass on the first try, how much usage it took (AI credits, what the platform charges you), and how long.</li>
-</ul>
+<p>The repository was made up, a data engineering project with 93 files in 5 areas, so that the tasks and their right answers were known in advance. The four tasks on it ran from small to medium. One added a pipeline, one added a field across several areas, and one renamed a pipeline and deleted its old files. The last fixed a formula, but its request also asked to change a file that must not be touched.</p>
+<p>Each task was then done two ways. The three-role team did it once, with a knowledge base to read (notes about the repository, written for agents). A single agent on a top model did it once, with no extra setup and the rules written into the request. The same script checked every result by reading the files, so nobody judged by eye. For each run I counted whether it passed on the first try, how much usage it took (AI credits, what the platform charges you), and how long it took.</p>
 <figure class="fig" id="fig-agents-vs-roles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
   <text class="label-muted" x="20" y="22" data-t="usage-title">USAGE (AI CREDITS, 4 TASKS)</text>
   <text class="label" x="20" y="54" data-t="one">one agent</text>
@@ -290,10 +280,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="182" y="307" data-t="pass">4 of 4 passed</text>
 </svg>
 <figcaption>Same four tasks, same result. Splitting the work into plan, build and review cost about 4.5 times the usage and 6 times the time. One run per task.</figcaption></figure>
-<p>Both ways got all four right. So the team bought nothing in correctness, and paid about 4.5 times the usage and about 6 times the time.</p>
-<p>Before you quote these numbers: four tasks, each run once, and the two sides were not set up the same way. Trust the direction (the team cost several times more for the same result), not the exact ratio. <a href="#costs-and-traps">Costs and traps</a> says more.</p>
+<p>Both ways got all four tasks right. So the team bought nothing in correctness, yet it paid about 4.5 times the usage and about 6 times the time. Trust the direction (the team cost several times more for the same outcome) rather than the exact ratio, for reasons that <a href="#costs-and-traps">How sure I am, and what else it costs</a> explains.</p>
 <h3>Where the extra cost went</h3>
-<p>I read the records of each run. The biggest waste was the handover. The coordinator studied the task carefully: it read the request and the files, and understood what had to change. Then it wrote a short plan and handed it over. The builder started with an empty context, read the plan, and had to study the same files again. The same understanding was paid for twice.</p>
+<p>When I read the records of each run, the biggest waste turned out to be the handover. The coordinator studied the task carefully, reading the request and the files until it understood what had to change. Then it wrote a short plan and handed it over. The builder started with an empty context, so after reading the plan it had to study the same files again. The same understanding was paid for twice.</p>
 <figure class="fig steps" id="fig-handoff-relearn" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
   <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
   <text class="label" x="300" y="46" text-anchor="middle" data-t="files">request + files</text>
@@ -335,31 +324,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">The coordinator reads the request and the files. Now it understands the task.</li><li data-step-text="2">To hand over, it squeezes that understanding into a short plan.</li><li data-step-text="3">The builder starts with an empty context. All it has is the plan.</li><li data-step-text="4">To change the code, the builder has to read the same files again.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A handover passes a summary, not understanding. The next agent learns the task again, and you pay for it again.</figcaption></figure>
 <h3>Why job titles do not help an AI</h3>
-<ol>
-<li><strong>People split roles because of human limits.</strong> No one learns every specialty, a day has 8 hours, and one person cannot be in two places at once. A model does not have these limits. Its real limit is the size of its context, and the four cases in the next section are all about that.</li>
-<li><strong>A title carries no knowledge; a fitted setup does.</strong> &quot;You are a designer&quot; changes the tone, not what the agent knows. Two things do help: the know-how of the field written in files that any agent can read, and a set of tools fitted to the job. The first needs no second agent. The second can be a reason for one (case 4 below).</li>
-<li><strong>Handoffs lose understanding.</strong> That is the picture above. Understanding has to be squeezed into a summary to be handed over, and the next agent needs more than the summary to act.</li>
-<li><strong>What a fixed rule can decide, do not leave to a model.</strong> &quot;Who works next&quot; and &quot;is it finished&quot; often have fixed answers. A small program answers them right every time; a model answers them right most of the time.</li>
-<li><strong>Rework starts from zero.</strong> In my setup, every round of checks starts a new reviewer, which reads the work again from the start.</li>
-</ol>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>我曾經給一個 AI 安排了三個職位。同樣四個任務，用量約是 4.5 倍，時間約是 6 倍，答對的一個也沒多。現在一個 agent 做事，另一個只負責檢查。</p>
-<p>先說這一章一直會用到的三個詞。</p>
-<ul>
-<li><strong>agent</strong>：一個在迴圈裡工作的 AI 模型。它讀檔案、執行指令、改程式碼，自己決定下一步。</li>
-<li><strong>上下文</strong>：它在一次對話裡看過的全部東西：你的需求、它讀過的檔案、它試過的做法。這是 agent 的工作記憶，大小有上限。</li>
-<li><strong>子 agent</strong>：第一個 agent 為了一部分工作而開的第二個 agent。它從空的上下文開始。</li>
-</ul>
+<p>What the picture shows is true of any handover, because understanding has to be squeezed into a summary before it can be handed over, yet the next agent needs more than the summary to act.</p>
+<p>Why, then, do teams of people split roles at all? Because of human limits. No one learns every specialty, a day has 8 hours, and one person cannot be in two places at once. A model does not have these limits. Its real limit is the size of its context, which is what the four cases in the next section are all about.</p>
+<p>And a title on its own carries no knowledge. &quot;You are a designer&quot; changes the tone, not what the agent knows. What does help is a setup fitted to the job. That means the know-how of the field, written in files that any agent can read, and a set of tools fitted to the work. The first needs no second agent. The second can be a reason for one (case 4 below).</p>
+<p>The team also handed a model decisions it did not need to make. Questions like &quot;who works next&quot; and &quot;is it finished&quot; often have fixed answers, and a small program answers them right every time, where a model answers them right most of the time. So what a fixed rule can decide should not be left to a model. And when the work has to be redone, rework starts from zero: in my setup, every round of checks starts a new reviewer, which reads the work again from the start.</p>
+<p>None of this means a second agent never helps. It means the second agent has to earn its place, so the question becomes when it does.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>按職位分工的 agent 團隊，換來了什麼？</h2><p>我曾經給一個 AI 安排了三個職位。同樣四個任務，這個三 agent 團隊的用量約是一個 agent 單獨做的 4.5 倍，時間約是 6 倍，答對的卻一個也沒多。現在我的做法是，一個 agent 做事，另一個只負責檢查。</p>
+<p>整個故事的關鍵，在於每個 agent 看得到什麼。<strong>agent</strong> 是在迴圈裡工作的 AI 模型：它讀檔案、執行指令、改程式碼，自己決定下一步。它在一次對話裡看過的全部東西，從你的需求到它讀過的檔案、它試過的做法，合起來就是它的<strong>上下文</strong>，等於 agent 的工作記憶，大小是有上限的。<strong>子 agent</strong> 則是第一個 agent 為了一部分工作而開的第二個 agent，它和第一個 agent 並不共用這份記憶，而是從空的上下文開始。</p>
 <h3>感覺很對的做法</h3>
-<p>給 AI 安排職位：計劃的、開發的、檢查的，各是一個 agent。人的團隊就是這樣分工的，很多工具點幾下就能搭好。</p>
-<p>我在自己早期的 Copilot 設定裡就是這樣搭的。<strong>協調者</strong>讀需求、寫計劃，<strong>實作者</strong>改程式碼，<strong>reviewer</strong> 做檢查。然後我拿它和一個 agent 單獨做事來比。</p>
+<p>最自然的想法，是給 AI 安排職位：計劃的、開發的、檢查的，各由一個 agent 擔任。人的團隊就是這樣分工的，很多工具點幾下就能搭好。</p>
+<p>我在自己早期的 Copilot 設定裡就是這樣搭的。<strong>協調者</strong>讀需求、寫計劃，<strong>實作者</strong>改程式碼，<strong>reviewer</strong> 做檢查。然後，我拿它和一個 agent 單獨做事來比。</p>
 <h3>我怎麼測的</h3>
-<ul>
-<li><strong>倉庫</strong>：一個虛構的資料工程專案，5 個領域、93 個檔案。用虛構的，是為了事先就知道任務和正確答案。</li>
-<li><strong>四個任務，從小到中等</strong>：加一條 pipeline；跨幾個領域加一個欄位；改一條 pipeline 的名字並刪掉舊檔案；修一個公式，而需求同時要求改一個不准動的檔案。</li>
-<li><strong>兩種做法</strong>：每個任務由三角色團隊做一次，團隊還有一份知識庫可讀（為 agent 寫的倉庫說明）；再由一個用頂級模型的 agent 做一次，沒有額外設定，規則寫在需求裡。</li>
-<li><strong>打分</strong>：同一個腳本讀檔案來檢查每個結果，沒有人憑眼睛判斷。</li>
-<li><strong>數什麼</strong>：第一次就通過了沒有、用了多少用量（AI credits，也就是平台向你收的錢）、花了多久。</li>
-</ul>
+<p>倉庫是虛構的，一個有 5 個領域、93 個檔案的資料工程專案。用虛構的倉庫，是為了事先就知道任務和正確答案。任務一共四個，從小到中等：一個是加一條 pipeline，一個是跨幾個領域加一個欄位，一個是改一條 pipeline 的名字並刪掉舊檔案。最後一個是修一個公式，可是需求同時要求改一個不准動的檔案。</p>
+<p>每個任務都用兩種做法各做一次。一次交給三角色團隊，團隊還有一份知識庫可讀（為 agent 寫的倉庫說明）；另一次交給一個用頂級模型的 agent，沒有額外設定，規則直接寫在需求裡。每個結果都由同一個腳本讀檔案來檢查，沒有人憑眼睛判斷。每次執行我記下三件事：第一次就通過了沒有、用了多少用量（AI credits，也就是平台向你收的錢）、花了多久。</p>
 <figure class="fig" id="fig-agents-vs-roles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
   <text class="label-muted" x="20" y="22" data-t="usage-title">用量（AI credits，4 個任務）</text>
   <text class="label" x="20" y="54" data-t="one">一個 agent</text>
@@ -386,10 +363,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="182" y="307" data-t="pass">4 個全部通過</text>
 </svg>
 <figcaption>同樣四個任務，結果一樣。拆成計劃、實作、檢查三個角色，用量約 4.5 倍，時間約 6 倍。每個任務只跑了一次。</figcaption></figure>
-<p>兩種做法四個都答對了。所以團隊在正確性上什麼也沒多買到，卻付了約 4.5 倍的用量、約 6 倍的時間。</p>
-<p>引用這兩個數字之前要知道：只有四個任務，每個只跑一次，而且兩邊的設定不一樣。可以相信方向（同樣的結果，團隊貴了好幾倍），不要相信確切的倍數。<a href="#costs-and-traps">代價和陷阱</a>有更多說明。</p>
+<p>兩種做法四個任務都答對了。所以團隊在正確性上什麼也沒多換到，卻付了約 4.5 倍的用量、約 6 倍的時間。這個結果，方向可以信（同樣的結果，團隊貴了好幾倍），確切的倍數別當真，原因在<a href="#costs-and-traps">我有多確定，拆分還有哪些代價</a>裡。</p>
 <h3>多出來的錢花在哪</h3>
-<p>我讀了每一次執行的紀錄。最大的浪費在交接。協調者很認真地研究了任務：讀了需求和檔案，搞懂了要改什麼。然後它寫了一份簡短的計劃交出去。實作者從空的上下文開始，讀了計劃，只好把同樣的檔案再研究一遍。同一份理解付了兩次錢。</p>
+<p>我讀了每一次執行的紀錄，發現最大的浪費在交接。協調者很認真地研究了任務，讀了需求和檔案，搞懂了要改什麼，然後寫了一份簡短的計劃交出去。實作者卻是從空的上下文開始的，讀了計劃，只好把同樣的檔案再研究一遍。同一份理解，付了兩次錢。</p>
 <figure class="fig steps" id="fig-handoff-relearn" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
   <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
   <text class="label" x="300" y="46" text-anchor="middle" data-t="files">需求 + 檔案</text>
@@ -431,31 +407,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">協調者讀了需求和檔案，看懂了這個任務。</li><li data-step-text="2">為了交接，它把理解壓成一份簡短的計劃。</li><li data-step-text="3">實作者從空的上下文開始，手上只有這份計劃。</li><li data-step-text="4">要動手改程式碼，實作者只好把同樣的檔案再讀一遍。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>交接傳過去的是摘要，不是理解。下一個 agent 要重新學一遍這個任務，你也要再付一次錢。</figcaption></figure>
 <h3>為什麼職位對 AI 沒用</h3>
-<ol>
-<li><strong>人分工是因為人的限制</strong>。沒有人學得會所有專業，一天只有 8 小時，一個人也不能同時在兩個地方。模型沒有這些限制。它真正的限制是上下文的大小，下一節的四種情況都和這有關。</li>
-<li><strong>職位不帶知識，合適的配置才有用</strong>。「你是設計師」只改變語氣，不改變 agent 知道什麼。真正有用的是兩樣：寫在檔案裡、任何 agent 都能讀的領域知識，以及一組適合這份工作的工具。前者不需要第二個 agent，後者可以是多開一個的理由（下面第 4 種情況）。</li>
-<li><strong>交接會丟掉理解</strong>。就是上面那張圖。理解要壓成摘要才能交出去，而下一個 agent 要動手，光有摘要不夠。</li>
-<li><strong>固定規則能決定的，別交給模型</strong>。「誰做下一步」「做完了沒」常常有固定的答案。一個小程式每次都答對，模型大多數時候答對。</li>
-<li><strong>返工從零開始</strong>。在我的設定裡，每一輪檢查都開一個新的 reviewer，從頭再讀一遍。</li>
-</ol>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>我曾经给 AI 安排了三个岗位。同样四个任务，用量约是原来的 4.5 倍，时间约是 6 倍，做对的一个也没多。现在我的做法是：一个 agent 干活，另一个只负责检查。</p>
-<p>先交代这一章反复会用到的三个词。</p>
-<ul>
-<li><strong>agent</strong>：在一个循环里干活的 AI 模型。它读文件、跑命令、改代码，自己决定下一步做什么。</li>
-<li><strong>上下文</strong>：它在一次对话里看过的所有东西：你的需求、它读过的文件、它试过的办法。这是 agent 的工作记忆，容量有上限。</li>
-<li><strong>子 agent</strong>：第一个 agent 为了某一部分工作而开的第二个 agent。它从空白的上下文开始。</li>
-</ul>
+<p>這張圖說的不只是這一次，任何交接都是這樣：理解要壓成摘要才能交出去，可是下一個 agent 要動手，光有摘要不夠。</p>
+<p>那人的團隊為什麼還要分工？因為人有限制。沒有人學得會所有專業，一天只有 8 小時，一個人也不能同時在兩個地方。模型沒有這些限制，它真正的限制是上下文的大小，下一節的四種情況講的都是這一點。</p>
+<p>職位本身也不帶知識。「你是設計師」只改變語氣，不改變 agent 知道什麼。真正有用的是為這份工作配好的東西，換句話說就是兩樣：寫在檔案裡、任何 agent 都能讀的領域知識，以及一組適合這份工作的工具。前者根本不需要第二個 agent，後者倒可以是多開一個的理由（下面第 4 種情況）。</p>
+<p>團隊還把一些本來不必由模型做的決定交給了模型。「誰做下一步」「做完了沒」這類問題，常常有固定的答案，一個小程式每次都答對，模型卻只是大多數時候答對。所以固定規則能決定的事，就別交給模型。一旦要返工，也得從零開始：在我的設定裡，每一輪檢查都開一個新的 reviewer，從頭再讀一遍。</p>
+<p>這些都不是說第二個 agent 永遠沒用，而是說它得證明自己值得開。那麼，什麼時候才值得？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>按岗位分工的 agent 团队，换来了什么？</h2><p>我曾经给一个 AI 安排了三个岗位。同样四个任务，这个三 agent 团队的用量约是一个 agent 单干的 4.5 倍，时间约是 6 倍，做对的却一个也没多。现在我的做法是，一个 agent 干活，另一个只负责检查。</p>
+<p>整个故事的关键，在于每个 agent 看得到什么。<strong>agent</strong> 是在一个循环里干活的 AI 模型：它读文件、跑命令、改代码，自己决定下一步做什么。它在一次对话里看过的所有东西，从你的需求到它读过的文件、它试过的办法，合起来就是它的<strong>上下文</strong>，相当于 agent 的工作记忆，容量是有上限的。<strong>子 agent</strong> 则是第一个 agent 为了某一部分工作而开的第二个 agent，它和第一个 agent 并不共用这份记忆，而是从空白的上下文开始。</p>
 <h3>看起来很对的做法</h3>
-<p>给 AI 分岗位：做计划的、写代码的、做检查的，各一个 agent。人的团队就是这么分工的，很多工具点几下就能搭起来。</p>
-<p>我早期的 Copilot 配置就是这么搭的。<strong>协调者</strong>读需求、写计划，<strong>开发者</strong>改代码，<strong>reviewer</strong> 做检查。然后我拿它和一个 agent 单干做了对比。</p>
+<p>最自然的想法，是给 AI 分岗位：做计划的、写代码的、做检查的，各由一个 agent 担任。人的团队就是这么分工的，很多工具点几下就能搭起来。</p>
+<p>我早期的 Copilot 配置就是这么搭的。<strong>协调者</strong>读需求、写计划，<strong>开发者</strong>改代码，<strong>reviewer</strong> 做检查。然后，我拿它和一个 agent 单干做了对比。</p>
 <h3>我是怎么测的</h3>
-<ul>
-<li><strong>仓库</strong>：一个虚构的数据工程项目，5 个领域，93 个文件。用虚构的，是为了事先就知道有哪些任务、正确答案是什么。</li>
-<li><strong>四个任务，从小到中等</strong>：加一条 pipeline；跨几个领域加一个字段；给一条 pipeline 改名并删掉旧文件；修一个公式，而需求同时要求改一个不许动的文件。</li>
-<li><strong>两种做法</strong>：每个任务让三角色团队做一次，团队还有一份知识库可以读（写给 agent 看的仓库说明）；再让一个用顶级模型的 agent 做一次，不加额外配置，规则写在需求里。</li>
-<li><strong>怎么打分</strong>：同一个脚本读文件，检查每个结果，不靠人眼判断。</li>
-<li><strong>统计什么</strong>：是不是一次就通过、用了多少用量（AI credits，也就是平台向你收的钱）、花了多长时间。</li>
-</ul>
+<p>仓库是虚构的，一个有 5 个领域、93 个文件的数据工程项目。用虚构的仓库，是为了事先就知道有哪些任务、正确答案是什么。任务一共四个，从小到中等：一个是加一条 pipeline，一个是跨几个领域加一个字段，一个是给一条 pipeline 改名并删掉旧文件。最后一个是修一个公式，可需求里同时要求改一个不许动的文件。</p>
+<p>每个任务都用两种做法各做一次。一次交给三角色团队，团队还有一份知识库可以读（写给 agent 看的仓库说明）；另一次交给一个用顶级模型的 agent，不加额外配置，规则直接写在需求里。每个结果都由同一个脚本读文件来检查，不靠人眼判断。每次运行我记下三件事：是不是一次就通过，用了多少用量（AI credits，也就是平台向你收的钱），花了多长时间。</p>
 <figure class="fig" id="fig-agents-vs-roles"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
   <text class="label-muted" x="20" y="22" data-t="usage-title">用量（AI credits，4 个任务）</text>
   <text class="label" x="20" y="54" data-t="one">一个 agent</text>
@@ -482,10 +446,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="182" y="307" data-t="pass">4 个全部通过</text>
 </svg>
 <figcaption>同样四个任务，结果一样。拆成计划、开发、检查三个角色后，用量约 4.5 倍，时间约 6 倍。每个任务只跑了一次。</figcaption></figure>
-<p>两种做法四个任务全做对了。也就是说，团队在正确性上什么也没多换来，却多付了约 4.5 倍的用量、约 6 倍的时间。</p>
-<p>引用这两个数字之前要知道：只有四个任务，每个只跑一次，而且两边的配置不一样。方向可以信（结果一样，团队贵好几倍），具体倍数别当真。<a href="#costs-and-traps">代价和坑</a>里有更多说明。</p>
+<p>两种做法四个任务全做对了。也就是说，团队在正确性上什么也没多换来，却多付了约 4.5 倍的用量、约 6 倍的时间。这个结果，方向可以信（结果一样，团队贵好几倍），具体倍数别当真，原因在<a href="#costs-and-traps">我有多大把握，拆分还有哪些代价</a>里。</p>
 <h3>多花的钱去哪了</h3>
-<p>我把每次运行的记录都看了一遍。最大的浪费在交接上。协调者把任务研究得很透：读了需求和文件，弄清楚了要改什么。然后它写了一份简短的计划交出去。开发者从空白的上下文开始，读完计划，只好把同样的文件再研究一遍。同一份理解，付了两次钱。</p>
+<p>我把每次运行的记录都看了一遍，发现最大的浪费在交接上。协调者把任务研究得很透，读了需求和文件，弄清楚了要改什么，然后写了一份简短的计划交出去。开发者却是从空白的上下文开始的，读完计划，只好把同样的文件再研究一遍。同一份理解，付了两次钱。</p>
 <figure class="fig steps" id="fig-handoff-relearn" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 290">
   <rect class="box" x="200" y="16" width="200" height="48" rx="8"/>
   <text class="label" x="300" y="46" text-anchor="middle" data-t="files">需求 + 文件</text>
@@ -527,26 +490,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">协调者读了需求和文件，弄懂了这个任务。</li><li data-step-text="2">为了交接，它把理解压缩成一份简短的计划。</li><li data-step-text="3">开发者从空白的上下文开始，手里只有这份计划。</li><li data-step-text="4">要动手改代码，开发者只好把同样的文件再读一遍。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>交接传过去的是摘要，不是理解。下一个 agent 得把任务重新学一遍，你也得再付一次钱。</figcaption></figure>
 <h3>岗位为什么对 AI 没用</h3>
-<ol>
-<li><strong>人要分工，是因为人有局限</strong>。没人能精通所有专业，一天只有 8 小时，一个人也不能同时在两个地方。模型没有这些局限。它真正的局限是上下文的容量，下一节的四种情况都和这一点有关。</li>
-<li><strong>岗位本身不带知识，合适的配置才有用</strong>。“你是设计师”只会改变语气，不会改变 agent 知道什么。真正管用的是两样：写在文件里、任何 agent 都能读的领域知识，以及一套适合这份工作的工具。前者不需要第二个 agent，后者可以是多开一个的理由（见下面第 4 种情况）。</li>
-<li><strong>交接会丢掉理解</strong>。就是上面那张图。理解要压缩成摘要才能交出去，而下一个 agent 要动手，光有摘要是不够的。</li>
-<li><strong>固定规则能决定的事，别交给模型</strong>。“下一步谁来做”“做完没有”往往有固定答案。一个小程序每次都能答对，模型只是大多数时候答对。</li>
-<li><strong>返工要从头来</strong>。在我的配置里，每一轮检查都会开一个新的 reviewer，从头再读一遍。</li>
-</ol>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What a subagent can and cannot do</h3>
-<p>Think of a subagent as a contractor you send a written brief to:</p>
-<ul>
-<li><strong>It sees only the brief.</strong> It cannot read your conversation or your notes.</li>
-<li><strong>It cannot call you back.</strong> If the brief is missing something, it guesses or stops.</li>
-<li><strong>It sends back a report, not its understanding.</strong> Everything it read stays with it.</li>
-</ul>
+<p>这张图说的不只是这一次，任何交接都是这样：理解要压缩成摘要才能交出去，可下一个 agent 要动手，光有摘要是不够的。</p>
+<p>那人的团队为什么还要分工？因为人有局限。没人能精通所有专业，一天只有 8 小时，一个人也不能同时出现在两个地方。模型没有这些局限，它真正的局限是上下文的容量，下一节的四种情况说的都是这一点。</p>
+<p>岗位本身也不带知识。“你是设计师”只会改变语气，不会改变 agent 知道什么。真正管用的是为这份工作配好的东西，说白了就是两样：写在文件里、任何 agent 都能读的领域知识，以及一套适合这份工作的工具。前者根本不需要第二个 agent，后者倒可以是多开一个的理由（见下面第 4 种情况）。</p>
+<p>团队还把一些本不必由模型做的决定交给了模型。“下一步谁来做”“做完没有”这类问题，往往有固定答案，一个小程序每次都能答对，模型却只是大多数时候答对。所以固定规则能决定的事，就别交给模型。一旦要返工，也得从头来：在我的配置里，每一轮检查都会开一个新的 reviewer，从头再读一遍。</p>
+<p>这些都不是说第二个 agent 永远没用，而是说它得证明自己值得开。那么，什么时候才值得？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>When is a second agent worth it?</h2><h3>What a subagent can and cannot do</h3>
+<p>Before asking what a second agent can buy, it helps to see how little it starts with. Think of a subagent as a contractor you send a written brief to. It sees only the brief, not your conversation or your notes. It cannot call you back either, so if the brief is missing something, it guesses or stops. And what it sends back is a report, not its understanding, because everything it read stays with it.</p>
 <p>So before you split off any work, ask one question: <strong>will a short report be enough for the main agent to go on?</strong></p>
-<p>If yes, a split can work. If the main agent needs everything the helper understood, do not split. A designer handing work to a developer fails this test: the developer needs everything the designer understood, not a summary of it.</p>
-<p>Passing the test is not enough. The split also has to buy something one agent cannot get alone. There are four such things.</p>
+<p>If yes, a split can work. If the main agent needs everything the helper understood, do not split. A designer handing work to a developer fails this test, because the developer needs everything the designer understood, not a summary of it.</p>
+<p>Passing the test is not enough, though. The split also has to buy something one agent cannot get alone, and there are four such things.</p>
 <h3>1. An independent check</h3>
-<p>When you proofread your own essay, you read what you meant, not what you wrote. An agent checking its own work has the same problem: its context is full of its own reasoning, and that reasoning leads it past its own mistakes.</p>
-<p>A checker who has never seen that reasoning reads only the request and the result. If the result does not match, it sees it. That checker is a <strong>reviewer</strong>. It has to be a separate agent, because it needs a separate context.</p>
+<p>When you proofread your own essay, you read what you meant, not what you wrote. An agent checking its own work has the same problem. Its context is full of its own reasoning, which leads it past its own mistakes.</p>
+<p>A checker who has never seen that reasoning reads only the request and the result, so if the result does not match, it sees it. That checker is a <strong>reviewer</strong>, the one of my three roles that I kept (why, I come back to later). It has to be a separate agent because it needs a separate context.</p>
 <figure class="fig steps" id="fig-independent-check" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <text class="label" x="150" y="28" text-anchor="middle" data-t="author">the author</text>
   <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
@@ -572,19 +528,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">The author&#x27;s context holds the request, its own reasoning and the work.</li><li data-step-text="2">When it checks itself, its reasoning leads it past its own mistakes.</li><li data-step-text="3">The reviewer sees only the request and the work. If they do not match, it notices.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>An independent check needs a context without the author&#x27;s reasoning. That is why it has to be a separate agent.</figcaption></figure>
-<p>A separate context is needed, but it is not enough. The reviewer is often the same model, with the same blind spots, and it can be wrong: fail good work, or pass bad work. So an independent check lowers the risk; it does not remove it.</p>
-<p><strong>How to build a good one:</strong></p>
+<p>A separate context is needed, but it is not enough. The reviewer is often the same model, with the same blind spots, and it can be wrong either way, failing good work or passing bad work. So an independent check lowers the risk without removing it.</p>
+<p>A good reviewer comes down to a few design choices:</p>
 <ul>
 <li><strong>Give it a package, not the conversation:</strong> the request, the changed files, and the diff (exactly which lines changed). Leave the author's notes out on purpose.</li>
-<li><strong>Take away its tools to change files.</strong> It cannot &quot;just fix it&quot;, even when it wants to.</li>
+<li><strong>Take away its tools to change files</strong>, so it cannot &quot;just fix it&quot;, even when it wants to.</li>
 <li><strong>Let it point out, not fix.</strong> If it wrote the fix, the next check would be checking its own solution.</li>
-<li><strong>Every finding names a file and a line.</strong> What it cannot point to is not a finding. This keeps out vague worries.</li>
+<li><strong>Every finding names a file and a line.</strong> What it cannot point to is not a finding, which keeps out vague worries.</li>
 <li><strong>Fix the first line: PASS or FAIL.</strong> Then a small program can read the verdict, without asking another AI what the reviewer meant.</li>
-<li><strong>Limit the rounds.</strong> A few checks per task; after that, a person decides. From the second round on, report only what affects correctness, or the checks never end over wording.</li>
+<li><strong>Limit the rounds.</strong> After a few checks per task, a person decides. From the second round on, report only what affects correctness, or the checks never end over wording.</li>
 </ul>
 <h3>2. Parallel reading</h3>
-<p>Some questions need a lot of reading. &quot;What does each of these five areas own, and what are its rules?&quot; One agent would read the five areas one after another. That is slow, and by the end its context is full of raw material it no longer needs.</p>
-<p>Instead, the work can be split the way big data jobs are split: <strong>map</strong> each part to a helper that reads it and writes a short summary, then <strong>reduce</strong> the summaries into one answer. The method is called <strong>map-reduce</strong>, and each helper is a <strong>mapper</strong>. The parts are read at the same time, and the main agent only ever sees the summaries.</p>
+<p>Some questions need a lot of reading, such as &quot;What does each of these five areas own, and what are its rules?&quot; One agent would read the five areas one after another, which is slow, and by the end its context is full of raw material it no longer needs.</p>
+<p>Instead, the work can be split the way big data jobs are split. You <strong>map</strong> each part to a helper that reads it and writes a short summary, then <strong>reduce</strong> the summaries into one answer. The method is called <strong>map-reduce</strong>, and each helper is a <strong>mapper</strong>. Reading the parts at the same time answers the slowness, and since the main agent only ever sees the summaries, the raw material never reaches its context.</p>
 <figure class="fig steps" id="fig-parallel-read" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
   <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">the main agent</text>
@@ -635,27 +591,27 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">Map: the main agent splits the reading into parts and starts one mapper per part.</li><li data-step-text="2">Each mapper reads only its part. They all read at the same time.</li><li data-step-text="3">Each hands back a short summary. The raw material stays with the mapper.</li><li data-step-text="4">Reduce: the main agent reads only the summaries and combines them into one answer.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Map-reduce: split the reading, read in parallel, combine the summaries. The main agent&#x27;s context holds only the summaries.</figcaption></figure>
-<p><strong>This is where several agents clearly win.</strong> Anthropic built a research system on this pattern: a lead agent plans, and subagents search different directions at the same time. On their internal research tests it beat a single agent (Claude Opus 4) by 90.2%, and it shines on broad questions that split into independent directions. The price: such systems use about 15 times the tokens of a chat. They also note that most coding tasks have fewer truly parallel parts than research. (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>)</p>
-<p>So the test is two questions: does the job split into parts that do not need each other, and is the answer worth several times the cost?</p>
-<p>This only works for reading. If several helpers changed the same files at the same time, someone would have to merge their changes, and conflicts hide in a merge.</p>
-<p><strong>How to build it:</strong></p>
+<p><strong>This is where several agents clearly win.</strong> Anthropic built a research system on this pattern, in which a lead agent plans and subagents search different directions at the same time. On their internal research tests it beat a single agent (Claude Opus 4) by 90.2%, and it shines on broad questions that split into independent directions. The price is that such systems use about 15 times the tokens of a chat. Anthropic also notes that most coding tasks have fewer truly parallel parts than research. (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>)</p>
+<p>So the test comes down to two questions: does the job split into parts that do not need each other, and is the answer worth several times the cost?</p>
+<p>Even then, this only works for reading. If several helpers changed the same files at the same time, someone would have to merge their changes, and conflicts hide in a merge.</p>
+<p>Parallel reading, too, needs a few design choices to work well:</p>
 <ul>
-<li><strong>The person switches it on, not the agent.</strong> It costs several times as much, and that is your decision. A small program counts the helpers (for example, four within an hour), so the agent cannot start more. Only a command the person types counts; the agent cannot type it for itself.</li>
+<li><strong>The person switches it on, not the agent.</strong> It costs several times as much, and that is your decision. A small program counts the helpers (for example, four within an hour), so the agent cannot start more. Only a command the person types counts, and the agent cannot type it for itself.</li>
 <li><strong>Each mapper can read and search, nothing else.</strong></li>
 <li><strong>Every brief has three parts:</strong> the question, the scope (which files or folders to read, and only those), and what to hand in. Anthropic saw what vague briefs do: helpers duplicate work, leave gaps, or misread the task. Early versions even started 50 subagents for a simple question.</li>
 <li><strong>Every summary has a fixed shape:</strong> conclusions, each with the file and line it comes from; what it could not find; what it is not sure of.</li>
 </ul>
 <h3>3. Work that runs unattended</h3>
-<p>Normally an agent stops after each step and waits for you. Sometimes you want to hand over a whole to-do list and come back when it is done.</p>
-<p><strong>The simplest version</strong> needs a <strong>hook</strong>: a small program that the tool runs at fixed moments. Copilot and Claude Code both have them. Here the moment is &quot;the agent has stopped&quot;. The hook looks at the to-do list. If a step is still open, it tells the agent to go on. Only the person can switch this on, for one task at a time.</p>
-<p>It also needs to know when to stop pushing. Each stop rule catches a different way it can go wrong:</p>
+<p>Normally an agent stops after each step and waits for you. Sometimes, though, you want to hand over a whole to-do list and come back when it is done.</p>
+<p>The simplest way to do that needs a <strong>hook</strong>, a small program that the tool runs at fixed moments (Copilot and Claude Code both have them). Here the moment is &quot;the agent has stopped&quot;. The hook looks at the to-do list and, if a step is still open, tells the agent to go on. Only the person can switch this on, and only for one task at a time.</p>
+<p>A hook that keeps pushing also needs to know when to stop. Each stop rule catches a different way the run can go wrong:</p>
 <ul>
 <li><strong>A cap on steps and on time</strong> (for example, 20 steps or 2 hours): a runaway run cannot spend all night.</li>
 <li><strong>Stop after a few refusals</strong> (for example, two): when the agent keeps trying things it is not allowed to do, something is wrong, and a person should look.</li>
 <li><strong>Stop when nothing moves</strong> (for example, three pushes in a row with no step done): the agent is stuck in a loop.</li>
 </ul>
-<p>In this simplest version, one agent does every step. That is fine for a short list. On a long one, its context fills up with everything from the earlier steps: files it read for step 2, commands it ran for step 5, a test that failed and was fixed. By step 15 it is carrying fourteen steps of leftovers, and an overfull context forgets and mixes things up.</p>
-<p><strong>The better version</strong> works like a site manager on a building site. The manager does not lay bricks. They keep the plan and the checklist, give each job to a worker on a written job card, and tick the job off when the worker reports back. The manager's head stays clear, because the details of each job stay with the worker who did it.</p>
+<p>In this simplest version one agent does every step, which is fine for a short list. On a long one, its context fills up with everything from the earlier steps: files it read for step 2, commands it ran for step 5, a test that failed and was fixed. By step 15 it is carrying fourteen steps of leftovers, and a context that full forgets and mixes things up.</p>
+<p>A better version works like a site manager on a building site. The manager does not lay bricks. Instead they keep the plan and the checklist, give each job to a worker on a written job card, and tick the job off when the worker reports back. The manager's head stays clear because the details of each job stay with the worker who did it.</p>
 <figure class="fig steps" id="fig-autorun-manager" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">the main agent</text>
@@ -709,23 +665,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <ol class="step-text"><li data-step-text="1">You hand over the whole to-do list. The main agent takes your place as the one in charge.</li><li data-step-text="2">For step 1 it writes a brief and starts a fresh worker. The worker does the step and its tests.</li><li data-step-text="3">The worker reports back in a few lines. The main agent ticks the step off in the task files.</li><li data-step-text="4">Every step gets a new worker with an empty context. The main agent holds only the plan, the checklist and the reports.</li><li data-step-text="5">When all steps are done, the reviewer checks the whole result.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A manager and many workers: the main agent keeps the plan and the checklist; each step goes to a fresh worker with a written brief.</figcaption></figure>
 <ol>
 <li><strong>You hand over the whole to-do list.</strong> The main agent takes your place as the one in charge.</li>
-<li><strong>For each step, the main agent writes a brief</strong> (what to do, which files, what &quot;done&quot; looks like, how to test it) and starts a fresh subagent: a worker.</li>
+<li><strong>For each step, the main agent writes a brief</strong> (what to do, which files, what &quot;done&quot; looks like, how to test it) and starts a fresh subagent, a worker.</li>
 <li><strong>The worker does the step and its tests</strong>, writes down what it did, and reports back in a few lines: done or not, tests passed or not, which files changed.</li>
 <li><strong>The main agent ticks the step off</strong> and starts a new worker for the next step. Its own context only ever holds the plan, the checklist and the short reports.</li>
 <li><strong>When every step is done, the reviewer checks the whole result.</strong> If it fails, the main agent starts a worker to fix what the reviewer found.</li>
 </ol>
-<p>Why does this split work, when the three-role team did not? The team split one piece of work by phase: one agent understood it, and another had to act on that understanding. Here the split is by piece. Each worker gets a whole small job, both the doing and the testing, and the main agent needs only &quot;done, tests pass&quot; to go on. That passes the summary test.</p>
-<p>The price:</p>
-<ul>
-<li><strong>Every brief must be complete.</strong> The worker cannot ask back, so whatever it needs has to be written down.</li>
-<li><strong>Every worker starts from zero.</strong> It reads its files again, so many small steps cost more than one agent doing them in a row.</li>
-<li><strong>A report is not proof.</strong> A worker that says &quot;tests pass&quot; may be wrong, and the main agent, seeing only reports, cannot tell. That is why the independent check at the end matters, and why the main agent should open the files of a step now and then.</li>
-<li><strong>Steps that depend on each other's details do not fit.</strong> If step 4 needs to know exactly how step 3 was done, either write that down for the next worker or keep both steps with one agent.</li>
-</ul>
+<p>Why does this split work, when the three-role team did not? The team split one piece of work by phase, so one agent understood it and another had to act on that understanding. Here the split is by piece. Each worker gets a whole small job, both the doing and the testing, so the main agent needs only &quot;done, tests pass&quot; to go on, which passes the summary test.</p>
+<p>This split still has a price, and two things cause most of it. The first is that every worker starts from zero, with only its brief. It cannot ask back, so the brief must be complete, with whatever it needs written down. It also has to read its files again, so many small steps cost more than one agent doing them in a row. The second is that the main agent sees only reports, and a report is not proof. A worker that says &quot;tests pass&quot; may be wrong, and the main agent cannot tell. That is why the independent check at the end matters, and why the main agent should open the files of a step now and then.</p>
+<p>Steps that depend on each other's details do not fit this split at all. If step 4 needs to know exactly how step 3 was done, either write that down for the next worker or keep both steps with one agent.</p>
 <p>So it pays for a long list of steps that each stand on their own. For a short list, one agent is still cheaper. And if you are there to watch, splitting a long task into several smaller tasks gets most of the same benefit.</p>
 <h3>4. A hard limit on tools</h3>
-<p>Each agent has a list of tools it may use: read files, search, run commands, change files. In Copilot it is the <code>tools</code> list in an agent file; Claude Code's subagents have one too. The platform enforces that list. An agent without the &quot;change files&quot; tool cannot change a file, however it is asked.</p>
-<p>The main agent usually has every tool. If a job must not change anything, telling the main agent &quot;please do not change files&quot; is only a request. Giving the job to a subagent that has no such tool makes it a rule.</p>
+<p>Each agent has a list of tools it may use, such as reading files, searching, running commands and changing files. In Copilot it is the <code>tools</code> list in an agent file (Claude Code's subagents have one too). Unlike an instruction, that list is enforced by the platform, so an agent without the &quot;change files&quot; tool cannot change a file, however it is asked.</p>
+<p>The main agent usually has every tool. So if a job must not change anything, telling the main agent &quot;please do not change files&quot; is only a request, while giving the job to a subagent that has no such tool makes it a rule.</p>
 <figure class="fig" id="fig-tool-limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
   <text class="label-lit" x="20" y="45" data-t="main">the main agent</text>
   <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
@@ -762,11 +713,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>Which tools each agent has. A missing tool is a rule the platform enforces; a prompt that says &quot;do not change files&quot; is only a request.</figcaption></figure>
 <h3>Make it a rule, not a request</h3>
-<p>How do you make sure no other subagent runs? Writing &quot;do not start other subagents&quot; in the instructions is only a request: the model follows it most of the time.</p>
+<p>How do you make sure no other subagent runs? Here, too, it comes back to the difference between a request and a rule. Writing &quot;do not start other subagents&quot; in the instructions is only a request, which the model follows most of the time.</p>
 <p>A hook makes it a rule. One that runs just before any subagent starts can read the subagent's name and say yes or no. It runs every time, and the model cannot talk it out of its answer. A good refusal also says what to do instead, so the agent does not try the same thing again.</p>
 <h3>Hand over through files</h3>
-<p>Agents should not send each other messages. Give each piece of work its own <strong>task folder</strong>, holding the request, the plan, the to-do list and the results of every check. Agents hand over by writing files there.</p>
-<p>This buys three things at once. You can open the same files and see what happened. If you stop for a day, the next session picks the work up from the files. And afterwards, the folder is a record of who did what and what the checks said.</p>
+<p>Once more than one agent is involved, the work has to pass between them, but they should not send each other messages to do it. Instead, give each piece of work its own <strong>task folder</strong>, holding the request, the plan, the to-do list and the results of every check. The agents then hand over by writing files there.</p>
+<p>Why files rather than messages? Because of what files give you. You can open the same files and see what happened. If you stop for a day, the next session picks the work up from the files. And afterwards, the folder is a record of who did what and what the checks said.</p>
 <figure class="fig" id="fig-subagent-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
   <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
   <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">the main agent</text>
@@ -804,34 +755,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>Only two subagents, and the user switches each on. They hand over through files in the task folder; every other subagent is refused.</figcaption></figure>
 <h3>Test your own setup</h3>
-<p><strong>Three questions</strong> for any extra agent, in your own setup or in a proposal you are asked to approve:</p>
+<p>You can turn all of this into three questions for any extra agent, whether it is in your own setup or in a proposal you are asked to approve:</p>
 <ol>
 <li>Which of the four does it buy?</li>
 <li>Will a short report be enough for the main agent to go on?</li>
 <li>Did you try the same task without it?</li>
 </ol>
-<p><strong>A test you can run today, with no extra setup.</strong> Take a task you know the right answer to. Do it twice in your own tool. Once, ask the agent to check its own work. Once, open a new chat, give it only the request and the result, and ask it to check. Compare what each one found.</p>
-<p><strong>To compare two setups fairly:</strong></p>
+<p>You can also run a test today, with no extra setup. Take a task you know the right answer to and do it twice in your own tool. The first time, ask the agent to check its own work. The second time, open a new chat, give it only the request and the result, and ask it to check. Then compare what each one found.</p>
+<p>If you want to compare two setups fairly, a few habits matter:</p>
 <ul>
-<li>Run each one several times, not once. An agent does not do the same thing twice.</li>
+<li>Run each one several times, not once, because an agent does not do the same thing twice.</li>
 <li>Score both the same way, ideally with a script.</li>
 <li>Write down three numbers: was it right, how much usage, how long.</li>
 <li>Do not decide from a single run.</li>
 </ul>
-<p><strong>To repeat my test.</strong> The made-up repository, the four tasks and the scoring script are in <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>. They work with any agent tool.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>子 agent 能做什麼、不能做什麼</h3>
-<p>把子 agent 想成一個你寄了書面說明過去的外包：</p>
-<ul>
-<li><strong>它只看得到說明</strong>。它讀不到你們的對話，也讀不到你的筆記。</li>
-<li><strong>它不能回頭問你</strong>。說明裡少了什麼，它只能猜，或者停下來。</li>
-<li><strong>它交回的是報告，不是理解</strong>。它讀過的東西都留在它那裡。</li>
-</ul>
+<p>To repeat my test, the made-up repository, the four tasks and the scoring script are in <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>. They work with any agent tool.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候值得多開一個 agent？</h2><h3>子 agent 能做什麼、不能做什麼</h3>
+<p>先別急著問第二個 agent 能換來什麼，得先看清它一開始手上有多少東西，其實少得很。不妨把子 agent 想成一個外包，你只寄了一份書面說明給他。它只看得到這份說明，看不到你們的對話，也看不到你的筆記。它也不能回頭問你，說明裡少了什麼，它只能猜，或者停下來。等它做完，交回來的是一份報告，而不是它的理解，因為它讀過的東西都留在它那裡。</p>
 <p>所以在拆出任何工作之前，先問一個問題：<strong>一份簡短的報告，夠不夠主 agent 接著做</strong>？</p>
-<p>夠，就可以拆。主 agent 要接著做，卻需要幫手的全部理解，就不要拆。設計師把工作交給開發者就過不了這一關：開發者需要的是設計師的全部理解，不是一份摘要。</p>
-<p>過了這一關還不夠。拆分還得買到一個 agent 自己得不到的東西。這樣的東西有四種。</p>
+<p>夠，就可以拆。主 agent 要接著做，卻需要幫手的全部理解，就不要拆。設計師把工作交給開發者就過不了這一關，因為開發者需要的是設計師的全部理解，不是一份摘要。</p>
+<p>不過，過了這一關還不夠。拆分還得換來一個 agent 自己得不到的東西，而這樣的東西有四種。</p>
 <h3>1. 獨立檢查</h3>
-<p>校對自己的文章時，你讀到的是你想寫的，不是你寫出來的。agent 檢查自己的工作也一樣：它的上下文裡全是它自己的思路，這些思路會帶著它繞過自己的錯。</p>
-<p>一個從沒看過那些思路的檢查者，只讀需求和結果。結果對不上，它就看得出來。這個檢查者就是 <strong>reviewer</strong>。它必須是另一個 agent，因為它需要另一個上下文。</p>
+<p>校對自己的文章時，你讀到的是你想寫的，不是你寫出來的。agent 檢查自己的工作也一樣，它的上下文裡全是它自己的思路，這些思路會帶著它繞過自己的錯。</p>
+<p>一個從沒看過那些思路的檢查者，只讀需求和結果，結果對不上，它就看得出來。這個檢查者就是 <strong>reviewer</strong>。三個職位裡，最後只有它留了下來，原因後面會講。它必須是另一個 agent，因為它需要另一個上下文。</p>
 <figure class="fig steps" id="fig-independent-check" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <text class="label" x="150" y="28" text-anchor="middle" data-t="author">作者</text>
   <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
@@ -857,19 +803,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">作者的上下文裡有需求、它自己的思路和做出來的東西。</li><li data-step-text="2">自己檢查自己時，思路會帶著它繞過自己的錯。</li><li data-step-text="3">reviewer 只看需求和做出來的東西。兩者對不上，它就會發現。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>獨立檢查需要一個沒有作者思路的上下文，所以必須是另一個 agent。</figcaption></figure>
-<p>另一個上下文是必要的，但不夠。reviewer 常常是同一個模型，有同樣的盲點，它也會判錯：把好的判成不通過，把壞的放過去。所以獨立檢查降低風險，但不能消除風險。</p>
-<p><strong>怎麼搭一個好的</strong>：</p>
+<p>另一個上下文是必要的，但不夠。reviewer 常常是同一個模型，有同樣的盲點，它也會判錯，可能把好的判成不通過，也可能把壞的放過去。換句話說，獨立檢查能降低風險，但不能消除風險。</p>
+<p>一個好的 reviewer，取決於下面幾個設計：</p>
 <ul>
 <li><strong>給它一個檢查包，不給對話</strong>。包裡有需求、改過的檔案和 diff（到底改了哪幾行）。作者的筆記故意不給。</li>
 <li><strong>拿掉它改檔案的工具</strong>。就算它想「順手修掉」，也做不到。</li>
 <li><strong>只讓它指出問題，不讓它修</strong>。它寫了修法，下一輪檢查就是在檢查它自己的方案。</li>
-<li><strong>每個問題都要指到檔案和行號</strong>。指不出來的就不算問題。這樣可以擋掉含糊的擔心。</li>
+<li><strong>每個問題都要指到檔案和行號</strong>。指不出來的就不算問題，這樣可以擋掉含糊的擔心。</li>
 <li><strong>第一行固定寫 PASS 或 FAIL</strong>。這樣一個小程式就能讀出結論，不用再問另一個 AI「reviewer 是什麼意思」。</li>
-<li><strong>限制輪數</strong>。每個任務檢查幾次就好，之後由人決定。從第二輪起只報影響正確性的問題，不然檢查會為了措辭沒完沒了。</li>
+<li><strong>限制輪數</strong>。每個任務檢查幾次之後，就由人決定。從第二輪起只報影響正確性的問題，不然檢查會為了措辭沒完沒了。</li>
 </ul>
 <h3>2. 並行閱讀</h3>
-<p>有些問題要讀很多東西。「這五個領域各自負責什麼？各有什麼規則？」一個 agent 只能一個領域接一個領域地讀。這很慢，而且讀到最後，它的上下文塞滿了已經用不著的原始材料。</p>
-<p>換個做法，像處理大數據那樣拆：把每一份 <strong>map</strong>（分派）給一個幫手，它讀完寫一份簡短的摘要；再把這些摘要 <strong>reduce</strong>（合併）成一個答案。這個方法叫 <strong>map-reduce</strong>，每個幫手叫 <strong>mapper</strong>。幾份同時讀，主 agent 自始至終只看到摘要。</p>
+<p>有些問題要讀很多東西，例如「這五個領域各自負責什麼？各有什麼規則？」一個 agent 只能一個領域接一個領域地讀，這很慢，而且讀到最後，它的上下文塞滿了已經用不著的原始材料。</p>
+<p>換個做法，可以像處理大數據那樣拆：把每一份 <strong>map</strong>（分派）給一個幫手，它讀完寫一份簡短的摘要；再把這些摘要 <strong>reduce</strong>（合併）成一個答案。這個方法叫 <strong>map-reduce</strong>，每個幫手叫 <strong>mapper</strong>。幾份材料同時讀，就不再慢了；主 agent 自始至終只看到摘要，原始材料也就進不了它的上下文。</p>
 <figure class="fig steps" id="fig-parallel-read" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
   <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
@@ -920,10 +866,10 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">Map：主 agent 把要讀的東西分成幾份，每份開一個 mapper。</li><li data-step-text="2">每個 mapper 只讀自己那一份，大家同時讀。</li><li data-step-text="3">每個 mapper 交回一份簡短的摘要，原始材料留在它那裡。</li><li data-step-text="4">Reduce：主 agent 只讀摘要，把它們合成一個答案。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>Map-reduce：把閱讀拆開、並行地讀、再合併摘要。主 agent 的上下文裡只有摘要。</figcaption></figure>
-<p><strong>這正是多個 agent 明顯佔優的地方</strong>。Anthropic 用這個模式做了一個研究系統：一個主 agent 做規劃，幾個子 agent 同時往不同方向搜尋。在他們內部的研究評測上，它比單個 agent（Claude Opus 4）好 90.2%，尤其擅長能拆成幾個獨立方向的廣泛問題。代價是：這類系統用的 token 約是聊天的 15 倍。他們也說，大多數寫程式的任務，真正能並行的部分比研究少。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</p>
-<p>所以判斷只有兩個問題：這份工作能不能拆成彼此不需要對方的幾部分？答案值不值得好幾倍的成本？</p>
-<p>這只適用於讀。幾個幫手同時改同樣的檔案，就得有人合併它們的改動，而衝突會藏在合併裡。</p>
-<p><strong>怎麼搭</strong>：</p>
+<p><strong>這正是多個 agent 明顯佔優的地方</strong>。Anthropic 用這個模式做了一個研究系統，由一個主 agent 做規劃，幾個子 agent 同時往不同方向搜尋。在他們內部的研究評測上，它比單個 agent（Claude Opus 4）好 90.2%，尤其擅長能拆成幾個獨立方向的廣泛問題。代價是這類系統用的 token 約是聊天的 15 倍。Anthropic 也提到，大多數寫程式的任務，真正能並行的部分比研究少。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</p>
+<p>所以判斷只有兩個問題：這份工作能不能拆成互不依賴的幾塊？答案值不值得好幾倍的成本？</p>
+<p>就算兩個問題都答「是」，這也只適用於讀。幾個幫手要是同時改同樣的檔案，就得有人合併它們的改動，而衝突會藏在合併裡。</p>
+<p>並行閱讀要用得好，也得靠幾個設計：</p>
 <ul>
 <li><strong>由人來開，不由 agent 開</strong>。它貴好幾倍，該由你決定。一個小程式負責計數（例如一小時內最多四個），agent 開不了更多。只有人輸入的指令才算，agent 不能替自己輸入。</li>
 <li><strong>每個 mapper 只能讀和搜尋，別的都不行</strong>。</li>
@@ -931,16 +877,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>每份摘要格式固定</strong>：結論，每條附上出自哪個檔案、哪一行；找不到的；不確定的。</li>
 </ul>
 <h3>3. 無人值守</h3>
-<p>平常 agent 做完一步就停下來等你。有時你想把整份待辦清單交出去，做完再回來看。</p>
-<p><strong>最簡單的做法</strong>要用到 <strong>hook</strong>：工具在固定時刻會執行的一個小程式。Copilot 和 Claude Code 都有。這裡的時刻是「agent 停下來了」。hook 看一眼待辦清單，還有沒做完的步驟，就叫 agent 繼續。只有人能開，一次只對一個任務。</p>
-<p>它還得知道什麼時候不再推。每條停止規則防的是一種不同的出錯：</p>
+<p>平常 agent 做完一步就停下來等你。可是有時候，你想把整份待辦清單交出去，做完再回來看。</p>
+<p>最簡單的做法要用到 <strong>hook</strong>，也就是工具在固定時刻會執行的一個小程式（Copilot 和 Claude Code 都有）。這裡的時刻是「agent 停下來了」。hook 看一眼待辦清單，要是還有沒做完的步驟，就叫 agent 繼續。這只有人能開，而且一次只對一個任務。</p>
+<p>一個不停往前推的 hook，還得知道什麼時候該停。每條停止規則防的是一種不同的出錯：</p>
 <ul>
 <li><strong>步數和時間有上限</strong>（例如 20 步或 2 小時）：失控的執行不會跑一整夜。</li>
 <li><strong>被拒絕幾次就停</strong>（例如兩次）：agent 一直在試不准做的事，說明哪裡不對了，該由人來看。</li>
 <li><strong>沒有進展就停</strong>（例如連推三次都沒有完成任何一步）：agent 卡在迴圈裡了。</li>
 </ul>
-<p>在這個最簡單的做法裡，所有步驟都由一個 agent 做。清單短，沒問題。清單長，它的上下文會塞滿前面每一步留下的東西：第 2 步讀過的檔案、第 5 步跑過的指令、一個失敗後又修好的測試。到第 15 步，它背著前 14 步的殘留，上下文太滿就會忘事、搞混。</p>
-<p><strong>更好的做法</strong>像工地上的管理者。管理者不砌磚。他手上拿著計劃和清單，把每份活寫在工作卡上交給工人，工人回報後就打勾。管理者腦子一直是清楚的，因為每份活的細節都留在做活的工人那裡。</p>
+<p>在這個最簡單的做法裡，所有步驟都由一個 agent 做，清單短的話沒問題。可是清單一長，它的上下文就會塞滿前面每一步留下的東西：第 2 步讀過的檔案、第 5 步跑過的指令、一個失敗後又修好的測試。到第 15 步，它背著前十四步的殘留，上下文這麼滿，就會忘事、搞混。</p>
+<p>更好的做法，像工地主任。工地主任不砌磚，而是拿著計劃和清單，把每份活寫在工作卡上交給工人，工人回報後就打勾。他的腦子之所以一直清楚，是因為每份活的細節都留在做工的工人那裡。</p>
 <figure class="fig steps" id="fig-autorun-manager" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
@@ -999,18 +945,13 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>主 agent 把這一步打勾</strong>，為下一步開一個新的 worker。它自己的上下文裡永遠只有計劃、清單和簡短的回報。</li>
 <li><strong>全部做完後，reviewer 檢查整體結果</strong>。不通過，主 agent 就開一個 worker 去修 reviewer 找到的問題。</li>
 </ol>
-<p>三角色團隊不行，為什麼這樣拆就行？團隊是把同一件事按階段拆：一個 agent 搞懂，另一個要接著那份理解去做。這裡是按塊拆：每個 worker 拿到的是一整件小事，做和測都包含在內，主 agent 只需要知道「做完了、測試通過」就能往下走。這過得了摘要那一關。</p>
-<p>代價：</p>
-<ul>
-<li><strong>每份說明都要寫全</strong>。worker 不能回頭問，它需要的都得寫下來。</li>
-<li><strong>每個 worker 都從零開始</strong>。它要重讀自己的檔案，所以很多小步驟加起來，比一個 agent 一路做下來貴。</li>
-<li><strong>回報不是證明</strong>。worker 說「測試通過」也可能是錯的，而只看回報的主 agent 分辨不出來。所以最後的獨立檢查很重要，主 agent 也該不時打開某一步的檔案看看。</li>
-<li><strong>彼此依賴細節的步驟不適合</strong>。第 4 步要確切知道第 3 步怎麼做的，就把它寫下來交給下一個 worker，或者乾脆兩步都由一個 agent 做。</li>
-</ul>
+<p>三角色團隊不行，為什麼這樣拆就行？團隊是把同一件事按階段拆，一個 agent 搞懂，另一個要接著那份理解去做。這裡是按塊拆。每個 worker 拿到的是一整件小事，做和測都包含在內，所以主 agent 只需要知道「做完了、測試通過」就能往下走，這就過得了摘要那一關。</p>
+<p>這樣拆也有代價，大多來自兩件事。一是每個 worker 都從零開始，手上只有那份說明。它不能回頭問，所以說明一定要寫全，它需要的都得寫下來；它還要重讀自己的檔案，所以很多小步驟加起來，比一個 agent 一路做下來貴。二是主 agent 只看得到回報，而回報不是證明。worker 說「測試通過」也可能是錯的，主 agent 卻分辨不出來。這就是為什麼最後的獨立檢查很重要，主 agent 也該不時打開某一步的檔案看看。</p>
+<p>步驟之間要是彼此依賴細節，就根本不適合這樣拆。要是第 4 步得確切知道第 3 步是怎麼做的，就把它寫下來交給下一個 worker，或者乾脆兩步都由一個 agent 做。</p>
 <p>所以它適合很長、每一步都能獨立完成的清單。清單短，一個 agent 還是更便宜。要是你人在旁邊，把長任務拆成幾個小任務，也能拿到大部分好處。</p>
 <h3>4. 工具的硬性限制</h3>
-<p>每個 agent 都有一份能用的工具清單：讀檔案、搜尋、執行指令、改檔案。在 Copilot 裡，這是 agent 檔案裡的 <code>tools</code> 清單；Claude Code 的子 agent 也有。平台會強制執行這份清單。沒有「改檔案」這個工具的 agent，怎麼叫它都改不了檔案。</p>
-<p>主 agent 通常什麼工具都有。一份工作絕不能改任何東西時，跟主 agent 說「請不要改檔案」只是請求。把這份工作交給一個沒有這個工具的子 agent，它才變成規則。</p>
+<p>每個 agent 都有一份能用的工具清單，例如讀檔案、搜尋、執行指令、改檔案。在 Copilot 裡，這是 agent 檔案裡的 <code>tools</code> 清單（Claude Code 的子 agent 也有）。和寫在指示裡的話不同，這份清單由平台強制執行，所以沒有「改檔案」這個工具的 agent，怎麼叫它都改不了檔案。</p>
+<p>主 agent 通常什麼工具都有。所以一份工作絕不能改任何東西時，跟主 agent 說「請不要改檔案」只是請求；把這份工作交給一個沒有這個工具的子 agent，它才變成規則。</p>
 <figure class="fig" id="fig-tool-limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
   <text class="label-lit" x="20" y="45" data-t="main">主 agent</text>
   <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
@@ -1047,11 +988,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>每個 agent 有哪些工具。少了的工具是平台強制的規則；提示裡寫「不要改檔案」只是請求。</figcaption></figure>
 <h3>讓它成為規則，而不是請求</h3>
-<p>怎麼確保不會有別的子 agent 跑起來？在指示裡寫「不要開別的子 agent」只是請求：模型大多數時候會照做。</p>
+<p>那怎麼確保不會有別的子 agent 跑起來？這裡碰到的，還是請求和規則的差別。在指示裡寫「不要開別的子 agent」只是請求，模型大多數時候會照做。</p>
 <p>hook 能把它變成規則。一個在任何子 agent 啟動前執行的 hook，可以讀出子 agent 的名字，決定准或不准。它每次都會執行，模型也說服不了它。好的拒絕還會說明該改做什麼，免得 agent 再試同一件事。</p>
 <h3>靠檔案交接</h3>
-<p>agent 之間不該互相傳訊息。給每件工作一個自己的<strong>任務資料夾</strong>，裡面放需求、計劃、待辦清單和每次檢查的結果。agent 透過把檔案寫進這裡來交接。</p>
-<p>這一下買到三樣東西。你能打開同樣的檔案，看到發生了什麼。中斷一天，下一個會話能從檔案接著做。事後，這個資料夾就是一份紀錄：誰做了什麼，檢查怎麼說。</p>
+<p>agent 一多，工作就要在它們之間傳遞，但它們不該靠互相傳訊息來傳。比較好的做法是給每件工作一個自己的<strong>任務資料夾</strong>，裡面放需求、計劃、待辦清單和每次檢查的結果，agent 把檔案寫進這裡來交接。</p>
+<p>為什麼用檔案，而不是傳訊息？看看檔案能給你什麼就知道了。你能打開同樣的檔案，看到發生了什麼。中斷一天，下一個會話能從檔案接著做。事後，這個資料夾就是一份紀錄，誰做了什麼、檢查怎麼說，都在裡面。</p>
 <figure class="fig" id="fig-subagent-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
   <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
   <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">主 agent</text>
@@ -1089,34 +1030,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>只有兩種子 agent，都要使用者來開。它們靠任務資料夾裡的檔案交接；其他子 agent 一律拒絕。</figcaption></figure>
 <h3>測一測你自己的設定</h3>
-<p><strong>三個問題</strong>，問你自己設定裡的、或別人要你批准的任何一個額外 agent：</p>
+<p>這一節講的東西，可以變成三個問題，拿去問你自己設定裡的、或別人要你批准的任何一個額外 agent：</p>
 <ol>
-<li>它買到的是四種裡的哪一種？</li>
+<li>它換來的是四種裡的哪一種？</li>
 <li>一份簡短的報告，夠不夠主 agent 接著做？</li>
 <li>同一個任務，你試過不用它嗎？</li>
 </ol>
-<p><strong>今天就能做、不用任何額外設定的測試</strong>。挑一個你知道正確答案的任務，在你自己的工具裡做兩遍。一遍讓 agent 檢查自己的工作。另一遍開一個新對話，只給它需求和結果，請它檢查。比一比兩邊各找到了什麼。</p>
-<p><strong>公平地比較兩種設定</strong>：</p>
+<p>還有一個今天就能做、不用任何額外設定的測試。挑一個你知道正確答案的任務，在你自己的工具裡做兩遍。第一遍讓 agent 檢查自己的工作；第二遍開一個新對話，只給它需求和結果，請它檢查。然後比一比，兩邊各找到了什麼。</p>
+<p>想公平地比較兩種設定，有幾個習慣很要緊：</p>
 <ul>
-<li>每種跑幾次，不是一次。agent 不會兩次做出一樣的事。</li>
-<li>兩邊用同一種方式打分，最好用腳本。</li>
+<li>每種跑幾次，不是一次，因為 agent 不會兩次做出一樣的事。</li>
+<li>兩邊用同一種方式評分，最好用腳本。</li>
 <li>記下三個數：對不對、用量多少、花多久。</li>
 <li>不要憑一次結果下結論。</li>
 </ul>
-<p><strong>想重做我的測試</strong>：虛構的倉庫、四個任務和打分腳本都在 <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，任何 agent 工具都能用。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>子 agent 能做什么、不能做什么</h3>
-<p>把子 agent 想成一个外包，你只给他寄了一份书面说明：</p>
-<ul>
-<li><strong>它只看得到这份说明</strong>。你们之前的对话、你的笔记，它都看不到。</li>
-<li><strong>它没法回头问你</strong>。说明里缺了什么，它只能猜，或者停下来。</li>
-<li><strong>它交回来的是报告，不是理解</strong>。它读过的东西都留在它自己那里。</li>
-</ul>
+<p>想重做我的測試，虛構的倉庫、四個任務和評分腳本都在 <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，任何 agent 工具都能用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候值得多开一个 agent？</h2><h3>子 agent 能做什么、不能做什么</h3>
+<p>先别急着问第二个 agent 能换来什么，得先看清它一开始手里有多少东西，其实少得很。不妨把子 agent 想成一个外包，你只给他寄了一份书面说明。它只看得到这份说明，看不到你们之前的对话，也看不到你的笔记。它也没法回头问你，说明里缺了什么，它只能猜，或者停下来。等它做完，交回来的是一份报告，而不是它的理解，因为它读过的东西都留在它自己那里。</p>
 <p>所以拆出任何一块工作之前，先问一个问题：<strong>一份简短的报告，够不够主 agent 接着干</strong>？</p>
-<p>够，就可以拆。如果主 agent 要接着干，却需要帮手的全部理解，那就别拆。设计师把活交给开发者，就过不了这一关：开发者要的是设计师的全部理解，不是一份摘要。</p>
-<p>过了这一关还不够。拆分还必须换来一个 agent 自己拿不到的东西。这样的东西有四种。</p>
+<p>够，就可以拆。如果主 agent 要接着干，却需要帮手的全部理解，那就别拆。设计师把活交给开发者，就过不了这一关，因为开发者要的是设计师的全部理解，不是一份摘要。</p>
+<p>不过，过了这一关还不够。拆分还必须换来一个 agent 自己拿不到的东西，而这样的东西有四种。</p>
 <h3>1. 独立检查</h3>
-<p>自己校对自己的文章时，你读到的是你想写的，而不是你实际写出来的。agent 检查自己的工作也一样：它的上下文里全是自己的思路，这些思路会带着它绕过自己犯的错。</p>
-<p>一个从没见过这些思路的检查者，只读需求和结果。两者对不上，它就能看出来。这个检查者就是 <strong>reviewer</strong>。它必须是另一个 agent，因为它需要另一份上下文。</p>
+<p>自己校对自己的文章时，你读到的是你想写的，而不是你实际写出来的。agent 检查自己的工作也一样，它的上下文里全是自己的思路，这些思路会带着它绕过自己犯的错。</p>
+<p>一个从没见过这些思路的检查者，只读需求和结果，两者对不上，它就能看出来。这个检查者就是 <strong>reviewer</strong>。三个岗位里，最后只有它留了下来，原因后面会讲。它必须是另一个 agent，因为它需要另一份上下文。</p>
 <figure class="fig steps" id="fig-independent-check" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <text class="label" x="150" y="28" text-anchor="middle" data-t="author">作者</text>
   <rect class="box" x="40" y="44" width="220" height="40" rx="6"/>
@@ -1142,19 +1078,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">作者的上下文里有需求、它自己的思路和做出来的东西。</li><li data-step-text="2">自己检查自己时，思路会带着它绕过自己犯的错。</li><li data-step-text="3">reviewer 只看需求和做出来的东西。两者对不上，它就能发现。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>独立检查需要一份不含作者思路的上下文，所以必须是另一个 agent。</figcaption></figure>
-<p>另一份上下文是必要条件，但不是充分条件。reviewer 往往是同一个模型，有同样的盲区，它也会误判：把好的判成不通过，把坏的放过去。所以独立检查能降低风险，但消除不了风险。</p>
-<p><strong>怎么搭一个好用的</strong>：</p>
+<p>另一份上下文是必要条件，但不是充分条件。reviewer 往往是同一个模型，有同样的盲区，它也会误判，要么把好的判成不通过，要么把坏的放过去。换句话说，独立检查能降低风险，但消除不了风险。</p>
+<p>一个好用的 reviewer，取决于下面几个设计：</p>
 <ul>
 <li><strong>给它一个检查包，别给对话</strong>。包里有需求、改过的文件和 diff（到底改了哪几行）。作者的笔记故意不给。</li>
 <li><strong>拿掉它改文件的工具</strong>。就算它想“顺手修一下”，也做不到。</li>
 <li><strong>只让它指出问题，不让它修</strong>。它要是写了修法，下一轮检查就成了检查它自己的方案。</li>
-<li><strong>每个问题都要指到文件和行号</strong>。指不出来的不算问题。这样能挡掉那些含糊的担心。</li>
+<li><strong>每个问题都要指到文件和行号</strong>。指不出来的不算问题，这样能挡掉那些含糊的担心。</li>
 <li><strong>第一行固定写 PASS 或 FAIL</strong>。这样一个小程序就能读出结论，不用再找另一个 AI 来解读“reviewer 这是什么意思”。</li>
-<li><strong>限制轮数</strong>。每个任务检查几次就够了，之后交给人决定。从第二轮开始只报影响正确性的问题，不然检查会在措辞上没完没了。</li>
+<li><strong>限制轮数</strong>。每个任务检查几次之后，就交给人决定。从第二轮开始只报影响正确性的问题，不然检查会在措辞上没完没了。</li>
 </ul>
 <h3>2. 并行阅读</h3>
-<p>有些问题需要读很多东西。“这五个领域各管什么？各有什么规则？”一个 agent 只能一个领域接一个领域地读。这很慢，而且读到最后，它的上下文里塞满了已经用不上的原始材料。</p>
-<p>换个办法，像处理大数据那样拆：把每一份 <strong>map</strong>（分发）给一个帮手，它读完写一份简短的摘要；再把这些摘要 <strong>reduce</strong>（汇总）成一个答案。这个方法叫 <strong>map-reduce</strong>，每个帮手叫 <strong>mapper</strong>。几份同时读，主 agent 从头到尾只看到摘要。</p>
+<p>有些问题需要读很多东西，比如“这五个领域各管什么？各有什么规则？”一个 agent 只能一个领域接一个领域地读，这很慢，而且读到最后，它的上下文里塞满了已经用不上的原始材料。</p>
+<p>换个办法，可以像处理大数据那样拆：把每一份 <strong>map</strong>（分发）给一个帮手，它读完写一份简短的摘要；再把这些摘要 <strong>reduce</strong>（汇总）成一个答案。这个方法叫 <strong>map-reduce</strong>，每个帮手叫 <strong>mapper</strong>。几份材料同时读，就不再慢了；主 agent 从头到尾只看到摘要，原始材料也就进不了它的上下文。</p>
 <figure class="fig steps" id="fig-parallel-read" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
   <rect class="box-lit" x="140" y="12" width="320" height="48" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
@@ -1205,10 +1141,10 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">Map：主 agent 把要读的东西分成几份，每份开一个 mapper。</li><li data-step-text="2">每个 mapper 只读自己那一份，大家同时读。</li><li data-step-text="3">每个 mapper 交回一份简短的摘要，原始材料留在它自己那里。</li><li data-step-text="4">Reduce：主 agent 只读摘要，把它们汇总成一个答案。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>Map-reduce：把阅读拆开、并行地读、再汇总摘要。主 agent 的上下文里只有摘要。</figcaption></figure>
-<p><strong>这正是多 agent 明显占优的地方</strong>。Anthropic 用这个模式做了一个研究系统：一个主 agent 负责规划，几个子 agent 同时朝不同方向搜索。在他们内部的研究评测上，它比单个 agent（Claude Opus 4）好 90.2%，尤其擅长那种能拆成几个独立方向的大范围问题。代价是：这类系统消耗的 token 约是普通聊天的 15 倍。他们也说，大多数编程任务里真正能并行的部分比研究少。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</p>
+<p><strong>这正是多 agent 明显占优的地方</strong>。Anthropic 用这个模式做了一个研究系统，由一个主 agent 负责规划，几个子 agent 同时朝不同方向搜索。在他们内部的研究评测上，它比单个 agent（Claude Opus 4）好 90.2%，尤其擅长那种能拆成几个独立方向的大范围问题。代价是这类系统消耗的 token 约是普通聊天的 15 倍。Anthropic 也提到，大多数编程任务里真正能并行的部分比研究少。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</p>
 <p>所以判断起来只有两个问题：这份工作能不能拆成互不依赖的几块？答案值不值好几倍的成本？</p>
-<p>这只适用于读。几个帮手同时改同一批文件，就得有人合并它们的改动，冲突会藏在合并里。</p>
-<p><strong>怎么搭</strong>：</p>
+<p>即便两个问题都答“是”，这也只适用于读。几个帮手要是同时改同一批文件，就得有人合并它们的改动，而冲突会藏在合并里。</p>
+<p>并行阅读要用得好，也得靠几个设计：</p>
 <ul>
 <li><strong>由人来开，不让 agent 开</strong>。它贵好几倍，该你来拍板。一个小程序负责计数（比如一小时内最多四个），agent 开不了更多。只有人输入的命令才算数，agent 不能替自己输入。</li>
 <li><strong>每个 mapper 只能读和搜索，别的都不行</strong>。</li>
@@ -1216,16 +1152,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>每份摘要格式固定</strong>：结论，每条注明出自哪个文件、哪一行；没找到的；不确定的。</li>
 </ul>
 <h3>3. 无人值守</h3>
-<p>平时 agent 做完一步就停下来等你。有时候你想把整张待办清单交出去，等它做完再回来看。</p>
-<p><strong>最简单的做法</strong>要用到 <strong>hook</strong>：工具在固定时机会运行的一个小程序。Copilot 和 Claude Code 都有。这里的时机是“agent 停下来了”。hook 看一眼待办清单，还有没做完的步骤，就让 agent 继续。只有人能开启，一次只针对一个任务。</p>
-<p>它还得知道什么时候别再推了。每条停止规则防的是一种不同的故障：</p>
+<p>平时 agent 做完一步就停下来等你。可有时候，你想把整张待办清单交出去，等它做完再回来看。</p>
+<p>最简单的做法要用到 <strong>hook</strong>，也就是工具在固定时机会运行的一个小程序（Copilot 和 Claude Code 都有）。这里的时机是“agent 停下来了”。hook 看一眼待办清单，如果还有没做完的步骤，就让 agent 继续。这只有人能开启，而且一次只针对一个任务。</p>
+<p>一个不停往前推的 hook，还得知道什么时候该停。每条停止规则防的是一种不同的故障：</p>
 <ul>
 <li><strong>步数和时间有上限</strong>（比如 20 步或 2 小时）：失控的运行不会跑一整夜。</li>
 <li><strong>被拒绝几次就停</strong>（比如两次）：agent 一直在尝试不许做的事，说明哪里出了问题，该让人来看看。</li>
 <li><strong>没有进展就停</strong>（比如连推三次都没完成任何一步）：agent 陷在循环里了。</li>
 </ul>
-<p>在这个最简单的做法里，所有步骤都由一个 agent 来做。清单短，没问题。清单一长，它的上下文就会塞满前面每一步留下的东西：第 2 步读过的文件、第 5 步跑过的命令、一个先失败后修好的测试。到第 15 步时，它背着前 14 步的残留，上下文太满，就会忘事、搞混。</p>
-<p><strong>更好的做法</strong>像工地上的项目经理。项目经理不亲自砌砖。他手里拿着图纸和清单，把每份活写在任务单上交给工人，工人回报后他就打个勾。项目经理的脑子一直是清醒的，因为每份活的细节都留在干活的工人那里。</p>
+<p>在这个最简单的做法里，所有步骤都由一个 agent 来做，清单短的话没问题。可清单一长，它的上下文就会塞满前面每一步留下的东西：第 2 步读过的文件、第 5 步跑过的命令、一个先失败后修好的测试。到第 15 步时，它背着前十四步的残留，上下文这么满，就会忘事、搞混。</p>
+<p>更好的做法，像工地上的项目经理。项目经理不亲自砌砖，而是拿着图纸和清单，把每份活写在任务单上交给工人，工人回报后他就打个勾。他的脑子之所以一直清醒，是因为每份活的细节都留在了干活的工人那里。</p>
 <figure class="fig steps" id="fig-autorun-manager" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <rect class="box-lit" x="150" y="12" width="300" height="50" rx="8"/>
   <text class="label-lit" x="300" y="34" text-anchor="middle" data-t="main">主 agent</text>
@@ -1284,18 +1220,13 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>主 agent 给这一步打勾</strong>，为下一步开一个新的 worker。它自己的上下文里始终只有计划、清单和简短的回报。</li>
 <li><strong>全部做完后，由 reviewer 检查整体结果</strong>。不通过，主 agent 就开一个 worker 去修 reviewer 找出的问题。</li>
 </ol>
-<p>三角色团队行不通，为什么这样拆就行？团队是把同一件事按阶段拆：一个 agent 负责弄懂，另一个要接着这份理解去干。这里是按块拆：每个 worker 拿到的是一件完整的小事，干活和测试都包在里面，主 agent 只要知道“做完了，测试通过”就能往下走。这能过摘要那一关。</p>
-<p>代价：</p>
-<ul>
-<li><strong>每份说明都得写全</strong>。worker 没法回头问，它需要的都得写下来。</li>
-<li><strong>每个 worker 都从零开始</strong>。它要重新读自己那部分文件，所以很多小步骤加起来，比一个 agent 一路做到底更贵。</li>
-<li><strong>回报不等于证明</strong>。worker 说“测试通过”也可能是错的，只看回报的主 agent 分辨不出来。所以最后的独立检查很重要，主 agent 也该时不时打开某一步的文件看一眼。</li>
-<li><strong>步骤之间互相依赖细节的，不合适</strong>。第 4 步需要确切知道第 3 步是怎么做的，那就把它写下来交给下一个 worker，或者干脆两步都交给一个 agent。</li>
-</ul>
+<p>三角色团队行不通，为什么这样拆就行？团队是把同一件事按阶段拆，一个 agent 负责弄懂，另一个要接着这份理解去干。这里是按块拆。每个 worker 拿到的是一件完整的小事，干活和测试都包在里面，所以主 agent 只要知道“做完了，测试通过”就能往下走，这就过了摘要那一关。</p>
+<p>这样拆也有代价，大多来自两件事。一是每个 worker 都从零开始，手里只有那份说明。它没法回头问，所以说明必须写全，它需要的都得写下来；它还要重新读自己那部分文件，所以很多小步骤加起来，比一个 agent 一路做到底更贵。二是主 agent 只看得到回报，而回报不等于证明。worker 说“测试通过”也可能是错的，主 agent 却分辨不出来。这就是为什么最后的独立检查很重要，主 agent 也该时不时打开某一步的文件看一眼。</p>
+<p>步骤之间要是互相依赖细节，就根本不适合这样拆。如果第 4 步需要确切知道第 3 步是怎么做的，那就把它写下来交给下一个 worker，或者干脆两步都交给一个 agent。</p>
 <p>所以它适合那种很长、每一步都能独立完成的清单。清单短，一个 agent 还是更便宜。如果你人就在旁边，把长任务拆成几个小任务，也能拿到大部分好处。</p>
 <h3>4. 工具的硬性限制</h3>
-<p>每个 agent 都有一份能用的工具清单：读文件、搜索、跑命令、改文件。在 Copilot 里，这是 agent 文件里的 <code>tools</code> 列表；Claude Code 的子 agent 也有。平台会强制执行这份清单。一个没有“改文件”工具的 agent，你怎么让它改，它都改不了。</p>
-<p>主 agent 通常什么工具都有。某项工作绝对不能改任何东西时，跟主 agent 说“请不要改文件”只是一个请求。把这项工作交给一个没有这个工具的子 agent，它才成了规则。</p>
+<p>每个 agent 都有一份能用的工具清单，比如读文件、搜索、跑命令、改文件。在 Copilot 里，这是 agent 文件里的 <code>tools</code> 列表（Claude Code 的子 agent 也有）。和写在指令里的话不同，这份清单由平台强制执行，所以一个没有“改文件”工具的 agent，你怎么让它改，它都改不了。</p>
+<p>主 agent 通常什么工具都有。所以某项工作绝对不能改任何东西时，跟主 agent 说“请不要改文件”只是一个请求；把这项工作交给一个没有这个工具的子 agent，它才成了规则。</p>
 <figure class="fig" id="fig-tool-limit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190">
   <text class="label-lit" x="20" y="45" data-t="main">主 agent</text>
   <rect class="box" x="190" y="22" width="92" height="36" rx="6"/>
@@ -1332,11 +1263,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>每个 agent 有哪些工具。缺的工具是平台强制执行的规则；提示里写“不要改文件”只是请求。</figcaption></figure>
 <h3>让它成为规则，而不是请求</h3>
-<p>怎么保证不会有别的子 agent 跑起来？在指令里写“不要开其他子 agent”只是请求：模型大多数时候会照做。</p>
+<p>那怎么保证不会有别的子 agent 跑起来？这里碰到的，还是请求和规则的区别。在指令里写“不要开其他子 agent”只是请求，模型大多数时候会照做。</p>
 <p>hook 能把它变成规则。一个在任何子 agent 启动前运行的 hook，可以读出子 agent 的名字，决定放行还是拒绝。它每次都会运行，模型也说服不了它。好的拒绝还会说明应该改做什么，免得 agent 再去试同一件事。</p>
 <h3>靠文件交接</h3>
-<p>agent 之间不该互相发消息。给每件工作建一个自己的<strong>任务文件夹</strong>，里面放需求、计划、待办清单和每次检查的结果。agent 通过往这里写文件来交接。</p>
-<p>这一招换来三样东西。你能打开同样的文件，看到发生了什么。中断一天，下一个会话能从文件接着做。事后，这个文件夹就是一份记录：谁做了什么，检查结论是什么。</p>
+<p>agent 一多，工作就要在它们之间传递，但它们不该靠互相发消息来传。更好的办法是给每件工作建一个自己的<strong>任务文件夹</strong>，里面放需求、计划、待办清单和每次检查的结果，agent 通过往这里写文件来交接。</p>
+<p>为什么用文件，而不是发消息？看看文件能给你什么就知道了。你能打开同样的文件，看到发生了什么。中断一天，下一个会话能从文件接着做。事后，这个文件夹就是一份记录，谁做了什么、检查结论是什么，都在里面。</p>
 <figure class="fig" id="fig-subagent-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
   <rect class="box-lit" x="170" y="16" width="260" height="58" rx="8"/>
   <text class="label-lit" x="300" y="41" text-anchor="middle" data-t="main">主 agent</text>
@@ -1374,93 +1305,51 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>只有两种子 agent，都要由用户来开。它们靠任务文件夹里的文件交接；其他子 agent 一律拒绝。</figcaption></figure>
 <h3>用它检验你自己的配置</h3>
-<p><strong>三个问题</strong>，拿去问你自己配置里的、或者别人找你审批的任何一个额外 agent：</p>
+<p>这一节讲的东西，可以变成三个问题，拿去问你自己配置里的、或者别人找你审批的任何一个额外 agent：</p>
 <ol>
 <li>它换来的是四种里的哪一种？</li>
 <li>一份简短的报告，够不够主 agent 接着干？</li>
 <li>同一个任务，你试过不用它吗？</li>
 </ol>
-<p><strong>今天就能做、不需要任何额外配置的测试</strong>。挑一个你知道正确答案的任务，在你自己的工具里做两遍。一遍让 agent 检查自己的工作。另一遍新开一个对话，只给它需求和结果，让它来检查。对比一下两边各找出了什么。</p>
-<p><strong>公平地对比两种配置</strong>：</p>
+<p>还有一个今天就能做、不需要任何额外配置的测试。挑一个你知道正确答案的任务，在你自己的工具里做两遍。第一遍让 agent 检查自己的工作；第二遍新开一个对话，只给它需求和结果，让它来检查。然后对比一下，两边各找出了什么。</p>
+<p>想公平地对比两种配置，有几个习惯很要紧：</p>
 <ul>
-<li>每种跑几次，不要只跑一次。agent 不会两次做得一模一样。</li>
+<li>每种跑几次，不要只跑一次，因为 agent 不会两次做得一模一样。</li>
 <li>两边用同一种方式打分，最好用脚本。</li>
 <li>记下三个数：对不对、用了多少、花了多久。</li>
 <li>别凭一次结果下结论。</li>
 </ul>
-<p><strong>想复现我的测试</strong>：虚构的仓库、四个任务和打分脚本都在 <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，任何 agent 工具都能用。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>How sure I am.</strong> Sure of the direction, not of the exact ratio. Two reasons:</p>
-<ul>
-<li><strong>Each task ran once.</strong> Run it again and the numbers move.</li>
-<li><strong>The two sides were not equal.</strong> The single agent used a top model and had no extra setup. The team had a knowledge base to read. Each difference could push the numbers either way.</li>
-</ul>
-<p>A gap of four to six times is large enough to take seriously. To be sure of it, the test has to be run several times.</p>
-<p><strong>What I did not measure.</strong> A vague request in a very large, messy repository. That is where splitting might pay off. I have no data either way.</p>
-<p><strong>What the extra money did buy.</strong> Once, the builder missed two references across areas. The reviewer caught them and sent the work back, with no person stepping in. That is why I kept the reviewer when the rest of the team went.</p>
-<p><strong>Parallel reading is not free.</strong> Every mapper starts from an empty context and reads its part from zero. Four mappers cost several times one agent. Use it when the reading is too much for one context, not to save time on a few files.</p>
-<p><strong>Subagent usage is easy to miss.</strong> A tool often shows the usage of the main conversation only. Check whether yours counts subagents too.</p>
-<p><strong>A count is not a budget.</strong> Limiting how many helpers start does not limit what they spend together. The better design gives the main agent and all its subagents one budget, and a subagent gets what is left of it, not a fresh one of its own.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>我有多確定</strong>。確定方向，不確定確切的倍數。兩個原因：</p>
-<ul>
-<li><strong>每個任務只跑了一次</strong>。再跑一次，數字就會變。</li>
-<li><strong>兩邊不對等</strong>。單個 agent 用的是頂級模型，沒有額外設定；團隊多了一份知識庫可讀。每個差別都可能把數字往任一邊推。</li>
-</ul>
-<p>四到六倍的差距，大到值得認真對待。要確定它，得多跑幾次。</p>
-<p><strong>我沒測的</strong>。一個含糊的需求，配上一個很大、很亂的倉庫。拆分也許在那裡划算。我兩邊都沒有資料。</p>
-<p><strong>多花的錢確實買到了什麼</strong>。有一次，實作者漏改了兩處跨領域的引用。reviewer 抓到了，把工作退回去，全程沒有人插手。所以團隊的其他角色都撤了，我留下了 reviewer。</p>
-<p><strong>並行閱讀不是免費的</strong>。每個 mapper 都從空的上下文開始，從零讀自己那一份。四個 mapper 的成本是一個 agent 的好幾倍。要讀的東西一個上下文裝不下時才用它，別為了幾個檔案省時間。</p>
-<p><strong>子 agent 的用量很容易漏看</strong>。工具常常只顯示主對話的用量。看看你的工具有沒有把子 agent 也算進去。</p>
-<p><strong>計數不等於預算</strong>。限制開幾個幫手，不等於限制它們一共花多少。更好的設計是讓主 agent 和所有子 agent 共用一個預算，子 agent 拿到的是剩下的部分，而不是自己另起一份。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>我有多大把握</strong>。方向有把握，具体倍数没把握。原因有两个：</p>
-<ul>
-<li><strong>每个任务只跑了一次</strong>。再跑一次，数字就会变。</li>
-<li><strong>两边条件不对等</strong>。单个 agent 用的是顶级模型，没加额外配置；团队多了一份知识库可读。每个差异都可能把数字往任意一边推。</li>
-</ul>
-<p>四到六倍的差距，大到值得认真对待。要坐实它，得多跑几次。</p>
-<p><strong>我没测的</strong>。一个含糊的需求，加上一个又大又乱的仓库。拆分在那种场景下也许划算。两边我都没有数据。</p>
-<p><strong>多花的钱确实换来了一点东西</strong>。有一次，开发者漏改了两处跨领域的引用。reviewer 发现了，把活打回去重做，全程没人插手。所以团队里的其他角色都撤了，我留下了 reviewer。</p>
-<p><strong>并行阅读不是免费的</strong>。每个 mapper 都从空白的上下文开始，从头读自己那一份。四个 mapper 的成本是一个 agent 的好几倍。只有要读的东西一份上下文装不下时才用它，别为了几个文件省点时间就上。</p>
-<p><strong>子 agent 的用量很容易被漏掉</strong>。工具往往只显示主对话的用量。看看你的工具有没有把子 agent 也算进去。</p>
-<p><strong>限制个数不等于限制预算</strong>。限制能开几个帮手，不等于限制它们一共花多少。更好的设计是让主 agent 和所有子 agent 共用一份预算，子 agent 拿到的是剩下的部分，而不是自己另起一份。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The platform makers agree on the direction: more agents, many more tokens.</p>
-<ul>
-<li><strong>Anthropic's research system</strong> (above): about 15 times the tokens of a chat, worth it for broad research, less so for most coding. (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>)</li>
-<li><strong>Claude Code</strong> has <em>agent teams</em>: several agents that act as a team and message each other. Its docs say they &quot;use approximately 7x more tokens than standard sessions when teammates run in plan mode&quot; (plan mode: each teammate plans before it acts). That is a different setup from my test, so the numbers do not compare directly. Agent teams are experimental and off by default. (<a href="https://code.claude.com/docs/en/costs">Manage costs</a>)</li>
-<li><strong>VS Code</strong>: &quot;Keep agent chains as shallow as practical and limit tools to what each agent actually needs.&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>)</li>
-</ul>
-<p>None of them says one agent is always better. Together with my test: for one task with a clear request, do not orchestrate; for broad work that splits into independent parts, several agents can be worth their cost.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>平台廠商在方向上一致：agent 越多，token 多得越多。</p>
-<ul>
-<li><strong>Anthropic 的研究系統</strong>（見上文）：token 約是聊天的 15 倍，做廣泛的研究值得，大多數寫程式的任務就沒那麼值得。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</li>
-<li><strong>Claude Code</strong> 有 <em>agent teams</em>：幾個 agent 組成團隊、互相傳訊息。它的文件說，「teammates 在 plan mode 下執行時，token 用量約是一般會話的 7 倍」（plan mode：每個成員先規劃再動手）。這和我的測試設定不同，數字不能直接比。agent teams 是實驗功能，預設關閉。（<a href="https://code.claude.com/docs/en/costs">Manage costs</a>）</li>
-<li><strong>VS Code</strong>：「讓 agent 鏈盡量淺，每個 agent 只給它真正需要的工具。」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</li>
-</ul>
-<p>沒有一家說一個 agent 永遠比較好。加上我的測試：需求清楚的單一任務，不要編排；能拆成獨立幾部分的廣泛工作，多個 agent 可能值得它的成本。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>平台厂商在方向上是一致的：agent 越多，token 多得越多。</p>
-<ul>
-<li><strong>Anthropic 的研究系统</strong>（见上文）：token 约是普通聊天的 15 倍，用来做大范围的研究值得，用在大多数编程任务上就没那么值。（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）</li>
-<li><strong>Claude Code</strong> 有 <em>agent teams</em>：几个 agent 组成团队、互相发消息。它的文档说，“当 teammates 在 plan mode 下运行时，token 用量约是普通会话的 7 倍”（plan mode：每个成员先规划再动手）。这和我的测试配置不一样，数字不能直接比。agent teams 是实验功能，默认关闭。（<a href="https://code.claude.com/docs/en/costs">Manage costs</a>）</li>
-<li><strong>VS Code</strong>：“让 agent 链尽量浅，每个 agent 只给它真正需要的工具。”（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</li>
-</ul>
-<p>没有哪一家说一个 agent 永远更好。再加上我的测试：需求清楚的单个任务，别搞编排；能拆成几块独立工作的大范围任务，多 agent 可能值这个成本。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The hooks in this chapter (allow only named subagents, count the helpers, push an unattended run) exist because the platform does not do these things yet. When Copilot itself can allow only named subagents and cap the usage of the main agent and all its subagents together, drop the hooks.</p>
-<p>The reasoning does not retire with them. Two things would make me look again at the split itself:</p>
-<ul>
-<li><strong>The platform can resume a finished subagent.</strong> Rework would stop starting from zero, and a thin coordinator inside one task might pay off. I have not tested whether Copilot can do this today.</li>
-<li><strong>A comparison shows a self-check catches everything an independent check catches.</strong> Then even the reviewer can go.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這一章裡的 hook（只准指定的子 agent、替幫手計數、推動無人值守的執行）之所以存在，是因為平台還不做這些事。等 Copilot 自己能只准指定的子 agent，並且能給主 agent 和所有子 agent 的用量設一個總上限，就刪掉這些 hook。</p>
-<p>背後的道理不會跟著退役。有兩件事會讓我重新考慮拆分本身：</p>
-<ul>
-<li><strong>平台能接著用一個做完的子 agent</strong>。返工就不用從零開始，一個任務裡放一個很薄的協調者也許就划算了。Copilot 今天能不能做到，我還沒測過。</li>
-<li><strong>一次比較顯示，自我檢查能抓到獨立檢查抓到的一切</strong>。那麼連 reviewer 都可以撤掉。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>这一章里的 hook（只放行指定的子 agent、给帮手计数、推动无人值守的运行）之所以存在，是因为平台还不做这些事。等 Copilot 自己能只放行指定的子 agent，并且能给主 agent 和所有子 agent 的用量设一个总上限，就把这些 hook 删掉。</p>
-<p>背后的道理不会跟着退役。有两件事会让我重新考虑拆分本身：</p>
-<ul>
-<li><strong>平台能让一个做完的子 agent 接着干</strong>。返工就不用从头开始，在一个任务里放一个很轻的协调者也许就划算了。Copilot 现在能不能做到，我还没测过。</li>
-<li><strong>一次对比表明，自我检查能抓到独立检查能抓到的所有问题</strong>。那就连 reviewer 也可以撤了。</li>
-</ul>
+<p>想复现我的测试，虚构的仓库、四个任务和打分脚本都在 <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，任何 agent 工具都能用。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>How sure I am, and what else it costs</h2><p>How far should you trust the numbers this chapter started with? I am sure of the direction, but not of the exact ratio, for two reasons. Each task ran once, so another run would move the numbers. The two sides were also not equal. The single agent used a top model with no extra setup, but the team had a knowledge base to read. Each difference could push the numbers either way. A gap of four to six times is large enough to take seriously, but to be sure of it, the test has to be run several times.</p>
+<p>There is also a case the test did not cover, a vague request in a very large, messy repository. That is where splitting might pay off, though I have no data either way.</p>
+<p>Even within the test, the extra money was not all wasted. Once, when the builder missed two references across areas, the reviewer caught them and sent the work back, with no person stepping in. That is why I kept the reviewer when the rest of the team went.</p>
+<p>Beyond the test, splitting has a few costs worth knowing about. Parallel reading is not free. Every mapper starts from an empty context and reads its part from zero, so four mappers cost several times one agent. Use it when the reading is too much for one context, not to save time on a few files.</p>
+<p>Subagent usage is also easy to miss, because a tool often shows the usage of the main conversation only. Check whether yours counts subagents too. And even once you can see it, a count is not a budget. Limiting how many helpers start does not limit what they spend together. The better design gives the main agent and all its subagents one budget, so that a subagent gets what is left of it, not a fresh one of its own.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>我有多確定，拆分還有哪些代價</h2><p>這一章開頭的那些數字，該信到什麼程度？方向我確定，確切的倍數不確定，原因有兩個。一是每個任務只跑了一次，再跑一次，數字就會變。二是兩邊不對等，單個 agent 用的是頂級模型，沒有額外設定，團隊卻多了一份知識庫可讀。每個差別都可能把數字往任一邊推。四到六倍的差距，大到值得認真對待，但要確定它，得多跑幾次。</p>
+<p>還有一種情況，測試沒有涵蓋：一個含糊的需求，配上一個很大、很亂的倉庫。拆分也許在那裡划算，不過我兩邊都沒有資料。</p>
+<p>就在這次測試裡，多花的錢也不是全白花。有一次，實作者漏改了兩處跨領域的引用，reviewer 抓到了，把工作退回去，全程沒有人插手。所以團隊的其他角色都撤了，我留下了 reviewer。</p>
+<p>那麼，測試之外，拆分還有哪些帳容易算漏？先說並行閱讀，它並不免費。每個 mapper 都從空的上下文開始，從零讀自己那一份，所以四個 mapper 的成本是一個 agent 的好幾倍。要讀的東西一個上下文裝不下時才用它，別為了幾個檔案省時間。</p>
+<p>另一筆容易漏看的是子 agent 的用量：工具常常只顯示主對話的用量，你得看看自己的工具有沒有把子 agent 也算進去。就算看得到了，計數也不等於預算：限制開幾個幫手，並不能限制它們一共花多少。更好的設計是讓主 agent 和所有子 agent 共用一個預算，子 agent 拿到的是剩下的部分，而不是自己另起一份。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>我有多大把握，拆分还有哪些代价</h2><p>这一章开头的那些数字，该信到什么程度？方向我有把握，具体倍数没把握，原因有两个。一是每个任务只跑了一次，再跑一次，数字就会变。二是两边条件不对等，单个 agent 用的是顶级模型，没加额外配置，团队却多了一份知识库可读。每个差异都可能把数字往任意一边推。四到六倍的差距，大到值得认真对待，但要坐实它，得多跑几次。</p>
+<p>还有一种情况，测试没有覆盖到：一个含糊的需求，加上一个又大又乱的仓库。拆分在那种场景下也许划算，不过两边我都没有数据。</p>
+<p>就在这次测试里，多花的钱也不是全打了水漂。有一次，开发者漏改了两处跨领域的引用，reviewer 发现了，把活打回去重做，全程没人插手。所以团队里的其他角色都撤了，我留下了 reviewer。</p>
+<p>那么，测试之外，拆分还有哪些账容易算漏？先说并行阅读，它并不免费。每个 mapper 都从空白的上下文开始，从头读自己那一份，所以四个 mapper 的成本是一个 agent 的好几倍。只有要读的东西一份上下文装不下时才用它，别为了几个文件省点时间就上。</p>
+<p>另一笔容易漏的是子 agent 的用量：工具往往只显示主对话的用量，你得看看自己的工具有没有把子 agent 也算进去。就算看得到了，限制个数也不等于限制预算：限制能开几个帮手，并不能限制它们一共花多少。更好的设计是让主 agent 和所有子 agent 共用一份预算，子 agent 拿到的是剩下的部分，而不是自己另起一份。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Do the platform makers agree? <span class="status status-industry">Industry practice</span></h2><p>Beyond my own test, the platform makers agree on the direction: more agents, many more tokens.</p>
+<p>Anthropic's research system (above) uses about 15 times the tokens of a chat, which is worth it for broad research and less so for most coding (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>). Claude Code has <em>agent teams</em>, several agents that act as a team and message each other. Its docs say they &quot;use approximately 7x more tokens than standard sessions when teammates run in plan mode&quot; (plan mode: each teammate plans before it acts). That is a different setup from my test, so the numbers do not compare directly. Agent teams are also experimental and off by default (<a href="https://code.claude.com/docs/en/costs">Manage costs</a>). The VS Code guide, for its part, says: &quot;Keep agent chains as shallow as practical and limit tools to what each agent actually needs.&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>)</p>
+<p>None of them says one agent is always better. Read together with my test, they come down to this: for one task with a clear request, do not orchestrate, but for broad work that splits into independent parts, several agents can be worth their cost.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>平台廠商也這麼看嗎？ <span class="status status-industry">業界做法</span></h2><p>在我自己的測試之外，平台廠商在方向上也一致：agent 越多，token 多得越多。</p>
+<p>Anthropic 的研究系統（見上文）用的 token 約是聊天的 15 倍，做廣泛的研究值得，大多數寫程式的任務就沒那麼值得（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）。Claude Code 有 <em>agent teams</em>，也就是幾個 agent 組成團隊、互相傳訊息。它的文件說，「teammates 在 plan mode 下執行時，token 用量約是一般會話的 7 倍」（plan mode：每個成員先規劃再動手）。這和我的測試設定不同，數字不能直接比；而且 agent teams 還是實驗功能，預設關閉（<a href="https://code.claude.com/docs/en/costs">Manage costs</a>）。VS Code 的指南則說：「讓 agent 鏈盡量淺，每個 agent 只給它真正需要的工具。」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</p>
+<p>沒有一家說一個 agent 永遠比較好。把它們和我的測試放在一起看，結論是：需求清楚的單一任務，不要編排；能拆成獨立幾部分的廣泛工作，多個 agent 可能值得它的成本。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>平台厂商也这么看吗？ <span class="status status-industry">业界做法</span></h2><p>在我自己的测试之外，平台厂商在方向上也是一致的：agent 越多，token 多得越多。</p>
+<p>Anthropic 的研究系统（见上文）消耗的 token 约是普通聊天的 15 倍，用来做大范围的研究值得，用在大多数编程任务上就没那么值（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）。Claude Code 有 <em>agent teams</em>，也就是几个 agent 组成团队、互相发消息。它的文档说，“当 teammates 在 plan mode 下运行时，token 用量约是普通会话的 7 倍”（plan mode：每个成员先规划再动手）。这和我的测试配置不一样，数字不能直接比；而且 agent teams 还是实验功能，默认关闭（<a href="https://code.claude.com/docs/en/costs">Manage costs</a>）。VS Code 的指南则说：“让 agent 链尽量浅，每个 agent 只给它真正需要的工具。”（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）</p>
+<p>没有哪一家说一个 agent 永远更好。把它们和我的测试放在一起看，结论是：需求清楚的单个任务，别搞编排；能拆成几块独立工作的大范围任务，多 agent 可能值这个成本。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete the hooks, and when to rethink the split <span class="status status-industry">Industry practice</span></h2><p>The hooks in this chapter (allow only named subagents, count the helpers, push an unattended run) exist because the platform does not do these things yet. When Copilot itself can allow only named subagents and cap the usage of the main agent and all its subagents together, drop the hooks.</p>
+<p>The hooks can go, but the reasoning stays. What would make me look again at the split itself is one of two things. The first is a platform that can resume a finished subagent. Rework would then stop starting from zero, and a thin coordinator inside one task might pay off, although I have not tested whether Copilot can do this today. The second would be a comparison showing that a self-check catches everything an independent check catches, in which case even the reviewer could go.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候刪掉這些 hook，什麼時候重新考慮拆分 <span class="status status-industry">業界做法</span></h2><p>這一章裡的 hook（只准指定的子 agent、替幫手計數、推動無人值守的執行）之所以存在，是因為平台還不做這些事。等 Copilot 自己能只准指定的子 agent，並且能給主 agent 和所有子 agent 的用量設一個總上限，就刪掉這些 hook。</p>
+<p>hook 可以刪，背後的道理卻還在。真正會讓我重新考慮拆分本身的，是另外兩件事。第一件，是平台能接著用一個做完的子 agent。這樣一來，返工就不用從零開始，一個任務裡放一個很輕的協調者也許就划算了，不過 Copilot 今天能不能做到，我還沒測過。第二件，要是哪天有比較顯示，自我檢查能抓到獨立檢查抓到的一切，那連 reviewer 都可以撤掉。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候删掉这些 hook，什么时候重新考虑拆分 <span class="status status-industry">业界做法</span></h2><p>这一章里的 hook（只放行指定的子 agent、给帮手计数、推动无人值守的运行）之所以存在，是因为平台还不做这些事。等 Copilot 自己能只放行指定的子 agent，并且能给主 agent 和所有子 agent 的用量设一个总上限，就把这些 hook 删掉。</p>
+<p>hook 可以删，背后的道理却还在。真正会让我重新考虑拆分本身的，是另外两件事。第一件，是平台能让一个做完的子 agent 接着干。那样返工就不用从头开始，在一个任务里放一个很轻的协调者也许就划算了，不过 Copilot 现在能不能做到，我还没测过。第二件，要是哪天有对比表明，自我检查能抓到独立检查能抓到的所有问题，那连 reviewer 也可以撤了。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every custom agent, subagent or role this project defines (look in the agent and instruction files). For each one, tell me which of these it buys: an independent check, parallel work, work that runs unattended, or a hard limit on tools. Mark any that buys none of them, and say what would break if it were removed. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個專案定義的所有自訂 agent、子 agent 或角色（看 agent 檔和 instructions 檔）。每一個都告訴我它買到下面哪一樣：獨立檢查、並行、無人值守、工具的硬限制。哪一個都沒買到的標出來，並說明拿掉它會壞掉什麼。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>列出这个项目定义的所有自定义 agent、子 agent 或角色（看 agent 文件和 instructions 文件）。逐个告诉我它换来的是下面哪一样：独立检查、并行、无人值守、工具的硬性限制。哪一样都没换来的标出来，并说明拿掉它会坏掉什么。不要修改任何文件。</code></pre></div>
