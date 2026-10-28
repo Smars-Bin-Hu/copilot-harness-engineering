@@ -1,4 +1,4 @@
-This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.
+This chapter assumes only that you have used an AI coding agent, such as Copilot in agent mode.
 
 ## In one sentence {#in-one-sentence}
 
@@ -7,57 +7,54 @@ An agent is a loop: ask the model, run the tool it asks for, feed the result bac
 ## For leaders {#for-leaders}
 
 - **The decision:** when an agent misbehaves, ask which of four places to fix (what it reads, which tools it has, a check before a call, a check after a call) before asking for a bigger model or a longer prompt.
-- **The risk:** the loop itself almost never breaks. In my reading, mistakes come from what is in the context or from what is allowed, and a rule written in a prompt is only a request. I have no counts of how often each happens.
-- **The cost of doing it right:** mostly setup time. The cheapest lever, what the agent reads, is a few lines of written rules.
+- **The risk:** the loop itself almost never breaks. As I read it, mistakes come from what is in the context or from what the agent is allowed to do, and a rule written in a prompt is only a request. I have no counts of how often each happens.
+- **The cost of doing it right:** mostly setup time. The cheapest lever, what the agent reads, takes only a few lines of written rules.
 - **Ask the team:** "For the last bad result, was the fix a better context, a tighter tool list, or a check outside the model?"
 
-## The problem {#problem}
+## When an agent goes wrong, what is actually wrong? {#problem}
 
-When an agent does something wrong, it feels like a mind has made a bad choice. That feeling sends people to the wrong fix. They write a longer prompt, or add "be careful" in capital letters, or switch to a bigger model. Sometimes that helps. Often it does not, because the problem was not in the thinking.
+When an agent does something wrong, it is natural to picture a mind that has made a bad choice. The trouble is that this picture sends people to the wrong fix. They write a longer prompt, add "be careful" in capital letters, or switch to a bigger model. Sometimes that helps, but often it does not, because the problem was not in the thinking.
 
-It helps to know what the machine is. It is small and plain. This chapter draws it, and marks the few places where you can reach into it. Every later chapter in this part, and most chapters after it, work on one of those places.
+If the problem is not in the thinking, where is it? To answer that, it helps to know what the machine actually is. It turns out to be small and plain. Once you can see it, you can also see the few places where you can reach into it, so let us draw the machine and mark them. Every later chapter in this part, like most of the chapters after it, works on one of them.
 
-Three words first.
+The machine starts with the **model**, the AI itself. It reads text and writes text and does nothing else, yet an agent plainly does more than write, since it reads files, searches, changes files and runs commands. Each of these is a **tool**, one thing the agent can do in your project. What joins the two is the **tool call**, which is the model's request to use a tool, written as text: "read this file". How a model that can only write text ends up changing your files is what the loop explains.
 
-- A **model** is the AI itself. It reads text and writes text. It does nothing else.
-- A **tool** is one thing the agent can do in your project: read a file, search, change a file, run a command.
-- A **tool call** is the model's request to use a tool, written as text: "read this file".
+## What the machine is, and where you can reach into it {#how-it-works}
 
-## How it works {#how-it-works}
+### Ask, run, feed back
 
-### The loop
+The model cannot touch your files, because all it can do is write text. So an agent needs a program outside the model to do the acting for it. The model writes a tool call, and a program around the model, the part that is not AI, reads that text and runs the tool for real, then pastes the result back in front of the model as more text. The model reads that result and writes the next tool call. This repeats until the model writes an answer with no tool call in it, which is the signal that it thinks it is done.
 
-The model cannot touch your files. It can only write text. So the way an agent works is this. The model writes a tool call. A program around the model, the part that is not AI, reads that text and runs the tool for real. The program then pastes the result back in front of the model as more text. The model reads it, and writes the next tool call. This repeats until the model writes an answer with no tool call in it. That is the signal that it thinks it is done.
-
-I call one trip around this loop a **turn**. Some people use the word for the whole exchange from your message to the final answer, and in one trip a model can ask for several tools at once; here a turn is one round of ask, run, feed back.
+I call one trip around this loop a **turn**. Not everyone uses the word this way. Some people mean the whole exchange from your message to the final answer, and in one trip a model can also ask for several tools at once. Here, a turn is one round of ask, run, feed back.
 
 ::: figure 2-1-loop
 
-Two facts follow, and both matter later.
+Two facts follow from this picture, and both matter later.
 
-1. **Every action is a tool call.** The model has no other way to do anything. So there is a door that every action passes through. (For the built-in tools and for subagents I have seen every call pass the hook point; I have not tested MCP tools. [Hooks](2-2-hooks.html) has the details.) Whoever stands at that door can see, and stop, everything the agent does. A hook stands there. It is a small program of yours that the platform runs just before and just after each tool call, at fixed points; [Hooks](2-2-hooks.html) explains it.
-2. **The model sees only text.** It does not see your screen or your disk. It sees what is in its context: the rules, your words, the results of earlier tool calls, its own earlier answers. Its context is its whole world, and it has a size limit. [The context is a budget](3-1-context-budget.html) is about that.
+The first is that every action is a tool call. The model has no other way to do anything, so there is a door that every action passes through. Whoever stands at that door can see, and stop, everything the agent does. A **hook** stands there: a small program of yours that the platform runs at fixed points, just before and just after each tool call. (For the built-in tools and for subagents I have seen every call pass the hook point, though I have not tested MCP tools. The next chapter, [Hooks](2-2-hooks.html), has the details.)
+
+The second is that the model sees only text. It does not see your screen or your disk, only what is in its context: the rules, your words, the results of earlier tool calls and its own earlier answers. That context is its whole world. It also has a size limit, which is what [The context is a budget](3-1-context-budget.html) is about.
 
 ### When does it stop?
 
-The ordinary stop is the model answering without asking for a tool. There are others: you press stop, the platform reaches a limit, or something refuses the stop.
+The ordinary stop is the one just described, the model answering without asking for a tool. But there are others. You can press stop, the platform can reach a limit (I have not checked what limit on turns Copilot sets by default, so I do not give one here), or something can refuse the stop.
 
-That last one is useful. A hook can run when the agent is about to stop, look at the to-do list of the task (the steps it still has open), and say "not yet, step 4 is open". The loop then goes on. This is how an agent is made to work through a long list without you. [Use subagents sparingly](2-3-subagents.html) covers that case and its stop rules. I have not checked what limit on turns Copilot sets by default, so I do not give one here.
+That last one is useful. A hook can run when the agent is about to stop, look at the to-do list of the task (the steps it still has open), and say "not yet, step 4 is open", after which the loop goes on. This is how an agent is made to work through a long list without you, a case that [Use subagents sparingly](2-3-subagents.html) covers along with its stop rules. It is a first sign that the loop has places where your own code can step in.
 
 ### Where you can step in
 
-Look at the loop again. You cannot change how the model thinks. You can change four things around it.
+Look at the loop again. You cannot change how the model thinks. What you can change are four things around it.
 
-1. **What it reads.** The rules and instructions that are put in its context, and the files it is pointed at. This is the most used lever, and the cheapest. [Instructions and skills](3-3-instructions-and-skills.html) is about it.
-2. **Which tools exist.** An agent that has no tool for changing files cannot change files. And a tool's description and its error messages are the only manual the model gets for it ([Tool calling](1-2-tool-calling.html)). A custom agent is the way to give a role a shorter list ([Custom agents](2-4-custom-agents.html)).
-3. **A hook before a call.** Code that sees the call before it runs and can refuse it. The platform guarantees that every call passes through this point, so a rule here is code that runs, not a request. A tool list or a command the agent runs to check itself is code too, but each covers a narrower range ([chapter 4.1](4-1-requests-and-rules.html)). Permission settings and sandboxes are another kind of lever: they do not read the call, they limit what any command can do. I have not tested them one by one on Copilot, so I leave them out of the four.
-4. **A hook after a call.** Code that sees the result, can keep a record, and can add a note for the model. It cannot undo what happened.
+1. **What it reads.** The rules and instructions put in its context, and the files it is pointed at, make up the most used lever and also the cheapest. [Instructions and skills](3-3-instructions-and-skills.html) is about it.
+2. **Which tools exist.** An agent that has no tool for changing files cannot change files. A tool's description and its error messages are also the only manual the model gets for it ([Tool calling](1-2-tool-calling.html)). To give a role a shorter list, you use a custom agent ([Custom agents](2-4-custom-agents.html)).
+3. **A hook before a call.** Code here sees the call before it runs and can refuse it. Because the platform guarantees that every call passes through this point, a rule here is code that runs, not a request. A hook is not the only rule made of code, though. A tool list, or a command the agent runs to check itself, also counts, only each covers a narrower range ([chapter 4.1](4-1-requests-and-rules.html)). Permission settings and sandboxes are another kind of lever, since they do not read the call but limit what any command can do. I have not tested them one by one on Copilot, so I leave them out of the four.
+4. **A hook after a call.** Code here sees the result, can keep a record, and can add a note for the model. It cannot undo what happened.
 
-A short way to remember it: two of the four decide what the model knows, and two decide what it is allowed to do. Words only change what it knows.
+A short way to remember the four is that two of them decide what the model knows, and two decide what it is allowed to do. Words only change what it knows.
 
 ### Why most mistakes are not in the loop
 
-Here is how I read an agent's mistakes. The loop itself almost never breaks. The mistakes come from what is in the context, or from what is allowed. This is the list I keep, from my own use. It is what I have seen, not a statistic:
+That split, between what the model knows and what it is allowed to do, is also how I read an agent's mistakes. The loop itself almost never breaks. The mistakes come from what is in the context, or from what is allowed. Below is the list I keep from my own use. It records what I have seen rather than a statistic, since I have no counts of how often each happens.
 
 | What you see | Usually why |
 | --- | --- |
@@ -67,26 +64,28 @@ Here is how I read an agent's mistakes. The loop itself almost never breaks. The
 | It keeps retrying a refused action | It wants to finish the task. |
 | It said "done" and it was not | In my experience models lean towards reporting success. |
 
-Notice that few of these are about the model being unintelligent. The first and the last need a check outside the model. The second needs a better context ([Long chats get worse](3-2-long-sessions.html)). The third needs a second view ([Use subagents sparingly](2-3-subagents.html)). Only the fourth is close to a habit of the model itself. I do not have counts of how often each happens, so this is my reading of what I have seen, not a measurement.
+Few of these, you will notice, are about the model being unintelligent. The first and the last need a check outside the model. Of the rest, the second needs a better context ([Long chats get worse](3-2-long-sessions.html)) and the third a second view ([Use subagents sparingly](2-3-subagents.html)). Only the fourth is close to a habit of the model itself. That is the answer the opening question was pointing to: the fix usually belongs at one of the four places, not in the model's thinking.
 
 ### See the loop yourself
 
-You do not need to install anything. In your agent's chat, ask: "Read the README and tell me what the project does." Watch the chat. You will see a line such as "Read README.md" before the answer. That line is one tool call, shown to you. Then ask a question that needs three files, and count the lines. Each is one turn of the loop, and each result is now in the context.
+You do not need to install anything to watch the loop go round. In your agent's chat, ask "Read the README and tell me what the project does" and watch the chat. Before the answer you will see a line such as "Read README.md". That line is one tool call, shown to you. Now ask a question that needs three files, and count the lines. Each is one turn of the loop, and each result is now in the context.
 
-## Costs and traps {#costs-and-traps}
+## What the loop costs, and how it is misread {#costs-and-traps}
 
-**Every turn rereads the context.** Each time around, the model reads the whole context again, now with one more result in it. A task of thirty turns is thirty reads of a growing text. This is why what the agent reads matters more than how clever the model is, and why [the model's price per token](1-1-models-and-cost.html) is the wrong number to look at alone. One correction: the reread is not always charged at full price. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price ([Models and cost](1-1-models-and-cost.html) has the sums). I have not checked how Copilot bills it. What the cache does not fix is the second cost: the model still has to attend to all of that text.
+The cost of the loop starts from that last point, that every result stays in the context. Each time around, the model reads the whole context again, now with one more result in it, so a task of thirty turns is thirty reads of a growing text. This is why what the agent reads matters more than how clever the model is, and why [the model's price per token](1-1-models-and-cost.html) is the wrong number to look at alone.
 
-**Tool results are the biggest and the least watched part.** You wrote the prompt, so you know it. The file the agent read, or the log a command printed, you may never have seen. It is still in the context, and the model may act on it.
+One correction is needed, though, because the reread is not always charged at full price. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price ([Models and cost](1-1-models-and-cost.html) has the sums). I have not checked how Copilot bills it. So the cache lowers the bill. It does nothing for the other cost: the model still has to attend to all of that text.
 
-**An agent is not always the answer.** A loop that decides its own next step costs more and is harder to predict than a fixed series of model calls, or a single call. Anthropic's advice is to find the simplest solution possible and add complexity only when needed ([Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.
+And of all that text, tool results are the biggest part and the least watched. You wrote the prompt, so you know what is in it. The file the agent read, or the log a command printed, you may never have seen. It is still in the context, where the model may act on it.
 
-**Do not read the loop as a plan.** The model does not plan the whole path and then follow it. It decides one turn at a time from what it sees. When it goes down a wrong path, it is usually because the result of an earlier turn led it there.
+An agent is not always the answer, either, because letting the model choose its own next step has a price. Such a loop costs more and is harder to predict than a fixed series of model calls, or a single call. Sometimes that price is not worth paying. Anthropic's advice is to find the simplest solution possible and add complexity only when needed ([Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.
 
-## When to delete it {#when-to-delete-it}
+One more trap has nothing to do with cost. It is easy to read the loop as a plan, and it is not one. The model does not plan the whole path and then follow it. It decides one turn at a time from what it sees, so when it goes down a wrong path, it is usually because the result of an earlier turn led it there.
+
+## When to delete my hooks, and what stays {#when-to-delete-it}
 {status: industry}
 
-The reasoning about the loop does not retire while agents work by calling tools. The practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks. I would then drop the hooks, not the loop picture.
+Will any of this go out of date? The reasoning about the loop does not retire while agents work by calling tools, but the practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks. I would then drop the hooks, not the loop picture.
 
 ## Try it on your own setup {#try-it}
 

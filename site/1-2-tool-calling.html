@@ -221,40 +221,34 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Who actually runs the tool?</span><span data-l="zh-Hant" lang="zh-Hant">工具到底是誰在執行？</span><span data-l="zh-Hans" lang="zh-Hans">工具到底是谁在运行？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Where you can step in, and what to write for the model</span><span data-l="zh-Hant" lang="zh-Hant">能在哪裡插手，又該給模型寫些什麼</span><span data-l="zh-Hans" lang="zh-Hans">能在哪里插手，又该给模型写些什么</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What good tools cost, and where they go wrong</span><span data-l="zh-Hant" lang="zh-Hant">好工具要付出什麼，又會在哪裡出錯</span><span data-l="zh-Hans" lang="zh-Hans">好工具要付出什么，又会在哪里出错</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Does Anthropic see it the same way?</span><span data-l="zh-Hant" lang="zh-Hant">Anthropic 也這麼看嗎？</span><span data-l="zh-Hans" lang="zh-Hans">Anthropic 也这么看吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete a command</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉指令</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉命令</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
 <article><header class="chapter-head"><p class="chapter-no">1.2</p><h1><span data-l="en" lang="en">Tool calling, and designing tools for an agent</span><span data-l="zh-Hant" lang="zh-Hant">Tool calling，和給 agent 設計工具</span><span data-l="zh-Hans" lang="zh-Hans">Tool calling，以及怎么给 agent 设计工具</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know that an AI coding agent can read files and run commands. You do not need to know how.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要知道 AI 寫程式 agent 能讀檔案、執行指令。怎麼做到的，不用知道。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要知道寫程式的 AI agent 能讀檔案、執行指令。怎麼做到的，不用知道。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要知道写代码的 AI agent 能读文件、跑命令。不需要知道它是怎么做到的。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A model only asks for a tool call; the program around it runs the tool. So a tool is an interface for an unreliable user, and its description and error messages decide whether it is used well.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型只是要求呼叫工具；執行工具的，是它周圍的程式。所以工具是給一個不可靠的使用者用的介面，它的描述和錯誤訊息，決定它能不能被用好。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>模型只负责提出工具调用，运行工具的是它外面的程序。所以工具是给一个不可靠的用户用的接口，它的描述和报错信息，决定了它能不能被用好。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A model only asks for a tool call, while the program around it runs the tool. So a tool is an interface for an unreliable user, and its description and error messages decide whether it is used well.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型只是要求呼叫工具，真正執行工具的，是它周圍的程式。所以工具是給一個不可靠的使用者用的介面，它的描述和錯誤訊息，決定它能不能被用好。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>模型只负责提出工具调用，真正运行工具的是它外面的程序。所以工具是给一个不可靠的用户用的接口，它的描述和报错信息，决定了它能不能被用好。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> treat the tools you give an agent as a product that needs a good description and good error messages, and decide which fixed steps go into a command, not a prompt.</li>
-<li><strong>The risk:</strong> the model only guesses from a tool's name and description, so a vague tool is used wrongly or never. A rule written in a prompt is a request; a step done by a command cannot be skipped on that path.</li>
-<li><strong>The cost of doing it right:</strong> rewriting descriptions and error messages is small. A command is code someone has to maintain. Anthropic suggests five real tasks are enough to start testing tools.</li>
+<li><strong>The decision:</strong> treat the tools you give an agent as a product that needs a good description and good error messages, and decide which fixed steps go into a command rather than a prompt.</li>
+<li><strong>The risk:</strong> the model can only guess from a tool's name and description, so a vague tool gets used wrongly or not at all. A rule written in a prompt is a request, while a step done by a command cannot be skipped on that path.</li>
+<li><strong>The cost of doing it right:</strong> rewriting descriptions and error messages costs little. A command is code, and someone has to maintain it. Anthropic suggests five real tasks are enough to start testing tools.</li>
 <li><strong>Ask the team:</strong> &quot;If you read only the name and description of each tool, would you know when to use it? What does its error say?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：把你給 agent 的工具當成產品，需要好的描述和好的錯誤訊息；並決定哪些固定的步驟，放進指令（command）裡，不放進 prompt 裡。</li>
-<li><strong>風險</strong>：模型只能從工具的名字和描述去猜，所以含糊的工具會被用錯，或從來沒被用到。寫在 prompt 裡的規則是請求；由指令做的步驟，在那條路徑上沒辦法被跳過。</li>
-<li><strong>做對的成本</strong>：重寫描述和錯誤訊息，成本很小。指令是程式碼，要有人維護。Anthropic 建議，五個真實的任務，就夠開始測試工具了。</li>
+<li><strong>要做的決定</strong>：把你給 agent 的工具當成產品來看待，它需要好的描述和好的錯誤訊息；還要決定哪些固定的步驟交給指令（command），而不是寫進 prompt。</li>
+<li><strong>風險</strong>：模型只能從工具的名字和描述去猜，所以含糊的工具會被用錯，或者根本沒人用。寫在 prompt 裡的規則是請求，而由指令完成的步驟，在那條路徑上是跳不過去的。</li>
+<li><strong>做對的成本</strong>：重寫描述和錯誤訊息，花不了多少。指令是程式碼，就得有人維護。Anthropic 建議，有五個真實的任務，就夠開始測試工具了。</li>
 <li><strong>可以問團隊</strong>：「如果只讀每個工具的名字和描述，你知道什麼時候該用它嗎？它的錯誤訊息說了什麼？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：把你给 agent 的工具当成一个产品来对待，它需要好的描述和好的报错信息；并且决定哪些固定的步骤写进命令，而不是写进 prompt。</li>
-<li><strong>风险</strong>：模型只能根据工具的名字和描述去猜，所以含糊的工具会被用错，或者根本没人用。写在 prompt 里的规则是请求；由命令完成的步骤，在这条路径上跳不过去。</li>
-<li><strong>做对的代价</strong>：重写描述和报错信息，花费很小。命令是代码，得有人维护。Anthropic 建议，五个真实的任务就足够开始测试工具了。</li>
+<li><strong>要拍板的事</strong>：把你给 agent 的工具当成产品来对待，它需要好的描述和好的报错信息；还要决定哪些固定的步骤交给命令，而不是写进 prompt。</li>
+<li><strong>风险</strong>：模型只能根据工具的名字和描述去猜，所以含糊的工具会被用错，或者干脆没人用。写在 prompt 里的规则是请求，而由命令完成的步骤，在这条路径上是跳不过去的。</li>
+<li><strong>做对的代价</strong>：重写描述和报错信息，花不了多少。命令是代码，就得有人维护。Anthropic 建议，有五个真实的任务就足够开始测试工具了。</li>
 <li><strong>可以问团队</strong>：“如果只看每个工具的名字和描述，你能知道什么时候该用它吗？它的报错信息又是怎么说的？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When you watch an agent edit a file, it looks as if the model did it. It did not. A language model is a program that takes in text and produces text. It cannot open a file, run a command or send a request. It has no hands.</p>
-<p>What it can do is write a sentence that means &quot;please call the tool <code>read_file</code> with the path <code>src/app.py</code>&quot;. That sentence is the <strong>tool call</strong>. The program around the model (the harness, in the first sense from <a href="0-1-the-gap-and-the-map.html">chapter 0.1</a>) reads the sentence, does the work, and puts the result back into the conversation as more text. The model then reads that result and decides what to do next.</p>
-<p>This looks like a technical detail, but it changes how you should think about tools. Every action an agent takes passes through a call that the program could inspect, refuse or change. And the model is not a careful programmer calling a function: it is a reader guessing from a description. Treat it like a user who skims.</p>
-<h3>Three words first</h3>
-<ul>
-<li>A <strong>tool</strong> is one action the agent may ask for: read a file, search, edit a file, run a command, fetch a web page.</li>
-<li>A <strong>tool call</strong> is the model's request to use one, with the arguments it chose.</li>
-<li>A <strong>tool result</strong> is the text the program sends back after running it.</li>
-</ul>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Who actually runs the tool?</h2><p>When you watch an agent edit a file, it looks as if the model did it. It did not. A language model is a program that takes in text and produces text, so on its own it cannot open a file, run a command or send a request. It has no hands.</p>
+<p>What it can do is write a sentence that means &quot;please call the tool <code>read_file</code> with the path <code>src/app.py</code>&quot;. That sentence is a <strong>tool call</strong>: the model's request to use a <strong>tool</strong>, along with the arguments it chose. A tool here means one action the agent may ask for, such as reading a file, searching, editing a file, running a command or fetching a web page. The program around the model (the harness, in the first sense from <a href="0-1-the-gap-and-the-map.html">chapter 0.1</a>) reads the sentence and does the work, then puts what came back into the conversation as more text. The model reads that text, the <strong>tool result</strong>, to decide what to do next.</p>
+<p>This looks like a technical detail, but it changes how you should think about tools. Every action an agent takes passes through a call that the program could inspect, refuse or change. And the model is not a careful programmer calling a function. It is a reader guessing from a description, so treat it like a user who skims.</p>
 <h3>One round trip</h3>
 <figure class="fig steps" id="fig-1-2-tool-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
   <rect class="box" x="20" y="14" width="140" height="40" rx="6"/>
@@ -290,16 +284,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">The model writes a request: which tool, which arguments. It does nothing else.</li><li data-step-text="2">The program around it runs the tool. This is the point where a rule can allow, change or refuse the call.</li><li data-step-text="3">The tool returns something: file contents, a command&#x27;s output, or an error.</li><li data-step-text="4">The program puts the result into the conversation as text. The model reads it and decides what to do next.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>One tool call. The model only asks; the program around it does the work, and can step in before and after.</figcaption></figure>
-<p>The provider's own documentation describes the same round trip: the model answers with a stop reason of <code>tool_use</code> and a block that names the tool and its arguments; your code runs it and sends back a <code>tool_result</code>. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>) One exception is worth knowing: some <strong>server tools</strong>, such as web search, run on the provider's side, so you never handle the call yourself. Most of what an agent in your editor does are client tools, run on your machine. The difference matters for this chapter: for a server tool, you cannot step in before or after it runs, because the program never sees the call.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>看 agent 改檔案的時候，好像是模型做的。其實不是。語言模型是一個吃進文字、吐出文字的程式。它不能打開檔案、執行指令或送出請求。它沒有手。</p>
-<p>它能做的，是寫出一句話，意思是「請用路徑 <code>src/app.py</code> 呼叫工具 <code>read_file</code>」。這句話就是<strong>工具呼叫</strong>。模型周圍的程式（harness，用的是 <a href="0-1-the-gap-and-the-map.html">差距在模型外面</a> 裡的第一個意思）讀這句話，做事，再把結果當成更多文字放回對話裡。然後模型讀這個結果，決定下一步。</p>
-<p>這看起來是個技術細節，但它改變了你該怎麼想工具。agent 做的每個動作，都經過一次呼叫，而程式可以檢查、拒絕或修改這次呼叫。而且模型不是在呼叫函式的謹慎程式設計師：它是根據描述去猜的讀者。把它當成一個只會快速瀏覽的使用者。</p>
-<h3>先講三個詞</h3>
-<ul>
-<li><strong>工具</strong>是 agent 可以要求的一個動作：讀檔案、搜尋、改檔案、執行指令、抓一個網頁。</li>
-<li><strong>工具呼叫</strong>是模型要求用其中一個，附上它選的參數。</li>
-<li><strong>工具結果</strong>是程式執行之後送回來的文字。</li>
-</ul>
+<p>The provider's own documentation describes the same round trip. The model answers with a stop reason of <code>tool_use</code> and a block that names the tool and its arguments. Your code then runs the tool and sends back a <code>tool_result</code>. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</p>
+<p>There is one exception worth knowing. Some <strong>server tools</strong>, such as web search, run on the provider's side, so you never handle the call yourself. Most of what an agent in your editor does, though, goes through client tools, which run on your machine. The difference matters for this chapter, because with a server tool you cannot step in before or after it runs. The program never sees the call.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>工具到底是誰在執行？</h2><p>看 agent 改檔案的時候，你會覺得是模型改的。其實不是。語言模型是一個吃進文字、吐出文字的程式，光靠它自己，打不開檔案、執行不了指令，也送不出請求。它沒有手。</p>
+<p>它能做的，是寫出一句話，意思是「請用路徑 <code>src/app.py</code> 呼叫工具 <code>read_file</code>」。這句話就是一次<strong>工具呼叫</strong>：模型要求使用某個<strong>工具</strong>，並附上它選好的參數。所謂工具，就是 agent 可以要求的一個動作，例如讀檔案、搜尋、改檔案、執行指令、抓一個網頁。模型周圍的程式（也就是<a href="0-1-the-gap-and-the-map.html">差距在模型外面</a>裡第一種意思的 harness）讀到這句話，把事情做完，再把拿回來的東西變成文字，接著放進對話裡。這段文字就是<strong>工具結果</strong>，模型讀了它，再決定下一步。</p>
+<p>這看起來是個技術細節，卻會改變你看待工具的方式。agent 做的每個動作，都要經過一次呼叫，而程式可以檢查、拒絕或修改這次呼叫。而且模型也不是在呼叫函式的謹慎程式設計師，它是根據描述去猜的讀者，所以要把它當成一個只會快速瀏覽的使用者。</p>
 <h3>一次來回</h3>
 <figure class="fig steps" id="fig-1-2-tool-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
   <rect class="box" x="20" y="14" width="140" height="40" rx="6"/>
@@ -335,16 +324,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">模型寫出一個請求：用哪個工具、什麼參數。它不做別的。</li><li data-step-text="2">外面的程式去執行工具。規則可以在這一步放行、修改或拒絕這次呼叫。</li><li data-step-text="3">工具回傳東西：檔案內容、指令的輸出，或一個錯誤。</li><li data-step-text="4">程式把結果當成文字放進對話。模型讀完，決定下一步。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次工具呼叫。模型只提出請求；外面的程式做事，並且在前後都能插手。</figcaption></figure>
-<p>供應商自己的文件也描述了同樣的來回：模型回答時帶著停止原因 <code>tool_use</code>，以及一個寫出工具名和參數的區塊；你的程式執行它，再送回 <code>tool_result</code>。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）有一個例外值得知道：有些 <strong>server tool</strong>（例如網頁搜尋）是在供應商那邊執行的，所以你自己永遠碰不到那次呼叫。你編輯器裡的 agent 做的大部分事，是 client tool，在你的機器上執行。這個差別對這一章很重要：對 server tool，你沒辦法在它執行之前或之後插手，因為程式從來看不到那次呼叫。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>看着 agent 改文件，会觉得是模型干的。其实不是。语言模型是一个读入文本、产出文本的程序。它打不开文件，运行不了命令，也发不出请求。它没有手。</p>
-<p>它能做的，是写一句话，意思是“请调用工具 <code>read_file</code>，路径是 <code>src/app.py</code>”。这句话就是<strong>工具调用</strong>。模型外面的程序（<a href="0-1-the-gap-and-the-map.html">差距在模型外面</a>里第一种意思的 harness）读到这句话，把事情做完，再把结果作为更多文本放回对话里。然后模型读这个结果，决定下一步做什么。</p>
-<p>这看起来像个技术细节，却改变了你该怎么看待工具。agent 的每个动作，都要经过一次调用，而程序可以检查、拒绝或修改这次调用。而且模型也不是一个认真的程序员在调用函数：它是一个靠描述来猜的读者。把它当成一个只会扫一眼的用户。</p>
-<h3>先说三个词</h3>
-<ul>
-<li><strong>工具</strong>是 agent 可以要求做的一个动作：读文件、搜索、改文件、运行命令、抓取网页。</li>
-<li><strong>工具调用</strong>是模型请求使用一个工具，带着它选的参数。</li>
-<li><strong>工具结果</strong>是程序运行完工具之后送回来的文本。</li>
-</ul>
+<p>供應商自己的文件，描述的也是這樣一個來回。模型回答時帶著停止原因 <code>tool_use</code>，以及一個寫出工具名和參數的區塊，你的程式執行這個工具，再送回 <code>tool_result</code>。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
+<p>有一個例外值得知道。有些 <strong>server tool</strong>（例如網頁搜尋）是在供應商那邊執行的，所以你自己永遠碰不到那次呼叫；而你編輯器裡的 agent 做的大部分事，用的都是在你機器上執行的 client tool。這個差別對這一章很重要，因為遇到 server tool，你沒辦法在它執行之前或之後插手，程式根本看不到那次呼叫。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>工具到底是谁在运行？</h2><p>看着 agent 改文件，你会觉得是模型改的。其实不是。语言模型是一个读入文本、产出文本的程序，单靠它自己，打不开文件，运行不了命令，也发不出请求。它没有手。</p>
+<p>它能做的，是写出一句话，意思是“请调用工具 <code>read_file</code>，路径是 <code>src/app.py</code>”。这句话就是一次<strong>工具调用</strong>：模型请求使用某个<strong>工具</strong>，并附上它选好的参数。所谓工具，就是 agent 可以要求做的一个动作，比如读文件、搜索、改文件、运行命令、抓取网页。模型外面的程序（也就是<a href="0-1-the-gap-and-the-map.html">差距在模型外面</a>里第一种意思的 harness）读到这句话，把事情做完，再把拿回来的东西变成文本，接着添进对话里。这段文本就是<strong>工具结果</strong>，模型读了它，再决定下一步做什么。</p>
+<p>这看起来像个技术细节，却会改变你看待工具的方式。agent 的每个动作都要经过一次调用，而程序可以检查、拒绝或修改这次调用。而且模型也不是一个认真的程序员在调用函数，它是一个靠描述来猜的读者，所以要把它当成一个只会扫一眼的用户。</p>
 <h3>一次来回</h3>
 <figure class="fig steps" id="fig-1-2-tool-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
   <rect class="box" x="20" y="14" width="140" height="40" rx="6"/>
@@ -380,38 +364,30 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">模型写出一个请求：用哪个工具、什么参数。它不做别的。</li><li data-step-text="2">外面的程序去运行工具。规则可以在这一步放行、修改或拒绝这次调用。</li><li data-step-text="3">工具返回东西：文件内容、命令的输出，或一个错误。</li><li data-step-text="4">程序把结果当成文本放进对话。模型读完，决定下一步。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次工具调用。模型只提出请求；外面的程序做事，并且在前后都能插手。</figcaption></figure>
-<p>模型提供方自己的文档讲的是同一个来回：模型回复时，停止原因是 <code>tool_use</code>，并带着一个写明工具名和参数的块；你的代码运行它，再送回一个 <code>tool_result</code>。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）有一个例外值得知道：有些<strong>服务端工具</strong>，比如网页搜索，是在提供方那边运行的，所以你从头到尾碰不到这次调用。你编辑器里的 agent 做的大部分事，是客户端工具，在你的机器上运行。这个区别对本章很要紧：对服务端工具，你没法在它运行之前或之后插手，因为程序根本看不到这次调用。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Where you can step in</h3>
-<p>Because the program sits between the request and the action, there are two places to step in:</p>
-<ul>
-<li><strong>Before the tool runs.</strong> The program can let the call through, refuse it, or change it. A hook (<a href="2-2-hooks.html">chapter 2.2</a>) is the usual way to do that, and a refusal comes with a reason that goes back to the agent.</li>
-<li><strong>After it runs.</strong> The program can shorten, filter or add to the result before the model reads it.</li>
-</ul>
-<p>That is the main reason it is possible to enforce rules on an agent at all. A rule that lives in the program is code that runs; a rule in a prompt is a request (<a href="4-1-requests-and-rules.html">chapter 4.1</a>).</p>
-<p>The rest of this chapter is about the middle of that trip: what the model sees and what it gets back. Both are text you write.</p>
+<p>模型提供方自己的文档，讲的也是这样一个来回。模型回复时，停止原因是 <code>tool_use</code>，并带着一个写明工具名和参数的块，你的代码运行这个工具，再送回一个 <code>tool_result</code>。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
+<p>有一个例外值得知道。有些<strong>服务端工具</strong>，比如网页搜索，是在提供方那边运行的，所以你从头到尾碰不到这次调用；而你编辑器里的 agent 做的大部分事，用的都是在你机器上运行的客户端工具。这个区别对本章很要紧，因为碰上服务端工具，你没法在它运行之前或之后插手，程序根本看不到这次调用。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Where you can step in, and what to write for the model</h2><h3>Where you can step in</h3>
+<p>With a client tool, the program sits between the request and the action, which gives it two places to step in. Before the tool runs, it can let the call through, refuse it or change it. The usual way to do that is a hook (<a href="2-2-hooks.html">chapter 2.2</a>). When a hook refuses, the reason it gives goes back to the agent. After the tool runs, the program can shorten, filter or add to the result before the model reads it.</p>
+<p>That is the main reason it is possible to enforce rules on an agent at all. A rule that lives in the program is code that runs, whereas a rule in a prompt is a request (<a href="4-1-requests-and-rules.html">chapter 4.1</a>).</p>
+<p>But a hook can only judge a call the model has already made. Whether the model makes a good call in the first place depends on the middle of the trip, on what it sees before it calls and what it gets back afterwards, and both of those are text you write.</p>
 <h3>A tool is an interface for an unreliable user</h3>
-<p>A person using a command line can read documentation, ask a colleague, and notice that something looks wrong. The model has the tool's name, a short description, and the list of parameters. That is all. It can guess wrongly, and the provider's documentation says so: given a tool that needs a location and a request that does not give one, a model might make one up. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</p>
-<p>So designing a tool for an agent is designing for someone who:</p>
-<ul>
-<li>reads only the name and description to decide when to use it,</li>
-<li>fills the arguments by guessing from context,</li>
-<li>does not know what the tool does not tell it,</li>
-<li>reads the result as text, with whatever room it takes in the context window.</li>
-</ul>
-<p>Anthropic's advice on writing tools for agents says the same in other words: &quot;Even small refinements to tool descriptions can yield dramatic improvements.&quot; (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>) The five rules below follow from it.</p>
+<p>Think about what each side has to go on. A person using a command line can read documentation, ask a colleague, and notice that something looks wrong. The model has the tool's name, a short description and the list of parameters, and nothing more. So it can guess wrongly, and the provider's documentation says as much: given a tool that needs a location and a request that does not give one, a model might make one up. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</p>
+<p>Designing a tool for an agent, then, means designing for a user who decides when to use it from the name and description alone, and who fills in the arguments by guessing from context. It does not know anything the tool does not tell it, and it reads the result as plain text, however much room that takes in the context window.</p>
+<p>Anthropic's advice on writing tools for agents makes the same point in other words: &quot;Even small refinements to tool descriptions can yield dramatic improvements.&quot; (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>) The five rules below follow from it, and they come roughly in the order a call meets them.</p>
 <h3>1. Write the description like a brief for a new hire</h3>
-<p>Say what the tool does, when to use it, and when not to. Make names unambiguous: a parameter called <code>user</code> can mean a name, an ID or an email; <code>user_email</code> cannot. If two tools look alike, say in each one how it differs. The description is the only place the model learns this, so a vague one means the tool is used wrongly or never.</p>
+<p>Before any call, the description is the only place the model learns what a tool is for, so it has to say what the tool does, when to use it, and when not to. A vague one means the tool is used wrongly or never. Names need the same care, because a parameter called <code>user</code> can mean a name, an ID or an email, while <code>user_email</code> can mean only one thing. And if two tools look alike, each description should say how it differs from the other.</p>
 <h3>2. Write errors for the agent to read</h3>
-<p>A person can look at a stack trace and think. A model gets the text and goes on. If the error is <code>Error 400</code>, the model guesses, often the same thing again. If the error says what was wrong and what to try next, it fixes the call.</p>
-<p>The same goes for a refusal: say what to do instead (<a href="4-2-ask-vs-refuse.html">chapter 4.2</a>).</p>
+<p>When a call goes wrong, the next thing the model reads is the error. A person can look at a stack trace and stop to think, but a model takes the text it is given and goes on. If the error is <code>Error 400</code>, the model guesses, often the same thing again. If the error says what was wrong and what to try next, it fixes the call.</p>
+<p>The same goes for a refusal, which should say what to do instead (<a href="4-2-ask-vs-refuse.html">chapter 4.2</a>).</p>
 <h3>3. Keep the output short, and let it be paged</h3>
-<p>Everything a tool returns is put in the context window (<a href="3-1-context-budget.html">chapter 3.1</a>), and it is read again on every later turn (<a href="1-1-models-and-cost.html">chapter 1.1</a>). A tool that returns a whole large file when the agent wanted one line wastes tokens, and it can crowd useful things out of the window.</p>
-<p>So give results sensible limits: a default cap, a way to ask for a range or the next page, a filter. Anthropic also describes letting the agent choose between a concise and a detailed response. And when you have many tools, grouping related ones under a common name prefix helps the agent tell them apart. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>) Claude Code caps tool responses at 25,000 tokens by default (Anthropic's figure at the time of writing). When you cut the output, say so, and tell the agent how to narrow its query. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+<p>When the call works, what the model reads is the output. Everything a tool returns goes into the context window (<a href="3-1-context-budget.html">chapter 3.1</a>), and it is read again on every later turn (<a href="1-1-models-and-cost.html">chapter 1.1</a>). So a tool that returns a whole large file when the agent wanted one line not only wastes tokens but can also crowd useful things out of the window.</p>
+<p>The fix is to give results sensible limits, such as a default cap, a way to ask for a range or the next page, or a filter. Anthropic also describes letting the agent choose between a concise and a detailed response. When there are many tools, grouping related ones under a common name prefix helps the agent tell them apart. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+<p>For a sense of scale, Claude Code caps tool responses at 25,000 tokens by default (Anthropic's figure at the time of writing). Whatever the cap, when you cut the output, say so, and tell the agent how to narrow its query. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
 <h3>4. Fewer tools choose better</h3>
-<p>Every tool's name, description and parameters are sent to the model on every call. More tools cost more tokens and give more chances to pick the wrong one, especially when they overlap. Prefer a small set that is clearly different, and merge related operations into one where you can. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+<p>So far each rule has been about one tool, but the number of tools matters too. You might think an extra tool does no harm when it is not used. It still costs something, because every tool's name, description and parameters are sent to the model on every call. More tools mean more tokens and more chances to pick the wrong one, especially when they overlap. So prefer a small set of clearly different tools, and merge related operations into one where you can. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
 <h3>5. Do the fixed steps in a command, not in a prompt</h3>
-<p>This is the one I would stress most. Sometimes a job has steps that always go the same way and where there is a right and wrong: make the folder for a new task, copy the files, compute a hash, write the record, check that everything is ready before writing back. You can describe those steps in the instructions and ask the agent to follow them. It will, most of the time.</p>
-<p>Or you can write them once as a <strong>command</strong>: a small program the agent runs as a tool. The command does the steps, checks the preconditions itself, and returns a short result. On the path through the command, the agent cannot skip a step and cannot write a wrong state, because it never writes it.</p>
+<p>The first four rules are about tools you already have. The last is about which work should become a tool at all, and it is the one I would stress most. Some jobs have steps that always go the same way and where there is a right and a wrong: make the folder for a new task, copy the files, compute a hash, write the record, check that everything is ready before writing back. You can describe those steps in the instructions and ask the agent to follow them, and it will, most of the time.</p>
+<p>Or you can write them once as a <strong>command</strong>, a small program the agent runs as a tool. The command does the steps, checks the preconditions itself and returns a short result. On the path through the command, the agent cannot skip a step or write a wrong state, because it never writes the state at all.</p>
 <figure class="fig" id="fig-1-2-prompt-vs-command"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">In the prompt</text>
   <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
@@ -433,53 +409,40 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">A short result comes back</text>
 </svg>
 <figcaption>The same job, two ways. Asking the model to follow steps is a request; a command that does them is code.</figcaption></figure>
-<p>The fit is for steps that need no judgment. If a step needs the agent to decide something, leave that part to the agent and let the command do only what is fixed around it. This is what my harness does. A command line creates a task folder (the unit of work in <a href="5-1-tasks.html">Manage tasks, not chats</a>), fetches files, works out diffs and counts checks, and the model only runs the command and reads the answer. Progress is a good example: the task list reads a data file that commands write, and not the Markdown notes an agent wrote by hand, because hand-written progress misses ticks and goes wrong. The result is the same every time, and the model does not have to get the steps right.</p>
-<p>Two details make a command friendly to an agent:</p>
-<ul>
-<li><strong>A result that says what comes next.</strong> The command's output tells the agent what to do next, so it does not have to guess.</li>
-<li><strong>Text for people, JSON for scripts.</strong> The same command prints aligned text in a terminal and JSON when it is piped. The fields are the same.</li>
-</ul>
-<p>A command only helps if the agent actually uses it, and it only guards what goes through it. If the agent can do the same thing another way (edit the file by hand), the command is a convenience, not a limit. <a href="4-1-requests-and-rules.html">Chapter 4.1</a> takes that further.</p>
-<h3>Test your own setup</h3>
-<p><strong>Three questions</strong> for any tool you give an agent:</p>
+<p>The fit is for steps that need no judgment. If a step needs the agent to decide something, leave that part to the agent and let the command do only the fixed work around it. This is what my harness does. A command line creates a task folder (the unit of work in <a href="5-1-tasks.html">Manage tasks, not chats</a>), fetches files, works out diffs and counts checks, and the model only runs the command and reads the answer. The result is the same every time, and the model never has to get the steps right. Progress is a good example of why: the task list reads a data file that commands write, not the Markdown notes an agent wrote by hand, because hand-written progress misses ticks and goes wrong.</p>
+<p>A command is also friendlier to an agent when its output says what to do next, because then the agent does not have to guess. And since the same command is read by people in a terminal and by scripts through a pipe, it can print aligned text for the first and JSON for the second, with the same fields in both.</p>
+<p>A command has limits of its own, though. It only helps if the agent actually uses it, and it only guards what goes through it. If the agent can do the same thing another way, say by editing the file by hand, the command is a convenience, not a limit. <a href="4-1-requests-and-rules.html">Chapter 4.1</a> takes that further.</p>
+<h3>How to check your own tools</h3>
+<p>You can start with three questions about any tool you give an agent.</p>
 <ol>
 <li>If you read only its name and description, would you know when to use it and when not to?</li>
 <li>When it fails, does the message tell the agent what to do next?</li>
 <li>How big can its output be, and what happens to the context if it is large?</li>
 </ol>
-<p><strong>A zero-install experiment.</strong> Ask the agent to call one of your tools in a way that you know is wrong, and read what comes back. Is it clear enough that you would know what to do if you were the agent? If not, that is the message to rewrite.</p>
-<p><strong>A bigger loop, if you build tools.</strong> Anthropic's method is the same idea at scale: write tasks drawn from real use, run them, read the raw transcripts (the calls and the results, not only the final answer), and fix the descriptions and errors where the agent went wrong. Five tasks are enough to start. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>你能在哪裡插手</h3>
-<p>因為程式站在請求和動作之間，有兩個地方可以插手：</p>
-<ul>
-<li><strong>工具執行之前</strong>。程式可以放行、拒絕或修改這次呼叫。通常的辦法是用 hook（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>），而拒絕會附上一個原因，回到 agent 那裡。</li>
-<li><strong>執行之後</strong>。程式可以在模型讀到結果之前，縮短、過濾或補充它。</li>
-</ul>
-<p>這是能對 agent 執行規則的主要原因。放在程式裡的規則，是會執行的程式碼；寫在 prompt 裡的規則，是請求（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。</p>
-<p>這一章其餘的部分，講這趟來回的中間：模型看到什麼，拿回什麼。兩者都是你寫的文字。</p>
+<p>The quickest experiment needs nothing installed. Ask the agent to call one of your tools in a way that you know is wrong, and read what comes back. If you were the agent, would it be clear enough to tell you what to do? If not, that is the message to rewrite.</p>
+<p>If you build tools, Anthropic's method is the same idea at scale. Write tasks drawn from real use, run them, read the raw transcripts (the calls and the results, not only the final answer), and fix the descriptions and errors where the agent went wrong. Five tasks are enough to start. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>能在哪裡插手，又該給模型寫些什麼</h2><h3>你能在哪裡插手</h3>
+<p>用 client tool 的時候，程式站在請求和動作之間，所以有兩個地方可以插手。工具執行之前，程式可以放行這次呼叫、拒絕它，或者修改它。通常的辦法是用 hook（見<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>），hook 拒絕時給的原因，會回到 agent 那裡。工具執行之後，程式還可以在模型讀到結果之前，把結果縮短、過濾或補充。</p>
+<p>這就是能對 agent 強制執行規則的主要原因。放在程式裡的規則是會執行的程式碼，而寫在 prompt 裡的規則是請求（見<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。</p>
+<p>不過，hook 只能判斷模型已經送出的呼叫。模型一開始能不能把呼叫送對，要看這趟來回的中間：呼叫之前它看到什麼，呼叫之後它拿回什麼。而這兩樣，恰恰都是你寫的文字。</p>
 <h3>工具是給不可靠使用者的介面</h3>
-<p>人在用命令列時，可以讀文件、問同事，也會注意到哪裡看起來不對。模型有的只是工具的名字、一段簡短的描述，和參數清單。就這樣。它可能猜錯，供應商的文件也這麼說：給它一個需要地點的工具，而請求裡沒有地點，模型可能會編一個。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
-<p>所以替 agent 設計工具，是在為這樣的人設計：</p>
-<ul>
-<li>只讀名字和描述，來決定什麼時候用，</li>
-<li>靠從上下文猜來填參數，</li>
-<li>不知道工具沒告訴它的事，</li>
-<li>把結果當文字讀，結果占多少上下文視窗的空間，就占多少。</li>
-</ul>
-<p>Anthropic 寫給 agent 的工具的建議，用別的話說了一樣的事：「就算只是把工具描述稍微改好，也能帶來很大的進步。」（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）下面的五條規則由此而來。</p>
+<p>先看看兩邊各有什麼可以依靠。人在用命令列時，可以讀文件、問同事，也會注意到哪裡看起來不對。模型手上只有工具的名字、一段簡短的描述和參數清單，除此之外什麼都沒有。所以它可能猜錯，供應商的文件也這麼說：如果一個工具需要地點，而請求裡沒有給，模型可能會自己編一個。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
+<p>這樣看來，替 agent 設計工具，就是在為這樣一個使用者設計。它只憑名字和描述決定什麼時候用，參數則靠上下文去猜。工具沒告訴它的事，它一概不知道；回傳的結果，它也都當成普通的文字來讀，結果有多大，就占掉多少上下文視窗。</p>
+<p>Anthropic 談怎麼替 agent 寫工具的那篇建議，換個說法講的也是這件事：「就算只是把工具描述稍微改好，也能帶來很大的進步。」（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）下面的五條規則都由此而來，大致照一次呼叫經過的順序排。</p>
 <h3>1. 描述要寫得像給新同事的交辦單</h3>
-<p>寫清楚這個工具做什麼、什麼時候用、什麼時候不用。名字不要有歧義：叫 <code>user</code> 的參數，可能是名字、ID 或 email；叫 <code>user_email</code> 就不會。如果兩個工具看起來很像，在每一個裡都說明它哪裡不同。模型只能在描述裡學到這些，所以含糊的描述，就是工具被用錯，或從來沒被用到。</p>
+<p>呼叫之前，描述是模型了解一個工具用途的唯一地方，所以它得寫清楚這個工具做什麼、什麼時候用、什麼時候不用。描述含糊，工具就會被用錯，或者從來沒被用到。名字也一樣要講究。例如一個叫 <code>user</code> 的參數，可能是名字、ID，也可能是 email，而 <code>user_email</code> 只可能是一種意思。還有，如果兩個工具看起來很像，每個工具的描述裡都要說清楚它和另一個哪裡不同。</p>
 <h3>2. 錯誤訊息要寫給 agent 讀</h3>
-<p>人看到堆疊追蹤會思考。模型拿到文字就繼續。如果錯誤訊息是 <code>Error 400</code>，模型就會猜，常常又猜同一件事。如果錯誤訊息寫了哪裡錯、接著可以試什麼，它就會修好這次呼叫。</p>
-<p>拒絕也一樣：寫明該改做什麼（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
+<p>呼叫出了錯，模型接下來讀到的就是錯誤訊息。人看到堆疊追蹤，會停下來想一想，模型卻是拿到文字就繼續往下走。如果錯誤訊息是 <code>Error 400</code>，模型就只能猜，常常又猜回同一個錯的值。如果錯誤訊息寫了哪裡錯、接著可以試什麼，它就能把這次呼叫修好。</p>
+<p>拒絕也一樣，要寫明該改做什麼（見<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
 <h3>3. 輸出要短，而且能分頁</h3>
-<p>工具回傳的所有東西，都會放進上下文視窗（<a href="3-1-context-budget.html">上下文是一份預算</a>），而且之後每一輪都會再讀一遍（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。agent 只想要一行，工具卻回傳整個大檔案，就浪費 token，還可能把有用的東西擠出視窗。</p>
-<p>所以結果要有合理的限制：預設的上限、要求某個範圍或下一頁的辦法、一個過濾條件。Anthropic 也描述過，讓 agent 在簡潔和詳細的回應之間選。而且工具很多的時候，把相關的工具用共同的名字前綴分組，能幫 agent 分辨它們。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）Claude Code 預設把工具回應限制在 25,000 個 token（這是我寫作時 Anthropic 的數字）。你截掉輸出的時候，要說出來，並告訴 agent 怎麼把查詢範圍縮小。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>呼叫成功了，模型讀到的是輸出。工具回傳的所有東西，都會放進上下文視窗（見<a href="3-1-context-budget.html">上下文是一份預算</a>），而且之後每一輪都會再讀一遍（見<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。所以，如果 agent 只想要一行，工具卻回傳整個大檔案，不只浪費 token，還可能把有用的東西擠出視窗。</p>
+<p>辦法是給結果合理的限制，例如預設的上限、要求某個範圍或下一頁的辦法，或者一個過濾條件。Anthropic 也描述過，讓 agent 在簡潔和詳細的回應之間選。工具很多的時候，把相關的工具歸到共同的名字前綴底下，能幫 agent 分辨它們。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>具體到數字，Claude Code 預設把工具回應限制在 25,000 個 token（這是我寫作時 Anthropic 的數字）。不管上限訂在哪裡，你截掉輸出的時候都要說出來，並告訴 agent 怎麼把查詢範圍縮小。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <h3>4. 工具少，選得更準</h3>
-<p>每個工具的名字、描述和參數，每次呼叫都會送給模型。工具越多，花的 token 越多，選錯的機會也越多，尤其是它們功能重疊的時候。偏好一小組明顯不同的工具，能合併的相關操作就合併成一個。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>前面幾條講的都是單一工具，但工具的數量也有講究。你也許覺得多一個工具，不用就沒壞處。其實它照樣有成本，因為每個工具的名字、描述和參數，每次呼叫都會送給模型。工具越多，花的 token 越多，選錯的機會也越多，功能重疊的時候尤其如此。所以盡量用一小組明顯不同的工具，能合併的相關操作，就合併成一個。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <h3>5. 固定的步驟，放進指令裡，不放進 prompt 裡</h3>
-<p>這是我最想強調的一條。有時一件工作，有些步驟永遠是同一個走法，而且有對有錯：為新任務建資料夾、複製檔案、算雜湊值、寫紀錄、寫回去之前檢查一切就緒。你可以在指令裡描述這些步驟，請 agent 照做。它大多數時候會照做。</p>
-<p>或者你可以把它們寫成一次的<strong>指令</strong>：一個 agent 當工具執行的小程式。指令做這些步驟，自己檢查前置條件，回傳一個簡短的結果。在經過這個指令的路徑上，agent 沒辦法跳過一步，也寫不出錯的狀態，因為它根本沒有寫。</p>
+<p>前四條講的是已有的工具，最後這一條講的是哪些工作該做成工具，也是我最想強調的一條。有些工作裡的步驟，永遠是同一個走法，而且有對有錯：為新任務建資料夾、複製檔案、算雜湊值、寫紀錄、寫回去之前檢查一切就緒。你可以把這些步驟寫成指令檔裡的指示，請 agent 照著做，它大多數時候也會照做。</p>
+<p>你也可以不靠指示，把它們一次寫成一個<strong>指令</strong>（command），也就是 agent 當工具執行的一個小程式。指令自己完成這些步驟，自己檢查前置條件，最後回傳一個簡短的結果。在經過這個指令的路徑上，agent 沒辦法跳過任何一步，也寫不出錯的狀態，因為狀態根本不是它寫的。</p>
 <figure class="fig" id="fig-1-2-prompt-vs-command"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">寫在提示裡</text>
   <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
@@ -501,53 +464,40 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">回來一個很短的結果</text>
 </svg>
 <figcaption>同一件事的兩種做法。叫模型照步驟做是請求；由命令來做是程式碼。</figcaption></figure>
-<p>這適合不需要判斷的步驟。如果某一步需要 agent 決定什麼，就把那部分留給 agent，讓指令只做周圍固定的部分。我的 harness 就是這樣。一條命令列指令建立任務資料夾（工作的單位，見 <a href="5-1-tasks.html">管任務，不管對話</a>）、抓檔案、算 diff、數檢查的次數，而模型只執行指令、讀答案。進度是個好例子：任務清單讀的是指令寫入的資料檔，不是 agent 手寫的 Markdown 筆記，因為手寫的進度會漏打勾、會出錯。結果每次都一樣，模型也不用把步驟做對。</p>
-<p>兩個細節讓指令對 agent 友善：</p>
-<ul>
-<li><strong>結果要說明接下來是什麼</strong>。指令的輸出告訴 agent 下一步做什麼，它就不用猜。</li>
-<li><strong>給人的是文字，給腳本的是 JSON</strong>。同一個指令，在終端機裡印出對齊的文字，透過管線接出去時印出 JSON。欄位是一樣的。</li>
-</ul>
-<p>指令只有在 agent 真的用它的時候才有幫助，而且它只守得住經過它的東西。如果 agent 能用別的辦法做同一件事（手動改檔案），指令就只是方便，不是限制。<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 把這一點講得更深。</p>
-<h3>測你自己的設定</h3>
-<p>對你給 agent 的任何工具，<strong>問三個問題</strong>：</p>
+<p>這適合不需要判斷的步驟。如果某一步需要 agent 拿主意，就把那部分留給它，讓指令只做周圍那些固定的事。我的 harness 就是這樣做的。一條命令列指令負責建立任務資料夾（任務是<a href="5-1-tasks.html">管任務，不管對話</a>裡講的工作單位）、抓檔案、算 diff、數檢查的次數，模型只要執行指令、讀答案就好。這樣一來，結果每次都一樣，模型也從來不用自己把步驟做對。為什麼要這樣，進度是個好例子：任務清單讀的是指令寫入的資料檔，不是 agent 手寫的 Markdown 筆記，因為手寫的進度會漏打勾，也會出錯。</p>
+<p>指令的輸出如果能說明下一步做什麼，對 agent 就更友善，因為它不用猜。而同一個指令，既有人在終端機裡看，也有腳本透過管線讀，所以它可以在終端機裡印出對齊的文字，接到管線上時印出 JSON，兩種輸出的欄位是一樣的。</p>
+<p>不過，指令也有自己的限度。agent 真的去用它，它才幫得上忙，而且它只守得住經過它的東西。如果 agent 能用別的辦法做同一件事，例如手動改檔案，這個指令就只是圖個方便，算不上限制。<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>會把這一點講得更深。</p>
+<h3>怎麼檢查你自己的工具</h3>
+<p>對你給 agent 的任何一個工具，都可以先問三個問題。</p>
 <ol>
 <li>如果只讀它的名字和描述，你知道什麼時候該用、什麼時候不該用嗎？</li>
 <li>它失敗的時候，訊息有沒有告訴 agent 接下來做什麼？</li>
 <li>它的輸出最大可以多大？大的時候，上下文會怎樣？</li>
 </ol>
-<p><strong>一個不用安裝任何東西的實驗</strong>。請 agent 用一個你知道是錯的方式，呼叫你的某個工具，讀回來的是什麼。如果你是 agent，這個訊息夠不夠清楚，讓你知道該做什麼？如果不夠，那就是要重寫的訊息。</p>
-<p><strong>更大的迴圈，如果你自己做工具</strong>。Anthropic 的方法是同一個想法放大：寫出取材自真實使用的任務，執行它們，讀原始的紀錄（呼叫和結果，不只是最後的答案），並在 agent 出錯的地方修好描述和錯誤訊息。五個任務就夠開始。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>你能在哪里插手</h3>
-<p>程序夹在请求和动作之间，所以有两个地方可以插手：</p>
-<ul>
-<li><strong>工具运行之前</strong>。程序可以放行这次调用，拒绝它，或者修改它。常用的办法是 hook（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），拒绝时会带上一个原因，送回给 agent。</li>
-<li><strong>运行之后</strong>。程序可以在模型读到结果之前，对结果做精简、过滤或补充。</li>
-</ul>
-<p>这是能对 agent 强制执行规则的主要原因。放在程序里的规则是会运行的代码；放在 prompt 里的规则是请求（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。</p>
-<p>这一章其余的部分，讲的是这趟来回的中间：模型看到什么，又拿回什么。这两样都是你写的文本。</p>
+<p>最快的實驗什麼都不用裝。請 agent 用一個你明知不對的方式呼叫你的某個工具，看看回來的是什麼。假如你就是那個 agent，這個訊息夠不夠清楚，能讓你知道該做什麼？如果不夠，要重寫的就是這個訊息。</p>
+<p>如果你自己做工具，Anthropic 的方法就是同一個想法放大。根據真實的使用情況寫出任務，執行它們，讀原始的紀錄（呼叫和結果，不只是最後的答案），然後在 agent 出錯的地方修好描述和錯誤訊息。五個任務就夠開始。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>能在哪里插手，又该给模型写些什么</h2><h3>你能在哪里插手</h3>
+<p>用客户端工具的时候，程序夹在请求和动作之间，所以有两个地方可以插手。工具运行之前，程序可以放行这次调用、拒绝它，或者修改它。常用的办法是 hook（见<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），hook 拒绝时给出的原因，会送回给 agent。工具运行之后，程序还可以在模型读到结果之前，把结果精简、过滤或补充一下。</p>
+<p>这就是能对 agent 强制执行规则的主要原因。放在程序里的规则是会运行的代码，而写在 prompt 里的规则是请求（见<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。</p>
+<p>不过，hook 只能对模型已经发出的调用做判断。模型一开始能不能把调用发对，取决于这趟来回的中间：调用之前它看到什么，调用之后它拿回什么。而这两样，恰恰都是你写的文本。</p>
 <h3>工具是给不可靠用户的接口</h3>
-<p>人用命令行，可以看文档，可以问同事，还能注意到哪里看着不对。模型有的只是工具的名字、一段简短的描述和参数列表。仅此而已。它可能猜错，提供方的文档也这么说：给一个需要位置的工具，而请求里没给位置，模型可能会编一个。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
-<p>所以给 agent 设计工具，是在给这样的人设计：</p>
-<ul>
-<li>只看名字和描述，来决定什么时候用，</li>
-<li>靠上下文猜着填参数，</li>
-<li>不知道工具没告诉它的事，</li>
-<li>把结果当文本来读，结果占多少上下文窗口，就占多少。</li>
-</ul>
-<p>Anthropic 关于给 agent 写工具的建议，换了个说法讲的是同一件事：“哪怕对工具描述做很小的改进，也能带来显著的提升。”（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）下面的五条规则都由此而来。</p>
+<p>先看看两边各有什么可依靠的。人用命令行，可以看文档、问同事，还能察觉到哪里不对劲。模型手里只有工具的名字、一段简短的描述和参数列表，别的什么都没有。所以它会猜错，提供方的文档也这么说：如果一个工具需要地点，而请求里没给，模型可能会自己编一个。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</p>
+<p>这样看来，给 agent 设计工具，就是在给这样一个用户设计。它只凭名字和描述决定什么时候用，参数则靠上下文去猜。工具没告诉它的事，它一概不知道；返回的结果，它也都当成普通文本来读，结果有多大，就占掉多少上下文窗口。</p>
+<p>Anthropic 关于给 agent 写工具的建议，换了个说法讲的也是这件事：“哪怕对工具描述做很小的改进，也能带来显著的提升。”（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）下面五条规则都由此而来，大致按一次调用经过的顺序排。</p>
 <h3>1. 把描述写得像给新员工的交接说明</h3>
-<p>说清楚这个工具做什么、什么时候用、什么时候不用。名字要无歧义：叫 <code>user</code> 的参数，可能是名字、ID 或邮箱；<code>user_email</code> 就不会。如果两个工具看起来很像，就在各自的描述里说明它们哪里不同。描述是模型了解这些的唯一地方，所以含糊的描述，意味着工具会被用错，或者没人用。</p>
+<p>调用之前，描述是模型了解一个工具用途的唯一地方，所以它得说清楚这个工具做什么、什么时候用、什么时候不用。描述含糊，工具就会被用错，或者没人用。名字也一样要讲究。比如一个叫 <code>user</code> 的参数，可能是名字、ID，也可能是邮箱，而 <code>user_email</code> 只可能是一种意思。还有，如果两个工具看起来很像，每个工具的描述里都要说清它和另一个有什么不同。</p>
 <h3>2. 报错信息要写给 agent 看</h3>
-<p>人看到堆栈，会停下来想。模型拿到的是文本，然后继续往下走。如果报错是 <code>Error 400</code>，模型就会猜，往往又猜出同样的东西。如果报错说明了哪里不对、接下来该试什么，它就会把调用改对。</p>
-<p>拒绝也一样：要说明应该改做什么（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。</p>
+<p>调用出了错，模型接下来读到的就是报错。人看到堆栈，会停下来想一想，模型却是拿到文本就接着往下走。如果报错是 <code>Error 400</code>，模型就只能猜，往往又猜回同一个错的值。如果报错说明了哪里不对、接下来该试什么，它就能把调用改对。</p>
+<p>拒绝也一样，要说明应该改做什么（见<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。</p>
 <h3>3. 输出要短，还要能分页</h3>
-<p>工具返回的所有东西，都会放进上下文窗口（<a href="3-1-context-budget.html">上下文是一份预算</a>），而且之后每一轮都要再读一遍（<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。agent 只想要一行，工具却把一个很大的文件整个返回，既浪费 token，还可能把有用的东西挤出窗口。</p>
-<p>所以要给结果设合理的限制：默认的上限、取某个范围或下一页的办法、过滤器。Anthropic 还提到，可以让 agent 在简洁回复和详细回复之间选。工具很多的时候，把相关的工具用同一个名字前缀归在一起，有助于 agent 区分它们。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）Claude Code 默认把工具的响应限制在 25,000 个 token 以内（这是 Anthropic 写这篇文章时给出的数字）。你截短输出时，要说明这一点，并告诉 agent 怎么缩小查询范围。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>调用成功了，模型读到的是输出。工具返回的所有东西都会放进上下文窗口（见<a href="3-1-context-budget.html">上下文是一份预算</a>），而且之后每一轮都要再读一遍（见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。所以，如果 agent 只想要一行，工具却把一个很大的文件整个返回，不光浪费 token，还可能把有用的东西挤出窗口。</p>
+<p>办法是给结果设合理的限制，比如默认的上限、取某个范围或下一页的办法，或者一个过滤器。Anthropic 还提到，可以让 agent 在简洁回复和详细回复之间选。工具很多的时候，把相关的工具归到同一个名字前缀下，能帮 agent 把它们分清楚。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>具体到数字，Claude Code 默认把工具的响应限制在 25,000 个 token 以内（这是我写作时 Anthropic 给出的数字）。不管上限定在哪里，截短输出时都要说一声，并告诉 agent 怎么缩小查询范围。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <h3>4. 工具少，选得更准</h3>
-<p>每个工具的名字、描述和参数，每次调用都要发给模型。工具越多，花的 token 越多，选错的机会也越多，尤其是功能重叠的时候。优先用一小组明显不同的工具，能把相关的操作合并成一个就合并。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+<p>前面几条讲的都是单个工具，可工具的数量也有讲究。你也许觉得多一个工具，不用就没坏处。其实它照样有成本，因为每个工具的名字、描述和参数，每次调用都要发给模型。工具越多，token 花得越多，选错的机会也越多，功能重叠的时候尤其如此。所以优先用一小组明显不同的工具，能把相关的操作合并成一个，就合并。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <h3>5. 固定的步骤写进命令，不写进 prompt</h3>
-<p>这一条是我最想强调的。有时候，一件事里有些步骤每次都一样，而且有对错之分：给新任务建文件夹、复制文件、算一个哈希、写入记录、写回之前检查一切就绪。你可以在指令里描述这些步骤，让 agent 照着做。它大多数时候会照做。</p>
-<p>或者，你可以把它们一次性写成一个<strong>命令</strong>：一个 agent 当作工具来运行的小程序。命令自己完成这些步骤，自己检查前置条件，返回一个简短的结果。走命令这条路径时，agent 跳不过任何一步，也写不出错误的状态，因为状态不是它写的。</p>
+<p>前四条讲的是已有的工具，最后这一条讲的是哪些活该做成工具，也是我最想强调的一条。有些活儿里的步骤每次都一样，而且有对错之分：给新任务建文件夹、复制文件、算一个哈希、写入记录、写回之前检查一切就绪。你可以把这些步骤写进指令，让 agent 照着做，它大多数时候也会照做。</p>
+<p>你也可以把它们一次性写成一个<strong>命令</strong>，也就是 agent 当作工具来运行的一个小程序。命令自己完成这些步骤，自己检查前置条件，最后返回一个简短的结果。走命令这条路径时，agent 跳不过任何一步，也写不出错误的状态，因为状态根本不是它写的。</p>
 <figure class="fig" id="fig-1-2-prompt-vs-command"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">写在 prompt 里</text>
   <rect class="box-plain" x="30" y="40" width="240" height="34" rx="5"/>
@@ -569,52 +519,36 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="208" text-anchor="middle" data-t="right-note2">返回一个很短的结果</text>
 </svg>
 <figcaption>同一件事的两种做法。叫模型照步骤做是请求；由命令来做是代码。</figcaption></figure>
-<p>这适合不需要判断的步骤。如果某一步需要 agent 做决定，就把那部分留给 agent，让命令只做它周围固定的部分。我的 harness 就是这么做的。一个命令行工具建任务文件夹（任务是<a href="5-1-tasks.html">管任务，不管对话</a>里的工作单元）、取文件、算 diff、统计检查，模型只要运行命令、读结果。进度是个好例子：任务清单读的是命令写入的数据文件，而不是 agent 手写的 Markdown 笔记，因为手写的进度会漏打勾，也会出错。结果每次都一样，模型也不必保证每一步都做对。</p>
-<p>有两个细节，让命令对 agent 更友好：</p>
-<ul>
-<li><strong>结果里说明下一步</strong>。命令的输出告诉 agent 接下来做什么，它不用去猜。</li>
-<li><strong>给人看文本，给脚本用 JSON</strong>。同一个命令，在终端里打印对齐的文本，通过管道输出时打印 JSON。字段是一样的。</li>
-</ul>
-<p>命令只有 agent 真去用才有帮助，而且它只守得住经过它的东西。如果 agent 能用另一种办法做同样的事（手动改文件），这个命令就只是个方便，不是限制。<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>会往下讲这一点。</p>
-<h3>测一测你自己的配置</h3>
-<p>给 agent 的任何工具，都问<strong>三个问题</strong>：</p>
+<p>这适合不需要判断的步骤。如果某一步需要 agent 拿主意，就把那部分留给它，让命令只做周围那些固定的事。我的 harness 就是这么做的。一个命令行工具负责建任务文件夹（任务是<a href="5-1-tasks.html">管任务，不管对话</a>里讲的工作单元）、取文件、算 diff、统计检查，模型只要运行命令、读结果就行。这样一来，结果每次都一样，模型也从来不必自己把步骤做对。为什么要这样，进度是个好例子：任务清单读的是命令写入的数据文件，而不是 agent 手写的 Markdown 笔记，因为手写的进度会漏打勾，也会出错。</p>
+<p>命令的输出如果能说明下一步做什么，对 agent 就更友好，因为它不用去猜。而同一个命令，既有人在终端里看，也有脚本通过管道读，所以它可以在终端里打印对齐的文本，接到管道上时打印 JSON，两种输出的字段是一样的。</p>
+<p>不过，命令也有自己的局限。agent 真去用它，它才帮得上忙，而且它只守得住经过它的东西。如果 agent 能用别的办法做同样的事，比如手动改文件，这个命令就只是图个方便，算不上限制。<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>会接着往下讲这一点。</p>
+<h3>怎么检查你自己的工具</h3>
+<p>对你给 agent 的任何一个工具，都可以先问三个问题。</p>
 <ol>
 <li>只看它的名字和描述，你知道什么时候该用、什么时候不该用吗？</li>
 <li>它失败的时候，信息有没有告诉 agent 接下来做什么？</li>
 <li>它的输出最大能有多大？如果很大，上下文会怎么样？</li>
 </ol>
-<p><strong>一个不用安装任何东西的实验</strong>。让 agent 用一种你知道是错的方式调用你的某个工具，然后看返回了什么。它够不够清楚，让你如果是 agent 也知道该怎么办？如果不够，就是这条信息该重写。</p>
-<p><strong>更大的循环，如果你在做工具</strong>。Anthropic 的方法是同一个想法的放大版：根据真实使用写出任务，运行它们，读原始的记录（调用和结果，不只是最终答案），然后在 agent 出错的地方修描述和报错信息。五个任务就够开始了。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Good descriptions cost tokens, too.</strong> A long description is sent on every call. Write what the model needs to choose and use the tool, and put the long manual in a file the agent reads when needed.</p>
-<p><strong>A command is code to maintain.</strong> If your project changes, the command can be wrong in a way a prompt cannot. Keep each one small, and give it a test.</p>
-<p><strong>A tool call is not a trusted act.</strong> The model chose the arguments, after reading text that may have come from anywhere. Do not treat a call as the user's wish. <a href="4-6-untrusted-input.html">Chapter 4.6</a> explains why.</p>
-<p><strong>Tool names change between versions.</strong> If your rules or hooks match on tool names, keep the mapping in one place so a rename means one change.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>好的描述也要花 token</strong>。長的描述每次呼叫都會送出去。寫模型選工具和用工具需要的就好，長的手冊放在 agent 需要時才讀的檔案裡。</p>
-<p><strong>指令是要維護的程式碼</strong>。專案變了，指令可能出錯，而 prompt 不會這樣。每個指令都保持小，並給它一個測試。</p>
-<p><strong>工具呼叫不是可信的行為</strong>。參數是模型選的，而且是讀了可能來自任何地方的文字之後選的。別把一次呼叫當成使用者的意願。<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 說明了原因。</p>
-<p><strong>工具名稱會隨版本改變</strong>。如果你的規則或 hook 靠工具名稱比對，把對應關係放在一個地方，改名時就只要改一處。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>好的描述也要花 token</strong>。长描述每次调用都要发一遍。只写模型选择和使用这个工具所需要的内容，长的说明书放在文件里，让 agent 需要时再读。</p>
-<p><strong>命令是要维护的代码</strong>。项目变了，命令可能出错，而且是 prompt 不会有的那种错。每个命令都保持小，并且给它写测试。</p>
-<p><strong>一次工具调用不是一个可信的行为</strong>。参数是模型选的，而它读到的文本可能来自任何地方。别把一次调用当成用户的意愿。<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>解释了为什么。</p>
-<p><strong>工具名在不同版本之间会变</strong>。如果你的规则或 hook 按工具名来匹配，就把这个映射放在一个地方，这样改名只需改一处。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
-<li><strong>Anthropic</strong>: tool design is part of the work, and descriptions and error messages deserve testing like code. (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>)</li>
-<li><strong>Tool use documentation</strong>: the application runs client tools and sends back results; the model &quot;might guess values you didn't supply&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>)</li>
-</ul>
-<p>They agree with the argument here: the tool is an interface, and its text is part of the interface.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><ul>
-<li><strong>Anthropic</strong>：工具設計是工作的一部分，描述和錯誤訊息值得像程式碼一樣測試。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</li>
-<li><strong>Tool use 文件</strong>：應用程式執行 client tool 並送回結果；模型「可能會猜出你沒有提供的值」。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</li>
-</ul>
-<p>它們和這裡的論點一致：工具是介面，它的文字是介面的一部分。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><ul>
-<li><strong>Anthropic</strong>：工具设计是工作的一部分，描述和报错信息值得像代码一样测试。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</li>
-<li><strong>工具使用文档</strong>：客户端工具由应用运行，并把结果送回去；模型“可能会猜出你没提供的值”。（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）</li>
-</ul>
-<p>它们和这里的论点一致：工具是一个接口，它的文本是接口的一部分。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A command that checks preconditions is scaffolding around the model's weak spots. If models become reliable enough at following multi-step instructions, a command may no longer beat a good prompt, but I would still keep commands for anything that has to be exactly the same every time, or that needs a record. The reasoning on descriptions and errors stays as long as the model reads text.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>檢查前置條件的指令，是圍繞模型弱點搭的鷹架。如果模型在照著多步驟的指令做事上變得夠可靠，指令可能不再勝過一個好的 prompt，但凡是每次都必須完全一樣、或需要留紀錄的事，我仍然會保留指令。只要模型還是讀文字，關於描述和錯誤訊息的道理就還在。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>检查前置条件的命令，是围着模型弱点搭的脚手架。如果模型在遵循多步指令上变得足够可靠，命令也许就不再比好的 prompt 强，但对那些每次都必须完全一样、或者需要留记录的事，我还是会保留命令。关于描述和报错信息的道理，只要模型还在读文本，就一直成立。</p>
+<p>最快的实验什么都不用装。让 agent 用一种你明知不对的方式调用你的某个工具，看看返回了什么。假如你就是那个 agent，这条信息够不够清楚，能让你知道该怎么办？如果不够，要重写的就是这条信息。</p>
+<p>如果你自己做工具，Anthropic 的方法就是同一个想法的放大版。根据真实的使用场景写出任务，运行它们，读原始的记录（调用和结果，不只是最终答案），然后在 agent 出错的地方修改描述和报错信息。五个任务就够开始了。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What good tools cost, and where they go wrong</h2><p>None of this comes free. Even a good description costs tokens, because a long one is sent on every call. So write what the model needs to choose and use the tool, and put the long manual in a file the agent reads when needed.</p>
+<p>A command costs something different, because it is code to maintain. When your project changes, the command can be wrong in a way a prompt cannot, so keep each one small and give it a test.</p>
+<p>Cost is not the only way tools go wrong. A tool call is not a trusted act, because the model chose the arguments after reading text that may have come from anywhere. Do not treat a call as the user's wish. <a href="4-6-untrusted-input.html">Chapter 4.6</a> explains why.</p>
+<p>One last, practical trap: tool names change between versions. If your rules or hooks match on tool names, keep the mapping in one place, so that a rename means one change.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>好工具要付出什麼，又會在哪裡出錯</h2><p>這些做法都不是免費的。描述寫得再好，也要花 token，因為長的描述每次呼叫都會送出去。所以，只寫模型選工具、用工具需要的內容就好，長的手冊放進檔案裡，讓 agent 需要時才讀。</p>
+<p>指令的代價不一樣，因為它是要維護的程式碼。專案一變，指令就可能出錯，而且是 prompt 不會有的那種錯，所以每個指令都要保持小，並給它一個測試。</p>
+<p>不過，工具會出問題的地方，不只是代價。工具呼叫不能當成可信的舉動，因為參數是模型選的，而它選之前讀到的文字，可能來自任何地方。別把一次呼叫當成使用者的意願，<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>說明了原因。</p>
+<p>最後還有一個很實際的陷阱：工具名稱會隨版本改變。如果你的規則或 hook 靠工具名稱比對，就把這份對應關係放在一個地方，這樣改名時只要改一處。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>好工具要付出什么，又会在哪里出错</h2><p>这些做法都不是免费的。描述写得再好，也要花 token，因为长描述每次调用都要发一遍。所以，只写模型选择和使用这个工具所需要的内容，长的说明书放进文件里，让 agent 需要时再读。</p>
+<p>命令的代价不一样，因为它是要维护的代码。项目一变，命令就可能出错，而且是 prompt 不会有的那种错，所以每个命令都要保持小，并且给它写测试。</p>
+<p>不过，工具会出问题的地方，不只是代价。工具调用不能当成可信的举动，因为参数是模型选的，而它选之前读到的文本，可能来自任何地方。别把一次调用当成用户的意愿，<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>解释了为什么。</p>
+<p>最后还有一个很实际的坑：工具名在不同版本之间会变。如果你的规则或 hook 按工具名来匹配，就把这份对应关系放在一个地方，这样改名时只需改一处。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Does Anthropic see it the same way? <span class="status status-industry">Industry practice</span></h2><p>The advice in this chapter rests on two sources, and both come from Anthropic. Its advice on writing tools treats tool design as part of the work, with descriptions and error messages that deserve testing like code (<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>). Its tool use documentation says that the application runs client tools and sends back the results, and that the model &quot;might guess values you didn't supply&quot; (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>). Both agree with the argument here, that the tool is an interface and its text is part of the interface.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>Anthropic 也這麼看嗎？ <span class="status status-industry">業界做法</span></h2><p>這一章的建議依據的是兩份資料，都出自 Anthropic。其中談怎麼寫工具的那一篇，把工具設計當成工作的一部分，認為描述和錯誤訊息值得像程式碼一樣測試（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）。tool use 文件則說，client tool 由應用程式執行，再把結果送回去，還提醒說，模型「可能會猜出你沒有提供的值」（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）。兩者都和這裡的論點一致：工具是介面，它的文字也是介面的一部分。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>Anthropic 也这么看吗？ <span class="status status-industry">业界做法</span></h2><p>这一章的建议依据的是两份资料，都出自 Anthropic。其中讲怎么写工具的那篇，把工具设计当成工作的一部分，认为描述和报错信息值得像代码一样测试（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）。工具使用文档则说，客户端工具由应用运行，再把结果送回去，还提醒说，模型“可能会猜出你没提供的值”（<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a>）。两者都和这里的论点一致：工具是一个接口，它的文本也是接口的一部分。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete a command <span class="status status-industry">Industry practice</span></h2><p>Of the advice above, the commands are the part most likely to age, because a command that checks preconditions is scaffolding around the model's weak spots. If models become reliable enough at following multi-step instructions, a command may no longer beat a good prompt. Even then, I would keep commands for anything that has to be exactly the same every time, or that needs a record. The reasoning about descriptions and errors is a different matter, since it holds for as long as the model reads text.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉指令 <span class="status status-industry">業界做法</span></h2><p>上面這些建議裡，最可能過時的是指令，因為檢查前置條件的指令，是圍繞模型弱點搭起來的鷹架。如果模型在照著多步驟的指示做事上變得夠可靠，指令可能就不再勝過一個好的 prompt。就算到了那一天，凡是每次都必須完全一樣、或需要留下紀錄的事，我仍然會保留指令。描述和錯誤訊息的道理則是另一回事，只要模型還是讀文字，它就一直成立。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉命令 <span class="status status-industry">业界做法</span></h2><p>上面这些建议里，最可能过时的是命令，因为检查前置条件的命令，是围着模型的弱点搭起来的脚手架。如果模型在遵循多步指令上变得足够可靠，命令也许就不再比一个好的 prompt 强。即便到了那一天，对那些每次都必须完全一样、或者需要留下记录的事，我还是会保留命令。描述和报错信息的道理则是另一回事，只要模型还在读文本，它就一直成立。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every tool, command or script in this repository that an agent is meant to run (look in agent files, scripts, task runners and instruction files). For each, judge four things: is its name and description clear about when to use it and when not to; does its error message say what to do next; how large can its output get; does a fixed multi-step procedure described in the instructions belong in a command instead. List the three worst and say how to fix each. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個倉庫裡，每一個預期由 agent 執行的工具、指令或腳本（看 agent 檔、腳本、任務執行器和指令檔）。每一個都判斷四件事：它的名字和描述，有沒有清楚說明什麼時候用、什麼時候不用；它的錯誤訊息有沒有說明接下來做什麼；它的輸出最大可以多大；指令檔裡描述的固定多步驟流程，是不是該改放進一個指令。列出最差的三個，並說明各自怎麼修。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个仓库里每一个预期由 agent 运行的工具、命令或脚本（看 agent 文件、脚本、任务运行器和指令文件）。每一个从四方面判断：名字和描述是否说清了什么时候该用、什么时候不该用；报错信息有没有说明接下来做什么；输出最大能有多大；指令里描述的某个固定的多步流程，是否应该改成命令。列出最差的三个，并说明各自怎么修。不要修改任何文件。</code></pre></div>
@@ -630,11 +564,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a></li>
 <li>Anthropic 文档：<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use overview</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent a command line for the steps that must be certain, and a hook that stands at the door of every tool call. The harness can show you both from the inside, with the real files.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent a command line for the steps that must be certain, and a hook that stands at the door of every tool call. The harness can open the real files with you and show you both from the inside.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Tool calling, and designing tools for an agent&quot;. Teach me what tools this harness gives the agent: the built-in ones, and its command line. Open the real files with me, show me a refusal and its reason, and draw how one tool call travels.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 一個命令列，處理那些必須確定的步驟；還有一個 hook，站在每次工具呼叫的門口。harness 可以從裡面把兩者都展示給你看，帶著真實的檔案。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 一個命令列工具，處理那些必須確定的步驟，還有一個 hook，站在每次工具呼叫的門口。harness 可以和你一起打開真實的檔案，從裡面帶你看這兩樣。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Tool calling，和給 agent 設計工具」這一章。請教我這個 harness 給 agent 哪些工具：內建的，和它的命令列。帶我打開真實的檔案，讓我看一次拒絕和它的原因，並畫出一次工具呼叫是怎麼走的。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 给 agent 一个命令行工具，用来做必须确定的步骤，还有一个守在每次工具调用门口的 hook。harness 可以从内部带你看这两样，配上真实的文件。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 给了 agent 一个命令行工具，用来做那些必须确定的步骤，还有一个守在每次工具调用门口的 hook。harness 可以和你一起打开真实的文件，从内部带你看这两样。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“Tool calling，以及怎么给 agent 设计工具”这一章。请教我这个 harness 给了 agent 哪些工具：内置的，和它自己的命令行工具。带我打开真实的文件，让我看一次拒绝和它的原因，并画出一次工具调用是怎么走的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
