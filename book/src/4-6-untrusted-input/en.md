@@ -133,8 +133,6 @@ The habit of counting circles should not go. What may go are the workarounds: ha
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Review every agent, tool, MCP server and integration configured in this project. For each one, answer three questions from the configuration alone: can it reach private data (code, secrets, customer data); does it read text that someone outside the team can write (issues, pull requests, web pages, tool output, dependencies); can it send data out (network, email, comments, push)? Output a table, and mark any row that says yes three times. For those rows, suggest which one to remove. Do not change any files and do not connect to any server.
 :::
@@ -148,10 +146,8 @@ Review every agent, tool, MCP server and integration configured in this project.
 
 ## Explore it in the harness {#explore}
 
-The harness has no defence aimed at injected text. It has the pieces that shrink the circles: the copies in the task folder, the person-only commands, and the gate that refuses dangerous commands and protected writes, together with the honest list of what the gate cannot see. After the setup above, type:
+The harness has no defence aimed at injected text. It has the pieces that shrink the circles: the copies in the task folder, the person-only commands, and the gate that refuses dangerous commands and protected writes, together with the honest list of what the gate cannot see.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Text the agent reads can give it orders". Teach me which of the three circles (private data, untrusted text, a way out) this harness leaves open, and which it closes (topic 8). Open the real gate rules with me and show what a command that reaches the network would do.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

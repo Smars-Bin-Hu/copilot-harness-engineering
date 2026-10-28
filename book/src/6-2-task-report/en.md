@@ -100,8 +100,6 @@ The reasoning stays. A person who did not watch needs to know what was done, who
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Take the last three merged changes in this repository. For each one, write a five-line report from git history and any linked review or task notes only: what was asked, what changed (files, lines), what was run or checked, what was refused or failed, and who said yes. Where a fact cannot be found in the repository, write "not recorded". Then tell me which of the five facts are missing most often. Do not change any files.
 :::
@@ -112,10 +110,8 @@ Take the last three merged changes in this repository. For each one, write a fiv
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness writes a report and an analysis page for every task it closes, and has a board of all open tasks. The harness can show you the real pages. After the setup above, type:
+Copilot Harness writes a report and an analysis page for every task it closes, and has a board of all open tasks. The harness can show you the real pages.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "A report a person can read in five minutes". Teach me how this harness reports on a task (topic 12): what the task report holds, how the analysis page gets its time and usage, and what the board shows. Open a real report with me and point out where each part comes from.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

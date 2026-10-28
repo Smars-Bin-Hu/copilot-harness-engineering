@@ -128,8 +128,6 @@ The reasoning does not retire. A bigger window does not make a long rule file be
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Audit the instruction files and skills in this repository. List: lines in the always-loaded file that you would get right without being told; rules written in more than one place; pairs of rules that contradict each other; rules that give no reason; and skills whose description is too vague to be found or too wide, with a better description for each. Mark the rules where a mistake would be costly and irreversible, since those need code and not text. Do not change any files.
 :::
@@ -144,10 +142,8 @@ Audit the instruction files and skills in this repository. List: lines in the al
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness uses all three places, the three levels of loading, and the rule that a rule has one source. The harness can show you each with the real files. After the setup above, type:
+Copilot Harness uses all three places, the three levels of loading, and the rule that a rule has one source. The harness can show you each with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Instructions and skills". Teach me how this harness uses the three places for rules, how its skills load in three levels, and why it says a skill is not enforced (topics 2, 3 and 15). Open the real files with me, starting from the shortest one.
 :::
-
-It teaches one small piece at a time and opens the files with you.

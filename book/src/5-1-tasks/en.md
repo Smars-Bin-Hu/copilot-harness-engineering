@@ -135,10 +135,8 @@ What does not retire is the unit itself. Whatever the platform does, a job has a
 
 ## Explore it in the harness {#explore}
 
-Everything here runs in Copilot Harness: the task folder, kinds and sizes, the handover file, and the board of tasks. The harness can teach it to you from the inside, with the real files. After the setup above, type:
+Everything here runs in Copilot Harness: the task folder, kinds and sizes, the handover file, and the board of tasks. The harness can teach it to you from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Manage tasks, not chats". Teach me how this harness builds what it describes: the task folder, the kinds and tiers, and why sessions and tasks are separate (topic 9). Open a real task's files with me and draw how they fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

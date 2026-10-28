@@ -90,8 +90,6 @@ The reasoning about the loop does not retire while agents work by calling tools.
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Read this project's instruction files and settings. For each rule or limit you find, tell me which of four places it works at: what the agent reads, which tools exist, a check before a tool call, or a check after a tool call. Mark every rule that is only a written request with nothing outside the model enforcing it. List the five rules where a break would matter most. Do not change any files.
 :::
@@ -104,10 +102,8 @@ Read this project's instruction files and settings. For each rule or limit you f
 
 ## Explore it in the harness {#explore}
 
-The loop is the same everywhere, but in the harness you can watch each turn from the side: what is injected into the context, and which call a hook saw and what it answered. After the setup above, type:
+The loop is the same everywhere, but in the harness you can watch each turn from the side: what is injected into the context, and which call a hook saw and what it answered.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "The agent loop, and where you can step in". Teach me how this harness stands at the four places in the loop: what it puts into the context, which tools it allows, and what its hooks do before and after a call. Open the real files with me and draw how one turn passes through them.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

@@ -229,8 +229,6 @@ The reasoning does not retire with them. Two things would make me look again at 
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 List every custom agent, subagent or role this project defines (look in the agent and instruction files). For each one, tell me which of these it buys: an independent check, parallel work, work that runs unattended, or a hard limit on tools. Mark any that buys none of them, and say what would break if it were removed. Do not change any files.
 :::
@@ -243,10 +241,8 @@ List every custom agent, subagent or role this project defines (look in the agen
 
 ## Explore it in the harness {#explore}
 
-Most of this chapter runs in Copilot Harness: the reviewer, parallel reading, the simplest unattended run, the tool limits, the hook that refuses other subagents, and the task folder. The harness can teach it to you from the inside, with the real files and code. After the setup above, type:
+Most of this chapter runs in Copilot Harness: the reviewer, parallel reading, the simplest unattended run, the tool limits, the hook that refuses other subagents, and the task folder. The harness can teach it to you from the inside, with the real files and code.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Use subagents sparingly". Teach me how this harness builds what it describes: subagents (topic 10), independent checks (topic 11), and the unattended run (autorun). For each one, open the real files and code with me, and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

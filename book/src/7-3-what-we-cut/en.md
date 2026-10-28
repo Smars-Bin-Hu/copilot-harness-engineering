@@ -115,8 +115,6 @@ The list of "not built, reconsider when" is itself a thing to prune ([When the m
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 List every custom agent, skill, rule, hook and check this repository defines for AI agents. For each, write two things: what it bought (a failure it prevented, with a real example from git history or issues if one exists), and what would make it safe to remove. Mark each answer "measured", "seen" or "only reasoned". Put the parts with no stated purpose first. Do not change any files.
 :::
@@ -130,10 +128,8 @@ List every custom agent, skill, rule, hook and check this repository defines for
 
 ## Explore it in the harness {#explore}
 
-The 1.0 design is gone from the current harness, but its release notes and design notes remain, with the reasons. The harness can walk you through them. After the setup above, type:
+The 1.0 design is gone from the current harness, but its release notes and design notes remain, with the reasons. The harness can walk you through them.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "What I cut". Teach me topic 15, the design choices: why there are no Levels, and the list of what the harness deliberately does not do and when each would be reconsidered. Open the release notes of version 1.1.0 with me, and show what was retired.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

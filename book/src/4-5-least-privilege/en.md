@@ -116,8 +116,6 @@ A step in which a person runs a query exists because I do not trust an agent wit
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 List everything this agent could reach from the way it runs in this project: folders and files it can read or write, shell commands it can run, tools and servers it is connected to, accounts or credentials visible in its environment or config files, and network addresses it can call. Do this by reading the configuration and project files, not by connecting to anything. Mark each item as needed for the work, or not needed, and mark anything that is production, a credential, or another team's repository. Do not change any files and do not print secret values, only where they live.
 :::
@@ -130,10 +128,8 @@ List everything this agent could reach from the way it runs in this project: fol
 
 ## Explore it in the harness {#explore}
 
-The harness has the pieces for the first two ways: the copies in the task folder, the write-back to a new branch, the commands that only a person runs, and the place where the agent asks a person for facts from an environment. After the setup above, type:
+The harness has the pieces for the first two ways: the copies in the task folder, the write-back to a new branch, the commands that only a person runs, and the place where the agent asks a person for facts from an environment.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Some things you never hand over". Teach me how this harness keeps the agent away from the real repository and from any environment (topic 8, especially 8.5 and 8.7). Open the real files with me, and show me what the gate can see and what it cannot.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

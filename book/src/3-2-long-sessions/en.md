@@ -142,8 +142,6 @@ The core stays: if the work matters, its state belongs in a file you can read, n
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Imagine this chat is lost and a new agent must carry on. From what you can see in this repository (recent commits, open changes, any notes or task files, the instruction files), write the handover that agent would need: the request in a few lines, what is decided, what is done and the next step, and where the files are. Then list what you could not tell from the repository, as the gaps a person must fill. Print it only. Do not change any files.
 :::
@@ -157,10 +155,8 @@ Imagine this chat is lost and a new agent must carry on. From what you can see i
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness keeps the state of every task in files, so a chat can end at any time. The harness can show you where those files are and how a new chat picks up from them. After the setup above, type:
+Copilot Harness keeps the state of every task in files, so a chat can end at any time. The harness can show you where those files are and how a new chat picks up from them.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Long chats get worse". Teach me how this harness keeps the state of a task in files: what the handover file holds, how a new session reads it to carry on, and what it does about a window that fills up (topics 1 and 9). Open the real files with me.
 :::
-
-It teaches one small piece at a time and opens the files with you.

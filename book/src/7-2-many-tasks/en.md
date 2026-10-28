@@ -106,8 +106,6 @@ The idea does not go. Even when the platform does the listing, the split stays: 
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Using read-only git commands, list the branches, worktrees and open pull requests in this repository that have recent commits. For each, list the files it changes relative to the main branch. Then find pairs that change the same files, and say which would conflict if written back together. For each piece of work, say what it is probably waiting for (review, a decision, a test run). Do not change any files.
 :::
@@ -122,10 +120,8 @@ Using read-only git commands, list the branches, worktrees and open pull request
 
 ## Explore it in the harness {#explore}
 
-The task folders, the board and the "waiting for you" state run in Copilot Harness. The harness can show you a board with real tasks on it. After the setup above, type:
+The task folders, the board and the "waiting for you" state run in Copilot Harness. The harness can show you a board with real tasks on it.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Ten things at once". Teach me how this harness lets one person run several tasks: the task folder, the states a task can wait in, and how the board knows a task is waiting. Open the real files with me, and show me what the board reads and who writes it.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

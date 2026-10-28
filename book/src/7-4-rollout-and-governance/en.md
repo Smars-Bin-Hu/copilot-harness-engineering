@@ -131,8 +131,6 @@ The review questions do not retire. They are how you decide whether any rule, sk
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at the files in this repository that tell an AI agent what to do or what it may not do (instruction files, skills, agent definitions, hook and permission settings). For each one, tell me from git history who last changed it, when, and whether the commit had a reviewer other than the author. List any rule that is written in more than one file. Then list what records exist of what the agent did here (logs, transcripts, reports) and who could read them. Mark every gap. Do not change any files.
 :::
@@ -147,10 +145,8 @@ Look at the files in this repository that tell an AI agent what to do or what it
 
 ## Explore it in the harness {#explore}
 
-Overrides, the health check, the fenced rule files and the logs all run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:
+Overrides, the health check, the fenced rule files and the logs all run in Copilot Harness. The harness can show them to you with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Roll out and govern a harness". Teach me how this harness lets a team customise it without forking it (policy overrides, the health check that lists them), how it guards its own rule files, and what its logs and reports record. Open the real files with me, and show where a team's changes go and where they must not go.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

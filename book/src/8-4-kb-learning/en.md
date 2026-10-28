@@ -111,10 +111,8 @@ The batch size is a guess for today's context windows and models. If a model can
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness orders the objects, cuts them into batches and checks the cards. After the setup above, type:
+Copilot Harness orders the objects, cuts them into batches and checks the cards.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Learning a domain in batches". Teach me topic 16, parts 16.4 and 16.5: how the order and the batches are worked out, and which checks run on a card. Walk me through the Spring sample's four batches and one card check.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

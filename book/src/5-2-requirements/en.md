@@ -109,8 +109,6 @@ Give the agent a short request with two sentences that contradict each other, fo
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at the most recent merged pull request or the latest few commits in this repository, together with any issue or ticket text they link to. Reconstruct the request as a one-page requirement: the goal, what was in and out of scope, what "done" would have meant, and where each point comes from. Then list what the request left out or left open, and what in the change shows that someone guessed. Do not change any files.
 :::
@@ -123,10 +121,8 @@ Look at the most recent merged pull request or the latest few commits in this re
 
 ## Explore it in the harness {#explore}
 
-The requirement file, the asking method, the review of a requirement and the conversion of business files all run in Copilot Harness. After the setup above, type:
+The requirement file, the asking method, the review of a requirement and the conversion of business files all run in Copilot Harness.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "The agent writes the requirement, the person confirms it". Teach me how this harness does it (topic 9, the requirement part, and topic 15 on why the exact words are not kept). Open a real requirement file with me, show how a change goes into it first, and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

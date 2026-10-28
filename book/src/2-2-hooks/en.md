@@ -128,8 +128,6 @@ A hook for a rule stays as long as the platform lets rules in prompts be ignored
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find out whether this project has agent hooks configured (look in the project and editor settings and any hooks folder). If it does, list each one: which moment it runs at, what it checks, what it does when it refuses, and what the reason it shows says. Then say what would happen if the hook program failed to start or ran too slowly, based on the platform docs. If there are no hooks, list the three rules in the instruction files that would be worth turning into one. Do not change any files.
 :::
@@ -142,10 +140,8 @@ Find out whether this project has agent hooks configured (look in the project an
 
 ## Explore it in the harness {#explore}
 
-The harness has one hook entry for all moments, a gate that refuses calls, and the logs that show what it did. After the setup above, type:
+The harness has one hook entry for all moments, a gate that refuses calls, and the logs that show what it did.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Hooks, the point every call passes through". Teach me how this harness uses hooks: which moments it listens to, what the gate refuses and why, and what happens when the hook itself fails. Open the real files with me and show me a refusal and its reason.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

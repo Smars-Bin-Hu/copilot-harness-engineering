@@ -80,10 +80,8 @@ If you measure your checker and find that it catches nothing the author's own ru
 
 ## Explore it in the harness {#explore}
 
-The checker that cannot see the author's reasoning, the format it must follow, and the script that drops findings without a real line all run in Copilot Harness. The harness can teach them to you from the inside, with the real agent file. After the setup above, type:
+The checker that cannot see the author's reasoning, the format it must follow, and the script that drops findings without a real line all run in Copilot Harness. The harness can teach them to you from the inside, with the real agent file.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Can a model check a model?". Teach me how this harness builds its independent checker (topic 11): what it is and is not allowed to see, how its answer is shaped, and what the honest limits are. Open the checker's agent file with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

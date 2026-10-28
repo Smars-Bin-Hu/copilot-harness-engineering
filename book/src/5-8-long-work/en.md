@@ -99,10 +99,8 @@ If the platform keeps a trustworthy memory of a long job across sessions, so tha
 
 ## Explore it in the harness {#explore}
 
-The task folder and the goal files run in Copilot Harness. The harness can teach them to you from the inside, with the real files. After the setup above, type:
+The task folder and the goal files run in Copilot Harness. The harness can teach them to you from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Long work across sessions". Teach me how this harness keeps long work in files (topic 9): the task folder, the handover file a new session reads, and the goal that groups several tasks. Open real files with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

@@ -89,8 +89,6 @@ The stop rules exist because the platform does not provide them. If the platform
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find every place in this project where an agent can run without a person watching: scheduled jobs, CI steps that call an agent, auto-approve or autopilot settings, loops, background tasks. For each, tell me what stops it (a step or time limit, a spend limit, a refusal count, a check), whether the limit covers helper agents too, and what it leaves behind when it stops: reason, state, and the decision a person must make. Flag any run with no stop rule at all. Do not change any files and do not start any run.
 :::
@@ -102,10 +100,8 @@ Find every place in this project where an agent can run without a person watchin
 
 ## Explore it in the harness {#explore}
 
-The stop rules, the facts that decide each stop, and what the agent writes when it stops itself all run in Copilot Harness (the unattended run is in beta there). The budget over helpers is not built yet. The harness can teach the rest from the inside, with the real files. After the setup above, type:
+The stop rules, the facts that decide each stop, and what the agent writes when it stops itself all run in Copilot Harness (the unattended run is in beta there). The budget over helpers is not built yet. The harness can teach the rest from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Unattended: when it must stop". Teach me how this harness's unattended run (autorun) decides when to stop (topics 11 and 15): the stop reasons, who judges each one, and what is handed back. Open the real files with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

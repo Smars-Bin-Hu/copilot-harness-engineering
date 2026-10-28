@@ -153,8 +153,6 @@ The reasoning stays. A memory is a standing rule written by something that can b
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find everything in this project and on this machine that serves as memory for you: instruction files, notes files, saved task state, and any auto-memory your tool keeps (check the tool's docs for where it stores them). List each note or rule with who wrote it, whether it has a source and a date, and whether it still matches the code. Mark every note that could have come from text you read, not from a person. Print the list only. Do not change any files.
 :::
@@ -168,10 +166,8 @@ Find everything in this project and on this machine that serves as memory for yo
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness has a skill that drafts what a task taught and stops for a person, and a knowledge base whose entries record the commit they were read at. The harness can show you both with the real files. After the setup above, type:
+Copilot Harness has a skill that drafts what a task taught and stops for a person, and a knowledge base whose entries record the commit they were read at. The harness can show you both with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "What an agent should remember". Teach me how this harness decides what to keep from a task, why it only drafts, and how the knowledge base marks entries as stale (topic 16). Open the real files with me.
 :::
-
-It teaches one small piece at a time and opens the files with you.

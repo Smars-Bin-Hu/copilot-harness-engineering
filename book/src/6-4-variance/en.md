@@ -123,8 +123,6 @@ The reasoning stays as long as the agent chooses its moves with some chance in t
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Search this repository's README, docs, pull request templates and any decision records for claims about AI agent results: words like faster, better, cheaper, saves, fewer errors. For each claim, list the evidence given: how many runs, how many tasks, which model and setup on each side, how it was scored, and what the usage counted. Mark each claim as "conditions stated", "partly stated" or "no conditions". Do not change any files.
 :::
@@ -137,10 +135,8 @@ Search this repository's README, docs, pull request templates and any decision r
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness does not run its scenarios several times; each one runs once, by hand. What the harness has is the material this chapter builds on: the log and the report that tell you what each run did. The harness can show you where a run's time and usage are recorded, so you can build your own repeated runs on top. After the setup above, type:
+Copilot Harness does not run its scenarios several times; each one runs once, by hand. What the harness has is the material this chapter builds on: the log and the report that tell you what each run did. The harness can show you where a run's time and usage are recorded, so you can build your own repeated runs on top.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "One run proves nothing". Teach me what this harness records for a single run (topic 12): the log, the usage and time of a task, and the fixed scenarios. Help me see what I would need to add to run one scenario five times and compare the results.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

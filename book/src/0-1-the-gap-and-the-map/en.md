@@ -112,8 +112,6 @@ If you have little time, read the chapters marked as core: they carry the main l
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at how you are set up in this repository: the instruction files, tools, hooks, checks and any written rules. Sort what you find into seven layers: model, tools, runtime, context, control, flow, evidence. For each layer, say what exists, and mark the layers where nothing exists. Then name the one missing piece that would most likely cause a bad result here. Do not change any files.
 :::
@@ -125,10 +123,8 @@ Look at how you are set up in this repository: the instruction files, tools, hoo
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness is a team harness in the second sense above, and it has a part for each of the four upper layers. The harness can walk you through it from the inside, with the real files. After the setup above, type:
+Copilot Harness is a team harness in the second sense above, and it has a part for each of the four upper layers. The harness can walk you through it from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "The gap is outside the model". Teach me how a coding agent works in this harness: the loop, the tools, and where the harness steps in. Open the real files with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

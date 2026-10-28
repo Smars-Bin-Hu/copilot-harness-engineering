@@ -101,8 +101,6 @@ The idea stays: a person at the three kinds of point, and an approval that belon
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Walk through how work moves from this agent's changes to the main branch or to production in this project: pull requests, required reviews, CI, deploy steps, and any approval prompts in the agent tools. For each point where money is spent, power is granted or something cannot be undone, say who approves, through what channel, and whether the agent could give or skip that approval. Also say whether the approval would still stand if the change were edited after it was given. Do not change any files.
 :::
@@ -116,10 +114,8 @@ Walk through how work moves from this agent's changes to the main branch or to p
 
 ## Explore it in the harness {#explore}
 
-The two gates, the typed approval, the plan hash, and the snapshots run in Copilot Harness. After the setup above, type:
+The two gates, the typed approval, the plan hash, and the snapshots run in Copilot Harness.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Two gates". Teach me how this harness builds the two approvals (topic 9, and topic 8 on permissions): why they are typed in a terminal, what the approval is bound to, and which hook refuses the agent. Walk me through a real task going through both gates, and draw it.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

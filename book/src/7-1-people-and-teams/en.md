@@ -66,8 +66,6 @@ The guided setup exists because installing and configuring the harness takes man
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Pretend you are a new teammate who has never used an AI agent here. Read this repository's README and its agent instruction files, and write down your first hour: what you would have to install, read and learn before you could finish one small real task. Then, for each of these four judgments (what to do, what is allowed, where a person must say yes, whether the result is good), say where in this repository it is written down, or that it is not. Mark anything that would make a newcomer think the setup is heavy. Do not change any files.
 :::
@@ -80,10 +78,8 @@ Pretend you are a new teammate who has never used an AI agent here. Read this re
 
 ## Explore it in the harness {#explore}
 
-The guided first setup and the first lesson run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:
+The guided first setup and the first lesson run in Copilot Harness. The harness can show them to you with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "People and teams". Teach me how this harness gets a newcomer started: the guided first setup, the first lesson and its practice task that a team can replace with its own. Open the real files with me, and show what a new person sees in the first hour.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

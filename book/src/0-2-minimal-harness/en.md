@@ -122,8 +122,6 @@ Every part of this starter set is on the list of things platforms are absorbing.
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Check this repository against a minimal setup of three parts: one short page of rules, one skill, one blocking hook. For each part, say whether it exists, where, and whether it works. For the rules, list lines that are long, stale or contradict each other, and say which commands and limits the model could not guess are missing. For the hook, list which irreversible commands (such as recursive delete) nothing stops. Do not change any files.
 :::
@@ -135,10 +133,8 @@ Check this repository against a minimal setup of three parts: one short page of 
 
 ## Explore it in the harness {#explore}
 
-My own setup is the grown-up version of this chapter: a rules page, many skills, and a hook that guards every tool call. The harness can show you each one from the inside, and help you set up your own. After the setup above, type:
+My own setup is the grown-up version of this chapter: a rules page, many skills, and a hook that guards every tool call. The harness can show you each one from the inside, and help you set up your own.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "A minimal harness in 30 minutes". Teach me how this harness does its rules page, its skills and its hook. Open the real files with me, show me how the hook refuses a command, and help me see what I could copy into my own project.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

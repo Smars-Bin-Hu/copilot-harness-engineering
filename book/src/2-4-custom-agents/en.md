@@ -89,8 +89,6 @@ An agent file stays as long as it enforces something a skill cannot: a tool list
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find every custom agent file in this project. For each one, report: does its header limit the tools, set a model, or neither; is the description written so a caller knows when to use it and what to say; and which lines of the body are only requests. Mark every agent with no tool limit and no model setting as a likely costume, and say which skill or instruction file could replace it. Do not change any files.
 :::
@@ -104,10 +102,8 @@ Find every custom agent file in this project. For each one, report: does its hea
 
 ## Explore it in the harness {#explore}
 
-The harness has a very small set of custom agents on purpose: a read-only helper and a checker. You can open both files and compare each line with the table above. After the setup above, type:
+The harness has a very small set of custom agents on purpose: a read-only helper and a checker. You can open both files and compare each line with the table above.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Custom agents". Teach me what is in this harness's agent files: the tool lists, the model lists, and which lines change behavior and which are only requests. Open the real files with me, and show me why there are so few agents.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

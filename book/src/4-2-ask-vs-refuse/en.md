@@ -114,8 +114,6 @@ If a platform lets you write refusals in its own permission settings, so they ho
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Inspect how this project's agent handles permissions: the editor and agent settings, allow and deny lists, auto-approve options, and any hooks that refuse. List what runs without asking, what asks a person, and what is refused. Flag anything that can be undone only with difficulty (push, delete, reset, deploy) and say which of the three groups it is in. Also say whether any setting would let the box be switched off for a whole session or for good. Do not change any files.
 :::
@@ -127,10 +125,8 @@ Inspect how this project's agent handles permissions: the editor and agent setti
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness grades by consequence, refuses on the terminal with a reason, and has a git ladder. The harness can walk you through the real rules and what the agent sees when it hits them. After the setup above, type:
+Copilot Harness grades by consequence, refuses on the terminal with a reason, and has a git ladder. The harness can walk you through the real rules and what the agent sees when it hits them.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Asking is not a limit". Teach me how this harness handles permissions: why "ask first" is not a limit (topic 8), how it grades by consequence, how git commands are treated, and how the terminal is guarded (topic 5). Open the real rules and refusal messages with me, and show me what the agent sees when it is refused.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

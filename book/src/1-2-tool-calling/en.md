@@ -131,8 +131,6 @@ A command that checks preconditions is scaffolding around the model's weak spots
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find every tool, command or script in this repository that an agent is meant to run (look in agent files, scripts, task runners and instruction files). For each, judge four things: is its name and description clear about when to use it and when not to; does its error message say what to do next; how large can its output get; does a fixed multi-step procedure described in the instructions belong in a command instead. List the three worst and say how to fix each. Do not change any files.
 :::
@@ -144,10 +142,8 @@ Find every tool, command or script in this repository that an agent is meant to 
 
 ## Explore it in the harness {#explore}
 
-My harness gives the agent a command line for the steps that must be certain, and a hook that stands at the door of every tool call. The harness can show you both from the inside, with the real files. After the setup above, type:
+My harness gives the agent a command line for the steps that must be certain, and a hook that stands at the door of every tool call. The harness can show you both from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Tool calling, and designing tools for an agent". Teach me what tools this harness gives the agent: the built-in ones, and its command line. Open the real files with me, show me a refusal and its reason, and draw how one tool call travels.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

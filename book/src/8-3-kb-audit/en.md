@@ -113,10 +113,8 @@ If the map comes from a tool whose accuracy has been measured by someone else, o
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness has an audit that samples, scores per type and lists every difference with its line. After the setup above, type:
+Copilot Harness has an audit that samples, scores per type and lists every difference with its line.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Is the map right? A blind audit". Teach me topic 16, part 16.3: how the audit samples objects, why the reading must be blind, and how a score is worked out. Open the audit skill with me and walk through one example of checking a difference at its line.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

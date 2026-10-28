@@ -113,8 +113,6 @@ What does not go away is the question: which rule is held how firmly, and why.
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Read every rule this project gives the agent: instruction files, skills, agent files, hook and permission settings. For each rule, say which level holds it: words only, a command that checks itself, a hook or permission setting that refuses, or a check run afterwards. Then list the rules that are words only but would cause harm that cannot be undone, or that other steps rely on. Output a table with the rule, its level, and your recommendation to keep or move up. Do not change any files.
 :::
@@ -126,10 +124,8 @@ Read every rule this project gives the agent: instruction files, skills, agent f
 
 ## Explore it in the harness {#explore}
 
-The four levels all exist in Copilot Harness: rules in text, commands that check their own conditions, a hook that refuses, and checks that look back. The harness can show you which rule sits at which level, and why, with the real files. After the setup above, type:
+The four levels all exist in Copilot Harness: rules in text, commands that check their own conditions, a hook that refuses, and checks that look back. The harness can show you which rule sits at which level, and why, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "A rule in a prompt is a request". Teach me how this harness decides where each rule lives: the ladder of enforcement (topic 14) and the design choices behind it (topic 15). Pick three rules, show me which level each one is at and what would make you move it, and open the real files with me.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

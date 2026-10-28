@@ -90,8 +90,6 @@ The levels stay; the line between them moves. As cheap models get better at vagu
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 List the judgments in this project's agent workflow: what the instruction files, skills, hooks, scripts and review steps each decide (for example, is this path allowed, did the check pass, is this change in scope, is this design good). For each, name who decides today: code, a cheap model, the main model, or a person. Then mark the ones where a model decides something a script could settle, and the ones where a script or pattern decides something that needs meaning. Do not change any files.
 :::
@@ -102,10 +100,8 @@ List the judgments in this project's agent workflow: what the instruction files,
 
 ## Explore it in the harness {#explore}
 
-The code-first judgments, the conversion of business files, and the places where a person decides all run in Copilot Harness. The cheap-model level is not built. The harness can teach what exists from the inside, with the real files. After the setup above, type:
+The code-first judgments, the conversion of business files, and the places where a person decides all run in Copilot Harness. The cheap-model level is not built. The harness can teach what exists from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Who decides". Teach me which judgments this harness gives to code, which to the model and which to a person (topic 15), and how it converts business documents before the model reads them. Open the real files with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

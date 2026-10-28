@@ -90,8 +90,6 @@ A counter like this exists because the platform has no built-in notion of "this 
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at how this project shows that a check really happened: CI configuration, required reviews, status checks, review comments, and any file the agent writes to say it checked something. For each kind of record, tell me whether it is tied to the exact commit, who or what can edit or fake it (including the agent), and what happens to it if the code changes afterwards. Point out any place where the only evidence is someone's sentence. Do not change any files.
 :::
@@ -102,10 +100,8 @@ Look at how this project shows that a check really happened: CI configuration, r
 
 ## Explore it in the harness {#explore}
 
-The counting, the limit, the waiver and the catch-up at stop all run in Copilot Harness. The harness can teach them to you from the inside, with a real record of checks. After the setup above, type:
+The counting, the limit, the waiver and the catch-up at stop all run in Copilot Harness. The harness can teach them to you from the inside, with a real record of checks.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Make a pass count". Teach me how this harness counts independent checks (topic 11): how the passes in a row are worked out, what the limit is, what allowing more checks, waiving and setting a check aside do, and what happens when checks are on but nothing was checked. Open a real task's record of checks with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

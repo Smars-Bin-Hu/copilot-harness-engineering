@@ -136,8 +136,6 @@ The fixed tasks do not retire. A model is upgraded, a rule is added, a prompt is
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at the last ten commits that changed instruction, skill, agent or hook files in this repository. For each, say what evidence (if any) was given that the change helped. Then propose three fixed tasks taken from this repository's real history: for each, the request, the starting commit, and an end state that a script could check from the files alone. Include one task where the right result is a refusal. Do not create or change any files.
 :::
@@ -150,10 +148,8 @@ Look at the last ten commits that changed instruction, skill, agent or hook file
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness has a few fixed scenarios that are judged from the log and from the files left behind. The harness can show you how one is written and how it is checked. After the setup above, type:
+Copilot Harness has a few fixed scenarios that are judged from the log and from the files left behind. The harness can show you how one is written and how it is checked.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Fixed tasks, scored by a script". Teach me how this harness's fixed scenarios work (topic 12): what a scenario holds, how a check reads the log and the files, and what the scenarios cannot do yet. Open one real scenario with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

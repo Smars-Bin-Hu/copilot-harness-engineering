@@ -94,8 +94,6 @@ If a platform tracks which stored notes are older than the code they describe, u
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find the documents in this repository that describe the code (design notes, READMEs of modules, architecture pages, runbooks). For each, use git history to tell me when it was last changed and how many commits have touched the code it describes since then. Rank them from most to least out of date. Mark any that state no date or commit they were written against. Do not change any files.
 :::
@@ -108,10 +106,8 @@ Find the documents in this repository that describe the code (design notes, READ
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness lists stale cards, refreshes them from the diff, drafts what a task taught, and keeps the requests list. After the setup above, type:
+Copilot Harness lists stale cards, refreshes them from the diff, drafts what a task taught, and keeps the requests list.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Keeping the knowledge base true". Teach me topic 16, part 16.7: how stale cards are found, how a refresh works, and what the requests file looks like. Open the refresh and capture skills with me.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

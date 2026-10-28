@@ -120,8 +120,6 @@ Remove a server when you stop using its tools, or when a plain command does the 
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find every MCP server configured for this project or editor (look in the editor and project settings and any MCP config files). For each one, tell me: who publishes it, whether it runs locally or remotely, what credentials it uses and where they are stored, how many tools it exposes, and whether a plain command-line program could do the same job. Flag any credential stored in a committed file. Do not print secret values, and do not change any files.
 :::
@@ -134,10 +132,8 @@ Find every MCP server configured for this project or editor (look in the editor 
 
 ## Explore it in the harness {#explore}
 
-My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can show you where MCP would plug in and how the other tools are sorted, with the real files. After the setup above, type:
+My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can show you where MCP would plug in and how the other tools are sorted, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "MCP servers: a standard plug for tools". Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

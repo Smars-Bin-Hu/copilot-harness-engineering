@@ -154,8 +154,6 @@ What stays is the habit: after a real task, look at what the agent got wrong, an
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look through the recent git history of this repository for changes that repeat the same multi-step pattern (for example, adding a new module, a new endpoint or a new job, which touches the same set of places each time). List up to three such routines with the commits that show them. For each, say which steps looked identical every time, which varied with the name, and which needed a person's decision. Say which routine is worth writing down first. Do not change any files.
 :::
@@ -168,10 +166,8 @@ Look through the recent git history of this repository for changes that repeat t
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness ships a skill that builds new skills, a skill that designs a workflow from examples, and the two examples above. The harness can open them with you. After the setup above, type:
+Copilot Harness ships a skill that builds new skills, a skill that designs a workflow from examples, and the two examples above. The harness can open them with you.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Turn your way of working into skills". Teach me how this harness writes and tests skills (topic 3): open the skill that builds skills, then the workflow-design skill and the impact-analysis skill, and show me where their gotchas came from and how a skill is tested to be found.
 :::
-
-It teaches one small piece at a time and opens the files with you.

@@ -131,8 +131,6 @@ The checks themselves stay as long as there is code to check. What can retire is
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find out what a coding agent could run in this repository to check its own work: tests, build, typecheck, linter, formatter, example runs. For each, give the exact command, how long it takes if you can tell, and whether the output is short and clear enough for you to act on. Say whether the instruction files tell the agent about these commands. Then name the biggest part of the code that none of these checks would catch a bug in. Do not change any files, and do not run anything that takes more than a minute.
 :::
@@ -146,10 +144,8 @@ Find out what a coding agent could run in this repository to check its own work:
 
 ## Explore it in the harness {#explore}
 
-The harness asks for a record of self-testing before a development task counts as done, and it has a separate reviewer for what a self-check cannot judge. After the setup above, type:
+The harness asks for a record of self-testing before a development task counts as done, and it has a separate reviewer for what a self-check cannot judge.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Let the agent check its own work". Teach me where this harness asks the agent to run its own checks, what counts as done for a development task, and how the independent check (topic 11) fits with it. Open the real files with me and draw the loop.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

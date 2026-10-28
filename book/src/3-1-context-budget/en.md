@@ -110,8 +110,6 @@ The reasoning stays as long as the window has a size and the model reads it ever
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Look at the commands this project uses to test, lint, build and search. For each, tell me roughly how much text it prints when it succeeds and when it fails, and whether that output would flood your context window if you ran it. Suggest a quieter way to run each one, such as printing only failures or a summary. Rank the three noisiest. Do not change any files, and do not run anything that changes state.
 :::
@@ -124,10 +122,8 @@ Look at the commands this project uses to test, lint, build and search. For each
 
 ## Explore it in the harness {#explore}
 
-The harness is built around loading little: a short always-on rulebook, a README that is only an index, and skills whose name and description are read first. You can see each one and how much it loads. After the setup above, type:
+The harness is built around loading little: a short always-on rulebook, a README that is only an index, and skills whose name and description are read first. You can see each one and how much it loads.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Context is a budget". Teach me what this harness loads into the context every time, and what it leaves to be read when needed. Open the real files with me, count what is always on, and show me how a new session picks up a task.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

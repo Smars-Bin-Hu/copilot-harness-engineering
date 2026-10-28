@@ -99,10 +99,8 @@ Anthropic 的团队做了三件事，我的做法与之不同。他们让 agent 
 
 ## 在 harness 里探索 {#explore}
 
-任务文件夹和 goal 文件都在 Copilot Harness 里跑着。harness 可以从内部教你，配上真实的文件。按上面的说明准备好之后，输入：
+任务文件夹和 goal 文件都在 Copilot Harness 里跑着。harness 可以从内部教你，配上真实的文件。
 
 ::: prompt
 /harness-rookie-wondering 我读完了“跨会话的长任务”这一章。请教我这个 harness 是怎么把长任务放在文件里的（主题 9）：任务文件夹、新会话要读的交接文件，以及把几个任务归在一起的 goal。和我一起打开真实的文件，并画出各部分是怎么拼在一起的。
 :::
-
-它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。

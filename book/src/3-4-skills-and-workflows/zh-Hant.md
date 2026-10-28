@@ -154,8 +154,6 @@ VS Code 的 skill 文件描述了同樣的格式和三階段載入，並說要�
 
 ## 在你自己的環境試試 {#try-it}
 
-不用裝 harness。在你自己的倉庫裡打開 agent，貼上：
-
 ::: prompt
 翻一下這個倉庫最近的 git 歷史，找出重複同樣多步驟模式的改動（例如加一個新模組、新 endpoint 或新工作，每次都碰到同一組地方）。最多列出三個這樣的例行工作，附上能顯示它們的 commit。每一個，說明哪些步驟每次看起來都一樣、哪些隨名稱變、哪些需要人來決定。說明哪個例行工作最值得先寫下來。不要改任何檔案。
 :::
@@ -168,10 +166,8 @@ VS Code 的 skill 文件描述了同樣的格式和三階段載入，並說要�
 
 ## 在 harness 裡探索 {#explore}
 
-Copilot Harness 附帶一個用來做新 skill 的 skill、一個從範例設計 workflow 的 skill，以及上面那兩個例子。harness 可以和你一起打開它們。照上面的說明準備好之後，輸入：
+Copilot Harness 附帶一個用來做新 skill 的 skill、一個從範例設計 workflow 的 skill，以及上面那兩個例子。harness 可以和你一起打開它們。
 
 ::: prompt
 /harness-rookie-wondering 我讀完了「把團隊的做法寫成 skill」這一章。請教我這個 harness 怎麼寫和測試 skill（主題 3）：打開那個用來做 skill 的 skill，再打開設計 workflow 的 skill 和影響分析的 skill，告訴我它們的陷阱是從哪裡來的，以及怎麼測試一個 skill 找不找得到。
 :::
-
-它一次教一小塊，並和你一起打開檔案。

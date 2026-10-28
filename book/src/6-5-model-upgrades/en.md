@@ -108,8 +108,6 @@ This chapter is itself a procedure for deleting, so what is there to delete? The
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 List every rule, step and check in this repository's agent instruction, skill and hook files. Sort each into one of: hard limit against damage, record or log, workaround for a habit of an older model, written-out playbook, or emphasis in the wording. For each workaround, playbook or emphasis, say from git history what failure it was added for, or "no reason found". Then name the five I should test removing first after a model upgrade, and which of my tasks should be rerun to check. Do not change any files.
 :::
@@ -120,10 +118,8 @@ List every rule, step and check in this repository's agent instruction, skill an
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness keeps a list of what it expects to change first after a model upgrade, and a list of what it chose not to build and when it would reconsider. The harness can walk you through both. After the setup above, type:
+Copilot Harness keeps a list of what it expects to change first after a model upgrade, and a list of what it chose not to build and when it would reconsider. The harness can walk you through both.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "When the model is upgraded, delete". Teach me what this harness expects to change after a model upgrade (topic 15) and what it will never remove. For each part, open the real files with me and show how I would test whether it is still needed.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

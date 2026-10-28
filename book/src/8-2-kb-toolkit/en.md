@@ -108,8 +108,6 @@ If a tool you trust, such as your language server or a code-search service, alre
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Scan this repository for the kinds of dependency that a script reading the code cannot see: queries or commands built as text at run time, calls chosen by a variable or a configuration row, and names that resolve to something outside this repository. Give a rough count of each kind, with three example locations (file and line). Say what share of the code looks hard to map by script. Do not change any files.
 :::
@@ -121,10 +119,8 @@ Scan this repository for the kinds of dependency that a script reading the code 
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness has the commands that survey the code, build the map and run the checks, and the two sample toolkits. After the setup above, type:
+Copilot Harness has the commands that survey the code, build the map and run the checks, and the two sample toolkits.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "The toolkit: scripts that draw a map of the code". Teach me topic 16, parts 16.1 and 16.2: how the map is built and cached. Open the Spring sample toolkit and its known-uses file with me, and show me what an extractor looks like.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

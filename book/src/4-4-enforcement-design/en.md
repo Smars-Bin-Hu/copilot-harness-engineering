@@ -132,8 +132,6 @@ The adapter is there because platforms differ and change. If the platforms conve
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 If this project uses hooks or a similar enforcement layer, read it and answer: (1) what happens to the next tool call if a hook crashes or times out, for each hook; (2) where the numbers and patterns of the rules live, in data files or inside the code; (3) which tests or fixed scenarios exist, and whether they use input recorded from the real platform; (4) where errors are logged and whether anyone would see them. If there is no hook, say so and stop. Do not change any files, and do not run the hooks.
 :::
@@ -146,10 +144,8 @@ If this project uses hooks or a similar enforcement layer, read it and answer: (
 
 ## Explore it in the harness {#explore}
 
-The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook. After the setup above, type:
+The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Build the enforcement layer like software". Teach me how this harness is built inside: the one hook entry, the adapter, the modules and the merge (topic 14), and why the hook lets a call through when it fails itself (topic 15.5). Open the real files with me, and show me what is in the error log.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

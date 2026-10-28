@@ -148,8 +148,6 @@ Much of this chapter is advice for a world where reading is expensive. If readin
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Estimate what is sent to the model on every call in this repository, before I type anything. List each always-loaded item: instruction files, rules, tool and server definitions, anything injected automatically. Give each an approximate size in tokens (a rough count is fine) and sort the list from largest to smallest. Mark items that look stale, duplicated or rarely useful. Do not change any files.
 :::
@@ -162,10 +160,8 @@ Estimate what is sent to the model on every call in this repository, before I ty
 
 ## Explore it in the harness {#explore}
 
-My harness is built around the idea of reading less and redoing less: rules are loaded in layers, state lives in files, checks are off unless you ask. It also says plainly what it cannot see about cost. The harness can show you each of these from the inside, with the real files. After the setup above, type:
+My harness is built around the idea of reading less and redoing less: rules are loaded in layers, state lives in files, checks are off unless you ask. It also says plainly what it cannot see about cost. The harness can show you each of these from the inside, with the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Choosing a model: cost per finished task". Teach me how this harness reads less, writes less and redoes less, and what it can and cannot tell me about the real usage of a task. Open the real files with me and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

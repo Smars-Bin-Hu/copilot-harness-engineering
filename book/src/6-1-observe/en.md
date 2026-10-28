@@ -108,8 +108,6 @@ The reasoning does not retire. When a fact matters, it should come from a record
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find out what records exist of what AI agents do in this project and on this machine: the tool's own logs or transcripts, any hook or audit settings, and any reports. For each record, tell me where it is, what one entry holds, whether the agent itself could edit or delete it, whether it could contain secrets or personal data, and who can read it. Then say which of these questions I could answer from records alone and not from the agent's summary: what it ran, what it changed, what was refused. Do not change any files.
 :::
@@ -121,10 +119,8 @@ Find out what records exist of what AI agents do in this project and on this mac
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness writes the log with a hook, keeps the other seven records on top of it, and has a health check for the setup. The harness can show them to you from the inside, with a real log. After the setup above, type:
+Copilot Harness writes the log with a hook, keeps the other seven records on top of it, and has a health check for the setup. The harness can show them to you from the inside, with a real log.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Record what happened, not what the agent said". Teach me how this harness records and reports (topic 12): what the session log holds and leaves out, where usage comes from, and what the health check looks at. Open a real log with me, and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

@@ -110,8 +110,6 @@ If the agent runs in an environment where the rule files are mounted read-only, 
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Find every file in this project that defines what the agent may or may not do: instruction files, hook scripts and their configuration, permission settings, editor settings, and any file that records a check or an approval. For each, tell me whether the agent's own edit tools and terminal could change it today, using the rules and permissions you can see. Output a list sorted by how bad it would be if the file were changed. Do not change any files, and do not try to edit them to find out.
 :::
@@ -123,10 +121,8 @@ Find every file in this project that defines what the agent may or may not do: i
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness has a list of guarded files, files only commands may write, a breaker, and an admin mode tied to the session. The harness can show you each of them in the real files. After the setup above, type:
+Copilot Harness has a list of guarded files, files only commands may write, a breaker, and an admin mode tied to the session. The harness can show you each of them in the real files.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "Guard the files that hold the rules". Teach me how this harness keeps its own rules out of the agent's reach: which files are guardrails and how they are protected (topic 7), the breaker, and admin mode (topic 8). Open the real policy and show me what the agent sees when it is refused.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.

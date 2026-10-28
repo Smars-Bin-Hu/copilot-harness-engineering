@@ -113,8 +113,6 @@ If your own test shows that search alone gives the same answers at the same cost
 
 ## Try it on your own setup {#try-it}
 
-No harness needed. Open your agent in your own repository and paste:
-
 ::: prompt
 Judge whether this repository would gain from a written knowledge base of the code, or whether search is enough. Estimate how many objects it has (modules, jobs, tables, services) and how large the code base is. Name the kinds of facts that are not in the code at all, such as which environment runs a job or why a rule exists. Say how often the code changes. Then give a verdict: search is enough, or a base is worth testing, with the reasons. Do not change any files.
 :::
@@ -127,10 +125,8 @@ Judge whether this repository would gain from a written knowledge base of the co
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands. After the setup above, type:
+Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "A knowledge base: an honest index of the code". Teach me topic 16, the knowledge base from code. Open the real skills and files with me, show me the road step by step, and draw how the pieces fit together.
 :::
-
-It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.
