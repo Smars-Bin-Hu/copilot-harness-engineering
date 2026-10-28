@@ -191,6 +191,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 .leaders h2 { margin-top: 1rem; }
 .core-mark { margin-left: .4em; color: var(--accent); }
 .core-note { color: var(--muted); font-size: .9rem; }
+.book-subtitle { color: var(--muted); }
+.book-subtitle:not(:empty)::before { content: "· "; }
+.book-head .subtitle { color: var(--muted); font-size: 1.15rem; margin-top: -.4rem; }
 
 /* Figure classes. Figures use only these; the colours come from the theme. */
 .fig svg { font-family: var(--mono); }
@@ -211,7 +214,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering with VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot Harness Engineering：從入門到實戰</span></a>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
 </header>
 <main class="page">

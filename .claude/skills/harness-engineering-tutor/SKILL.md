@@ -1,6 +1,6 @@
 ---
 name: harness-engineering-tutor
-description: 'An interactive tutor for the book "Harness Engineering with VS Code Copilot": the rules, checks and limits around a coding agent that make it safe to trust with real work. Teaches one chapter at a time, in small pieces, and stops for questions. Use when the user says "teach me harness engineering", "start from the map", asks about a chapter of this book, or asks how to make a coding agent reliable, cheaper or safer. Keywords: harness engineering, tutor, teach, learn, book, chapter, hooks, subagents, context, guardrails, evals.'
+description: 'An interactive tutor for the book "Harness Engineering: The engineering outside the model" (every example runs on VS Code Copilot): the rules, checks and limits around a coding agent that make it safe to trust with real work. Teaches one chapter at a time, in small pieces, and stops for questions. Use when the user says "teach me harness engineering", "start from the map", asks about a chapter of this book, or asks how to make a coding agent reliable, cheaper or safer. Keywords: harness engineering, tutor, teach, learn, book, chapter, hooks, subagents, context, guardrails, evals.'
 ---
 
 # Harness engineering tutor

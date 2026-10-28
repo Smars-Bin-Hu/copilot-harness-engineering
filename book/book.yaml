@@ -1,5 +1,6 @@
 copyright: "2026 Smars Hu"
-title: {en: "Harness Engineering with VS Code Copilot", zh-Hant: "VS Code Copilot Harness Engineering：從入門到實戰"}
+title: {en: "Harness Engineering", zh-Hant: "Harness Engineering"}
+subtitle: {en: "The engineering outside the model", zh-Hant: "模型之外的工程"}
 parts:
   - {id: start, title: {en: "Part 0 · Getting started", zh-Hant: "第 0 部 · 入門"}}
   - {id: brain, title: {en: "Part 1 · The brain and the hands", zh-Hant: "第 1 部 · 腦和手"}}

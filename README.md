@@ -1,6 +1,6 @@
-# Harness Engineering with VS Code Copilot
+# Harness Engineering: The Engineering Outside the Model
 
-A book on harness engineering: the rules, guardrails and tooling that turn a coding agent into something you can trust with real work. Every example comes from a real, open-source harness: [copilot-agentic-harness](https://github.com/Smars-Bin-Hu/copilot-agentic-harness).
+A book on harness engineering: the rules, guardrails and tooling that turn a coding agent into something you can trust with real work. Every example runs on VS Code Copilot, from a real, open-source harness: [copilot-agentic-harness](https://github.com/Smars-Bin-Hu/copilot-agentic-harness).
 
 ## Start here
 
