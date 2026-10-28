@@ -14,7 +14,9 @@ The `harness-engineering-tutor` skill takes it from there: it teaches one small 
 
 ## Read it yourself
 
-- The book: open [site/index.html](site/index.html) in a browser. It works offline. English, Traditional Chinese and Simplified Chinese. Core chapters are marked ★.
+- Online: [smarshu.com/book](https://smarshu.com/book).
+- Offline: open [site/index.html](site/index.html) in a browser.
+- Both are in English, Traditional Chinese and Simplified Chinese. Core chapters are marked ★.
 - The source of every chapter: [book/src/](book/src/).
 - Labs you can run on your own machine: [labs/](labs/).
 
