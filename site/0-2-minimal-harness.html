@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>A minimal harness in 30 minutes</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">0.2</p><h1><span data-l="en" lang="en">A minimal harness in 30 minutes</span><span data-l="zh-Hant" lang="zh-Hant">30 分鐘搭一個最小 harness</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used Copilot in agent mode on a project of your own, and that you read <a href="0-1-the-gap-and-the-map.html">the first chapter</a> or know the word &quot;harness&quot;.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">0.2</p><h1><span data-l="en" lang="en">A minimal harness in 30 minutes</span><span data-l="zh-Hant" lang="zh-Hant">30 分鐘搭一個最小 harness</span><span data-l="zh-Hans" lang="zh-Hans">30 分钟搭一个最小 harness</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used Copilot in agent mode on a project of your own, and that you read <a href="0-1-the-gap-and-the-map.html">the first chapter</a> or know the word &quot;harness&quot;.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要在自己的專案裡用過 Copilot 的 agent 模式，並且讀過 <a href="0-1-the-gap-and-the-map.html">差距在模型外面</a>，或至少知道「harness」這個詞。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Start with one page of rules, one skill and one hook that blocks dangerous commands. Add more only when a real pain asks for it.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你在自己的项目里用过 Copilot 的 agent 模式，并且读过<a href="0-1-the-gap-and-the-map.html">第一章</a>，或者知道“harness”这个词。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Start with one page of rules, one skill and one hook that blocks dangerous commands. Add more only when a real pain asks for it.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>先從一頁規則、一個 skill 和一個擋危險指令的 hook 開始。有真的痛點了，再加別的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>先从一页规则、一个 skill、一个拦截危险命令的 hook 开始。真遇到痛点了，再往上加。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> start with the smallest set (one page of rules, one skill, one blocking hook) and let each later part be approved by a real pain, not by a plan.</li>
 <li><strong>The risk:</strong> a big harness built in one go costs maintenance and you cannot tell which part helped. A rule is only a request; a hook is a rule the model cannot argue with, but it stops only the commands it recognizes.</li>
@@ -235,12 +240,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：我估計一個已經打開專案的人，約半小時。團隊要另外加上像審程式碼那樣審規則檔和 hook 檔。</li>
 <li><strong>可以問團隊</strong>：「我們的設定裡，哪一部分來自真的失敗，哪一部分來自範本？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：从最小的一套开始（一页规则、一个 skill、一个拦截的 hook），后面每加一样，都由真实的痛点来批，不由计划来批。</li>
+<li><strong>风险</strong>：一口气搭一个大 harness，维护成本高，你也说不清哪一部分起了作用。规则只是请求；hook 是模型争不过的规则，但它只拦得住它认得的命令。</li>
+<li><strong>做对的代价</strong>：据我估计，对一个已经打开了项目的人，大约半小时。团队还要像审代码一样，审规则文件和 hook 文件。</li>
+<li><strong>可以问团队</strong>：“我们的配置里，哪些部分来自真实的失败，哪些来自模板？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When people hear &quot;harness&quot;, many picture a big system: <a href="5-3-two-approvals.html">two approval gates</a>, a <a href="7-2-many-tasks.html">task board</a>, a knowledge base, reports. Then they either give up or build all of it in one go. Both are mistakes.</p>
 <p>A big harness has a price. Every part is something to write, to keep true, and to debug when it misfires. And you cannot tell which part helped, because you added them all at once. Mine did not start big. It grew one pain at a time, and I have since removed parts that bought nothing (<a href="7-3-what-we-cut.html">chapter 7.3</a>).</p>
 <p>So this chapter is about the smallest set that is worth having, in the order I would build it. By my estimate it takes about half an hour if you already have a project open in VS Code.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>很多人聽到「harness」，想到的是一個大系統：<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>、<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>、知識庫、報告。然後他們不是放棄，就是一口氣全搭起來。兩種都是錯的。</p>
 <p>大 harness 是有代價的。每一部分都要寫、要保持是對的、出錯時要除錯。而且你分不出哪一部分有用，因為你是一次全加進去的。我的 harness 不是一開始就大的。它是一次一個痛點長出來的，後來我也拿掉了沒買到東西的部分（見 <a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>）。</p>
 <p>所以這一章講的是值得擁有的最小組合，以及我會怎樣排出搭的順序。如果你已經在 VS Code 裡打開了專案，我估計大約要半小時。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>很多人一听到“harness”，脑子里就是一个庞大的系统：<a href="5-3-two-approvals.html">两道审批关卡</a>、<a href="7-2-many-tasks.html">任务看板</a>、知识库、报告。然后他们要么放弃，要么一口气全搭出来。这两样都是错的。</p>
+<p>大 harness 是有代价的。每个部分都要写，要保持准确，出了毛病还要排查。而且你分不清哪一部分起了作用，因为是一次全加上的。我的 harness 不是一开始就大的。它是一个痛点一个痛点长出来的，后来我还删掉了一些没换来任何东西的部分（<a href="7-3-what-we-cut.html">我砍掉了什么，数据怎么说</a>）。</p>
+<p>所以这一章讲的是值得拥有的最小一套，按我会搭的顺序来讲。据我估计，如果你已经在 VS Code 里打开了项目，大约要半小时。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig steps" id="fig-0-2-grow-by-pain" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270">
   <rect class="box-lit" x="20" y="20" width="190" height="44" rx="6"/>
   <text class="label-lit" x="115" y="47" text-anchor="middle" data-t="rules">One page of rules</text>
@@ -555,18 +569,181 @@ specificTo: generic
 </table>
 <h3>有變好嗎？</h3>
 <p>不要信感覺。挑幾個你知道正確答案的任務，每次改動前後各跑一遍，用同樣的方式打分。<a href="2-3-subagents.html">慎用子 agent</a> 展示了一個這樣的比較，<a href="6-3-eval-tasks.html">第 6 部</a>講方法。就算是粗糙的版本，五個任務加一份「怎樣算對」的清單，也比猜強。這份清單要在跑之前寫好，而且每個任務要跑幾次，因為一次可能只是運氣（<a href="6-4-variance.html">一次運行證明不了什麼</a>）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><figure class="fig steps" id="fig-0-2-grow-by-pain" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270">
+  <rect class="box-lit" x="20" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="115" y="47" text-anchor="middle" data-t="rules">一页规则</text>
+  <path class="head" d="M220 38 L230 42 L220 46 Z"/>
+  <rect class="box-lit" x="235" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="330" y="47" text-anchor="middle" data-t="skill">一个 skill</text>
+  <path class="head" d="M435 38 L445 42 L435 46 Z"/>
+  <rect class="box-lit" x="450" y="20" width="190" height="44" rx="6"/>
+  <text class="label-lit" x="545" y="47" text-anchor="middle" data-t="hook">一个 hook</text>
+  <text class="label-muted" x="115" y="84" text-anchor="middle" data-t="rules-note">是请求</text>
+  <text class="label-muted" x="330" y="84" text-anchor="middle" data-t="skill-note">手册，用到才读</text>
+  <text class="label-muted" x="545" y="84" text-anchor="middle" data-t="hook-note">是规则，会强制执行</text>
+
+  <g data-step="2">
+    <line class="line" x1="545" y1="100" x2="545" y2="124"/>
+    <text class="label-muted" x="350" y="146" text-anchor="middle" data-t="pain">之后只加真实的痛点要求的东西</text>
+    <rect class="box-plain" x="10" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="92" y="188" text-anchor="middle" data-t="p1">不听规则</text>
+    <rect class="box-plain" x="185" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="267" y="188" text-anchor="middle" data-t="p2">账单太高</text>
+    <rect class="box-plain" x="360" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="442" y="188" text-anchor="middle" data-t="p3">说做完了却没过</text>
+    <rect class="box-plain" x="535" y="164" width="165" height="40" rx="6"/>
+    <text class="label" x="617" y="188" text-anchor="middle" data-t="p4">会忘事</text>
+  </g>
+  <g data-step="3">
+    <text class="label-muted" x="92" y="226" text-anchor="middle" data-t="c1">第 4.1 章</text>
+    <text class="label-muted" x="267" y="226" text-anchor="middle" data-t="c2">第 1.1 章</text>
+    <text class="label-muted" x="442" y="226" text-anchor="middle" data-t="c3">第 5.4 章</text>
+    <text class="label-muted" x="617" y="226" text-anchor="middle" data-t="c4">第 3.2 章</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">从小处开始：一页规则、一个 skill、一个 hook。后面的比前面的管得更紧。</li><li data-step-text="2">然后开始干活。哪里痛，你自己会知道是哪一种痛。</li><li data-step-text="3">每种痛都有对应的章。只加能解决它的那一部分。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>最小的 harness 按痛点长大，不按计划长大。</figcaption></figure>
+<h3>为什么是这个顺序</h3>
+<p>这三样东西，对 agent 的约束力度不同。</p>
+<ol>
+<li><strong>规则排第一</strong>。它只要几分钟，不用写代码。它告诉 agent 那些它猜不到的事：你的项目是怎么搭的，什么不能碰。规则是请求，模型可能不理，但按我的经验，写下来的东西它大多数时候都会照做。</li>
+<li><strong>skill 排第二</strong>。<strong>skill</strong> 是针对某一类工作的一份简短手册。agent 一开始只看到它的名字和一行描述，需求对得上时才去读全文。你需要它，是因为有些知识太长，放不进规则页：每个步骤都堆在那里，agent 每次对话都得背着全部内容（<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>讲了为什么这很贵）。</li>
+<li><strong>hook 排最后</strong>。<strong>hook</strong> 是平台在固定时机运行的一个小程序，比如 agent 运行工具之前。它能说不，模型争不过它。规则和 skill 都是请求。hook 是第一样你能靠得住的规则。它排第三，是因为它是你要写、要维护的代码，所以应该留给那几件绝对不能发生的事。</li>
+</ol>
+<h3>第 1 步：一页规则（约 10 分钟）</h3>
+<p>在项目根目录建一个指令文件。VS Code 和 Copilot 会读 <code>AGENTS.md</code> 或 <code>.github/copilot-instructions.md</code> 这样的文件，并在每次对话里交给 agent。它具体认哪些文件名，请查当前的 VS Code 文档。</p>
+<p>只写模型会搞错或者会漏掉的东西：你项目自己的命令、限制和坑。别写它本来就懂的，比如在你用的语言里怎么写循环。越短越好，因为太长的规则文件，模型很容易忽略。有一行值得早点加：改完之后要运行的命令（测试、lint），再加上“通过之前不许说做完了”。这是最便宜的检查（<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>）。</p>
+<p>好的第一页有五到十行。我配置里的真实文件更长，但它的核心限制是这样的：</p>
+<details class="code"><summary>自带规则页里的两条核心限制：动手之前先看，保留用户自己的改动。</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
+- Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
+<p><strong>怎么确认它生效了</strong>。开一个新对话，问一个只有你的规则才答得出的问题，比如“这个项目里怎么跑测试？”如果它按你的规则回答，说明文件加载了。如果它在猜，检查文件名和位置。</p>
+<h3>第 2 步：一个 skill（约 10 分钟）</h3>
+<p>挑一件你给 agent 解释过不止一次的活。skill 是一个文件夹，里面有一个 <code>SKILL.md</code> 文件。文件开头有名字和<strong>描述</strong>，最重要的是描述。agent 能不能找到这个 skill，全看它。好的描述会说明这个 skill 做什么、什么时候用，以及用户可能会说哪些词。</p>
+<details class="code"><summary>一个真实 skill 的开头：agent 最先看到的，是名字和描述。</summary><pre><code class="language-markdown">---
+name: generic-code-standards
+description: &#x27;Check the code of a task against the company&#x27;&#x27;s code standards and fix what does not comply. The standards are written by the company in .harness/standards/code-standards.md; this skill only reads them. Use before the promote dry-run of a task that changed code, or when the user asks to check or fix code style, naming or conventions. Keywords: code standards, coding conventions, style check, lint, naming rules, comply with the rules.&#x27;
+type: workflow
+specificTo: generic
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-code-standards/SKILL.md#L1-L6">.github/skills/generic-code-standards/SKILL.md L1–L6 @ 1.5.50</a></p></details>
+<p>描述下面写步骤，再写一小段坑的清单：agent 通常会在哪些地方出错。每次看到它失败就加一条坑，是我知道的写 skill 最有用的习惯（<a href="3-4-skills-and-workflows.html">把团队的做法写成 skill</a>）。</p>
+<p><strong>怎么确认它生效了</strong>。在对话里输入 <code>/</code>，看有没有这个 skill 的名字。然后说一个符合描述、但不点名这个 skill 的需求，看 agent 会不会用它。agent 一直不选的 skill，通常是描述的问题。</p>
+<h3>第 3 步：一个拦截危险命令的 hook（约 10 分钟）</h3>
+<p>终端是 agent 手里最厉害的工具，所以从这里下手。挑那些造成的损害无法撤销的命令，比如递归删除一个文件夹，或者下载一个脚本、一行命令就运行。</p>
+<p>这要分两部分。一个配置文件告诉平台，在哪些时机调用你的程序。在我的配置里只有一个文件，每个时机都指向同一个程序：</p>
+<details class="code"><summary>工具运行之前那个时机的配置：它只是写明了要调用哪个程序。</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
+      {
+        &quot;type&quot;: &quot;command&quot;,
+        &quot;command&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;windows&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;bash&quot;: &quot;python3 .harness/engine/hook.py&quot;,
+        &quot;powershell&quot;: &quot;python .harness/engine/hook.py&quot;,
+        &quot;cwd&quot;: &quot;.&quot;,
+        &quot;timeout&quot;: 30,
+        &quot;timeoutSec&quot;: 30
+      }
+    ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
+<p>你的程序读取收到的调用。如果命令符合你拦截的某个模式，它就回复一个拒绝，并附上原因。原因很重要：agent 看得到它，所以要写明应该改做什么，否则 agent 会再试同样的事（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。下面是我的一个模式。它很长，因为同一条命令有很多种写法：</p>
+<details class="code"><summary>一条真实的拒绝规则：对根目录、主目录或当前文件夹做递归强制删除，附上 agent 看得懂的原因。</summary><pre><code class="language-json">      {
+        &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
+        &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
+      },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
+<p>这是个真实的文件，比你第一天需要的大得多。先写三四个模式就够了。</p>
+<p><strong>怎么确认它生效了</strong>。别拿真正危险的命令来测。先加一条无害的测试规则，比如拒绝命令 <code>echo hook-test</code>，然后让 agent 运行它。你应该看到一个带着你写的原因的拒绝。测完把这条测试规则删掉。</p>
+<p>我自己的 hook 踩过三个坑：</p>
+<ul>
+<li><strong>hook 程序启动不了</strong>（比如找不到解释器），平台会把它当作拒绝，agent 一个工具也用不了。屏幕上只写着 hook 出错。在你依赖它之前，先测一次。</li>
+<li><strong>hook 运行超过时间限制</strong>，平台会放行这次调用，而且不提醒。在我的配置里，限制是 30 秒。这是故障放行：慢的 hook 就是个漏洞，所以让程序保持快。</li>
+<li><strong>配置是在窗口启动时读的</strong>。改完配置，要重新加载 VS Code 窗口。</li>
+</ul>
+<p>hook 做不到什么，同样重要。它看到的是一次调用，看不到命令运行起来之后做了什么（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）。一份模式清单拦得住危险命令的常见写法，拦不住所有写法。它是安全带，不是沙箱。</p>
+<h3>你需要多大的 harness？</h3>
+<p>这取决于 agent 出错时，谁会受影响。</p>
+<table>
+<thead>
+<tr>
+<th>你是</th>
+<th>大概够用的</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>在自己的项目上单干的一个人</td>
+<td>上面这三样</td>
+<td>每处改动你都看得到，出错的代价只有你自己担</td>
+</tr>
+<tr>
+<td>在共享仓库上的小团队</td>
+<td>这三样，规则文件和 hook 文件像代码一样审，再加一个记录 agent 做了什么的地方</td>
+<td>别人会承接 agent 的错误，而“谁改了规则”会成为一个问题（<a href="7-4-rollout-and-governance.html">落地与治理</a>）</td>
+</tr>
+<tr>
+<td>大团队，或者有合规义务的代码</td>
+<td>以上这些，再按你的风险需要加<a href="5-3-two-approvals.html">审批点</a>、<a href="5-5-counted-checks.html">可计数的检查</a>和报告</td>
+<td>出错的代价由别人承担，而且你得拿得出发生了什么</td>
+</tr>
+</tbody>
+</table>
+<p>我猜大多数读者属于第一行。两道审批关卡和一个任务看板，不是起点。</p>
+<h3>接下来按痛点加什么</h3>
+<p>别把这本书从头读到尾。等哪里疼了，再去读对应的章。</p>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>agent 一次又一次无视某条规则</td>
+<td><a href="4-1-requests-and-rules.html">4.1</a></td>
+</tr>
+<tr>
+<td>一条命令弹了一百次审批，你不看就点“允许”</td>
+<td><a href="4-2-ask-vs-refuse.html">4.2</a></td>
+</tr>
+<tr>
+<td>它说“做完了”，测试却是失败的</td>
+<td><a href="5-4-self-checks.html">5.4</a></td>
+</tr>
+<tr>
+<td>长对话越聊越差，它还忘事</td>
+<td><a href="3-2-long-sessions.html">3.2</a></td>
+</tr>
+<tr>
+<td>账单比预想的高</td>
+<td><a href="1-1-models-and-cost.html">1.1</a></td>
+</tr>
+<tr>
+<td>你想把工作分给多个 agent</td>
+<td><a href="2-3-subagents.html">2.3</a></td>
+</tr>
+<tr>
+<td>你说不清它做了什么</td>
+<td><a href="6-1-observe.html">6.1</a></td>
+</tr>
+</tbody>
+</table>
+<h3>变好了吗？</h3>
+<p>别信感觉。挑几个你知道正确答案的任务，每次改动前后各跑一遍，用同样的方式打分。<a href="2-3-subagents.html">慎用子 agent</a>给出了这样的一个对比，<a href="6-3-eval-tasks.html">第 6 部分</a>讲方法。哪怕是粗糙的版本，五个任务加一张“什么算对”的清单，也比猜强。“什么算对”的清单要在运行之前写好，每个任务要跑几次，因为一次运行可能只是运气（<a href="6-4-variance.html">一次运行证明不了什么</a>）。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The first page of rules grows and goes stale.</strong> People add a line for every incident. After a while it is long, parts contradict each other, and the model ignores it. Cut it back from time to time and keep each rule in one place.</p>
 <p><strong>A hook gives false comfort.</strong> It stops what it recognizes. Do not describe it as &quot;the agent cannot delete things&quot;. Describe it as &quot;the agent cannot run these specific commands&quot;.</p>
 <p><strong>I have not tested every VS Code setting.</strong> File names, hook support and settings change between versions. The steps above work in my setup; check the current docs for yours.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>第一頁規則會越長越舊</strong>。大家每出一次事故，就加一行。過一陣子它變長了，有的互相矛盾，模型就不理它。要不時刪減，每條規則只放在一個地方。</p>
 <p><strong>hook 會給人虛假的安心</strong>。它只擋它認得的。不要把它說成「agent 不能刪東西」，要說成「agent 不能執行這幾個特定的指令」。</p>
 <p><strong>VS Code 的設定，我沒有每一項都測過</strong>。檔名、hook 的支援和設定，不同版本之間會變。上面的步驟在我的設定裡行得通；你的請查目前的文件。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>规则的第一页会越写越长，也会过期</strong>。每出一次事故，人们就加一行。过一阵它就很长了，有的互相矛盾，模型也就不理它了。时常删减一下，让每条规则只在一个地方。</p>
+<p><strong>hook 会带来虚假的安心</strong>。它只拦它认得的东西。别说“agent 删不了东西”，要说“agent 不能运行这几条具体的命令”。</p>
+<p><strong>我没有测过 VS Code 的每一项设置</strong>。文件名、hook 的支持情况和设置，在不同版本之间会变。上面的步骤在我的配置里能用；你的请查当前的文档。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Every part of this starter set is on the list of things platforms are absorbing. When the platform's own permission system refuses the same dangerous commands out of the box, drop your hook. When it learns your project's commands by itself, shorten your rules page. Re-read your rules after every major model upgrade (<a href="6-5-model-upgrades.html">chapter 6.5</a>); lines written for an older model may be dead weight.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這組入門的每一部分，都在平台正在吸收的清單上。等平台自己的權限系統，開箱就拒絕同樣的危險指令，就丟掉你的 hook。等它自己學會你專案的指令，就把你的規則頁縮短。每次大的模型升級之後，重讀你的規則（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）；為舊模型寫的行，可能已經是累贅。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>这套入门配置里的每一样，都在平台正在吸收的清单上。等平台自己的权限系统开箱就能拒绝同样的危险命令，就把你的 hook 删掉。等它自己学会了你项目的命令，就把你的规则页缩短。每次大的模型升级之后，都重读一遍你的规则（<a href="6-5-model-upgrades.html">模型升级了，就要删</a>）；为旧模型写的那些行，可能已经成了累赘。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Check this repository against a minimal setup of three parts: one short page of rules, one skill, one blocking hook. For each part, say whether it exists, where, and whether it works. For the rules, list lines that are long, stale or contradict each other, and say which commands and limits the model could not guess are missing. For the hook, list which irreversible commands (such as recursive delete) nothing stops. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>用一個最小設定的三部分來檢查這個倉庫：一頁簡短的規則、一個 skill、一個會擋指令的 hook。每一部分都說明有沒有、在哪裡、能不能用。規則的部分，列出太長、過期或互相矛盾的行，並說明缺了哪些模型猜不到的指令和限制。hook 的部分，列出哪些不可逆的指令（例如遞迴刪除）沒有任何東西擋住。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>对照一套三部分的最小配置，检查这个仓库：一页简短的规则、一个 skill、一个拦截的 hook。每一部分，说明它在不在、在哪、有没有用。对规则，列出又长、又过期或者互相矛盾的行，并指出缺了哪些模型猜不到的命令和限制。对 hook，列出哪些不可逆的命令（比如递归删除）没有任何东西拦着。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/overview">Create and manage agent customizations</a></li>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
@@ -575,15 +752,22 @@ specificTo: generic
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/overview">Create and manage agent customizations</a></li>
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My own setup is the grown-up version of this chapter: a rules page, many skills, and a hook that guards every tool call. The harness can show you each one from the inside, and help you set up your own. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/overview">Create and manage agent customizations</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My own setup is the grown-up version of this chapter: a rules page, many skills, and a hook that guards every tool call. The harness can show you each one from the inside, and help you set up your own. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A minimal harness in 30 minutes&quot;. Teach me how this harness does its rules page, its skills and its hook. Open the real files with me, show me how the hook refuses a command, and help me see what I could copy into my own project.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我自己的設定，就是這一章的成熟版：一頁規則、很多 skill，以及一個守著每次工具呼叫的 hook。harness 可以從裡面把每一項展示給你看，也能幫你設定自己的。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「30 分鐘搭一個最小 harness」這一章。請教我這個 harness 怎麼做它的規則頁、skill 和 hook。每一項都帶我打開真實的檔案，讓我看 hook 怎麼拒絕一個指令，並幫我看出哪些可以抄進自己的專案。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我自己的配置，就是这一章的成熟版：一页规则、许多 skill，以及一个守着每次工具调用的 hook。harness 可以从内部带你逐个看，也能帮你配置你自己的。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“30 分钟搭一个最小 harness”这一章。请教我这个 harness 的规则页、skill 和 hook 是怎么做的。带我打开真实的文件，让我看 hook 是怎么拒绝一条命令的，并帮我看清哪些东西我可以抄进自己的项目。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

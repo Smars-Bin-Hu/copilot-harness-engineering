@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Build the enforcement layer like software</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.4</p><h1><span data-l="en" lang="en">Build the enforcement layer like software</span><span data-l="zh-Hant" lang="zh-Hant">把執行層當軟體來設計</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>, or know that a hook is code the platform runs before tool calls, and that it can refuse the call.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.4</p><h1><span data-l="en" lang="en">Build the enforcement layer like software</span><span data-l="zh-Hant" lang="zh-Hant">把執行層當軟體來設計</span><span data-l="zh-Hans" lang="zh-Hans">把执行层当软件来设计</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>, or know that a hook is code the platform runs before tool calls, and that it can refuse the call.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>，或者知道 hook 是平台在工具呼叫之前執行的程式碼，而且它能拒絕這次呼叫。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The enforcement layer is software, and it will fail. Decide in advance whether a failure lets the call through or blocks it, and build the layer so it can be tested and moved to another platform.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>，或者至少知道：hook 是平台在工具调用之前运行的代码，它能拒绝这次调用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The enforcement layer is software, and it will fail. Decide in advance whether a failure lets the call through or blocks it, and build the layer so it can be tested and moved to another platform.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>執行層是軟體，它會出錯。事先決定好：出錯時放行這次呼叫，還是擋下它；並把執行層做成可以測試、可以搬到別的平台的樣子。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>执行层就是软件，软件会出故障。要事先决定：出故障时是放行这次调用，还是拦下它；并且把这一层做成可以测试、可以搬到别的平台的样子。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide, and write down, whether the guard fails open (lets the call through) or fails closed (blocks it) when it breaks, and name the person who owns the layer.</li>
 <li><strong>The risk:</strong> nobody decides this on purpose; it is decided by whatever the script does when it crashes. The platform has its own rules too: a crash can refuse the call, while a timeout is a silent pass for every event. A guard that fails open and says nothing leaves a hole nobody knows about.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：沒有人是有意去決定這件事的；它是由腳本崩潰時碰巧做的事決定的。平台也有自己的規則：崩潰可以拒絕這次呼叫，而逾時對每一種事件都是默默放行。失效放行又不吭聲的守衛，留下一個沒人知道的洞。</li>
 <li><strong>做對的成本</strong>：小的設定，一個短腳本就夠了。章裡的結構，在規則變多、有幾個人在改、或第二個平台出現時才划算。要有人負責這一層，每次平台更新後重跑固定的情境。</li>
 <li><strong>可以問團隊</strong>：「如果我們的守衛明天崩潰，下一個動作會怎樣？誰會看到錯誤？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定出故障时守卫是放行（fail open）还是拦下（fail closed），把决定写下来，并指定这一层的负责人。</li>
+<li><strong>风险</strong>：没人是有意做这个决定的，它是由脚本崩溃时碰巧做了什么决定的。平台自己也有规矩：崩溃可能直接拒绝这次调用，而超时则是对每一类事件都悄悄放行。一个放行了又一声不吭的守卫，会留下一个没人知道的洞。</li>
+<li><strong>做对的代价</strong>：小规模的配置，一个简短的脚本就够了。规则多起来、好几个人在改规则、或者来了第二个平台时，本章里的结构才划算。必须有人负责这一层，每次平台更新后重跑固定场景。</li>
+<li><strong>可以问团队</strong>：“如果明天我们的守卫崩溃了，下一个动作会怎样？谁会看到这个错误？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first hook is easy. It is one script with a few <code>if</code> lines: if the command contains <code>rm -rf</code>, refuse. It works, and you are pleased.</p>
 <p>Then the rules grow. One rule guards a list of folders. One keeps a record of every call. One keeps count of something. One has to know which task the agent is working on. Each of them needs the same input, so each is added to the same script, and the script becomes a tangle. Three things go wrong.</p>
@@ -251,6 +262,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>你不能搬走它</strong>。腳本讀的是平台的欄位名稱。平台改了一個名字，或者你加了第二個平台，每條規則都要改。</li>
 </ul>
 <p>還有第四個問題，這一章講的就是它。這個腳本在工具呼叫之前執行，所以它裡面的一個 bug，就是 agent 做的每件事的 bug。hook 自己壞掉的時候該怎麼辦？擋下呼叫，還是放行？沒有人是有意決定這件事的。它是由腳本崩潰時碰巧做的事決定的。<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>說過，平台自己替你決定了兩種情況，而且方向相反。最好是你先決定自己的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>第一个 hook 很容易写。一个脚本，几行 <code>if</code>：命令里有 <code>rm -rf</code> 就拒绝。它管用，你很满意。</p>
+<p>然后规则越来越多。一条规则守着一批文件夹。一条记录每次调用。一条给某样东西计数。一条要知道 agent 正在做哪个任务。它们需要的输入都一样，于是都加进同一个脚本，脚本就缠成了一团。会出三个问题。</p>
+<ul>
+<li><strong>没法放心地改一个数字</strong>。连续被拒绝多少次就停、受保护的文件夹清单、时间限制：它们都埋在代码中间。要改一个，就得把整份代码读一遍。</li>
+<li><strong>没法测试</strong>。平台调用脚本时传进来一大段 JSON。要验证一条规则，你只能跑起 agent，然后指望它恰好做出你想看的那件事。</li>
+<li><strong>没法搬走</strong>。脚本直接读平台的字段名。平台把某个字段改了名，或者你加了第二个平台，每一条规则都得改。</li>
+</ul>
+<p>还有第四个问题，也是这一章真正要讲的。这个脚本在工具调用之前运行，所以它里面的 bug，就是 agent 做的每一件事的 bug。hook 自己坏了，该怎么办？拦下调用，还是放行？没人是有意做这个决定的，它是由脚本崩溃时碰巧做了什么决定的。<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>讲过，有两种情况是平台替你决定的，而且方向正好相反。最好先把你自己的决定做了。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>Four design choices make the layer something you can change, test and move. Then one decision, and one way to test it. If you read only one part, read the decision, &quot;when the layer itself fails&quot;. The four design choices are more structure than a small setup needs (see the traps below); skim them unless you are building one.</p>
 <h3>One call through the layer</h3>
 <p>Some words first. The <strong>enforcement layer</strong> is everything that stands between the model and the tools and says yes or no: the hooks and the code behind them. A <strong>module</strong> is one part of that code that is responsible for one thing, such as &quot;protect these folders&quot; or &quot;record calls&quot;. An <strong>adapter</strong> is a small part that translates between two formats. The <strong>core</strong> is the part that runs the modules and combines what they say.</p>
@@ -495,6 +514,128 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>你能不讀用到它的程式碼，就改一條規則的數字嗎？</li>
 </ol>
 <p><strong>今天就能跑的測試</strong>。在你 hook 的副本裡加一個故意的 bug（一行會丟出錯誤的程式碼）。執行一個無害的任務。看平台做了什麼，看你的日誌寫了什麼。然後把 bug 修好。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>有四个设计选择，能让这一层变得可以修改、可以测试、可以搬走。再加一个决定，和一种测试它的方法。如果只读一部分，就读那个决定：“执行层自己出故障时怎么办”。四个设计选择比小规模的配置需要的结构要多（见下面的坑），不打算自己搭的话，扫一眼就行。</p>
+<h3>一次调用怎样穿过执行层</h3>
+<p>先交代几个词。<strong>执行层</strong>是站在模型和工具之间、负责说“可以”或“不行”的全部东西：hook 和它背后的代码。<strong>模块</strong>是这些代码里负责一件事的一部分，比如“保护这些文件夹”或者“记录调用”。<strong>适配器</strong>是在两种格式之间翻译的一小段代码。<strong>核心</strong>是运行各个模块、并把它们的意见合起来的那部分。</p>
+<figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
+  <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
+  <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">平台</text>
+
+  <g data-step="1">
+    <path class="line-lit" d="M100 125 H114"/>
+    <path class="head-lit" d="M114 119 L122 125 L114 131 Z"/>
+    <rect class="box-lit" x="122" y="100" width="100" height="50" rx="8"/>
+    <text class="label-lit" x="172" y="130" text-anchor="middle" data-t="adapter">适配器</text>
+    <text class="label-muted" x="185" y="86" text-anchor="middle" data-t="adapter-note">唯一认得平台的部分</text>
+  </g>
+
+  <g data-step="2">
+    <path class="line-lit" d="M222 125 H242"/>
+    <path class="head-lit" d="M242 119 L250 125 L242 131 Z"/>
+    <rect class="box" x="250" y="30" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="55" text-anchor="middle" data-t="m1">任务</text>
+    <rect class="box-lit" x="250" y="105" width="100" height="40" rx="6"/>
+    <text class="label-lit" x="300" y="130" text-anchor="middle" data-t="m2">关卡</text>
+    <rect class="box" x="250" y="180" width="100" height="40" rx="6"/>
+    <text class="label" x="300" y="205" text-anchor="middle" data-t="m3">记录</text>
+    <text class="label-muted" x="280" y="246" text-anchor="middle" data-t="mod-note">各模块给各自的意见，彼此不调用</text>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M350 50 H380 V110 H410 M350 125 H410 M350 200 H380 V140 H410"/>
+    <rect class="box-lit" x="410" y="95" width="180" height="60" rx="8"/>
+    <text class="label-lit" x="500" y="122" text-anchor="middle" data-t="core">核心</text>
+    <text class="label-muted" x="500" y="142" text-anchor="middle" data-t="core-rule">拒绝 &gt; 询问 &gt; 放行</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M500 155 V262 H172 V160"/>
+    <path class="head-lit" d="M166 162 L172 152 L178 162 Z"/>
+    <text class="label-muted" x="340" y="283" text-anchor="middle" data-t="back">一个答案，用平台要的格式</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">平台用自己的格式送来一个事件。适配器是唯一的入口，把它变成一个通用事件。</li><li data-step-text="2">关心这个事件的模块各自看一眼。一个查路径和命令，一个做记录，一个管任务。它们彼此不说话。</li><li data-step-text="3">核心合并各家意见。只要有一个模块说拒绝，答案就是拒绝；其次是询问；最后才是放行。</li><li data-step-text="4">适配器把答案转回平台要的格式。上面任何一步出错，错误会写进日志，这次调用放行。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次调用穿过执行层。只有适配器认得平台，所以平台改了，只改适配器。</figcaption></figure>
+<h3>1. 一个入口，一个唯一认得平台的适配器</h3>
+<p>告诉平台的是一个 hook，不是十个。所有事件都进同一个入口。我这么做有个实际的原因：平台不会替我按工具名过滤，所以十个小 hook 意味着每次调用要启动十个进程，其中大多数无事可做。我预计，一个入口、在里面决定哪些模块关心这次调用，会更省；但我没有计过时。</p>
+<p>入口做的第一件事，是把平台的 JSON 交给适配器。适配器读平台的字段名和写法（工具名、大小写、参数在哪里），产出一个<strong>通用事件</strong>，其余代码都用它。回程时，它做相反的事。</p>
+<p>这就是这一层能搬走的原因。平台改了字段，或者你加了第二个平台，只要写或改一个适配器。模块和它们的测试原样不动。平台一变，我先录下它的真实输入，检查适配器能读懂这份录制，然后才动别的。</p>
+<h3>2. 模块给意见，核心来决定</h3>
+<p>每个模块看到通用事件，返回下面几种之一：没意见、放行、询问、拒绝，或者“加上这几句话给模型看”。模块只导入共用的基础代码，从不导入别的模块。所以你可以加一个模块，或者关掉一个，不用读其他模块。</p>
+<p>核心按固定的顺序合并这些意见：<strong>拒绝压过询问，询问压过放行</strong>。只要有一个模块说拒绝，答案就是拒绝，不管其他模块怎么想。模块想加的那些话，按顺序拼起来。这和“任何一个成员都能一票否决”的投票是同一个思路，意思是：新加一个模块，只会让这一层更严，绝不会悄悄变松。</p>
+<p>抛出错误的模块，按没意见处理。一个坏掉的模块拖不垮其他模块。注意这带来的后果：如果坏掉的是一条拒绝规则，它的拒绝就没了，调用就过去了。这就是下面要讲的“出故障时放行”，一个模块一个模块地生效。</p>
+<h3>3. 数字放在文件里，不放在代码里</h3>
+<p>连续拒绝多少次熔断器才跳闸（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）、哪些文件夹要守、一次授予的例外持续多久：这些都是<strong>策略文件</strong>，是代码去读、而不是代码里自带的普通数据。理由很简单。不会写程序的人也能读懂，也能改一个数。公司可以把自己的值放进一个单独的 override，和标准值并排放着，所以更新标准值不会和本地改动冲突。规则的数字只写在一个地方，文档就不会和代码对不上。</p>
+<p>给人看的文字也是同样的思路：每条拒绝理由和每条消息都放在一张表里，每种语言一张表，名字一一对应。哪种语言少了一个名字，测试就会失败。</p>
+<h3>4. 状态放在文件里，每个字段只有一个写入者</h3>
+<p>这一层对每个事件都是起一个新进程来运行，两次调用之间没法在内存里留任何东西。所以凡是要记住的（哪个任务是当前的、到目前为止拒绝了几次、人工 override 开着没有），都放进每个会话一个的小文件，加锁读取，再写回去。每个字段只有一个模块有权写。文件里的版本号让旧文件可以升级，而不是直接坏掉。</p>
+<p>文件也让这一层好查。出了怪事，打开文件，就能看到这一层当时是怎么认为的。</p>
+<h3>决定：执行层自己出故障时怎么办</h3>
+<figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
+  <text class="label" x="300" y="42" text-anchor="middle" data-t="broken">hook 自己的代码坏了</text>
+
+  <path class="line" d="M250 59 L150 110"/>
+  <path class="line-lit" d="M350 59 L450 110"/>
+
+  <rect class="box" x="10" y="110" width="280" height="60" rx="8"/>
+  <text class="label" x="150" y="136" text-anchor="middle" data-t="closed">拦下这次调用</text>
+  <text class="label-muted" x="150" y="156" text-anchor="middle" data-t="closed-cost">代价：所有工作停摆</text>
+  <text class="label-muted" x="150" y="195" text-anchor="middle" data-t="closed-for">适用：生产环境、凭证</text>
+
+  <rect class="box-lit" x="310" y="110" width="280" height="60" rx="8"/>
+  <text class="label-lit" x="450" y="136" text-anchor="middle" data-t="open">放行，并把错误记下来</text>
+  <text class="label-muted" x="450" y="156" text-anchor="middle" data-t="open-cost">代价：漏掉一条规则</text>
+  <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">适用：只有代码的项目</text>
+</svg>
+<figcaption>两种失败方式。要在事情发生之前，一条规则一条规则地先决定。</figcaption></figure>
+<p>现在回到开头的问题。失败有两种方式。</p>
+<ul>
+<li><strong>故障放行（fail open）</strong>：hook 自己的代码坏了，就放行这次调用，并把错误写进日志。</li>
+<li><strong>故障拦截（fail closed）</strong>：它坏了，就拦下这次调用。</li>
+</ul>
+<p>在我的配置里，hook 是故障放行。理由是一次成本比较，而且我只对这一类项目这么说。hook 在工具调用之前运行。如果它里面的 bug 把每次调用都拦下，agent 在有人修好 bug 之前就一无用处，人还会对 harness 发火。如果它放过了一次调用，代价是漏掉一次拦截，而错误会在日志里，也会出现在<strong>健康检查</strong>里（一条检查配置是否健全的命令）。在只有代码、放在版本控制下的项目里，漏掉的拦截通常能被发现并撤销。被拦住的工作，就不那么容易补回来了。</p>
+<p>平台还有自己的规则，需要留意。VS Code 的页面把退出码的规则指向 GitHub 的 hook 参考（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查阅）。对于工具调用之前的命令 hook：退出码 2 是拒绝，任何其他非零的退出码也是拒绝（“hook errored”），所以崩溃或者启动失败都会拒绝这次调用。如果 hook 超过了时间限制，它会被杀掉，调用则按正常的权限流程继续：对每一类事件，都是悄悄放行。在其他事件上，非零退出只会被记录，运行继续。我自己的测量在崩溃和超时这两点上和文档一致。所以“故障放行”不是什么都不做就能得到的。hook 必须自己捕获错误，并有意回答“没意见”，这样一个普通的 bug 才不会变成平台的拒绝。整个程序崩溃是另一种情况，由平台决定。而且“太慢”也是一种故障：我在健康检查里特意把 hook 跑一次，最近最慢的一次调用接近时间限制时就发警告，这样我能赶在平台悄悄丢掉我的规则之前发现。</p>
+<p>根据上面的成本比较，一个大致的指引：</p>
+<table>
+<thead>
+<tr>
+<th>你的项目</th>
+<th>倾向于</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>版本控制下的代码，漏掉的拦截能被发现并撤销</td>
+<td>故障放行，并留下看得见的日志</td>
+</tr>
+<tr>
+<td>碰生产数据或凭证</td>
+<td>在一份短清单上故障拦截，或者更好：不要靠 hook（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）</td>
+</tr>
+<tr>
+<td>很多人写规则，或者你要加第二个平台</td>
+<td>加上面的结构，以及下面的故障测试</td>
+</tr>
+</tbody>
+</table>
+<p><strong>这个选择不是对什么都适用</strong>。漏掉的拦截容易发现、容易补救时，故障放行是对的。漏掉的拦截没法撤销时，它就是错的：碰生产数据的命令、存着凭证的文件。对这些，有一种设计是按规则故障拦截，用一份短清单：hook 坏了，而这次调用碰了清单上的任何东西，就拦下。这个我没有做。但更好的答案在下一章：这些东西根本不要靠 hook（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p>不管选哪个，<strong>都要写下来，并且让故障看得见</strong>。一个故障放行又一声不吭的执行层是两头都落了坏处：你有一个洞，却不知道。</p>
+<h3>怎么测试</h3>
+<p>这一层的输入是数据，所以测试很容易：喂一个事件进去，读它的答案。有三种测试重要。</p>
+<ul>
+<li><strong>规则测试</strong>。每条规则准备几个必须被拒绝的事件、几个必须通过的事件。用从真实平台录下来的输入，别用你编的。编出来的输入用的是你预期的写法，而平台不一定。</li>
+<li><strong>故障测试</strong>。故意弄坏一个模块，检查其他模块还能回答。喂一份损坏的配置文件，检查结果是你选的那一种，放行或拦截。平台文档也要求这么做：“测试退出码和超时的规则，别假设每种故障都会挡住工作。”</li>
+<li><strong>送达测试</strong>。这一层可以是对的，答案却还是在路上丢了（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>里有个例子）。检查模型实际收到了什么。</li>
+</ul>
+<p>再养成一个习惯。留一小批固定场景（“这条命令必须被拒绝”“这个编辑必须通过”），每次平台更新之后都跑一遍。更新会改变你的执行层，而你一行代码都没动。</p>
+<h3>测试你自己的配置</h3>
+<p><strong>三个问题：</strong></p>
+<ol>
+<li>如果明天你的 hook 崩溃了，下一次工具调用会怎样？你是知道，还是在猜？</li>
+<li>如果平台给某个字段改了名，你要改几个文件？</li>
+<li>不读用到某条规则的代码，你能改它的数字吗？</li>
+</ol>
+<p><strong>今天就能做的一个测试</strong>。在你的 hook 的一份副本里，故意加一个 bug（一行抛错的代码）。跑一个无害的任务。看平台怎么处理，看你的日志里写了什么。然后把 bug 修好。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>This is more structure than the first hook needs.</strong> One script of twenty lines is fine for a dozen rules. The structure pays when rules multiply, when more than one person edits them, or when you plan a second platform. I grew into it; I did not start with it.</p>
 <p><strong>An adapter hides the differences, not removes them.</strong> Platforms differ in what a hook can see and when it runs. A common event is a lowest common denominator, and anything the adapter cannot fill in is missing from every module. I use one platform today, so I have not tested the idea on a second.</p>
 <p><strong>Fail open is a bet, and it can be lost.</strong> It was cheap in my project. Take care if you copy it: ask what the worst missed stop would be in yours. The person who owns the project should make this choice, not the script's author by accident.</p>
@@ -507,14 +648,24 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>平台更新會改變你的執行層</strong>。要有人負責這一層，每次更新後跑固定的情境。沒人做的話，這一層會在沒人注意時慢慢漂走。</p>
 <p><strong>否決權讓壞模組代價很高</strong>。一個錯誤地說拒絕的模組會擋下一切。上面的測試，和說明該改做什麼的拒絕原因，是我管住它的辦法。</p>
 <p><strong>沒人讀的紀錄沒有用</strong>。失效放行的執行層，它的錯誤日誌是它失敗了的唯一跡象。去讀它，或者弄一個指令來回報它。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>这比第一个 hook 需要的结构多</strong>。二十行的一个脚本，管十来条规则完全够用。规则增多、不止一个人在改、或者你打算接第二个平台时，这套结构才划算。我是慢慢长到这一步的，不是一开始就这么搭。</p>
+<p><strong>适配器是遮住差异，不是消除差异</strong>。各平台的 hook 能看到什么、什么时候运行，是不一样的。通用事件只取各平台的交集，适配器填不出来的东西，每个模块都看不到。我现在只用一个平台，所以没有在第二个平台上测过这个想法。</p>
+<p><strong>故障放行是一场赌，而且可能输</strong>。在我的项目里它很划算。照搬时要小心：问问在你的项目里，最糟的一次漏拦会是什么。这个选择应该由项目负责人来做，而不是由脚本作者无意中做出。</p>
+<p><strong>平台更新会改变你的执行层</strong>。得有人负责这一层，每次更新后跑固定场景。没人做的话，这一层就会在没人察觉的情况下慢慢漂移。</p>
+<p><strong>否决权让一个坏模块代价很高</strong>。一个错误地说“拒绝”的模块，会拦下所有东西。上面的测试，以及写明“该怎么做”的拒绝理由，是我用来管住它的办法。</p>
+<p><strong>没人读的记录没有用</strong>。故障放行的执行层，它的错误日志是它出过故障的唯一迹象。要么去读它，要么有一条命令把它报告出来。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The VS Code docs agree on the cautions. They describe a command hook's error on a before-tool event as denying the call, say that a timeout falls through to normal permissions, and tell you to test both (the exact exit codes are in GitHub's reference, above). They also say that hooks and instructions are &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>) I did not find a published recommendation on fail open versus fail closed for agent hooks, so that part of the chapter is my reasoning, not a standard.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 文件在這些警告上是一致的。它們描述指令型 hook 在工具呼叫之前事件上的錯誤會拒絕這次呼叫，說逾時會落到一般的權限，並叫你兩個都測（確切的結束代碼在上面 GitHub 的參考裡）。它們還說 hooks 和指令「不能代替強制的權限、沙箱或企業管控」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）對於 agent hook 該失效放行還是失效關閉，我沒找到公開的建議，所以這一章的那部分是我的推理，不是標準。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 文档在这些提醒上是一致的。它把命令 hook 在工具调用之前的错误描述为拒绝这次调用，说超时会回落到正常的权限流程，并要求两者都要测试（具体的退出码在上面 GitHub 的参考里）。它还说，hook 和指令“不能替代强制执行的权限、沙箱或企业管控”。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）关于 agent hook 应该故障放行还是故障拦截，我没找到公开发表的建议，所以本章这一部分是我自己的推理，不是标准。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The adapter is there because platforms differ and change. If the platforms converge on one hook format, the adapter shrinks to nothing. The timing check goes when a timeout is reported and not silent. If the platform one day offers enforced policy of its own (a rule file it checks itself, with a defined failure mode), I would move the hard rules there and keep the hook for records and reminders. The question of what happens when the enforcement fails does not retire: it moves to that policy.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>轉接器存在，是因為平台各不相同，而且會變。如果各平台收斂到同一種 hook 格式，轉接器就縮到沒有。逾時被明確回報、而不再默默發生的時候，計時檢查就可以去掉。如果平台有一天提供它自己的強制政策（一個它自己檢查、有明確失敗模式的規則檔），我會把硬規則搬過去，hook 留給紀錄和提醒。執行層出錯時會怎樣，這個問題不會退場：它只是搬到那份政策上。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>适配器之所以存在，是因为各平台不一样，而且会变。如果各平台收敛到同一种 hook 格式，适配器就会缩到什么都不剩。超时有了明确的报告、不再悄悄发生时，计时检查就可以去掉。如果平台有一天提供了它自己的强制策略（一份由它自己检查的规则文件，故障时的行为有明确定义），我会把硬规则搬过去，hook 只留作记录和提醒。执行失败时会怎样这个问题不会退役：它会转移到那份策略上。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>If this project uses hooks or a similar enforcement layer, read it and answer: (1) what happens to the next tool call if a hook crashes or times out, for each hook; (2) where the numbers and patterns of the rules live, in data files or inside the code; (3) which tests or fixed scenarios exist, and whether they use input recorded from the real platform; (4) where errors are logged and whether anyone would see them. If there is no hook, say so and stop. Do not change any files, and do not run the hooks.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>如果這個專案用了 hook 或類似的執行層，讀它並回答：(1) 每個 hook 崩潰或逾時的話，下一次工具呼叫會怎樣；(2) 規則的數字和模式放在哪裡，是資料檔還是程式碼裡；(3) 有哪些測試或固定的情境，它們用的是不是從真實平台錄下來的輸入；(4) 錯誤記錄在哪裡，有沒有人會看到。如果沒有 hook，就說沒有，然後停止。不要改任何檔案，也不要執行這些 hook。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>如果这个项目用了 hook 或类似的执行层，读一下它，并回答：（1）对每个 hook，如果它崩溃或超时，下一次工具调用会怎样；（2）规则的数字和匹配模式放在哪里，是在数据文件里，还是在代码里；（3）有哪些测试或固定场景，它们用的是不是从真实平台录下来的输入；（4）错误记在哪里，会不会有人看到。如果没有 hook，就这么说，然后停下。不要修改任何文件，也不要运行这些 hook。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
 <li><a href="2-2-hooks.html">Hooks</a>: the moments, and the three ways a hook goes wrong</li>
@@ -525,15 +676,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>：各個時機，和 hook 出錯的三種方式</li>
 <li><a href="4-5-least-privilege.html">有些東西根本不給</a>：絕對不能碰的東西怎麼辦</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
+<li><a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>：hook 运行的时机，以及 hook 出错的三种方式</li>
+<li><a href="4-5-least-privilege.html">有些东西根本不给</a>：碰不得的东西该怎么办</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Build the enforcement layer like software&quot;. Teach me how this harness is built inside: the one hook entry, the adapter, the modules and the merge (topic 14), and why the hook lets a call through when it fails itself (topic 15.5). Open the real files with me, and show me what is in the error log.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 有這一層：一個 hook 入口、一個 Copilot 的轉接器、模組、一個合併的核心、政策檔、會話狀態檔，和一個會試跑 hook 的健康檢查。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「把執行層當軟體來設計」這一章。請教我這個 harness 內部怎麼建的：一個 hook 入口、轉接器、模組和合併（主題 14），以及為什麼 hook 自己出錯時會放行呼叫（主題 15.5）。和我一起打開真實的檔案，讓我看錯誤日誌裡有什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 里有这一层：一个 hook 入口、一个 Copilot 适配器、若干模块、一个合并意见的核心、策略文件、会话状态文件，以及一个会试跑 hook 的健康检查。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“把执行层当软件来设计”这一章。请教我这个 harness 内部是怎么搭的：唯一的 hook 入口、适配器、模块和合并（主题 14），以及为什么 hook 自己出故障时会放行这次调用（主题 15.5）。带我打开真实的文件，并让我看看错误日志里有什么。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

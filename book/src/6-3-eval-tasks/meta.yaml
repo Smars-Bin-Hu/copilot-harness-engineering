@@ -1,7 +1,7 @@
 id: "6.3"
 part: evidence
 core: true
-title: {en: "Fixed tasks, scored by a script", zh-Hant: "固定的任務，用腳本打分"}
+title: {en: "Fixed tasks, scored by a script", zh-Hant: "固定的任務，用腳本打分", zh-Hans: "固定的任务，用脚本打分"}
 harness_tag: "1.5.50"
 wondering: [12-observe-report]
 sources:

@@ -1,6 +1,6 @@
 id: "4.3"
 part: control
-title: {en: Guard the files that hold the rules, zh-Hant: 保護規則本身的檔案}
+title: {en: Guard the files that hold the rules, zh-Hant: 保護規則本身的檔案, zh-Hans: 保护规则本身的文件}
 harness_tag: "1.5.50"
 wondering: [07-guardrails, 08-permission-sandbox]
 sources:

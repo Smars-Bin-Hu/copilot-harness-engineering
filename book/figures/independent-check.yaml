@@ -24,3 +24,16 @@ zh-Hant:
   step-2: "自己檢查自己時，思路會帶著它繞過自己的錯。"
   step-3: "reviewer 只看需求和做出來的東西。兩者對不上，它就會發現。"
   caption: "獨立檢查需要一個沒有作者思路的上下文，所以必須是另一個 agent。"
+zh-Hans:
+  author: 作者
+  reviewer: reviewer
+  request: 需求
+  reasoning: 它自己的思路
+  work: 做出来的东西
+  unseen: "思路：从没见过"
+  author-note: "读到的是它想写的"
+  reviewer-note: "读到的是实际写的"
+  step-1: "作者的上下文里有需求、它自己的思路和做出来的东西。"
+  step-2: "自己检查自己时，思路会带着它绕过自己犯的错。"
+  step-3: "reviewer 只看需求和做出来的东西。两者对不上，它就能发现。"
+  caption: "独立检查需要一份不含作者思路的上下文，所以必须是另一个 agent。"

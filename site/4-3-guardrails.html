@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Guard the files that hold the rules</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.3</p><h1><span data-l="en" lang="en">Guard the files that hold the rules</span><span data-l="zh-Hant" lang="zh-Hant">保護規則本身的檔案</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a>: a limit is a refusal the agent cannot argue with.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.3</p><h1><span data-l="en" lang="en">Guard the files that hold the rules</span><span data-l="zh-Hant" lang="zh-Hant">保護規則本身的檔案</span><span data-l="zh-Hans" lang="zh-Hans">保护规则本身的文件</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a>: a limit is a refusal the agent cannot argue with.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>：限制是 agent 吵不贏的拒絕。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>If the agent can edit the rules, the rules mean nothing. Keep the rules and the hook files out of its reach, and make any human override last one session, expire, and leave a record.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，请先读过<a href="4-2-ask-vs-refuse.html">询问不是限制</a>：限制，就是 agent 辩不过的拒绝。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>If the agent can edit the rules, the rules mean nothing. Keep the rules and the hook files out of its reach, and make any human override last one session, expire, and leave a record.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 能改規則，規則就沒有意義。把規則檔和 hook 檔放在它碰不到的地方；人給的任何 override，都只管一個會話，會過期，並留下紀錄。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 如果能改规则，规则就等于没有。要让规则文件和 hook 文件它碰不到，人的任何 override 都只管一个会话、会过期，并且留下记录。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide that the agent may not edit the files that hold its rules, its hooks or its evidence, and that any human override is limited to one session, expires and leaves a record.</li>
 <li><strong>The risk:</strong> a rule the agent can edit is a rule the agent can remove, and a &quot;passed&quot; record it can write is a pass it can give itself. I have no incident to report. The argument is the point, not a count.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：agent 能改的規則，agent 就能刪掉；它能寫的「通過」紀錄，就是它能自己給自己的通過。我沒有事故可報告。重點是這個論證，不是次數。</li>
 <li><strong>做對的成本</strong>：一份受保護檔案的清單，加了新部件就更新；還有一個讓人刻意打開圍欄的辦法。我的 override 要靠人記得關掉；有時間限制和第二個人來讀會更好，我沒有做。</li>
 <li><strong>可以問團隊</strong>：「agent 能不能編輯存放它自己規則和紀錄的檔案？它試的時候，你能給我看一次被拒絕的紀錄嗎？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定 agent 不许编辑存放它的规则、hook 和证据的那些文件，并且人的任何 override 都只限一个会话、会过期、并留下记录。</li>
+<li><strong>风险</strong>：agent 能编辑的规则，agent 就能删掉；agent 能写的“通过”记录，就是它能给自己的通过。我没有事故可以报告。重点是这个论证，不是次数。</li>
+<li><strong>做对的代价</strong>：一份受保护文件的清单，增加新部件时要随之更新，再加一个让人有意打开围栏的办法。我的 override 靠人记得去关；时间限制加上第二个读的人更好，但我还没有。</li>
+<li><strong>可以问团队</strong>：“agent 能编辑存放它自己的规则和记录的文件吗？它试的时候，你能给我看一次被拒绝的情形吗？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Who is the threat here? Mostly a careless agent, not a hostile one: an agent that is under pressure to finish a task and loosens a rule that is in the way. An agent led by injected text is a second case (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>); it needs the same fence, and more.</p>
 <p>You have a hook that refuses dangerous commands. It works. Now ask: where does the hook live? In a file. The configuration that tells the platform to run it is a file. The numbers it uses are a file. And the agent has an edit tool.</p>
@@ -247,6 +258,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>紀錄也一樣。檢查通過後留下一個「通過」的檔案，如果 agent 能寫這個檔案，它就能讓自己通過。所以問題不只是「哪些指令被拒絕」，而是「誰能改那些負責拒絕和證明的東西」。</p>
 <p>我把必須放在碰不到的地方的檔案叫作<strong>護欄檔案</strong>：一道圍欄，agent 在裡面工作，但移不動它。</p>
 <p>這一章只做一件事的話：讓規則檔和 hook 檔對 agent 不可寫。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>威胁是谁？多数时候是一个粗心的 agent，而不是怀有恶意的：一个急着完成任务的 agent，把挡路的规则放松了。被注入的文本引着走的 agent 是第二种情况（<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>）；它需要同样的围栏，而且要更多。</p>
+<p>你有一个 hook，会拒绝危险的命令。它起作用。现在问：这个 hook 放在哪？在文件里。告诉平台去运行它的配置，是一个文件。它用到的数字，是一个文件。而 agent 有编辑工具。</p>
+<p>一个被拒绝挡住的 agent，不需要有恶意才去改那个文件。它只要想完成任务，看到规则挡了路，然后做看上去合理的事：把规则放松。我没有事故可以报告。重点是这个论证：agent 能编辑的规则，agent 就能删掉。</p>
+<p>记录也一样。如果一次检查留下一个“通过”的文件，而 agent 能写这个文件，agent 就能让自己通过。所以问题不只是“哪些命令被拒绝”，而是“谁能改动那些负责拒绝和证明的东西”。</p>
+<p>我把必须放在它碰不到的地方的这些文件，叫作<strong>护栏文件</strong>：一道围栏，意思是 agent 在里面干活，却挪不动它。</p>
+<p>这一章里如果你只做一件事：让规则文件和 hook 文件对 agent 不可写。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Which files are the fence</h3>
 <figure class="fig" id="fig-4-3-fence"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <rect class="box-plain" x="10" y="20" width="260" height="200" rx="10"/>
@@ -421,6 +438,93 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>每一條都是在去掉一個讓短期例外變成長期漏洞的路。</p>
 <h3>測一下你自己的設定</h3>
 <p>在你專案的副本裡，請你的 agent 放鬆它自己 hook 設定裡的一條規則。成功了嗎？成功的話，你的規則就只是請求。那就保護這個檔案，再試一次。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>哪些文件是围栏</h3>
+<figure class="fig" id="fig-4-3-fence"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-plain" x="10" y="20" width="260" height="200" rx="10"/>
+  <text class="label-muted" x="140" y="44" text-anchor="middle" data-t="inside">agent 可以写的地方</text>
+  <rect class="box" x="20" y="60" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="85" text-anchor="middle" data-t="work">任务文件夹、代码</text>
+  <rect class="box" x="20" y="112" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="137" text-anchor="middle" data-t="text">指令、skill（文本）</text>
+  <rect class="box" x="20" y="164" width="240" height="40" rx="6"/>
+  <text class="label" x="140" y="189" text-anchor="middle" data-t="agent">agent</text>
+
+  <path class="line-lit" d="M270 125 H330"/>
+  <path class="head-lit" d="M330 119 L340 125 L330 131 Z"/>
+  <text class="label-lit" x="305" y="108" text-anchor="middle" data-t="no">拒绝</text>
+
+  <rect class="box-lit" x="340" y="20" width="250" height="200" rx="10"/>
+  <text class="label-lit" x="465" y="44" text-anchor="middle" data-t="outside">它够不着</text>
+  <text class="label-lit" x="465" y="80" text-anchor="middle" data-t="f1">hook 配置</text>
+  <text class="label-lit" x="465" y="110" text-anchor="middle" data-t="f2">引擎和命令</text>
+  <text class="label-lit" x="465" y="140" text-anchor="middle" data-t="f3">策略（那些数字）</text>
+  <text class="label-lit" x="465" y="170" text-anchor="middle" data-t="f4">记录、审批、日志</text>
+  <text class="label-lit" x="465" y="200" text-anchor="middle" data-t="f5">能关掉 hook 的设置</text>
+</svg>
+<figcaption>围栏是决定“拒绝什么”和“什么算证明”的那些文件。agent 在围栏里面干活。</figcaption></figure>
+<p>在我的配置里，这些是：</p>
+<ul>
+<li><strong>hook 配置</strong>，告诉平台去运行哪个 hook 的那个文件；</li>
+<li><strong>引擎</strong>，也就是 hook 本身的代码，以及允许 agent 调用的命令；</li>
+<li><strong>策略</strong>，存放规则里的数字和模式的普通文件；</li>
+<li><strong>运行时状态</strong>，hook 运行时写下的文件：会话状态、审批记录和日志；</li>
+<li>能把 hook 关掉的编辑器设置；</li>
+<li>仓库的许可证文件。</li>
+</ul>
+<p>指令文件和 skill 不在这份清单里。它们是文本，是请求，本来就是给 agent 读的。改了它们，并不会改变代码会拒绝什么。</p>
+<h3>围栏是怎么守的</h3>
+<ul>
+<li><strong>编辑工具：在调用之前就拒绝。</strong> 这是容易的一种。路径就在调用里。</li>
+<li><strong>终端：常见的写法。</strong> 重定向、<code>rm</code>、<code>mv</code>、<code>sed -i</code>、<code>cp</code>、<code>tee</code> 等等。<a href="4-2-ask-vs-refuse.html">询问不是限制</a>里的限度在这里同样适用：间接的写法抓不到。</li>
+<li><strong>比较之前，先把路径统一成一种形式。</strong> 同一个文件可以用不同的大小写、用 <code>..</code>、用绝对路径，或者用 Windows 的反斜杠来写。规则先把它们都统一成一种形式。否则围栏在写法上就会有缺口。在你自己的配置里还值得查两个缺口：指向受保护文件夹的符号链接，以及不区分大小写的磁盘。这两个我都没有测过。</li>
+<li><strong>公司可以增加路径，但不能去掉默认的。</strong> 任何搭建团队配置的人，都可以保护更多文件。去掉默认值的 override，就和 agent 能编辑规则是同一个漏洞。</li>
+</ul>
+<p>这是防失误的措施。它不是沙箱，我也不叫它沙箱。一个铁了心要绕过它的 agent，先写好一个脚本，就能绕过。要更强的版本，见<a href="4-5-least-privilege.html">有些东西根本不给</a>。</p>
+<h3>只有命令才能写的文件</h3>
+<p>有些文件不是规则，而是证据：任务的状态、独立检查的结论（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）、快照（在某个时间点对文件做的拷贝）、一次审批所依据的 diff、最终报告。</p>
+<p>如果 agent 能写它们，它就能宣布一次检查通过了，或者改掉获批的内容。所以 agent 永远不用它的编辑工具去写这些文件。由命令来写，而命令自己判断结果。“agent 记录了一个结果”的意思是，agent 请命令去记录，而命令做了判断。</p>
+<p>存放人带来的东西的文件夹也是一样：文档、参考代码、一次运行的结果。agent 读它们。人（通过一个页面或一条命令）写它们。agent 能编辑的证据，不算证据。</p>
+<h3>熔断器</h3>
+<p>拒绝不断出现时，agent 可能会一直试。hook 只能拒绝一次调用；它没法让 agent 停下。所以当同一个拒绝连续出现三次时（三是我的设置），<strong>熔断器</strong>就会跳闸，并把理由换成另一条：别再试这个了，去告诉人。它是以消息形式出现的请求，但这是 hook 唯一能做的。它也避免日志里塞满同一条拒绝。</p>
+<h3>人必须打开围栏的时候</h3>
+<p>有时规则本身必须改。我扩展 harness 的时候，就要改护栏文件。所以必须有一条路进去。怎么把这个权利给出去，又不给 agent？</p>
+<p><strong>不靠 agent。</strong> 我一开始想让一个指定的 agent 去编辑围栏。但在 Copilot 目前的情况下，hook 收到的事件里没有主 agent 的名字（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），所以 hook 分不清是哪个 agent 在调用。任何 agent 都可以冒充那个指定的 agent。跟着名字走的权利，谁用了这个名字谁就能主张。</p>
+<p><strong>按会话，由人来设定。</strong> 依据是会话状态里的一个开关。只有人能打开它，办法是在自己的终端里输入一个验证码。agent 运行不了那条命令，它要是试，hook 会拒绝。这和<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>里是同一个渠道。</p>
+<figure class="fig steps" id="fig-4-3-admin" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <path class="line" d="M20 150 H575"/>
+  <path class="head" d="M575 144 L587 150 L575 156 Z"/>
+  <text class="label-muted" x="580" y="175" text-anchor="end" data-t="time">时间</text>
+
+  <g data-step="1">
+    <rect class="box" x="30" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="120" y="68" text-anchor="middle" data-t="on">人输入验证码</text>
+    <path class="line" d="M120 86 V150"/>
+  </g>
+  <g data-step="2">
+    <rect class="bar-lit" x="120" y="136" width="280" height="28" rx="4"/>
+    <text class="label-lit" x="260" y="125" text-anchor="middle" data-t="open">围栏打开，只限这个会话</text>
+  </g>
+  <g data-step="3">
+    <rect class="box" x="310" y="40" width="180" height="46" rx="8"/>
+    <text class="label" x="400" y="68" text-anchor="middle" data-t="off">关掉</text>
+    <path class="line" d="M400 86 V150"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-plain" x="100" y="185" width="400" height="34" rx="6"/>
+    <text class="label-muted" x="300" y="207" text-anchor="middle" data-t="record">调用都标为 admin；人读 diff</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">人在自己的终端里输入验证码。agent 做不到这件事。</li><li data-step-text="2">只在这个会话内，围栏里的文件可以改。审批记录仍然锁着。</li><li data-step-text="3">工作做完，人把它关掉。</li><li data-step-text="4">这中间的每次调用，日志都做了标记，人再读一遍改了什么的 diff。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>人为一个会话打开围栏，再关上。放开的权限绑在会话上，不绑在 agent 上。</figcaption></figure>
+<p>让这个 override 安全的有这几点：</p>
+<ol>
+<li><strong>它属于一个会话，不属于某个 agent。</strong> 会话结束，它就结束。</li>
+<li><strong>工作做完，就关掉。</strong> 我的规则是把它关掉，然后用 git 读一遍改了什么的 diff。我靠的是这个习惯；我的配置里没有计时器。这是这个设计的弱点：它依赖人记得去做。时间限制是更好的设计，而 git 写入的审批已经在用了。对团队来说，要加上过期时间，再加第二个读 diff 的人。</li>
+<li><strong>它会留下记录。</strong> 开着的时候，每条记入日志的调用都标成 admin。</li>
+<li><strong>有些门始终关着。</strong> 在我的配置里，即便是 admin 也不能写运行时状态，那里面存着审批记录。如果能写，它就能伪造一次审批。而且同一个会话里不能打开任何任务，也不能调用子 agent。</li>
+</ol>
+<p>这几点，每一点都去掉了一种让短暂的例外变成长期漏洞的办法。</p>
+<h3>检验你自己的配置</h3>
+<p>在你项目的一份拷贝里，让你的 agent 放松它自己 hook 配置里的一条规则。它成功了吗？如果成功了，你的规则就只是请求。然后保护这个文件，再试一次。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The fence is as good as its list.</strong> A guardrail file missing from the list is open. When you add a part to the engine, add its path.</p>
 <p><strong>Admin is real power.</strong> It can change the engine, so what it does is not hard-limited. The control is a person reading the diff afterwards. I do not claim more than that.</p>
 <p><strong>Spelling gaps remain.</strong> Because the terminal is guarded by pattern, in theory a spelling it does not know could change a record that lives in a task folder (the folder that holds one piece of work; see <a href="5-1-tasks.html">Manage tasks, not chats</a>). I have not tried to build one. The fix, again, is to keep what must never be touched out of reach altogether.</p>
@@ -431,14 +535,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>寫法上的縫還在</strong>。因為終端機是按模式防護的，理論上有一種它不認識的寫法，可以改動放在任務資料夾裡的紀錄（存放一件工作的資料夾；見<a href="5-1-tasks.html">管任務，不管對話</a>）。我沒有試著做出來。解法還是一樣：把絕對不能碰的東西整個放到碰不到的地方。</p>
 <p><strong>看不見的圍欄是個謎題</strong>。agent 碰到一個它不知道受保護的檔案而被拒絕時，原因必須說明這一點，以及該怎麼做。見上一章。</p>
 <p><strong>我沒有量過 agent 多常想編輯規則</strong>。我寫這道圍欄，是因為論證很簡單，不是因為我看到了某次具體的事故。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>围栏的好坏，取决于它的清单。</strong> 清单里漏掉的护栏文件，就是敞开的。给引擎增加新部件时，要把它的路径加进去。</p>
+<p><strong>admin 是真正的权力。</strong> 它可以改引擎，所以它做的事没有硬性的限制。控制手段是事后有人读 diff。我不声称更多。</p>
+<p><strong>写法上的缺口依然存在。</strong> 因为终端是靠模式来守的，理论上，一种它不认识的写法，可能改动放在任务文件夹里的记录（任务文件夹存放一项工作；见<a href="5-1-tasks.html">管任务，不管对话</a>）。我没有试过去造一个。办法还是那个：把绝不能碰的东西，彻底放在够不着的地方。</p>
+<p><strong>看不见的围栏是个谜。</strong> 如果 agent 对一个它不知道受保护的文件，撞上了拒绝，理由里必须说明这一点，以及该怎么办。见上一章。</p>
+<p><strong>agent 多久会尝试编辑规则，我没量过。</strong> 我写这道围栏，是因为这个论证很简单，不是因为我亲眼看到过某次具体的事故。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's hooks page says hooks and instructions are not substitutes for enforced permissions or sandboxing, and its security page recommends sandboxing over approval rules alone (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">security</a>). A fence made of hooks is a fence inside the same machine the agent runs on. That is why this chapter says &quot;out of reach&quot; and not &quot;safe&quot;.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 hooks 頁面說，hooks 和指令不能代替強制的權限或沙箱；它的 security 頁面建議用沙箱，不要只靠批准規則（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。用 hook 做的圍欄，是在 agent 所在的同一台機器裡面的圍欄。所以這一章說「碰不到」，不說「安全」。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 的 hooks 页面说，hook 和指令不能替代强制执行的权限或沙箱，它的安全页面建议用沙箱，而不是单靠审批规则（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。用 hook 做成的围栏，是在 agent 所运行的同一台机器里面的围栏。这就是这一章说“够不着”而不是“安全”的原因。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>If the agent runs in an environment where the rule files are mounted read-only, or the hook runs outside the machine the agent can touch, the list of guarded paths is not needed; the environment is the fence. Keep the other lesson: any override a person grants should be bound to the session, time-limited, and recorded.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>如果 agent 跑在一個規則檔以唯讀方式掛載的環境，或者 hook 跑在 agent 碰不到的機器之外，就不需要受保護路徑的清單；環境本身就是圍欄。另一條教訓要留著：人給的任何 override，都應該綁在會話上、有時間限制、並留下紀錄。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>如果 agent 运行的环境里，规则文件是以只读方式挂载的，或者 hook 运行在 agent 碰不到的机器之外，那么受保护路径的清单就不需要了；环境本身就是围栏。另一条经验要保留：人给出的任何 override，都应该绑定到会话，有时间限制，并留下记录。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every file in this project that defines what the agent may or may not do: instruction files, hook scripts and their configuration, permission settings, editor settings, and any file that records a check or an approval. For each, tell me whether the agent&#x27;s own edit tools and terminal could change it today, using the rules and permissions you can see. Output a list sorted by how bad it would be if the file were changed. Do not change any files, and do not try to edit them to find out.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個專案裡每一個定義了 agent 能做什麼、不能做什麼的檔案：指令檔、hook 腳本和它們的設定、權限設定、編輯器設定，以及任何記錄檢查或批准的檔案。對每一個，根據你看得到的規則和權限，告訴我 agent 自己的編輯工具和終端機今天能不能改它。輸出一份清單，按「這個檔案被改了會有多糟」排序。不要改任何檔案，也不要為了確認而去試著編輯它們。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个项目里，定义了 agent 可以做什么、不可以做什么的每一个文件：指令文件、hook 脚本及其配置、权限设置、编辑器设置，以及任何记录一次检查或一次审批的文件。对每一个，根据你能看到的规则和权限，告诉我 agent 自己的编辑工具和终端今天能不能改动它。输出一份清单，按“这个文件被改了有多糟”来排序。不要修改任何文件，也不要为了确认而去尝试编辑它们。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
 <li>In this book: <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a>, <a href="4-5-least-privilege.html">Least privilege</a>, <a href="5-3-two-approvals.html">Two approvals</a></li>
@@ -447,15 +560,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
 <li>本書：<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>、<a href="4-5-least-privilege.html">有些東西根本不給</a>、<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a list of guarded files, files only commands may write, a breaker, and an admin mode tied to the session. The harness can show you each of them in the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li>本书：<a href="4-2-ask-vs-refuse.html">询问不是限制</a>、<a href="4-5-least-privilege.html">有些东西根本不给</a>、<a href="5-3-two-approvals.html">两道门：人在哪里审批</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a list of guarded files, files only commands may write, a breaker, and an admin mode tied to the session. The harness can show you each of them in the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Guard the files that hold the rules&quot;. Teach me how this harness keeps its own rules out of the agent&#x27;s reach: which files are guardrails and how they are protected (topic 7), the breaker, and admin mode (topic 8). Open the real policy and show me what the agent sees when it is refused.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有一份受保護檔案的清單、只有指令能寫的檔案、一個斷路器，以及綁在會話上的 admin 模式。harness 可以在真實的檔案裡一個一個給你看。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「保護規則本身的檔案」這一章。請教我這個 harness 怎麼讓自己的規則碰不到 agent：哪些檔案是護欄、怎麼保護它們（主題 7）、斷路器，以及 admin 模式（主題 8）。帶我打開真實的政策，讓我看 agent 被拒絕時看到什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 有一份受保护文件的清单、只有命令才能写的文件、一个熔断器，以及一个绑定在会话上的 admin 模式。harness 能用真实的文件把它们逐一展示给你。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“保护规则本身的文件”这一章。请教我这个 harness 是怎么把自己的规则放在 agent 够不着的地方的：哪些文件是护栏、它们怎么被保护（主题 7）、熔断器，以及 admin 模式（主题 8）。带我打开真实的策略，并给我看 agent 被拒绝时看到的是什么。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

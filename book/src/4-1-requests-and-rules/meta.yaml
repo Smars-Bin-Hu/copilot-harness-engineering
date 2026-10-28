@@ -1,7 +1,7 @@
 id: "4.1"
 part: control
 core: true
-title: {en: A rule in a prompt is a request, zh-Hant: 提示裡的規則只是請求}
+title: {en: A rule in a prompt is a request, zh-Hant: 提示裡的規則只是請求, zh-Hans: 提示里的规则只是请求}
 harness_tag: "1.5.50"
 wondering: [14-internals, 15-design-choices]
 sources:

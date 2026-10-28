@@ -1,6 +1,6 @@
 id: "7.1"
 part: people
-title: {en: "People and teams: what stays with a person", zh-Hant: "人與團隊：留給人的事"}
+title: {en: "People and teams: what stays with a person", zh-Hant: "人與團隊：留給人的事", zh-Hans: "人与团队：留给人的事"}
 harness_tag: "1.5.50"
 wondering: [15-design-choices]
 sources:

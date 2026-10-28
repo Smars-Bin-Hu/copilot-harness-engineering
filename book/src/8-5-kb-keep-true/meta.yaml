@@ -1,6 +1,6 @@
 id: "8.5"
 part: case-kb
-title: {en: "Keeping the knowledge base true", zh-Hant: "讓知識庫一直是對的"}
+title: {en: "Keeping the knowledge base true", zh-Hant: "讓知識庫一直是對的", zh-Hans: "让知识库一直是对的"}
 harness_tag: "1.5.50"
 wondering: [16-knowledge-base]
 sources:

@@ -1,6 +1,6 @@
 id: "4.5"
 part: control
-title: {en: "Some things you never hand over", zh-Hant: "有些東西根本不給"}
+title: {en: "Some things you never hand over", zh-Hant: "有些東西根本不給", zh-Hans: "有些东西根本不给"}
 harness_tag: "1.5.50"
 wondering: [08-permission-sandbox]
 sources:

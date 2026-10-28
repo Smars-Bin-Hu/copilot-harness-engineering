@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Manage tasks, not chats</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.1</p><h1><span data-l="en" lang="en">Manage tasks, not chats</span><span data-l="zh-Hant" lang="zh-Hant">管任務，不管對話</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and that you know a hook is code the platform runs before a tool call (<a href="2-2-hooks.html">Hooks</a>).</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.1</p><h1><span data-l="en" lang="en">Manage tasks, not chats</span><span data-l="zh-Hant" lang="zh-Hant">管任務，不管對話</span><span data-l="zh-Hans" lang="zh-Hans">管任务，不管对话</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and that you know a hook is code the platform runs before a tool call (<a href="2-2-hooks.html">Hooks</a>).</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你用過 AI 程式 agent，並且知道 hook 是平台在工具呼叫之前執行的程式碼（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Manage tasks, not chats: one folder per task. What the work could break decides which gates it passes; its kind decides what counts as done.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你要用过 AI 编程 agent，还要知道 hook 是平台在工具调用之前运行的代码（见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Manage tasks, not chats: one folder per task. What the work could break decides which gates it passes; its kind decides what counts as done.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>管任務，不管對話：一個任務一個資料夾。這份工作可能弄壞什麼，決定它要過哪些門；它的種類，決定怎樣才算做完。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>管任务，不管对话：一个任务一个文件夹。工作可能弄坏什么，决定它要过哪些关卡；工作的类型，决定怎样才算做完。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> approve the job, not the chat, as the unit of work: one folder per task, with a handover file, and care that follows what a mistake could break.</li>
 <li><strong>The risk:</strong> a chat gets shortened or ends, and a new one knows nothing. The other trap is process that is too heavy: my first design had a heavy level with a team of role agents, which in a small test cost about 4.5 times the usage and 6 times the time with no gain on tasks with a clear request (four tasks, one run each, so read the direction, not the ratio).</li>
@@ -235,6 +240,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：第一步只是每個任務一個資料夾，裡面一份交接檔。任務值得時才加更多檔案，隨口問的問題什麼都不開。agent 必須讓檔案保持真實，要緊的時候人得去讀它們。</li>
 <li><strong>可以問團隊</strong>：「如果 agent 的對話今晚消失了，明天有人能只靠檔案接手這份工作嗎？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：批准把任务，而不是对话，当作工作的单位：一个任务一个文件夹，带一份交接文件，谨慎的程度跟着“出错可能弄坏什么”走。</li>
+<li><strong>风险</strong>：对话会被压缩，会结束，新开的对话什么都不知道。另一个陷阱是流程太重：我最初的设计里有一个重的级别，用一组按岗位分工的 agent，在一次小测试里多花了约 4.5 倍的用量和 6 倍的时间，而在需求清楚的任务上没有任何收益（四个任务，每个只跑了一次，所以看方向，别看倍数）。</li>
+<li><strong>做对的代价</strong>：第一步只是每个任务一个文件夹、里面一份交接文件。任务值得的时候才加更多文件，随口一问不开任何东西。agent 必须让这些文件保持真实，要紧的时候人得去读它们。</li>
+<li><strong>可以问团队</strong>：“如果今晚 agent 的对话没了，明天有人只靠文件就能把这件事接着做下去吗？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You ask an agent to change a pipeline. It reads, plans, edits, and the chat grows. The next morning you open a new chat to ask a follow-up. The new agent has never seen the first one. Or the first chat was shortened by the tool, and it has forgotten why it chose what it chose (<a href="3-2-long-sessions.html">Long chats get worse</a>).</p>
 <p>A chat is the wrong thing to manage. It gets compressed, it ends, and one chat can hold three unrelated jobs. What you actually care about is the job: what was asked, what was decided, how far it has got, whether it was checked.</p>
 <p>So I stopped treating the chat as the unit of work. The unit is a <strong>task</strong>: one job, with one <strong>task folder</strong>. The requirement, the plan, the progress and the results are all files in that folder. Any session, today or next week, picks the task up by reading the folder.</p>
@@ -245,6 +256,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>所以我不再把對話當成工作的單位。單位是<strong>任務</strong>：一份工作，一個<strong>任務資料夾</strong>。需求、計劃、進度和結果，都是這個資料夾裡的檔案。任何會話，今天或下週，讀這個資料夾就能接手這個任務。</p>
 <p>這解決了工作放在哪裡的問題。接著出現第二個問題：不是每份工作都需要同樣的照顧。改筆記裡的一個錯字，和寫進共用的倉庫，是不同的事。你怎麼決定每一份工作要有多少流程？</p>
 <p>你可以只從第一步開始：每個任務一個資料夾，裡面一份交接檔。下面的一切，都是我在這個基礎上加的，你可以一次加一塊。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你让 agent 改一条 pipeline。它读、计划、编辑，对话越来越长。第二天早上，你开一个新对话问个后续问题。新的 agent 从没见过第一个对话。或者第一个对话被工具压缩了，它已经忘了当初为什么那样选（见<a href="3-2-long-sessions.html">长对话会变差</a>）。</p>
+<p>对话是管错了的东西。它会被压缩，会结束，一个对话里还可能装着三件毫不相干的事。你真正在乎的是这件事：被要求做什么、决定了什么、做到了哪一步、检查过没有。</p>
+<p>所以我不再把对话当作工作的单位。单位是<strong>任务</strong>：一件事，对应一个<strong>任务文件夹</strong>。需求、计划、进度和结果，都是这个文件夹里的文件。任何一个会话，不管是今天的还是下周的，读一读文件夹就能接手这个任务。</p>
+<p>这解决了工作放在哪里的问题。接着有第二个问题：不是每件事都需要同样的谨慎。改笔记里的一个错别字，和往共享仓库里写东西，是两回事。怎么决定每件事该走多少流程？</p>
+<p>你可以只从第一步开始：每个任务一个文件夹，里面一份交接文件。下面的一切，都是我在这个基础上加的，你可以一块一块地加。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>My first answer was levels, and it was wrong</h3>
 <p>My first design had three <strong>levels</strong>. Level 1 was light, level 3 was heavy with a team of role agents (<a href="2-3-subagents.html">Use subagents sparingly</a>). You picked a level at the start of every job.</p>
 <p>After some use, three things were clear:</p>
@@ -543,6 +559,155 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>不是每個對話都需要一個任務。不寫任何東西的隨口提問不開任務；那只會平白拖慢它們。</p>
 <h3>不用任何設定就能試</h3>
 <p>在一個長對話的結尾，請 agent 把被要求做什麼、決定了什麼、做到哪裡、接下來是什麼，寫進一個檔案。開一個新對話，叫它只讀那個檔案然後接著做。第二個對話如果出錯，就是那個檔案缺了東西；這告訴你交接檔必須放什麼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>我最初的答案是分级，而且错了</h3>
+<p>我最初的设计有三个<strong>级别</strong>。级别 1 轻，级别 3 重，带一组按岗位分工的 agent（见<a href="2-3-subagents.html">慎用子 agent</a>）。每件事开始时，你要选一个级别。</p>
+<p>用了一阵之后，三件事很清楚：</p>
+<ul>
+<li>只有中间那一级被用到。另外两级大部分时间闲着。</li>
+<li>重的那一级，在需求清楚的任务上并不比一个 agent 单干好，却要多花约 4.5 倍的用量和 6 倍的时间。那个测试很小（四个任务，每个只跑一次），所以只看方向，别看倍数（见<a href="2-3-subagents.html">慎用子 agent</a>）。</li>
+<li>先选级别，每次都多一步。更糟的是，两套规则并排放着，agent 会拿不准，还会错误地解释哪一套在起作用。</li>
+</ul>
+<p>还有一个更深的问题。一件事有多难，开始之前是没法知道的。分级要你一开始就去猜。</p>
+<p>所以我把级别删了。现在谨慎的程度由另外两样东西决定，这两样都不要求你去猜难度。</p>
+<h3>谨慎的程度，跟着出错的代价走</h3>
+<p>第一样是<strong>这个动作可能弄坏什么</strong>。代码根据路径和命令做一个粗略的判断，所以没人要去选。这是个经验性的判断，不是证明；下面讲文件夹的那一节会说它在哪里可能被骗过去。</p>
+<table>
+<thead>
+<tr>
+<th>工作在做什么</th>
+<th>例子</th>
+<th>怎么守着</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只读</td>
+<td>一个问题，在笔记里查一下</td>
+<td>什么都不拦</td>
+</tr>
+<tr>
+<td>改任务文件夹</td>
+<td>写分析、设计、计划</td>
+<td>什么都不拦</td>
+</tr>
+<tr>
+<td>改真实的仓库</td>
+<td>代码、知识库（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）</td>
+<td>先写在文件夹里。写回去要人审批（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）</td>
+</tr>
+<tr>
+<td>碰 git 历史或生产环境</td>
+<td>提交、push、切换分支</td>
+<td>由 hook 拦住；人审批，有些命令永远拒绝</td>
+</tr>
+</tbody>
+</table>
+<p>这和<a href="4-2-ask-vs-refuse.html">询问不是限制</a>里的分级是同一个思路：出错的代价越大，拦得越狠。这样的拦截就是一道<strong>关卡</strong>：任务在人批准之前过不去的一个点（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</p>
+<h3>类型决定“做完”的标准</h3>
+<p>第二样是任务的<strong>类型</strong>。一个问题和一次代码改动，做完的方式不一样，所以由类型来说怎样才算做完。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>什么时候算做完</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>问题</td>
+<td>答案有来源</td>
+</tr>
+<tr>
+<td>根因分析</td>
+<td>有一条证据链：看到了什么、日志、原因、怎么验证的</td>
+</tr>
+<tr>
+<td>设计或计划</td>
+<td>有几个方案，选择有理由</td>
+</tr>
+<tr>
+<td>开发</td>
+<td>改动和批准的计划一致，并且有测试它的记录</td>
+</tr>
+<tr>
+<td>测试</td>
+<td>用例和结果都落在磁盘上</td>
+</tr>
+<tr>
+<td>知识更新</td>
+<td>来源清楚，并且走同一道写回关卡（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）</td>
+</tr>
+</tbody>
+</table>
+<p>没有这个，“做完了”就是 agent 想怎么说就怎么说。有了它，读的人和检查的人知道该看什么（见<a href="5-5-counted-checks.html">让“通过”可信</a>）。</p>
+<h3>规模决定文件夹里有几个文件</h3>
+<p>一个问题用不着需求文件、计划和待办清单。一个开发任务就需要。所以每个任务还有一个<strong>规模</strong>，它只决定文件夹里放哪些文件。</p>
+<ul>
+<li><strong>轻量</strong>：一份交接文件：做到哪一步、下一步是什么、决定了什么。</li>
+<li><strong>中等</strong>：加上需求和它的来源文档、参考资料，以及一份日志。</li>
+<li><strong>完整</strong>：再加一份待办清单、代码的工作副本和测试结果。</li>
+</ul>
+<p>每种类型有默认的规模。任务变大了，可以升上去，缺的文件补上。只升不降。这样，便宜的路径一直便宜，任务值得的时候，重的路径也在那里。这不是旧的级别又回来了：没人在开始时去猜规模，由类型来定，只有当工作表明需要更多时才往上升。</p>
+<h3>文件夹就是工作区</h3>
+<p>对于要改真实仓库的任务，文件夹也是干活的地方。要改的文件复制进来，改动在这里做，批准之后才写回去。在那之前，真实的仓库不会被碰。</p>
+<figure class="fig steps" id="fig-5-1-lifecycle" data-steps="6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 230">
+  <g data-step="1">
+  <rect class="box" x="5" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="68" y="83" text-anchor="middle" data-t="ask">一个请求</text>
+  <text class="label-muted" x="5" y="38" data-t="ask-n">在任何会话里</text>
+  </g>
+  <g data-step="2">
+  <path class="head" d="M131 72 L141 78 L131 84 Z"/>
+  <rect class="box-lit" x="141" y="50" width="126" height="56" rx="8"/>
+  <text class="label-lit" x="204" y="83" text-anchor="middle" data-t="folder">任务文件夹</text>
+  <text class="label-muted" x="204" y="125" text-anchor="middle" data-t="folder-n1">类型：怎样才算做完</text>
+  <text class="label-muted" x="204" y="142" text-anchor="middle" data-t="folder-n2">规模：有哪些文件</text>
+  </g>
+  <g data-step="3">
+  <path class="head" d="M267 72 L277 78 L267 84 Z"/>
+  <rect class="box" x="277" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="340" y="83" text-anchor="middle" data-t="work">在里面做</text>
+  <text class="label-muted" x="340" y="38" text-anchor="middle" data-t="work-n">不碰别的地方</text>
+  </g>
+  <g data-step="4">
+  <path class="head" d="M403 72 L413 78 L403 84 Z"/>
+  <rect class="box" x="413" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="476" y="83" text-anchor="middle" data-t="back">写回</text>
+  <text class="label-muted" x="476" y="125" text-anchor="middle" data-t="back-n">一道关卡：你审批</text>
+  </g>
+  <g data-step="5">
+  <path class="head" d="M539 72 L549 78 L539 84 Z"/>
+  <rect class="box" x="549" y="50" width="126" height="56" rx="8"/>
+  <text class="label" x="612" y="83" text-anchor="middle" data-t="close">关闭</text>
+  <text class="label-muted" x="675" y="38" text-anchor="end" data-t="close-n">写一份报告</text>
+  </g>
+  <g data-step="6">
+  <path class="line" d="M204 160 V190 H340 V114"/>
+  <path class="head" d="M334 116 L340 106 L346 116 Z"/>
+  <text class="label-muted" x="272" y="212" text-anchor="middle" data-t="more-n">别的会话读文件就能接手</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">请求在某个会话里出现。只问答、不写东西的，不用开任务。</li><li data-step-text="2">要改东西的工作开一个任务文件夹。类型决定怎样才算做完，规模决定它有哪些文件。</li><li data-step-text="3">工作先在文件夹里做。文件夹里有需求、计划和进度。</li><li data-step-text="4">结果要离开文件夹、进到真正的仓库，必须过一道关卡。</li><li data-step-text="5">关闭任务时写一份人读得懂的报告。</li><li data-step-text="6">之后任何会话读文件夹就能接手。工作的单位是任务，不是对话。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>任务是一个有生命周期的文件夹：打开、在里面工作、过关卡写回、关闭。</figcaption></figure>
+<p>我想老实说一下这有多牢靠。文件夹是靠关卡里的规则守住的，不是靠操作系统。一条换了间接写法的命令，可能绕过去，正如 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>所讲：hook 看到的是调用，不是效果。它能让一个小心的 agent 守本分，管不住一个铁了心的 agent。对绝不能碰的东西，见<a href="4-5-least-privilege.html">有些东西根本不给</a>。</p>
+<h3>为什么用文件做交接</h3>
+<p>任务的状态保存在文件里，不在对话里：</p>
+<ul>
+<li><strong>交接文件</strong>说明任务做到了哪一步、接下来是什么。新的会话只读这个就能接手。</li>
+<li><strong>需求文件</strong>记录达成一致的内容（见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>）。</li>
+<li><strong>给程序读的状态文件</strong>。任务清单，以及每个任务在等什么，是从这里读的，不是从 Markdown 里读。agent 手写在文字里的进度，会漏勾、会写错；程序记录的进度不会。</li>
+</ul>
+<p>书面记录和磁盘上的实际情况对不上时，以磁盘为准。这和 Anthropic 长时间运行的 agent 工作里的进度文件是同一个思路：状态放在对话之外的文件里（见<a href="5-8-long-work.html">跨会话的长任务</a>）。我加的是类型、规模和关卡。</p>
+<h3>一个会话只持有一个任务；一个任务可以有多个会话</h3>
+<p>这两者是有意分开的。</p>
+<ul>
+<li>一个会话一次持有一个任务。它可以切换到另一个，不用关掉第一个。持有任务期间，编辑工具只能写那个任务的文件夹。</li>
+<li>任务比它的会话活得长。关闭任务只改变它的状态；文件夹还在，还可以重新打开。</li>
+<li>每条 prompt 开始时，hook 会告诉 agent 它的任务做到了哪一步；如果它没有任务，就告诉它还有哪些任务没关。</li>
+</ul>
+<p>有一个代价：一个任务可能没有任何会话，比如会话转去做另一个任务了，或者它的记录丢了。这时没有任何东西注明 agent 停下了。我的任务看板（见<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）把这些显示为没有会话，并标出多久没人碰了，这样人看得到。</p>
+<p>不是每个对话都需要任务。随口一问、不写任何东西的，不开任务；开了只会白白拖慢它们。</p>
+<h3>不用任何配置，就能试</h3>
+<p>在一个长对话的最后，让 agent 把被要求做什么、决定了什么、做到了哪一步、接下来是什么，写进一个文件。开一个新对话，让它只读这个文件，接着干。如果第二个对话做偏了，就说明文件里缺了什么；这就告诉你交接文件必须放什么。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
 <li><strong>The agent must keep the files up to date.</strong> A folder is useful only if the handover file is true. A reminder when the agent stops helps; it does not guarantee it. I read the files, not the agent's word, when it matters.</li>
 <li><strong>A task folder adds steps.</strong> Opening one, writing the requirement, and waiting at gates is slower than just doing a small change in a chat. That is why light tasks exist, and why a question opens nothing.</li>
@@ -554,6 +719,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>任務資料夾會多出一些步驟</strong>。開一個、寫需求、在門前等待，比在對話裡直接做一個小修改慢。所以才有輕的任務，也所以一個問題什麼都不開。</li>
 <li><strong>種類也是一種猜測</strong>。一份工作常常一開始是問題，後來變成修改。種類可以變，大小只能往上。人多常選錯種類，我沒有量過。</li>
 <li><strong>這個資料夾不是安全意義上的沙箱</strong>。見上面。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
+<li><strong>agent 必须让这些文件保持最新</strong>。只有交接文件是真实的，文件夹才有用。agent 停下来时给它一个提醒有帮助，但不能保证。要紧的时候，我读文件，不信 agent 的话。</li>
+<li><strong>任务文件夹会多出一些步骤</strong>。开一个、写需求、在关卡处等，比在对话里直接做一个小改动慢。这就是为什么有轻量任务，也是为什么一个问题不开任何东西。</li>
+<li><strong>类型也是一种猜测</strong>。一件事常常一开始是个问题，后来变成一次改动。类型可以改，规模只能往上升。人们选错类型的频率有多高，我没有测过。</li>
+<li><strong>从安全的意义上说，文件夹不是沙箱</strong>。见上文。</li>
 </ul>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>Two parts of this are scaffolding for today's platform.</p>
 <ul>
@@ -567,6 +738,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>各種類專屬的操作手冊</strong>。模型越來越不需要寫出來的步驟時，就把它們縮短。「什麼算做完」的清單要留著：它們說的是你要什麼，不是怎麼得到。</li>
 </ul>
 <p>不會退場的是單位本身。不管平台怎麼做，一份工作都有需求、計劃和結果，而人想找得到它們。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>这里有两部分是为今天的平台搭的脚手架。</p>
+<ul>
+<li><strong>交接文件和每条 prompt 处的提醒</strong>。它们存在，是因为对话会被压缩、会话会结束。如果平台自己有能挺过这两者、而且人能读的记忆，就把我的文件去掉，保留这个想法。</li>
+<li><strong>按类型写的操作手册</strong>。模型越来越不需要写明的步骤时，就把它们缩短。保留“怎样才算做完”的清单：它们说的是你要什么，不是怎么得到。</li>
+</ul>
+<p>不会退役的是单位本身。不管平台怎么做，一件事都有需求、计划和结果，而人想找得到它们。</p>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="3-2-long-sessions.html">Long chats get worse</a>: why a chat is a poor place to keep state.</li>
 <li><a href="5-3-two-approvals.html">Two gates</a>: what happens at write-back.</li>
@@ -577,15 +754,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>：寫回的時候會發生什麼。</li>
 <li><a href="5-8-long-work.html">跨會話的長任務</a>：一個任務太大的時候。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Everything here runs in Copilot Harness: the task folder, kinds and sizes, the handover file, and the board of tasks. The harness can teach it to you from the inside, with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="3-2-long-sessions.html">长对话会变差</a>：为什么对话是个不好的存状态的地方。</li>
+<li><a href="5-3-two-approvals.html">两道门：人在哪里审批</a>：写回时发生什么。</li>
+<li><a href="5-8-long-work.html">跨会话的长任务</a>：一个任务太大的时候。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Everything here runs in Copilot Harness: the task folder, kinds and sizes, the handover file, and the board of tasks. The harness can teach it to you from the inside, with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Manage tasks, not chats&quot;. Teach me how this harness builds what it describes: the task folder, the kinds and tiers, and why sessions and tasks are separate (topic 9). Open a real task&#x27;s files with me and draw how they fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>這裡的一切都在 Copilot Harness 裡運行：任務資料夾、種類和大小、交接檔，和任務看板。harness 可以從裡面教你，帶著真實的檔案。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「管任務，不管對話」這一章。請教我這個 harness 怎麼建出章裡描述的東西：任務資料夾、種類和等級，以及為什麼會話和任務是分開的（主題 9）。和我一起打開一個真實任務的檔案，畫出它們怎麼接在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>这里的一切都在 Copilot Harness 里跑着：任务文件夹、类型和规模、交接文件，以及任务看板。harness 可以从内部教你，配上真实的文件。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“管任务，不管对话”这一章。请教我这个 harness 是怎么搭出章里讲的东西的：任务文件夹、类型和规模，以及为什么会话和任务是分开的（主题 9）。带我打开一个真实任务的文件，并画出它们是怎么配合的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>A knowledge base: an honest index of the code</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.1</p><h1><span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span></h1></header><div data-l="en" lang="en"><p>This chapter is the first of a case study. It assumes you have read <a href="3-1-context-budget.html">Context budget</a> and <a href="3-5-memory.html">What an agent should remember</a>, which give the general ideas. It fits a team with a large, old code base. If your code base is small, read it to decide that you do not need this. The most useful part is the small experiment in <a href="#test">Test your own setup</a>: you can run it before you build anything.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.1</p><h1><span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span><span data-l="zh-Hans" lang="zh-Hans">知识库：代码的诚实索引</span></h1></header><div data-l="en" lang="en"><p>This chapter is the first of a case study. It assumes you have read <a href="3-1-context-budget.html">Context budget</a> and <a href="3-5-memory.html">What an agent should remember</a>, which give the general ideas. It fits a team with a large, old code base. If your code base is small, read it to decide that you do not need this. The most useful part is the small experiment in <a href="#test">Test your own setup</a>: you can run it before you build anything.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章是個案研究的第一章。讀它，你需要讀過 <a href="3-1-context-budget.html">上下文是一份預算</a> 和 <a href="3-5-memory.html">agent 該記住什麼</a>，它們講的是一般的想法。它適合有一大份老程式碼的團隊。如果你的程式碼很小，讀它是為了判斷你不需要。最有用的部分，是 <a href="#test">測你自己的設定</a> 裡那個小實驗：你在建任何東西之前，就可以先跑。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The code is the truth. A knowledge base is only an index and summary of it, which should be cheaper to read. It does not try to be complete on day one. It tries to be honest: each card says which version of the source file it read, and each gap is written down where the next reader will see it.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章是案例研究的第一章。读它之前，你需要读过<a href="3-1-context-budget.html">上下文是一份预算</a>和<a href="3-5-memory.html">agent 该记住什么</a>，它们讲的是一般的思路。它适合有一大份老代码的团队。如果你的代码很小，读它是为了判断自己不需要。最有用的部分，是<a href="#test">在你自己的环境里测一测</a>里那个小实验：什么都还没建，你就可以先跑。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The code is the truth. A knowledge base is only an index and summary of it, which should be cheaper to read. It does not try to be complete on day one. It tries to be honest: each card says which version of the source file it read, and each gap is written down where the next reader will see it.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>程式碼才是真相。知識庫只是它的索引和摘要，讀起來應該比較便宜。它不求第一天就完整，它求誠實：每張卡片說明它讀的是哪個版本的原始檔案，每個缺口都寫在下一個讀者會看到的地方。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>代码才是真相。知识库只是它的索引和摘要，读起来应该更便宜。它不求第一天就完整，只求诚实：每张卡片都写明它读的是源文件的哪个版本，每个缺口都写在下一个读者看得到的地方。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> whether to fund a knowledge base (a folder of short notes about the code, written for agents), and who will own it. Test first whether searching the code is already enough.</li>
 <li><strong>The risk:</strong> searching starts to hurt when the code base is large, the same exploration is paid for in every session, or a wrong answer is expensive. I have not measured a knowledge base against plain search, so this is a bet, not a proven win. A base nobody refreshes becomes confidently wrong.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：程式碼庫很大、同樣的探索在每個會話都要再付一次、或者答錯很貴的時候，搜尋就開始吃力。我沒有拿知識庫和單純搜尋比較過，所以這是一場賭注，不是證明過的勝利。沒有人更新的知識庫，會變成很有自信地答錯。</li>
 <li><strong>做對的成本</strong>：模型把每個物件的程式碼讀一遍；對大的領域，這是真金白銀，我沒有算過價。要有人負責更新，筆記也需要和程式碼一樣的存取規則。</li>
 <li><strong>可以問團隊</strong>：「十個我們知道答案的問題，只用單純搜尋的 agent 答對幾個？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：要不要出钱做知识库（一个文件夹，里面是写给 agent 看的代码短笔记），以及由谁负责。先测一下，只搜索代码是不是已经够用。</li>
+<li><strong>风险</strong>：代码库很大、同样的探索每个会话都要再付一次、或者答错代价很高的时候，搜索就开始吃力。我没有拿知识库和单纯搜索比过，所以这是一次押注，不是已经证明的收益。没人更新的知识库，会变得自信满满地答错。</li>
+<li><strong>做对的代价</strong>：模型要把每个对象的代码读一遍；对大的领域，这是真金白银，我没有算过价。要有人负责更新，笔记也需要和代码一样的访问规则。</li>
+<li><strong>可以问团队</strong>：“十个我们知道答案的问题，只用单纯搜索的 agent 能答对几个？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Say a team owns a code base with a few thousand objects. An <strong>object</strong> is a named thing in the code that other things use: a stored procedure, a scheduled job, a class, a table. You ask an agent to change one of them. To do it safely, the agent has to know what the object does, who uses it, and what breaks if it changes.</p>
 <p>A new agent session starts knowing none of this. The first question is the obvious one.</p>
@@ -273,6 +284,25 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ul>
 <p><strong>知識庫</strong>是一個資料夾，裡面是關於程式碼的純文字檔案，寫給 agent 讀。想法是：探索只付一次錢，把結果留下來，並先讀結果，因為它應該比讀程式碼便宜。這一點我沒有量過。</p>
 <p><strong>我沒有拿它和搜尋比較過</strong>。我沒有把同樣的問題，一次用單純搜尋、一次用知識庫跑過，所以我不知道第二個贏多少，甚至贏不贏。我有的，是上面的推理，以及一個讓你在自己的程式碼上測試的辦法（見 <a href="#test">測你自己的設定</a>）。把知識庫看成一場賭注：在上面那些條件下才會有回報，不是證明過的勝利。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>假设一个团队有一份几千个对象的代码库。<strong>对象</strong>是代码里有名字、被别的东西使用的东西：存储过程、定时任务、类、表。你让 agent 改其中一个。要改得安全，agent 得知道这个对象是干什么的、谁在用它、改了会弄坏什么。</p>
+<p>新开的 agent 会话，这些一概不知道。第一个问题显而易见。</p>
+<h3>为什么不直接让 agent 搜索代码？</h3>
+<p>agent 会搜索。它能运行 <code>grep</code>（找出每一行含有某个词的地方）、打开文件、顺着名字追。很多活这就是正确答案，而且不用任何配置。我想先说清楚它什么时候就够了。搜索也不必是单纯的 <code>grep</code>：语言服务器（回答“这个在哪里定义、谁在用”的编辑器服务）或代码搜索服务都能帮忙，一页简短而好的规则也有用。知识库要赢的是这一整套，不是单纯的 <code>grep</code>。</p>
+<p><strong>搜索就够的时候</strong>：</p>
+<ul>
+<li>代码库很小，或者你要的那一块装得进一个上下文。</li>
+<li>你知道要找的东西叫什么。</li>
+<li>任务只做一次，没人会为同样的探索付两次钱。</li>
+</ul>
+<p><strong>开始吃力的时候</strong>：</p>
+<ul>
+<li><strong>agent 根据刚读到的东西，决定下一步读什么</strong>。它可能漏掉一个对象，追到一个重名但意思不同的东西，太早停下来。它说不出自己漏了多少。问它两次，可能得到两个不同的答案。</li>
+<li><strong>同样的探索，每个会话都要付一次</strong>。每个新会话都从空的上下文开始（<a href="3-1-context-budget.html">上下文是一份预算</a>），所以 agent 又会把同样的东西找一遍。</li>
+<li><strong>有些事不在代码里</strong>。哪个环境运行某个任务、某条规则为什么存在、去年出了什么故障。搜索找不到，因为那里没写。</li>
+<li><strong>答错代价很高</strong>。如果对象碰到共用的数据，靠不完整的搜索猜出来的答案是不够的。</li>
+</ul>
+<p><strong>知识库</strong>是一个文件夹，里面是关于代码的纯文本文件，写给 agent 读。思路是：探索只付一次钱，把结果留下来，并且先读结果，因为它应该比读代码便宜。这一点我没有量过。</p>
+<p><strong>我没有拿它和搜索比较过</strong>。我没有把同样的问题，一次用单纯搜索、一次用知识库跑过，所以我不知道第二种赢多少，甚至赢不赢。我有的，是上面的推理，以及一个让你在自己的代码上测试的办法（见<a href="#test">在你自己的环境里测一测</a>）。把知识库看成一次押注：满足上面那些条件才会有回报，不是已经证明的收益。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The shape of a knowledge base</h3>
 <p>A reader goes down only as far as the task needs.</p>
 <figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
@@ -413,6 +443,76 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ol>
 <p>兩個提醒。問題的形式要讓人無法只靠一個檔案回答，例如「Y 改了會壞掉什麼？」，並讓沒讀過卡片的人來選。十個問題只看得出很大的差別。</p>
 <p>每個條件都做好幾次，不要只做一次，因為 agent 不會做兩次同樣的事（見 <a href="6-4-variance.html">一次運行證明不了什麼</a>）。如果單靠搜尋得分差不多，就不要建知識庫。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>知识库的形状</h3>
+<p>读者只往下走到任务需要的深度。</p>
+<figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">总览：领域、词汇表</text>
+  <rect class="box" x="10" y="60" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="85" text-anchor="middle" data-t="l2">单个领域的架构</text>
+  <rect class="box" x="10" y="110" width="330" height="40" rx="6"/>
+  <text class="label" x="175" y="135" text-anchor="middle" data-t="l3">卡片：每个对象一张</text>
+  <rect class="box-lit" x="10" y="190" width="330" height="40" rx="6"/>
+  <text class="label-lit" x="175" y="215" text-anchor="middle" data-t="l4">代码</text>
+
+  <path class="line" d="M175 50 V60"/>
+  <path class="line" d="M175 100 V110"/>
+  <path class="line-lit" d="M175 150 V180"/>
+  <path class="head-lit" d="M169 180 L175 190 L181 180 Z"/>
+
+  <text class="label-muted" x="360" y="35" data-t="cheap">读起来最省</text>
+  <text class="label-muted" x="360" y="128" data-t="down">任务需要多深，</text>
+  <text class="label-muted" x="360" y="148" data-t="down2">就往下读多深</text>
+  <text class="label-lit" x="360" y="215" data-t="truth">真相的来源</text>
+
+  <rect class="box-plain" x="360" y="56" width="230" height="56" rx="6"/>
+  <text class="label-muted" x="475" y="80" text-anchor="middle" data-t="gaps">缺口和待回答的请求，</text>
+  <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">都写下来</text>
+</svg>
+<figcaption>读的人只往下读到任务需要的那一层。代码才是真相；上面几层只是读起来更便宜。</figcaption></figure>
+<ul>
+<li><strong>总览</strong>列出<strong>领域</strong>，并有一份词汇表。领域是为同一项工作服务的一组对象，例如“订单”或“薪资”。</li>
+<li>一个领域的<strong>架构页</strong>写明这个领域是干什么的、主要的流程、从哪里开始读、它的坑和它的限制。</li>
+<li><strong>卡片</strong>是关于一个对象的简短条目：它的用途、它的规则、它用到谁、它的坑。每条规则都引用它所依据的代码行。一个文件放一种类型的卡片。agent 顺着往下走来找卡片：总览，再到领域的页面，再按 id 找到卡片。</li>
+<li><strong>代码</strong>在最底下。它是真相的来源。卡片和代码不一致时，以代码为准。</li>
+</ul>
+<p>所以卡片是一份带日期的承诺，不是代码的替代品。agent 需要更多时，就去读代码。</p>
+<h3>脚本管结构，模型管含义</h3>
+<p>写一张卡片有两种活，它们不一样。</p>
+<ul>
+<li><strong>结构</strong>只有一个正确答案：有哪些对象、谁用谁（合起来就是代码的<strong>地图</strong>）、按什么顺序去学、一张卡片列出的关系对不对。脚本能算出来。它每次给同样的答案，也不花 token。让模型来做，它会凭判断在代码里走，可能漏东西。</li>
+<li><strong>含义</strong>没有唯一的答案：一个对象是干什么的、它的规则是什么、哪个坑会绊倒人。只有模型读了代码才写得出来。</li>
+</ul>
+<p>这一部分后面的内容都由这个分工推出来。<a href="8-2-kb-toolkit.html">toolkit</a>讲脚本怎么画地图。<a href="8-3-kb-audit.html">审计</a>衡量这张地图。<a href="8-4-kb-learning.html">分批学一个领域</a>是模型写下含义的地方，脚本检查它能检查的部分。<a href="8-5-kb-keep-true.html">让知识库一直是对的</a>讲代码改了以后怎么办。</p>
+<h3>求诚实，不求完整</h3>
+<p>我的猜测是，知识库的大部分内容可以从代码里得到。这是猜测，不是测量。其余的得不到：什么在哪个环境里运行、出过什么故障、原因是什么、谁做了什么决定。这部分要靠时间积累，来自做完的任务、根因报告、人导出的东西。所以知识库第一天不可能完成；假装它完成了只会更糟，因为一个看起来完整的知识库会被人相信。</p>
+<p>两个习惯让它保持诚实：</p>
+<ol>
+<li><strong>每张卡片都写明它读的是源文件的哪个版本</strong>。它记录一个 commit（代码的一个已保存版本，用一个叫 sha 的短 id 命名）。脚本还维护一份<strong>对象索引</strong>：每个对象一行，写明它在哪个源文件里，以及那个文件的 sha。这样你以后就能列出代码已经改过、卡片还没跟上的那些卡片。<a href="8-5-kb-keep-true.html">第 8.5 章</a>讲怎么做。</li>
+<li><strong>每个缺口都写下来</strong>。代码说不清的事，进入一张<strong>请求清单</strong>：每件需要人提供的东西一行，写明它是哪一类，以及一种只读的获取办法。agent 在下一个停靠点提出这些请求，绝不在干活到一半时提。<a href="8-5-kb-keep-true.html">第 8.5 章</a>有细节。</li>
+</ol>
+<h3>每一步都是一个由人审批的任务</h3>
+<p>建知识库不是一个大 prompt。每一步都是一个任务（见<a href="5-1-tasks.html">管任务，不管对话</a>），计划由人审批，写回也由人审批（写回是把做完的工作复制进知识库；见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。脚本检查能检查的部分：文件的格式、关系、引用的行。我也不让 agent 连接线上环境。只有环境才知道的事，由人去运行、再交给它。</p>
+<h3>路线</h3>
+<ol>
+<li>搭一个 toolkit，每个代码库一次（8.2）。</li>
+<li>计算地图，每次使用之前（8.2）。</li>
+<li>审计地图（8.3）。</li>
+<li>把代码切成领域，一次（8.4）。</li>
+<li>分批学每个领域（8.4）。</li>
+<li>写架构页（8.4）。</li>
+<li>让它一直是对的：更新、捕获、请求（8.5）。</li>
+</ol>
+<h3>在你自己的环境里测一测 {#test}</h3>
+<p>在建任何东西之前，先弄清楚你需不需要它。</p>
+<ol>
+<li>写 10 个关于你的代码的问题，正确答案你是知道的。种类要混着来：“什么调用了 X？”“如果 Y 改了会怎样？”“为什么 Z 跳过了这种情况？”</li>
+<li>每个问题在新对话里问 agent，只用单纯搜索。对照你已知的答案，每个回答判对或错。</li>
+<li>手工或让 agent 帮忙，给一个小领域写卡片。有了卡片，在新对话里再问同样的问题。</li>
+<li>比较：答对的个数、用量（你的工具为一次运行显示的 token 数）、时间。</li>
+</ol>
+<p>两点提醒。提问的形式要让一个文件回答不了，比如“如果 Y 改了，什么会坏？”，而且让没读过卡片的人来选题。十个问题只能显示出很大的差别。</p>
+<p>每种条件都要做几次，不要只做一次，因为 agent 不会把同一件事做两次一样（见<a href="6-4-variance.html">一次运行证明不了什么</a>）。如果只靠搜索得分差不多，就不要建知识库。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
 <li><strong>It needs upkeep.</strong> A base nobody refreshes becomes confidently wrong. If your code changes daily and nobody will own the refresh, search is the better choice.</li>
 <li><strong>A card can be wrong.</strong> It is a model's reading of the code. The checks catch the structure, not whether a rule is understood right. A person's review, or an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>), has to cover that.</li>
@@ -429,12 +529,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>建它是有價錢的</strong>。模型把每個物件的程式碼讀一遍。對大的領域，這是真金白銀。這是賭讀過的東西會被重複使用。粗略的大小：每個物件讀一遍，加上每個月會變的檔案。我沒有算過價。prompt 快取（Anthropic 的文件說，快取讀取大約是基本價格的十分之一；我沒有在 Copilot 上確認過；見 <a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）可能同時降低建和讀的成本，所以測的時候要開著它，像你真正執行時那樣。</li>
 <li><strong>必須有人負責，而且卡片需要和程式碼一樣的存取規則</strong>。卡片是內部程式碼的摘要。決定誰更新它、誰可以讀它，像你對程式碼做的那樣。</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
+<li><strong>它需要维护</strong>。没人更新的知识库，会变得自信满满地答错。如果你的代码天天在变、又没人负责更新，搜索是更好的选择。</li>
+<li><strong>卡片可能是错的</strong>。它是模型对代码的理解。检查只能抓住结构，抓不住一条规则理解得对不对。这部分要靠人审查，或者靠独立的 reviewer（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。</li>
+<li><strong>卡片可能把 agent 锚住</strong>。先读卡片的 agent，可能少看一些代码，还沿用一张错卡片的看法。对出错代价高的工作，让它重读卡片引用的那几行。</li>
+<li><strong>读卡片也要花 token</strong>。太长的知识库只是把成本挪了个地方。卡片要短，agent 只在需要时才往下打开更低的层。</li>
+<li><strong>建知识库有成本</strong>。模型要把每个对象的代码读一遍。对大的领域，这是真金白银。这是押注读的结果会被反复用到。粗略的规模：每个对象读一遍，加上每月变动的文件。我没有算过价。prompt 缓存（Anthropic 的文档说缓存读取约为基础价格的十分之一；我没有在 Copilot 上核实过；见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）也许能同时降低建库和读取的成本，所以测试时要打开它，就像你真正运行时那样。</li>
+<li><strong>要有人负责，卡片需要和代码一样的访问规则</strong>。卡片是对内部代码的摘要。像对代码一样，决定谁来更新、谁能读。</li>
+</ul>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If your own test shows that search alone gives the same answers at the same cost, delete the cards and keep only the requests list, because that is the part search can never give. And if the platform one day builds and refreshes a code index that you can measure as accurate, use it instead of keeping your own.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果你自己的測試顯示，單靠搜尋，用同樣的成本給出同樣的答案，就把卡片刪掉，只留請求清單，因為那是搜尋永遠給不了的部分。還有，如果有一天平台建立並更新一份程式碼索引，而且你量得出它是準確的，就用它，不要自己維護。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果你自己的测试表明，只靠搜索就能以同样的成本给出同样的答案，就把卡片删掉，只留下请求清单，因为这是搜索永远给不了的部分。如果哪天平台能构建并更新一份代码索引，而且你测得出它是准确的，就用它，别再自己维护一份。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Judge whether this repository would gain from a written knowledge base of the code, or whether search is enough. Estimate how many objects it has (modules, jobs, tables, services) and how large the code base is. Name the kinds of facts that are not in the code at all, such as which environment runs a job or why a rule exists. Say how often the code changes. Then give a verdict: search is enough, or a base is worth testing, with the reasons. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>判斷這個倉庫是否會從一份寫下來的程式碼知識庫得到好處，還是搜尋就夠了。估計它有多少物件（模組、工作、資料表、服務），以及程式碼庫有多大。指出完全不在程式碼裡的那幾類事實，例如哪個環境執行一個工作，或一條規則為什麼存在。說明程式碼多久變一次。然後給出結論：搜尋就夠，或值得測一個知識庫，並附上理由。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>判断这个仓库是否能从一份写下来的代码知识库中受益，还是搜索就够了。估算它有多少个对象（模块、任务、表、服务），代码库有多大。指出哪些种类的事实根本不在代码里，比如哪个环境运行某个任务、某条规则为什么存在。说明代码多久变动一次。然后给出结论：搜索就够，或者值得测试一份知识库，并给出理由。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="3-1-context-budget.html">Context budget</a>: why reading less matters, and the search-or-map choice in general.</li>
 <li><a href="3-5-memory.html">What an agent should remember</a>: memory in general; a knowledge base is one kind.</li>
@@ -445,15 +556,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="3-5-memory.html">agent 該記住什麼</a>：一般的記憶；知識庫是其中一種。</li>
 <li><a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>，路線的第一步。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="3-1-context-budget.html">上下文是一份预算</a>：为什么少读很重要，以及一般意义上“搜索还是地图”的选择。</li>
+<li><a href="3-5-memory.html">agent 该记住什么</a>：记忆的一般情况；知识库是其中一种。</li>
+<li><a href="8-2-kb-toolkit.html">toolkit</a>，路线的第一步。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A knowledge base: an honest index of the code&quot;. Teach me topic 16, the knowledge base from code. Open the real skills and files with me, show me the road step by step, and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用上面的路線，從程式碼建一個知識庫。它可以從裡面教你怎麼做，用真實的檔案和指令。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「知識庫：程式碼的誠實索引」這一章。請教我主題 16，從程式碼建知識庫。和我一起打開真實的 skill 和檔案，一步一步讓我看這條路線，並畫出各個部分怎麼組合在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 就是按上面的路线，从代码建出知识库的。它可以从内部教你怎么做，配上真实的文件和命令。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“知识库：代码的诚实索引”这一章。请教我主题 16，从代码建知识库。带我打开真实的 skill 和文件，一步一步给我看这条路线，并画出各部分是怎么连起来的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Keeping the knowledge base true</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.5</p><h1><span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-4-kb-learning.html">Learning in batches</a>. It is step seven of the road, and it never ends. For why notes should carry a source and a date in general, see <a href="3-5-memory.html">What an agent should remember</a>; this chapter shows it for code.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.5</p><h1><span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span><span data-l="zh-Hans" lang="zh-Hans">让知识库一直是对的</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-4-kb-learning.html">Learning in batches</a>. It is step seven of the road, and it never ends. For why notes should carry a source and a date in general, see <a href="3-5-memory.html">What an agent should remember</a>; this chapter shows it for code.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-4-kb-learning.html">分批學一個領域</a> 後面。它是路線的第七步，而且永遠不會結束。筆記為什麼一般來說該帶有來源和日期，見 <a href="3-5-memory.html">agent 該記住什麼</a>；這一章說明它用在程式碼上是什麼樣子。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Knowledge goes stale. So each card records the commit it was read at, and when the code changes you can list the stale cards and fix only the lines that changed.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-4-kb-learning.html">分批学一个领域</a>后面。它是路线的第七步，而且永远做不完。笔记为什么一般都该带来源和日期，见<a href="3-5-memory.html">agent 该记住什么</a>；这一章讲的是怎么把它用在代码上。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Knowledge goes stale. So each card records the commit it was read at, and when the code changes you can list the stale cards and fix only the lines that changed.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>知識會過期。所以每張卡片記下它讀的是哪個 commit，程式碼改了之後，你可以列出過期的卡片，只修改有變的那幾行。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>知识会过期。所以每张卡片都记下它是在哪个 commit 读的；代码一变，就能列出过期的卡片，只修改动过的那几行。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> name an owner for the knowledge base and agree how often stale notes are refreshed, and who may mark a note as checked.</li>
 <li><strong>The risk:</strong> a base that was true once and is never checked can be worse than none, because people believe it. A stamp that says &quot;checked&quot; is only as good as the check before it. The list of stale notes misses the callers of a changed object; I have not tested how often that leaves a note wrong.</li>
@@ -235,12 +240,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：每次更新只讀程式碼裡改過的部分，不是整個檔案，在最多約 20 則筆記的任務裡進行。過期筆記的清單不用讀任何東西。</li>
 <li><strong>可以問團隊</strong>：「我們有多少筆記比它描述的程式碼更舊，誰負責它們？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：给知识库指定一个负责人，约定多久刷新一次过期的笔记，以及谁有权把一条笔记标成“已检查”。</li>
+<li><strong>风险</strong>：一个曾经正确、之后再没检查过的知识库，可能比没有还糟，因为大家会信它。“已检查”的戳，只有它之前那次检查那么可靠。过期笔记的清单会漏掉被改动对象的调用方；这会让多少笔记变错，我没有测过。</li>
+<li><strong>做对的代价</strong>：每次刷新只读代码里改动的部分，不读整个文件，每个任务最多约 20 条笔记。列出过期笔记的清单不需要读任何东西。</li>
+<li><strong>可以问团队</strong>：“我们有多少条笔记比它所描述的代码还旧，由谁负责？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A team writes good cards in March. By June, a third of the files they came from have been changed. Nobody can say which cards are now wrong. So readers lose trust in all of them, and the base is ignored. A base that was true once and is never checked can be worse than none, because it is believed.</p>
 <p>Two ways to deal with this fail. One is &quot;rewrite everything now and then&quot;: it costs as much as the first build. The other is &quot;hope people fix cards when they notice&quot;: they do not notice.</p>
 <p>The fix is to make staleness <em>visible and cheap</em>. A card says exactly which version of the code it read, and then a script can answer &quot;what has moved?&quot;. You can try the idea without any tool: write down the commit a note was read at, and later run <code>git diff &lt;that commit&gt;..HEAD -- &lt;the file&gt;</code>. If the diff is empty, the note's source has not changed.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>一個團隊在三月寫了很好的卡片。到了六月，它們來源的檔案有三分之一改過了。沒有人說得出現在哪些卡片是錯的。於是讀者對所有卡片都失去信任，知識庫被無視。曾經是對的、卻從沒檢查過的知識庫，可能比沒有還糟，因為它被人相信。</p>
 <p>有兩種處理辦法都行不通。一種是「時不時全部重寫」：成本和第一次建一樣。另一種是「希望人們注意到時就修卡片」：他們不會注意到。</p>
 <p>解法是讓過期<em>看得見、又便宜</em>。卡片精確地說它讀的是程式碼的哪個版本，然後腳本就能回答「什麼動過了？」你不用任何工具也可以試這個想法：寫下一則筆記讀的是哪個 commit，之後執行 <code>git diff &lt;那個 commit&gt;..HEAD -- &lt;那個檔案&gt;</code>。如果 diff 是空的，筆記的來源就沒有變。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>一个团队在三月写出了很好的卡片。到六月，它们所依据的文件已经改了三分之一。没人说得清哪些卡片现在是错的。于是读者对所有卡片都失去信任，知识库没人看了。一个曾经正确、之后再没检查过的知识库，可能比没有还糟，因为大家会信它。</p>
+<p>有两种应对办法，都不行。一种是“隔一阵子全部重写”：成本和第一次建库一样高。另一种是“指望大家发现卡片不对就去改”：他们发现不了。</p>
+<p>解法是让过期<em>看得见，而且花费很低</em>。卡片写明它读的是代码的哪个版本，脚本就能回答“什么动过了？”。这个思路不用任何工具也能试：记下一条笔记是在哪个 commit 读的，以后运行 <code>git diff &lt;那个 commit&gt;..HEAD -- &lt;文件&gt;</code>。diff 是空的，说明这条笔记的来源没变。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The version on the card</h3>
 <p>Commits and shas were explained in <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>. The <strong>object index</strong> is the script-built list of every object and its source file.</p>
 <p>Three places hold a version:</p>
@@ -401,6 +415,86 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>只從 diff 更新。算一算，你讀的行數和整個檔案比起來是多少（<code>git diff --stat</code> 顯示改了的行；<code>wc -l</code> 顯示檔案）。</li>
 <li>在請求清單加一列，附上種類、一個唯讀的查詢和一個狀態。</li>
 </ol>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>卡片上的版本</h3>
+<p>commit 和 sha 在<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>里讲过。<strong>对象索引</strong>是脚本生成的清单，列出每个对象和它的源文件。</p>
+<p>有三个地方记着版本：</p>
+<ul>
+<li><strong>对象索引的每一行</strong>，保存写卡片时源文件的 sha。</li>
+<li><strong>每张卡片</strong>带一个标记，说明它对照代码验证过，以及是在哪个 commit 读的。这个标记告诉读者，这张卡片有没有对照代码检查过。</li>
+<li><strong>领域</strong>记录它学习时每个仓库所在的 commit。</li>
+</ul>
+<h3>列出过期的卡片</h3>
+<p>脚本把索引每一行上的 sha，和基线分支（代码的主线）上现在的文件比较。来源变了，卡片就<strong>过期</strong>。来源被删除的卡片也会列出来。</p>
+<figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
+  <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">提交 1</text>
+
+  <g data-step="2">
+    <path class="line" d="M155 38 H250"/>
+    <path class="head" d="M250 32 L260 38 L250 44 Z"/>
+    <rect class="box" x="260" y="20" width="100" height="36" rx="6"/>
+    <text class="label" x="310" y="43" text-anchor="middle" data-t="c2">提交 2</text>
+    <text class="label-muted" x="480" y="43" text-anchor="middle" data-t="c2-note">改了一个来源</text>
+  </g>
+
+  <rect class="box" x="20" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="105" y="143" text-anchor="middle" data-t="ca">卡片 A</text>
+  <text class="label-muted" x="105" y="162" text-anchor="middle" data-t="ra">读于提交 1</text>
+
+  <rect class="box" x="215" y="120" width="170" height="56" rx="6"/>
+  <g data-step="3"><rect class="box-lit" x="215" y="120" width="170" height="56" rx="6"/></g>
+  <text class="label" x="300" y="143" text-anchor="middle" data-t="cb">卡片 B</text>
+  <text class="label-muted" x="300" y="162" text-anchor="middle" data-t="rb">读于提交 1</text>
+
+  <rect class="box" x="410" y="120" width="170" height="56" rx="6"/>
+  <text class="label" x="495" y="143" text-anchor="middle" data-t="cc">卡片 C</text>
+  <text class="label-muted" x="495" y="162" text-anchor="middle" data-t="rc">读于提交 1</text>
+
+  <g data-step="3">
+    <path class="line-lit" d="M310 56 V110"/>
+    <path class="head-lit" d="M304 110 L310 120 L316 110 Z"/>
+    <text class="label-lit" x="300" y="206" text-anchor="middle" data-t="stale">过期：只有 B</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line-lit" d="M300 214 V234"/>
+    <path class="head-lit" d="M294 234 L300 244 L306 234 Z"/>
+    <rect class="box-lit" x="125" y="248" width="350" height="44" rx="6"/>
+    <text class="label-lit" x="300" y="275" text-anchor="middle" data-t="fixed">读 diff、修改、盖上提交 2</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">三张卡片写成时，代码在提交 1。每张卡片都记下这个提交。</li><li data-step-text="2">代码走到提交 2，改了卡片 B 所依据的那个来源。</li><li data-step-text="3">拿每张卡片记的提交和现在的代码比。只有卡片 B 过期。A 和 C 没动。</li><li data-step-text="4">只读 B 的来源改了什么，改卡片中被牵动的那几行，再盖上提交 2。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>卡片记住读的是哪个提交。代码一动，就能列出过期的卡片，只看它们。</figcaption></figure>
+<p>只有变了的卡片需要关注，所以大代码库里的小改动，对应的是一份短清单。过期卡片所占的比例，也正是适合放上看板的数字。有一个缺口要知道：清单列出的是自己的来源变了的卡片，不包括它们调用方的卡片（见<a href="#costs-and-traps">代价和坑</a>）。</p>
+<h3>刷新：读 diff，不读文件</h3>
+<p>对每张过期卡片，agent 读的是 <strong>diff</strong>：自卡片写成以来，来源里到底改了什么。这比重新读整个文件便宜，还能指出卡片里哪些行可能错了。</p>
+<ul>
+<li>如果改动没碰到卡片说的内容（注释、格式、卡片没覆盖的部分），文字保持不变。</li>
+<li>如果碰到了，agent 只改被牵动的那几行。</li>
+<li>然后给卡片<strong>盖戳</strong>：记录这张卡片已对照现在的代码检查过。戳是一种声明，所以只给 agent 真正检查过的卡片盖。给没人读过的卡片盖戳，会把一张错卡片藏到下一次改动。</li>
+</ul>
+<p>一次刷新和别的任务一样：一份计划，列出每张卡片和预计要改什么；人审批；然后写回（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。每个任务最多约 20 张卡片；更多的话，先做用得最多的。</p>
+<p><strong>来源不见了的时候</strong>，agent 先找是不是改名了。改名了，就更新路径。被删了，agent 就问人：这张卡片是删掉还是留着。留下的卡片标成“来源已不在”，它的标记变成<em>未知</em>，这样它读起来就不像检查过的知识。</p>
+<h3>做完的任务教会了什么</h3>
+<p>卡片还有另一种出错的方式：agent 在做任务的时候，发现某张卡片是错的或者缺了。它一边干活，一边在任务的日志里记下来。任务结束时，另有一步（我叫它<strong>捕获</strong>）挑出值得留下的内容，<strong>起草</strong>出来给人审批。没有任何东西会自己进知识库。“下个月还成立”只是模型的预测，所以人的审批才是真正的检查。</p>
+<p>只有同时满足下面这些条件，它才会留下一条：没有它，将来的 agent 会做错；任务里有证据（一个文件和行号）；知识库里还没有记录；下个月还会成立。“这里没有值得留的”是一个好答案。该记什么的通用规则，在<a href="3-5-memory.html">agent 该记住什么</a>里。</p>
+<h3>请求清单：代码说不出来的东西</h3>
+<p>按我自己的估计（不是测出来的），知识库里有一小部分无法从代码得到。它来自人，来自正在运行的系统。所以每个领域有一份<strong>请求清单</strong>：人要提供的每样东西占一行。一行有：</p>
+<ul>
+<li>一个<strong>类别</strong>：<em>code</em>（不在任何仓库里的源码）、<em>runtime</em>（某个环境里的值）、<em>history</em>（要到 git 里找的东西）或 <em>decision</em>（需要某个人做出的选择）；</li>
+<li>一条只读的命令或查询，人可以原样运行；</li>
+<li>一个<strong>状态</strong>：<em>open</em>（未处理）、<em>answered</em>（已回答，记下什么时候、谁回答的、填到了哪里）或 <em>declined</em>（已拒绝，之后不再问）。</li>
+</ul>
+<p>agent 在下一次停下来的时候提问，绝不在干活中途打断。这些行来自地图看不见的地方（<a href="8-3-kb-audit.html">8.3</a>）：动态名字、外部名字、被删掉的来源。</p>
+<p>人给回来的东西，写进第二个文件，叫<strong>环境事实</strong>：一行一条事实，比如某个作业是否启用，或者某张规则表里有什么。每行记下环境、日期、对象、当天该对象代码的 sha，以及是谁提供的。代码往前走之后，就能看出这条事实是对着更旧的代码看到的。人贴回来的内容仍然是不可信的文本：里面可能有脏数据，甚至有指令，所以要按<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>里的办法对待。</p>
+<h3>把已有的知识库接进来</h3>
+<p>如果你已经有关于代码的笔记，可以改成这个格式。把每个 sha 设成旧笔记写成时的 commit，不要设成今天的。这样从第一天起，过期清单就是诚实的：它显示的是自笔记写成以来变了什么。旧笔记往往不写明出自哪个 commit；那就只能猜，而猜错会把过期的卡片藏起来。这件事会比听起来难。</p>
+<h3>测一测你自己的配置</h3>
+<ol>
+<li>拿三张卡片，写下各自是在哪个 commit 读的。</li>
+<li>改一个源文件。列出来源变了的卡片。</li>
+<li>只按 diff 刷新。数一数你读了多少行，和整个文件比（<code>git diff --stat</code> 显示改了多少行；<code>wc -l</code> 显示文件有多少行）。</li>
+<li>往请求清单里加一行，写上类别、一条只读查询和一个状态。</li>
+</ol>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
 <li><strong>Staleness is per source file.</strong> If object A calls B and only B changes, B's card is listed, A's is not. A's card might need a change too if the meaning of the call moved. I have not tested how often this leaves a caller's card wrong. Cards that only point down and do not copy the lower card's content lose less. The map already knows who uses B, so a cheap fix is to list the callers of every stale card as &quot;may be stale&quot;. I have not built or tested that.</li>
 <li><strong>A stamp can lie.</strong> Its value is only as good as the check before it. Stamp only what you read. Decide who may stamp, and keep a record of who did. You can also have an independent reviewer re-read a few stamped cards against the code, as in the audit (<a href="8-3-kb-audit.html">8.3</a>).</li>
@@ -415,12 +509,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>被拒絕的請求是損失，不是解法</strong>。被拒絕的列仍然看得見，所以缺口是誠實的。</li>
 <li><strong>擷取可能讓知識庫塞滿雜訊</strong>。上面的四個條件，就是為了讓它保持小。</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
+<li><strong>过期是按源文件算的</strong>。如果对象 A 调用 B，只有 B 变了，列出的是 B 的卡片，不是 A 的。如果这次调用的含义变了，A 的卡片可能也要改。这会让调用方的卡片错多少次，我没有测过。只往下指、不照抄下层卡片内容的卡片，损失更小。地图本来就知道谁用了 B，所以一个便宜的办法是：把每张过期卡片的调用方都列为“可能过期”。我没有做过，也没有测过。</li>
+<li><strong>戳可能说谎</strong>。它的价值只有它之前那次检查那么大。只给读过的卡片盖戳。定好谁有权盖戳，并记录下是谁盖的。你也可以让独立的 reviewer 对照代码，重读几张盖过戳的卡片，就像盲抽查那样（<a href="8-3-kb-audit.html">8.3</a>）。</li>
+<li><strong>刷新必须有人负责</strong>。清单显示什么过期了，它自己不会去修。</li>
+<li><strong>被拒绝的请求是损失，不是解决</strong>。被拒绝的行仍然看得见，所以这个缺口是诚实的。</li>
+<li><strong>捕获可能让知识库塞满噪音</strong>。上面的四个条件就是为了让它保持精简。</li>
+</ul>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If a platform tracks which stored notes are older than the code they describe, use it, and drop your own comparison. The habit of recording a version with every fact still applies.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果平台會追蹤哪些存下來的筆記比它描述的程式碼舊，就用它，放掉你自己的比較。每個事實都記下一個版本的習慣，仍然適用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果平台能追踪哪些存起来的笔记比它描述的代码更旧，就用平台的，去掉你自己的比较。给每条事实记下版本的习惯仍然适用。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find the documents in this repository that describe the code (design notes, READMEs of modules, architecture pages, runbooks). For each, use git history to tell me when it was last changed and how many commits have touched the code it describes since then. Rank them from most to least out of date. Mark any that state no date or commit they were written against. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個倉庫裡描述程式碼的文件（設計筆記、各模組的 README、架構頁、runbook）。每一份，用 git 歷史告訴我：它最後是什麼時候改的，以及從那之後有多少個 commit 碰過它描述的程式碼。從最過期到最不過期排序。標出沒有寫明它是對照哪個日期或 commit 寫的那幾份。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个仓库里描述代码的文档（设计笔记、各模块的 README、架构页、运维手册）。对每一份，用 git 历史告诉我它最后一次修改是什么时候，以及从那以后有多少个 commit 动过它描述的代码。按过期程度从高到低排序。没有写明是对照哪个日期或 commit 写成的，请标出来。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="3-5-memory.html">What an agent should remember</a>: sources, dates and review for notes in general.</li>
 <li><a href="8-4-kb-learning.html">Learning in batches</a>: where the cards come from.</li>
@@ -431,15 +535,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="8-4-kb-learning.html">分批學一個領域</a>：卡片從哪裡來。</li>
 <li><a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness lists stale cards, refreshes them from the diff, drafts what a task taught, and keeps the requests list. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="3-5-memory.html">agent 该记住什么</a>：一般笔记的来源、日期和审查。</li>
+<li><a href="8-4-kb-learning.html">分批学一个领域</a>：卡片从哪里来。</li>
+<li><a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness lists stale cards, refreshes them from the diff, drafts what a task taught, and keeps the requests list. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Keeping the knowledge base true&quot;. Teach me topic 16, part 16.7: how stale cards are found, how a refresh works, and what the requests file looks like. Open the refresh and capture skills with me.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 會列出過期的卡片、從 diff 更新它們、起草一個任務教了什麼，並維護請求清單。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓知識庫一直是對的」這一章。請教我主題 16 的 16.7：過期的卡片怎麼找出來、更新怎麼運作，以及請求檔長什麼樣。和我一起打開更新和擷取的 skill。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 会列出过期卡片，按 diff 刷新，起草一个任务教会了什么，并维护请求清单。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“让知识库一直是对的”这一章。请教我主题 16 的 16.7：过期卡片是怎么找出来的，刷新是怎么做的，请求文件长什么样。带我一起打开刷新和捕获这两个 skill。</code></pre></div>
+<p>它一次只教一小块，停下来问你跟上了没有，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

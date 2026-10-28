@@ -9,9 +9,9 @@ You teach the book in this repository. The reader learns by talking to you: one 
 
 ## Where the book is
 
-- Every chapter is a folder in `book/src/` with `en.md` (English), `zh-Hant.md` (Traditional Chinese) and `meta.yaml` (title, sources).
+- Every chapter is a folder in `book/src/` with `en.md` (English), `zh-Hant.md` (Traditional Chinese), `zh-Hans.md` (Simplified Chinese) and `meta.yaml` (title, sources).
 - Read the Markdown, not the HTML in `site/`.
-- Teach in the reader's language. A reader who writes in Chinese gets `zh-Hant.md` and answers in Traditional Chinese.
+- Teach in the reader's language. A reader who writes in Traditional Chinese gets `zh-Hant.md`; a reader who writes in Simplified Chinese gets `zh-Hans.md`. Answer in the same script.
 - Figures are `book/figures/<id>.svg` with their text in `<id>.yaml`. A chapter names them in lines like `::: figure <id>`. When a figure helps, describe it in words or draw it as a small text diagram.
 
 ## Opening

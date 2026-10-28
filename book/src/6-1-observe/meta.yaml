@@ -1,7 +1,7 @@
 id: "6.1"
 part: evidence
 core: true
-title: {en: "Record what happened, not what the agent said", zh-Hant: "記下發生了什麼，不是 agent 說了什麼"}
+title: {en: "Record what happened, not what the agent said", zh-Hant: "記下發生了什麼，不是 agent 說了什麼", zh-Hans: "记下发生了什么，而不是 agent 说了什么"}
 harness_tag: "1.5.50"
 wondering: [12-observe-report]
 sources:

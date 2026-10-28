@@ -22,3 +22,15 @@ zh-Hant:
   three-time: "≈16"
   pass: "4 個全部通過"
   caption: "同樣四個任務，結果一樣。拆成計劃、實作、檢查三個角色，用量約 4.5 倍，時間約 6 倍。每個任務只跑了一次。"
+zh-Hans:
+  usage-title: "用量（AI credits，4 个任务）"
+  time-title: "时间（分钟，4 个任务）"
+  result-title: "结果"
+  one: 一个 agent
+  three: 三个角色
+  one-usage: "≈101"
+  three-usage: "≈456"
+  one-time: "≈3"
+  three-time: "≈16"
+  pass: "4 个全部通过"
+  caption: "同样四个任务，结果一样。拆成计划、开发、检查三个角色后，用量约 4.5 倍，时间约 6 倍。每个任务只跑了一次。"

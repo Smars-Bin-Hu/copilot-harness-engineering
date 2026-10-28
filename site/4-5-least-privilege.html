@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Some things you never hand over</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.5</p><h1><span data-l="en" lang="en">Some things you never hand over</span><span data-l="zh-Hant" lang="zh-Hant">有些東西根本不給</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a> and <a href="4-4-enforcement-design.html">Enforcement design</a>, or know that a hook can refuse a tool call but can itself fail.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.5</p><h1><span data-l="en" lang="en">Some things you never hand over</span><span data-l="zh-Hant" lang="zh-Hant">有些東西根本不給</span><span data-l="zh-Hans" lang="zh-Hans">有些东西根本不给</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a> and <a href="4-4-enforcement-design.html">Enforcement design</a>, or know that a hook can refuse a tool call but can itself fail.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>和<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>，或者知道 hook 能拒絕工具呼叫，但它自己也會出錯。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A hook only blocks what it can see. For things that must never be touched (production, credentials, other people's repositories), the best defence is never giving them to the agent.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>和<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>，或者至少知道：hook 能拒绝一次工具调用，但它自己也会出故障。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A hook only blocks what it can see. For things that must never be touched (production, credentials, other people's repositories), the best defence is never giving them to the agent.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>hook 只擋得住它看得到的。對絕對不能碰的東西（正式環境、憑證、別人的倉庫），最好的防禦是根本不交給 agent。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>hook 只能拦下它看得见的东西。对绝不能碰的东西（生产环境、凭证、别人的仓库），最好的防御是压根不交给 agent。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> for production systems, credentials and other teams' repositories, decide that the agent is never given access at all, instead of guarding the access with a hook.</li>
 <li><strong>The risk:</strong> a hook sees the text of a call, not its effect, and it can fail. A guard that holds most of the time is the wrong tool for something that cannot be undone or is not yours. I have no count of incidents prevented.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：hook 看到的是呼叫的文字，不是它的效果，而且它會出錯。大多數時候守得住的守衛，用在無法撤銷、或不屬於你的東西上，是錯的工具。我沒有擋掉了幾次事故的數字。</li>
 <li><strong>做對的成本</strong>：人的時間。由人去執行查詢，再把答案貼回來，比直接連線慢。真正的沙箱是更大的一步，我沒有做。用在傷害大、或無法撤銷的地方，不是到處都用。</li>
 <li><strong>可以問團隊</strong>：「列出這個 agent 能打開、能執行、能連上的所有東西。其中哪些絕對不能碰，為什麼 agent 碰得到它們？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：对生产系统、凭证和其他团队的仓库，决定根本不给 agent 访问权限，而不是用 hook 去守着这份访问权限。</li>
+<li><strong>风险</strong>：hook 看到的是一次调用的文本，看不到它的效果，而且它会出故障。“大多数时候守得住”的守卫，用来管无法撤销、或者不属于你的东西，是选错了工具。我没有统计过防住了多少起事故。</li>
+<li><strong>做对的代价</strong>：人的时间。由人来跑查询、把答案贴回来，比直接连接慢。真正的沙箱是更大的一步，我还没有搭过。用在危害大或者无法撤销的地方，不是到处都用。</li>
+<li><strong>可以问团队</strong>：“把这个 agent 能打开、能运行、能连接的东西列一张清单。其中哪些是绝不能碰的？为什么 agent 够得着它们？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A good guard on a door is still a guard. It can be tricked, it can be asleep, and it can be given the wrong list. A wall with no door has none of these problems.</p>
 <p>Everything so far in this part is a guard. A hook reads the text of a call and cannot see its effect (<a href="2-2-hooks.html">Hooks</a>), and the hook itself is software that can fail (<a href="4-4-enforcement-design.html">Enforcement design</a>). Hooks and instructions are, in the words of the VS Code docs, &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;.</p>
@@ -253,6 +264,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>另一個團隊的倉庫，你沒有權利在那裡犯錯。</li>
 </ul>
 <p>對這些，「大多數時候」守得住的守衛，是錯的工具。這一章的想法比 agent 還老：<strong>最小權限</strong>。只給程式做這份工作所需要的，別的都不給。關於 prompt injection 的安全指引，把同一個想法列在防禦的第一條：「落實權限控制和最小權限存取」（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP</a>）。agent 碰不到的東西，它就不會被說服、被騙、或被搞糊塗而去碰它，也不需要任何 hook 去攔。對高風險的工作，這是第一選擇，前面幾章的 hook 排第二。（章末有一個一分鐘的測試。）</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>门口再好的守卫，也还是守卫。他可能被骗，可能睡着，也可能拿到一份错的名单。一堵没有门的墙，就没有这些问题。</p>
+<p>这一部分到目前为止讲的都是守卫。hook 读的是一次调用的文本，看不到它的效果（见<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），而 hook 本身也是会出故障的软件（见<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>）。用 VS Code 文档的话说，hook 和指令“不能替代强制执行的权限、沙箱或企业管控”。</p>
+<p>agent 做的大部分事，这样就够了。在代码项目里，编辑文件时漏掉的一次拦截，能在 diff 里看到，也能撤销。但有些东西撤销不了，有些东西不是你的：</p>
+<ul>
+<li>生产系统，一条错的命令就会改动真实数据；</li>
+<li>凭证，一次泄露就收不回来；</li>
+<li>别的团队的仓库，你没有资格在那里犯错。</li>
+</ul>
+<p>对这些，“大多数时候守得住”的守卫是选错了工具。这一章的想法比 agent 还老：<strong>最小权限</strong>。只给程序完成工作所需要的，别的一概不给。关于 prompt 注入的安全指南，把同一个想法列在防御措施的第一条：“Enforce privilege control and least privilege access”（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP</a>）。agent 够不着的东西，就没法被说服、被骗、被搞糊涂去碰它，也不需要 hook 去拦什么。对高风险的工作，这是首选，前面各章讲的 hook 排第二。（本章末尾有一个一分钟就能做的测试。）</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig" id="fig-4-5-reach"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <rect class="box-lit" x="10" y="20" width="265" height="240" rx="14"/>
   <text class="label-lit" x="142" y="46" text-anchor="middle" data-t="in-title">what the agent is given</text>
@@ -451,6 +471,105 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>有沒有一個由人執行的步驟，可以取代一條連線或一把金鑰？</li>
 </ol>
 <p><strong>今天就能跑的測試</strong>。在以你的 agent 打開終端機的方式打開的終端機裡，執行 <code>env</code>，看變數的名稱。然後列出你家目錄裡存放金鑰或 token 的檔案。問：agent 讀得到這些嗎？不喜歡答案的話，那就是你的第一個修正，而且不需要 hook。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><figure class="fig" id="fig-4-5-reach"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="10" y="20" width="265" height="240" rx="14"/>
+  <text class="label-lit" x="142" y="46" text-anchor="middle" data-t="in-title">交给 agent 的</text>
+  <rect class="box" x="20" y="66" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="90" text-anchor="middle" data-t="in1">要改的文件的副本</text>
+  <rect class="box" x="20" y="116" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="140" text-anchor="middle" data-t="in2">只读的事实和文档</text>
+  <rect class="box" x="20" y="166" width="245" height="38" rx="6"/>
+  <text class="label" x="142" y="190" text-anchor="middle" data-t="in3">人贴回来的答案</text>
+  <text class="label-muted" x="142" y="226" text-anchor="middle" data-t="in-note">hook 在这里是第二道线，</text>
+  <text class="label-muted" x="142" y="244" text-anchor="middle" data-t="in-note2">不是第一道。</text>
+
+  <path class="line" d="M275 135 H335"/>
+  <text class="label-muted" x="305" y="116" text-anchor="middle" data-t="wall">根本</text>
+  <text class="label-muted" x="305" y="132" text-anchor="middle" data-t="wall2">不给</text>
+
+  <rect class="box-plain" x="335" y="20" width="255" height="240" rx="14"/>
+  <text class="label" x="462" y="46" text-anchor="middle" data-t="out-title">它永远够不着的</text>
+  <rect class="box-plain" x="345" y="66" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="90" text-anchor="middle" data-t="out1">生产和测试环境</text>
+  <rect class="box-plain" x="345" y="116" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="140" text-anchor="middle" data-t="out2">凭证和密钥</text>
+  <rect class="box-plain" x="345" y="166" width="235" height="38" rx="6"/>
+  <text class="label" x="462" y="190" text-anchor="middle" data-t="out3">别人的仓库</text>
+  <text class="label-muted" x="462" y="226" text-anchor="middle" data-t="out-note">东西不在，</text>
+  <text class="label-muted" x="462" y="244" text-anchor="middle" data-t="out-note2">就没有什么要拦。</text>
+</svg>
+<figcaption>最强的限制，是那样东西不在。hook 只能拒绝它看得见的；agent 够不着的东西，不需要 hook。</figcaption></figure>
+<p>方法是对每样危险的东西问一次：<strong>我能不能安排好工作，让 agent 根本用不着它</strong>？常常是可以的。有四种办法。</p>
+<h3>1. 给它要改的文件的副本，不给整个工作区</h3>
+<p>假设 agent 要改的代码放在一个很大的共享仓库里。省事的做法是打开那个仓库，让 agent 随便逛。这样每个文件都够得着：它该改的，和它不该碰的上千个。</p>
+<p>另一种做法是先决定这项工作会碰哪些文件，只把那些交出去。在我的配置里，对一个目标仓库，agent 照一份计划干活，计划里写明了要改的文件。只有这些文件被取出来，作为副本放进任务自己的文件夹（见<a href="5-1-tasks.html">管任务，不管对话</a>）。agent 改的是副本。你的工作树、你当前的分支和已有的提交都不会被改动。</p>
+<p>写回真实仓库是单独的一步，由人审批（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>里的第二道门）。它把文件写到一个<strong>新分支</strong>上，而且不提交。如果哪里不对，把分支删掉就行。所以 agent 的错误，被限制在一个只为这个任务存在的文件夹里。这个文件夹仍然有 hook 守着，但就算 hook 出了故障，最坏也不过是一份坏的副本，而不是一个坏的仓库。</p>
+<p>另外：推送、开 pull request、硬重置（reset hard）、清理（clean）这类命令，agent 从不运行，由人来运行。一个对推送判断错了的守卫，造成的是收不回来的泄露。一条根本用不了的命令，就不会出错。</p>
+<h3>2. 从不连接环境，让人去跑查询</h3>
+<p>agent 要从生产环境得到什么？通常不是一个连接，而是一条事实：“这张表里有什么”“部署的是哪个版本”“这个作业存不存在”。事实可以由人去取。</p>
+<p>我的配置不给 agent 凭证，也不给它连接任何环境的工具。这是使用上的规则，不是沙箱的保证（见最后一节）。当它需要只有环境才能告诉它的信息时，就把问题写在一个固定的位置。每个问题都附一条只读的命令或查询，人可以原样运行。人跑完，把答案贴回来。agent 在下一次停下来时提问，不会在干活干到一半时问。</p>
+<figure class="fig steps" id="fig-4-5-ask-a-person" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="10" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="80" y="60" text-anchor="middle" data-t="agent">agent</text>
+  <rect class="box-lit" x="230" y="30" width="140" height="50" rx="8"/>
+  <text class="label-lit" x="300" y="60" text-anchor="middle" data-t="person">人</text>
+  <rect class="box-plain" x="450" y="30" width="140" height="50" rx="8"/>
+  <text class="label" x="520" y="60" text-anchor="middle" data-t="env">环境</text>
+
+  <path class="line-lit" d="M150 55 H222"/>
+  <path class="head-lit" d="M222 49 L230 55 L222 61 Z"/>
+  <path class="line" d="M370 55 H442" stroke-dasharray="4 4"/>
+
+  <g data-step="1">
+    <rect class="box-lit" x="10" y="115" width="170" height="50" rx="6"/>
+    <text class="label-lit" x="95" y="136" text-anchor="middle" data-t="q">问题＋</text>
+    <text class="label-lit" x="95" y="154" text-anchor="middle" data-t="q2">只读查询</text>
+  </g>
+  <g data-step="2">
+    <path class="line-lit" d="M300 80 V108"/>
+    <path class="line-lit" d="M370 55 H442"/>
+    <path class="head-lit" d="M442 49 L450 55 L442 61 Z"/>
+    <text class="label-muted" x="300" y="128" text-anchor="middle" data-t="run">人先看过，</text>
+    <text class="label-muted" x="300" y="146" text-anchor="middle" data-t="run2">再去跑</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="410" y="115" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="500" y="136" text-anchor="middle" data-t="a">答案，</text>
+    <text class="label-lit" x="500" y="154" text-anchor="middle" data-t="a2">贴回来</text>
+  </g>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="note">agent 和环境之间没有连接。</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">agent 写下它想知道的事，附上一条只读的查询。</li><li data-step-text="2">人看过查询，再对环境运行。</li><li data-step-text="3">人把答案贴回来。agent 继续干，答案也留了记录。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>人站在 agent 和环境之间。agent 没有可被滥用的连接。</figcaption></figure>
+<p>这要花时间，我不假装不是：人比连接慢。作为交换，有三件事成了真的。agent 没有通往生产环境的路，所以注入的文本、一次错误的猜测、一个出故障的 hook，都够不着生产环境。（人贴回来的答案本身也是不可信的文本，见<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>。）每一条来自环境的事实都被记了下来，连同是谁跑的。而且人在查询运行之前就看到了它，这正是你本来就想做的审查。</p>
+<h3>3. 凭证和密钥不进上下文</h3>
+<p>agent 上下文里的任何东西，都可能被送到别处：写进文件、放进命令、在摘要里重复一遍。所以 agent 见过的秘密，就是可能泄露的秘密，而 agent 不必有恶意。一个模型在调试时把 token 抄进一行日志，损害就已经造成了。</p>
+<p>下面是一种设计，不是我测量过的东西：</p>
+<ul>
+<li><strong>不要把秘密放进 agent 会读的文件</strong>。规则、笔记和知识库文件里不放值，只写值存在哪里、归谁管。</li>
+<li><strong>让需要秘密的程序自己去拿</strong>，在使用的那一刻、从专门存放它的地方拿，而不是经过 agent 转手。agent 写“运行部署脚本”，密钥由脚本持有。</li>
+<li><strong>给 agent 自己用的访问，用受限的密钥</strong>：只读、限定一个项目、很快过期。这样泄露了也影响不大。</li>
+<li><strong>管住 agent 可能不经意读到的地方</strong>：它所在 shell 的环境变量、home 文件夹里的配置文件。这些很容易忘。</li>
+</ul>
+<h3>4. 堵上出路</h3>
+<p>读不是唯一的危险。一个送不到任何地方的秘密，危险小得多。如果 agent 的命令能连到互联网上的任何地址，那么它能读到的任何东西都能被送出去。如果它只能连一份简短的清单，损害就有限。这是<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>里的第三个圆，我在那里讲。这里要说的是：网络访问和别的权限一样，是一种权限：问问 agent 需要什么，就给什么。</p>
+<h3>什么时候该上真正的沙箱</h3>
+<p>上面的措施，都是给 agent 更少。<strong>沙箱</strong>或<strong>容器</strong>不一样：它是由操作系统设定的边界，围住 agent 运行的一切。在里面，agent 想怎么干都行，而且就算命令写得再巧妙，围墙也不倒。hook 做不到，因为它只读文本。</p>
+<p>我的 harness 没有沙箱。终端命令能写用户能写的任何路径，hook 只拦常见的写法。设计笔记明说了：要强隔离，就用操作系统或者容器。有下面这些情况时，比我更早去看看沙箱：</p>
+<ul>
+<li>agent 在没人盯着的情况下运行命令（见<a href="2-3-subagents.html">慎用子 agent</a>和后面讲无人值守的各章）；</li>
+<li>项目涉及上面三份清单里提到的任何东西；</li>
+<li>agent 能运行来路你控制不了的代码。</li>
+</ul>
+<p>Anthropic 那篇讲给 Claude Code 做沙箱的文章，有一点值得照抄：有效的沙箱需要文件系统隔离和网络隔离两者兼备。没有网络隔离，被劫持的 agent 能把你的文件送出去；没有文件系统隔离，它能逃出沙箱连上网络（<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>）。只有一样不够。实际做起来，就是一个有自己网络规则的容器或虚拟机，而不只是一个文件夹。</p>
+<p>注意 VS Code 文档对沙箱的说法：它是“an added layer”，“不是虚拟机或用户账户的边界”。沙箱也不是魔法。读一读你用的那个管什么、不管什么。我没有测过 VS Code 的沙箱。</p>
+<h3>测试你自己的配置</h3>
+<p>对每样绝不能碰的东西，问<strong>三个问题</strong>：</p>
+<ol>
+<li>它在 agent 够得着的范围内吗？列出 agent 能打开、能运行、能连接的东西，把用不着的划掉。</li>
+<li>如果今天你的 hook 和指令都失灵了，agent 拿它能做的最坏的事是什么？</li>
+<li>有没有一个由人来做的步骤，可以代替一个连接或一把密钥？</li>
+</ol>
+<p><strong>今天就能做的一个测试</strong>。在一个用你的 agent 打开终端的方式打开的终端里，运行 <code>env</code>，看变量的名字。再列出你的 home 文件夹里存着密钥或 token 的文件。问一句：agent 能读到这些吗？如果你不喜欢答案，这就是你要修的第一件事，而且不需要 hook。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Less access can also mean a task that fails.</strong> An agent that cannot reach something it needs will stop or do a worse job. I have no numbers on how many tasks that costs; watch for it when you remove access.</p>
 <p><strong>Less access means more work for people.</strong> The ask-a-person step is slower than a connection. It is worth it for production. It is not worth it for a read of a public file. Use the method where the harm is large or cannot be undone, not everywhere.</p>
 <p><strong>A copy can drift from the original.</strong> The agent works on copies of the files. If the real repository moves while the work is going on, the write-back has to cope with that. Keep tasks short, and check the diff before the write-back.</p>
@@ -463,14 +582,24 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>最小權限只和你的清單一樣好</strong>。你要是忘了設定檔裡的一把金鑰，agent 就拿到了。上面的測試就是用來找這種東西的。</p>
 <p><strong>hook 仍然重要</strong>。不給，是對絕對不能碰的東西最好的防禦。對其他所有東西，hook 是便宜的、一直開著的檢查，是次好的防禦。我兩個都用。這一章的主張是關於順序：先拿掉，再守著。</p>
 <p><strong>這些我都沒有量過</strong>。我沒有擋掉了幾次事故的數字。我只知道這個設計比較好推理：不在那裡的東西，不可能被誤用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>权限少了，也可能意味着任务失败</strong>。agent 够不着它需要的东西，就会停下来，或者做得更差。这会让多少任务失败，我没有数字；撤掉权限时要留意。</p>
+<p><strong>权限少了，人要多干活</strong>。让人去问，比连接慢。对生产环境，这值得。对读一个公开文件，这不值得。用在危害大或者无法撤销的地方，不是到处都用。</p>
+<p><strong>副本可能和原件漂开</strong>。agent 改的是文件的副本。如果工作进行时真实仓库动了，写回时就得应付这种情况。让任务保持简短，写回之前检查 diff。</p>
+<p><strong>最小权限只和你的清单一样好</strong>。如果你忘了某个配置文件里的一把密钥，agent 就拿到了它。上面的测试就是用来找出这类东西的。</p>
+<p><strong>hook 仍然重要</strong>。不给，是对绝不能碰的东西的最好防御。对其他一切，hook 是便宜的、一直开着的检查，是次好的防御。我两个都用。这一章的主张是关于顺序的：先拿掉，再守卫。</p>
+<p><strong>这些我都没有测量过</strong>。我没有防住多少起事故的统计。我知道的是，这样的设计更容易推理：不存在的东西没法被滥用。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The OWASP list of defences against prompt injection includes &quot;Enforce privilege control and least privilege access&quot; and &quot;Require human approval for high-risk actions&quot;. (<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>) The VS Code docs say hooks and instructions &quot;are not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;, and describe their sandbox as &quot;an added layer&quot;, not &quot;a virtual machine or user-account boundary&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>, <a href="https://code.visualstudio.com/docs/copilot/security">Security</a>) Neither says that a hook is useless; both say it is not enough alone.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>OWASP 對 prompt injection 的防禦清單包括「落實權限控制和最小權限存取」和「高風險動作要求人批准」。（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>）VS Code 文件說 hooks 和指令「不能代替強制的權限、沙箱或企業管控」，並把它們的沙箱描述成「額外的一層」，不是「虛擬機或使用者帳號的邊界」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>）兩邊都沒有說 hook 沒用；都說只靠它不夠。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>OWASP 的 prompt 注入防御清单里有“Enforce privilege control and least privilege access”和“Require human approval for high-risk actions”。（<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">OWASP LLM01</a>）VS Code 文档说 hook 和指令“不能替代强制执行的权限、沙箱或企业管控”，并把它们的沙箱描述为“an added layer”，不是“虚拟机或用户账户的边界”。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>、<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>）两边都没有说 hook 没用；都说的是光靠它不够。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A step in which a person runs a query exists because I do not trust an agent with a live connection. If one day a platform offers a connection that is enforced read-only, scoped to one table, logged, and cannot be changed by the agent, the ask-a-person step can go for that data. The other part, not handing over what is not needed, does not retire. It is the principle, not a workaround.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>由人執行查詢的那個步驟，存在是因為我不信任讓 agent 拿著即時的連線。如果有一天平台提供一種連線，強制唯讀、限定在一張表、有紀錄、agent 又改不了它，那麼這份資料的「請人去問」就可以去掉。另一部分，不交出不需要的東西，不會退場。它是原則，不是繞路的辦法。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>让人去跑查询这一步，之所以存在，是因为我不信任一个拿着实时连接的 agent。如果有一天平台提供了这样的连接：强制只读、限定在一张表、有日志、agent 改不了，那么对那份数据，让人去问这一步就可以去掉。另一部分，不交出用不着的东西，不会退役。它是原则，不是权宜之计。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List everything this agent could reach from the way it runs in this project: folders and files it can read or write, shell commands it can run, tools and servers it is connected to, accounts or credentials visible in its environment or config files, and network addresses it can call. Do this by reading the configuration and project files, not by connecting to anything. Mark each item as needed for the work, or not needed, and mark anything that is production, a credential, or another team&#x27;s repository. Do not change any files and do not print secret values, only where they live.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個 agent 在這個專案裡以它目前的執行方式能碰到的一切：它能讀或寫的資料夾和檔案、它能執行的 shell 指令、它連著的工具和 server、在它的環境或設定檔裡看得到的帳號或憑證，以及它能呼叫的網路位址。靠讀設定檔和專案檔來做，不要連到任何東西。把每一項標成工作需要或不需要，並把任何屬於正式環境、憑證或其他團隊倉庫的標出來。不要改任何檔案，也不要印出祕密的值，只說它們放在哪裡。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>列出这个 agent 在这个项目里按现在的运行方式能够到的一切：它能读或写的文件夹和文件、能运行的 shell 命令、连接的工具和 server、在环境或配置文件里看得到的账号或凭证，以及它能调用的网络地址。通过读配置和项目文件来做，不要连接任何东西。把每一项标成工作需要或者不需要，并把生产环境、凭证、别的团队的仓库标出来。不要修改任何文件，也不要打印秘密的值，只说它们放在哪里。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>OWASP: <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01 Prompt Injection</a></li>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
@@ -481,15 +610,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
 <li><a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>：agent 讀到會對它下命令的文字時怎麼辦</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has the pieces for the first two ways: the copies in the task folder, the write-back to a new branch, the commands that only a person runs, and the place where the agent asks a person for facts from an environment. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>OWASP：<a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01 Prompt Injection</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a></li>
+<li><a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>：agent 读到的文字在给它下命令时该怎么办</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has the pieces for the first two ways: the copies in the task folder, the write-back to a new branch, the commands that only a person runs, and the place where the agent asks a person for facts from an environment. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Some things you never hand over&quot;. Teach me how this harness keeps the agent away from the real repository and from any environment (topic 8, especially 8.5 and 8.7). Open the real files with me, and show me what the gate can see and what it cannot.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 有前兩種辦法的零件：任務資料夾裡的副本、寫回新分支、只有人才執行的指令，以及 agent 向人要環境裡的事實的地方。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「有些東西根本不給」這一章。請教我這個 harness 怎麼讓 agent 遠離真正的倉庫和任何環境（主題 8，特別是 8.5 和 8.7）。和我一起打開真實的檔案，讓我看門能看到什麼、看不到什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>前两种办法所需的部件，harness 里都有：任务文件夹里的副本、写回新分支、只有人才运行的命令，以及 agent 向人询问环境里的事实的那个位置。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“有些东西根本不给”这一章。请教我这个 harness 是怎么让 agent 远离真实仓库和任何环境的（主题 8，尤其是 8.5 和 8.7）。带我打开真实的文件，让我看看关卡能看到什么、看不到什么。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

@@ -1,7 +1,7 @@
 id: "5.4"
 part: flow
 core: true
-title: {en: "Let the agent check its own work", zh-Hant: "讓 agent 能檢查自己的活"}
+title: {en: "Let the agent check its own work", zh-Hant: "讓 agent 能檢查自己的活", zh-Hans: "让 agent 能检查自己的活"}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop, 11-review]
 sources:

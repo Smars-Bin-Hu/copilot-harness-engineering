@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Turn your way of working into skills</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">3.4</p><h1><span data-l="en" lang="en">Turn your way of working into skills</span><span data-l="zh-Hant" lang="zh-Hant">把團隊的做法寫成 skill</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>: a skill is a manual that the agent reads when a job comes up.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.4</p><h1><span data-l="en" lang="en">Turn your way of working into skills</span><span data-l="zh-Hant" lang="zh-Hant">把團隊的做法寫成 skill</span><span data-l="zh-Hans" lang="zh-Hans">把团队的做法写成 skill</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>: a skill is a manual that the agent reads when a job comes up.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>：skill 是一本手冊，工作出現時 agent 才去讀。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A good skill says how this job is done here and where it goes wrong, not what a textbook says. When a job with several steps has been done by hand about three times the same way, turn it into a workflow: the steps, the check on each, and which step needs a person.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，请先读过<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>：skill 是 agent 在某项工作出现时去读的手册。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A good skill says how this job is done here and where it goes wrong, not what a textbook says. When a job with several steps has been done by hand about three times the same way, turn it into a workflow: the steps, the check on each, and which step needs a person.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>好的 skill 說的是這份工作在這裡怎麼做、哪裡容易出錯，不是教科書怎麼說。一份有好幾步的工作，如果用同樣的方式手動做過大約三次，就把它變成 workflow：每一步、每一步的檢查，以及哪一步需要人。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>好的 skill 讲的是这项工作在这里怎么做、容易错在哪里，而不是教科书上怎么说。一件有好几步的工作，如果已经手工按同样的做法做过大约三次，就把它变成 workflow：写明各个步骤、每一步的检查，以及哪一步需要人来定。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide which routines the team repeats by hand and is ready to write down, and who owns each written skill or workflow.</li>
 <li><strong>The risk:</strong> a skill that repeats what the agent already knows costs room and adds nothing. A written workflow runs the same way every time, including a wrong way, and it goes stale when how things are done here changes. I have no measured before-and-after for skills.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：重複 agent 本來就知道的內容的 skill，佔位子，什麼也沒加。寫好的 workflow 每次都用同樣的方式跑，包括錯的方式；而且這裡做事的方式一變，它就過期。我沒有 skill 的前後實測數字。</li>
 <li><strong>做對的成本</strong>：我的經驗法則是，一個例行工作第三次手動做的時候，就把它寫下來（這個數字是我選的，沒測過）。設計和測試 workflow，並讓它保持最新，才是真正的價錢。</li>
 <li><strong>可以問團隊</strong>：「哪一份多步驟的工作，我們手動做過三次？上一次 agent 在哪裡做錯了？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定团队里哪些例行工作是手工重复做的、而且已经可以写下来，并决定每个写好的 skill 或 workflow 归谁管。</li>
+<li><strong>风险</strong>：重复 agent 本来就知道的东西的 skill，占地方，还什么都没加。写好的 workflow 每次都按同一种方式运行，错的方式也一样；这里的做法一变，它就过期。skill 的前后对比，我没有量过。</li>
+<li><strong>做对的代价</strong>：我的经验法则是，一件事手工做到第三次，就把它写下来（这个数字是我自己定的，没有测过）。真正的代价是设计和测试 workflow，并让它一直保持最新。</li>
+<li><strong>可以问团队</strong>：“哪件多步骤的工作我们已经手工做过三次？上一次 agent 错在哪？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first skill most people write is a tutorial. &quot;How to write a SQL query.&quot; &quot;How to do a code review.&quot; The agent read a thousand tutorials like that while it was trained. Your skill adds nothing it did not know, and it costs room in the window each time it loads.</p>
 <p>What the agent does not know is your place. Which table is the real one and which is a leftover. Which step people forget. Which file looks unused and is read by another team. That is what you know and it does not, and it is what is most worth putting in a skill.</p>
@@ -251,6 +262,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>workflow</strong> 是比 skill 再高一層的想法：幾份工作的固定順序，每一份後面有檢查，並標明哪裡必須由人決定。想想餐廳廚房裡的食譜卡，而不是烹飪教科書。要小心：Anthropic 用同一個詞指別的東西，一種由程式碼固定路徑、在固定的點呼叫模型的系統（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。這裡的 workflow 是寫下來、讓 agent 照著做的例行流程。</li>
 </ul>
 <p>關於 skill，我沒有可以給你的前後實測。下面的推理是我遵循的，最後的測試讓你自己去量。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>大多数人写的第一个 skill 是教程。“怎么写 SQL 查询。”“怎么做代码评审。”agent 在训练时读过上千篇这样的教程。你的 skill 没有加任何它不知道的东西，每次加载还要占窗口里的地方。</p>
+<p>agent 不知道的，是你这里的情况。哪张表是真正在用的，哪张是遗留下来的。哪一步大家容易忘。哪个文件看起来没人用，其实另一个团队在读。这些是你知道而它不知道的，也最值得放进 skill。</p>
+<p>先说两个词。</p>
+<ul>
+<li><strong>skill</strong> 是针对某一类工作的手册（见<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>）。</li>
+<li><strong>workflow</strong> 是比 skill 高一级的想法：几项工作按固定顺序排好，每一项后面有检查，并注明哪里必须由人来定。可以想成餐厅厨房里的菜谱卡，而不是烹饪教科书。注意：Anthropic 用同一个词指另一种东西，即由代码固定路径、在固定的点调用模型的系统（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。这里的 workflow 是 agent 照着做的、写下来的例行流程。</li>
+</ul>
+<p>关于 skill，我没有量过的前后对比可以给你。下面的推理是我自己遵循的，最后的测试能让你自己去量。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The difference in one picture:</p>
 <figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label-muted" x="20" y="24" data-t="skill-title">A skill: one job, read as a whole</text>
@@ -521,6 +540,141 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>測一測你自己的設定</h3>
 <p><strong>找得到嗎？有改變什麼嗎</strong>？單一 skill 的兩個測試在<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。Anthropic 的指南加了一個習慣：寫很多之前先建立測試案例，取自 agent 沒有這個 skill 時做錯的任務，然後只寫剛好能修好它們的部分。</p>
 <p><strong>workflow 站得住嗎</strong>？用一個不是你範例的案例去跑。失敗的地方，是缺少的變體，或是你歸錯類的步驟。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>一张图看区别：</p>
+<figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="20" y="24" data-t="skill-title">skill：一件事，整份读</text>
+  <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
+  <text class="label" x="150" y="66" text-anchor="middle" data-t="skill-body">这件事在这里怎么做</text>
+  <text class="label-muted" x="150" y="88" text-anchor="middle" data-t="skill-note">还有哪里会错</text>
+
+  <text class="label-muted" x="20" y="146" data-t="flow-title">workflow：几件事，按顺序</text>
+  <rect class="box-lit" x="20" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="70" y="185" text-anchor="middle" data-t="s1">第 1 步</text>
+  <path class="line-lit" d="M120 180 H150"/>
+  <path class="head-lit" d="M150 174 L160 180 L150 186 Z"/>
+  <rect class="box-lit" x="160" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="210" y="185" text-anchor="middle" data-t="s2">第 2 步</text>
+  <path class="line-lit" d="M260 180 H290"/>
+  <path class="head-lit" d="M290 174 L300 180 L290 186 Z"/>
+  <rect class="box-plain" x="300" y="158" width="100" height="44" rx="6"/>
+  <text class="label" x="350" y="185" text-anchor="middle" data-t="s3">第 3 步</text>
+  <path class="line-lit" d="M400 180 H430"/>
+  <path class="head-lit" d="M430 174 L440 180 L430 186 Z"/>
+  <rect class="box-lit" x="440" y="158" width="100" height="44" rx="6"/>
+  <text class="label-lit" x="490" y="185" text-anchor="middle" data-t="s4">第 4 步</text>
+  <text class="label-muted" x="70" y="224" text-anchor="middle" data-t="check">有检查</text>
+  <text class="label-muted" x="210" y="224" text-anchor="middle" data-t="check">有检查</text>
+  <text class="label-muted" x="350" y="224" text-anchor="middle" data-t="person">由人决定</text>
+  <text class="label-muted" x="490" y="224" text-anchor="middle" data-t="check">有检查</text>
+</svg>
+<figcaption>skill 是一份手册。workflow 是一串手册：每一步写明做之前什么要成立、做完检查什么，哪几步要等人。</figcaption></figure>
+<h3>1. 只写 agent 会做错的</h3>
+<p>对 skill 草稿里的每一行，问：如果我删掉它，agent 会不会做错什么或漏掉什么？不会，就删掉。</p>
+<p>留下的是：</p>
+<ul>
+<li><strong>你的约定。</strong> 命名、分层、新东西在哪里注册。</li>
+<li><strong>不明显的默认做法。</strong> 团队里每个人不假思索就会做的事。</li>
+<li><strong>陷阱。</strong> 看着对、其实不对的东西。</li>
+<li><strong>你的工具。</strong> 确切的命令，带上关键的参数。</li>
+</ul>
+<p>去掉的是：语言怎么工作、某个库是干什么的，以及文档第一页上就有的任何东西。Anthropic 自己的 skill 写作指南给了一个小例子：用一段话解释 PDF 是什么、读它需要一个库，是在教模型它已经知道的东西；而一行“用 pdfplumber 提取文本”，则告诉它这里做的选择。他们的经验法则是“默认假设：Claude 已经非常聪明。只补充 Claude 还没有的上下文。”（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
+<p>没有这类行的 skill 很短。这没关系。短的 skill 会被整个读完，也会被遵守。</p>
+<h3>2. 一个起步的骨架</h3>
+<p>skill 是一个文件夹。要紧的是其中一个文件，有头部和正文：</p>
+<ul>
+<li><strong>头部</strong>：一个名字，和一段描述，说明它做什么、什么时候用，以及人会说的那些话。</li>
+<li><strong>什么时候用</strong>（以及什么时候不用）。</li>
+<li><strong>需要先具备什么。</strong> 比如一个打开的任务，或者装好的某个工具。</li>
+<li><strong>步骤</strong>，如果这项工作是固定流程。对开放式的工作，给出评判的标准，而不是固定的步骤：死板的菜谱，碰到稍有不同的情况就会失灵。</li>
+<li><strong>坑。</strong></li>
+</ul>
+<p><strong>坑是最有价值的部分。</strong> 它们是提前写好的警告，一行一条：规则加粗，后面跟理由。把它们当作一份持续更新的清单：agent 每做错一次这项工作，就加一行。这是改进 skill 最便宜的办法，也是越用越好的部分。</p>
+<p>下面几条是这类行的样子，出自一个“影响分析”skill，它在写计划之前，找出一次改动牵涉到的所有地方：</p>
+<ul>
+<li>只用一个光秃秃的列名去搜，什么都能匹配上。要把表名和列名一起搜。</li>
+<li>运行时才拼出来的名字，任何文本搜索都找不到。要在结果里写明这一点，不要报告“没有影响”。</li>
+<li>没搜到不等于没人用：你看不到的仓库之外的读取方是搜不出来的。把这一点写出来，并问还有谁在读它。</li>
+</ul>
+<p>这些在教科书里都找不到。每一条，都是一个称职的 agent 第一次会做错的。第三条还体现了一个值得教给它的习惯：<strong>skill 要告诉 agent 把它没看到的东西说出来。</strong></p>
+<p><strong>脚本。</strong> 如果工作里有一部分只有一个正确答案（找出所有提到某个名字的文件、数一数用了几次），就把它写成脚本，让 skill 告诉 agent 去运行。脚本每次都给同样的答案，还不用花读取的成本；模型做需要判断的那一部分。上面那个 skill 就是这样：用一条命令取代一连串搜索，再由模型对搜到的结果分类。</p>
+<p><strong>长度。</strong> skill 超过大约 200 行时，把细节挪到单独的文件里，主文件只留流程和链接。这样细节只在用到它的那一步才加载。</p>
+<h3>3. 从真实的工作里来，不要凭想象</h3>
+<p>skill 最好的来源，是你刚做完并纠正过的一项工作。动笔之前，打开最近一次这类真实的任务，问：</p>
+<ul>
+<li>agent 在哪里做错了？每一处都是一个坑。</li>
+<li>你在哪里纠正了它？每一处都是一条约定。</li>
+<li>你不得不去查的东西，有哪些本可以直接告诉它？</li>
+</ul>
+<p>就从这些写 skill，不要从你觉得一份好手册该说什么来写。我有一个 skill 只做这件事：任务结束时，它起草后来的 agent 会做错什么，附上任务里的证据，由人决定留下哪些。为什么由人来定，<a href="3-5-memory.html">agent 该记住什么</a>里有讲。</p>
+<h3>4. 从 skill 到 workflow</h3>
+<p>如果你只写单个 skill，可以直接跳到“检验你自己的配置”。后面是讲多步骤的例行工作的。</p>
+<p>一项工作是 skill。几项工作串起来的例行流程是 workflow。“每次我们加一条 pipeline，都做这八步。”如果你是手工做的，而且每次都得告诉 agent，这就是信号。</p>
+<p>我的经验法则：<strong>同样的多步骤的事做到第三次，就停下来写下来。</strong> 一次是意外。两次可能是巧合。三次就是例行工作。三是我自己选的；没有测试表明它是对的数字。当例行工作经常回来、漏一步代价又高时，workflow 才划算。与之相对的，是设计它、测试它和让它保持最新的成本。</p>
+<p>不用凭空发明，也能得到 workflow：</p>
+<ol>
+<li>
+<p><strong>拿两三个已经做完的例子。</strong> 要真实的，是人已经做完的。</p>
+</li>
+<li>
+<p><strong>并排放在一起</strong>，把每个例子里的名字换成占位符。每个例子里看起来都一样的部分，是骨架。随名字变化的部分，是参数。除了名字之外还有差异的部分，是判断所在的地方。</p>
+</li>
+<li>
+<p><strong>把每一步归入四类之一</strong>，按这个顺序问，第一个回答“是”就停：</p>
+<table>
+<thead>
+<tr>
+<th>问</th>
+<th>如果是，它就是</th>
+<th>怎么办</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它需要权限吗（审批、生产环境的运行、受保护的文件）？</td>
+<td><strong>人</strong></td>
+<td>留给人。</td>
+</tr>
+<tr>
+<td>几个例子里，相同的输入得到了相同的结果吗？</td>
+<td><strong>固定</strong></td>
+<td>可以用脚本做，加上测试。</td>
+</tr>
+<tr>
+<td>它是对结果的检查吗？</td>
+<td><strong>检查</strong></td>
+<td>能用命令检查的，就用脚本；否则给模型一份检查清单，再加上独立的 reviewer（<a href="2-3-subagents.html">慎用子 agent</a>）。</td>
+</tr>
+<tr>
+<td>它需要理解需求吗？</td>
+<td><strong>判断</strong></td>
+<td>是模型的活，配上检查清单、指向你的文档的指引，以及常见的错误。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>不要只凭描述来设计。</strong> 人说他们怎么做，和例子里实际有的东西，是有差别的。这个差别是最有用的发现。如果你没有例子，就说明这个设计是猜的。</p>
+</li>
+<li>
+<p><strong>先写下来请人审批，再动手做任何东西。</strong> workflow 会牵涉很多文件。要先由人批准设计。</p>
+</li>
+</ol>
+<p>不确定一步是固定的还是需要判断的时候，选判断。判断以后可以改成代码；对判断出了错的代码，更难找。</p>
+<h3>5. 每一步带什么</h3>
+<p>workflow 是一条链，所以每个环节要说三件事：</p>
+<ul>
+<li><strong>入</strong>：这一步之前必须成立什么。</li>
+<li><strong>出</strong>：这一步之后有什么，要写成下一步能读的形式。</li>
+<li><strong>检查</strong>：怎么知道它是对的。能用命令就用命令。</li>
+</ul>
+<p>等人的那些步骤，要明说。有两点要防。workflow 不能跳过你的配置里已有的审批。另外它要留有余地：写默认做法和条件（“……时跳过”），不要写死脚本，并说明碰到一个都不符合的情况该怎么办。</p>
+<p>如果一个 workflow 超过大约十几步，或者有两种不同的结果，就拆开。</p>
+<h3>6. 两个例子</h3>
+<p><strong>影响分析</strong>（带脚本的 skill）。在做计划之前，找出一次改动牵涉到什么。脚本在所有仓库里搜要改的名字。skill 让模型把搜到的结果分成必须改、必须核对、没有影响三类，并要求列出搜索看不到的东西。这就是<a href="2-3-subagents.html">子 agent 那一章</a>提到的情况：有一次，在一个案例里，开发者漏掉了跨领域的两处引用，只有独立检查才发现。那是一个案例，不是比率。先做这一搜的 skill，会把这次发现提前。</p>
+<p><strong>测试指南</strong>（以人为终点的 workflow 步骤）。改动写回去之后，agent 不能在测试环境里运行任何东西；由人来跑。所以 skill 写出在每个环境里该跑什么、预期结果是什么、要把什么带回来。人带着结果回来时，skill 按事先写好的标准来判断。这个设计的关键在于它在哪里停下来：停在人这里，附一份清楚的清单，说明要做什么、要带回什么。</p>
+<h3>检验你自己的配置</h3>
+<p><strong>它能被找到吗？它改变了什么吗？</strong> 单个 skill 的两个测试在<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>里。Anthropic 的指南还加了一个习惯：先做测试用例，再多写东西。测试用例来自没有这个 skill 时 agent 做错的任务，然后只写刚好够修正它们的内容。</p>
+<p><strong>workflow 站得住吗？</strong> 拿一个不属于你那几个例子的情况去跑。失败的地方，要么是缺了一种变体，要么是你把某一步归错了类。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A skill can go stale.</strong> It states how things are done here, and here changes. A skill that says to use a command that no longer exists is worse than none. Look at each one when the thing it describes changes, and give each an owner.</p>
 <p><strong>Wrong gotchas teach wrongly.</strong> A gotcha written from a single case can mislead in the next. Keep the reason with the rule, so a reader can judge whether it still applies.</p>
 <p><strong>Fixed steps cost flexibility.</strong> A tight recipe is right for a fixed process and wrong for open work. If the agent follows your steps into a case they do not fit, they were too tight.</p>
@@ -531,16 +685,26 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>固定的步驟要付出彈性的代價</strong>。緊的食譜適合固定的流程，不適合開放的工作。如果 agent 照著你的步驟走進了它們不適用的情況，說明它們太緊了。</p>
 <p><strong>workflow 可能錯得沒人看得見</strong>。它每次都用同樣的方式跑，包括錯的方式。檢查就是為此而設的；每一步都給一個。</p>
 <p><strong>我沒量的</strong>。我沒有在很多次運行中，比較過有沒有某個 skill 的 agent。上面的 skill 測試是第一輪，不是量測（<a href="6-4-variance.html">一次運行證明不了什麼</a>說了怎麼量）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>skill 会过期。</strong> 它写的是这里的做法，而这里会变。一个让你用已经不存在的命令的 skill，比没有还糟。它描述的东西一变，就去看一眼，并给每个 skill 指定负责人。</p>
+<p><strong>错的坑会教错。</strong> 从单个案例写出来的坑，在下一个案例里可能误导人。把理由和规则放在一起，这样读的人才能判断它是否仍然适用。</p>
+<p><strong>固定的步骤要用灵活性换。</strong> 严格的菜谱适合固定流程，不适合开放式的工作。如果 agent 照着你的步骤走进了它们不适用的情况，说明步骤写得太死。</p>
+<p><strong>workflow 可能错得没人发现。</strong> 它每次都按同样的方式运行，错的方式也一样。检查就是为此而设的；每一步都要有一个。</p>
+<p><strong>我没量的。</strong> 我没有在很多次运行中，比较过有没有某个 skill 的 agent。上面的 skill 测试是初步的，不是量测（<a href="6-4-variance.html">一次运行证明不了什么</a>说了怎么量）。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's skills documentation describes the same format and the three-stage loading, and says to write instructions that are &quot;clear&quot; and &quot;specific&quot; with step-by-step procedures where they apply. It also says plainly that discovery does not guarantee a skill is used. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>) Anthropic's skill-writing guide gives the same advice I follow: assume the model is already very smart and add only what it does not have, and challenge each paragraph with &quot;Does this paragraph justify its token cost?&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>) It also suggests building the test cases first and keeping the skill under about 500 lines; my own limit of about 200 is stricter and is a habit, not a measured value.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 skill 文件描述了同樣的格式和三階段載入，並說要把指令寫得「清楚」、「具體」，在適用的地方附上一步步的程序。它也明確說，發現機制不保證 skill 一定會被使用。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）Anthropic 的 skill 寫作指南給的建議和我遵循的一樣：假設模型已經很聰明，只加它沒有的，並用「這一段值得它花的 token 嗎？」來質疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它還建議先建立測試案例，並讓 skill 低於約 500 行；我自己約 200 行的上限更嚴，那是習慣，不是量出來的值。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 的 skill 文档描述了同样的格式和三阶段加载，并说指令要写得“清楚”“具体”，需要时给出分步的做法。它也明说，发现机制并不保证 skill 会被用上。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）Anthropic 的 skill 写作指南给的建议，和我遵循的一样：假设模型已经非常聪明，只补充它没有的东西，并用“这一段值得它花的 token 吗？”来质疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它还建议先做测试用例，并把 skill 控制在大约 500 行以内；我自己的上限大约是 200 行，更严格，是一种习惯，不是量出来的值。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A gotcha goes when the model stops making the mistake, or when the code makes it impossible. Check them when you change models: some may be dead weight, and a dead gotcha only takes room. A fixed step goes when the platform does it for you. A whole workflow goes when it has not run for a long time, or when the routine itself is gone.</p>
 <p>What stays is the habit: after a real task, look at what the agent got wrong, and write that down in the place it will be read.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>模型不再犯那個錯，或程式碼讓它不可能發生時，陷阱就可以去掉。換模型時檢查它們：有些可能已經是死重，而死掉的陷阱只佔位子。平台替你做了的固定步驟，就可以去掉。整個 workflow，在很久沒跑過、或例行工作本身消失時，可以去掉。</p>
 <p>留下來的是習慣：做完一個真實的任務後，看 agent 做錯了什麼，把它寫在會被讀到的地方。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>模型不再犯那个错，或者代码让它不可能再犯时，这条坑就可以删掉。换模型时检查一遍：有的可能已经是累赘，而失效的坑只会占地方。平台替你做了固定的步骤，那一步就可以删掉。整个 workflow，在很久没有运行过，或者例行工作本身已经没有了的时候，就可以删掉。</p>
+<p>留下的是这个习惯：做完一项真实的任务，看看 agent 做错了什么，把它写在会被读到的地方。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look through the recent git history of this repository for changes that repeat the same multi-step pattern (for example, adding a new module, a new endpoint or a new job, which touches the same set of places each time). List up to three such routines with the commits that show them. For each, say which steps looked identical every time, which varied with the name, and which needed a person&#x27;s decision. Say which routine is worth writing down first. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>翻一下這個倉庫最近的 git 歷史，找出重複同樣多步驟模式的改動（例如加一個新模組、新 endpoint 或新工作，每次都碰到同一組地方）。最多列出三個這樣的例行工作，附上能顯示它們的 commit。每一個，說明哪些步驟每次看起來都一樣、哪些隨名稱變、哪些需要人來決定。說明哪個例行工作最值得先寫下來。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>翻看这个仓库最近的 git 历史，找出重复同一个多步骤模式的改动（比如新增一个模块、一个接口或一个任务，每次都牵涉同一批地方）。列出最多三个这样的例行工作，并附上能体现它们的提交。对每一个，说明哪些步骤每次看起来都一样，哪些随名字变化，哪些需要人来决定。说明哪个例行工作最值得先写下来。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
 <li>Anthropic: <a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a></li>
@@ -551,15 +715,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a></li>
 <li>本書：<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>、<a href="3-5-memory.html">agent 該記住什麼</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness ships a skill that builds new skills, a skill that designs a workflow from examples, and the two examples above. The harness can open them with you. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>Anthropic：<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a></li>
+<li>本书：<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>、<a href="3-5-memory.html">agent 该记住什么</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness ships a skill that builds new skills, a skill that designs a workflow from examples, and the two examples above. The harness can open them with you. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Turn your way of working into skills&quot;. Teach me how this harness writes and tests skills (topic 3): open the skill that builds skills, then the workflow-design skill and the impact-analysis skill, and show me where their gotchas came from and how a skill is tested to be found.</code></pre></div>
 <p>It teaches one small piece at a time and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 附帶一個用來做新 skill 的 skill、一個從範例設計 workflow 的 skill，以及上面那兩個例子。harness 可以和你一起打開它們。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「把團隊的做法寫成 skill」這一章。請教我這個 harness 怎麼寫和測試 skill（主題 3）：打開那個用來做 skill 的 skill，再打開設計 workflow 的 skill 和影響分析的 skill，告訴我它們的陷阱是從哪裡來的，以及怎麼測試一個 skill 找不找得到。</code></pre></div>
 <p>它一次教一小塊，並和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 自带一个用来创建新 skill 的 skill、一个根据例子设计 workflow 的 skill，以及上面那两个例子。harness 可以和你一起打开它们。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“把团队的做法写成 skill”这一章。请教我这个 harness 是怎么写 skill 和测试 skill 的（主题 3）：打开那个创建 skill 的 skill，再打开设计 workflow 的 skill 和影响分析的 skill，给我看它们的坑是从哪来的，以及怎么测试一个 skill 能被找到。</code></pre></div>
+<p>它一次只教一小块，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

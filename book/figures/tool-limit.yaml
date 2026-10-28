@@ -16,3 +16,12 @@ zh-Hant:
   run: 執行
   change: 修改
   caption: "每個 agent 有哪些工具。少了的工具是平台強制的規則；提示裡寫「不要改檔案」只是請求。"
+zh-Hans:
+  main: 主 agent
+  reviewer: reviewer
+  mapper: mapper
+  read: 读
+  search: 搜索
+  run: 运行
+  change: 修改
+  caption: "每个 agent 有哪些工具。缺的工具是平台强制执行的规则；提示里写“不要改文件”只是请求。"

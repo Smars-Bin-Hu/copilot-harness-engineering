@@ -18,3 +18,13 @@ zh-Hant:
   after: "事後發現"
   after-note: "能發現違規，不能阻止"
   caption: "三級把規則守得越來越緊。最後一級只告訴你前面守住了沒有。"
+zh-Hans:
+  hook: "hook 拒绝"
+  hook-note: "运行时就拦下；只看得到调用"
+  cmd: "命令自己检查"
+  cmd-note: "每次结果一样；只管走它的路"
+  words: "文字"
+  words-note: "agent 知道原因；可能不照做"
+  after: "事后发现"
+  after-note: "能发现违规，不能阻止"
+  caption: "三级把规则守得越来越牢。最后一级只告诉你前面守住了没有。"

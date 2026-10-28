@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>A rule in a prompt is a request</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,17 +217,20 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.1</p><h1><span data-l="en" lang="en">A rule in a prompt is a request</span><span data-l="zh-Hant" lang="zh-Hant">提示裡的規則只是請求</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>: a hook is code that tool calls pass through, and it can refuse the call.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.1</p><h1><span data-l="en" lang="en">A rule in a prompt is a request</span><span data-l="zh-Hant" lang="zh-Hant">提示裡的規則只是請求</span><span data-l="zh-Hans" lang="zh-Hans">提示里的规则只是请求</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>: a hook is code that tool calls pass through, and it can refuse the call.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>：hook 是工具呼叫都要經過的程式碼，它可以拒絕這次呼叫。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A rule in a prompt is only a request; a rule in code is a rule. Start with words, and move a rule into code when it keeps being broken or the harm cannot be undone.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，请先读过 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>：hook 是工具调用必经的一段代码，它可以拒绝这次调用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A rule in a prompt is only a request; a rule in code is a rule. Start with words, and move a rule into code when it keeps being broken or the harm cannot be undone.</p>
 <p>This chapter is about how firmly a rule is held (safety). It is not about which is the cheapest thing that can make a call; that is <a href="5-9-who-decides.html">Who decides</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>寫在提示裡的規則只是請求；寫在程式碼裡的規則才是規則。先從文字開始，當一條規則一直被違反、或傷害無法挽回時，再把它搬進程式碼。</p>
 <p>這一章談的是一條規則守得多牢（安全）。它不談哪個最便宜的東西能做出判斷；那是<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>写在 prompt 里的规则只是请求；写在代码里的规则才是规则。先从文字开始，等一条规则老被违反，或者造成的伤害无法挽回，再把它挪进代码。</p>
+<p>这一章讲的是规则守得有多牢（安全）。至于由谁来做判断最划算，那是<a href="5-9-who-decides.html">谁来判断：代码、便宜模型、主模型、人</a>的话题。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide which rules may stay as written words and which must be enforced by code. A rule moves to code when it keeps being broken, when the harm cannot be undone, or when other steps rely on it.</li>
 <li><strong>The risk:</strong> a rule written in a prompt is only a request. In my own setup, a hook that put my rules at the start of each prompt ran every time, yet many prompts still arrived without them. That was one setup and one batch in October 2026, not a general rate, and I have no numbers on how often written rules are broken.</li>
@@ -236,6 +242,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：寫在提示裡的規則只是請求。在我自己的設定裡，有個 hook 把我的規則放在每個 prompt 的開頭，它每次都執行了，但還是有很多 prompt 到達時沒有帶著規則。那是一個設定、2026 年 10 月的一批資料，不是一般的比率，而寫下來的規則多常被違反，我沒有數字。</li>
 <li><strong>做對的成本</strong>：程式碼有價錢：要寫、要測、平台變動時要維護。大多數規則不需要它，所以是少數幾條規則，不是全部。</li>
 <li><strong>可以問團隊</strong>：「我們的規則裡，哪些如果 agent 違反一次就會造成無法挽回的傷害？其中每一條是由程式碼守著，還是只寫在提示裡？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定哪些规则可以只用文字写着，哪些必须由代码强制执行。一条规则老被违反、伤害无法挽回，或者别的步骤依赖它时，就该挪进代码。</li>
+<li><strong>风险</strong>：写在 prompt 里的规则只是请求。在我自己的配置里，有个 hook 会把我的规则放到每条 prompt 的开头，它每次都运行了，可还是有很多 prompt 到达时没有带上这些规则。那只是一套配置、2026 年 10 月的一批数据，不是普遍的比率，写下来的规则多久被违反一次，我没有数字。</li>
+<li><strong>做对的代价</strong>：代码是有成本的：要写、要测，平台一变还要维护。大多数规则用不着，所以是少数几条，不是全部。</li>
+<li><strong>可以问团队</strong>：“我们的规则里，哪些一旦 agent 违反一次就会造成无法挽回的损害？这些规则每一条，是由代码守着，还是只写在 prompt 里？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You write a rule in the instruction file: &quot;never touch the generated files&quot;. The agent follows it for a week. Then it does not. You read the rule again. It is still there, and it is clear. Nothing in the file changed. What changed is that the agent had other things to think about.</p>
 <p>A <strong>prompt</strong> is the text the model reads: your request, the instruction files, the skills it loaded. A rule written there is a sentence like any other. The model weighs it against the other sentences, and sometimes the others win. The longer the chat, the more other sentences there are (<a href="3-2-long-sessions.html">Long chats get worse</a>).</p>
@@ -255,6 +267,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>規則</strong>。有程式碼擋在路上。只要程式碼在執行、看得到這次呼叫，不管模型怎麼想，它都會被拒絕。</li>
 </ul>
 <p>任何一定要成立的東西，必須是第二種。但程式碼不是免費的，大多數規則也不需要它。這一章的問題是：哪條規則放在哪裡？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你在指令文件里写了一条规则：“绝不碰生成的文件”。agent 遵守了一周。然后它不守了。你再读这条规则。它还在那里，写得很清楚。文件里什么也没变。变的是，agent 当时有别的事要考虑。</p>
+<p><strong>prompt</strong> 是模型读到的文本：你的需求、指令文件、它加载的 skill。写在那里的规则，和别的句子一样，只是一句话。模型会把它和别的句子放在一起权衡，有时别的句子胜出。对话越长，别的句子就越多（<a href="3-2-long-sessions.html">长对话会变差</a>）。</p>
+<p>连能不能把这句话送到模型面前，都不确定。在 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>里，我数过自己配置里 2026 年 10 月的一批 prompt：有个 hook 会把我的规则放到每条 prompt 的开头，它每次都运行了，可还是有很多 prompt 到达时没有带上这些规则。这是一套配置、一批数据，不是普遍的比率。如果送达一条规则都可能失败，那遵守它失败的可能还要更大。</p>
+<p>所以规则有两种，而且很容易混淆：</p>
+<ul>
+<li><strong>请求。</strong> 你请模型守规矩。它通常会守。没人能保证它永远会守。</li>
+<li><strong>规则。</strong> 有代码挡在路上。只要代码在运行、看得到这次调用，不管模型怎么想，调用都会被拒绝。</li>
+</ul>
+<p>凡是必须成立的事，都要是第二种。但代码不是免费的，大多数规则用不着。这一章要回答的问题是：哪条规则放在哪里？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Four levels of firmness</h3>
 <p>A rule can be held at four levels. Each one promises something different, and each one has a limit.</p>
 <figure class="fig" id="fig-4-1-ladder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
@@ -429,6 +450,93 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>這是一個編出來顯示步驟的案例。每一步都加上了一個程度，沒有拿掉任何一個。</p>
 <h3>測一測你自己的設定</h3>
 <p><strong>一個三分鐘的練習</strong>。寫下你今天給 agent 的三條規則。每一條回答：它是文字、指令、hook，還是事後檢查？違反一次能挽回嗎？它被違反過兩次嗎？第一個問題答「不是」、第二個答「不能挽回」、第三個答「是」的規則，就是最先要往上搬的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>四级牢固程度</h3>
+<p>一条规则可以在四个级别上守着。每一级承诺的东西不同，每一级也有它的限度。</p>
+<figure class="fig" id="fig-4-1-ladder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <rect class="box-lit" x="20" y="20" width="560" height="50" rx="8"/>
+  <text class="label-lit" x="36" y="50" data-t="hook">hook 拒绝</text>
+  <text class="label-lit" x="200" y="50" data-t="hook-note">运行时就拦下；只看得到调用</text>
+
+  <rect class="box" x="20" y="80" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="110" data-t="cmd">命令自己检查</text>
+  <text class="label" x="200" y="110" data-t="cmd-note">每次结果一样；只管走它的路</text>
+
+  <rect class="box" x="20" y="140" width="560" height="50" rx="8"/>
+  <text class="label" x="36" y="170" data-t="words">文字</text>
+  <text class="label" x="200" y="170" data-t="words-note">agent 知道原因；可能不照做</text>
+
+  <rect class="box-plain" x="20" y="210" width="560" height="44" rx="8"/>
+  <text class="label-muted" x="36" y="237" data-t="after">事后发现</text>
+  <text class="label-muted" x="200" y="237" data-t="after-note">能发现违规，不能阻止</text>
+
+  <path class="line-lit" d="M8 190 V30"/>
+  <path class="head-lit" d="M2 38 L8 28 L14 38 Z"/>
+</svg>
+<figcaption>三级把规则守得越来越牢。最后一级只告诉你前面守住了没有。</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>它是什么</th>
+<th>它承诺什么</th>
+<th>它的限度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>文字</strong></td>
+<td>规则写在指令文件、skill，或者 agent 的正文里</td>
+<td>agent 知道这条规则，也知道它为什么存在</td>
+<td>它可能不遵守</td>
+</tr>
+<tr>
+<td><strong>自带检查的命令</strong></td>
+<td>agent 通过你写的一个小程序来做这个操作，程序在动手之前先检查条件</td>
+<td>在任何平台上，每次结果都一样</td>
+<td>它只守经过它的东西。如果 agent 手动去改文件，这个命令根本不会被调用</td>
+</tr>
+<tr>
+<td><strong>会拒绝的 hook</strong></td>
+<td>平台在工具调用之前运行的代码，可以说不</td>
+<td>调用会被拦下，在我试过的模式里，即使没人盯着也是如此</td>
+<td>它依赖平台，而且它看到的是调用，不是效果（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）</td>
+</tr>
+<tr>
+<td><strong>事后发现</strong></td>
+<td>健康检查（一条用来测试配置是否健全的命令）、一次测试运行、翻一遍日志</td>
+<td>违规可以被发现并计数</td>
+<td>它什么也阻止不了。这是检测，不是预防</td>
+</tr>
+</tbody>
+</table>
+<p>最后一级在性质上不同。它不守规则；它告诉你其他几级守住了没有。每一级都需要它，因为一条你看不到有没有被违反的规则，是一条你只能猜的规则。</p>
+<p>中间两级要多解释一句。这里的<strong>命令</strong>，是你在 agent 的内置工具之外给它的一个程序。不是“创建文件夹、复制文件、写入状态”，而是 agent 运行一条命令，把这三件事都做了，并且在某个前提不成立时拒绝开始。规则就在命令里面。<strong>hook</strong> 则相反：agent 想做什么就做什么，hook 在每次调用运行之前先看一眼。</p>
+<h3>规则该放在哪</h3>
+<p>每条规则都从最底下的文字开始。写一句话成本低，改起来也容易，对大多数规则来说，模型会遵守。下面三种情况有一种成立时，再往上挪。</p>
+<ol>
+<li><strong>老被违反。</strong> 你看到它发生过不止一次，换一句更好的话也没有解决。规则因为离得太远而被无视，改措辞是错的答案；代码才是对的答案。</li>
+<li><strong>伤害无法挽回。</strong> 删掉的分支、推送出去的提交、没人备份过的被覆盖的文件。一次违反就太多了，所以别等第二次。</li>
+<li><strong>别的部分依赖它。</strong> 如果后面的某一步信任前面的规则守住了（“检查通过”的记录、一次审批），那么规则一破，后面的那一步也跟着破。</li>
+</ol>
+<p>然后选刚好够用的最低一级。如果一条命令就能守住规则，就别造 hook。hook 要写、要测，还要在平台变化时让它继续有效（<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>）。agent 能通过很多条路碰到那个东西、你又没法把它们全都引到你的命令上时，才用 hook。</p>
+<h3>用代码拦，用文字教</h3>
+<p>把一条规则挪进代码时，别把那句话删了。留一句。它们做的是不同的事。</p>
+<ul>
+<li><strong>代码负责拦。</strong> 它不依赖模型记得什么。</li>
+<li><strong>文字负责教。</strong> 它在 agent 撞上墙之前，就告诉它这条规则为什么存在，以及该怎么做。</li>
+</ul>
+<p>没有文字，agent 就会一次又一次撞上拒绝，并试别的办法绕过去。没有代码，文字又变回了请求。拒绝的消息是两者之间的桥：它是带着一句话的代码。好的拒绝消息会说明为什么被拒绝、接下来该做什么（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>讲的就是怎么写这类消息）。</p>
+<p>同一个划分的另一面：只能靠判断来决定的事，不要放进代码。“这是对的需求吗？”“这个改动好不好？”没有可以匹配的模式。这些仍然用文字，从外面来检查，用独立的 reviewer（<a href="2-3-subagents.html">慎用子 agent</a>）。</p>
+<h3>往上挪的一个例子</h3>
+<p>假设你的规则是：“生成的文件绝不手动编辑”。步骤大致如下。</p>
+<ol>
+<li><strong>文字。</strong> 指令里写一行，附上理由：它们会被重新生成，手动编辑的内容会丢。</li>
+<li><strong>发生了两次。</strong> 你在 hook 这一级加一条检查：对这些路径调用编辑工具，会被拒绝，并附上理由和重新生成它们的命令。</li>
+<li><strong>又出现一个缺口。</strong> agent 现在改用终端来写这个文件。你把这种做法的常见写法加到 hook 里。你也知道它拦不住先写好一个脚本、之后再运行的做法，所以保留那一句文字，再加一个测试，事后找出被改动过的生成文件。</li>
+</ol>
+<p>这是一个编出来的例子，用来演示这些步骤。每一步都是加了一级，没有哪一级被去掉。</p>
+<h3>检验你自己的配置</h3>
+<p><strong>一个三分钟的练习。</strong> 写下你今天给 agent 的三条规则。对每一条回答：它是文字、命令、hook，还是事后检查？违反一次，能挽回吗？它被违反过两次吗？对第一个问题回答“不是”、第二个回答“无法挽回”、第三个回答“是”的规则，就是最先要往上挪的。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Code has a price.</strong> It has to be written, tested, and updated when the platform changes tool names or events. The more rules you move into code, the more of that you carry.</p>
 <p><strong>Code stops the wrong things too.</strong> A pattern that is too wide blocks real work. The agent cannot argue with a refusal, so a false refusal is a stuck task. Every code rule needs a reason in the message, and a way to see which rule fired.</p>
 <p><strong>A hook only sees calls.</strong> A rule in a hook holds for the spellings it knows. It does not hold against an agent set on getting around it. For things that must never be touched, see <a href="4-5-least-privilege.html">Least privilege</a>.</p>
@@ -441,8 +549,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>程式碼也會失敗</strong>。hook 是軟體。它壞了，平台可能拒絕每一次呼叫，也可能放行每一次呼叫，看它是怎麼壞的（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>）。</p>
 <p><strong>只有 agent 自己守著的規則，不算紀錄</strong>。別讓 agent 成為它遵守了規則的唯一見證。凡是之後你要依賴的，都讓程式碼來寫紀錄（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</p>
 <p><strong>我沒有數每個程度多常失敗</strong>。這個階梯來自對一個 harness 的經驗和文件。光靠文字多常被違反，我沒有數字，而任何人如果給你一個數字、卻不說是什麼模型和什麼任務，我不會相信。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>代码是有成本的。</strong> 平台改了工具名或事件，代码就得更新，还要写、要测。挪进代码的规则越多，你要扛的就越多。</p>
+<p><strong>代码也会拦错东西。</strong> 太宽的模式会挡住正常的工作。agent 没法跟拒绝争辩，所以一次误拒就是一个卡住的任务。每条代码规则的消息里都要有理由，还要有办法看到是哪条规则触发的。</p>
+<p><strong>hook 只看得到调用。</strong> hook 里的规则，对它认识的那些写法有效。它挡不住一个铁了心要绕过它的 agent。对于绝不能碰的东西，见<a href="4-5-least-privilege.html">有些东西根本不给</a>。</p>
+<p><strong>代码也会出故障。</strong> hook 是软件。它坏了，平台可能拒绝每一次调用，也可能放过每一次调用，取决于它是怎么坏的（<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>）。</p>
+<p><strong>只有 agent 自己守的规则，不算记录。</strong> 不要让 agent 成为它守了规则的唯一见证人。凡是你以后要依赖的东西，都让代码来写记录（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</p>
+<p><strong>我没数过每一级多久失败一次。</strong> 这个梯子来自我对一个 harness 的经验和文档。光靠文字，多久会被违反一次，我没有数字，而且如果有人给你一个数字却不说是什么模型、什么任务，我也不会信。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The platform docs agree on the split, though they put it in their own words. The VS Code hooks page says hooks and instructions are not substitutes for enforced permissions, sandboxing or enterprise controls (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>). Read that both ways: instructions are the weakest level, and a hook is not the strongest level either. The next chapters go up that ladder.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>平台文件在這種拆分上是一致的，只是各有各的說法。VS Code 的 hooks 頁面說，hook 和指令不能替代強制執行的權限、沙箱或企業控制（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。兩個方向都要這樣讀：指令是最弱的程度，而 hook 也不是最強的程度。接下來的幾章，就是沿著這個階梯往上走。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>平台文档在这个划分上是一致的，只是各用各的话。VS Code 的 hooks 页面说，hook 和指令不能替代强制执行的权限、沙箱或企业级管控（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。这句话要两头读：指令是最弱的一级，而 hook 也不是最强的一级。接下来的几章就沿着这个梯子往上走。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Two things shrink the ladder over time.</p>
 <ul>
 <li><strong>The model gets better at following words.</strong> Some rules you moved to code because the model ignored them may now be followed. The way to find out is to run the same tasks with the code rule switched off and count (<a href="6-5-model-upgrades.html">When the model is upgraded</a>). Choose tasks that used to trip the rule, run each a few times, and count the breaches. A handful of runs shows only a large change. I have not run this. Switch it off only where a breach can be undone.</li>
@@ -455,10 +570,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>平台接手</strong>。當平台自己能在每種模式下拒絕一個路徑或指令時，你自己為它做的 hook 就可以去掉。留著那一句文字。</li>
 </ul>
 <p>不會消失的是這個問題：哪條規則守得多牢，為什麼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>有两件事会让这个梯子随时间缩短。</p>
+<ul>
+<li><strong>模型更善于遵守文字。</strong> 你当初因为模型无视而挪进代码的有些规则，现在可能已经被遵守了。要知道，就把代码规则关掉，跑同样的任务并计数（<a href="6-5-model-upgrades.html">模型升级了，就要删</a>）。挑过去会触发这条规则的任务，每个跑几次，数一数违反了几次。跑几次只能看出很大的变化。我还没有跑过。只在违反了可以挽回的地方才关。</li>
+<li><strong>平台接管了。</strong> 平台自己能在每种模式下拒绝某个路径或命令时，你自己为它写的 hook 就可以去掉。那一句文字保留。</li>
+</ul>
+<p>不会消失的，是这个问题：哪条规则守得多牢，为什么。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Read every rule this project gives the agent: instruction files, skills, agent files, hook and permission settings. For each rule, say which level holds it: words only, a command that checks itself, a hook or permission setting that refuses, or a check run afterwards. Then list the rules that are words only but would cause harm that cannot be undone, or that other steps rely on. Output a table with the rule, its level, and your recommendation to keep or move up. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>讀這個專案給 agent 的每一條規則：指令檔、skill、agent 檔、hook 和權限設定。每一條規則，說明它由哪個程度守著：只有文字、自己檢查的指令、會拒絕的 hook 或權限設定，還是事後執行的檢查。然後列出只有文字、但違反會造成無法挽回的傷害、或其他步驟依賴它的規則。輸出一張表，包含規則、它的程度，以及你建議保留還是往上搬。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>读这个项目给 agent 的每条规则：指令文件、skill、agent 文件、hook 和权限设置。对每条规则，说明由哪一级守着：只有文字、自带检查的命令、会拒绝的 hook 或权限设置，还是事后运行的检查。然后列出那些只有文字、但一旦出错会造成无法挽回的伤害、或者别的步骤依赖它的规则。输出一张表：规则、它所在的级别、你建议保持不变还是往上挪。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
 <li>In this book: <a href="2-2-hooks.html">Hooks</a>, <a href="3-3-instructions-and-skills.html">Instructions and skills</a>, <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a></li>
@@ -467,15 +590,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
 <li>本書：<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>、<a href="4-2-ask-vs-refuse.html">詢問不是限制</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The four levels all exist in Copilot Harness: rules in text, commands that check their own conditions, a hook that refuses, and checks that look back. The harness can show you which rule sits at which level, and why, with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>本书：<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>、<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>、<a href="4-2-ask-vs-refuse.html">询问不是限制</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The four levels all exist in Copilot Harness: rules in text, commands that check their own conditions, a hook that refuses, and checks that look back. The harness can show you which rule sits at which level, and why, with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A rule in a prompt is a request&quot;. Teach me how this harness decides where each rule lives: the ladder of enforcement (topic 14) and the design choices behind it (topic 15). Pick three rules, show me which level each one is at and what would make you move it, and open the real files with me.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>四個程度在 Copilot Harness 裡都有：文字寫的規則、自己檢查條件的指令、會拒絕的 hook，和往回看的檢查。harness 可以用真實的檔案讓你看到哪條規則在哪個程度、為什麼。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「提示裡的規則只是請求」這一章。請教我這個 harness 怎麼決定每條規則放在哪裡：執行的階梯（主題 14）和背後的設計選擇（主題 15）。挑三條規則，告訴我每一條在哪個程度、什麼情況會讓你把它往上搬，並帶我打開真實的檔案。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>这四级在 Copilot Harness 里都有：写成文字的规则、自己检查条件的命令、会拒绝的 hook，以及往回看的检查。harness 能用真实的文件告诉你哪条规则在哪一级，为什么。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“提示里的规则只是请求”这一章。请教我这个 harness 是怎么决定每条规则放在哪里的：强制执行的梯子（主题 14）和它背后的设计选择（主题 15）。挑三条规则，告诉我每条在哪一级，什么情况会让你把它往上挪，并带我打开真实的文件。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

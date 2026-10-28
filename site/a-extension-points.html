@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Extension points cheat sheet</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,13 +217,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li><a href="#read-first"><span data-l="en" lang="en">Read this first</span><span data-l="zh-Hant" lang="zh-Hant">先讀這個</span></a></li><li><a href="#copilot"><span data-l="en" lang="en">VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot</span></a></li><li><a href="#counterparts"><span data-l="en" lang="en">The same points in Claude Code and Codex</span><span data-l="zh-Hant" lang="zh-Hant">Claude Code 和 Codex 裡的同樣幾點</span></a></li><li><a href="#how-to-use"><span data-l="en" lang="en">How to use this page</span><span data-l="zh-Hant" lang="zh-Hant">怎麼用這一頁</span></a></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">A</p><h1><span data-l="en" lang="en">Extension points cheat sheet</span><span data-l="zh-Hant" lang="zh-Hant">擴充點速查表</span></h1></header><div data-l="en" lang="en"><p>This appendix is a lookup table. When you wonder &quot;where does this go, when does the agent see it, and can it be forced?&quot;, find the row here, then follow the link to the chapter that explains why.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li><a href="#read-first"><span data-l="en" lang="en">Read this first</span><span data-l="zh-Hant" lang="zh-Hant">先讀這個</span><span data-l="zh-Hans" lang="zh-Hans">先读这个</span></a></li><li><a href="#copilot"><span data-l="en" lang="en">VS Code Copilot</span><span data-l="zh-Hant" lang="zh-Hant">VS Code Copilot</span><span data-l="zh-Hans" lang="zh-Hans">VS Code Copilot</span></a></li><li><a href="#counterparts"><span data-l="en" lang="en">The same points in Claude Code and Codex</span><span data-l="zh-Hant" lang="zh-Hant">Claude Code 和 Codex 裡的同樣幾點</span><span data-l="zh-Hans" lang="zh-Hans">Claude Code 和 Codex 里的对应项</span></a></li><li><a href="#how-to-use"><span data-l="en" lang="en">How to use this page</span><span data-l="zh-Hant" lang="zh-Hant">怎麼用這一頁</span><span data-l="zh-Hans" lang="zh-Hans">怎么用这一页</span></a></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">A</p><h1><span data-l="en" lang="en">Extension points cheat sheet</span><span data-l="zh-Hant" lang="zh-Hant">擴充點速查表</span><span data-l="zh-Hans" lang="zh-Hans">扩展点速查表</span></h1></header><div data-l="en" lang="en"><p>This appendix is a lookup table. When you wonder &quot;where does this go, when does the agent see it, and can it be forced?&quot;, find the row here, then follow the link to the chapter that explains why.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這個附錄是一張查詢表。當你想問「這個東西放哪裡、agent 什麼時候看得到、能不能強制」，就在這裡找到那一列，再照連結去看解釋原因的章節。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这个附录是一张查找表。你想知道“这个东西放哪里、agent 什么时候能看到、能不能强制”，就在这里找到那一行，再顺着链接去看讲道理的那一章。</p>
 </div><section id="read-first" class="sec"><div data-l="en" lang="en"><h2>Read this first</h2><p><strong>Checked: 2026-10-27.</strong> I read the official docs of VS Code, Claude Code and Codex on that day. Names, folders, settings and preview labels change often, so this page will go stale. Trust the docs over this table, and check the date.</p>
 <p>Two things to know before reading the rows.</p>
 <ul>
@@ -250,6 +254,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>agent 在合適時啟動的做法：skill。</li>
 <li>不同的一組工具，或唯讀的幫手：custom agent。</li>
 <li>必須被拒絕的事：hook，或把工具拿掉。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>先读这个</h2><p><strong>核对日期：2026-10-27。</strong> 那天我读了 VS Code、Claude Code 和 Codex 的官方文档。名称、文件夹、设置和预览版标签经常变，所以这一页会过期。以文档为准，不要以这张表为准，并看一下日期。</p>
+<p>看各行之前，先知道两件事。</p>
+<ul>
+<li><strong>VS Code 现在要你先选一个 harness。</strong> VS Code 文档说，你选的 harness（比如 Copilot harness 或本地 harness）决定哪些格式和位置有效：“创建了文件，不等于所选的 harness 能加载或运行它。”下面有几行写“仅限本地 harness”，就是这个原因。</li>
+<li><strong>这里的“强制执行”只有一个意思。</strong> 平台让 agent 必须服从，模型没法选择不照做，才算强制执行。几乎每一行都只是对模型的请求。例外是拒绝调用的 hook，和把工具去掉的工具列表。为什么这很要紧，是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>这一章的主题。</li>
+</ul>
+<p>在官方页面上确认不了对应功能的地方，格子里写“未确认”。我没有猜。</p>
+<p>各行的简要指引：</p>
+<ul>
+<li>每个任务都适用的规则：始终开启的指令。</li>
+<li>只对某些文件适用的规则：按文件的指令。</li>
+<li>合适时由 agent 自己启动的做事方式：skill。</li>
+<li>一组不同的工具，或者一个只读的帮手：自定义 agent。</li>
+<li>必须拒绝的事：hook，或者把工具拿掉。</li>
 </ul>
 </div></section><section id="copilot" class="sec"><div data-l="en" lang="en"><h2>VS Code Copilot</h2><table>
 <thead>
@@ -405,6 +424,83 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tbody>
 </table>
 <p>關於工具組的說明。VS Code 文件說，使用者定義的工具組（<code>.jsonc</code> 檔）已棄用，Copilot harness 不支援。想要可重複使用的工具選擇，它們建議用帶 <code>tools</code> 清單的 custom agent。我把工具組當成舊的東西。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>VS Code Copilot</h2><table>
+<thead>
+<tr>
+<th>扩展点</th>
+<th>是什么</th>
+<th>什么时候加载</th>
+<th>强制执行吗？</th>
+<th>章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指令，始终开启</td>
+<td>仓库根目录的 <code>.github/copilot-instructions.md</code> 和 <code>AGENTS.md</code>。<code>CLAUDE.md</code> 只有本地 harness 会读，且要打开 <code>chat.useClaudeMdFile</code>。</td>
+<td>自动加入 agent 的上下文。嵌套的 <code>AGENTS.md</code> 是实验功能，默认关闭（本地 harness）。</td>
+<td>不。是请求。文档说适用的来源是叠加的，所以不要靠顺序来解决冲突。</td>
+<td><a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a></td>
+</tr>
+<tr>
+<td>指令，按文件</td>
+<td><code>.github/instructions</code> 里的 <code>*.instructions.md</code>（Claude 格式：<code>.claude/rules</code>）。</td>
+<td><code>applyTo</code> 通配符匹配到正在修改的文件时附上；或者 <code>description</code> 与任务匹配时按需加载。</td>
+<td>不。是请求。</td>
+<td><a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a></td>
+</tr>
+<tr>
+<td>Prompt 文件</td>
+<td><code>.github/prompts</code>（或你的用户配置）里的 <code>*.prompt.md</code>。一个保存下来的 prompt，头部可以带可选的 <code>agent</code>、<code>model</code> 和 <code>tools</code>。</td>
+<td>只在你运行它的时候：输入 <code>/</code> 和它的名字。只限聊天视图里的本地 harness 会话。不会自动应用。</td>
+<td>不。它就是个 prompt。不过它的 <code>tools</code> 列表优先于它指定的 agent 的工具列表。</td>
+<td>没有章节讲 prompt 文件。请读你所用工具的官方文档。</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>一个带 <code>SKILL.md</code> 的文件夹，放在 <code>.github/skills/</code>、<code>.claude/skills/</code> 或 <code>.agents/skills/</code>（以及主目录下的同名位置）。</td>
+<td>三层：先是名称和描述；请求匹配或你输入 <code>/name</code> 时加载正文；其他文件只在正文指到它们时才加载。</td>
+<td>不。由模型决定用不用。<code>disable-model-invocation: true</code> 能阻止模型启动它，这限制的是谁来启动，不是它做什么。</td>
+<td><a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>、<a href="3-4-skills-and-workflows.html">把团队的做法写成 skill</a></td>
+</tr>
+<tr>
+<td>自定义 agent</td>
+<td><code>.github/agents</code>（Claude 格式：<code>.claude/agents</code>）里的 <code>*.agent.md</code>，有头部和一段指令正文。</td>
+<td>你在 Agent 下拉框里选它的时候，或者另一个 agent 把它当子 agent 运行的时候。在 Copilot harness 里，它的指令会加到你的自定义指令上，冲突时它说了算。</td>
+<td><code>tools</code> 列表是强制的：文档说“只有这些工具可用”。正文，比如“不要做 X”，是请求。</td>
+<td><a href="2-4-custom-agents.html">自定义 agent：固定模型和工具的角色</a>、<a href="2-3-subagents.html">慎用子 agent</a></td>
+</tr>
+<tr>
+<td>Hook</td>
+<td><code>.github/hooks/</code> 里的 JSON 文件，或者设置文件里的 <code>hooks</code> 映射。事件包括 <code>sessionStart</code>、<code>userPromptSubmitted</code>、<code>preToolUse</code>、<code>postToolUse</code>、<code>subagentStart</code>、<code>subagentStop</code>、<code>agentStop</code>。</td>
+<td>由平台在这些时刻运行。在本地 harness 里，<code>chat.useHooks</code> 控制是否执行。窗口启动时读取。</td>
+<td>是，对它看得到的范围：<code>preToolUse</code> 可以返回拒绝并附上原因。超时则回到正常的权限流程。文档里标为预览版。</td>
+<td><a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>、<a href="4-4-enforcement-design.html">把执行层当软件来设计</a></td>
+</tr>
+<tr>
+<td>MCP server</td>
+<td>增加工具的 server。个人的：<code>~/.copilot/mcp-config.json</code>。共享的：项目根目录的 <code>.mcp.json</code>（需要打开实验设置 <code>chat.mcp.workspaceRootConfig.enabled</code>）。较早的：<code>.vscode/mcp.json</code>。</td>
+<td>按用户或工作区配置。文档没有细说 server 什么时候启动；登录和工具审批出现时，由你来审查。</td>
+<td>对 server 做什么，不。你的组织可以限制哪些 server 可用。</td>
+<td><a href="1-3-mcp.html">MCP server：接工具的标准接口</a></td>
+</tr>
+<tr>
+<td>工具集和工具列表</td>
+<td>聊天里的工具选择器（Copilot harness：自定义编辑器的 Tools 标签页；本地 harness：Configure Tools）。输入 <code>#</code> 可以点名一个工具。一次请求最多可以有 128 个工具。</td>
+<td>按配置档或按请求选择。</td>
+<td>没启用的工具调用不了。但启用一个工具，并不会跳过它的审批。</td>
+<td><a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>、<a href="2-4-custom-agents.html">自定义 agent：固定模型和工具的角色</a></td>
+</tr>
+<tr>
+<td>设置</td>
+<td>打开或关闭上面各项的 VS Code 设置，比如 <code>chat.useHooks</code>、<code>chat.useAgentsMdFile</code>、<code>chat.useClaudeMdFile</code>、<code>chat.includeApplyingInstructions</code>、<code>chat.useCustomizationsInParentRepositories</code>。</td>
+<td>由 VS Code 读取。Copilot CLI 和 Copilot 应用不继承编辑器的设置，所以文档建议不要依赖自定义位置的设置。</td>
+<td>设置是宿主的配置。企业管控可以打开或关闭 hook；适用企业托管的 Copilot 设置时，Claude 和 Codex 的 harness 会被禁用。</td>
+<td><a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a></td>
+</tr>
+</tbody>
+</table>
+<p>关于工具集的一点说明。VS Code 文档说，用户自定义的工具集（<code>.jsonc</code> 文件）已弃用，Copilot harness 不支持。想要一个可复用的工具选择，文档推荐用带 <code>tools</code> 列表的自定义 agent。我把工具集当作遗留功能。</p>
 </div></section><section id="counterparts" class="sec"><div data-l="en" lang="en"><h2>The same points in Claude Code and Codex</h2><table>
 <thead>
 <tr>
@@ -517,6 +613,62 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>Claude Code 和 Codex 里的对应项</h2><table>
+<thead>
+<tr>
+<th>扩展点</th>
+<th>Claude Code</th>
+<th>Codex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>指令，始终开启</td>
+<td><code>CLAUDE.md</code>（项目、用户、组织）。也可以读仓库的 <code>AGENTS.md</code> 来代替 <code>CLAUDE.md</code>。文档称它是“上下文，不是强制执行的配置”。</td>
+<td>从项目根目录到当前文件夹，每个目录一份 <code>AGENTS.md</code>；需要替换某一份时，用 <code>AGENTS.override.md</code>。每次运行构建一次；合并后的大小上限是 <code>project_doc_max_bytes</code>（默认 32 KiB）。</td>
+</tr>
+<tr>
+<td>指令，按文件</td>
+<td>带 <code>paths</code> 头部的 <code>.claude/rules/*</code>。</td>
+<td>离工作更近的嵌套 <code>AGENTS.md</code>。文件模式的头部：未确认。</td>
+</tr>
+<tr>
+<td>Prompt 文件</td>
+<td><code>.claude/commands/*.md</code> 仍然可用，但命令已经并入 skill。同名的 skill 优先。</td>
+<td><code>~/.codex/prompts/</code> 里有自定义 prompt，但已弃用，改用 skill。以 <code>/prompts:name</code> 运行。不通过仓库共享。</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td><code>.claude/skills/&lt;name&gt;/SKILL.md</code>（项目）、<code>~/.claude/skills/</code>（个人）。描述始终在上下文里；正文在调用时加载。</td>
+<td><code>.agents/skills</code>（仓库，从当前文件夹一直到根目录）、<code>$HOME/.agents/skills</code>、<code>/etc/codex/skills</code>。同样的三层加载。<code>agents/openai.yaml</code> 里的 <code>allow_implicit_invocation: false</code> 会关闭由模型启动的用法。</td>
+</tr>
+<tr>
+<td>自定义 agent</td>
+<td><code>.claude/agents/*.md</code>，带 <code>tools</code>（允许名单）、<code>disallowedTools</code> 和 <code>model</code>。</td>
+<td><code>.codex/agents/*.toml</code>（项目）或 <code>~/.codex/agents/</code>，每个文件一个 agent，有 <code>name</code>、<code>description</code>、<code>developer_instructions</code> 和可选的模型设置。子 agent 继承父级的沙箱、审批策略和 MCP server。每个 agent 单独的工具允许名单：未确认。</td>
+</tr>
+<tr>
+<td>Hook</td>
+<td><code>.claude/settings.json</code>、<code>.claude/settings.local.json</code> 或 <code>~/.claude/settings.json</code> 里的 <code>hooks</code>。退出码 2，或者 JSON 里 <code>permissionDecision</code> 为 <code>deny</code>，会在 <code>PreToolUse</code> 上拦截。默认情况下，失败或超时的 hook 不会拦截。</td>
+<td><code>~/.codex/</code> 或 <code>&lt;repo&gt;/.codex/</code> 里的 <code>hooks.json</code>，或 <code>config.toml</code> 里的 <code>[hooks]</code>。<code>PreToolUse</code> 可以拒绝。项目 hook 只在受信任的项目里加载，而且必须先审查。文档称 hook 是护栏，不是完整的强制边界。hook 超时会怎样：未确认。</td>
+</tr>
+<tr>
+<td>MCP server</td>
+<td>项目里的 <code>.mcp.json</code>（共享）、<code>~/.claude.json</code>（本地和用户范围）。项目里的 server 在交互会话中要先审批。</td>
+<td><code>~/.codex/config.toml</code> 里的 <code>[mcp_servers.&lt;name&gt;]</code>，或者受信任项目的 <code>.codex/config.toml</code>。<code>codex mcp add</code> 和 <code>codex mcp list</code>。</td>
+</tr>
+<tr>
+<td>工具集</td>
+<td>未确认有单独的这个功能。我找到的最接近的是子 agent 的 <code>tools</code> 允许名单。</td>
+<td>未确认。</td>
+</tr>
+<tr>
+<td>设置</td>
+<td><code>settings.json</code>（用户、项目、本地，以及托管策略）。我只查了 hook 相关的部分。</td>
+<td><code>~/.codex/config.toml</code> 和 <code>.codex/config.toml</code>，有 <code>approval_policy</code> 和 <code>sandbox_mode</code>。在托管的机器上，<code>requirements.toml</code> 可以限制它们。</td>
+</tr>
+</tbody>
+</table>
 </div></section><section id="how-to-use" class="sec"><div data-l="en" lang="en"><h2>How to use this page</h2><p>Two habits make this table useful.</p>
 <ul>
 <li><strong>Put a rule in the lightest point that is enough.</strong> Always-on instructions cost room every turn; a skill costs room only when used; a hook costs code. The order and the reasoning are in <a href="3-1-context-budget.html">Context is a budget</a> and <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>.</li>
@@ -529,9 +681,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>先查 harness，再查檔案</strong>。如果一個檔案好像被忽略，先問你選的 harness 到底能不能載入這種檔案。<a href="b-troubleshooting.html">排錯</a> 從症狀開始。</li>
 </ul>
 <p>這本書的例子，都來自 Copilot 這一邊的一套設定。Claude Code 和 Codex 的欄位我自己沒有執行過；它們來自廠商在上面那個日期的文件。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>怎么用这一页</h2><p>两个习惯，会让这张表有用。</p>
+<ul>
+<li><strong>规则放在够用的、最轻的那个点上。</strong> 始终开启的指令每一轮都占地方；skill 只在用到时占地方；hook 要花代码。顺序和道理见<a href="3-1-context-budget.html">上下文是一份预算</a>和<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>。</li>
+<li><strong>先查 harness，再查文件。</strong> 如果一个文件似乎被忽略了，先问一问你选的 harness 到底能不能加载这类文件。<a href="b-troubleshooting.html">排错</a>从症状出发。</li>
+</ul>
+<p>本书的例子来自 Copilot 一侧的同一套配置。Claude Code 和 Codex 那两列我自己没有跑过；它们来自上面那个日期各厂商的文档。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

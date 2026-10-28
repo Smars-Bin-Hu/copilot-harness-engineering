@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Instructions and skills</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">3.3</p><h1><span data-l="en" lang="en">Instructions and skills</span><span data-l="zh-Hant" lang="zh-Hant">指令與 skill：只載入需要的</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and read <a href="3-1-context-budget.html">the context budget</a> (everything the agent reads shares one window of limited size).</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.3</p><h1><span data-l="en" lang="en">Instructions and skills</span><span data-l="zh-Hant" lang="zh-Hant">指令與 skill：只載入需要的</span><span data-l="zh-Hans" lang="zh-Hans">指令与 skill：只加载需要的</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and read <a href="3-1-context-budget.html">the context budget</a> (everything the agent reads shares one window of limited size).</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先用過 AI 寫程式的 agent，並讀過<a href="3-1-context-budget.html">上下文是一份預算</a>（agent 讀的所有東西共用一個大小有限的視窗）。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Load the fewest rules by default and read the rest only when needed. A skill is a manual read on demand, and like any written rule it is not enforced.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你用过 AI 编程 agent，并且读过<a href="3-1-context-budget.html">上下文是一份预算</a>（agent 读到的所有东西共用一个大小有限的窗口）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Load the fewest rules by default and read the rest only when needed. A skill is a manual read on demand, and like any written rule it is not enforced.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>預設只載入最少的規則，其餘的在需要時才讀。skill 是一本按需要才讀的手冊，而且和任何寫下來的規則一樣，不會被強制執行。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>默认只加载最少的规则，其余的需要时再读。skill 是按需阅读的手册，和任何写下来的规则一样，它不是强制执行的。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> keep the always-loaded rules few, and decide who owns the rule files and cuts what is no longer needed.</li>
 <li><strong>The risk:</strong> a long rule file is followed less well than a short one, and two files that disagree make the model pick one. A rule in a file is still a request: the model can do otherwise. Anything that must hold goes into code. I have no measured case of an ignored rule to quote.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：長的規則檔比短的更不容易被遵守，兩個互相矛盾的檔案會讓模型挑一個。寫在檔案裡的規則仍然只是請求：模型可以不照做。一定要成立的東西，要放進程式碼。我手上沒有可以引用的、規則被無視的實測案例。</li>
 <li><strong>做對的成本</strong>：一個負責人，和定期修剪規則檔。剪掉 agent 本來就會做對的行，成本很低；在我自己的檔案裡，我通常沒看到有什麼變差，但我沒有系統地測過。</li>
 <li><strong>可以問團隊</strong>：「我們一直載入的檔案裡，哪幾行是 agent 沒有它們就會做錯的？誰負責那個檔案？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：始终加载的规则要少，并决定谁负责规则文件、谁来删掉不再需要的内容。</li>
+<li><strong>风险</strong>：长的规则文件，agent 遵守得不如短的好；两个文件说法不一致，模型会挑其中一个。写在文件里的规则仍然只是请求：模型可以不照做。必须成立的事要写进代码。我没有实测过的“规则被无视”的案例可以引用。</li>
+<li><strong>做对的代价</strong>：一个负责人，加上定期精简规则文件。删掉 agent 本来就会做对的那些行，代价很小；在我自己的文件里，我一般没看到有什么变差，但我没有系统地测过。</li>
+<li><strong>可以问团队</strong>：“我们始终加载的文件里，哪些行是去掉之后 agent 就会做错的？这个文件归谁管？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The natural way to teach an agent your project is to write everything down in one file: the rules, the conventions, the warnings, the how-to for every job. Each time the agent makes a mistake, you add a line. After a few weeks the file is long, and the agent follows it less well than when it was short.</p>
 <p>Two things go wrong. They are the subject of this chapter.</p>
@@ -261,6 +272,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>漸進式揭露</strong>（progressive disclosure）是兩者背後的想法：先給 agent 看一點，需要更多時才讓它多讀。就像一家店，門口有菜單，完整的食譜在廚房裡。Anthropic 稱它是「讓 Agent Skills 靈活、可擴展的核心設計原則」（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）。</li>
 </ul>
 <p>我手上沒有可以引用的、規則被無視的實測案例，所以這一章給的是推理和檢查的辦法。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>教 agent 了解你的项目，最自然的办法是把所有东西写进一个文件：规则、约定、警告，以及每种工作的做法。agent 每犯一次错，你就加一行。几周之后文件变得很长，agent 遵守它的程度反而不如以前文件短的时候。</p>
+<p>出了两个问题。它们是这一章的主题。</p>
+<ul>
+<li><strong>每一轮都要为所有内容付费。</strong> 这个文件一直放在窗口里，不管这项工作需不需要它。你在改一个错别字，一条关于数据库迁移的规则也在占着地方。这个地方就是<a href="3-1-context-budget.html">上下文是一份预算</a>讲的那份预算；每一轮要花多少，在<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>里。</li>
+<li><strong>规则越多，每条规则被遵守得越差。</strong> 长文件会让规则互相竞争。两行可能互相矛盾；重要的一行淹没在细小的几行里。Claude Code 和 VS Code 的文档都建议把指令文件写短，Claude Code 的文档还警告说，两条指令互相矛盾时，模型可能会随便挑一条。</li>
+</ul>
+<p>先说三个词。</p>
+<ul>
+<li><strong>指令</strong>是写给 agent 读的规则文件。有的在每次对话里都加载。有的只在 agent 处理某些文件时才加载。</li>
+<li><strong>skill</strong> 是一个文件夹，里面有针对某一类工作的手册。agent 在这项工作出现时才读手册，不会提前读。</li>
+<li><strong>渐进式披露</strong>是这两者背后的思路：先给 agent 看一点，需要更多时再让它去读。就像一家店，门口放菜单，完整的菜谱在厨房里。Anthropic 称它是“让 Agent Skills 灵活、可扩展的核心设计原则”（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）。</li>
+</ul>
+<p>我没有实测过的“规则被无视”的案例可以引用，所以这一章讲的是推理和检查的办法。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>1. Three places for a rule</h3>
 <p>Where you put a rule decides when it costs room and when the agent sees it.</p>
 <figure class="fig" id="fig-3-3-places"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
@@ -459,6 +483,105 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 <p><strong>今天就能做、不用額外設定的測試</strong>。看你一直載入的檔案。每一行都問：沒有它，agent 會做錯嗎？把不通過的行都剪掉。然後跑和之前一樣的任務，看有沒有什麼變差。我從自己的規則檔剪掉一些行時，通常沒看到什麼變差。我沒有系統地測過。</p>
 <p><strong>測 skill 找不找得到</strong>。先把請求寫好，用人會說的字，不是描述裡的字：三種要求這份工作的說法，和兩個相鄰、不該觸發它的請求。每一個都開一個新的對話（舊的對話可能已經載入了這個 skill），而且不要輸入 skill 的名稱。然後看哪些 skill 被載入了。平台有紀錄的話就用紀錄，因為 agent 自己說的不算證據。沒載入，說明描述缺少使用者的字。不該載入時載入了，說明描述太寬。</p>
 <p><strong>測 skill 有沒有改變什麼</strong>。同一個任務在新的對話裡跑兩次，有 skill 和沒有 skill 各一次。看不出差別的話，就剪掉那些沒有差別的行。agent 本來就知道它們。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>1. 规则的三个存放位置</h3>
+<p>规则放在哪里，决定了它什么时候占地方，以及 agent 什么时候看得到它。</p>
+<figure class="fig" id="fig-3-3-places"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box-lit" x="20" y="30" width="170" height="60" rx="6"/>
+  <text class="label-lit" x="105" y="65" text-anchor="middle" data-t="always">始终加载</text>
+  <text class="label-muted" x="105" y="112" text-anchor="middle" data-t="always-note">每件事都需要的少数规则</text>
+
+  <rect class="box" x="215" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="300" y="65" text-anchor="middle" data-t="by-file">按文件加载</text>
+  <text class="label-muted" x="300" y="112" text-anchor="middle" data-t="by-file-note">只管某一类文件的规则</text>
+
+  <rect class="box" x="410" y="30" width="170" height="60" rx="6"/>
+  <text class="label" x="495" y="65" text-anchor="middle" data-t="on-demand">按需阅读</text>
+  <text class="label-muted" x="495" y="112" text-anchor="middle" data-t="on-demand-note">skill 和笔记</text>
+
+  <path class="line" d="M20 150 H580"/>
+  <text class="label-muted" x="20" y="140" data-t="less">每一轮都花钱</text>
+  <text class="label-muted" x="580" y="140" text-anchor="end" data-t="more">用到才花钱</text>
+  <text class="label" x="300" y="190" text-anchor="middle" data-t="rule">每条规则放在还够得着它的最便宜的地方。</text>
+  <text class="label-muted" x="300" y="216" text-anchor="middle" data-t="rule-note">只写一次。别处放链接和一句话。</text>
+</svg>
+<figcaption>书面指引的三个位置。越往右，不需要时越省，但越依赖 agent 自己选择去读。</figcaption></figure>
+<ul>
+<li><strong>始终加载。</strong> 仓库根目录里的一个简短文件，每次对话都会读。只有每项工作都需要的规则才放这里：安全底线、怎么开始、被拒绝时该怎么办。在我的配置里，这只有短短一页。如果一条规则十项工作里只有一项要用，它就不属于这里。</li>
+<li><strong>按文件加载。</strong> 只适用于某一类文件的规则。在 VS Code 里，指令文件的头部有一行 <code>applyTo</code>，写一个模式，比如“这个文件夹下的所有文件”。只有 agent 打开匹配的文件时，这些规则才会加载。怎么写 skill 的规则，在它打开 skill 文件时加载；它改 pipeline 时，一点代价也没有。下面是这样一个文件的开头：</li>
+</ul>
+<details class="code"><summary>一个只对 skill 文件加载的指令文件：applyTo 那一行就是匹配模式。</summary><pre><code class="language-markdown">---
+description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
+applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
+<ul>
+<li><strong>按需阅读。</strong> 其余的一切：长的操作指南、很少用到的细节。skill 和参考笔记就放在这里。工作需要时，agent 才去读。</li>
+</ul>
+<p>还有第四种办法：<strong>hook</strong>（平台在固定时刻运行的小程序，见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）可以在你发的每条消息的开头加上几行，在用到规则的地方附近重复一下它。只加几行，不然又变回了那个长文件。</p>
+<p>对每条规则，要问的问题是：<strong>这条规则多久用一次？agent 漏掉它会怎样？</strong> 每次都要用、漏掉代价大：始终加载。只有某一类文件要用：按文件加载。只有某项工作要用：放进 skill。</p>
+<h3>2. skill 分三级加载</h3>
+<p>skill 是一个文件夹。主文件 <code>SKILL.md</code> 有头部（名字和描述）和正文（手册）。旁边可以放更长的笔记、脚本和模板。</p>
+<figure class="fig steps" id="fig-3-3-three-layers" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <text class="label-muted" x="20" y="24" data-t="col-level">级</text>
+  <text class="label-muted" x="165" y="24" data-t="col-what">窗口里有什么</text>
+  <text class="label-muted" x="410" y="24" data-t="col-when">什么时候</text>
+
+  <rect class="box" x="20" y="40" width="130" height="56" rx="6"/>
+  <text class="label" x="85" y="73" text-anchor="middle" data-t="l1">1. 菜单</text>
+  <text class="label" x="165" y="73" data-t="l1-what">名字 + 一句描述</text>
+  <text class="label-muted" x="410" y="73" data-t="l1-when">每个 skill 都一直在</text>
+  <rect class="bar" x="20" y="104" width="40" height="8" rx="2"/>
+
+  <g data-step="2">
+    <rect class="box-lit" x="20" y="130" width="130" height="56" rx="6"/>
+    <text class="label-lit" x="85" y="163" text-anchor="middle" data-t="l2">2. 手册</text>
+    <text class="label" x="165" y="163" data-t="l2-what">整份 SKILL.md</text>
+    <text class="label-muted" x="410" y="163" data-t="l2-when">需求对得上时</text>
+    <rect class="bar-lit" x="20" y="194" width="130" height="8" rx="2"/>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="220" width="130" height="56" rx="6"/>
+    <text class="label" x="85" y="253" text-anchor="middle" data-t="l3">3. 附带文件</text>
+    <text class="label" x="165" y="253" data-t="l3-what">脚本、笔记、模板</text>
+    <text class="label-muted" x="410" y="253" data-t="l3-when">手册指到才读</text>
+    <rect class="bar" x="20" y="284" width="90" height="8" rx="2"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">第 1 级：每个 skill 一直只露出名字和描述。成本很低，agent 挑选时手上也只有这个。</li><li data-step-text="2">第 2 级：需求对上某个描述时，整份手册才读进窗口。</li><li data-step-text="3">第 3 级：手册旁边的文件，只有手册指到、而且这一步用得到时才读。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一个 skill 没用到时只占一行，用到时占一页，工作需要时才再多一点。描述决定第 2 级会不会发生。</figcaption></figure>
+<p>agent 不会一次看到全部内容。</p>
+<ol>
+<li><strong>始终在的，是每个 skill 的名字和描述。</strong> 这是菜单。它不大，但每一轮都要付费，你装了多少个 skill 就付多少份。</li>
+<li><strong>需求对得上某个描述时，才读整份手册。</strong> 这由 agent 自己决定，或者你直接输入 skill 的名字。</li>
+<li><strong>只有手册指到时，才读额外的文件。</strong> 长的参考资料或脚本，要等到用得上它的那一步才读。</li>
+</ol>
+<p>所以你可以装很多 skill，而不会把窗口填满。</p>
+<p><strong>描述决定这个 skill 能不能被找到。</strong> 在第 1 级，agent 手上只有描述。含糊的描述（“帮助提升代码质量”）什么也匹配不上。好的描述要说三件事：这个 skill 做什么，什么时候用（“在……时使用”），以及人真正需要它时会说的那些话。平台对长度有限制，啰嗦的描述还会占掉其他所有 skill 的地方。</p>
+<p>即使描述写得好，也不保证会被用上。VS Code 的文档明说，发现机制只是让 skill 可用，并不保证模型会用。所以要测一下（见下面）。</p>
+<p><strong>菜单也会太长。</strong> 有几十个 skill 时，菜单就是一笔实实在在的开销，而且很多 skill 永远不会被选中。一种办法是：任务不涉及某个业务领域时，不把这个领域的 skill 放进菜单。</p>
+<h3>3. 一条规则，一个来源</h3>
+<p>同一条规则如果写在三个文件里，改的时候总会漏掉一个，agent 读到的是三个慢慢变得不一样的版本。一条规则只写在一个地方。别处只放一个链接和一句话。一条规则如果得到处重复，说明结构不对。规则文件是共用的代码，所以要有人负责，把不再需要的行删掉。</p>
+<h3>4. 写下来的规则为什么会被无视</h3>
+<p>规则可能已经加载了，却没被遵守。常见的原因：</p>
+<ol>
+<li><strong>文件太长。</strong> 对每一行问：没有它，agent 会做错吗？不会，就删掉这一行。</li>
+<li><strong>规则冲突。</strong> 两个文件说的不一样。模型挑一个，而且不一定是你想要的那个。VS Code 的文档说，各个指令来源是叠加的，不要靠文件顺序来解决冲突。所以消除冲突是你的活：去搜，改措辞，让只剩一个版本。</li>
+<li><strong>规则离用到它的地方太远。</strong> 它在第一条消息里，现在已经在几千行之前。按文件加载的规则，或者 hook 的提醒，能让它离得近一点。</li>
+<li><strong>没写理由。</strong> “绝对不要做 X”很容易被绕过去。“绝对不要做 X，因为 Y 会坏掉”，则能让模型把这个道理用到你没列出的情况上。</li>
+<li><strong>它是请求。</strong> 这是最根本的原因。你写在文件里的任何东西，都是模型去读的，而模型可以不照做。Claude Code 的文档说得很直白：记忆文件是“上下文，不是强制执行的配置”，想不管模型怎么决定都拦住某个动作，就用 hook。skill 的正文也一样。它让工作顺畅，但不会让错事无法发生。在有的平台上，skill 的头部可以带更强的设置，要查一下它们到底做什么。比如在 Claude Code 里，<code>allowed-tools</code> 只是预先批准工具，并不限制工具，而且 skill 可以注册 hook，那是代码（<a href="https://code.claude.com/docs/en/skills">Skills</a>）。</li>
+</ol>
+<p>对第 5 条，办法不是把措辞写得更好。必须成立的规则要写进代码。这个选择是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>的主题。到那时，文本只需要解释为什么，这样 agent 就不会再想办法绕过拒绝。在我的配置里，重要的规则两层都有：文本负责教，代码负责拦。</p>
+<h3>5. 再说一个选择：语言</h3>
+<p>如果你用不止一种语言工作，我的做法是规则和 skill 只留一份，用英文写，再告诉模型用哪种语言回答。散文的第二份副本会慢慢和第一份对不上。这是我的选择；原则只是只留一份。</p>
+<h3>检验你自己的配置</h3>
+<p><strong>对你添加的任何规则，问三个问题：</strong></p>
+<ol>
+<li>这条多久用一次？如果很少，它就不放进始终加载的文件。</li>
+<li>别处已经写过了吗？如果写过，就链接过去。</li>
+<li>如果 agent 无视它，会怎样？如果答案是“发生了无法撤销的坏事”，那就不是文本能解决的事。</li>
+</ol>
+<p><strong>今天就能做的测试，不需要额外配置。</strong> 看你那份始终加载的文件。对每一行，问：没有它，agent 会做错吗？把不满足的行都删掉。然后跑和之前一样的任务，看有没有变差。我从自己的规则文件里删过行，一般没看到有什么变差。我没有系统地测过。</p>
+<p><strong>测试 skill 能不能被找到。</strong> 先把请求写好，用人真正会说的话，而不是描述里的话：三种提出这项工作的说法，再加两个相邻的、不该触发它的请求。每个请求开一个新对话（旧对话里可能已经带着这个 skill），并且不要输入 skill 的名字。然后看加载了哪些 skill。如果平台有日志，就用日志，因为 agent 自己怎么说不算证据。如果没加载，说明描述里缺用户会说的词。如果不该加载时加载了，说明描述太宽。</p>
+<p><strong>测试 skill 有没有改变什么。</strong> 同一个任务，在新对话里各跑一次，一次带 skill，一次不带。如果看不出区别，就把没起作用的行删掉。agent 本来就知道它们。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Splitting has a price.</strong> A rule in a skill is only read if the skill is found. A rule that matters but sits in a skill with a weak description may never be read. That is the cost of saving room. If missing it is costly, keep it in a place that loads.</p>
 <p><strong>A skill is not a setting.</strong> It depends on the model choosing it. The same request can load it once and not the next time.</p>
 <p><strong>More skills, harder choice.</strong> Even a good description may be confused with its neighbour. Keep each one narrow and say what it is not for.</p>
@@ -467,6 +590,10 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 <p><strong>skill 不是設定</strong>。它靠模型去選它。同一個請求，這次可能載入它，下次就不載入。</p>
 <p><strong>skill 越多，越難選</strong>。就算是好的描述，也可能和它的鄰居混淆。每一個都保持狹窄，並寫明它不是做什麼的。</p>
 <p><strong>注入文字的 hook 會累加</strong>。每一行都會在每則訊息裡重複。Claude Code 的文件建議專案檔低於約 200 行；那是經驗法則，不是量出來的限制。量你自己的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>拆分是有代价的。</strong> skill 里的规则，只有 skill 被找到才会被读到。一条重要的规则，如果放在描述很弱的 skill 里，可能永远不会被读到。这就是省地方的代价。如果漏掉的代价很高，就放在会加载的地方。</p>
+<p><strong>skill 不是设置。</strong> 它依赖模型选中它。同一个请求，这次可能加载它，下次就不加载了。</p>
+<p><strong>skill 越多，选择越难。</strong> 即使描述写得好，也可能和相邻的 skill 混淆。每个都要写得窄，并说清它不是干什么的。</p>
+<p><strong>注入文本的 hook 会累积。</strong> 每一行在每条消息里都会重复。Claude Code 的文档建议一个项目文件不超过 200 行左右；这是经验法则，不是量出来的上限。要量你自己的。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
 <li><strong>VS Code</strong> has the three-level loading for skills: it reads the name and description first, loads the body &quot;once the skill is relevant&quot;, and reads other files &quot;only when it references them&quot;. It also says that discovery &quot;does not guarantee that it invokes a skill for every relevant prompt&quot;. For instruction files it advises to &quot;keep your instructions short and self-contained&quot;, to &quot;include the reasoning behind rules&quot;, and says the sources are &quot;additive&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>, <a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a>)</li>
 <li><strong>Anthropic</strong> describes the same three levels for Agent Skills: the name and description first, the body when the skill applies, linked files only as needed. (<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>)</li>
@@ -479,14 +606,24 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 <li><strong>Claude Code</strong> 建議每個 memory 檔保持在 200 行以下，把屬於程式碼某一部分的規則移到只在路徑符合時才載入的檔案，並移除矛盾。它把這些當成「上下文，不是強制執行的設定」。（<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>）</li>
 </ul>
 <p>兩個平台用的是同一個形狀：一直開著的檔案、依路徑載入的規則、按需要才讀的 skill。想法在各個工具之間是一樣的，所以你在這裡做的東西可以帶著走。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><ul>
+<li><strong>VS Code</strong> 对 skill 有三级加载：先读名字和描述，“一旦这个 skill 相关”才加载正文，其他文件“只有被引用时”才读。它还说，发现机制“不保证对每个相关的 prompt 都调用 skill”。对于指令文件，它建议“让你的指令保持简短、自成一体”，“写明规则背后的理由”，并说各个来源是“叠加”的。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>、<a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a>）</li>
+<li><strong>Anthropic</strong> 对 Agent Skills 描述了同样的三级：先是名字和描述，skill 适用时再读正文，链接的文件只在需要时才读。（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）</li>
+<li><strong>Claude Code</strong> 建议每个记忆文件控制在 200 行以内，把只关系到部分代码的规则移到只对匹配路径加载的文件里，并去掉互相矛盾的地方。它把这些文件视为“上下文，不是强制执行的配置”。（<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>）</li>
+</ul>
+<p>两个平台用的是同一种结构：始终开启的文件、按路径划分的规则、按需的 skill。各个工具的思路是一样的，所以你在这里搭的东西可以带着走。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The by-hand parts that the platform may take over: listing only the skills of the current area, and cutting a long menu. If the platform learns to load skills by relevance better, the area trick can go.</p>
 <p>The reasoning does not retire. A bigger window does not make a long rule file better; it only lets you hold more before the problem shows up. And no loading scheme makes a written rule enforced. I would look again if a platform could show, on my own tasks, that long rule files are followed as well as short ones.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>平台可能接手的手動部分：只列出目前領域的 skill，以及剪短過長的菜單。如果平台學會更好地按相關性載入 skill，領域這個辦法就可以不用了。</p>
 <p>道理不會退役。更大的視窗不會讓長的規則檔變好；它只是讓你在問題出現之前能放更多。而且沒有任何載入方式，能讓寫下來的規則變成強制執行。如果有平台能在我自己的任務上證明，長的規則檔被遵守的程度和短的一樣好，我會再看一次。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>平台可能接手的手动部分：只列出当前领域的 skill，以及削减过长的菜单。如果平台学会了更好地按相关性加载 skill，按领域取舍的办法就可以去掉。</p>
+<p>这套道理不会过时。窗口更大，也不会让长的规则文件变好；它只是让你在问题冒出来之前能装更多。而且没有哪种加载方案能让写下来的规则变成强制执行的。如果有平台能在我自己的任务上证明，长的规则文件和短的一样被遵守，我会重新考虑。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Audit the instruction files and skills in this repository. List: lines in the always-loaded file that you would get right without being told; rules written in more than one place; pairs of rules that contradict each other; rules that give no reason; and skills whose description is too vague to be found or too wide, with a better description for each. Mark the rules where a mistake would be costly and irreversible, since those need code and not text. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>審查這個倉庫裡的指令檔和 skill。列出：一直載入的檔案裡，不用說你也會做對的行；寫在不止一個地方的規則；互相矛盾的規則對；沒有給理由的規則；以及描述太含糊、找不到，或太寬的 skill，並為每一個給出更好的描述。標出犯錯會代價高昂又無法挽回的規則，那些需要程式碼，不是文字。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>审查这个仓库里的指令文件和 skill。列出：始终加载的文件里，你不用交代也会做对的那些行；写在不止一个地方的规则；互相矛盾的规则对；没有写理由的规则；以及描述太含糊而找不到、或太宽泛的 skill，并为每个给出更好的描述。标出那些一旦出错代价高、又无法挽回的规则，因为它们需要代码，而不是文本。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a></li>
@@ -501,15 +638,25 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 <li>Claude Code 文件：<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
 <li>本書：<a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a>、<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness uses all three places, the three levels of loading, and the rule that a rule has one source. The harness can show you each with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Custom instructions</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a></li>
+<li>Claude Code 文档：<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
+<li>本书：<a href="3-4-skills-and-workflows.html">把团队的做法写成 skill</a>、<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness uses all three places, the three levels of loading, and the rule that a rule has one source. The harness can show you each with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Instructions and skills&quot;. Teach me how this harness uses the three places for rules, how its skills load in three levels, and why it says a skill is not enforced (topics 2, 3 and 15). Open the real files with me, starting from the shortest one.</code></pre></div>
 <p>It teaches one small piece at a time and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用到了全部三個位置、三層載入，以及一條規則只有一個來源的做法。harness 可以用真實的檔案讓你看到每一樣。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「指令與 skill：只載入需要的」這一章。請教我這個 harness 怎麼用規則的三個位置、它的 skill 怎麼分三層載入，以及為什麼說 skill 不是強制執行的（主題 2、3 和 15）。帶我打開真實的檔案，從最短的那個開始。</code></pre></div>
 <p>它一次教一小塊，並和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 用了这三个位置、三级加载，还有“一条规则只有一个来源”的原则。harness 能用真实的文件把每一样都展示给你。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“指令与 skill：只加载需要的”这一章。请教我这个 harness 是怎么用规则的三个位置的，它的 skill 是怎么分三级加载的，以及为什么它说 skill 不是强制执行的（主题 2、3 和 15）。带我打开真实的文件，从最短的那个开始。</code></pre></div>
+<p>它一次只教一小块，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

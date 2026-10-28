@@ -1,7 +1,7 @@
 id: "1.2"
 part: brain
 core: true
-title: {en: "Tool calling, and designing tools for an agent", zh-Hant: "Tool calling，和給 agent 設計工具"}
+title: {en: "Tool calling, and designing tools for an agent", zh-Hant: "Tool calling，和給 agent 設計工具", zh-Hans: "Tool calling，以及怎么给 agent 设计工具"}
 harness_tag: "1.5.50"
 wondering: [05-tools, 13-commands]
 sources:

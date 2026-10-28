@@ -1,6 +1,6 @@
 id: "2.4"
 part: runtime
-title: {en: Custom agents, zh-Hant: Custom agent：固定模型和工具的角色}
+title: {en: Custom agents, zh-Hant: Custom agent：固定模型和工具的角色, zh-Hans: "自定义 agent：固定模型和工具的角色"}
 harness_tag: "1.5.50"
 wondering: [04-agents]
 sources:

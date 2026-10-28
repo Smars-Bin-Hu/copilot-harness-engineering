@@ -1,14 +1,14 @@
 copyright: "2026 Smars Hu"
-title: {en: "Harness Engineering", zh-Hant: "Harness Engineering"}
-subtitle: {en: "The engineering outside the model", zh-Hant: "模型之外的工程"}
+title: {en: "Harness Engineering", zh-Hant: "Harness Engineering", zh-Hans: "Harness Engineering"}
+subtitle: {en: "The engineering outside the model", zh-Hant: "模型之外的工程", zh-Hans: "模型之外的工程"}
 parts:
-  - {id: start, title: {en: "Part 0 · Getting started", zh-Hant: "第 0 部 · 入門"}}
-  - {id: brain, title: {en: "Part 1 · The brain and the hands", zh-Hant: "第 1 部 · 腦和手"}}
-  - {id: runtime, title: {en: "Part 2 · The runtime", zh-Hant: "第 2 部 · 運行時"}}
-  - {id: context, title: {en: "Part 3 · Context", zh-Hant: "第 3 部 · 上下文"}}
-  - {id: control, title: {en: "Part 4 · Control", zh-Hant: "第 4 部 · 控制"}}
-  - {id: flow, title: {en: "Part 5 · Flow and decisions", zh-Hant: "第 5 部 · 流程與決策"}}
-  - {id: evidence, title: {en: "Part 6 · Evidence", zh-Hant: "第 6 部 · 證據"}}
-  - {id: people, title: {en: "Part 7 · People", zh-Hant: "第 7 部 · 人"}}
-  - {id: case-kb, title: {en: "Part 8 · Case study: a knowledge base from code", zh-Hant: "第 8 部 · 案例：從程式碼建知識庫"}}
-  - {id: appendix, title: {en: "Appendices", zh-Hant: "附錄"}}
+  - {id: start, title: {en: "Part 0 · Getting started", zh-Hant: "第 0 部 · 入門", zh-Hans: "第 0 部分 · 入门"}}
+  - {id: brain, title: {en: "Part 1 · The brain and the hands", zh-Hant: "第 1 部 · 腦和手", zh-Hans: "第 1 部分 · 大脑和双手"}}
+  - {id: runtime, title: {en: "Part 2 · The runtime", zh-Hant: "第 2 部 · 運行時", zh-Hans: "第 2 部分 · 运行时"}}
+  - {id: context, title: {en: "Part 3 · Context", zh-Hant: "第 3 部 · 上下文", zh-Hans: "第 3 部分 · 上下文"}}
+  - {id: control, title: {en: "Part 4 · Control", zh-Hant: "第 4 部 · 控制", zh-Hans: "第 4 部分 · 控制"}}
+  - {id: flow, title: {en: "Part 5 · Flow and decisions", zh-Hant: "第 5 部 · 流程與決策", zh-Hans: "第 5 部分 · 流程与决策"}}
+  - {id: evidence, title: {en: "Part 6 · Evidence", zh-Hant: "第 6 部 · 證據", zh-Hans: "第 6 部分 · 证据"}}
+  - {id: people, title: {en: "Part 7 · People", zh-Hant: "第 7 部 · 人", zh-Hans: "第 7 部分 · 人"}}
+  - {id: case-kb, title: {en: "Part 8 · Case study: a knowledge base from code", zh-Hant: "第 8 部 · 案例：從程式碼建知識庫", zh-Hans: "第 8 部分 · 案例：从代码构建知识库"}}
+  - {id: appendix, title: {en: "Appendices", zh-Hant: "附錄", zh-Hans: "附录"}}

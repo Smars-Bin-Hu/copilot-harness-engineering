@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Asking is not a limit</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.2</p><h1><span data-l="en" lang="en">Asking is not a limit</span><span data-l="zh-Hant" lang="zh-Hant">詢問不是限制</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>: a rule that must hold has to be code, not words.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">4.2</p><h1><span data-l="en" lang="en">Asking is not a limit</span><span data-l="zh-Hant" lang="zh-Hant">詢問不是限制</span><span data-l="zh-Hans" lang="zh-Hans">询问不是限制</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>: a rule that must hold has to be code, not words.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>：一定要守住的規則，必須是程式碼，不能只是文字。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>&quot;Ask me first&quot; is not a limit, because people click Allow the hundredth time. A limit is a refusal the agent cannot argue with, graded by what the action can break.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，请先读过<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>：必须成立的规则要写成代码，不能只靠文字。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>&quot;Ask me first&quot; is not a limit, because people click Allow the hundredth time. A limit is a refusal the agent cannot argue with, graded by what the action can break.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>「先問我」不是限制，因為問到第一百次，人就會直接點允許。限制是 agent 吵不贏的拒絕，並且按動作可能弄壞多少來分級。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>“先问我”不是限制，因为到第一百次，人就会点“允许”。真正的限制是 agent 辩不过的拒绝，并且按动作可能弄坏多少来分级。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide that &quot;ask me first&quot; is not a safety limit. Actions that must not happen get a refusal, graded by what a mistake costs. A question to a person is kept for rare judgment calls.</li>
 <li><strong>The risk:</strong> people click Allow the hundredth time, and the platform offers ways to remove the box altogether. VS Code says global auto-approval &quot;bypasses all user approvals, potentially leading to destructive actions&quot;. I did not measure how often people click without reading.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：問到第一百次，人就直接點允許；平台還提供把詢問框整個拿掉的辦法。VS Code 說，全域自動批准會「繞過所有使用者批准，可能導致破壞性的動作」。我沒有量過人有多常不看就點。</li>
 <li><strong>做對的成本</strong>：一小組拒絕規則，每條都附一句 agent 能照著做的原因，再加一個人去看日誌，找觸發太頻繁的規則。把 agent 關進沙箱，可以減少詢問框的數量：Anthropic 說它自己內部使用時，權限提示少了 84%，這是它對自己工具的數字。</li>
 <li><strong>可以問團隊</strong>：「我們的 agent 有哪些動作，不用任何人在場就能做？其中有沒有無法撤銷的？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：认定“先问我”不是安全限制。不许发生的动作要拒绝，并按出错的代价分级。向人提问，留给少数需要判断的情况。</li>
+<li><strong>风险</strong>：人到第一百次就会点“允许”，而且平台还提供了把弹窗彻底去掉的办法。VS Code 说全局自动审批“绕过所有用户审批，可能导致破坏性操作”。人们不看就点的频率有多高，我没量过。</li>
+<li><strong>做对的代价</strong>：一小组拒绝规则，每条都附一条 agent 能据以行动的理由，再加一个人去读日志，找出触发得太频繁的规则。在沙箱里隔离，能减少弹窗的数量：Anthropic 报告说，在它自己的内部使用中，权限提示少了 84%，这是它对自己工具的数字。</li>
+<li><strong>可以问团队</strong>：“我们的 agent 有哪些动作，可以在没人把关的情况下执行？其中有没有无法撤销的？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The obvious way to keep an agent safe is to make it ask. Before it runs a command, a box pops up: Allow or Deny. You are in charge, and nothing happens without your click.</p>
 <p>It works on the first day. The first command, you read. The tenth, you glance. By the hundredth you click Allow before the box has finished drawing, because ninety-nine of the last ones were fine. This is not laziness. It is what people do when almost every question has the same right answer. The box has become a delay, not a check. (This is what I and many others see, and what the platform docs warn about. I did not measure how often; see the end.)</p>
@@ -255,6 +266,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ul>
 <p>VS Code 說得很直接：全域自動批准會「繞過所有使用者批准，可能導致破壞性的動作」，它對指令的解析也只是「盡力而為」（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。它的 hooks 頁面還補了一句：<code>ask</code>「需要互動式的批准流程」，所以別以為它能讓無人值守的會話停下來（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。</p>
 <p>我試了三種模式（預設、全部允許、Autopilot），有一樣東西都守住了：hook 發出的<strong>拒絕</strong>。詢問框可以被關掉。拒絕不能在彈窗裡被點掉。（人仍然可以改規則本身，<a href="4-3-guardrails.html">保護規則本身的檔案</a>講的就是怎麼安全地改。）</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>让 agent 安全，最显而易见的办法是让它询问。在它运行一条命令之前，弹出一个框：允许或拒绝。由你说了算，你不点，什么都不会发生。</p>
+<p>第一天，这行得通。第一条命令，你会读。第十条，你扫一眼。到第一百条，框还没画完你就点了“允许”，因为前面九十九条都没问题。这不是懒。当几乎每个问题的正确答案都一样时，人就是这么做的。这个框已经成了拖延，不是检查。（这是我和很多人看到的情况，也是平台文档警告过的。我没量过它的频率；见末尾。）</p>
+<p>然后平台给你一些去掉这种拖延的办法，你用了，因为拖延很烦人：</p>
+<ul>
+<li><strong>全部允许。</strong> 一个设置，从此不再弹框。动作直接运行。</li>
+<li><strong>本次会话内允许。</strong> 在某一个框上点一下，同一类动作在这个对话里就不再问了。</li>
+<li><strong>Autopilot。</strong> agent 在没人守在键盘前的情况下继续工作。也许会弹出框，但没人去读。</li>
+</ul>
+<p>VS Code 说得很直白：全局自动审批“绕过所有用户审批，可能导致破坏性操作”，而且它对命令的解析是“尽力而为”（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。它的 hooks 页面还补充说，<code>ask</code> “需要交互式的审批流程”，所以别以为它能让一个无人值守的会话停下来（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">hooks</a>）。</p>
+<p>在我试过的三种模式（默认、全部允许、Autopilot）里，有一样东西始终有效：hook 做出的<strong>拒绝</strong>。弹框可以被关掉。拒绝没法在弹窗里一点就没了。（人仍然可以改规则本身，怎么安全地改，<a href="4-3-guardrails.html">保护规则本身的文件</a>会讲。）</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Asking and refusing</h3>
 <p>Two words to pin down. To <strong>ask</strong> is to stop and wait for a person to say yes. To <strong>refuse</strong> is to say no without waiting, and to say it the same way every time. The agent can talk a person into a yes (or the person can talk themselves into one). It cannot talk a program out of a no, as long as the program is running.</p>
 <figure class="fig" id="fig-4-2-ask-vs-refuse"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
@@ -483,6 +504,120 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ol>
 <p>舉例，agent 在計劃還沒批准時就寫程式碼資料夾，好的原因會說：計劃還沒批准（計劃批准是<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>的第一道門）；先寫計劃，然後停下來，請人在自己的終端機批准。agent 現在知道下一步了，就會走這條路，不去找旁門。</p>
 <p>我把每一條拒絕都當成 agent 唯一能得到的幫助來寫。這和上一章是同一個分工：程式負責擋，文字負責教。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>询问和拒绝</h3>
+<p>先把两个词说清楚。<strong>询问</strong>是停下来，等人说“是”。<strong>拒绝</strong>是不等，直接说“不”，而且每次都用同样的方式说。agent 可以说服人答应（或者人自己说服自己）。但只要程序在运行，agent 没法把程序说服得不再说“不”。</p>
+<figure class="fig" id="fig-4-2-ask-vs-refuse"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="22" data-t="ask-title">询问</text>
+  <rect class="box" x="10" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="62" text-anchor="middle" data-t="call">同一条命令</text>
+  <path class="line" d="M180 57 H200"/>
+  <path class="head" d="M200 51 L210 57 L200 63 Z"/>
+  <rect class="box-plain" x="210" y="34" width="170" height="46" rx="8"/>
+  <text class="label" x="295" y="62" text-anchor="middle" data-t="box">允许 / 拒绝</text>
+  <path class="line" d="M380 57 H400"/>
+  <path class="head" d="M400 51 L410 57 L400 63 Z"/>
+  <rect class="box" x="410" y="34" width="130" height="46" rx="8"/>
+  <text class="label" x="475" y="62" text-anchor="middle" data-t="runs">运行</text>
+  <text class="label-muted" x="295" y="100" text-anchor="middle" data-t="click">第一百次点击：允许</text>
+
+  <text class="label-muted" x="10" y="150" data-t="refuse-title">拒绝</text>
+  <rect class="box" x="10" y="162" width="170" height="46" rx="8"/>
+  <text class="label" x="95" y="190" text-anchor="middle" data-t="call">同一条命令</text>
+  <path class="line-lit" d="M180 185 H200"/>
+  <path class="head-lit" d="M200 179 L210 185 L200 191 Z"/>
+  <rect class="box-lit" x="210" y="162" width="170" height="46" rx="8"/>
+  <text class="label-lit" x="295" y="190" text-anchor="middle" data-t="refusal">拒绝＋理由</text>
+  <path class="line-lit" d="M380 185 H400"/>
+  <path class="head-lit" d="M400 179 L410 185 L400 191 Z"/>
+  <rect class="box" x="410" y="162" width="180" height="46" rx="8"/>
+  <text class="label" x="500" y="190" text-anchor="middle" data-t="reroute">agent 改道</text>
+  <text class="label-muted" x="295" y="228" text-anchor="middle" data-t="why">没有人要点；理由说明改做什么</text>
+</svg>
+<figcaption>同一条命令。弹框可以一路点过去，也可以关掉；带理由的拒绝会让 agent 改走别的路。</figcaption></figure>
+<p>所以这两者各管不同的事。</p>
+<ul>
+<li><strong>拒绝</strong>不许发生的事。你绝不会批准的事，或者无法撤销的事。不该让谁对这些事一百次地说“不”；程序说一次，永远这么说。</li>
+<li><strong>询问</strong>取决于人的判断的、而且很少出现的事。只有弹框少到有人读的时候，询问才管用。把它花在值得人关注的地方。</li>
+</ul>
+<p>要紧的询问还需要一样东西：它必须经过一个 agent 自己按不到的渠道，送到人面前。对话里的弹框，可以被“本次会话内允许”关掉。我在<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>里再讲这一点。</p>
+<h3>终端是最难的情况</h3>
+<p>编辑工具很容易守。路径是调用里的一个字段，规则就是“拒绝这个路径”。</p>
+<p>终端不是。它是 agent 最强的工具，因为你能运行的东西它都能运行。它也是最难守的，因为同一个效果可以有很多种写法：重定向、<code>rm</code>、<code>sed -i</code>、一个运行另一个脚本的脚本。hook 读的是命令的文本。它能抓到常见的写法，抓不到用变量拼出来的路径，或者先写好、之后再运行的脚本（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）。所以终端上的规则永远不会“完整”。这不是跳过它们的理由。这是要老实说明它们是什么的理由：它防的是失误，不是铁了心要绕过的 agent。</p>
+<h3>按后果分级</h3>
+<p>如果没法拦住一切，就按出错的代价来拦。不要按任务有多难来分。难的任务可能无害，而简单的命令也可能毁掉一天。代码可以根据路径和命令判断后果，所以你不用手动为每个任务选一个级别。注意这个限度：代码看到的是命令的字面，不是它的效果。分级是根据文本做的猜测（见下面的坑）。</p>
+<figure class="fig" id="fig-4-2-grades"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
+  <rect class="box" x="10" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="102" y="48" text-anchor="middle" data-t="g1">读</text>
+  <text class="label-muted" x="102" y="78" text-anchor="middle" data-t="g1-ex">git status、diff、log</text>
+  <text class="label-muted" x="102" y="146" text-anchor="middle" data-t="g1-do">放行</text>
+
+  <rect class="box" x="208" y="20" width="185" height="150" rx="8"/>
+  <text class="label" x="300" y="48" text-anchor="middle" data-t="g2">写，可撤销</text>
+  <text class="label-muted" x="300" y="78" text-anchor="middle" data-t="g2-ex">git add、commit</text>
+  <text class="label-muted" x="300" y="132" text-anchor="middle" data-t="g2-do">拒绝，</text>
+  <text class="label-muted" x="300" y="150" text-anchor="middle" data-t="g2-do2">由人审批</text>
+
+  <rect class="box-lit" x="406" y="20" width="185" height="150" rx="8"/>
+  <text class="label-lit" x="498" y="48" text-anchor="middle" data-t="g3">不可撤销</text>
+  <text class="label-lit" x="498" y="70" text-anchor="middle" data-t="g3-ex">git push、</text>
+  <text class="label-lit" x="498" y="88" text-anchor="middle" data-t="g3-ex2">reset --hard</text>
+  <text class="label-lit" x="498" y="132" text-anchor="middle" data-t="g3-do">拒绝，</text>
+  <text class="label-lit" x="498" y="150" text-anchor="middle" data-t="g3-do2">由人自己运行</text>
+
+  <path class="line" d="M20 192 H578"/>
+  <path class="head" d="M578 186 L590 192 L578 198 Z"/>
+  <text class="label-muted" x="300" y="213" text-anchor="middle" data-t="axis">这个动作能弄坏多少</text>
+</svg>
+<figcaption>命令的三个等级，以 git 为例。出错的代价越大，agent 能自己决定的就越少。</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>后果</th>
+<th>例子</th>
+<th>我怎么做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只读</td>
+<td>查东西、读文件</td>
+<td>不拦</td>
+</tr>
+<tr>
+<td>可以撤销的写入</td>
+<td>在工作文件夹里编辑、写一份计划</td>
+<td>允许，只限在划定的区域内</td>
+</tr>
+<tr>
+<td>写进真正的仓库</td>
+<td>别人会用到的代码</td>
+<td>agent 先在工作区里写。由人审批后，才写回去（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）</td>
+</tr>
+<tr>
+<td>无法撤销</td>
+<td>push、删除分支、hard reset</td>
+<td>拒绝。agent 永远得不到“是”。由人来做</td>
+</tr>
+</tbody>
+</table>
+<p>规律是：出错的代价越大，agent 能自己决定的就越少。到最上面，就根本不问了。</p>
+<h3>以 git 为例</h3>
+<p>git 两端都有，所以是个好例子。在我的配置里，连着一个仓库时：</p>
+<ul>
+<li><strong>读的放行。</strong> <code>status</code>、<code>diff</code>、<code>log</code> 之类永远不拦。</li>
+<li><strong>写的拒绝，但指一条路。</strong> <code>add</code>、<code>commit</code>、切换分支。拒绝消息里有完整的命令和一个代码。人读完之后，在自己的终端里输入一条命令来批准，并有时间限制。批准的是那一条命令，不是笼统的 git。</li>
+<li><strong>有些动作 agent 永远批不到。</strong> <code>push</code>、开 pull request、<code>reset --hard</code>、<code>clean</code>，以及各种强制选项。这些由人自己来运行。</li>
+</ul>
+<p>为什么不全部询问？因为这三组值得不同的对待。读是免费的。写是正常的，但必须被看到。push 或 hard reset 这类事，第一百次点击就会放过去。</p>
+<h3>把理由写给 agent 看</h3>
+<p>一条拒绝有两个读者：你，和 agent。agent 更重要。它读这条消息，决定下一步怎么办。</p>
+<p>只说“拒绝”的消息，会有两种结果之一：agent 再试一遍同样的事，或者试更糟的办法。好的消息做两件事：</p>
+<ol>
+<li><strong>为什么</strong>被拒绝，一句话。</li>
+<li><strong>改做什么。</strong></li>
+</ol>
+<p>比如，agent 在计划获批之前往代码文件夹写东西，好的理由会说：计划还没获批（计划审批是<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>里的第一道关卡）；先写计划，然后停下来，请人在自己的终端里审批。agent 现在知道下一步了，所以它会走这条路，而不是去找旁门。</p>
+<p>我写每一条拒绝，都当它是 agent 能得到的唯一帮助。这和上一章的划分一样：代码负责拦，文字负责教。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Refusing is not free.</strong> A refusal that is too wide stops real work, and the agent cannot argue its way past it. Keep the patterns narrow, keep a way for a person to approve what is wrong to refuse, and read the logs to see which rule fires.</p>
 <p><strong>A box still has a use.</strong> I keep some &quot;needs a person&quot; steps as a reminder. But I never count them as protection. If something must hold, it is a refusal.</p>
 <p><strong>The patterns are always behind.</strong> For the terminal, a new spelling will get through. For the things that must never be touched, do not rely on a pattern at all. Do not give the agent the thing (<a href="4-5-least-privilege.html">Least privilege</a>).</p>
@@ -493,18 +628,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>規則永遠慢一步</strong>。終端機上，新的寫法總會漏過去。對那些絕對不能碰的東西，完全不要靠規則。不要把那樣東西交給 agent（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
 <p><strong>等級是從文字猜的</strong>。程式按指令的字面判斷，不是按它做了什麼。一個看起來無害的指令，放行之後也可能造成傷害。</p>
 <p><strong>我沒有批准疲勞的數字</strong>。人不看就點允許，這是我和很多人看到的，也是平台文件提醒過的。我沒有量過有多頻繁。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>拒绝不是免费的。</strong> 太宽的拒绝会挡住正常的工作，而 agent 没法通过争辩绕过去。模式要写窄，要留一条让人批准那些不该被拒绝的事的路，还要读日志，看是哪条规则触发的。</p>
+<p><strong>弹框仍然有用。</strong> 我保留了一些“需要人”的步骤作为提醒。但我从不把它们算作保护。如果某件事必须成立，就用拒绝。</p>
+<p><strong>模式总是落在后面。</strong> 对终端来说，新的写法总能漏过去。对绝不能碰的东西，根本不要依赖模式。不要把那个东西交给 agent（<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p><strong>分级是根据文本做的猜测。</strong> 代码按字面判断一条命令，而不是看它实际做什么。一条看起来无害的命令，放行之后可能造成伤害。</p>
+<p><strong>审批疲劳我没有数字。</strong> 人们不看就点“允许”这个说法，是我和很多人看到的，也是平台文档警告过的。我没量过它的频率。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's security page recommends sandboxing over relying on approval rules alone, and suggests scoping auto-approval to the session rather than the workspace or the user. It calls model-assisted permissions &quot;not a security boundary&quot; (<a href="https://code.visualstudio.com/docs/copilot/security">security</a>). This fits the chapter: asking is a convenience, refusing is a rule, and isolation is stronger than both.</p>
 <p>Isolation also attacks approval fatigue at the root. Inside a sandbox, the agent may be allowed far more without asking, so there are fewer boxes to click. Anthropic reports that, in its internal use of Claude Code, sandboxing &quot;safely reduces permission prompts by 84%&quot;, and that it needs both file system and network isolation to work (<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>). That is Anthropic's own number for its own tool; I have not tested the sandbox VS Code offers.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 security 頁面建議用沙箱，不要只靠批准規則，並建議把自動批准限定在會話範圍，不要開到工作區或使用者層級。它說模型輔助的權限「不是安全邊界」（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。這和本章一致：詢問是方便，拒絕是規則，隔離比兩者都強。</p>
 <p>隔離也從根上解決批准疲勞。在沙箱裡，agent 可以不問就被允許做更多事，詢問框就少了。Anthropic 說，它內部使用 Claude Code 時，沙箱「安全地減少了 84% 的權限提示」，而且要同時有檔案系統和網路的隔離才行（<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>）。這是 Anthropic 對自己工具的數字；VS Code 提供的沙箱我沒有測過。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 的安全页面建议用沙箱，而不是单靠审批规则，并建议把自动审批限制在会话范围，而不是工作区或用户范围。它称模型辅助的权限“不是安全边界”（<a href="https://code.visualstudio.com/docs/copilot/security">security</a>）。这和本章吻合：询问是图方便，拒绝才是规则，而隔离比两者都强。</p>
+<p>隔离也从根上解决审批疲劳。在沙箱里，可以允许 agent 不经询问做得多得多，所以要点的弹框就少了。Anthropic 报告说，在它内部使用 Claude Code 时，沙箱“安全地把权限提示减少了 84%”，并且需要文件系统和网络两方面的隔离才能起作用（<a href="https://www.anthropic.com/engineering/claude-code-sandboxing">Claude Code sandboxing</a>）。那是 Anthropic 对它自己工具的数字；VS Code 提供的沙箱，我没有测过。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>My refusal patterns for the terminal exist because I do not have a real sandbox. If your agent runs inside a container or a locked-down environment where it can only reach what you chose, most of them can go; the boundary does the work. The grading by consequence stays, since it is a way of thinking, not a feature.</p>
 <p>If a platform lets you write refusals in its own permission settings, so they hold in every mode, move your hook rules there and keep the reasons.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>我在終端機上寫的拒絕規則，是因為我沒有真正的沙箱。如果你的 agent 跑在容器或鎖死的環境裡，只能碰到你選好的東西，大部分規則就可以刪；邊界已經做了這份工作。按後果分級則留著，因為它是一種想法，不是一個功能。</p>
 <p>如果平台讓你在它自己的權限設定裡寫拒絕，使它在每種模式下都有效，就把你的 hook 規則搬過去，原因保留。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>我为终端写的拒绝模式，之所以存在，是因为我没有真正的沙箱。如果你的 agent 运行在容器或者锁得很死的环境里，只能碰到你选定的东西，那这些模式大多可以去掉；边界已经在起作用了。按后果分级的做法会保留，因为它是一种思路，不是一项功能。</p>
+<p>如果平台允许你在它自己的权限设置里写拒绝规则，使它在每种模式下都有效，就把你 hook 里的规则挪到那里去，并保留那些理由。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Inspect how this project&#x27;s agent handles permissions: the editor and agent settings, allow and deny lists, auto-approve options, and any hooks that refuse. List what runs without asking, what asks a person, and what is refused. Flag anything that can be undone only with difficulty (push, delete, reset, deploy) and say which of the three groups it is in. Also say whether any setting would let the box be switched off for a whole session or for good. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>檢查這個專案的 agent 怎麼處理權限：編輯器和 agent 的設定、允許和拒絕清單、自動批准的選項，以及任何會拒絕的 hook。列出哪些不用問就執行、哪些要問人、哪些被拒絕。把很難撤銷的動作（push、刪除、reset、部署）標出來，並說它屬於三組中的哪一組。另外說明有沒有任何設定，能讓詢問框在整個會話或永久被關掉。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>检查这个项目的 agent 是怎么处理权限的：编辑器和 agent 的设置、允许列表和拒绝列表、自动批准选项，以及任何会拒绝的 hook。列出什么不经询问就运行，什么会询问人，什么会被拒绝。标出任何很难撤销的动作（push、删除、reset、部署），并说明它在这三组中的哪一组。还要说明有没有哪个设置能让弹框在整个会话中、或永久地被关掉。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/security">Security</a>, <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
 <li>In this book: <a href="2-2-hooks.html">Hooks</a>, <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, <a href="4-5-least-privilege.html">Least privilege</a></li>
@@ -513,15 +659,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>、<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
 <li>本書：<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>、<a href="4-3-guardrails.html">保護規則本身的檔案</a>、<a href="4-5-least-privilege.html">有些東西根本不給</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness grades by consequence, refuses on the terminal with a reason, and has a git ladder. The harness can walk you through the real rules and what the agent sees when it hits them. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/security">Security</a>、<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a></li>
+<li>本书：<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>、<a href="4-3-guardrails.html">保护规则本身的文件</a>、<a href="4-5-least-privilege.html">有些东西根本不给</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness grades by consequence, refuses on the terminal with a reason, and has a git ladder. The harness can walk you through the real rules and what the agent sees when it hits them. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Asking is not a limit&quot;. Teach me how this harness handles permissions: why &quot;ask first&quot; is not a limit (topic 8), how it grades by consequence, how git commands are treated, and how the terminal is guarded (topic 5). Open the real rules and refusal messages with me, and show me what the agent sees when it is refused.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 按後果分級，在終端機上帶著原因拒絕，還有一條 git 的階梯。harness 可以帶你看真實的規則，以及 agent 被拒絕時看到什麼。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「詢問不是限制」這一章。請教我這個 harness 怎麼處理權限：為什麼「先問」不是限制（主題 8）、它怎麼按後果分級、git 指令怎麼處理，以及終端機怎麼防護（主題 5）。帶我打開真實的規則和拒絕訊息，讓我看 agent 被拒絕時看到什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 按后果分级，在终端上带着理由拒绝，还有一个 git 的阶梯。harness 能带你看真实的规则，以及 agent 撞上它们时看到的内容。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“询问不是限制”这一章。请教我这个 harness 是怎么处理权限的：为什么“先问”不是限制（主题 8），它怎么按后果分级，git 命令是怎么对待的，以及终端是怎么守的（主题 5）。带我打开真实的规则和拒绝消息，并给我看 agent 被拒绝时看到的是什么。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

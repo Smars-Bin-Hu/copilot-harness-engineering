@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Hooks</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">2.2</p><h1><span data-l="en" lang="en">Hooks</span><span data-l="zh-Hant" lang="zh-Hant">Hooks：每次呼叫都會經過的執行點</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-1-agent-loop.html">The agent loop</a>, or know that an agent works by asking for tool calls.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.2</p><h1><span data-l="en" lang="en">Hooks</span><span data-l="zh-Hant" lang="zh-Hant">Hooks：每次呼叫都會經過的執行點</span><span data-l="zh-Hans" lang="zh-Hans">Hook：每次调用都会经过的执行点</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-1-agent-loop.html">The agent loop</a>, or know that an agent works by asking for tool calls.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>，或者知道 agent 是靠要求工具呼叫來運作的。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A hook is code the platform runs at fixed points in every turn, including inside subagents. It is where hard rules live, and it sees calls, not what a command does once it runs.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你读过<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>，或者知道 agent 是靠发出工具调用来工作的。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A hook is code the platform runs at fixed points in every turn, including inside subagents. It is where hard rules live, and it sees calls, not what a command does once it runs.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>hook 是平台在每一輪的固定位置執行的程式碼，子 agent 裡面也一樣。硬規則就放在這裡。它看到的是呼叫，不是指令執行起來會做什麼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>hook 是平台在每一轮的固定位置运行的代码，子 agent 里也一样。硬性规则就放在这里。它看得到调用，看不到命令运行起来之后做了什么。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide which rules must hold every time, and put those in a hook (code the platform runs on every tool call) instead of in a prompt.</li>
 <li><strong>The risk:</strong> a hook sees the text of a call, not what a command does once it runs. It can also fail quietly. In Copilot as I saw it in October 2026, a hook that times out counts as a pass, and one that cannot start blocks every tool. In one small batch on one machine, about a third of prompts reached the model without the rules a hook was meant to add; read that as &quot;a lot&quot;, not as a rate.</li>
@@ -235,6 +240,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：一個小程式和一個設定檔，放在程式碼審查之下。我的通常在幾十毫秒內執行完。</li>
 <li><strong>可以問團隊</strong>：「hook 很慢或壞掉的時候，我們的規則會怎樣？我們怎麼知道模型真的收到了它們？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定哪些规则必须每次都成立，把它们放进 hook（平台在每次工具调用时运行的代码），而不是放在 prompt 里。</li>
+<li><strong>风险</strong>：hook 看到的是调用的文本，看不到命令运行起来之后做了什么。它也可能悄悄失效。按我在 2026 年 10 月看到的 Copilot，超时的 hook 算通过，启动不了的 hook 会挡住所有工具。在一台机器上的一小批 prompt 里，约三分之一送到模型时，没有 hook 本该加上的规则；把它理解为“不少”，不要当成比率。</li>
+<li><strong>做对的代价</strong>：一个小程序，加一个配置文件，放在代码审查之下。我的通常几十毫秒就跑完。</li>
+<li><strong>可以问团队</strong>：“hook 慢了或者坏了，我们的规则会怎么样？我们怎么知道模型真的收到了它们？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You write a rule: &quot;never edit files in the config folder&quot;. The agent follows it nine times. On the tenth, it is deep in a task, the context is long, and the rule is far away. It edits the file. The rule was a sentence the model could weigh against other sentences, and this time it weighed it lower.</p>
 <p>What you need is something that does not depend on the model's memory or mood: a piece of code that every tool call must pass, which says yes or no. That is a <strong>hook</strong>.</p>
 <p>A hook is a small program that you write and the platform runs for you at fixed moments. The platform hands it a piece of JSON (a plain text format for data) that says what is happening, such as &quot;the agent wants to run this command&quot;. The hook answers, also in JSON. The platform then acts on the answer. The model does not run the hook and cannot skip it.</p>
@@ -245,6 +256,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>hook 是你寫、由平台在固定時刻替你執行的小程式。平台交給它一段 JSON（一種表示資料的純文字格式），說明發生了什麼事，例如「agent 想執行這個指令」。hook 也用 JSON 回答。然後平台依照答案行動。模型不執行 hook，也沒辦法跳過它。</p>
 <p>我的第一課，來自一個沒有作用的 hook。我用一個 hook，在每個 prompt 開頭，把 harness 的規則放到模型面前。它每次都執行，輸出看起來也對。但我去看模型實際收到什麼時（2026 年 10 月，一台機器上的一小批 prompt），大約三分之一裡面沒有規則。確切的數字我沒有留，所以把「三分之一」讀成「很多」，不要當成比率。VS Code 會在 prompt 裡加上它自己的提醒，它們占掉了 hook 用的那個位置。hook 回傳了對的答案，卻什麼也沒發生。我的修法，是在文字送給模型之前的最後一點，加上第二道檢查，那裡看得到整段文字，規則不在就補回去。</p>
 <p>這一課適用於每個 hook：<strong>檢查模型真正收到什麼，不是 hook 回傳什麼</strong>。這一章其餘的部分，講 hook 能做什麼、怎麼失效，以及它看不到什麼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你写了一条规则：“永远不要改配置文件夹里的文件”。agent 遵守了九次。第十次，它正深陷一个任务，上下文很长，规则离得很远。它改了那个文件。规则只是一句话，模型可以把它和别的话放在一起掂量，而这一次，它掂量得轻了。</p>
+<p>你需要的是不依赖模型记性或心情的东西：一段每次工具调用都必须经过的代码，说行或者不行。这就是 <strong>hook</strong>。</p>
+<p>hook 是你写的一个小程序，平台在固定时机替你运行它。平台交给它一段 JSON（一种表示数据的纯文本格式），说明正在发生什么，比如“agent 想运行这条命令”。hook 同样用 JSON 回答。然后平台按这个回答行事。模型不会运行 hook，也跳不过它。</p>
+<p>我的第一个教训，来自一个没起作用的 hook。我用一个 hook，在每个 prompt 开头，把 harness 的规则放到模型面前。它每次都运行，输出看着也对。但是我去看模型实际收到了什么时，在 2026 年 10 月一台机器上的一小批 prompt 里，约有三分之一里没有规则。确切的数我没有记下来，所以把“三分之一”理解为“不少”，不要当成比率。VS Code 会往 prompt 里加它自己的提醒，这些提醒占掉了 hook 用的那个位置。hook 返回了正确的答案，却什么也没发生。我的修法是，在文本送到模型之前的最后一个点上再加第二道检查，那里能看到全部文本，如果规则不在，就把它们补回去。</p>
+<p>这个教训适用于每个 hook：<strong>检查模型实际收到了什么，而不是 hook 返回了什么。</strong> 这一章其余的部分，讲 hook 能做什么、怎么失效、看不到什么。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The moments</h3>
 <figure class="fig steps" id="fig-2-2-hook-points" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 250">
   <rect class="box" x="10" y="40" width="120" height="44" rx="8"/>
@@ -593,6 +609,180 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>hook 自己壞掉或很慢的時候，會怎樣？</li>
 </ol>
 <p><strong>今天就能跑的測試</strong>。寫出你的平台允許的最小 hook。它只把事件名稱和工具名稱附加到一個檔案裡。用你的 agent 做一件小任務，然後讀這個檔案。你會依序看到上面表格裡的每個時刻，以及有幾個。這是理解迴圈最快的辦法。檔案格式請照 <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">VS Code hooks docs</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>那些时机</h3>
+<figure class="fig steps" id="fig-2-2-hook-points" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 250">
+  <rect class="box" x="10" y="40" width="120" height="44" rx="8"/>
+  <text class="label" x="70" y="67" text-anchor="middle" data-t="prompt">prompt</text>
+  <rect class="box" x="160" y="40" width="120" height="44" rx="8"/>
+  <text class="label" x="220" y="67" text-anchor="middle" data-t="model">模型</text>
+  <rect class="box" x="310" y="40" width="120" height="44" rx="8"/>
+  <text class="label" x="370" y="67" text-anchor="middle" data-t="tool">工具调用</text>
+  <rect class="box" x="460" y="40" width="190" height="44" rx="8"/>
+  <text class="label" x="555" y="67" text-anchor="middle" data-t="end">agent 要停了</text>
+
+  <path class="line" d="M130 62 H152 M280 62 H302 M430 62 H452"/>
+  <path class="head" d="M152 56 L160 62 L152 68 Z M302 56 L310 62 L302 68 Z M452 56 L460 62 L452 68 Z"/>
+
+  <g data-step="1">
+    <path class="line-lit" d="M70 84 V130"/>
+    <rect class="box-lit" x="10" y="130" width="120" height="40" rx="6"/>
+    <text class="label-lit" x="70" y="155" text-anchor="middle" data-t="h-prompt">发出 prompt</text>
+  </g>
+  <g data-step="2">
+    <path class="line-lit" d="M340 84 V130"/>
+    <rect class="box-lit" x="160" y="130" width="190" height="40" rx="6"/>
+    <text class="label-lit" x="255" y="155" text-anchor="middle" data-t="h-pre">调用之前</text>
+    <text class="label-muted" x="255" y="194" text-anchor="middle" data-t="h-pre-note">唯一能拒绝的地方</text>
+  </g>
+  <g data-step="3">
+    <path class="line-lit" d="M410 84 V130"/>
+    <rect class="box-lit" x="365" y="130" width="130" height="40" rx="6"/>
+    <text class="label-lit" x="430" y="155" text-anchor="middle" data-t="h-post">调用之后</text>
+  </g>
+  <g data-step="4">
+    <path class="line-lit" d="M555 84 V130"/>
+    <rect class="box-lit" x="510" y="130" width="140" height="40" rx="6"/>
+    <text class="label-lit" x="580" y="155" text-anchor="middle" data-t="h-stop">即将停止</text>
+  </g>
+  <text class="label-muted" x="330" y="228" text-anchor="middle" data-t="note">平台在这几个点，每一次都会运行你的代码。</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">你发出 prompt 时，hook 可以加几句话给模型读，例如规则。</li><li data-step-text="2">工具运行之前，hook 看得到工具名和参数。它可以放行、拒绝，或者附上原因拒绝。</li><li data-step-text="3">工具运行之后，hook 可以写一条记录，或者给模型加一句话。已经发生的事它改不了。</li><li data-step-text="4">agent 即将停止时，hook 可以说：还没完。想让 agent 接着干，就靠这一点。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>hook 站在循环里固定的几个点上。平台每次都会调用它，模型跳不过去。</figcaption></figure>
+<p>平台提供一张时机的清单。下面是我用到的几个，名字是 VS Code 在它文档里起的。</p>
+<table>
+<thead>
+<tr>
+<th>时机</th>
+<th>发生了什么</th>
+<th>我拿它做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会话开始</td>
+<td>一个新对话开始</td>
+<td>把这次会话的基本情况告诉模型</td>
+</tr>
+<tr>
+<td>发出 prompt</td>
+<td>你按下回车</td>
+<td>加上规则；记下这是哪个任务</td>
+</tr>
+<tr>
+<td><strong>工具调用之前</strong></td>
+<td>模型提出了请求；还没有运行任何东西</td>
+<td><strong>拒绝一次调用</strong>。所有硬性规则都在这里</td>
+</tr>
+<tr>
+<td>工具调用之后</td>
+<td>工具已经运行</td>
+<td>留一份记录；加一条备注</td>
+</tr>
+<tr>
+<td>子 agent 启动或停止</td>
+<td>一个帮手 agent 开始或结束</td>
+<td>把它的材料交给它；记下结束</td>
+</tr>
+<tr>
+<td>agent 即将停止</td>
+<td>模型写完了一个回答</td>
+<td>如果还有活没干完，说一次“还没完”</td>
+</tr>
+</tbody>
+</table>
+<p>只有工具调用之前这个时机，能拒绝某一个具体的动作。规则需要的东西它都有：调用已经存在，但还没有发生。其他时机可以观察、记录、添几句话。（停止的时机也能说“还没完”，下面会讲，但那不是对某个动作的拒绝。）你可以用本章末尾的小测试，亲眼看看这些时机。</p>
+<h3>进去什么，出来什么</h3>
+<p>hook 收到的是 JSON：这是什么事件、哪个会话，如果是工具调用，还有工具名和它的参数。下面是从 VS Code 录下来的一个真实样本，是一条命令运行完之后，hook 收到的内容：</p>
+<details class="code"><summary>hook 在一条终端命令运行完之后收到的内容：事件、工具名、参数和结果。</summary><pre><code class="language-json">{
+  &quot;hook_event_name&quot;: &quot;PostToolUse&quot;,
+  &quot;session_id&quot;: &quot;00000000-0000-0000-0000-000000000000&quot;,
+  &quot;timestamp&quot;: &quot;2026-10-02T02:17:08.098Z&quot;,
+  &quot;cwd&quot;: &quot;/Users/user/Developer/DE-agentic-harness&quot;,
+  &quot;tool_name&quot;: &quot;Bash&quot;,
+  &quot;tool_input&quot;: {
+    &quot;command&quot;: &quot;mkdir -p /Users/user/Developer/DE-agentic-harness/.workspace/sandbox/b5&quot;,
+    &quot;description&quot;: &quot;Create sandbox directory structure&quot;
+  },
+  &quot;tool_result&quot;: {
+    &quot;result_type&quot;: &quot;success&quot;,
+    &quot;text_result_for_llm&quot;: &quot;\n&lt;shellId: 14 completed with exit code 0&gt;&quot;
+  }
+}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/eval/fixtures/hooks/copilot-sdk/payloads/PostToolUse.Bash.json#L1-L15">.harness/eval/fixtures/hooks/copilot-sdk/payloads/PostToolUse.Bash.json L1–L15 @ 1.5.50</a></p></details>
+<p>hook 用 JSON 回答。真正有用的回答其实只有三种：</p>
+<ul>
+<li><strong>放行</strong>。（空的回答算没有意见。平台正常的权限检查仍然适用。）</li>
+<li><strong>拒绝，并附上原因</strong>。这次调用不会运行。原因会显示给模型，也显示给你。</li>
+<li><strong>加几句话</strong>给模型读：一条提醒，一行状态。</li>
+</ul>
+<p>在停止的时机，还有第四种：挡住这次停止，并附上一个原因，这个原因会像一个新 prompt 一样喂回给模型。我每次停止只允许挡一次。每次停止都挡的 hook，会让 agent 永远运行下去，而每一轮你都得付钱。</p>
+<p><strong>原因是设计的一部分</strong>。要说明为什么拒绝、应该改做什么，否则 agent 会再试同样的事，或者更糟的事（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。</p>
+<h3>hook 出问题的三种方式</h3>
+<p>hook 是软件，它会出问题。出问题时平台怎么处理，决定了你的规则是围栏，还是摆设。</p>
+<table>
+<thead>
+<tr>
+<th>发生了什么</th>
+<th>Copilot 怎么处理（我在 2026 年 10 月观察到的，也是 VS Code 文档里说的）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hook 运行了，并且拒绝</td>
+<td>调用被拦住，原因会显示出来。这在默认模式下有效，在跳过权限提示的模式下也有效。</td>
+</tr>
+<tr>
+<td>hook 启动不了（比如它所用的语言没有安装）</td>
+<td>当作拒绝：没有任何工具能运行，屏幕上除了“hook 出错”，几乎没有别的说明。</td>
+</tr>
+<tr>
+<td>hook 花的时间太长</td>
+<td>当作通过，不吭声。VS Code 文档的说法是，回落到正常的权限检查。</td>
+</tr>
+</tbody>
+</table>
+<p>所以同一种故障，可能把你锁在门外，也可能让大门敞开，取决于它是怎么失败的。你想要哪一种，是一个设计选择。该怎么选，以及我选了什么（放行这次调用并记下错误，最近最慢的一次调用接近时间上限时发出警告），是<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>的主题。</p>
+<h3>在子 agent 里</h3>
+<p>子 agent 是为了某一部分工作而开的第二个 agent（<a href="2-3-subagents.html">慎用子 agent</a>）。它在自己的会话里运行。在今天的 Copilot 里，它的工具调用也会经过 hook，事件里还带着父会话的 id。所以给主 agent 定的规则，对它开的帮手也成立。换一个平台，我不会不经测试就这样假设。我没有测过。</p>
+<h3>hook 看不到什么</h3>
+<p>这是我最想让你记住的部分。</p>
+<figure class="fig steps" id="fig-2-2-blind-spot" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <rect class="box" x="20" y="50" width="130" height="50" rx="8"/>
+  <text class="label" x="85" y="80" text-anchor="middle" data-t="call">一条终端命令</text>
+
+  <path class="line-lit" d="M150 75 H200"/>
+  <path class="head-lit" d="M200 69 L210 75 L200 81 Z"/>
+  <rect class="box-lit" x="210" y="50" width="110" height="50" rx="8"/>
+  <text class="label-lit" x="265" y="80" text-anchor="middle" data-t="hook">hook</text>
+  <text class="label-lit" x="265" y="38" text-anchor="middle" data-t="sees">看得到调用的文本</text>
+
+  <path class="line" d="M320 75 H370"/>
+  <path class="head" d="M370 69 L380 75 L370 81 Z"/>
+  <rect class="box" x="380" y="50" width="200" height="50" rx="8"/>
+  <text class="label" x="480" y="80" text-anchor="middle" data-t="runs">命令开始运行</text>
+
+  <g data-step="2">
+    <rect class="box-plain" x="380" y="130" width="200" height="40" rx="6"/>
+    <text class="label-muted" x="480" y="155" text-anchor="middle" data-t="unseen">它做了什么，看不到</text>
+  </g>
+  <g data-step="3">
+    <rect class="box-plain" x="20" y="130" width="330" height="40" rx="6"/>
+    <text class="label-muted" x="185" y="155" text-anchor="middle" data-t="unseen2">变量拼的路径、先写好的脚本：看不到</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">hook 看到的是调用：工具名和命令的文本。它在任何东西运行之前就做决定。</li><li data-step-text="2">命令一旦放行，hook 就出局了。它启动的脚本做什么，命令行上看不出来。</li><li data-step-text="3">文本本身可能藏住效果：用变量拼出来的路径，或先写好、之后才运行的脚本。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>hook 看得到调用，看不到效果。效果要紧的地方，就限制 agent 够得着什么。</figcaption></figure>
+<p><strong>它看到的是调用，不是效果</strong>。对终端命令，hook 读的是命令的文本。它能看到“写入这个路径”。它看不到用变量拼出来的路径，也看不到一个一分钟前才写好、现在才运行的脚本。命令一旦被放行，hook 就出局了。所以，针对终端命令的 hook，能拦住常见的写法。拦不住铁了心要绕过它的 agent。VS Code 文档说的也是这一点：hook 是可执行的代码，不能替代强制执行的权限或沙箱。对那些绝对不能碰的东西，不要只靠 hook（<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p><strong>它不知道是哪个 agent 在调用</strong>。在今天的 Copilot 里，事件里没有主 agent 的名字。所以“这个 agent 被允许”做不成规则：任何 agent 都可以冒充它。如果权限必须不同，就得来自 agent 设置不了的东西，比如由人在终端里打开的开关。</p>
+<p><strong>它不是到处都会运行</strong>。在我的测量里，我用 Copilot 的命令行模式（没有窗口）时，仓库里的 hook 没有运行。有一个看起来像关闭开关的设置，在较新的会话里并没有让它们停下来。公司策略可以为某个工作区关掉 hook。而且 hook 文件是在窗口启动时读的，所以改了之后要重新加载。这些是我在 2026 年 10 月发现的情况；它们会变。请看平台当前的文档，文档里也说 hook 现在还是 Preview。</p>
+<p><strong>它可能丢掉自己的消息</strong>。开头那个故事：hook 的输出可能根本没到达模型。要测消息有没有送到，不只是测 hook。</p>
+<h3>循环里其他站岗的东西</h3>
+<p>hook 不是模型和外部世界之间唯一的东西。<strong>包装器</strong>（一个你调用它而不是调用原始命令的小程序）、<strong>MCP server</strong>（<a href="1-3-mcp.html">MCP server：接工具的标准接口</a>），以及平台和模型之间的<strong>代理</strong>，每个都只看得到经过它们的东西，而 agent 可以绕过它们。区别在于：平台承诺会调用 hook。对内置工具和子 agent，我见过每次调用都经过它；MCP 工具我没有测过。</p>
+<h3>测一测你自己的配置</h3>
+<p>对任何你在乎的规则，问<strong>三个问题</strong>：</p>
+<ol>
+<li>它是写在 prompt 里，还是写在 hook 里？如果在 prompt 里，它就是请求。</li>
+<li>规则被违反时，hook 看到的是什么？调用的文本，还是效果？</li>
+<li>hook 自己坏了或者慢了，会怎么样？</li>
+</ol>
+<p><strong>一个今天就能做的测试</strong>。写出你的平台允许的最小的 hook。它只把事件名和工具名追加到一个文件里。用你的 agent 做一个小任务，然后读那个文件。你会按顺序看到上面表格里的每个时机，以及一共有多少个。这是理解循环最快的办法。文件格式请看 <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">VS Code hooks 文档</a>。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A timeout is a silent pass.</strong> Of the three failures above, this is the one that matters most in a team: a rule that is not enforced and nobody is told. Watch the time your hook takes, and read <a href="4-4-enforcement-design.html">Enforcement design</a> before you choose what happens on failure.</p>
 <p><strong>A hook runs on every call.</strong> If it is slow, everything is slow. Mine normally takes a few dozen milliseconds. Keep it cheap, and put a limit on what it may do.</p>
 <p><strong>A hook is code you must trust.</strong> It runs on your machine and reads whatever the agent sends. Never put the agent's text straight into a shell command inside a hook. In a team, treat the hook file like any other code that guards something: change it through review.</p>
@@ -603,16 +793,26 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>hook 是你必須信任的程式碼</strong>。它在你的機器上執行，讀 agent 送來的任何東西。絕不要在 hook 裡，把 agent 的文字直接放進 shell 指令。在團隊裡，把 hook 檔當成任何其他守著東西的程式碼：改動要經過審查。</p>
 <p><strong>hook 是一個仍在變動的平台的功能</strong>。VS Code 把它標為 Preview。我在失敗表裡寫的是我看到的；每次更新後都再確認一次。</p>
 <p><strong>原因也可能太好</strong>。一個把怎麼繞過規則說得清清楚楚的拒絕，會教模型去那樣做。說該改做什麼，不要說怎麼閃躲。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>超时就是悄悄放行</strong>。上面三种故障里，这一种在团队里最要紧：规则没有强制执行，却没人知道。盯着你的 hook 花多长时间，并在选择失败时怎么处理之前，先读<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>。</p>
+<p><strong>hook 在每次调用上都运行</strong>。它如果慢，一切都慢。我的通常几十毫秒。让它保持廉价，并限制它能做什么。</p>
+<p><strong>hook 是你必须信任的代码</strong>。它在你的机器上运行，读 agent 发来的任何东西。永远不要把 agent 的文本直接放进 hook 里的 shell 命令。在团队里，把 hook 文件当作任何其他守着什么东西的代码：通过审查来改。</p>
+<p><strong>hook 是一个仍在变化的平台上的功能</strong>。VS Code 把它标为 Preview。我在故障表里写的是我看到的；每次更新之后都再查一遍。</p>
+<p><strong>原因可能写得太好</strong>。一个把怎么绕过规则解释得清清楚楚的拒绝，等于教模型这么做。说该做什么，不要说怎么躲。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code lists the moments I used (session start, prompt submitted, before and after a tool, subagent start and stop, agent stop) and states that a <code>preToolUse</code> hook can return a deny with a reason. It also notes that a timeout falls through to normal permissions and that the feature is in Preview. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>)</p>
 <p>I have not compared this with other platforms' hooks in detail here. Their event names and what they cover differ.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 列出了我用的那些時刻（會話開始、送出 prompt、工具前後、子 agent 開始和結束、agent 停止），並說明 <code>preToolUse</code> hook 可以回傳一個附原因的拒絕。它也指出逾時會落到正常的權限檢查，以及這個功能還在 Preview。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）</p>
 <p>我在這裡沒有詳細比較其他平台的 hook。它們的事件名稱和涵蓋的範圍都不同。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 列出了我用到的那些时机（会话开始、提交 prompt、工具前后、子 agent 的启动和停止、agent 停止），并说明 <code>preToolUse</code> hook 可以返回带原因的拒绝。它还指出，超时会回落到正常的权限检查，而且这个功能还是 Preview。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）</p>
+<p>我在这里没有把它和其他平台的 hook 做详细比较。它们的事件名和覆盖的范围都不一样。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A hook for a rule stays as long as the platform lets rules in prompts be ignored. The reasoning does not retire. The parts I would delete first are the workarounds: the second check for lost injection goes when the platform delivers hook output reliably, and the timing watch goes when a timeout is reported instead of silently passing. If the platform one day offers a native, enforced policy (a rule file it checks itself), I would move the hard rules there and keep hooks for records and reminders.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>只要平台還允許 prompt 裡的規則被忽略，規則用的 hook 就會留著。道理不會退役。我最先會刪的，是各種繞路的做法：平台可靠地送達 hook 的輸出時，防止注入遺失的第二道檢查就可以拿掉；逾時改成會被回報、不再無聲通過時，計時的監看也可以拿掉。如果有一天平台提供原生的、強制執行的政策（一個它自己檢查的規則檔），我會把硬規則搬到那裡，hook 留給紀錄和提醒。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>只要平台还允许 prompt 里的规则被忽略，针对规则的 hook 就要留着。背后的道理不会退役。我最先删的，是那些绕弯的补丁：等平台能可靠地送达 hook 的输出，为丢失注入而加的第二道检查就可以去掉；等超时会被报告，而不是悄悄放行，对耗时的盯防就可以去掉。如果哪天平台提供原生的、强制执行的策略（一个它自己会检查的规则文件），我会把硬性规则搬到那里，hook 留给记录和提醒。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find out whether this project has agent hooks configured (look in the project and editor settings and any hooks folder). If it does, list each one: which moment it runs at, what it checks, what it does when it refuses, and what the reason it shows says. Then say what would happen if the hook program failed to start or ran too slowly, based on the platform docs. If there are no hooks, list the three rules in the instruction files that would be worth turning into one. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>查一下這個專案有沒有設定 agent hook（看專案和編輯器的設定，以及任何 hooks 資料夾）。如果有，列出每一個：它在哪個時刻執行、檢查什麼、拒絕時做什麼，以及它顯示的原因說了什麼。然後依照平台文件，說明 hook 程式啟動不了或執行太慢時會發生什麼。如果沒有 hook，列出指令檔裡三條值得改成 hook 的規則。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>查一下这个项目有没有配置 agent 的 hook（看项目和编辑器的设置，以及所有 hooks 文件夹）。如果有，逐个列出：在哪个时机运行、检查什么、拒绝时做什么、它显示的原因写了什么。然后根据平台文档，说明 hook 程序如果启动不了或者运行太慢，会发生什么。如果没有 hook，列出指令文件里最值得改成 hook 的三条规则。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
 <li><a href="4-1-requests-and-rules.html">Requests and rules</a>: when to move a rule from words to code</li>
@@ -623,15 +823,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>：什麼時候把規則從文字搬到程式碼</li>
 <li><a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>：hook 失敗時怎麼辦</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has one hook entry for all moments, a gate that refuses calls, and the logs that show what it did. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks</a></li>
+<li><a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>：什么时候把规则从话改成代码</li>
+<li><a href="4-4-enforcement-design.html">把执行层当软件来设计</a>：hook 失败时怎么办</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has one hook entry for all moments, a gate that refuses calls, and the logs that show what it did. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Hooks, the point every call passes through&quot;. Teach me how this harness uses hooks: which moments it listens to, what the gate refuses and why, and what happens when the hook itself fails. Open the real files with me and show me a refusal and its reason.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 的所有時刻共用一個 hook 入口，有一道拒絕呼叫的門，還有顯示它做了什麼的紀錄。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Hooks：每次呼叫都會經過的執行點」這一章。請教我這個 harness 怎麼用 hook：它聽哪些時刻、門拒絕什麼和為什麼，以及 hook 自己失敗時會怎樣。帶我打開真實的檔案，讓我看一次拒絕和它的原因。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 对所有时机只有一个 hook 入口，有一道拒绝调用的关卡，还有记录它做了什么的日志。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“Hook：每次调用都会经过的执行点”这一章。请教我这个 harness 是怎么用 hook 的：它监听哪些时机、关卡拒绝什么以及为什么，还有 hook 自己出问题时会怎么样。带我打开真实的文件，让我看一次拒绝和它的原因。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

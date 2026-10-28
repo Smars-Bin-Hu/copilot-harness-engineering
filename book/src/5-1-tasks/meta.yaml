@@ -1,7 +1,7 @@
 id: "5.1"
 part: flow
 core: true
-title: {en: "Manage tasks, not chats", zh-Hant: "管任務，不管對話"}
+title: {en: "Manage tasks, not chats", zh-Hant: "管任務，不管對話", zh-Hans: "管任务，不管对话"}
 harness_tag: "1.5.50"
 wondering: [09-task-lifecycle, 15-design-choices]
 sources:

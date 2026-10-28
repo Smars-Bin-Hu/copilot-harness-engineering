@@ -1,6 +1,6 @@
 id: "4.4"
 part: control
-title: {en: "Build the enforcement layer like software", zh-Hant: "把執行層當軟體來設計"}
+title: {en: "Build the enforcement layer like software", zh-Hant: "把執行層當軟體來設計", zh-Hans: "把执行层当软件来设计"}
 harness_tag: "1.5.50"
 wondering: [14-internals, 15-design-choices]
 sources:

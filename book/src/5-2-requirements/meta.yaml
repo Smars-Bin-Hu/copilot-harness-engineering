@@ -1,6 +1,6 @@
 id: "5.2"
 part: flow
-title: {en: "The agent writes the requirement, the person confirms it", zh-Hant: "需求由 agent 寫，人確認"}
+title: {en: "The agent writes the requirement, the person confirms it", zh-Hant: "需求由 agent 寫，人確認", zh-Hans: "需求由 agent 写，人确认"}
 harness_tag: "1.5.50"
 wondering: [09-task-lifecycle, 15-design-choices]
 sources:

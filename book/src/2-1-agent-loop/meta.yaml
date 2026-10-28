@@ -1,7 +1,7 @@
 id: "2.1"
 part: runtime
 core: true
-title: {en: The agent loop, and where you can step in, zh-Hant: agent 循環，和你能插手的地方}
+title: {en: The agent loop, and where you can step in, zh-Hant: agent 循環，和你能插手的地方, zh-Hans: "agent 循环，以及你能插手的地方"}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop]
 sources:

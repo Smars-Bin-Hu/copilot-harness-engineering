@@ -1,6 +1,6 @@
 id: "8.2"
 part: case-kb
-title: {en: "The toolkit: scripts that draw a map of the code", zh-Hant: "Toolkit：用腳本畫出程式碼的地圖"}
+title: {en: "The toolkit: scripts that draw a map of the code", zh-Hant: "Toolkit：用腳本畫出程式碼的地圖", zh-Hans: "Toolkit：用脚本画出代码的地图"}
 harness_tag: "1.5.50"
 wondering: [16-knowledge-base]
 sources:

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Fixed tasks, scored by a script</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">6.3</p><h1><span data-l="en" lang="en">Fixed tasks, scored by a script</span><span data-l="zh-Hant" lang="zh-Hant">固定的任務，用腳本打分</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and that you have changed its rules or setup at least once. Nothing else.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.3</p><h1><span data-l="en" lang="en">Fixed tasks, scored by a script</span><span data-l="zh-Hant" lang="zh-Hant">固定的任務，用腳本打分</span><span data-l="zh-Hans" lang="zh-Hans">固定的任务，用脚本打分</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, and that you have changed its rules or setup at least once. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，而且至少改過一次它的規則或設定。不需要別的。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To know whether a change helped, run the same fixed tasks before and after the change and score them with a script. Then read the runs that failed.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你需要用过一个写代码的 AI agent，并且至少改过一次它的规则或配置。别的都不需要。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To know whether a change helped, run the same fixed tasks before and after the change and score them with a script. Then read the runs that failed.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要知道一個改動有沒有幫助，就在改動前後，跑同樣的固定任務，用腳本打分。然後讀失敗的那幾次運行。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>想知道一个改动有没有用，就在改动前后，对同样的固定任务各跑一遍，用脚本打分。然后去读失败的那几次运行。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> require that a change to the agent's rules or setup comes with a before-and-after run on the same fixed tasks, scored by a script.</li>
 <li><strong>The risk:</strong> you cannot tell from one good result whether a change helped. My own set is four tasks: enough to show a gap of four to six times, not a gap of ten percent.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：光看一個好結果，你分辨不出改動有沒有幫助。我自己的這組是四個任務：足以顯示四到六倍的差距，顯示不出百分之十的差距。</li>
 <li><strong>做對的成本</strong>：一個下午，建評分腳本，並用一個好答案和一個壞答案測試它；再加上每一次運行的成本。在我的實驗裡，三角色團隊做四個任務，一次大約 16 分鐘、大約 456 個 AI credits。</li>
 <li><strong>可以問團隊</strong>：「這個改動前後，你們跑了哪些固定任務？你們怎麼知道給它們打分的腳本，抓得到錯的答案？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：要求对 agent 规则或配置的改动，必须附上在同一组固定任务上改动前后各跑一遍的结果，由脚本打分。</li>
+<li><strong>风险</strong>：光看一次结果好，你分不出改动有没有用。我自己这套只有四个任务：够看出四到六倍的差距，看不出一成的差距。</li>
+<li><strong>做对的代价</strong>：花一个下午写打分脚本，并用一个好答案和一个故意弄坏的答案测它，然后是每次运行的开销。在我的实验里，三角色团队做完四个任务，一次约 16 分钟、约 456 AI credits。</li>
+<li><strong>可以问团队</strong>：“这个改动前后，你们跑了哪些固定任务？你们怎么知道给它们打分的脚本能抓出错误答案？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You add a rule. You change a prompt. You switch on a check. The next task goes well. Did the change help?</p>
 <p>You cannot tell. The next task may have been easy. The agent may have done well by luck (<a href="6-4-variance.html">the next chapter</a> is about that). And you are not a neutral judge: you made the change and you want it to work. Looking at a result and feeling that it is better is not evidence.</p>
@@ -252,6 +263,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>評測</strong>（eval，evaluation 的縮寫）是對 agent 設定的測試：一組任務、一種執行它們的方法、一種為結果打分的方法。</li>
 <li><strong>固定任務</strong>是這樣的任務：要求、起始檔案和正確答案，在每次運行之間都不變。</li>
 <li><strong>評分器</strong>（grader）是為結果打分的東西：這裡主要是腳本。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你加了一条规则。你改了一个 prompt。你打开了一项检查。下一个任务做得不错。是改动起了作用吗？</p>
+<p>你分不出来。下一个任务可能本来就简单。agent 可能是运气好（<a href="6-4-variance.html">下一章</a>讲的就是这个）。而且你不是中立的裁判：改动是你做的，你希望它有用。看着一个结果，觉得它变好了，这不是证据。</p>
+<p>我在<a href="2-3-subagents.html">慎用子 agent</a>里是这么做的。我想知道三个岗位的 agent 是不是比一个 agent 强。我没有拿一个任务看一眼。我拿了四个固定任务，每个任务两种配置各跑一次，所有结果交给同一个脚本打分。结果改变了我的设计：团队贵了好多，却没多做对任何一个（数字和它们的局限在那一章里）。光看几个结果，我是不会信的。</p>
+<p>先交代三个词。</p>
+<ul>
+<li><strong>评测</strong>（eval，evaluation 的简称）是对 agent 配置的测试：一组任务、一种运行它们的方式、一种给结果打分的方式。</li>
+<li><strong>固定任务</strong>是指需求、起始文件和正确答案在多次运行之间都不变的任务。</li>
+<li><strong>打分器</strong>（grader）是给结果打分的东西：这里主要是脚本。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The method has four steps. The picture shows them; the sections below say how to do each well.</p>
 <figure class="fig steps" id="fig-6-3-eval-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
@@ -455,6 +475,107 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>腳本自己有沒有通過「沒動過、正確、壞掉」的測試？</li>
 </ol>
 <p><strong>一個不用工具的小開始</strong>。挑三個你和 agent 做過的任務。對每一個，寫下你預期最後會有的檔案，和一個你見過的錯誤。寫一個短腳本檢查這些檔案。（如果你的工作不是程式碼，就檢查輸出：表格的欄位、列數、總和。）在一個好結果和一個你手動弄壞的結果上各跑一次。它抓到壞的、放行好的，你就有一個評測了。它很小。下次你改規則時就用它。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>方法有四步。图里画出来了；下面各节说怎么把每一步做好。</p>
+<figure class="fig steps" id="fig-6-3-eval-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <rect class="box" x="10" y="120" width="112" height="64" rx="8"/>
+  <text class="label" x="66" y="148" text-anchor="middle" data-t="tasks">固定任务</text>
+  <text class="label-muted" x="66" y="167" text-anchor="middle" data-t="tasks-note">每次都一样</text>
+
+  <g data-step="2">
+    <path class="line" d="M122 140 H128 V70 H134 M122 164 H128 V230 H134"/>
+    <path class="line" d="M248 70 H260 M248 230 H260"/>
+    <path class="head" d="M134 64 L144 70 L134 76 Z M134 224 L144 230 L134 236 Z M260 64 L270 70 L260 76 Z M260 224 L270 230 L260 236 Z"/>
+    <rect class="box" x="144" y="42" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="66" text-anchor="middle" data-t="run-before">改之前跑</text>
+    <text class="label-muted" x="196" y="85" text-anchor="middle" data-t="run-note">同样方式</text>
+    <rect class="box" x="144" y="202" width="104" height="56" rx="8"/>
+    <text class="label" x="196" y="226" text-anchor="middle" data-t="run-after">改之后跑</text>
+    <text class="label-muted" x="196" y="245" text-anchor="middle" data-t="run-note">同样方式</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-lit" x="270" y="42" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="66" text-anchor="middle" data-t="score">脚本打分</text>
+    <text class="label-muted" x="335" y="85" text-anchor="middle" data-t="score-note">过或不过</text>
+    <rect class="box-lit" x="270" y="202" width="130" height="56" rx="8"/>
+    <text class="label-lit" x="335" y="226" text-anchor="middle" data-t="score">脚本打分</text>
+    <text class="label-muted" x="335" y="245" text-anchor="middle" data-t="score-note">过或不过</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M400 70 H420 V140 H430 M400 230 H420 V164 H430"/>
+    <path class="head" d="M430 134 L440 140 L430 146 Z"/>
+    <rect class="box" x="440" y="116" width="150" height="72" rx="8"/>
+    <text class="label" x="515" y="146" text-anchor="middle" data-t="compare">比较</text>
+    <text class="label-muted" x="515" y="166" text-anchor="middle" data-t="compare-note">改前 vs 改后</text>
+  </g>
+
+  <g data-step="5">
+    <path class="line-lit" d="M515 188 V220"/>
+    <path class="head-lit" d="M509 220 L515 230 L521 220 Z"/>
+    <rect class="box-lit" x="440" y="230" width="150" height="58" rx="8"/>
+    <text class="label-lit" x="515" y="255" text-anchor="middle" data-t="read">读失败的运行</text>
+    <text class="label-muted" x="515" y="274" text-anchor="middle" data-t="read-note">看原因</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">写下一小组固定任务，每个都有已知的正确答案。每次运行之间不变。</li><li data-step-text="2">改动之前和之后，用同样的方式跑同一组任务。</li><li data-step-text="3">脚本读结果，逐项打分，过或不过。每次都是同一个脚本。</li><li data-step-text="4">比较两份成绩单。改动是有帮助、有坏处，还是没差？</li><li data-step-text="5">然后读失败的运行。分数告诉你有东西失败了；读过才知道为什么。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>评测：固定任务，改动前后各跑一次，用脚本打分，再由人读失败的运行。</figcaption></figure>
+<h3>好任务长什么样</h3>
+<p>不是每个任务都适合做评测。我看三点。</p>
+<ol>
+<li><strong>它是真的</strong>。它该像 agent 平时替你干的活，而不是考试题。如果你只加 pipeline、修公式，就别去测写诗。一个改动只在编出来的活上有用，在你的活上没用，什么也教不了你。</li>
+<li><strong>它有一个能检查的正确答案</strong>。“加一条 pipeline”可以检查：五个文件存在，位置对，彼此一致。“把代码写得更好看”不行。如果两个讲道理的人对结果对不对会有分歧，脚本就没法打分。</li>
+<li><strong>它覆盖人真正会犯的错</strong>。好的一组任务里有简单的，也有陷阱。在我的实验里，有一个任务要 agent 去改一个规则禁止它改的文件。好结果是拒绝。放这个任务，是因为真实的需求就可能这么要求，而听话照做的 agent 就是做错了。</li>
+</ol>
+<p>我实验里的四个任务是从小到中等：加一条 pipeline；把一个字段沿三条 pipeline 往下游传（其中一个字段中途改了名）；跨领域给一条 pipeline 改名并删掉旧文件；修一个在两处都有的公式，而需求同时要求改一个受保护的文件。四个很少。它能看出四到六倍的差距，看不出一成的差距。</p>
+<p>这类任务有两种。<strong>能力</strong>任务检查配置还做不到的事，所以一开始你预期它常常失败。<strong>回归</strong>任务检查已经能做的事，所以你预期它每次都通过，一旦失败，就是某个改动把它弄坏了。有意把两种混在一起，并且对两种的通过率要分开解读。</p>
+<p>这个仓库是编出来的（93 个文件，5 个领域），也跑不起来。这是有意的选择。正确答案是事先知道的，所以脚本能判断哪个结果对，没人需要运行代码来确认。</p>
+<h3>看结果，还是看过程？</h3>
+<p>打分器可以看两样东西。</p>
+<ul>
+<li><strong>结果</strong>：agent 留下的文件。它加了那五个文件吗？注册表里列出了新的 pipeline 吗？受保护的文件没动吗？</li>
+<li><strong>过程</strong>：agent 是怎么做到的。它被拒绝过吗？计划还没审批，它就往某个地方写了吗？</li>
+</ul>
+<p>大多数任务，给结果打分。通向正确答案的有效路径通常有很多条，死咬一条路径的打分器，会把好的活判成错的。只有当过程本身就是你在意的东西时，才给过程打分，比如“计划审批之前，规则会拒绝写入”。在我的 harness 里，这类场景看两样：日志里必须有那次拒绝，文件必须没变。有日志才能这么做，这就是为什么要先<a href="6-1-observe.html">记录每一次调用</a>。</p>
+<p>在我实验的打分里，结果是一张清单。有些项对每个任务都一样：仓库仍然自洽（文件有效、每条 pipeline 都有它的五个文件、字段一致、受保护的区域没动）。有些项只针对一个任务：需求本身做完了。还有一项检查范围：只有该改的文件被改了。只有每一项都通过，任务才算通过。这是全有或全无；如果你想在长任务里看到进展，就分部分打分（给部分分），并分别报告各部分。对这样的短任务，错一项通常就意味着结果是错的，所以我不拆。</p>
+<h3>用脚本还是用模型打分</h3>
+<p>脚本读文件，回答通过或不通过。模型可以读结果，给出判断。两者各有弱点。</p>
+<ul>
+<li><strong>脚本</strong>便宜、快，每次答案都一样。它的弱点是脆：它可能因为只认一种特定的写法，而把有效的结果判错。这些问题要靠读失败的运行才能发现。</li>
+<li><strong>模型打分器</strong>能接受有效的变体，也能判断脚本判断不了的东西，比如一段解释清不清楚。但它的答案可能每次运行都不一样，还可能和被它打分的 agent 有同样的盲点（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。</li>
+</ul>
+<p>Anthropic 的建议与此一致：“能用确定性的打分器就用，必要时，或者为了更灵活，再用 LLM 打分器。”（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）凡是答案能在文件里查出来的，我就用脚本；模型打分器只留给脚本看不到的少数事情。这里的实验没有用模型打分器。</p>
+<h3>先证明打分器靠谱</h3>
+<p>打分器是个程序，程序有 bug。什么都放过的打分器，会让每个改动看起来都无害。什么都判失败的打分器，会让每个改动看起来都有害。所以在信任任何分数之前，我先测打分器。我的实验有一个自测，分三部分：</p>
+<ul>
+<li><strong>没动过的</strong>仓库，必须每个任务都不通过（什么都没做）。</li>
+<li>手写的<strong>正确答案</strong>，必须每个任务都通过。</li>
+<li>正确答案的<strong>破坏版本</strong>，必须全部被抓出来。一共 23 个，每个带一处错误，比如少了一行注册表，或者字段写错了。只要打分器放过一个，打分器就是错的。</li>
+</ul>
+<p>最小的版本是一个好答案，加一个你亲手弄坏的答案：打分器必须放过前者，抓住后者。对我的实验，这花了一个下午，而这是人最爱跳过的一步。我能说“失败的一项是有意义的”，也是因为做了这一步。</p>
+<h3>去读失败的运行</h3>
+<p>有一个习惯，哪怕有了脚本我也不放弃。<strong>一次运行失败了，我就打开它，读发生了什么</strong>。分数只告诉你有东西失败了。它不告诉你为什么，而原因可能是三种很不一样的情况：</p>
+<ol>
+<li><strong>agent 真的犯了错</strong>。评测就是为这个设的。</li>
+<li><strong>打分器错了</strong>。结果其实是对的，只是形式不是脚本预期的。</li>
+<li><strong>任务不清楚</strong>。有两种答案都说得通，需求没说要哪一种。</li>
+</ol>
+<p>只有第一种，才能告诉你 agent 的情况。如果你把每次失败都当成第一种，就会丢掉好的改动、留下坏的改动。Anthropic 是这么说的：“读 transcript，才能确认你的评测衡量的是真正重要的东西。”（同一篇文章）</p>
+<p>所以脚本不能取代亲自去看。它取代的是“什么都看一遍，还得猜该看哪些”。脚本挑出失败的运行，再由人去读。</p>
+<h3>你自己的任务和公开的基准</h3>
+<p><strong>基准</strong>（benchmark）是一组公开的任务，对所有人用同样的方式打分，这样模型之间可以比较。基准只适合回答一个问题：这个模型在别人的任务上表现如何？它回答不了另一个问题：我对自己配置做的改动，在我的活上有没有用？要回答这个，你需要来自你仓库的任务，和你自己的规则，比如我实验里那个受保护的文件。这就是我自己搭一套的原因。</p>
+<p>自己搭的代价是：它很小，它是我自己的，而且会过期。仓库变了，任务也得跟着变。</p>
+<h3>我的 harness 现在做到哪一步</h3>
+<p>在我的配置里，有几个固定的场景。每个场景是一个 prompt 加上预期结果：日志里必须出现的几次调用（比如一次拒绝），和必须改或不能改的几个文件。我在 Copilot 里手动跑一次场景，再由一个检查读日志和文件，告诉我做得对不对。写作时（2026 年 10 月），我在自己的配置里看到，Copilot 的非交互模式不运行 hook，所以我没法批量跑这些场景，在真实任务上做改动前后的对比也还没做。我用数字做过的，是这个仓库里的实验。日常使用中，就是手动跑一个场景，再看它留下的日志。本章讲的这种带打分、可重复的对比，是实验里才有的。</p>
+<h3>自己跑一遍</h3>
+<p>这个实验是<a href="2-3-subagents.html">慎用子 agent</a>里那些数字背后的测试：编出来的仓库、四个任务和打分脚本。它适用于任何 agent 工具。<a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>讲了怎么先跑自测，再跑你自己的对比。看明白怎么用之后，把任务换成你自己的任务。</p>
+<h3>测你自己的配置</h3>
+<p>对 agent 配置要做的任何改动，问<strong>三个问题</strong>：</p>
+<ol>
+<li>如果这个改动有用，我会看到什么？如果没用，又会看到什么？</li>
+<li>脚本能把这两种情况区分开吗？</li>
+<li>脚本本身通过了“没动过的、正确的、被弄坏的”这三项测试吗？</li>
+</ol>
+<p><strong>不用任何工具的小起步</strong>。挑三个你用 agent 做过的任务。对每一个，写下你预期最后会有的文件，和一个你见过的错误。写一个短脚本检查这些文件。（如果你的工作不是代码，就检查输出：表的列、行数、合计。）用它跑一个好结果，再跑一个你手动弄坏的结果。如果它抓住了坏的、放过了好的，你就有了一个评测。它很小。下次改规则的时候就用它。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Four tasks are a thin base.</strong> They can show a large gap. They cannot show a small one, and they do not cover what you did not think of. Add a task each time a real failure surprises you.</p>
 <p><strong>You can fit the setup to the test.</strong> If you change the setup until the tasks pass, you have measured how well you fit those four tasks. Keep some tasks aside that you do not tune against.</p>
 <p><strong>A static score does not run the code.</strong> My grader reads files. It cannot say that the code works. For work where running matters, the grader has to run the tests (<a href="5-4-self-checks.html">Let the agent check its own work</a>).</p>
@@ -469,14 +590,25 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>任務之間不能共用狀態</strong>。每次運行都從同一份乾淨的副本開始。如果一次運行留下了檔案、快取或改過的設定，下一次運行就不是公平的測試，分數量到的是殘留的東西。</p>
 <p><strong>運行要花錢和時間</strong>。在我的實驗裡，團隊做四個任務，一次大約 16 分鐘、大約 456 個 AI credits。prompt 快取會改變總額：在 Anthropic 的 API 上，快取讀取大約是基本價格的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），但 Copilot 怎麼計費，我沒查過。十個任務，在兩種設定上各跑幾次，是一筆真的帳單。開始之前先決定，你拿到答案要做什麼。而且在我的設定裡，Copilot 的非互動模式不會執行 hook，所以真實的工作沒辦法為此批次跑（見「我的 harness 今天怎麼做」）。</p>
 <p><strong>一次運行很薄</strong>。我的結果是每個任務一次運行。<a href="6-4-variance.html">下一章</a> 說怎麼跑更多次、怎麼報告你發現的東西。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>四个任务的底子很薄</strong>。它们能显示大的差距。显示不了小的差距，也覆盖不了你没想到的东西。每次遇到出乎意料的真实失败，就加一个任务。</p>
+<p><strong>你可能把配置调得只适合这个测试</strong>。如果你不停改配置直到任务通过，你量到的是它对这四个任务拟合得有多好。留一些你不拿来调优的任务。</p>
+<p><strong>静态打分不运行代码</strong>。我的打分器读文件。它没法说代码能不能跑。对运行结果要紧的活，打分器得去跑测试（<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>）。</p>
+<p><strong>任务会饱和</strong>。Anthropic 的说法是：“评测饱和，是指 agent 通过了所有可解的任务，再没有改进的余地。”当每种配置都通过每个任务，评测就不再能区分它们。加更难的任务。</p>
+<p><strong>任务之间不能共享状态</strong>。每次运行都从同一份干净的副本开始。如果某次运行留下了文件、缓存或改过的设置，下一次运行就不是公平的测试，分数量到的是残留物。</p>
+<p><strong>运行要花钱和时间</strong>。在我的实验里，团队做完四个任务，一次约 16 分钟、约 456 AI credits。prompt 缓存会改变这笔账：在 Anthropic 的 API 上，命中缓存的读取约是基础价格的十分之一（<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>），但我没有查过 Copilot 怎么计费。十个任务，在两种配置上各跑好几次，是一笔实在的账单。动手之前先想好，答案出来后你打算拿它做什么。另外，在我的配置里，Copilot 的非交互模式不运行 hook，所以真实的工作没法为此批量运行（见“我的 harness 现在做到哪一步”）。</p>
+<p><strong>一次运行很单薄</strong>。我的结果是每个任务跑一次。<a href="6-4-variance.html">下一章</a>讲怎么多跑几次，以及怎么汇报你发现的东西。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The scripts and the habit of running by hand exist because I have no built-in way to run a setup through a fixed set of tasks and compare. If a platform adds that, with logs and scoring, I would use it and drop my glue.</p>
 <p>The fixed tasks do not retire. A model is upgraded, a rule is added, a prompt is rewritten: each is a change, and each needs the same answer to the same question (<a href="6-5-model-upgrades.html">When the model is upgraded</a>). A task retires when every setup passes it. I would look again at the lab's four tasks if they stopped telling the setups apart.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這些腳本和手動跑的習慣存在，是因為我沒有內建的辦法，讓一種設定跑一組固定任務並比較。如果平台加了這個功能，有日誌也有打分，我會用它，把我自己黏起來的東西丟掉。</p>
 <p>固定任務不會退役。模型升級了、加了一條規則、重寫了一個 prompt：每一個都是改動，每一個都需要對同一個問題給同一種答案（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。一個任務在每種設定都通過它的時候退役。如果實驗裡的四個任務不再分得出各種設定，我會重新檢視它們。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>这些脚本和手动运行的习惯之所以存在，是因为我没有内置的办法，把一套配置放到一组固定任务上跑一遍再比较。如果哪个平台加了这个功能，带日志和打分，我会用它，把自己的胶水代码丢掉。</p>
+<p>固定任务不会退休。模型升级了，加了一条规则，重写了一个 prompt：每一个都是改动，每一个都需要对同一个问题给出同样的答案（<a href="6-5-model-upgrades.html">模型升级了，就要删</a>）。一个任务只有在每种配置都能通过时才退休。如果实验里这四个任务不再能区分各种配置，我会重新审视它们。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at the last ten commits that changed instruction, skill, agent or hook files in this repository. For each, say what evidence (if any) was given that the change helped. Then propose three fixed tasks taken from this repository&#x27;s real history: for each, the request, the starting commit, and an end state that a script could check from the files alone. Include one task where the right result is a refusal. Do not create or change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看這個倉庫裡最近十個改過指令、skill、agent 或 hook 檔案的 commit。對每一個，說明有沒有（如果有，是什麼）證據顯示這個改動有幫助。然後從這個倉庫的真實歷史，提出三個固定任務：每個任務寫出要求、起始的 commit，以及一個腳本只靠檔案就能檢查的結束狀態。其中包含一個正確結果是拒絕的任務。不要建立或改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不需要 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>看这个仓库里最近十次改过指令、skill、agent 或 hook 文件的提交。对每一次，说明当时有没有给出证据（如果有）证明这个改动有用。然后从这个仓库的真实历史里，提出三个固定任务：每个给出需求、起始提交，以及一个脚本只看文件就能检查的结束状态。其中包含一个正确结果是拒绝的任务。不要创建或修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></li>
 <li>In this repository: <a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>, with the scorer and its self-test</li>
@@ -487,15 +619,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>本倉庫：<a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，有評分腳本和它的自我測試</li>
 <li>本書：<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>、<a href="6-4-variance.html">一次運行證明不了什麼</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a few fixed scenarios that are judged from the log and from the files left behind. The harness can show you how one is written and how it is checked. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></li>
+<li>本仓库内：<a href="../labs/subagents/README.md"><code>labs/subagents/</code></a>，含打分脚本和它的自测</li>
+<li>本书内：<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>、<a href="6-4-variance.html">一次运行证明不了什么</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has a few fixed scenarios that are judged from the log and from the files left behind. The harness can show you how one is written and how it is checked. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Fixed tasks, scored by a script&quot;. Teach me how this harness&#x27;s fixed scenarios work (topic 12): what a scenario holds, how a check reads the log and the files, and what the scenarios cannot do yet. Open one real scenario with me and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有幾個固定情境，由日誌和留下來的檔案來判斷。harness 可以給你看一個情境怎麼寫、怎麼檢查。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「固定的任務，用腳本打分」這一章。請教我這個 harness 的固定情境怎麼運作（主題 12）：一個情境放什麼、檢查怎麼讀日誌和檔案、這些情境還做不到什麼。帶我打開一個真的情境，並畫出這些部分怎麼接在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 有几个固定场景，根据日志和留下的文件来判断。harness 能给你看一个场景怎么写、怎么检查。完成上面的配置后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读过“固定的任务，用脚本打分”这一章。请教我这个 harness 的固定场景怎么工作（主题 12）：一个场景里有什么，检查怎么读日志和文件，场景现在还做不到什么。和我一起打开一个真实的场景，画出各部分是怎么配合的。</code></pre></div>
+<p>它一次只教一小块，会停下来问你跟不跟得上，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

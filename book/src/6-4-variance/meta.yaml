@@ -1,6 +1,6 @@
 id: "6.4"
 part: evidence
-title: {en: "One run proves nothing", zh-Hant: "一次運行證明不了什麼"}
+title: {en: "One run proves nothing", zh-Hant: "一次運行證明不了什麼", zh-Hans: "一次运行证明不了什么"}
 harness_tag: "1.5.50"
 wondering: [12-observe-report]
 sources:

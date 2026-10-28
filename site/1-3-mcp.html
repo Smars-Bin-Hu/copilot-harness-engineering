@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>MCP servers: a standard plug for tools</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">1.3</p><h1><span data-l="en" lang="en">MCP servers: a standard plug for tools</span><span data-l="zh-Hant" lang="zh-Hant">MCP server：插工具的標準接口</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know what a tool is. If not, read <a href="1-2-tool-calling.html">Tool calling</a> first.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">1.3</p><h1><span data-l="en" lang="en">MCP servers: a standard plug for tools</span><span data-l="zh-Hant" lang="zh-Hant">MCP server：插工具的標準接口</span><span data-l="zh-Hans" lang="zh-Hans">MCP server：接工具的标准接口</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know what a tool is. If not, read <a href="1-2-tool-calling.html">Tool calling</a> first.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要知道什麼是工具。如果不知道，先讀 <a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>MCP is not a new power. It is a standard plug for tools, and it brings other people's code, permissions and text into your agent.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你知道什么是工具。如果不知道，先读<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>MCP is not a new power. It is a standard plug for tools, and it brings other people's code, permissions and text into your agent.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>MCP 不是新的能力。它是工具的標準插頭，會把別人的程式碼、權限和文字帶進你的 agent。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>MCP 不是什么新的能力。它是工具的一个标准插头，会把别人的代码、权限和文本带进你的 agent。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> treat every MCP server as a dependency you approve, like a library you did not write, and prefer a plain command when one does the job.</li>
 <li><strong>The risk:</strong> a server brings in other people's code, their permissions, and text the model will read and obey. Its tool list can also change after you approved it. I have not tested whether a hook guards MCP tools like built-in ones.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：server 會帶進別人的程式碼、別人的權限，以及模型會讀、也會照做的文字。它的工具清單，還可能在你批准之後改變。hook 能不能像守內建工具那樣守 MCP 工具，我沒有測過。</li>
 <li><strong>做對的成本</strong>：每個 server 做一次簡短的審查（誰寫的、能碰什麼、憑證放在哪裡），再定期重讀工具清單。</li>
 <li><strong>可以問團隊</strong>：「接了哪些 server？每個是誰批准的？每個能碰什麼？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：把每个 MCP server 都当成一个要你批准的依赖，就像一个不是你写的库；如果一条普通命令就能完成任务，优先用命令。</li>
+<li><strong>风险</strong>：server 会带进来别人的代码、别人的权限，以及模型会读、会听从的文本。它的工具清单，在你批准之后也可能变。hook 能不能像管内置工具那样管 MCP 工具，我没有测过。</li>
+<li><strong>做对的代价</strong>：每个 server 做一次简短的审查（谁写的、能碰什么、凭据放在哪），再定期重读一遍工具清单。</li>
+<li><strong>可以问团队</strong>：“现在连着哪些 server？每个是谁批准的？每个能碰什么？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent is only as useful as the tools it has. You may want yours to read your issue tracker, query a database, or drive a browser. Someone has to write each of those tools, and each platform (VS Code Copilot, Claude Code, Codex) has its own way to accept a tool.</p>
 <p>Without a shared standard the work multiplies. Three platforms and three tools could need nine separate connectors. Each connector is code someone must write and keep up to date, and every new platform or tool adds a row or a column.</p>
@@ -349,6 +360,63 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>協定</strong>是約定好的傳訊息的方式，讓不同人寫的兩個程式能一起工作。</li>
 </ul>
 <p>這一章始終抓住一個想法。MCP 通常不會給 agent 一個它本來不可能有的能力（有自己登入機制的遠端服務是例外：它能提供你用別的辦法拿不到的存取）。它改變的是工具<em>怎麼接上去</em>。接下來各節說的，都由此而來。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>agent 有多大用处，取决于它有哪些工具。你可能想让自己的 agent 读你的问题跟踪系统、查数据库，或者操作浏览器。这些工具得有人来写，而每个平台（VS Code Copilot、Claude Code、Codex）接收工具的方式都不一样。</p>
+<p>没有共同的标准，工作量会成倍增加。三个平台、三个工具，可能需要九个单独的连接器。每个连接器都是有人要写、要持续更新的代码，每多一个平台或工具，就多一行或一列。</p>
+<figure class="fig" id="fig-1-3-mcp-plug"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+  <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">没有标准</text>
+  <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">有 MCP</text>
+  <line class="line" x1="115" y1="75" x2="185" y2="75"/>
+  <line class="line" x1="115" y1="75" x2="185" y2="125"/>
+  <line class="line" x1="115" y1="75" x2="185" y2="175"/>
+  <line class="line" x1="115" y1="125" x2="185" y2="75"/>
+  <line class="line" x1="115" y1="125" x2="185" y2="125"/>
+  <line class="line" x1="115" y1="125" x2="185" y2="175"/>
+  <line class="line" x1="115" y1="175" x2="185" y2="75"/>
+  <line class="line" x1="115" y1="175" x2="185" y2="125"/>
+  <line class="line" x1="115" y1="175" x2="185" y2="175"/>
+  <rect class="box" x="15" y="60" width="100" height="30" rx="5"/>
+  <text class="label" x="65" y="80" text-anchor="middle" data-t="p1">VS Code</text>
+  <rect class="box" x="185" y="60" width="100" height="30" rx="5"/>
+  <text class="label" x="235" y="80" text-anchor="middle" data-t="t1">数据库</text>
+  <rect class="box" x="15" y="110" width="100" height="30" rx="5"/>
+  <text class="label" x="65" y="130" text-anchor="middle" data-t="p2">Claude Code</text>
+  <rect class="box" x="185" y="110" width="100" height="30" rx="5"/>
+  <text class="label" x="235" y="130" text-anchor="middle" data-t="t2">Issues</text>
+  <rect class="box" x="15" y="160" width="100" height="30" rx="5"/>
+  <text class="label" x="65" y="180" text-anchor="middle" data-t="p3">Codex</text>
+  <rect class="box" x="185" y="160" width="100" height="30" rx="5"/>
+  <text class="label" x="235" y="180" text-anchor="middle" data-t="t3">浏览器</text>
+  <line class="line-lit" x1="415" y1="75" x2="435" y2="75"/>
+  <line class="line-lit" x1="465" y1="75" x2="485" y2="75"/>
+  <line class="line-lit" x1="415" y1="125" x2="435" y2="125"/>
+  <line class="line-lit" x1="465" y1="125" x2="485" y2="125"/>
+  <line class="line-lit" x1="415" y1="175" x2="435" y2="175"/>
+  <line class="line-lit" x1="465" y1="175" x2="485" y2="175"/>
+  <rect class="box-lit" x="435" y="50" width="30" height="150" rx="5"/>
+  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">一个标准插头：3 + 3</text>
+  <rect class="box" x="315" y="60" width="100" height="30" rx="5"/>
+  <text class="label" x="365" y="80" text-anchor="middle" data-t="p1">VS Code</text>
+  <rect class="box" x="485" y="60" width="100" height="30" rx="5"/>
+  <text class="label" x="535" y="80" text-anchor="middle" data-t="t1">数据库</text>
+  <rect class="box" x="315" y="110" width="100" height="30" rx="5"/>
+  <text class="label" x="365" y="130" text-anchor="middle" data-t="p2">Claude Code</text>
+  <rect class="box" x="485" y="110" width="100" height="30" rx="5"/>
+  <text class="label" x="535" y="130" text-anchor="middle" data-t="t2">Issues</text>
+  <rect class="box" x="315" y="160" width="100" height="30" rx="5"/>
+  <text class="label" x="365" y="180" text-anchor="middle" data-t="p3">Codex</text>
+  <rect class="box" x="485" y="160" width="100" height="30" rx="5"/>
+  <text class="label" x="535" y="180" text-anchor="middle" data-t="t3">浏览器</text>
+  <text class="label-muted" x="150" y="218" text-anchor="middle" data-t="left-note">每一对一个连接器：9 个</text>
+</svg>
+<figcaption>MCP 是插头的标准。每个工具写成一个 server，每个平台学一次这个插头。</figcaption></figure>
+<p><strong>Model Context Protocol</strong>（MCP）就是解决这个问题的标准。一个工具只写一次，写成一个 <strong>MCP server</strong>。一个平台只学一次这个协议。此后，任何 server 都能和任何支持 MCP 的平台配合。可以想想 USB 接口：插头是标准，它不管你插的是什么。</p>
+<h3>先说三个词</h3>
+<ul>
+<li><strong>MCP server</strong> 是一个以标准方式向 agent 提供能力的程序。它可以运行在你的机器上，也可以在别处。</li>
+<li><strong>MCP host</strong> 是 AI 应用，比如 VS Code。它为每个连上的 server 建一个 <strong>client</strong>。client 负责保持连接。</li>
+<li><strong>协议</strong>是一种约定好的发消息的方式，这样不同人写的两个程序可以配合工作。</li>
+</ul>
+<p>这一章始终围绕一个想法。MCP 通常不会给 agent 一个它本来拿不到的能力（带自己登录的远程服务是个例外：它能提供你没有别的办法获得的访问）。它改变的是工具<em>怎么接上去</em>。后面几节的内容，都是由此而来的。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What a server can offer</h3>
 <p>The protocol defines three things a server can expose. (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>)</p>
 <ul>
@@ -511,6 +579,87 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>它的工具，我真正用到幾個？</li>
 </ol>
 <p><strong>一個不用安裝任何東西的檢查</strong>。列出你的 agent 目前有的工具（大多數編輯器在對話的工具選擇器裡顯示；去哪看請查你編輯器的文件）。數一數。然後問自己，過去一週用過哪些。其餘的，是有成本、有風險，卻沒有好處。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>server 能提供什么</h3>
+<p>协议定义了 server 可以对外提供的三样东西。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）</p>
+<ul>
+<li><strong>工具（Tools）</strong>：agent 可以调用来做事的函数：文件操作、API 调用、数据库查询。多数人说 MCP，指的就是这个，它和<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>里的工具是同一种。</li>
+<li><strong>资源（Resources）</strong>：agent 可以读来当上下文的数据，比如文件内容或数据库记录。</li>
+<li><strong>提示（Prompts）</strong>：可复用的模板，帮助组织一次对话，比如系统 prompt 或少样本示例。</li>
+</ul>
+<p>agent 这一侧先问 server 有什么（对工具来说，是一个 <code>tools/list</code> 请求），拿回每个工具的名字、描述和它接受的参数。模型要求调用时，host 会向对应的 server 发一个 <code>tools/call</code>，并把答案作为文本放回对话。从模型的角度看，这和别的工具没什么两样。</p>
+<h3>本地和远程</h3>
+<p>server 有两种运行方式。</p>
+<ul>
+<li><strong>本地（stdio）</strong>。host 在你的机器上把 server 作为一个程序启动，通过它的标准输入和输出（每个命令行程序都有的纯文本管道）和它通信。通常只有一个 host 在用它。</li>
+<li><strong>远程（Streamable HTTP）</strong>。server 运行在别的地方，host 通过普通的网络请求（HTTP）和它通信，通常要登录。一个远程 server 可以服务很多用户。</li>
+</ul>
+<p>两种方式的协议是一样的。区别对安全很要紧：本地 server 是以你的权限在你电脑上运行的代码，而远程 server 是别人的服务，你要把数据发给它。</p>
+<h3>接上一个，你就把什么带了进来</h3>
+<p>这是本章的重点。server 不是一个你打开的功能；它是一个<strong>依赖</strong>，像一个不是你写的库。随它而来的有四样东西。</p>
+<figure class="fig" id="fig-1-3-what-comes-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <rect class="box" x="20" y="20" width="120" height="210" rx="6"/>
+  <text class="label" x="80" y="130" text-anchor="middle" data-t="server">MCP server</text>
+  <rect class="box-lit" x="460" y="20" width="120" height="210" rx="6"/>
+  <text class="label-lit" x="520" y="130" text-anchor="middle" data-t="agent">你的 agent</text>
+  <line class="line" x1="140" y1="70" x2="450" y2="70"/>
+  <path class="head" d="M450 66 L460 70 L450 74 Z"/>
+  <text class="label" x="300" y="61" text-anchor="middle" data-t="i1">它的代码，跑在你的机器上</text>
+  <line class="line" x1="140" y1="110" x2="450" y2="110"/>
+  <path class="head" d="M450 106 L460 110 L450 114 Z"/>
+  <text class="label" x="300" y="101" text-anchor="middle" data-t="i2">你的权限，被它使用</text>
+  <line class="line" x1="140" y1="150" x2="450" y2="150"/>
+  <path class="head" d="M450 146 L460 150 L450 154 Z"/>
+  <text class="label" x="300" y="141" text-anchor="middle" data-t="i3">它的文本，模型会读</text>
+  <line class="line" x1="140" y1="190" x2="450" y2="190"/>
+  <path class="head" d="M450 186 L460 190 L450 194 Z"/>
+  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">它的工具清单，每次调用都带着</text>
+</svg>
+<figcaption>接上一个 server，就是多了一个依赖。有四样东西跟着进来。</figcaption></figure>
+<ol>
+<li><strong>别人的代码</strong>。本地 server 运行在你的机器上。VS Code 自己的文档说：“本地 MCP server 可以在你的机器上运行代码，工具可以用你的权限访问外部服务。”（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</li>
+<li><strong>别人的权限</strong>。server 以你给它的任何访问权限行事：你的数据库登录、你的问题跟踪系统的 token。agent 现在通过这个 server，拥有了这些权限。</li>
+<li><strong>别人的话，变成了指令</strong>。server 的工具描述，是模型会读并当真的文本。而工具返回的内容（一个 issue 的正文、一个网页），是写它的人写的文本。模型读到的文本里，可能含有给它的命令。<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>讲的就是这件事。</li>
+<li><strong>一笔固定的开销</strong>。每个工具的名字、描述和参数，每次调用都要发给模型。一个有很多工具、你却很少用的 server，每一轮照样花 token，工具一多，模型也更难选（<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>）。协议自己的文档提到，连了很多 server 的 client，可以用渐进式的工具发现，而不是一开始就把所有工具都加载进来。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）Anthropic 的文章 <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a> 把工具定义撑爆上下文窗口当作一个问题，并介绍了只加载所需工具，或者让 agent 通过代码来调用 server 的办法。这里我只是指个路。这笔开销有多大，取决于你连了多少工具，所以数一数你自己的。</li>
+</ol>
+<h3>加之前要检查什么</h3>
+<p>四个问题，按我会问的顺序。</p>
+<ul>
+<li><strong>谁写的，谁在持续更新？</strong> VS Code 的建议是，在安装或启动 server 之前，先审查“发布者、命令或端点，以及它请求的访问权限”。</li>
+<li><strong>它能碰什么？</strong> 优先选只限于任务所需的 server。一个读 issue 的 server，不该拿着一个能删仓库的 token。</li>
+<li><strong>凭据放在哪？</strong> 不要放在对话里，也不要提交进你的项目。VS Code 警告过，不要把凭据贴进对话，也不要提交。</li>
+<li><strong>它返回的东西可信吗？</strong> 如果文本来自外部（公开的网页、任何人都能提的工单），就当成不可信的。</li>
+</ul>
+<h3>用 MCP，还是一条命令就够？</h3>
+<p>不是每个工具都需要 server。agent 需要的很多东西，本来就以命令行程序的形式存在：<code>git</code>、测试运行器、云平台的命令行工具。能用终端的 agent，不需要任何 server 就能用上它们。</p>
+<table>
+<thead>
+<tr>
+<th>选</th>
+<th>什么时候</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>命令行程序</td>
+<td>它已经有了，在本地运行，输出又短又清楚。活动部件更少</td>
+</tr>
+<tr>
+<td>MCP server</td>
+<td>你想在多个平台上用同一个工具，或者它需要结构化的输入、可发现的能力清单，或者要登录一个远程服务</td>
+</tr>
+</tbody>
+</table>
+<p>我倾向于先用命令，因为它给你的配置加进来的代码和权限都更少。等共用的插头开始值回多出来的那个依赖，再换成 MCP。</p>
+<h3>我没测过的</h3>
+<p>在你测过之前，别指望 hook 能保护你不受 MCP 工具的影响。我自己的 harness 没有搭任何 MCP server。公司会为自己的环境配置它们，有些公司的环境还禁止非官方的 server。MCP 工具调用是不是像内置工具调用那样经过 hook，hook 能不能看到它们的完整参数，我<strong>没有测过</strong>。如果你靠 hook 来守 MCP 工具，先用一个无害的 server 测一下。</p>
+<h3>测一测你自己的配置</h3>
+<p>对你连上的每个 server，问<strong>三个问题</strong>：</p>
+<ol>
+<li>我知道它是谁写的、能碰什么吗？</li>
+<li>命令行程序能做同样的事吗？</li>
+<li>它的工具里，我真正用到的有几个？</li>
+</ol>
+<p><strong>一个不用安装任何东西的检查</strong>。列出你的 agent 现在有的工具（多数编辑器在对话的工具选择器里显示；去哪找请查你编辑器的文档）。数一数。然后问问哪些是你上周用过的。其余的就是有成本、有风险，却没有收益。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More plugs, more attack surface.</strong> Each server is a path for outside text and for outside code to reach your agent. A server you added to try something and forgot is still there.</p>
 <p><strong>&quot;Official&quot; does not mean safe for you.</strong> A server published by a respected company is still given your credentials and still returns text from other people.</p>
 <p><strong>A server's tool list can change.</strong> The protocol lets a server tell the client that its tools changed. A tool that was fine when you reviewed it may not be the one you have next month. A server can also change a tool's description after you approved it, and the description is text the model obeys (this kind of attack is often called a rug pull or tool poisoning; <a href="4-6-untrusted-input.html">chapter 4.6</a> covers the idea). Re-read the list now and then, and pin the version of a server where you can.</p>
@@ -519,6 +668,10 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>「官方」不代表對你安全</strong>。受人敬重的公司發布的 server，一樣會拿到你的憑證，也一樣會回傳別人寫的文字。</p>
 <p><strong>server 的工具清單可能變</strong>。協定讓 server 可以通知 client，它的工具變了。你審查時沒問題的工具，下個月可能就不是你手上這個了。server 還可以在你批准之後改工具的描述，而描述是模型會照做的文字（這種攻擊常被叫做 rug pull 或 tool poisoning；<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 講了這個想法）。不時重讀清單，能固定 server 的版本就固定。</p>
 <p><strong>共同的標準，不等於共同的行為</strong>。各平台支援協定的哪些部分、怎麼要求批准、設定存在哪裡，都不同。請查你的平台目前的文件。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>插头越多，攻击面越大</strong>。每个 server 都是外部文本和外部代码通向你的 agent 的一条路。你为了试点东西加上、后来又忘了的 server，仍然在那里。</p>
+<p><strong>“官方”不等于对你安全</strong>。一个受人尊敬的公司发布的 server，仍然会拿到你的凭据，仍然会返回别人的文本。</p>
+<p><strong>server 的工具清单会变</strong>。协议允许 server 告诉 client，它的工具变了。你审查时没问题的工具，下个月可能就不是那一个了。server 还可以在你批准之后改某个工具的描述，而描述是模型会听从的文本（这类攻击常被叫作 rug pull 或工具投毒；<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>讲了这个想法）。时不时重读一遍清单，能固定 server 的版本就固定。</p>
+<p><strong>共用标准不等于行为一致</strong>。各平台支持协议的哪些部分、怎么请求审批、把设置存在哪里，都不一样。请查你所用平台的当前文档。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><ul>
 <li><strong>The protocol's own docs</strong> describe MCP as a protocol for context exchange, and say it &quot;does not dictate how AI applications use LLMs or manage the provided context&quot;. The host decides what to load and how to ask you. (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>)</li>
 <li><strong>VS Code</strong> treats servers as code to review: look at the publisher and the access requested, and approve only actions you understand. (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>)</li>
@@ -529,12 +682,20 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>VS Code</strong> 把 server 當成要審查的程式碼：看發布者和要求的存取權，只批准你看得懂的動作。（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</li>
 </ul>
 <p>兩者在分工上一致：協定讓接上去變容易，而決定接什麼，仍然是你的事。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><ul>
+<li><strong>协议自己的文档</strong>把 MCP 描述为一个交换上下文的协议，并说它“不规定 AI 应用如何使用 LLM，也不规定如何管理所提供的上下文”。加载什么、怎么问你，由 host 决定。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）</li>
+<li><strong>VS Code</strong> 把 server 当成要审查的代码：看发布者和请求的访问权限，只批准你理解的操作。（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</li>
+</ul>
+<p>两者对分工的看法一致：协议让接入变容易，而决定接入什么，仍然是你的事。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Remove a server when you stop using its tools, or when a plain command does the job. The caution also loosens if a platform starts to sandbox servers by default, so a bad one cannot do much harm. I would still check publisher and access before adding one.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>你不再用某個 server 的工具，或者一個普通指令就能做同樣的事，就把它移除。如果平台開始預設把 server 放進沙箱，讓壞的 server 做不了太大的壞事，這份謹慎也會放鬆。我仍然會在加之前，先檢查發布者和存取權。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>不再用某个 server 的工具了，或者一条普通命令就能完成任务了，就把它移除。如果平台开始默认给 server 加沙箱，让坏的 server 干不了多大的坏事，这份谨慎也可以放松一点。我还是会在添加之前检查发布者和访问权限。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every MCP server configured for this project or editor (look in the editor and project settings and any MCP config files). For each one, tell me: who publishes it, whether it runs locally or remotely, what credentials it uses and where they are stored, how many tools it exposes, and whether a plain command-line program could do the same job. Flag any credential stored in a committed file. Do not print secret values, and do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出為這個專案或編輯器設定的每個 MCP server（看編輯器和專案的設定，以及任何 MCP 設定檔）。每一個都告訴我：誰發布的、在本地還是遠端執行、用什麼憑證、憑證存在哪裡、公開幾個工具，以及一個命令列程式能不能做同樣的工作。標出任何存在已提交檔案裡的憑證。不要印出機密的值，也不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出为这个项目或编辑器配置的每一个 MCP server（看编辑器和项目的设置，以及所有 MCP 配置文件）。每一个，告诉我：谁发布的、在本地还是远程运行、用什么凭据以及存在哪里、暴露了多少个工具、一个普通的命令行程序能不能做同样的事。把存在已提交文件里的凭据标出来。不要打印任何密钥的值，也不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a></li>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
@@ -545,15 +706,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can show you where MCP would plug in and how the other tools are sorted, with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Model Context Protocol：<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can show you where MCP would plug in and how the other tools are sorted, with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;MCP servers: a standard plug for tools&quot;. Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 三種工具：內建的、它自己的命令列，以及可選的 MCP。它本身沒有建任何 MCP server。harness 可以帶著真實的檔案，讓你看 MCP 會接在哪裡，以及其他工具是怎麼分類的。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「MCP server：插工具的標準接口」這一章。請教我這個 harness 的三種工具，以及 MCP 接在哪裡。帶我打開真實的檔案，讓我看工具名稱是怎麼分成幾類的。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 给 agent 三类工具：内置的、它自己的命令行工具，以及可选的 MCP。它自己没有搭任何 MCP server。harness 可以带你看 MCP 会接在哪里、其他工具是怎么分类的，配上真实的文件。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“MCP server：接工具的标准接口”这一章。请教我这个 harness 里的三类工具，以及 MCP 放在哪里。带我打开真实的文件，让我看工具名是怎么分到各类里的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

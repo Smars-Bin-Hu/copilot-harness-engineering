@@ -1,6 +1,6 @@
 id: "7.3"
 part: people
-title: {en: "What I cut, and what the data says", zh-Hant: "我砍掉了什麼，數據怎麼說"}
+title: {en: "What I cut, and what the data says", zh-Hant: "我砍掉了什麼，數據怎麼說", zh-Hans: "我砍掉了什么，数据怎么说"}
 harness_tag: "1.5.50"
 wondering: [15-design-choices]
 sources:

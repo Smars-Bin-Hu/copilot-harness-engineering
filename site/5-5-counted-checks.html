@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Make a pass count</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.5</p><h1><span data-l="en" lang="en">Make a pass count</span><span data-l="zh-Hant" lang="zh-Hant">讓「通過」可信</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a>, which explains why a checker with a separate context is worth having. Here the question is a different one: how do you know a check really happened and really passed?</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.5</p><h1><span data-l="en" lang="en">Make a pass count</span><span data-l="zh-Hant" lang="zh-Hant">讓「通過」可信</span><span data-l="zh-Hans" lang="zh-Hans">让“通过”可信</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a>, which explains why a checker with a separate context is worth having. Here the question is a different one: how do you know a check really happened and really passed?</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a>，它解釋了為什麼有一個上下文獨立的檢查者值得擁有。這裡的問題不一樣：你怎麼知道檢查真的發生了，而且真的通過了？</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>For a check to count, code counts the passes. Do not accept the agent's word that it checked.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="2-3-subagents.html">慎用子 agent</a>，它讲了为什么上下文独立的检查者值得有。这里的问题是另一个：你怎么知道一次检查真的发生了，而且真的通过了？</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>For a check to count, code counts the passes. Do not accept the agent's word that it checked.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要讓檢查算數，由程式來計算通過。不要接受 agent 說「我檢查過了」。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>一次检查要算数，就由代码来数通过的次数。不要接受 agent 说“我检查过了”。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide that &quot;checked&quot; means a record that code counts, not the agent's word. The person sets how many passes in a row are needed, and only the person can waive the rule.</li>
 <li><strong>The risk:</strong> &quot;I had it checked and it passed&quot; cannot be tested. The agent may have skipped the check, checked an older version, or read a FAIL as a pass. Waivers can also become a habit, and then the limit is decoration.</li>
@@ -235,12 +240,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：額外的檢查每次都花用量，而計數器需要一個包含對的東西的工作指紋。在我的設定裡，上限是 n 次檢查再加兩次，這是個例子，不是調過的值。沒有任何機制時，就要求給出指令和它的結果。</li>
 <li><strong>可以問團隊</strong>：「對最近上線的那次改動，給我看那個確切版本上有執行檢查的紀錄。」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：决定“检查过”指的是一条由代码计数的记录，不是 agent 的一句话。连续要通过多少次，由人来定，也只有人可以豁免这条规则。</li>
+<li><strong>风险</strong>：“我让人检查过了，通过了”这句话没法验证。agent 可能跳过了检查，可能检查的是旧版本，也可能把 FAIL 看成了通过。豁免也可能变成习惯，那样上限就成了摆设。</li>
+<li><strong>做对的代价</strong>：额外的检查每次都要花用量，而计数器需要一个把对的东西都包括进去的工作指纹。在我的配置里，上限是 n 次检查再加两次，这只是个例子，不是调优过的值。没有任何机制的话，就让 agent 给出命令和它的结果。</li>
+<li><strong>可以问团队</strong>：“拿最近上线的那次改动来说，给我看那个确切版本上做过检查的记录。”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Say you want every piece of work to pass an independent check before it is written back to a repository (the write-back: copying finished work into the real repository, see <a href="5-3-two-approvals.html">Two gates</a>). You write that in the rules. The agent finishes, and says: &quot;I had it checked, and it passed.&quot;</p>
 <p>What can you do with that sentence? Nothing. It may be true. The agent may also have skipped the check, or checked an older version of the work, or read a FAIL as a pass because it wanted to be done. A sentence in a chat is the cheapest thing an agent produces. It is also the one thing you cannot test.</p>
 <p>This chapter is about whether the check happened, on this version, with this verdict. It is a guarantee about the process, not about the quality of the work. The fix is the same idea as in <a href="4-1-requests-and-rules.html">Requests and rules</a>: do not ask the agent whether it did the thing. Make the thing leave a trace that code can read, and let code decide.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>假設你要求每一份工作，在寫回倉庫之前，都要通過一次獨立檢查（寫回：把做完的工作複製到真實的倉庫，見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。你把它寫進規則。agent 做完了，說：「我讓人檢查過了，通過了。」</p>
 <p>這句話你能拿來做什麼？什麼都做不了。它可能是真的。agent 也可能跳過了檢查，或檢查的是工作的舊版本，或因為想快點結束，把 FAIL 讀成了通過。聊天裡的一句話，是 agent 產出最便宜的東西，也是你唯一沒辦法測試的東西。</p>
 <p>這一章講的是：檢查有沒有發生、是不是對這個版本、結論是什麼。它是對過程的保證，不是對工作品質的保證。解法和 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 是同一個想法：不要問 agent 做了沒有。讓那件事留下程式讀得懂的痕跡，由程式來決定。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>假设你想让每份工作在写回仓库之前，都通过一次独立检查（写回：把做完的工作复制进真实的仓库，见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。你把它写进规则里。agent 做完了，说：“我让人检查过了，通过了。”</p>
+<p>这句话你能拿它做什么？什么也做不了。它可能是真的。agent 也可能跳过了检查，或者检查的是工作的旧版本，或者因为想早点结束，把 FAIL 看成了通过。聊天里的一句话，是 agent 产出的最廉价的东西。它也是你唯一没法测试的东西。</p>
+<p>这一章讲的是：检查有没有发生，是不是对着这个版本，结论是什么。它保证的是过程，不是工作的质量。解法和<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>是同一个思路：不要问 agent 它有没有做那件事。让那件事留下代码读得懂的痕迹，让代码来判断。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The checker's answer is saved by code, not by the agent</h3>
 <p>When the checker answers, its answer is written to a file by a hook, as it was written. The agent cannot edit that file. The first line of the answer is fixed: PASS or FAIL (<a href="2-3-subagents.html">Use subagents sparingly</a>). So &quot;did a check happen, and what was the verdict?&quot; becomes a question about files, and a small program can answer it.</p>
 <h3>Count passes in a row, on the exact work</h3>
@@ -387,6 +401,79 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>檢查者交出什麼</h3>
 <p>計數只會和被計的東西一樣好，所以檢查者的答案有固定的形狀，就像 <a href="2-3-subagents.html">慎用子 agent</a> 裡那樣。答案之後，有一個腳本檢查這個形狀。檔案或行號不存在的發現，會被丟掉。一個什麼都不剩的 FAIL 是<strong>無效</strong>的：這次檢查會退回去，所以含糊的檢查者不會吃掉額度。</p>
 <p>腳本檢查的是形狀，不是判斷。檢查者對不對，仍然只是一個模型的意見。<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a> 接著談這點。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>检查者的回答由代码保存，不由 agent 保存</h3>
+<p>检查者回答时，它的回答由 hook 原样写进一个文件。agent 改不了这个文件。回答的第一行是固定的：PASS 或 FAIL（见<a href="2-3-subagents.html">慎用子 agent</a>）。这样，“检查发生了没有，结论是什么？”就成了关于文件的问题，一个小程序就能回答。</p>
+<h3>对确切的那份工作，数连续通过的次数</h3>
+<p>只通过一次，证明力很弱。检查者是个模型，它可能走运，也可能错。连续通过几次，能降低一次走运的结论的可能性。它消除不了每次运行共有的盲区，因为检查者是同一类模型（见<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。所以由人来说需要通过几次：<strong>连续通过 n 次</strong>。在我的配置里，人把它写在 prompt 里，比如“连续通过两次”。agent 不能替自己写。</p>
+<p>计数由代码来做，做法是：从最近一次检查开始往回走。数连续的 PASS。碰到第一个 FAIL 就停。FAIL 之后通常会有一次编辑，而编辑改变了工作，所以更早的通过不再算数：这 n 次通过必须全都对着同一个版本。并且，只有当它检查的版本<strong>恰好就是工作现在的样子</strong>时，才把这次 PASS 算进去。</p>
+<figure class="fig steps" id="fig-5-5-pass-counter" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <g data-step="1">
+  <rect class="box" x="10" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="60" y="64" text-anchor="middle" data-t="c1">第 1 次检查</text>
+  <text class="label" x="60" y="84" text-anchor="middle" data-t="c1v">通过</text>
+  <text class="label" x="60" y="150" text-anchor="middle" data-t="n1">计数 1</text>
+  </g>
+  <g data-step="2">
+  <path class="line" d="M110 68 H120"/>
+  <path class="head" d="M120 62 L130 68 L120 74 Z"/>
+  <rect class="box" x="125" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="175" y="64" text-anchor="middle" data-t="c2">第 2 次检查</text>
+  <text class="label" x="175" y="84" text-anchor="middle" data-t="c2v">不通过</text>
+  <text class="label" x="175" y="150" text-anchor="middle" data-t="n2">计数 0</text>
+  </g>
+  <g data-step="3">
+  <path class="line" d="M225 68 H235"/>
+  <path class="head" d="M235 62 L245 68 L235 74 Z"/>
+  <rect class="box" x="240" y="40" width="100" height="56" rx="8"/>
+  <text class="label" x="290" y="64" text-anchor="middle" data-t="c3">第 3 次检查</text>
+  <text class="label" x="290" y="84" text-anchor="middle" data-t="c3v">通过</text>
+  <text class="label" x="290" y="150" text-anchor="middle" data-t="n3">计数 1</text>
+  </g>
+  <g data-step="4">
+  <path class="line" d="M340 68 H350"/>
+  <path class="head" d="M350 62 L360 68 L350 74 Z"/>
+  <rect class="box-lit" x="355" y="40" width="100" height="56" rx="8"/>
+  <text class="label-lit" x="405" y="64" text-anchor="middle" data-t="c4">第 4 次检查</text>
+  <text class="label-lit" x="405" y="84" text-anchor="middle" data-t="c4v">通过</text>
+  <text class="label-lit" x="405" y="150" text-anchor="middle" data-t="n4">计数 2</text>
+  </g>
+  <g data-step="5">
+  <path class="line" d="M455 68 H465"/>
+  <path class="head" d="M465 62 L475 68 L465 74 Z"/>
+  <rect class="box-plain" x="470" y="40" width="120" height="56" rx="8"/>
+  <text class="label-muted" x="530" y="64" text-anchor="middle" data-t="edit">成果被改动</text>
+  <text class="label-muted" x="530" y="84" text-anchor="middle" data-t="edit2">在通过之后</text>
+  <text class="label-muted" x="530" y="150" text-anchor="middle" data-t="n5">计数 0</text>
+  </g>
+  <text class="label-muted" x="300" y="195" text-anchor="middle" data-t="axis">n = 2：对现在这版成果连续通过 2 次</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">第一次检查通过，计数是 1。</li><li data-step-text="2">第二次不通过，计数归零。</li><li data-step-text="3">第三次通过，计数又是 1。</li><li data-step-text="4">第四次也通过。连续两次，计数达到 n = 2，成果可以往下走。</li><li data-step-text="5">之后如果成果又被改动，先前的通过属于旧版本，不再算数，计数归零。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>由代码数连续通过的次数。不通过或成果被改动，计数就归零。</figcaption></figure>
+<p>“恰好”需要一个定义。代码会给工作取一个<strong>指纹</strong>：对结果文件、需求和计划做的哈希（内容一变就会变的一小段码）。一次检查会记下它看到的指纹。如果现在的指纹不同，那次检查说的是更早的工作，所以不算数。</p>
+<p>有两个细节让它保持诚实：</p>
+<ul>
+<li><strong>指纹里只放会改变结果的东西</strong>。进度笔记、日志和检查者自己的记录不放进去。否则勾掉一个待办项就会抵销一次通过，计数器白白归零。</li>
+<li><strong>需求或计划的改动，也会让计数归零</strong>。对着旧计划的通过，对新计划说明不了什么。</li>
+</ul>
+<p>这个计数接着管住下一步。把工作写回仓库的那一步，在通过次数达到 n 之前会被拒绝。agent 绕不过去：提高计数的唯一办法，是让工作再被检查一次。</p>
+<h3>检查次数的上限</h3>
+<p>检查者可能一直发现点什么。如果每一轮都有新的发现，循环就永远结束不了。所以有一个<strong>上限</strong>：n 次检查，再加一小点余量（在我的配置里是多两次；是个例子，不是调优过的值）。用完了还没有足够的通过次数，agent 就停下来，告诉人最后的发现在哪里。</p>
+<p>然后人在终端里，用敲码的方式选择：允许更多次检查，或者对这个版本豁免这条规则。</p>
+<h3>豁免</h3>
+<p><strong>豁免</strong>让当前版本不够通过次数也能放行。人需要它：有时最后的发现只是措辞问题，或者检查者错了，而人已经读过这份工作，也满意了。三条规则让豁免是安全的：</p>
+<ul>
+<li><strong>只有人能给</strong>，走 agent 够不着的渠道（怎么走，见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
+<li><strong>只管一个版本</strong>。工作再变，豁免就失效，计数从头开始。</li>
+<li><strong>留下记录</strong>。以后你能看出，这个版本是靠人的决定过去的，不是靠通过次数。</li>
+</ul>
+<p>还有第二个工具，用于相反的情形。如果人判断某一次检查是错的，可以把它搁置。它不再算数，既不算用掉的一次检查，也不算一个 FAIL。</p>
+<h3>没有这套机制时</h3>
+<p>如果你没有检查者 agent，也保留这个想法：不接受“我检查过了”。让 agent 贴出它运行的命令和结果，自己读结论。之后只要有编辑，就再问一遍。</p>
+<h3>检查开着，却什么都没检查</h3>
+<p>最隐蔽的失败是沉默：检查是开着的，agent 就是从来不调用检查者。因为什么都没运行，一个 FAIL 也不会被记下。prompt 里的规则抓不住这种情况，因为忘记的恰恰是 agent。</p>
+<p>所以要把检查放在 agent 非经过不可的地方：它想停下的那一刻。那一刻的 hook（见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）把状态和事实对一对。如果检查是开着的，却没有检查，或者最后一次检查之后工作又变了，它就拦一次，让 agent 补上。无论如何，写回的关卡（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）仍然是关着的，因为计数还没到 n。</p>
+<h3>检查者交上来的东西</h3>
+<p>计数只和被数的东西一样好，所以检查者的回答有固定的形状，和<a href="2-3-subagents.html">慎用子 agent</a>里一样。回答之后，由脚本检查这个形状。它会丢掉文件或行号不存在的发现。一个丢完之后什么都不剩的 FAIL 是<strong>无效</strong>的：这次检查会退回去，这样含糊的检查者就不会白吃预算。</p>
+<p>脚本检查的是形状，不是判断。检查者对不对，仍然是一个模型的意见。<a href="5-6-model-checks-model.html">模型能检查模型吗</a>会讲这个问题。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>The fingerprint has to be right.</strong> If it includes too much, every small edit cancels the passes and you pay for checks again. If it includes too little, a change slips past a pass. I have not found a perfect list; I decide by asking &quot;does this file change what the work is?&quot;.</p>
 <p><strong>A counted pass is only as strong as the checker.</strong> The counter proves that a check happened on this exact version. It does not prove the checker was right. Two checkers can give different verdicts on the same work (<a href="5-6-model-checks-model.html">Can a model check a model?</a>); that is one reason to allow more than one pass in a row for important changes. I have not measured how often a checker is wrong.</p>
 <p><strong>It does not replace running things.</strong> A pass counted from a read-only checker is a pass about reading. For checks the agent can run (tests, linters), see <a href="5-4-self-checks.html">Let the agent check its own work</a>. The same warning applies there: a test that &quot;passed&quot; means little unless you can see the command and its output. Anthropic's guide says it directly: &quot;'All tests pass' on its own tells you very little&quot; (<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>).</p>
@@ -395,27 +482,40 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>計數出來的通過，只和檢查者一樣強</strong>。計數器證明的是，在這個確切的版本上有發生過檢查。它不證明檢查者是對的。兩個檢查者對同一份工作可能給出不同的結論（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）；這是對重要的改動允許連續不只一次通過的原因之一。檢查者多常出錯，我沒有量過。</p>
 <p><strong>它不能代替真的去執行</strong>。唯讀的檢查者算出來的通過，是關於閱讀的通過。對 agent 能執行的檢查（測試、linter），見 <a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>。那裡有同樣的警告：除非你看得到指令和它的輸出，否則「通過」的測試意義不大。Anthropic 的指南說得很直接：「光是『所有測試都通過』，告訴你的很少」（<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>）。</p>
 <p><strong>豁免可能變成習慣</strong>。如果每次碰到上限，人都豁免，上限就只是裝飾。豁免的紀錄，就是你察覺這件事的辦法。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>指纹得取对</strong>。包括得太多，每个小编辑都会抵销通过，你得再付一次检查的钱。包括得太少，改动就会从一次通过旁边溜过去。我没找到完美的清单；我靠问“这个文件会不会改变工作是什么”来决定。</p>
+<p><strong>计数的通过，只和检查者一样可靠</strong>。计数器证明的是：这个确切的版本上发生过一次检查。它不证明检查者是对的。两个检查者对同一份工作可能给出不同的结论（见<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）；这就是对重要的改动，允许要求连续通过不止一次的一个理由。检查者有多常出错，我没有测过。</p>
+<p><strong>它不能代替运行东西</strong>。一个只读的检查者给出的通过，是关于“读”的通过。对 agent 能运行的检查（测试、linter），见<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>。那里的警告同样适用：一个“通过了”的测试，除非你能看到命令和它的输出，否则意义不大。Anthropic 的指南说得很直接：“'All tests pass' on its own tells you very little”（<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>）。</p>
+<p><strong>豁免可能变成习惯</strong>。如果每次碰到上限，人都选择豁免，上限就是摆设。你靠豁免的记录来发现这一点。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>A counter like this exists because the platform has no built-in notion of &quot;this work was independently checked, n times, on this version&quot;. If a platform adds that, with a record the agent cannot change, use it and drop the counter. The idea does not retire: the person, not the agent, decides what counts as checked.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>這樣的計數器存在，是因為平台沒有內建「這份工作在這個版本上，被獨立檢查過 n 次」這個概念。如果平台加上了，而且紀錄是 agent 改不了的，就用它，把計數器拿掉。想法不會退役：由人，不是 agent，決定什麼算檢查過。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>这样的计数器之所以存在，是因为平台没有内置“这份工作在这个版本上被独立检查了 n 次”这个概念。如果平台加上了，并且记录是 agent 改不了的，就用它，把计数器去掉。想法不会退役：由人，而不是 agent，来决定什么算检查过。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at how this project shows that a check really happened: CI configuration, required reviews, status checks, review comments, and any file the agent writes to say it checked something. For each kind of record, tell me whether it is tied to the exact commit, who or what can edit or fake it (including the agent), and what happens to it if the code changes afterwards. Point out any place where the only evidence is someone&#x27;s sentence. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看看這個專案怎麼證明一次檢查真的發生了：CI 設定、必要的審查、狀態檢查、審查留言，以及 agent 為了說明它檢查過什麼而寫的任何檔案。對每一種紀錄，告訴我：它有沒有綁定到確切的 commit、誰或什麼（包括 agent）能編輯或偽造它，以及之後程式碼變了，它會怎樣。指出任何唯一的證據只是某人說的一句話的地方。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>看看这个项目是怎么证明一次检查真的发生过的：CI 配置、必需的评审、状态检查、评审评论，以及 agent 写下来说明它检查过某样东西的任何文件。对每一种记录，告诉我它是不是绑定到确切的提交上、谁或者什么（包括 agent）能编辑或伪造它，以及之后代码变了，它会怎样。指出唯一的证据只是某人一句话的任何地方。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Claude Code docs: <a href="https://code.claude.com/docs/en/best-practices">Best practices</a> (ask for evidence, not a claim)</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
 <li>Claude Code 文件：<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>（要證據，不要只是一個說法）</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The counting, the limit, the waiver and the catch-up at stop all run in Copilot Harness. The harness can teach them to you from the inside, with a real record of checks. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Claude Code 文档：<a href="https://code.claude.com/docs/en/best-practices">Best practices</a>（要证据，不要说法）</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The counting, the limit, the waiver and the catch-up at stop all run in Copilot Harness. The harness can teach them to you from the inside, with a real record of checks. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Make a pass count&quot;. Teach me how this harness counts independent checks (topic 11): how the passes in a row are worked out, what the limit is, what allowing more checks, waiving and setting a check aside do, and what happens when checks are on but nothing was checked. Open a real task&#x27;s record of checks with me and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>計數、上限、豁免，以及停止時的補檢查，都在 Copilot Harness 裡執行。harness 可以從裡面教你這些，附上一份真實的檢查紀錄。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓「通過」可信」這一章。請教我這個 harness 怎麼計算獨立檢查（主題 11）：連續通過怎麼算出來、上限是多少、允許更多次檢查、豁免和把一次檢查放到一邊各做什麼，以及檢查開著卻什麼都沒檢查時會怎樣。帶我打開一個真實任務的檢查紀錄，並畫出這些部分怎麼組合在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>计数、上限、豁免，以及停下时的补检查，都在 Copilot Harness 里跑着。harness 可以从内部教你，配上一份真实的检查记录。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“让‘通过’可信”这一章。请教我这个 harness 是怎么给独立检查计数的（主题 11）：连续通过的次数是怎么算出来的，上限是多少，允许更多次检查、豁免和搁置一次检查各有什么作用，以及检查开着却没有任何检查时会怎样。带我打开一个真实任务的检查记录，并画出各部分是怎么配合的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

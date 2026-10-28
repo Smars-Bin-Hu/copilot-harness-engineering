@@ -34,3 +34,21 @@ zh-Hant:
   legend-up: "亮色：要自己做"
   legend-down: "素色：大體是買來的"
   caption: "模型外面的七層。下面三層大體是買來的，上面四層要自己做。"
+zh-Hans:
+  evidence: 证据
+  flow: 流程
+  control: 控制
+  context: 上下文
+  runtime: 运行环境
+  tools: 工具
+  model: 模型
+  q-evidence: "它做了什么？做对了吗？"
+  q-flow: "工作怎么拆？谁来判断？"
+  q-control: "我凭什么信它？"
+  q-context: "它该知道什么？"
+  q-runtime: "谁来跑这个循环？"
+  q-tools: "它够得着什么？"
+  q-model: "它能想多深？"
+  legend-up: "亮色：要自己搭"
+  legend-down: "素色：大部分是买来的"
+  caption: "模型外面的七层。下面三层大部分是买来的，上面四层要自己搭。"

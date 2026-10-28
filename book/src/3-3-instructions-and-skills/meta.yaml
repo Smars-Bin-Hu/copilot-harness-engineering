@@ -1,7 +1,7 @@
 id: "3.3"
 part: context
 core: true
-title: {en: Instructions and skills, load only what you need, zh-Hant: 指令與 skill：只載入需要的}
+title: {en: Instructions and skills, load only what you need, zh-Hant: 指令與 skill：只載入需要的, zh-Hans: 指令与 skill：只加载需要的}
 harness_tag: "1.5.50"
 wondering: [02-instructions, 03-skills, 15-design-choices]
 sources:

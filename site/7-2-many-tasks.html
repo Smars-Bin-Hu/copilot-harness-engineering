@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Ten things at once: parallel tasks</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">7.2</p><h1><span data-l="en" lang="en">Ten things at once: parallel tasks</span><span data-l="zh-Hant" lang="zh-Hant">同時管十件事：並行的是任務</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.2</p><h1><span data-l="en" lang="en">Ten things at once: parallel tasks</span><span data-l="zh-Hant" lang="zh-Hant">同時管十件事：並行的是任務</span><span data-l="zh-Hans" lang="zh-Hans">同时管十件事：并行的是任务</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a> 和 <a href="5-1-tasks.html">管任務，不管對話</a>。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To run ten things at once, run ten separate tasks with one agent each, and call the person only at the gates. Split by task, not by file. Read-only work inside a task can still go to subagents.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，需要先读过<a href="2-3-subagents.html">慎用子 agent</a>和<a href="5-1-tasks.html">管任务，不管对话</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>To run ten things at once, run ten separate tasks with one agent each, and call the person only at the gates. Split by task, not by file. Read-only work inside a task can still go to subagents.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>要同時管十件事，就跑十個獨立的任務，每個任務一個 agent，只在門的地方叫人。按任務拆，不按檔案拆。任務裡唯讀的工作，仍然可以交給子 agent。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>想同时管十件事，就开十个独立的任务，每个任务一个 agent，只在关卡处叫人。按任务拆，不按文件拆。任务内部只读的活，仍然可以交给子 agent。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide whether people may run several tasks at once, how many to start with, and where a person is called.</li>
 <li><strong>The risk:</strong> the limit is a person's attention, not the number of agents. A gate that is always approved without reading is decoration. I have no evidence of a net speed-up: I have not measured ten tasks in parallel against ten in a row.</li>
@@ -235,6 +240,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：用量隨任務數成長（十個任務，十倍的用量），再加上一個看板，或一份簡單的等待清單。從兩三個開始。</li>
 <li><strong>可以問團隊</strong>：「現在有哪些任務在等人，等多久了？如果其中兩個改了同樣的檔案，會怎樣？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：定下是否允许大家同时跑几个任务，一开始跑几个，以及在哪些地方叫人。</li>
+<li><strong>风险</strong>：瓶颈是人的注意力，不是 agent 的数量。一个永远不看就批准的关卡，只是摆设。我没有整体提速的证据：十个任务并行和十个任务串行，我没有对比测过。</li>
+<li><strong>做对的代价</strong>：用量随任务数增长（十个任务，十倍用量），外加一块看板，或者一份简单的等待清单。先从两三个开始。</li>
+<li><strong>可以问团队</strong>：“现在有哪些任务在等人、等了多久？如果其中两个改了同样的文件，会怎样？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent can do a lot while you are away. So the next thought is: if one agent is good, why not run many at once? There are two ways to read that thought, and only one of them works.</p>
 <p><strong>The first way is one big job with many agents.</strong> You hand over a large task, and a coordinator splits it among a team of agents, each with a role (plan, implement, check). This looks like a company org chart. It is the setup that <a href="2-3-subagents.html">Use subagents sparingly</a> tested: handovers lose understanding, and the same files get read again by every agent. That chapter does not argue against a fresh worker for each step of one task. What it argues against is several agents changing the same files at the same time, because then someone has to merge their work.</p>
 <p><strong>The second way is many jobs, one agent each.</strong> Ten requests from ten people, or ten different problems of your own. Each one is a separate piece of work with its own folder, its own agent, and its own finish line. Nothing is shared between them, so nothing needs to be merged.</p>
@@ -245,6 +256,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>第二種是很多個工作，每個一個 agent</strong>。十個人提的十個要求，或你自己的十個不同問題。每一個都是獨立的一件工作，有自己的資料夾、自己的 agent、自己的終點線。它們之間不共用任何東西，所以不需要合併。</p>
 <p>這一章講的是第二種。它不聰明，卻是讓一個人能同時讓十件事前進的辦法。</p>
 <p>缺的不是 agent。是你。agent 可以等人好幾個小時，不用任何運算。但它等的時候帶著的東西會過期：對話的快取過期了，等你回答時，倉庫可能已經往前走了。人也沒辦法等十個 agent，而不弄丟線索。所以設計的問題是：怎麼把一個人的注意力，分配在十個任務上？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>agent 在你不在的时候能干很多活。于是下一个念头是：一个 agent 好用，为什么不同时开很多个？这个念头有两种理解，只有一种行得通。</p>
+<p><strong>第一种，是一件大活配很多 agent</strong>。你交出一个大任务，由一个协调者把它分给一队 agent，每个有自己的角色（计划、实现、检查）。看起来像公司的组织架构图。这正是<a href="2-3-subagents.html">慎用子 agent</a>测过的做法：交接会丢掉理解，每个 agent 又把同样的文件读一遍。那一章并不反对一个任务的每一步都换一个新的帮手。它反对的是好几个 agent 同时改同样的文件，因为那样就得有人来合并它们的成果。</p>
+<p><strong>第二种，是很多件活，每件一个 agent</strong>。十个人提的十个需求，或者你自己的十个不同的问题。每一件都是独立的一份工作，有自己的文件夹、自己的 agent、自己的终点。它们之间什么都不共享，所以什么都不用合并。</p>
+<p>这一章讲的是第二种。它不花哨，但一个人能同时推进十件事，靠的就是它。</p>
+<p>稀缺的不是 agent，是你。agent 可以等人等上好几个小时，不消耗任何算力。但它等的时候带着的东西会过期：对话的缓存会失效，等你回复时仓库可能已经变了。人同样不能等十个 agent 而不丢线索。所以设计上的问题是：怎么把一个人的注意力分给十个任务？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Parallel across tasks, not inside one</h3>
 <p>Each task is a folder, as in <a href="5-1-tasks.html">Manage tasks, not chats</a>: the requirement, the plan, the to-do list and the handover file all live in files. One agent session holds one task at a time. Ten tasks are ten folders and ten sessions.</p>
 <figure class="fig" id="fig-7-2-ten-lanes"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
@@ -425,6 +441,96 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>沒有看板？用清單</strong>。這個想法手動也行：每個任務一個終端機分頁，用任務命名，再自己記一張短清單，寫哪個分頁在等、等了多久。</p>
 <h3>任務裡的唯讀幫手</h3>
 <p>一個任務一個 agent 的規則，講的是會寫入的工作。在一個任務裡，只讀的幫手仍然可以並行，並交回簡短的摘要，因為沒有幫手會改檔案（<a href="2-3-subagents.html">慎用子 agent</a>）。每個任務一個寫的，讀的則依讀取的價值，要多少有多少。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>并行在任务之间，不在任务内部</h3>
+<p>每个任务是一个文件夹，和<a href="5-1-tasks.html">管任务，不管对话</a>里一样：需求、计划、待办清单和交接文件都在文件里。一个 agent 会话一次只管一个任务。十个任务就是十个文件夹、十个会话。</p>
+<figure class="fig" id="fig-7-2-ten-lanes"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="10" y="20" data-t="head">时间，从左到右</text>
+  <text class="label" x="10" y="58" data-t="t1">任务 1</text>
+  <path class="line" d="M90 54 H590"/>
+  <rect class="box-lit" x="200" y="42" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="440" y="42" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="108" data-t="t2">任务 2</text>
+  <path class="line" d="M90 104 H590"/>
+  <rect class="box-lit" x="320" y="92" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="158" data-t="t3">任务 3</text>
+  <path class="line" d="M90 154 H590"/>
+  <rect class="box-lit" x="140" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="380" y="142" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="540" y="142" width="22" height="24" rx="4"/>
+  <text class="label" x="10" y="208" data-t="t4">任务 4</text>
+  <path class="line" d="M90 204 H590"/>
+  <rect class="box-lit" x="260" y="192" width="22" height="24" rx="4"/>
+  <rect class="box-lit" x="500" y="192" width="22" height="24" rx="4"/>
+  <text class="label-muted" x="10" y="248" data-t="t5">…… 最多十个</text>
+  <rect class="box-lit" x="10" y="256" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="32" y="265" data-t="key">一道关卡：在这里叫人</text>
+</svg>
+<figcaption>十个任务，各一个 agent，并排进行。各条线之间不共用任何东西。人只在关卡处出现。</figcaption></figure>
+<p>为什么这样拆很干净，而“一件大活”的拆法不行：</p>
+<ul>
+<li><strong>什么都不共享</strong>。每个任务有自己的文件夹，所以两个 agent 不会在同一时刻改同一个文件。任务内部没有合并，因为只有一个写入者。</li>
+<li><strong>每个任务是完整的</strong>。干活的 agent 同时也拿着计划和上下文。不存在从“理解了的 agent”到“要动手的 agent”的交接。三角色测试里的成本，就是这么来的。</li>
+<li><strong>交接靠文件，不靠消息</strong>。任务停了一天，接手的人读文件夹就行。</li>
+</ul>
+<p>这些 agent 之间不交谈。在任务之间穿梭的，只有你。</p>
+<h3>任务什么时候需要人</h3>
+<p>现在说关键的问题：任务什么时候需要你？如果答案是“经常，而且说不准”，十个任务会吃掉你一整天。所以设计上把所有对人的需要，都推到几个固定的点上，也就是<strong>关卡</strong>。关卡是 agent 停下来、等人点头的地方（细节见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</p>
+<p>任务只会因为下面这些原因等你：</p>
+<ul>
+<li>第一道关卡：需求写好了，计划也备好了，两者都在等你确认和批准；</li>
+<li>第二道关卡：写回（把做完的改动复制进仓库）在等你批准；</li>
+<li>一次写入中途失败；</li>
+<li>它需要一次只有你能做的运行的结果；</li>
+<li>它的独立检查次数用完了，由你决定下一步；</li>
+<li>agent 停了，或者一次无人值守的运行结束了。</li>
+</ul>
+<p>在这些点之间，agent 自己干活，不需要你。这就是整个思路：<strong>只在关卡处叫人</strong>。一个任务“时不时有问题就来问你”，是最糟的情况，因为你没法围绕它做安排。只在明确的点上提问的任务，是可以排进日程的。</p>
+<p>这也告诉你该建设什么。凡是让 agent 因为非关卡的原因停下来的东西，都是你注意力的漏洞：含糊的需求、缺少的权限、对无害操作弹出的确认框。每一个都值得去掉（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。</p>
+<h3>改同一份代码的任务</h3>
+<p>这是最常见的情况，所以放在前面。任务文件夹分开了，仓库并没有分开。两个改同样文件的任务，会在写回的时候撞上。一种设计办法：每个任务有自己的分支或工作副本（git worktree 是一种办法），写回时检查它碰过的文件在任务开始之后有没有变，变了就停下来问人。一次只写回一个任务。十个任务同时改一个仓库，我没有测过，所以说不准这个问题多久发生一次。</p>
+<h3>注意力才是贵的</h3>
+<p>跑十个任务，不会让你快十倍。它只是把你的时间挪到了关卡上，而关卡只有在你真的看了的时候才有价值。</p>
+<ul>
+<li><strong>让每个关卡都容易读</strong>。你要批准的计划应该一页放得下，在编辑器里看，而不是在终端里翻滚动条。你要确认的需求也应该是一页（<a href="5-2-requirements.html">需求由 agent 写，人确认</a>）。如果读一遍要二十分钟，你就会扫一眼了事，扫一眼就批准，又回到了“点允许”的老问题。有个值得盯的数字：你驳回或修改计划的频率。如果从来没有，你可能是在扫一眼。</li>
+<li><strong>手里的不要超过你读得过来的</strong>。能跑多少个任务，取决于你读计划和 diff 有多快，不取决于屏幕上放得下几个会话。先从两三个开始。能稳稳拿住几个，要看任务本身，我没有测过。</li>
+<li><strong>把相似的关卡放一起</strong>。有三份计划在等，就一口气读完。在计划、diff 和需求之间来回切换，比连读三份计划更费力。</li>
+<li><strong>成本会累加</strong>。十个任务是十倍用量，所以每个任务都要配一条停止规则（<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>）。一个任务等你的时间如果超过了 prompt 缓存的存活时间（Anthropic 的 API 上是五分钟或一小时，见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>），你回来时它要按全价把上下文重读一遍。Copilot 在这方面怎么处理，我没有查过。</li>
+</ul>
+<h3>一份等你的清单</h3>
+<p>开着十个会话，你怎么知道哪一个在等你？一个窗口一个窗口地翻，正是你想避免的成本。</p>
+<p>答案是<strong>看板</strong>：一个页面，列出每个未结束的任务、它在等什么、等了多久。有两个设计点让它值得信任。</p>
+<figure class="fig" id="fig-7-2-board"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
+  <text class="label-muted" x="20" y="22" data-t="c1">任务</text>
+  <text class="label-muted" x="200" y="22" data-t="c2">状态</text>
+  <text class="label-muted" x="350" y="22" data-t="c3">在等什么</text>
+  <rect class="box-lit" x="10" y="32" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="54" data-t="n1">修正公式</text>
+  <text class="label-lit" x="200" y="54" data-t="s1">等你</text>
+  <text class="label-lit" x="350" y="54" data-t="w1">审批计划</text>
+  <rect class="box-lit" x="10" y="72" width="580" height="34" rx="6"/>
+  <text class="label-lit" x="20" y="94" data-t="n2">新增一个字段</text>
+  <text class="label-lit" x="200" y="94" data-t="s2">等你</text>
+  <text class="label-lit" x="350" y="94" data-t="w2">确认需求</text>
+  <rect class="box" x="10" y="112" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="134" data-t="n3">给一条 pipeline 改名</text>
+  <text class="label-muted" x="200" y="134" data-t="s3">agent 工作中</text>
+  <text class="label-muted" x="350" y="134" data-t="w3">无</text>
+  <rect class="box" x="10" y="152" width="580" height="34" rx="6"/>
+  <text class="label" x="20" y="174" data-t="n4">任务失败的根因</text>
+  <text class="label-muted" x="200" y="174" data-t="s4">agent 工作中</text>
+  <text class="label-muted" x="350" y="174" data-t="w4">无</text>
+  <text class="label-muted" x="20" y="212" data-t="note">状态由 hook 和代码写入，不是 agent 写的。</text>
+  <text class="label-muted" x="20" y="232" data-t="note2">也显示等了多久。</text>
+</svg>
+<figcaption>看板：一张列出所有未结束任务和它们在等什么的清单。等你的排在最前面。这是示意图，不是截图。</figcaption></figure>
+<ul>
+<li><strong>状态由代码写，不由 agent 写</strong>。agent 停下来时，一个 hook 会运行，记下“等你”。看板读的是这份给机器看的状态文件。它不读 agent 用文字写的进度笔记，因为 agent 会忘了打勾，或者勾多了。</li>
+<li><strong>等待是一个数字</strong>。一个任务从开始等待到现在过了多久，告诉你先打开哪一个。</li>
+</ul>
+<p>同一个页面上有个开关，我在一天结束时用。它会暂停每个 agent 没在干活的未结束任务，第二天早上再接回来。暂停期间的等待时间不计，所以数字保持真实。</p>
+<p><strong>没有看板？用清单</strong>。这个思路手工也行：每个任务一个终端标签页，标题写任务名，再自己记一份短清单，写哪个标签页在等、等了多久。</p>
+<h3>任务内部只读的帮手</h3>
+<p>“一个任务一个 agent”这条规矩，针对的是会写入的活。在一个任务内部，只读的帮手仍然可以并行，交回简短的摘要，因为没有哪个帮手会改文件（<a href="2-3-subagents.html">慎用子 agent</a>）。每个任务一个写入者，读的人要多少有多少，只要读的活值得。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Context switching is yours.</strong> The agents do not mind switching. You do. Ten tasks in ten different domains cost more attention than ten in the same domain, because each gate needs different knowledge.</p>
 <p><strong>A gate that is always yes is a gate you do not read.</strong> If you approve ten plans in a row without opening one, the gates are decoration. The remedy is fewer, smaller gates, not more.</p>
 <p><strong>A board is only as good as its state.</strong> If the state came from the agent's own words, the board would lie. That is why the state comes from hooks and files.</p>
@@ -433,14 +539,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>永遠是「好」的門，就是你不讀的門</strong>。如果你連續批准十份計畫，一份都沒打開過，那些門就是裝飾。解法是更少、更小的門，不是更多。</p>
 <p><strong>看板只和它的狀態一樣好</strong>。如果狀態來自 agent 自己的話，看板就會說謊。這就是狀態來自 hook 和檔案的原因。</p>
 <p><strong>我沒有拿它和其他辦法比較過</strong>。我沒有淨加速的證據：我沒有量過十個並行任務，對比十個一個接一個，或對比一個團隊。論點是結構：沒有共用的東西，人的注意力是極限。標題裡的「十」是一個例子，不是結果。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>上下文切换的成本在你身上</strong>。agent 不在乎切换，你在乎。十个任务分布在十个不同的领域，比十个都在同一领域更费注意力，因为每个关卡需要不同的知识。</p>
+<p><strong>永远通过的关卡，就是你不会读的关卡</strong>。如果你连着批准了十份计划，一份也没打开过，这些关卡就是摆设。补救办法是更少、更小的关卡，不是更多。</p>
+<p><strong>看板的好坏取决于它的状态</strong>。如果状态来自 agent 自己说的话，看板就会说谎。这就是状态来自 hook 和文件的原因。</p>
+<p><strong>我没有拿它和别的办法比过</strong>。我没有整体提速的证据：十个并行任务和十个串行任务，或者和一个团队，我都没对比测过。论据在结构上：什么都不共享，人的注意力是上限。标题里的“十”是个例子，不是结果。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The board exists because a session does not tell you that it is waiting. When the platform shows, in one place, every running agent session and what each is waiting for, the board can go. I have not checked how far Copilot has got with that.</p>
 <p>The idea does not go. Even when the platform does the listing, the split stays: one writer per task, and the person called at the gates.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>看板存在，是因為會話不會告訴你它在等。平台如果在一個地方，顯示每個執行中的 agent 會話，和各自在等什麼，看板就可以拿掉。Copilot 在這件事上做到哪裡，我沒查過。</p>
 <p>想法不會拿掉。就算由平台來列出，拆法還是留著：每個任務一個寫的，人在門的地方被叫來。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>有看板，是因为会话不会告诉你它在等。等平台在一个地方显示所有正在运行的 agent 会话和它们各自在等什么，看板就可以删。Copilot 在这方面做到哪一步了，我没有查过。</p>
+<p>思路不会消失。即使列表由平台来做，这个划分依然成立：每个任务一个写入者，只在关卡处叫人。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Using read-only git commands, list the branches, worktrees and open pull requests in this repository that have recent commits. For each, list the files it changes relative to the main branch. Then find pairs that change the same files, and say which would conflict if written back together. For each piece of work, say what it is probably waiting for (review, a decision, a test run). Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>只用唯讀的 git 指令，列出這個倉庫裡有最近 commit 的分支、worktree 和開著的 pull request。對每一個，列出它相對於主分支改了哪些檔案。然後找出改同樣檔案的配對，說明如果一起寫回，哪些會衝突。對每一件工作，說明它大概在等什麼（審查、一個決定、一次測試運行）。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>只用只读的 git 命令，列出这个仓库里最近有提交的分支、worktree 和未合并的 pull request。对每一个，列出它相对主分支改了哪些文件。然后找出改了相同文件的几对，说明如果一起写回，哪些会冲突。对每一项工作，说明它多半在等什么（review、一个决定、一次测试运行）。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="2-3-subagents.html">Use subagents sparingly</a>: why a team of agents on one task did not pay, and where parallel reading does.</li>
 <li><a href="5-1-tasks.html">Manage tasks, not chats</a>: the task folder that makes each lane independent.</li>
@@ -455,15 +569,25 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>：你不在時執行的任務的停止規則。</li>
 <li><a href="7-4-rollout-and-governance.html">落地與治理</a>：不只一個人跑任務時，誰擁有規則。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The task folders, the board and the &quot;waiting for you&quot; state run in Copilot Harness. The harness can show you a board with real tasks on it. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="2-3-subagents.html">慎用子 agent</a>：为什么一个任务上的一队 agent 不划算，以及并行阅读在哪里划算。</li>
+<li><a href="5-1-tasks.html">管任务，不管对话</a>：让每一条泳道各自独立的任务文件夹。</li>
+<li><a href="5-3-two-approvals.html">两道门：人在哪里审批</a>：关卡是什么，怎么让“点头”是真的。</li>
+<li><a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>：你不在时运行的任务的停止规则。</li>
+<li><a href="7-4-rollout-and-governance.html">落地与治理</a>：不止一个人跑任务时，规则归谁管。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The task folders, the board and the &quot;waiting for you&quot; state run in Copilot Harness. The harness can show you a board with real tasks on it. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Ten things at once&quot;. Teach me how this harness lets one person run several tasks: the task folder, the states a task can wait in, and how the board knows a task is waiting. Open the real files with me, and show me what the board reads and who writes it.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>任務資料夾、看板和「在等你」的狀態，在 Copilot Harness 裡執行。harness 可以給你看一個放著真實任務的看板。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「同時管十件事」這一章。請教我這個 harness 怎麼讓一個人跑好幾個任務：任務資料夾、任務可以等待的各種狀態，以及看板怎麼知道一個任務在等。帶我打開真實的檔案，讓我看看板讀什麼、誰寫它。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>任务文件夹、看板和“等你”这个状态，都在 Copilot Harness 里跑着。harness 可以给你看一块放着真实任务的看板。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“同时管十件事：并行的是任务”这一章。请教我这个 harness 是怎么让一个人跑多个任务的：任务文件夹、任务可以处于哪几种等待状态，以及看板怎么知道一个任务在等。带我打开真实的文件，并让我看看看板读什么、谁来写。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

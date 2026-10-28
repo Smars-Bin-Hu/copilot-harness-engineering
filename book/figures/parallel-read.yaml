@@ -30,3 +30,19 @@ zh-Hant:
   step-3: "每個 mapper 交回一份簡短的摘要，原始材料留在它那裡。"
   step-4: "Reduce：主 agent 只讀摘要，把它們合成一個答案。"
   caption: "Map-reduce：把閱讀拆開、並行地讀、再合併摘要。主 agent 的上下文裡只有摘要。"
+zh-Hans:
+  main: 主 agent
+  question: "一个要读很多东西的问题"
+  mapper: mapper
+  part1: 读第 1 份
+  part2: 读第 2 份
+  part3: 读第 3 份
+  part4: 读第 4 份
+  same-time: "同时进行"
+  summary: 摘要
+  answer: "根据摘要，得出一个答案"
+  step-1: "Map：主 agent 把要读的东西分成几份，每份开一个 mapper。"
+  step-2: "每个 mapper 只读自己那一份，大家同时读。"
+  step-3: "每个 mapper 交回一份简短的摘要，原始材料留在它自己那里。"
+  step-4: "Reduce：主 agent 只读摘要，把它们汇总成一个答案。"
+  caption: "Map-reduce：把阅读拆开、并行地读、再汇总摘要。主 agent 的上下文里只有摘要。"

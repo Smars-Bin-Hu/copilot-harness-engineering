@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>One run proves nothing</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">6.4</p><h1><span data-l="en" lang="en">One run proves nothing</span><span data-l="zh-Hant" lang="zh-Hant">一次運行證明不了什麼</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and that you have seen it do something slightly different when you asked for the same thing twice. Nothing else.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.4</p><h1><span data-l="en" lang="en">One run proves nothing</span><span data-l="zh-Hant" lang="zh-Hant">一次運行證明不了什麼</span><span data-l="zh-Hans" lang="zh-Hans">一次运行证明不了什么</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and that you have seen it do something slightly different when you asked for the same thing twice. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，而且看過你把同一件事要求兩次，它做得有點不一樣。不需要別的。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent never does exactly the same thing twice, so one run proves nothing. Run the task several times, look at the spread, and report numbers together with their conditions.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你需要用过一个写代码的 AI agent，并且见过你两次提同样的要求，它做出来的东西略有不同。别的都不需要。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent never does exactly the same thing twice, so one run proves nothing. Run the task several times, look at the spread, and report numbers together with their conditions.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 從不會把同一件事做得一模一樣兩次，所以一次運行證明不了什麼。把任務跑好幾次，看分布的範圍，報告數字時連同條件一起報告。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 从来不会把同一件事做得一模一样，所以一次运行什么也证明不了。把任务多跑几次，看看波动有多大，报告数字时要连同条件一起写。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> require that every claim that one setup is better states how many times each side was run and under what conditions. For unattended work, ask for &quot;works every time&quot;, not the average.</li>
 <li><strong>The risk:</strong> one run each proves nothing. In the textbook example in this chapter, 4 passes out of 5 runs is compatible with a true pass rate anywhere from about 38 to 96 percent. To tell 50 from 70 percent reliably takes roughly ninety runs a side. These are rough numbers for a pass/fail task, not measurements of any agent.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：各跑一次證明不了什麼。以這一章的教科書例子來說，5 次運行通過 4 次，和真實通過率在大約 38% 到 96% 之間的任何值，都相容。要可靠地分辨 50% 和 70%，每一邊大約要跑九十次。這些是通過或失敗型任務的粗略數字，不是對任何 agent 的測量。</li>
 <li><strong>做對的成本</strong>：運行次數會相乘：任務數乘以設定數乘以次數。大多是錢和時間。</li>
 <li><strong>可以問團隊</strong>：「兩邊各跑了幾次？範圍有沒有重疊？除了被測的東西，其他一切都相同嗎？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：要求凡是说“某套配置更好”，都必须写明两边各跑了多少次、在什么条件下跑的。对无人值守的工作，要看“每次都行”，不要看平均值。</li>
+<li><strong>风险</strong>：每边只跑一次，什么也证明不了。本章的教科书例子里，5 次运行通过 4 次，和真实通过率在约 38% 到 96% 之间的任何值都吻合。要可靠地分清 50% 和 70%，每边大约要跑九十次。这些是针对通过/失败类任务的粗略数字，不是对任何 agent 的实测。</li>
+<li><strong>做对的代价</strong>：运行次数会相乘：任务数乘配置数乘运行次数。主要是钱和时间。</li>
+<li><strong>可以问团队</strong>：“每一边各跑了多少次？范围有没有重叠？除了被测的那一样，其他是不是都一样？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Every number in <a href="2-3-subagents.html">Use subagents sparingly</a> comes from one run per task. The team cost about 4.5 times the usage and about 6 times the time of a single agent. Those two ratios are the most quoted figures in that chapter, and also the weakest. If I ran the same four tasks again, the ratios would move. I do not know by how much.</p>
 <p>That is the problem this chapter is about. You ran the old setup once and the new setup once, and the new one scored higher. Is the new one better? Or would the old one have scored higher the next time?</p>
@@ -248,6 +259,13 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <ul>
 <li><strong>一次運行</strong>（run），是 agent 對一個任務從頭到尾的一次嘗試。</li>
 <li><strong>分布範圍</strong>（spread），是同一種設定在同一個任務上，各次運行之間結果差多少。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p><a href="2-3-subagents.html">慎用子 agent</a>里的每个数字，都来自每个任务跑一次。团队的用量约是单个 agent 的 4.5 倍，时间约 6 倍。这两个倍数是那一章里引用最多的数字，也是最站不稳的数字。如果我把同样四个任务再跑一遍，这两个倍数会变。我不知道会变多少。</p>
+<p>这就是本章要讲的问题。旧配置你跑了一次，新配置你跑了一次，新的得分更高。新的更好吗？还是说，下一次旧的会得分更高？</p>
+<p>先交代两个词。</p>
+<ul>
+<li><strong>一次运行</strong>（run），是 agent 对一个任务从头到尾做一次。</li>
+<li><strong>波动</strong>（spread），是同一套配置在同一个任务上，多次运行的结果之间相差多少。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Why runs differ</h3>
 <p>If you ask a person to do the same job twice, you get two slightly different results. An agent is the same, for plain reasons.</p>
@@ -435,6 +453,99 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>除了被測的東西，其他一切都相同嗎？</li>
 </ol>
 <p><strong>今天就能跑的測試</strong>。拿一個你知道正確答案的任務。用同樣的要求，交給你的 agent 五次，每次都開新的對話。新的對話很重要：舊的對話帶著它學到的東西，後面的運行就不公平了。做一張小表，每次運行一列：通過或失敗、幾分鐘、用量。把五個結果並排看。這就是你自己的設定在那個任務上的分布範圍，它通常比大家預期的大。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>为什么每次运行都不一样</h3>
+<p>让一个人把同一件活干两遍，得到的结果会略有不同。agent 也一样，原因很平常。</p>
+<ul>
+<li><strong>模型选词带有一定的随机性</strong>。它不总是选最可能的那一步。两次运行从同一个需求开始，第一步可能就不同。</li>
+<li><strong>小差别会越滚越大</strong>。agent 在一个循环里干活（<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>）。如果运行 A 先读文件 X，运行 B 先读文件 Y，之后的一切就建立在不同的认识上。早期的一个选择，可能导向不同的答案。</li>
+<li><strong>周围的环境会变</strong>。工具返回的是那一刻它返回的东西。一条命令的耗时不一样，或者超时，或者被速率限制拖慢。一次搜索列出结果的顺序也可能不同。</li>
+<li><strong>模型本身也可能变</strong>。如果平台能在不告诉你的情况下，换掉某个名字背后的模型，那么相隔一周的两次运行，可能就不是同一个模型。每次运行旁边，都记下模型和日期。</li>
+</ul>
+<p>这几个因素各占多少波动，我没有测过。对本章来说这不要紧。要紧的是波动是存在的，在你做任何决定之前，必须先看到它。</p>
+<h3>一次运行和多次运行</h3>
+<figure class="fig steps" id="fig-6-4-spread" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label" x="20" y="74" data-t="setup-a">配置 A</text>
+  <text class="label" x="20" y="154" data-t="setup-b">配置 B</text>
+  <path class="line" d="M60 200 H570"/>
+  <path class="head" d="M570 194 L580 200 L570 206 Z"/>
+  <text class="label-muted" x="60" y="224" data-t="low">较差</text>
+  <text class="label-muted" x="580" y="224" text-anchor="end" data-t="high">较好</text>
+  <text class="label-muted" x="320" y="250" text-anchor="middle" data-t="axis">单次运行的分数（示意，不是数据）</text>
+
+  <rect class="bar-lit" x="195" y="64" width="12" height="12" rx="2"/>
+  <rect class="bar-lit" x="415" y="144" width="12" height="12" rx="2"/>
+  <text class="label-lit" x="201" y="50" text-anchor="middle" data-t="one-a">一次运行</text>
+  <text class="label-lit" x="421" y="130" text-anchor="middle" data-t="one-b">一次运行</text>
+
+  <g data-step="2">
+    <rect class="bar" x="255" y="64" width="12" height="12" rx="2"/>
+    <rect class="bar" x="330" y="64" width="12" height="12" rx="2"/>
+    <rect class="bar" x="385" y="64" width="12" height="12" rx="2"/>
+    <rect class="bar" x="445" y="64" width="12" height="12" rx="2"/>
+    <rect class="bar" x="330" y="144" width="12" height="12" rx="2"/>
+    <rect class="bar" x="380" y="144" width="12" height="12" rx="2"/>
+    <rect class="bar" x="470" y="144" width="12" height="12" rx="2"/>
+    <rect class="bar" x="520" y="144" width="12" height="12" rx="2"/>
+  </g>
+
+  <g data-step="3">
+    <path class="line-lit" d="M195 100 H457 M195 94 V106 M457 94 V106"/>
+    <path class="line-lit" d="M330 180 H532 M330 174 V186 M532 174 V186"/>
+    <rect class="box-plain" x="330" y="88" width="127" height="104" rx="6"/>
+    <text class="label-muted" x="393" y="170" text-anchor="middle" data-t="overlap">重叠</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">各跑一次。B 的分数比较高，看起来 B 更好。</li><li data-step-text="2">各跑几次。同一套配置现在给出的是一段分数的分布，不是一个分数。</li><li data-step-text="3">两段范围重叠。让 B 看起来更好的那一次，可能来自任何一套配置。要报告波动范围。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>示意图：为什么一次运行证明不了什么。同一套配置每次都不同，范围重叠时，一次运行分不出两套配置。</figcaption></figure>
+<p>看这张图。每边只跑一次时，配置 B 看起来比配置 A 好。每边多跑几次，你就会看到两边有重叠。让 B 看起来更好的那一次运行，两种配置都可能跑出来。这是示意图，不是数据：它显示的是问题的形状，不是你的 agent 上这个问题有多大。</p>
+<h3>要跑几次？</h3>
+<p>没有一个数字对所有情况都对。取决于你想看出多大的差别。差距大，几次运行就能看出来。差距小，就需要很多次。</p>
+<p>想体会为什么，先数一套配置。假设它 5 次运行通过了 4 次。对这个结果，常用的 95% 区间（Wilson 区间，我是手算的）大约是从 38% 到 96%。就算 5 次全过，也只能说大约是 57% 到 100%。五次运行分不清一套通过率 40% 的配置和一套通过率 95% 的配置。两套配置对比，需要更多：标准的样本量公式说，要可靠地看出 50% 对 70%，每边大约要跑九十次。这些是针对通过/失败类任务的粗略的教科书数字，不是对任何 agent 的实测。</p>
+<p>我的做法：</p>
+<ul>
+<li><strong>先对你已有的配置，在一个任务上跑几次</strong>。每边五次是起点，不是结论。看看结果自己会相差多少。如果相差很大，几次运行就看不出小的效果。</li>
+<li><strong>一直加运行，直到图不再变</strong>。如果再多跑一次，范围没怎么动，你就大致知道波动有多大了。</li>
+<li><strong>成对比较</strong>。两套配置在同样的任务上都跑，逐个任务看差值。对两边都很难的任务，不会再给比较增加噪声，所以比起比较两个平均值，需要的运行次数更少。</li>
+<li><strong>对你在意的改动多跑几次</strong>。不必每件事都跑很多次。</li>
+</ul>
+<p>这要花钱，而且涨得很快：任务数乘配置数乘运行次数。这是让任务集保持小而精的理由（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>），也是在你付不起更多次数时要老实说明的理由。</p>
+<h3>“k 次全部成功”和“k 次里至少成功一次”</h3>
+<p>一个任务跑 k 次，有两个问题，答案差别很大。</p>
+<ul>
+<li><strong>k 次运行里至少成功一次</strong>。如果人可以多试几次，挑最好的，要看的就是这个。它叫 <strong>pass@k</strong>（Anthropic 的定义：“agent 在 k 次尝试中至少得到一个正确解的可能性”）。k 越大，它越高。</li>
+<li><strong>k 次运行全部成功</strong>。如果 agent 独自运行，没人看着，而且必须每次都行，要看的就是这个。它叫 <strong>pass^k</strong>。k 越大，它越低：“要求在更多次试验里都保持一致，门槛更高。”（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</li>
+</ul>
+<p>tau-bench 的论文正是为此提出了 pass^k。它报告说，它在 2024 年测的那些 agent “相当不稳定（零售任务上 pass^8 低于 25%）”。这里的 pass^8，是指同一个任务试 8 次全部成功。这个数字只针对他们的零售任务和那些模型，不是对你的任务的论断。（<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>）能迁移过来的是这个问题。如果 agent 无人值守地运行，平均通过率 80% 不是你要的数字。你要知道的是它有多大概率每次都行。试点也一样：按这个来评判，不要按平均通过率。</p>
+<p>挑和你用 agent 的方式相符的那个问题。有人盯着的 agent，问的是第一个。通宵运行的 agent，问的是第二个（<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>）。</p>
+<h3>方向可以信，倍数别当真</h3>
+<p>我在<a href="2-3-subagents.html">慎用子 agent</a>里的结果，只有有限的说服力。四到六倍的差距很大，所以我相信方向：同样的结果，团队贵得多。我不信“4.5”或者“6”。每个任务只跑了一次，而且两边的配置也不一样。这就是靠很少几次运行做出的诚实结论该有的样子：说它指向哪边，不说差多远。</p>
+<h3>常见的误读</h3>
+<ul>
+<li><strong>每边只跑一次</strong>。上面讲过的情况。</li>
+<li><strong>几次运行的平均值，只报一个数</strong>。它把波动藏起来了。两套平均值相同的配置，行为可能差别很大：一套总落在中间，另一套在很好和很差之间摆动。</li>
+<li><strong>只算成功的那几次</strong>。如果你为了“数字好看”把失败的去掉，你量的就是另一样东西了。</li>
+<li><strong>结果看起来好就停</strong>。如果你一直跑到新配置赢了才停，那就是你选了答案。连续三次好结果，可能来自一套只有一半时间能通过的配置。开跑之前就定好运行次数。</li>
+<li><strong>比较不对等的两边</strong>。顶级模型对小模型，有知识库对没有（<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>），规则也不一样。这时差距是好几处差别的总和。除了被测的那一样，其他都保持一致。</li>
+<li><strong>漏掉隐藏的成本</strong>。如果你报告的用量不含子 agent，用了子 agent 的配置就显得便宜（<a href="2-3-subagents.html">慎用子 agent</a>）。</li>
+</ul>
+<h3>怎么写出一句诚实的话</h3>
+<p>把条件放在数字旁边。没有条件的数字，没法检查，也没法重复。我会写下的条件：</p>
+<ol>
+<li><strong>跑了多少次，多少个任务</strong>。</li>
+<li><strong>每一边用的模型和配置</strong>。</li>
+<li><strong>怎么打分的</strong>，由谁或什么打的。</li>
+<li><strong>用量算了哪些</strong>（只算主对话，还是连子 agent 一起算）。</li>
+<li><strong>波动有多大</strong>，如果只跑了一次，就写“我只跑了一次”。</li>
+</ol>
+<p>这是按这个写法写出来的我自己的结果：“四个任务，各跑一次；一个用顶级模型的 agent，对一个带知识库的三角色团队；由同一个脚本打分；用量是平台给的 AI credits。两边四个都做对了。团队的用量约是 4.5 倍，时间约是 6 倍。每边只跑了一次，所以我信方向，不信倍数。”</p>
+<p>这句话看起来比“团队贵 4.5 倍”差。但它才是真的。</p>
+<h3>测你自己的配置</h3>
+<p>对任何“某样东西更好”的说法，问<strong>三个问题</strong>：</p>
+<ol>
+<li>每一边各跑了几次？</li>
+<li>范围有没有重叠？</li>
+<li>除了被测的那一样，其他是不是都一样？</li>
+</ol>
+<p><strong>今天就能跑的一个测试</strong>。挑一个你知道正确答案的任务。用同样的需求，让你的 agent 做五次，每次开一个新对话。新对话很重要：旧对话带着它学到的东西，后面几次运行就不公平了。做一张小表，每次运行一行：通过还是失败、几分钟、用量。把五个结果放在一起看。这就是你自己的配置在那个任务上的波动，通常比人预想的大。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More runs cost real money.</strong> If the budget does not allow enough runs, say that, and use the weaker words: &quot;points toward&quot;, &quot;I ran it twice&quot;.</p>
 <p><strong>Spread is not a fault to remove.</strong> You can lower it with a tighter setup, but part of it stays. Plan for it: checks, a person at the gates, and a limit on retries (<a href="5-5-counted-checks.html">Make a pass count</a>).</p>
 <p><strong>A statistic does not replace reading.</strong> Five runs tell you the spread. They do not tell you why one failed. Read the failures (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>).</p>
@@ -443,14 +554,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>分布範圍不是要消除的缺點</strong>。你可以用更嚴謹的設定降低它，但一部分會留下來。為它做計畫：檢查、門上有人，和重試的上限（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</p>
 <p><strong>統計不能取代閱讀</strong>。五次運行告訴你分布範圍。它們不告訴你一次為什麼失敗。要讀失敗的運行（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
 <p><strong>我自己的結果沒有信賴區間</strong>。各跑一次，沒有東西可以拿來算區間；跑幾次的話，區間也會很寬，上面的例子就是這樣。所以我把運行擺出來，說它們指向哪個方向。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>多跑要花真金白银</strong>。如果预算不够跑足次数，就直说，并用弱一点的措辞：“倾向于”“我跑了两次”。</p>
+<p><strong>波动不是要消除的故障</strong>。配置收紧可以让它小一些，但总有一部分留着。要把它考虑进去：检查、关卡处有人、对重试设上限（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</p>
+<p><strong>统计不能代替阅读</strong>。五次运行告诉你波动。它不告诉你其中一次为什么失败。要去读失败的运行（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</p>
+<p><strong>我自己的结果没有置信区间</strong>。每边只跑一次，没有东西可以拿来算区间；只跑几次，区间也会非常宽，上面的例子就是这样。所以我给出每次运行，再说它们指向哪边。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The hand-made habit of running a task again and again exists because I have no tool that does it and reports the spread. If a platform runs the same task several times and shows the spread, use that. If the models become so steady that the spread is small on my tasks, I can run fewer. I would have to measure that, not assume it.</p>
 <p>The reasoning stays as long as the agent chooses its moves with some chance in them: one run cannot say how good a setup is.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>手動把任務一次又一次重跑的習慣存在，是因為我沒有工具做這件事並報告分布範圍。如果平台能把同一個任務跑好幾次並顯示分布範圍，就用那個。如果模型變得很穩，在我的任務上分布範圍很小，我可以少跑幾次。這得靠測量，不能靠假設。</p>
 <p>只要 agent 選下一步時還帶著一點機率，道理就會留著：一次運行，說不出一種設定有多好。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>把任务一遍遍重跑的这个手工习惯之所以存在，是因为我没有工具能做这件事并报告波动。如果哪个平台能把同一个任务跑几次并显示波动，就用它的。如果模型变得足够稳定，在我的任务上波动很小，我可以少跑几次。但这得靠测，不能靠假设。</p>
+<p>只要 agent 选下一步时还带着一定的随机性，这背后的道理就不变：一次运行说不清一套配置有多好。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Search this repository&#x27;s README, docs, pull request templates and any decision records for claims about AI agent results: words like faster, better, cheaper, saves, fewer errors. For each claim, list the evidence given: how many runs, how many tasks, which model and setup on each side, how it was scored, and what the usage counted. Mark each claim as &quot;conditions stated&quot;, &quot;partly stated&quot; or &quot;no conditions&quot;. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>搜尋這個倉庫的 README、文件、pull request 範本和任何決策紀錄，找出關於 AI agent 成果的說法：像是更快、更好、更便宜、節省、更少錯誤這類字眼。對每一個說法，列出所給的證據：跑了幾次、幾個任務、兩邊各用哪個模型和設定、怎麼打分、用量算了什麼。把每個說法標成「條件有寫」、「條件寫了一部分」或「沒有條件」。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不需要 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>在这个仓库的 README、文档、pull request 模板和任何决策记录里，搜索关于 AI agent 效果的说法：比如更快、更好、更便宜、节省、错误更少这类词。对每一条说法，列出它给出的证据：跑了多少次、多少个任务、两边各用什么模型和配置、怎么打分、用量算了什么。把每条说法标成“写明了条件”“部分写明”或“没有条件”。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>, on multiple trials, pass@k and pass^k</li>
 <li>tau-bench: <a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
@@ -461,15 +580,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>tau-bench：<a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
 <li>本書：<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness does not run its scenarios several times; each one runs once, by hand. What the harness has is the material this chapter builds on: the log and the report that tell you what each run did. The harness can show you where a run's time and usage are recorded, so you can build your own repeated runs on top. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>，讲多次试验、pass@k 和 pass^k</li>
+<li>tau-bench：<a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
+<li>本书内：<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness does not run its scenarios several times; each one runs once, by hand. What the harness has is the material this chapter builds on: the log and the report that tell you what each run did. The harness can show you where a run's time and usage are recorded, so you can build your own repeated runs on top. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;One run proves nothing&quot;. Teach me what this harness records for a single run (topic 12): the log, the usage and time of a task, and the fixed scenarios. Help me see what I would need to add to run one scenario five times and compare the results.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 不會把它的情境跑好幾次；每個只手動跑一次。harness 有的，是這一章所依據的材料：告訴你每次運行做了什麼的日誌和報告。harness 可以給你看，一次運行的時間和用量記在哪裡，讓你在上面建自己的重複運行。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「一次運行證明不了什麼」這一章。請教我這個 harness 為單次運行記錄了什麼（主題 12）：日誌、一個任務的用量和時間，以及固定情境。幫我看出，要把一個情境跑五次並比較結果，我還需要加什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 不会把场景跑好几次；每个场景都是手动跑一次。harness 有的，是本章所依赖的材料：告诉你每次运行做了什么的日志和报告。harness 能给你看一次运行的时间和用量记在哪里，这样你就能在它上面搭自己的重复运行。完成上面的配置后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读过“一次运行证明不了什么”这一章。请教我这个 harness 对单次运行记录了什么（主题 12）：日志、一个任务的用量和时间，以及固定场景。帮我看看，要把一个场景跑五次并比较结果，我还需要补上什么。</code></pre></div>
+<p>它一次只教一小块，会停下来问你跟不跟得上，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

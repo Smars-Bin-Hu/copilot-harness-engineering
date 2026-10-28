@@ -1,6 +1,6 @@
 id: "8.4"
 part: case-kb
-title: {en: "Learning a domain in batches", zh-Hant: "分批學一個領域"}
+title: {en: "Learning a domain in batches", zh-Hant: "分批學一個領域", zh-Hans: "分批学一个领域"}
 harness_tag: "1.5.50"
 wondering: [16-knowledge-base]
 sources:

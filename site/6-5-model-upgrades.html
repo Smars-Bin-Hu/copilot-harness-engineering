@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>When the model is upgraded, delete</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">6.5</p><h1><span data-l="en" lang="en">When the model is upgraded, delete</span><span data-l="zh-Hant" lang="zh-Hant">模型升級了，就要刪</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and that you have written rules or steps for it. Nothing else.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.5</p><h1><span data-l="en" lang="en">When the model is upgraded, delete</span><span data-l="zh-Hant" lang="zh-Hant">模型升級了，就要刪</span><span data-l="zh-Hans" lang="zh-Hans">模型升级了，就要删</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and that you have written rules or steps for it. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，而且替它寫過規則或步驟。不需要別的。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>When the model is upgraded, rerun your evals first. Then delete the rules, checks and steps that the new model no longer needs, because scaffolding built for an old model may slow the new one.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你需要用过一个写代码的 AI agent，并且给它写过规则或步骤。别的都不需要。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>When the model is upgraded, rerun your evals first. Then delete the rules, checks and steps that the new model no longer needs, because scaffolding built for an old model may slow the new one.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>模型升級時，先重跑你的評測。然後刪掉新模型不再需要的規則、檢查和步驟，因為為舊模型搭的鷹架，可能會拖慢新模型。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>模型升级了，先重跑你的评测。然后把新模型已经不需要的规则、检查和步骤删掉，因为为旧模型搭的脚手架，可能会拖慢新模型。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> schedule a review of the setup after each model change, and decide who reruns the evals and who may delete a rule.</li>
 <li><strong>The risk:</strong> rules and steps built for an old model may slow the new one. I have not measured this on an upgrade; it is a worry, not a result. Hard limits against damage, the record and the evals are not on the list to cut.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：為舊模型搭的規則和步驟，可能會拖慢新模型。我沒有在一次升級上量過這件事；它是個擔心，不是結果。防止損害的硬限制、紀錄和評測，不在要砍的清單上。</li>
 <li><strong>做對的成本</strong>：重跑你的固定任務，而且不只一次，再加上一個人的時間，一次移除一塊。大多是錢和時間；我沒有數字。</li>
 <li><strong>可以問團隊</strong>：「如果模型明天換了，我們會先測試拿掉哪些規則？哪些評測能告訴我們答案？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：每次换模型之后，安排一次对配置的复查，并定下谁来重跑评测、谁有权删规则。</li>
+<li><strong>风险</strong>：为旧模型搭的规则和步骤，可能会拖慢新模型。我没有在一次升级上测过这一点；这是担心，不是结果。防止破坏的硬性限制、记录和评测，不在要砍的清单上。</li>
+<li><strong>做对的代价</strong>：把你的固定任务重跑，不止一遍，再加一个人的时间，一次删一块。主要是钱和时间；我没有数字。</li>
+<li><strong>可以问团队</strong>：“如果明天换了模型，我们会先试着删掉哪些规则？哪些评测能告诉我们结果？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Think of the setup around an agent as <strong>scaffolding</strong>, the frame builders put up around a building while they work. Every rule, check and written-out step in it was put there for a reason. Each one covers something the model of that day got wrong, or did badly, or forgot.</p>
 <p>Then the model is upgraded. The reasons were about the old model. Some of them are gone. Nobody told your setup.</p>
@@ -252,6 +263,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>時間和金錢</strong>。每多一步，每個任務都要付一次。</li>
 <li><strong>空間</strong>。一份長的規則檔，每一輪都占用上下文視窗的一部分（<a href="3-1-context-budget.html">上下文是一份預算</a>）。</li>
 <li><strong>混亂</strong>。為舊模型的習慣寫的規則，可能把新模型拉向錯的方向。這有多常發生，我沒有測過。它是風險，不是量到的效果。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>把 agent 周围的配置，想成<strong>脚手架</strong>，也就是工人盖楼时在楼外搭起来的架子。里面的每条规则、每项检查、每一步写明的步骤，当初放进去都有理由。每一个，都是在补当时那个模型做错的、做得差的或忘掉的东西。</p>
+<p>然后模型升级了。那些理由说的是旧模型。其中一些已经不成立了。没人通知你的配置。</p>
+<p>这是个实实在在的担心，虽然我没有在一次升级上测过。我自己的 harness 的第一版，有分级，还有三个按岗位分工的 agent。用了几天后，那三个 agent 被拿掉了，依据是<a href="2-3-subagents.html">慎用子 agent</a>里的证据，那一章有成本数字和它们的局限。分级被拿掉，则是另一个原因（<a href="7-3-what-we-cut.html">我砍掉了什么，数据怎么说</a>）。两样东西在当时都显得合理。我从中得到的是一个问题，不是一个结果：模型还弱的时候搭起来的结构，在模型变强之后，可能不再值它的成本，而且在有人去测它、去掉它之前，它会一直花钱。本章其余部分，讲的就是怎么测。</p>
+<p>没用的脚手架，在三个方面花钱。</p>
+<ul>
+<li><strong>时间和钱</strong>。每多一步，每个任务都要为它付一次。</li>
+<li><strong>空间</strong>。一份很长的规则文件，每一轮都占着上下文窗口的一部分（<a href="3-1-context-budget.html">上下文是一份预算</a>）。</li>
+<li><strong>混乱</strong>。为旧模型的某个习惯写的规则，可能把新模型往错的方向拉。这种情况多常发生，我没测过。这是风险，不是测出来的效果。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The rule is simple: <strong>do not delete by feeling, and do not keep by habit. Run the evals.</strong> The picture shows the order.</p>
 <figure class="fig steps" id="fig-6-5-thinner" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
@@ -473,6 +493,116 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>哪一個拿掉會痛，你怎麼知道？</li>
 </ol>
 <p><strong>今天就能做的測試</strong>。挑你設定裡一條你懷疑是廢物的規則或步驟。選三個它應該有影響的任務。先複製規則檔，這樣你能把規則放回去。有它和沒它各跑任務，而且不只一次，比較通過和用量。如果你分不出兩者，你就學到了東西。如果它確實有影響，你就學到了這條規則值多少。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>规则很简单：<strong>不凭感觉删，也不凭习惯留。跑评测</strong>。图里画出了顺序。</p>
+<figure class="fig steps" id="fig-6-5-thinner" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <text class="label-muted" x="110" y="20" text-anchor="middle" data-t="old">为旧模型搭的</text>
+  <text class="label-muted" x="490" y="20" text-anchor="middle" data-t="new">评测说可以之后</text>
+  <rect class="box" x="20" y="34" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="59" text-anchor="middle" data-t="b1">写明的步骤</text>
+  <rect class="box" x="20" y="84" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="109" text-anchor="middle" data-t="b2">额外的检查</text>
+  <rect class="box" x="20" y="134" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="159" text-anchor="middle" data-t="b3">提醒和变通办法</text>
+  <rect class="box" x="20" y="184" width="180" height="40" rx="6"/>
+  <text class="label" x="110" y="209" text-anchor="middle" data-t="b4">提示的措辞</text>
+  <rect class="box-lit" x="20" y="250" width="180" height="50" rx="6"/>
+  <text class="label-lit" x="110" y="280" text-anchor="middle" data-t="floor">硬性限制（留着）</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M210 150 H380"/>
+    <path class="head-lit" d="M380 144 L390 150 L380 156 Z"/>
+    <text class="label-lit" x="300" y="136" text-anchor="middle" data-t="rerun">重跑评测</text>
+    <text class="label-muted" x="300" y="172" text-anchor="middle" data-t="rerun2">新模型，同一组任务</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box-plain" x="400" y="34" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="59" text-anchor="middle" data-t="b1">写明的步骤</text>
+    <rect class="box" x="400" y="84" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="109" text-anchor="middle" data-t="b2">额外的检查</text>
+    <rect class="box-plain" x="400" y="134" width="180" height="40" rx="6"/>
+    <text class="label-muted" x="490" y="159" text-anchor="middle" data-t="b3">提醒和变通办法</text>
+    <rect class="box" x="400" y="184" width="180" height="40" rx="6"/>
+    <text class="label" x="490" y="209" text-anchor="middle" data-t="b4">提示的措辞</text>
+    <rect class="box-lit" x="400" y="250" width="180" height="50" rx="6"/>
+    <text class="label-lit" x="490" y="280" text-anchor="middle" data-t="floor">硬性限制（留着）</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">随着时间，我加了步骤、检查、提醒和措辞，每一项都是为了补旧模型会犯的错。</li><li data-step-text="2">模型升级了。把同一组固定任务再跑一遍，每一项有它和没有它各跑一次。</li><li data-step-text="3">评测显示已经不需要的可以拿掉（虚线）。还有帮助的留下。硬性限制不靠模型的本事，所以留着。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>模型升级之后，评测说可以的地方，脚手架就变薄。防止出事的限制留着。</figcaption></figure>
+<h3>1. 升级之前，先准备好能重跑的东西</h3>
+<p>这就是<a href="6-3-eval-tasks.html">固定任务</a>排在前面的原因。如果你没有一组固定任务，也没有给它们打分的脚本，那么升级就是一个你没法评判的改动。把这组任务和它以前的结果留着。它们是基线。</p>
+<h3>2. 只换模型，重跑</h3>
+<p>在新模型上，用同样的配置跑同样的任务。和基线比较。确认只有模型变了：新模型对文本的分词方式可能不同，默认的思考量可能变，一开始还可能没命中 prompt 缓存，这些都会改变成本，却不改变质量。把它们和数字记在一起。如果提供方发布了从旧模型迁移到新模型的说明，重跑之前先读，这样你就知道该留意什么。会出现两种情况。</p>
+<ul>
+<li><strong>某个地方变差了</strong>。旧模型下管用的规则，换了新模型可能就不管用了。先知道这一点更好。模型升级和其他改动一样，也可能把东西弄坏。</li>
+<li><strong>变好了，或者一样</strong>。那么要看的差距就是成本：时间、用量、轮数。</li>
+</ul>
+<p>因为每次运行都不一样（<a href="6-4-variance.html">一次运行证明不了什么</a>），每个都要跑不止一次，否则你会把噪声当成结果。</p>
+<h3>3. 不管评测怎么说，都不能删的</h3>
+<p>有些东西，根本不该上清单，开始删之前先清楚这一点更好。</p>
+<ul>
+<li><strong>防止破坏的硬性限制</strong>。拒绝碰生产环境、守护规则文件、不可撤销的事要由人审批。这些不取决于模型有多聪明；它们防的是模型出错或被骗时会发生什么。<strong>模型变好了，不是去掉它们的理由</strong>（<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</li>
+<li><strong>记录</strong>。更好的模型也需要日志、报告，以及读它们的人（<a href="6-1-observe.html">记下发生了什么</a>）。</li>
+<li><strong>评测</strong>。其他一切，都靠它来决定。</li>
+</ul>
+<p>各层变化的速度不一样。文本（规则和步骤）变得最快，也最容易砍。用代码做的强制执行变得慢一些，而且要靠评测来定。平台的变化在这一切的底下。</p>
+<h3>4. 一次只拿掉一块</h3>
+<p>现在对每一块脚手架问：新模型还需要它吗？要知道答案，就拿掉它，再把任务重跑一遍。一轮只动一块，否则你不知道是哪一块起了作用。</p>
+<p>对独立检查这类东西，实验是直接的。开着检查和关掉检查各跑一遍任务，然后比较。如果评测显示没有差别，这项检查在这些任务上就不值它的成本（<a href="2-3-subagents.html">慎用子 agent</a>对第二个 agent 也是同样的道理）。如果它仍然能抓出问题，就留着。</p>
+<h3>5. 我会先看什么</h3>
+<p>这几块，是我预期在自己配置里最先被考虑的候选。我把它们列成要测的东西，不是结果；模型升级之后，我还没有重跑过它们。</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>为什么可能变</th>
+<th>我会怎么做</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>针对各类工作写明的步骤手册</td>
+<td>更新的模型可能不需要把步骤写得那么细</td>
+<td>把它们缩短。保留“什么算做完”的清单：它们说的是你要什么，不是怎么得到（<a href="5-1-tasks.html">管任务，不管对话</a>）</td>
+</tr>
+<tr>
+<td>独立检查</td>
+<td>模型可能更可靠地检查自己</td>
+<td>比较不检查和检查一次。只有当评测显示两者没有差别，默认才变成不检查</td>
+</tr>
+<tr>
+<td>提醒和变通办法</td>
+<td>它们补的是旧模型的某个习惯</td>
+<td>关掉它们再测（<a href="3-4-skills-and-workflows.html">把团队的做法写成 skill</a>对“坑”也是这么说的）</td>
+</tr>
+<tr>
+<td>因为模型不听而挪进代码的规则</td>
+<td>新模型可能会遵守</td>
+<td>在违反了也能撤销的地方，把代码里的规则关掉，并计数（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）</td>
+</tr>
+<tr>
+<td>每个角色用哪个模型</td>
+<td>新模型会不断出来</td>
+<td>只改这一项设置，再跑任务</td>
+</tr>
+<tr>
+<td>为旧模型调过的措辞</td>
+<td>为了让某个模型听见而写的强调，对另一个模型可能太重</td>
+<td>用平实的话重写，再跑任务。我没有测过这一点</td>
+</tr>
+</tbody>
+</table>
+<p>本书几乎每一章的结尾，都有一节叫“什么时候可以删掉”。这一节就是这一步要用的清单。升级之后，我按顺序过一遍这些节，对每一节问它的条件现在成不成立。</p>
+<h3>6. 写下你删了什么，什么时候会放回去</h3>
+<p>我拿掉一样东西时，会写一行：什么、为什么，以及什么证据会让它回来。这能防止配置变成瞎猜。下一个模型在某件事上更差时，你就知道该看哪一行。（同样的习惯贯穿<a href="7-3-what-we-cut.html">我砍掉了什么，数据怎么说</a>。）</p>
+<h3>测你自己的配置</h3>
+<p><strong>三个问题</strong>：</p>
+<ol>
+<li>如果明天模型升级了，你会重跑什么，来看你的配置还管不管用？</li>
+<li>哪条规则或哪一步，你留着只是因为曾经加过？</li>
+<li>哪一个删了会出问题？你怎么知道？</li>
+</ol>
+<p><strong>今天就能做的一个测试</strong>。挑你配置里一条你怀疑是累赘的规则或步骤。选三个它应该起作用的任务。先把规则文件复制一份，这样你能把规则放回去。有它和没它各跑一遍任务，不止一次，比较通过情况和用量。如果你分不出两者的差别，你就学到了东西。如果它确实有影响，你就知道了这条规则值多少。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Removing something is a change, and it can break things.</strong> Remove one piece at a time, and run the evals after each.</p>
 <p><strong>The evals are the limit.</strong> You can only say that a piece is not needed for the tasks you tested. If the tasks are few, say so and be careful with anything that guards against damage.</p>
 <p><strong>A rerun costs money.</strong> A full rerun after every model release is not always affordable. Rerun when you change model family, when the version number changes, or when you notice a change in behaviour. The cache matters here: cached reads cost about a tenth of the base input price on Anthropic's API (<a href="1-1-models-and-cost.html">Models and cost</a>), but the first runs on a new model start cold, and I have not checked how Copilot bills any of this.</p>
@@ -483,27 +613,41 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>重跑要花錢</strong>。每次模型發布之後都完整重跑，不一定負擔得起。換模型系列、版本號變了，或你注意到行為變了的時候再重跑。快取在這裡有影響：在 Anthropic 的 API 上，快取讀取大約是基本輸入價格的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），但新模型上最先的幾次運行是冷啟動，而這一切 Copilot 怎麼計費，我沒查過。</p>
 <p><strong>新模型可能在某件事上比較差</strong>。升級不一定在每個任務上都更好。評測也是為了這個。</p>
 <p><strong>鷹架可能藏著弱點</strong>。一個總是抓到同一種錯誤的檢查，可能正是讓你沒注意到那種錯誤的東西。拿掉它的時候，去看失敗的運行。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>拿掉东西也是一种改动，也可能把东西弄坏</strong>。一次只拿掉一块，每拿掉一块就跑一次评测。</p>
+<p><strong>评测就是边界</strong>。你只能说某一块对你测过的那些任务不需要。如果任务很少，就这么说，并且对任何防止破坏的东西要格外小心。</p>
+<p><strong>重跑要花钱</strong>。每次发布新模型都完整重跑一遍，不一定负担得起。换了模型系列、版本号变了，或者你注意到行为变了，就重跑。缓存在这里有影响：在 Anthropic 的 API 上，命中缓存的读取约是基础输入价格的十分之一（<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>），但新模型上最初几次运行是冷启动，我也没有查过 Copilot 对这些怎么计费。</p>
+<p><strong>新模型可能在某件事上更差</strong>。升级不一定在每个任务上都更好。评测也是为这个准备的。</p>
+<p><strong>脚手架可能掩盖弱点</strong>。一项总能抓住同一个错误的检查，可能正是让你没注意到这个错误的东西。拿掉它的时候，去看失败的运行。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>This chapter is itself a procedure for deleting, so what is there to delete? The step-by-step rerun. If a platform tells you, on your own tasks, what an upgrade changed, or runs your evals on each release, I would use that. The habit stays: nothing in the setup is permanent, and every piece has to earn its place against the model you have now.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>這一章本身就是一套刪東西的程序，那有什麼可刪的？一步一步重跑的做法。如果平台在你自己的任務上告訴你升級改變了什麼，或在每次發布時替你跑評測，我會用那個。習慣會留著：設定裡沒有東西是永久的，每一塊都要對照你現在有的模型，證明自己該在那裡。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>这一章本身就是一套删东西的流程，那还有什么可删的？就是一步一步重跑的那套做法。如果平台能在你自己的任务上告诉你一次升级改变了什么，或者每次发布都替你跑评测，我会用它。习惯留下来：配置里没有什么是永久的，每一块都得对照你现在用的这个模型，证明自己该留下。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every rule, step and check in this repository&#x27;s agent instruction, skill and hook files. Sort each into one of: hard limit against damage, record or log, workaround for a habit of an older model, written-out playbook, or emphasis in the wording. For each workaround, playbook or emphasis, say from git history what failure it was added for, or &quot;no reason found&quot;. Then name the five I should test removing first after a model upgrade, and which of my tasks should be rerun to check. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個倉庫的 agent 指令檔、skill 和 hook 檔案裡，每一條規則、步驟和檢查。把每一個分到其中一類：防止損害的硬限制、紀錄或日誌、補舊模型習慣的變通辦法、寫出來的手冊、措辭裡的強調。對每個變通辦法、手冊或強調，從 git 歷史說明它是為了什麼失敗而加的，或寫「找不到原因」。然後指出，模型升級之後，我該最先測試拿掉的五個，以及我該重跑哪些任務來檢查。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不需要 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>列出这个仓库的 agent 指令、skill 和 hook 文件里的每一条规则、步骤和检查。把每一项归入以下之一：防止破坏的硬性限制、记录或日志、针对旧模型某个习惯的变通办法、写明的步骤手册、措辞里的强调。对每个变通办法、步骤手册或强调，根据 git 历史说明它是为了什么失败而加的，或者写“没找到原因”。然后指出，模型升级后我应该先试着删哪五项，以及该重跑我的哪些任务来检查。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>In this book: <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>, <a href="6-4-variance.html">One run proves nothing</a>, <a href="7-3-what-we-cut.html">What I cut, and what the data says</a></li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
 <li>本書：<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>、<a href="6-4-variance.html">一次運行證明不了什麼</a>、<a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness keeps a list of what it expects to change first after a model upgrade, and a list of what it chose not to build and when it would reconsider. The harness can walk you through both. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>本书内：<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>、<a href="6-4-variance.html">一次运行证明不了什么</a>、<a href="7-3-what-we-cut.html">我砍掉了什么，数据怎么说</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness keeps a list of what it expects to change first after a model upgrade, and a list of what it chose not to build and when it would reconsider. The harness can walk you through both. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;When the model is upgraded, delete&quot;. Teach me what this harness expects to change after a model upgrade (topic 15) and what it will never remove. For each part, open the real files with me and show how I would test whether it is still needed.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有一份清單，列出它預期模型升級後最先會變的東西，另有一份清單，列出它選擇不做的東西，以及什麼時候會重新考慮。harness 可以帶你走過這兩份。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「模型升級了，就要刪」這一章。請教我這個 harness 預期模型升級後哪些東西會變（主題 15），以及哪些東西它永遠不會拿掉。對每一部分，帶我打開真實的檔案，並示範我該怎麼測試它是不是還需要。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 有一份清单，列着它预期在模型升级后最先会变的东西，还有一份清单，列着它选择不做的东西，以及什么时候会重新考虑。harness 能带你把这两份都过一遍。完成上面的配置后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读过“模型升级了，就要删”这一章。请教我这个 harness 预期在模型升级后哪些东西会变（主题 15），以及它永远不会删什么。对每一部分，和我一起打开真实的文件，给我看怎么测试它是否还需要。</code></pre></div>
+<p>它一次只教一小块，会停下来问你跟不跟得上，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

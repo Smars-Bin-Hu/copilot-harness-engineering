@@ -1,7 +1,7 @@
 id: "A"
 part: appendix
 kind: appendix
-title: {en: "Extension points cheat sheet", zh-Hant: "擴充點速查表"}
+title: {en: "Extension points cheat sheet", zh-Hant: "擴充點速查表", zh-Hans: "扩展点速查表"}
 harness_tag: "1.5.50"
 wondering: []
 sources:

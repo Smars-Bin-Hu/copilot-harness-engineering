@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Troubleshooting</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,13 +217,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li><a href="#how-to-use"><span data-l="en" lang="en">How to use it</span><span data-l="zh-Hant" lang="zh-Hant">怎麼用</span></a></li><li><a href="#rules"><span data-l="en" lang="en">Rules and instructions</span><span data-l="zh-Hant" lang="zh-Hant">規則和指令</span></a></li><li><a href="#skills"><span data-l="en" lang="en">Skills</span><span data-l="zh-Hant" lang="zh-Hant">Skills</span></a></li><li><a href="#hooks"><span data-l="en" lang="en">Hooks and refusals</span><span data-l="zh-Hant" lang="zh-Hant">Hook 和拒絕</span></a></li><li><a href="#loops"><span data-l="en" lang="en">Loops, stops and cost</span><span data-l="zh-Hant" lang="zh-Hant">循環、停止和成本</span></a></li><li><a href="#checks"><span data-l="en" lang="en">Checks</span><span data-l="zh-Hant" lang="zh-Hant">檢查</span></a></li><li><a href="#context"><span data-l="en" lang="en">Context and memory</span><span data-l="zh-Hant" lang="zh-Hant">上下文和記憶</span></a></li><li><a href="#seeing"><span data-l="en" lang="en">Seeing what happened</span><span data-l="zh-Hant" lang="zh-Hant">看見發生了什麼</span></a></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">B</p><h1><span data-l="en" lang="en">Troubleshooting</span><span data-l="zh-Hant" lang="zh-Hant">排錯</span></h1></header><div data-l="en" lang="en"><p>This appendix is for the day something goes wrong. Find your symptom, do the first check, then read the chapter. Everything here comes from the chapters and the harness docs. It is advice I can point to, not a complete list of causes.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li><a href="#how-to-use"><span data-l="en" lang="en">How to use it</span><span data-l="zh-Hant" lang="zh-Hant">怎麼用</span><span data-l="zh-Hans" lang="zh-Hans">怎么用</span></a></li><li><a href="#rules"><span data-l="en" lang="en">Rules and instructions</span><span data-l="zh-Hant" lang="zh-Hant">規則和指令</span><span data-l="zh-Hans" lang="zh-Hans">规则和指令</span></a></li><li><a href="#skills"><span data-l="en" lang="en">Skills</span><span data-l="zh-Hant" lang="zh-Hant">Skills</span><span data-l="zh-Hans" lang="zh-Hans">Skill</span></a></li><li><a href="#hooks"><span data-l="en" lang="en">Hooks and refusals</span><span data-l="zh-Hant" lang="zh-Hant">Hook 和拒絕</span><span data-l="zh-Hans" lang="zh-Hans">Hook 和拒绝</span></a></li><li><a href="#loops"><span data-l="en" lang="en">Loops, stops and cost</span><span data-l="zh-Hant" lang="zh-Hant">循環、停止和成本</span><span data-l="zh-Hans" lang="zh-Hans">循环、停止和成本</span></a></li><li><a href="#checks"><span data-l="en" lang="en">Checks</span><span data-l="zh-Hant" lang="zh-Hant">檢查</span><span data-l="zh-Hans" lang="zh-Hans">检查</span></a></li><li><a href="#context"><span data-l="en" lang="en">Context and memory</span><span data-l="zh-Hant" lang="zh-Hant">上下文和記憶</span><span data-l="zh-Hans" lang="zh-Hans">上下文和记忆</span></a></li><li><a href="#seeing"><span data-l="en" lang="en">Seeing what happened</span><span data-l="zh-Hant" lang="zh-Hant">看見發生了什麼</span><span data-l="zh-Hans" lang="zh-Hans">看清发生了什么</span></a></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">B</p><h1><span data-l="en" lang="en">Troubleshooting</span><span data-l="zh-Hant" lang="zh-Hant">排錯</span><span data-l="zh-Hans" lang="zh-Hans">排错</span></h1></header><div data-l="en" lang="en"><p>This appendix is for the day something goes wrong. Find your symptom, do the first check, then read the chapter. Everything here comes from the chapters and the harness docs. It is advice I can point to, not a complete list of causes.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這個附錄是給出事的那一天用的。找到你的症狀，做第一個檢查，再讀那一章。這裡的一切都來自各章和 harness 的文件。這是我能指出出處的建議，不是原因的完整清單。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这个附录是给出问题那天用的。先找到你的症状，做第一项检查，再去读对应的章节。这里的一切都来自各章和 harness 的文档。这是我能指出出处的建议，不是完整的原因清单。</p>
 </div><section id="how-to-use" class="sec"><div data-l="en" lang="en"><h2>How to use it</h2><p>Two rules apply to almost every symptom.</p>
 <ul>
 <li><strong>Look at what happened, not at what the agent said.</strong> The agent's account of its own work can be wrong; a log can be checked (<a href="6-1-observe.html">Record what happened</a>).</li>
@@ -249,6 +253,20 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>帳單很高：<a href="#bill">帳單</a>。</li>
 <li>你說不出發生了什麼：<a href="#cannot-tell">沒有紀錄</a>。</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>怎么用</h2><p>两条规则，几乎适用于每个症状。</p>
+<ul>
+<li><strong>看实际发生了什么，不要看 agent 说了什么。</strong> agent 对自己工作的讲述可能是错的；日志是可以核对的（<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）。</li>
+<li><strong>一次只改一样，然后把同一个任务再跑一遍。</strong> 否则你分不清是哪个改动起了作用（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</li>
+</ul>
+<p>按你看到的现象找症状：</p>
+<ul>
+<li>规则没被遵守：<a href="#rule-ignored">被无视</a>、<a href="#rule-drift">长对话里被丢掉</a>。</li>
+<li>skill 没被用上：<a href="#skill-not-loaded">从来没用过</a>。</li>
+<li>hook 不吭声，或者太严：<a href="#hook-silent">没触发</a>、<a href="#false-refusal">拒绝了正常的工作</a>。</li>
+<li>agent 停不下来，或者停得不对：<a href="#agent-loops">原地打转</a>、<a href="#done-too-early">太早说做完了</a>。</li>
+<li>账单太高：<a href="#bill">账单</a>。</li>
+<li>你分不清发生了什么：<a href="#cannot-tell">没有记录</a>。</li>
+</ul>
 </div></section><section id="rules" class="sec"><div data-l="en" lang="en"><h2>Rules and instructions</h2><h3>The agent ignores a rule {#rule-ignored}</h3>
 <p><strong>Check first.</strong> Is the rule actually loaded? Open a new chat and ask a question only your rules can answer (<a href="0-2-minimal-harness.html">A minimal harness</a>). If it is loaded, go through the usual causes in order: the file is too long, two rules conflict, the rule sits far from where it applies, it gives no reason, or it is only a request. If the rule must hold, move it into code.</p>
 <p><strong>Chapter.</strong> <a href="3-3-instructions-and-skills.html">Instructions and skills</a>, section &quot;Why a written rule is ignored&quot;, then <a href="4-1-requests-and-rules.html">A rule in a prompt is a request</a>.</p>
@@ -267,6 +285,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>規則在短對話裡被遵守，在長對話裡被丟掉 {#rule-drift}</h3>
 <p><strong>先檢查</strong>。距離。寫在第一則訊息裡的規則，工作好幾個小時之後就離得很遠。把它放近一點：依檔案載入，或者讓 hook 重複幾行。也可以試一個便宜的測試：過了一個小時，請 agent 說出這條規則。</p>
 <p><strong>章節</strong>。<a href="3-2-long-sessions.html">長對話會變差</a> 和 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>规则和指令</h2><h3>agent 无视一条规则 {#rule-ignored}</h3>
+<p><strong>先查什么。</strong> 这条规则真的加载了吗？开一个新对话，问一个只有你的规则才答得出的问题（<a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>）。如果加载了，就按顺序过一遍常见原因：文件太长，两条规则冲突，规则离它适用的地方太远，没有给理由，或者它只是个请求。如果这条规则必须成立，就把它挪进代码里。</p>
+<p><strong>章节。</strong> <a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>，“4. 写下来的规则为什么会被无视”一节，然后是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>。</p>
+<h3>规则文件很长，而且越来越差 {#rules-rot}</h3>
+<p><strong>先查什么。</strong> 对每一行都问一句：没有它，agent 会不会做错？删掉通不过的行，然后跑同一个任务，看有没有变差。每条规则只放一个地方。</p>
+<p><strong>章节。</strong> <a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>（代价和坑）和<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>。</p>
+<h3>规则在短对话里遵守，在长对话里被丢掉 {#rule-drift}</h3>
+<p><strong>先查什么。</strong> 距离。写在第一条消息里的规则，干了几个小时之后就离得很远了。让它离得更近：按文件加载，或者让 hook 重复几行。还可以做个便宜的测试：干了一个小时之后，让 agent 把这条规则复述出来。</p>
+<p><strong>章节。</strong> <a href="3-2-long-sessions.html">长对话会变差</a>和<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>。</p>
 </div></section><section id="skills" class="sec"><div data-l="en" lang="en"><h2>Skills</h2><h3>A skill is never used {#skill-not-loaded}</h3>
 <p><strong>Check first.</strong> Open a new chat (an old one may already hold the skill), do not type the skill's name, and ask in the words a person would use. Then look at which skills were loaded, using the platform's log if it has one. If it did not load, the description lacks the user's words. If you have many skills, a neighbour may be taking the request: keep each skill narrow and say what it is not for.</p>
 <p><strong>Chapter.</strong> <a href="3-3-instructions-and-skills.html">Instructions and skills</a>, &quot;Test that a skill is found&quot;; <a href="0-2-minimal-harness.html">A minimal harness</a> (step 2).</p>
@@ -285,6 +312,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>一個 skill 載入了，卻什麼都沒變 {#skill-no-effect}</h3>
 <p><strong>先檢查</strong>。在新的對話裡，把同一個任務各跑兩次，一次有 skill，一次沒有。如果看不出差別，就刪掉沒有差別的那幾行；agent 本來就知道。然後檢查這個 skill 有沒有過時。</p>
 <p><strong>章節</strong>。<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="3-4-skills-and-workflows.html">把團隊的做法寫成 skill</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>Skill</h2><h3>skill 从来没被用上 {#skill-not-loaded}</h3>
+<p><strong>先查什么。</strong> 开一个新对话（旧对话里可能已经装着这个 skill），不要输入 skill 的名字，用一个人平常会说的话去问。然后看加载了哪些 skill，平台有日志的话就用日志。如果没加载，说明描述里缺用户的说法。如果你有很多 skill，可能是旁边的某个抢走了请求：让每个 skill 保持狭窄，并写明它不管什么。</p>
+<p><strong>章节。</strong> <a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>，“测试 skill 能不能被找到”；<a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>（第 2 步）。</p>
+<h3>skill 不该加载的时候加载了 {#skill-too-wide}</h3>
+<p><strong>先查什么。</strong> 描述太宽。收窄它，并把那些不该触发它的相邻请求写成测试用例。</p>
+<p><strong>章节。</strong> <a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>。</p>
+<h3>skill 加载了，但什么都没变 {#skill-no-effect}</h3>
+<p><strong>先查什么。</strong> 在新对话里把同一个任务跑两遍，一遍带 skill，一遍不带。如果看不出差别，就删掉那些没起作用的行；agent 本来就知道它们。然后检查这个 skill 是否已经过时。</p>
+<p><strong>章节。</strong> <a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>和<a href="3-4-skills-and-workflows.html">把团队的做法写成 skill</a>。</p>
 </div></section><section id="hooks" class="sec"><div data-l="en" lang="en"><h2>Hooks and refusals</h2><h3>The hook did not fire {#hook-silent}</h3>
 <p><strong>Check first.</strong> Four things, from what I found in October 2026 (they will change): the hook file is read when the window starts, so reload the window after a change; the hooks did not run when I used the command-line mode of Copilot; an organization policy can turn hooks off for a workspace; and a setting that looks like an off switch may not stop them in newer sessions. Then test with the smallest hook your platform allows: one that only appends the event name to a file.</p>
 <p><strong>Chapter.</strong> <a href="2-2-hooks.html">Hooks</a>, &quot;What a hook cannot see&quot; and &quot;Test your own setup&quot;.</p>
@@ -333,6 +369,30 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>agent 自己批准了某件事 {#self-approval}</h3>
 <p><strong>先檢查</strong>。測試它：請 agent 執行批准的指令，確認它被拒絕。如果拒絕它的 hook 被移除、被編輯或失敗了，能執行指令的 agent 可能會為自己批准。</p>
 <p><strong>章節</strong>。<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>Hook 和拒绝</h2><h3>hook 没触发 {#hook-silent}</h3>
+<p><strong>先查什么。</strong> 四件事，来自我在 2026 年 10 月的发现（它们会变）：hook 文件在窗口启动时读取，所以改完之后要重新加载窗口；我用 Copilot 的命令行模式时，hook 没有运行；组织的策略可以对某个工作区关闭 hook；还有，一个看起来像关闭开关的设置，在较新的会话里可能拦不住它们。然后用你的平台允许的最小的 hook 来测：只把事件名追加到一个文件里的那种。</p>
+<p><strong>章节。</strong> <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>，“hook 看不到什么”和“测一测你自己的配置”。</p>
+<h3>hook 触发了，但模型没收到消息 {#hook-lost-message}</h3>
+<p><strong>先查什么。</strong> 查模型实际收到了什么，不要查 hook 返回了什么。在我的情况里，有些 prompt 到达时没带规则，因为平台自己的提醒占了 hook 用的那个位置（数字在下面那一章里）。</p>
+<p><strong>章节。</strong> <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>，开头的那个故事。</p>
+<h3>我改了 hook 之后，所有工具都被拒绝 {#hook-wont-start}</h3>
+<p><strong>先查什么。</strong> 如果 hook 程序启动不了（比如找不到解释器），Copilot 会把它当作拒绝，任何工具都跑不了。屏幕上只说 hook 出错了。在终端里手动运行 hook 的命令，就能看到真正的错误。</p>
+<p><strong>章节。</strong> <a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>和<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>，“hook 出问题的三种方式”。</p>
+<h3>本该拦住一次调用的 hook，悄悄放它过去了 {#hook-timeout}</h3>
+<p><strong>先查什么。</strong> 时间。超出时限的 hook 会被当作通过，而且不会有任何提示。量一量你的 hook 要跑多久，让它保持轻量。</p>
+<p><strong>章节。</strong> <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>和<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>，后者讲的是事先决定一次失败是拦截还是放行。</p>
+<h3>agent 一直重试同一件被拒绝的事 {#refusal-loop}</h3>
+<p><strong>先查什么。</strong> 读一读拒绝的理由。只写“已拒绝”的理由，会让 agent 重试，或者去试更糟的办法。把它改成说明为什么，以及改做什么。但不要解释怎么绕开这条规则。</p>
+<p><strong>章节。</strong> <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>（理由是设计的一部分）和<a href="4-2-ask-vs-refuse.html">询问不是限制</a>。</p>
+<h3>一次拒绝挡住了正常的工作 {#false-refusal}</h3>
+<p><strong>先查什么。</strong> 匹配模式太宽。agent 没法和拒绝争辩，所以一次误拒就是一个卡住的任务。收窄匹配模式，留一条让人批准那些不该拒绝的事的路，再读日志看是哪条规则触发的。</p>
+<p><strong>章节。</strong> <a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>和<a href="4-2-ask-vs-refuse.html">询问不是限制</a>。</p>
+<h3>agent 绕过了一条规则，或者改了规则文件 {#rule-bypassed}</h3>
+<p><strong>先查什么。</strong> 这条规则是在 prompt 里，还是在 hook 里？hook 看到的是什么：调用的文字，还是调用的效果？hook 拦得住常见的写法，拦不住一心要绕开它的 agent。还要检查，存放规则的文件和 hook 是否在受保护的名单上。对那些绝不能碰的东西，干脆不要交给 agent。</p>
+<p><strong>章节。</strong> <a href="4-3-guardrails.html">保护规则本身的文件</a>和<a href="4-5-least-privilege.html">有些东西根本不给</a>。</p>
+<h3>agent 替自己批准了某件事 {#self-approval}</h3>
+<p><strong>先查什么。</strong> 测一下：让 agent 运行审批命令，确认它被拒绝。如果拒绝这条命令的 hook 被删了、被改了或者出错了，一个能运行命令的 agent 就可能替自己批准。</p>
+<p><strong>章节。</strong> <a href="5-3-two-approvals.html">两道门：人在哪里审批</a>。</p>
 </div></section><section id="loops" class="sec"><div data-l="en" lang="en"><h2>Loops, stops and cost</h2><h3>The agent goes in circles {#agent-loops}</h3>
 <p><strong>Check first.</strong> Does anything outside the agent judge that it is stuck? An agent that is stuck is the worst judge of that. Put stop rules in code, judged from facts: a limit on turns and time, a limit on refusals, no progress over several rounds, a changed plan, checks used up. Also see whether it keeps trying something the guardrails block.</p>
 <p><strong>Chapter.</strong> <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>.</p>
@@ -363,6 +423,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>帳單比預期高 {#bill}</h3>
 <p><strong>先檢查</strong>。agent 讀了什麼。每一輪都會重讀整個上下文，所以讀了什麼，比模型多聰明更重要。先看工具結果和載入的規則，再看任務被重做的頻率。不要砍到任務失敗、被丟掉。要看一整次運行的用量數字，不是一則訊息。快取的上下文用較低的費率計費（Anthropic 的文件：約基本價格的十分之一）；我沒有在 Copilot 上驗證過，所以看你自己的方案顯示什麼。</p>
 <p><strong>章節</strong>。<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>、<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 和 <a href="3-1-context-budget.html">上下文是一份預算</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>循环、停止和成本</h2><h3>agent 原地打转 {#agent-loops}</h3>
+<p><strong>先查什么。</strong> agent 之外有没有东西在判断它卡住了？卡住的 agent 恰恰是最不适合做这个判断的。把停止规则放进代码，根据事实来判断：轮数和时间的上限，拒绝次数的上限，几轮下来没有进展，计划变了，检查次数用完。还要看它是不是一直在试护栏拦着的事。</p>
+<p><strong>章节。</strong> <a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>。</p>
+<h3>一次停下的运行，给人留下一个谜 {#stop-vague}</h3>
+<p><strong>先查什么。</strong> 停下的时候，有没有用一句话交回：为什么停、停在哪、人要决定什么？“遇到了问题”是不够的。</p>
+<p><strong>章节。</strong> <a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>，“3. 停下时交回什么”。</p>
+<h3>agent 说“做完了”，测试却失败 {#done-too-early}</h3>
+<p><strong>先查什么。</strong> 它跑过检查，并给出命令和输出了吗？一句“所有测试都通过”，本身说明不了什么。让它能在自己的循环里运行检查，并让这次运行以事实结束（步骤打了勾，一次计数的检查通过了），不以 agent 的话结束。</p>
+<p><strong>章节。</strong> <a href="5-4-self-checks.html">让 agent 能检查自己的活</a>和<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>，“4. 防止过早说‘做完了’”。</p>
+<h3>子 agent 的用量对不上 {#subagent-usage}</h3>
+<p><strong>先查什么。</strong> 工具往往只显示主对话的用量。看看你的工具有没有把子 agent 也算进去。还要记住，每个子 agent 都从空白的上下文开始，从零读起，所以几个子 agent 的成本是单个 agent 的好几倍。限制能开几个，不是预算。</p>
+<p><strong>章节。</strong> <a href="2-3-subagents.html">慎用子 agent</a>（代价和坑）和<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>，“2. 预算是总量，不是次数”一节。</p>
+<h3>账单比预想的高 {#bill}</h3>
+<p><strong>先查什么。</strong> agent 读了什么。每一轮都会把整个上下文重读一遍，所以读了什么，比模型多聪明更要紧。先看工具返回的结果和加载的规则，再看任务被重做的频率。不要削得太狠，以至于任务失败被扔掉。看一整次运行的用量数字，不要看一条消息的。缓存的上下文按较低的价格计费（Anthropic 文档：约为基础价格的十分之一）；我没有在 Copilot 上验证过，所以看你自己的套餐显示什么。</p>
+<p><strong>章节。</strong> <a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>、<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>和<a href="3-1-context-budget.html">上下文是一份预算</a>。</p>
 </div></section><section id="checks" class="sec"><div data-l="en" lang="en"><h2>Checks</h2><h3>The checks never pass {#checks-never-pass}</h3>
 <p><strong>Check first.</strong> Read the findings. If each round brings new findings, the loop is open-ended: use a limit, and let the person extend or waive. If findings do not point to a real file and line, they are noise. If the verdict is wrong, a false FAIL sends the author to fix a problem that is not there. If edits keep cancelling earlier passes, the fingerprint of the work may include too much, such as progress notes.</p>
 <p><strong>Chapter.</strong> <a href="5-5-counted-checks.html">Make a pass count</a> and <a href="5-6-model-checks-model.html">Can a model check a model?</a>.</p>
@@ -387,6 +462,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>同一個任務跑兩次，結果不同 {#variance}</h3>
 <p><strong>先檢查</strong>。這是正常的。把任務跑好幾次，看分布的範圍，並讀失敗的那幾次運行。一次運行證明不了什麼。如果範圍大到沒有結果可以信，那就不正常；這時任務太鬆，或檢查太弱，應該先修這個。</p>
 <p><strong>章節</strong>。<a href="6-4-variance.html">一次運行證明不了什麼</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>检查</h2><h3>检查一直通不过 {#checks-never-pass}</h3>
+<p><strong>先查什么。</strong> 读一读发现的问题。如果每一轮都有新问题，这个循环就是没有尽头的：设一个上限，让人来延长或豁免。如果发现的问题没有指向真实的文件和行号，那就是噪音。如果结论是错的，一次误报的 FAIL 会让作者去修一个不存在的问题。如果改动不断抵消之前的通过，可能是这份工作的指纹包含的东西太多，比如进度笔记。</p>
+<p><strong>章节。</strong> <a href="5-5-counted-checks.html">让“通过”可信</a>和<a href="5-6-model-checks-model.html">模型能检查模型吗</a>。</p>
+<h3>检查开着，却什么都没检查 {#checks-silent}</h3>
+<p><strong>先查什么。</strong> agent 可能压根没调用过检查者，于是从来没有记下过 FAIL。prompt 里的规则抓不住这种情况。把检查放在 agent 必须经过的点上，比如它想要停下的那一刻。</p>
+<p><strong>章节。</strong> <a href="5-5-counted-checks.html">让“通过”可信</a>，“检查开着，却什么都没检查”。</p>
+<h3>一个测试有时过、有时不过 {#flaky}</h3>
+<p><strong>先查什么。</strong> 随机失败的测试，会让 agent 去找一个不存在的 bug，或者教会它反复重跑直到变绿。修好它，或者去掉它。如果完整的测试集太慢，就给 agent 一个能经常跑的快速子集。</p>
+<p><strong>章节。</strong> <a href="5-4-self-checks.html">让 agent 能检查自己的活</a>。</p>
+<h3>同一个任务跑两次，结果不同 {#variance}</h3>
+<p><strong>先查什么。</strong> 这是正常的。把任务多跑几次，看波动范围，再读那些失败的运行。一次运行证明不了什么。如果波动大到没有哪个结果可信，那就不正常了；这时是任务太松，或者检查太弱，应当先把它们修好。</p>
+<p><strong>章节。</strong> <a href="6-4-variance.html">一次运行证明不了什么</a>。</p>
 </div></section><section id="context" class="sec"><div data-l="en" lang="en"><h2>Context and memory</h2><h3>A long chat got worse {#long-chat}</h3>
 <p><strong>Check first.</strong> Do not rely on the model to remember. Write what matters into a file, and start a fresh chat from that file. Test it: ask what you would lose if this chat disappeared now. If chats get long because the task is too big, the fix is a smaller task.</p>
 <p><strong>Chapter.</strong> <a href="3-2-long-sessions.html">Long chats get worse</a>.</p>
@@ -405,6 +492,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>agent 服從了它在檔案或網頁裡讀到的文字 {#injection}</h3>
 <p><strong>先檢查</strong>。數那三個圈：它能不能讀私人資料、有沒有讀不可信的文字、能不能把資料送出去？去掉任何一個。不可信文字的摘要，也是不可信的。每次加一個工具，就重新檢查。</p>
 <p><strong>章節</strong>。<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 和 <a href="1-3-mcp.html">MCP server：插工具的標準接口</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>上下文和记忆</h2><h3>长对话变差了 {#long-chat}</h3>
+<p><strong>先查什么。</strong> 不要指望模型记得住。把要紧的写进文件，从这个文件开一个新对话。试一试：问问自己，如果这个对话现在消失，会丢掉什么。如果对话变长是因为任务太大，解法是把任务变小。</p>
+<p><strong>章节。</strong> <a href="3-2-long-sessions.html">长对话会变差</a>。</p>
+<h3>笔记或记忆文件里写了不实的内容 {#notes-wrong}</h3>
+<p><strong>先查什么。</strong> 把笔记当作 agent 的报告：要紧的，对照源头核对。笔记保持简短，做完的就删掉，因为不断变长的笔记文件会把窗口填满。agent 写的记忆应当带来源和日期，并由人审查。</p>
+<p><strong>章节。</strong> <a href="3-2-long-sessions.html">长对话会变差</a>和<a href="3-5-memory.html">agent 该记住什么</a>。</p>
+<h3>agent 听从了它在文件或网页里读到的文字 {#injection}</h3>
+<p><strong>先查什么。</strong> 数一数三个圈：它能读私有数据吗，它读不可信的文本吗，它能把数据发出去吗？去掉任何一个。不可信文本的摘要也是不可信的。每次加工具，都要重新检查。</p>
+<p><strong>章节。</strong> <a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>和<a href="1-3-mcp.html">MCP server：接工具的标准接口</a>。</p>
 </div></section><section id="seeing" class="sec"><div data-l="en" lang="en"><h2>Seeing what happened</h2><h3>I cannot tell what the agent did {#cannot-tell}</h3>
 <p><strong>Check first.</strong> Is there a record written by code, of every call and every refusal? Read the trace of a failed run, not the agent's summary. A hook sees only what the platform shows it, so a clean log can still have a hole.</p>
 <p><strong>Chapter.</strong> <a href="6-1-observe.html">Record what happened, not what the agent said</a> and <a href="6-2-task-report.html">A report a person can read in five minutes</a>.</p>
@@ -417,9 +513,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>新模型讓事情變糟 {#model-upgrade}</h3>
 <p><strong>先檢查</strong>。升級不是在每個任務上都更好。重跑你的固定任務，然後一次刪掉一條舊的規則和步驟，每次之後都執行評測。</p>
 <p><strong>章節</strong>。<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>看清发生了什么</h2><h3>我分不清 agent 做了什么 {#cannot-tell}</h3>
+<p><strong>先查什么。</strong> 有没有一份由代码写下的记录，涵盖每次调用和每次拒绝？读失败那次运行的轨迹，不要读 agent 的总结。hook 只能看到平台给它看的东西，所以干净的日志里仍然可能有个洞。</p>
+<p><strong>章节。</strong> <a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>和<a href="6-2-task-report.html">一份五分钟读得完的报告</a>。</p>
+<h3>换了新模型，反而更糟 {#model-upgrade}</h3>
+<p><strong>先查什么。</strong> 升级并不是在每个任务上都更好。把你的固定任务重跑一遍，然后一次删一条旧规则或旧步骤，每次都跑评测。</p>
+<p><strong>章节。</strong> <a href="6-5-model-upgrades.html">模型升级了，就要删</a>。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

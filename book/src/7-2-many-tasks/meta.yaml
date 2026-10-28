@@ -1,6 +1,6 @@
 id: "7.2"
 part: people
-title: {en: "Ten things at once: parallel tasks", zh-Hant: "同時管十件事：並行的是任務"}
+title: {en: "Ten things at once: parallel tasks", zh-Hant: "同時管十件事：並行的是任務", zh-Hans: "同时管十件事：并行的是任务"}
 harness_tag: "1.5.50"
 wondering: [09-task-lifecycle, 10-subagents]
 sources:

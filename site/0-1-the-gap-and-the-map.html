@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>The gap is outside the model</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#how-to-read"><span data-l="en" lang="en">How to read this book</span><span data-l="zh-Hant" lang="zh-Hant">怎麼讀這本書</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">0.1</p><h1><span data-l="en" lang="en">The gap is outside the model</span><span data-l="zh-Hant" lang="zh-Hant">差距在模型外面</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have typed a request into an AI chat box. Nothing else.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#how-to-read"><span data-l="en" lang="en">How to read this book</span><span data-l="zh-Hant" lang="zh-Hant">怎麼讀這本書</span><span data-l="zh-Hans" lang="zh-Hans">怎么读这本书</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">0.1</p><h1><span data-l="en" lang="en">The gap is outside the model</span><span data-l="zh-Hant" lang="zh-Hant">差距在模型外面</span><span data-l="zh-Hans" lang="zh-Hans">差距在模型外面</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have typed a request into an AI chat box. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要在 AI 對話框裡打過一段需求。其他都不用。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The same model does far more inside a good harness than in a chat box, because most of the gap lies outside the model.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要在 AI 聊天框里打过字。别的都不需要。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The same model does far more inside a good harness than in a chat box, because most of the gap lies outside the model.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>同一個模型，在好的 harness 裡做的事，比在對話框裡多得多，因為大部分差距在模型外面。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>同一个模型，放在好的 harness 里，比在聊天框里能干得多。因为这中间的差距，大部分在模型之外。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide where the team's effort goes: a better model, or the setup around it (the rules, checks and limits that surround the model).</li>
 <li><strong>The risk:</strong> if most of the gap sits outside the model, switching models does not fix a disappointing result. One team changed only the setup of a coding agent and its score on one public benchmark went from 52.8% to 66.5%. That is one team, one benchmark, measured by the team itself.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：如果大部分差距在模型外面，換模型解決不了讓人失望的結果。有一個團隊只改了寫程式 agent 的設定，在一個公開基準上的分數從 52.8% 升到 66.5%。這是一個團隊、一個基準，還是團隊自己量的。</li>
 <li><strong>做對的成本</strong>：下一章從最小的有用組合開始。除此之外，主要是花在設定上的時間。</li>
 <li><strong>可以問團隊</strong>：「上次 agent 讓我們失望，是模型的問題，還是它周圍少了什麼：一道檢查、一條規則、一個看檔案的視角？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：团队的精力放在哪：换更好的模型，还是搭好模型周围的配置（围着模型的规则、检查和限制）。</li>
+<li><strong>风险</strong>：如果差距大部分在模型之外，换模型就解决不了结果不理想的问题。有一个团队只改了编码 agent 的配置，在一个公开基准上的分数就从 52.8% 涨到了 66.5%。这只是一个团队、一个基准，还是团队自己测的。</li>
+<li><strong>做对的代价</strong>：下一章从最小的有用组合开始。再往后，主要是花在配置上的时间。</li>
+<li><strong>可以问团队</strong>：“上次 agent 让我们失望，是模型的问题，还是它周围缺了什么：一道检查、一条规则、对文件的视野？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Picture a bug in your project. Users say the export button sometimes produces an empty file. You paste the description into a chat box, and a strong model answers with a confident explanation and a code fix.</p>
 <p>Now picture the same model, the same bug, in a different setup. It can open your files and search them. It can run your tests. It starts by reading the rules written down for the project. Before it changes anything, it shows you a plan. When it says &quot;fixed&quot;, something other than its own word has run the tests.</p>
@@ -251,6 +262,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>這本書以外的一些證據</h3>
 <p>LangChain 的一個團隊只改了寫程式 agent 的 harness，模型不動。在一個公開的寫程式基準（Terminal Bench 2.0）上，分數從 52.8% 升到 66.5%。他們改的有這些：一個讓 agent 結束前先驗證自己工作的步驟、一開始就給的工作資料夾地圖，以及在同一個檔案改了好幾次之後，提醒它重新想一想。（<a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering">Improving deep agents with harness engineering</a>）</p>
 <p>看看這些改動的共同點。每一項加的，都是模型自己不會提供的東西：外面來的檢查、資料夾的視野、跳出迴圈的一個機會。這是一個基準、一個團隊，而且是團隊改自己的 harness、自己量的，所以只當作一個跡象，不當作定律。但它和上面那個想像的例子指向同一個方向：好結果和差結果之間，很多差別不在模型裡。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>设想你的项目里有个 bug。用户说，导出按钮有时会导出一个空文件。你把描述贴进聊天框，一个很强的模型给了你一段很有把握的解释，外加一处代码修改。</p>
+<p>再设想同一个模型、同一个 bug，换一种配置。它能打开你的文件，能搜索。它能跑你的测试。它先读项目里写好的规则。动手改之前，它先给你看计划。它说“修好了”的时候，跑测试的是它自己之外的东西，不是靠它一句话。</p>
+<p>同一个模型，下午的光景却差得很远。这是个思想实验，不是测量：我编出来，只是为了表现这个差距的样子。本章其余部分解释差距从哪来。</p>
+<h3>聊天框少了什么</h3>
+<p>在聊天框里，模型手里只有你贴进去的东西。它看不到你的文件，只能猜。它跑不了这处修改，所以没人知道改得对不对。它不知道项目的规则，也没有什么拦着它，不让它建议你明令禁止的做法。这些都是模型周围缺的东西，不是模型缺的能力。</p>
+<h3>本书之外的一些证据</h3>
+<p>LangChain 的一个团队只改了编码 agent 的 harness，模型保持不变。在一个公开的编码基准（Terminal Bench 2.0）上，它的分数从 52.8% 涨到了 66.5%。他们改的有这些：让 agent 退出前先验证自己工作的一步、一开始就给出的工作文件夹地图，以及在同一个文件反复修改之后，提醒它重新想一想。（<a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering">Improving deep agents with harness engineering</a>）</p>
+<p>看看这些改动的共同点。每一项加的，都是模型自己提供不了的东西：来自外部的检查、对文件夹的视野、打断一个循环。这只是一个基准、一个团队，而且团队改的是自己的 harness，也是自己测的，所以只能当作一个迹象，不是定律。但它和上面的思想实验指向同一个方向：好结果和差结果之间的差别，很大一部分不在模型里。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Three words first</h3>
 <ul>
 <li>A <strong>model</strong> is the program that reads text and writes text. It is the &quot;brain&quot;. Alone, it can only answer.</li>
@@ -455,24 +474,135 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>證據失敗：沒有人說得清發生了什麼</strong>。工作可能沒問題，但你拿不出證明，壞了也找不到原因，也分不出一個改動有沒有用。例如帳單漲了，你卻不知道是哪個任務造成的。</li>
 </ul>
 <p>出事的時候，問「這是三種裡的哪一種？」，常常比問「我該換哪個模型？」快。下次看到失敗時試試。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>先说三个词</h3>
+<ul>
+<li><strong>模型</strong>是读文本、写文本的程序。它是“大脑”。单靠它自己，只能回答问题。</li>
+<li><strong>工具</strong>是模型能要求做的一件事：读文件、搜索、改文件、运行命令。工具是“双手”。<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>会讲模型怎么要求使用一个工具。</li>
+<li><strong>agent</strong> 是在一个循环里把这两样接起来的程序：问模型该做什么，运行它要的工具，把结果给模型看，重复，直到模型说做完了。<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>会带你走一遍这个循环。</li>
+</ul>
+<p>模型加工具，还不是 agent。得有人来写这个循环。这个程序就是 <strong>harness</strong> 的第一层意思。</p>
+<h3>“harness”的两种意思</h3>
+<p>人们用这个词有两种意思，混在一起会引起误会。</p>
+<ol>
+<li><strong>通用 harness</strong>：运行循环的程序。Claude Code、Codex 和 Copilot 的 agent 模式都是通用 harness。你买来或者下载就能用。</li>
+<li><strong>团队的 harness</strong>：你在通用 harness 之上，为自己团队搭的那一层：规则、skill、检查、限制、报告。它用的是通用 harness 留出来的扩展点。</li>
+</ol>
+<p>这本书讲的是第二种，搭在 VS Code Copilot 上。我说“harness engineering”，指的就是搭这一层的工作。</p>
+<h3>七层</h3>
+<p>我发现，把模型周围的一切分成七层，很好用。这个框架是我自己的，不是标准（详见“代价和坑”）。每一层都有一个问题，工具和模型怎么变，这个问题都不变。</p>
+<figure class="fig" id="fig-0-1-seven-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350">
+  <rect class="box-lit" x="20" y="10" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="33" text-anchor="middle" data-t="evidence">证据</text>
+  <text class="label-muted" x="205" y="33" data-t="q-evidence">它做了什么？做对了吗？</text>
+  <rect class="box-lit" x="20" y="54" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="77" text-anchor="middle" data-t="flow">流程</text>
+  <text class="label-muted" x="205" y="77" data-t="q-flow">工作怎么拆？谁来判断？</text>
+  <rect class="box-lit" x="20" y="98" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="121" text-anchor="middle" data-t="control">控制</text>
+  <text class="label-muted" x="205" y="121" data-t="q-control">我凭什么信它？</text>
+  <rect class="box-lit" x="20" y="142" width="170" height="36" rx="6"/>
+  <text class="label-lit" x="105" y="165" text-anchor="middle" data-t="context">上下文</text>
+  <text class="label-muted" x="205" y="165" data-t="q-context">它该知道什么？</text>
+  <rect class="box" x="20" y="186" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="209" text-anchor="middle" data-t="runtime">运行环境</text>
+  <text class="label-muted" x="205" y="209" data-t="q-runtime">谁来跑这个循环？</text>
+  <rect class="box" x="20" y="230" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="253" text-anchor="middle" data-t="tools">工具</text>
+  <text class="label-muted" x="205" y="253" data-t="q-tools">它够得着什么？</text>
+  <rect class="box" x="20" y="274" width="170" height="36" rx="6"/>
+  <text class="label" x="105" y="297" text-anchor="middle" data-t="model">模型</text>
+  <text class="label-muted" x="205" y="297" data-t="q-model">它能想多深？</text>
+  <text class="label-lit" x="20" y="332" data-t="legend-up">亮色：要自己搭</text>
+  <text class="label-muted" x="300" y="332" data-t="legend-down">素色：大部分是买来的</text>
+</svg>
+<figcaption>模型外面的七层。下面三层大部分是买来的，上面四层要自己搭。</figcaption></figure>
+<p>从下往上读。每一层都有一个日常的比方和一个问题。</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>比方</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型</td>
+<td>大脑</td>
+<td>它能想多深，要花多少钱？</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>双手</td>
+<td>它够得着什么？</td>
+</tr>
+<tr>
+<td>运行环境</td>
+<td>把大脑和双手接起来</td>
+<td>谁来跑这个循环，循环在哪里给我留了插手的口子？</td>
+</tr>
+<tr>
+<td>上下文</td>
+<td>公司的岗前培训</td>
+<td>它该知道什么，不该读什么？</td>
+</tr>
+<tr>
+<td>控制</td>
+<td>围栏</td>
+<td>我凭什么信它？</td>
+</tr>
+<tr>
+<td>流程</td>
+<td>活是怎么干成的</td>
+<td>工作怎么拆，谁来判断，什么时候停，什么时候叫人？</td>
+</tr>
+<tr>
+<td>证据</td>
+<td>能讲清楚</td>
+<td>它做了什么，做对了没有，花了多少？</td>
+</tr>
+</tbody>
+</table>
+<p>下面三层，大部分是买来的。模型厂商和平台厂商来造，变化很快。上面四层要你自己搭，因为它们取决于你的代码、你的同事和你的风险。它们也更持久：平台升级很少会抹掉你的规则，却很可能取代一个绕开弱模型的小聪明。</p>
+<p>正因为这样，本书在下面几层上花的笔墨少，大部分篇幅给了上面几层。第 1 部分和第 2 部分讲你需要了解的、买来的那几层。第 3 到第 6 部分，每部分讲上面的一层。</p>
+<h3>边界并不干净</h3>
+<p>别把这些层当成自然规律。<strong>hook</strong> 就恰好在边界上。hook 是平台在固定时机运行的一个小程序，这些时机出现在循环的每一<a href="2-1-agent-loop.html">轮</a>里（问一次模型、运行它要的工具、把结果交回去，算一轮），比如工具运行之前。插槽是平台给的（运行环境），但你往里放什么，属于控制。<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>会讲 hook。</p>
+<p>skill 是另一个例子。它是一份写好的手册，agent 需要时才去读。手册属于上下文，不是双手。只有附在它上面的脚本才是双手。</p>
+<h3>三种失败方式</h3>
+<p>为什么把上面四层分成三类？因为它们的失败方式有三种不同。</p>
+<ul>
+<li><strong>控制失败：agent 造成了损害</strong>。它删错了东西，或者改了不该碰的文件。</li>
+<li><strong>流程失败：活被打回来</strong>。agent 太早说“做完了”，或者想一口气全做完。Anthropic 在长时间运行的 agent 里看到过这两种模式：“agent 倾向于一次做太多”，而后来的一个会话“四处看看，发现已经有进展，就宣布工作完成”。（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）</li>
+<li><strong>证据失败：没人说得清发生了什么</strong>。活可能没问题，但你拿不出证明，出了问题找不到原因，也说不准某个改动有没有帮上忙。比如账单涨了，你却分不清是哪个任务造成的。</li>
+</ul>
+<p>出了问题，问一句“这是三类里的哪一类？”，往往比问“该换哪个模型？”更快。下次碰到失败，试一试。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More layers are not always better.</strong> Every layer you build is something to maintain and something that can fail. <a href="0-2-minimal-harness.html">Chapter 0.2</a> starts from the smallest useful set, and every chapter ends with a section on when to delete what it describes.</p>
 <p><strong>The gap is not all outside the model.</strong> A stronger model does help. My claim is narrower: for the same model, most of the difference you can influence comes from the layers around it. I have not measured the split, and the LangChain result is one benchmark.</p>
 <p><strong>The seven layers are my own frame.</strong> They are not a standard. They are a way to put the pieces in order, and you may draw the lines elsewhere.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>層多不一定好</strong>。你搭的每一層，都要維護，也都可能壞。<a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a> 從最小的有用組合開始，而每一章的結尾，都有一節講這一章說的東西什麼時候可以刪。</p>
 <p><strong>差距不全在模型外面</strong>。更強的模型確實有幫助。我的說法比較窄：同一個模型，你能影響的差別，大部分來自它周圍的層。這個比例我沒有量過，而 LangChain 的結果只是一個基準。</p>
 <p><strong>七層是我自己的框架</strong>。它不是標準。它是把這些東西排出順序的一種方法，你可以把界線畫在別的地方。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>层多不一定好</strong>。你搭的每一层，都要维护，也都可能出问题。<a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>从最小的有用组合开始，而每一章的结尾，都有一节讲这一章说的东西什么时候可以删。</p>
+<p><strong>差距并不全在模型之外</strong>。更强的模型确实有帮助。我的说法要窄一些：同一个模型，你能影响的差别，大部分来自它周围的那几层。这个比例我没有测过，LangChain 的结果也只是一个基准。</p>
+<p><strong>七层是我自己的框架</strong>。它不是标准。它只是把各个部分理出个顺序的一种办法，你也可以把线划在别处。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>Both sources above point the same way. LangChain changed only the harness and saw a large gain on one benchmark. Anthropic's write-up on long-running agents describes failures it saw in long-running agents (doing too much at once, declaring the job done too early) and fixes made with files, checklists and structure around the agent. It does not compare against a stronger model, so it shows where the failures were, not how much a better model would have helped. Neither source claims the model does not matter.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>上面兩個來源指向同一個方向。LangChain 只改了 harness，在一個基準上拿到很大的進步。Anthropic 講長時間執行 agent 的文章，說了它在長時間執行的 agent 裡看到的失敗（一次做太多、太早宣布完成），以及用檔案、檢查清單和 agent 周圍的結構做的修正。它沒有拿更強的模型來比，所以只能顯示失敗出在哪裡，看不出更好的模型能幫上多少。兩個來源都沒有說模型不重要。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>上面两个来源指向同一个方向。LangChain 只改了 harness，在一个基准上就看到了大幅提升。Anthropic 那篇关于长时间运行 agent 的文章，讲了它在长时间运行的 agent 里看到的失败（一次做太多、太早宣布完成），以及用文件、清单和围绕 agent 的结构做出的修复。它没有和更强的模型做对比，所以它说明的是失败出在哪里，而不是换更好的模型能有多大帮助。两个来源都没有说模型不重要。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The seven-layer picture is a teaching tool. If you find that one of the layers does not help you sort a problem, redraw it. The idea underneath is what I would keep: when an agent disappoints, look at what surrounds the model before you blame it.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>七層圖是教學的工具。如果你發現其中一層幫不上你分類問題，就重畫。底下的想法才是我會留下的：agent 讓人失望時，先看模型周圍有什麼，再去怪模型。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>七层的图是个教学工具。如果你发现其中某一层帮不上你给问题分类，那就重画。我会留下的是底下那个想法：agent 让你失望的时候，先看看模型周围有什么，再去怪模型。</p>
 </div></section><section id="how-to-read" class="sec"><div data-l="en" lang="en"><h2>How to read this book</h2><p>Every chapter has two parts. <strong>The Knowledge</strong> explains the idea and is meant to stand alone. <strong>In my practice</strong> points to the real files in my own setup, so you can look inside.</p>
 <p>If you have little time, read the chapters marked as core: they carry the main line of the book, and you can follow it without the rest. The others are there when a problem sends you to them. If you decide where the team's time and budget go, start with <a href="0-2-minimal-harness.html">0.2</a>, <a href="1-1-models-and-cost.html">1.1</a> and <a href="7-4-rollout-and-governance.html">7.4</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>怎麼讀這本書</h2><p>每一章分兩個部分。<strong>The Knowledge</strong> 講想法，可以單獨讀。<strong>In my practice</strong> 指向我自己設定裡的真實檔案，讓你看到裡面。</p>
 <p>時間不多，就讀標了核心的章：它們是書的主線，不讀別的也跟得上。其他章是在遇到問題時，再回頭查的。如果你要決定團隊的時間和預算怎麼花，從 <a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>、<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a> 和 <a href="7-4-rollout-and-governance.html">落地與治理</a> 開始。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>怎么读这本书</h2><p>每一章分两个部分。<strong>知识</strong>讲清楚思路，单独读也成立。<strong>我的实践</strong>指向我自己配置里的真实文件，让你能看到里面是什么样。</p>
+<p>时间不多，就读标了核心的章：它们是书的主线，不读别的也跟得上。其他章是在遇到问题时，再回头查的。如果你要决定团队的时间和预算怎么花，从 <a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>、<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a> 和 <a href="7-4-rollout-and-governance.html">落地与治理</a> 开始。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look at how you are set up in this repository: the instruction files, tools, hooks, checks and any written rules. Sort what you find into seven layers: model, tools, runtime, context, control, flow, evidence. For each layer, say what exists, and mark the layers where nothing exists. Then name the one missing piece that would most likely cause a bad result here. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>看一下你在這個倉庫裡是怎麼設定的：指令檔、工具、hook、檢查和任何寫下來的規則。把你找到的東西分到七層：模型、工具、執行環境、上下文、控制、流程、證據。每一層說明有什麼，沒有任何東西的層要標出來。然後指出一個最可能在這裡造成壞結果的缺口。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>看看你在这个仓库里是怎么配置的：指令文件、工具、hook、检查，以及所有写下来的规则。把你找到的东西归到七层里：模型、工具、运行环境、上下文、控制、流程、证据。每一层说明有什么，一样都没有的层要标出来。然后指出一个最可能在这里造成坏结果的缺失。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>LangChain: <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering">Improving deep agents with harness engineering</a></li>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
@@ -481,15 +611,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>LangChain：<a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering">Improving deep agents with harness engineering</a></li>
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness is a team harness in the second sense above, and it has a part for each of the four upper layers. The harness can walk you through it from the inside, with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>LangChain：<a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering">Improving deep agents with harness engineering</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness is a team harness in the second sense above, and it has a part for each of the four upper layers. The harness can walk you through it from the inside, with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The gap is outside the model&quot;. Teach me how a coding agent works in this harness: the loop, the tools, and where the harness steps in. Open the real files with me and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 是上面第二種意思的團隊 harness，上面四層它都有對應的部分。harness 可以從裡面教你，帶著真實的檔案。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「差距在模型外面」這一章。請教我寫程式 agent 在這個 harness 裡怎麼運作：迴圈、工具，以及 harness 在哪裡插手。每一項都帶我打開真實的檔案，並畫出各部分怎麼接在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 是上面第二种意思的团队 harness，上面四层它每层都有对应的部分。harness 可以从内部带你走一遍，配上真实的文件。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“差距在模型外面”这一章。请教我编码 agent 在这个 harness 里是怎么工作的：循环、工具，以及 harness 在哪里介入。带我打开真实的文件，并画出各部分是怎么连起来的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

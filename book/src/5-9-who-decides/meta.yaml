@@ -1,6 +1,6 @@
 id: "5.9"
 part: flow
-title: {en: "Who decides: code, a cheap model, the main model, a person", zh-Hant: 誰來判斷：程式、便宜模型、主模型、人}
+title: {en: "Who decides: code, a cheap model, the main model, a person", zh-Hant: 誰來判斷：程式、便宜模型、主模型、人, zh-Hans: "谁来判断：代码、便宜模型、主模型、人"}
 harness_tag: "1.5.50"
 wondering: [15-design-choices]
 sources:

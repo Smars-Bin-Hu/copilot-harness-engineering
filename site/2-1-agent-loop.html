@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>The agent loop</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">2.1</p><h1><span data-l="en" lang="en">The agent loop</span><span data-l="zh-Hant" lang="zh-Hant">agent 循環，和你能插手的地方</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.1</p><h1><span data-l="en" lang="en">The agent loop</span><span data-l="zh-Hant" lang="zh-Hant">agent 循環，和你能插手的地方</span><span data-l="zh-Hans" lang="zh-Hans">agent 循环，以及你能插手的地方</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過 AI 寫程式 agent，例如 Copilot 的 agent 模式。其他都不用。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent is a loop: ask the model, run the tool it asks for, feed the result back. You steer it at a few points in each turn.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过写代码的 AI agent，比如 Copilot 的 agent 模式。别的都不需要。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent is a loop: ask the model, run the tool it asks for, feed the result back. You steer it at a few points in each turn.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 是一個迴圈：問模型，執行它要的工具，把結果餵回去。你可以在每一輪的幾個點上掌舵。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 是一个循环：问模型，运行它要的工具，把结果喂回去。你在每一轮的几个点上掌舵。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> when an agent misbehaves, ask which of four places to fix (what it reads, which tools it has, a check before a call, a check after a call) before asking for a bigger model or a longer prompt.</li>
 <li><strong>The risk:</strong> the loop itself almost never breaks. In my reading, mistakes come from what is in the context or from what is allowed, and a rule written in a prompt is only a request. I have no counts of how often each happens.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：迴圈本身幾乎不會壞。依我的觀察，錯誤來自上下文裡有什麼，或者來自允許做什麼，而寫在 prompt 裡的規則只是請求。每一種發生得多頻繁，我沒有計數。</li>
 <li><strong>做對的成本</strong>：主要是設定的時間。最便宜的槓桿，也就是 agent 讀什麼，只是幾行寫下來的規則。</li>
 <li><strong>可以問團隊</strong>：「上一次的壞結果，修法是更好的上下文、更緊的工具清單，還是模型外面的一道檢查？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：agent 出了问题，先问该改四个地方里的哪一个（它读什么、有哪些工具、调用前的检查、调用后的检查），再去考虑换更大的模型或写更长的 prompt。</li>
+<li><strong>风险</strong>：循环本身几乎不会坏。按我的观察，错误来自上下文里有什么，或者来自允许它做什么，而写在 prompt 里的规则只是请求。每一种有多常见，我没有统计。</li>
+<li><strong>做对的代价</strong>：主要是配置的时间。最便宜的杠杆，也就是 agent 读什么，只是几行写下来的规则。</li>
+<li><strong>可以问团队</strong>：“上一次的坏结果，修的办法是更好的上下文、更紧的工具清单，还是模型之外的一道检查？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When an agent does something wrong, it feels like a mind has made a bad choice. That feeling sends people to the wrong fix. They write a longer prompt, or add &quot;be careful&quot; in capital letters, or switch to a bigger model. Sometimes that helps. Often it does not, because the problem was not in the thinking.</p>
 <p>It helps to know what the machine is. It is small and plain. This chapter draws it, and marks the few places where you can reach into it. Every later chapter in this part, and most chapters after it, work on one of those places.</p>
@@ -250,6 +261,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>模型</strong>就是 AI 本身。它讀文字、寫文字。除此之外什麼都不做。</li>
 <li><strong>工具</strong>是 agent 在你的專案裡能做的一件事：讀檔案、搜尋、改檔案、執行指令。</li>
 <li><strong>工具呼叫</strong>是模型要求用一個工具，寫成文字：「讀這個檔案」。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>agent 做错事的时候，感觉像是一个头脑做了个糟糕的选择。这种感觉会把人引向错误的修法。他们把 prompt 写得更长，或者用大写字母加上一句“小心”，或者换成更大的模型。有时候有用。往往没用，因为问题不出在思考上。</p>
+<p>了解这台机器是什么，会有帮助。它又小又朴素。这一章把它画出来，并标出你可以伸手进去的几个地方。这一部分后面的每一章，以及再往后的大多数章，都是在其中某一个地方下功夫。</p>
+<p>先说三个词。</p>
+<ul>
+<li><strong>模型</strong>就是 AI 本身。它读文本、写文本，别的什么都不做。</li>
+<li><strong>工具</strong>是 agent 在你的项目里能做的一件事：读文件、搜索、改文件、运行命令。</li>
+<li><strong>工具调用</strong>是模型要求使用某个工具的请求，写成文本：“读这个文件”。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The loop</h3>
 <p>The model cannot touch your files. It can only write text. So the way an agent works is this. The model writes a tool call. A program around the model, the part that is not AI, reads that text and runs the tool for real. The program then pastes the result back in front of the model as more text. The model reads it, and writes the next tool call. This repeats until the model writes an answer with no tool call in it. That is the signal that it thinks it is done.</p>
@@ -445,6 +464,103 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>注意，這些裡面很少是模型不夠聰明。第一個和最後一個，需要模型外面的一道檢查。第二個需要更好的上下文（<a href="3-2-long-sessions.html">長對話會變差</a>）。第三個需要第二個視角（<a href="2-3-subagents.html">慎用子 agent</a>）。只有第四個接近模型自己的習慣。每一種發生得多頻繁，我沒有計數，所以這是我對所見的看法，不是量出來的。</p>
 <h3>自己看看迴圈</h3>
 <p>你不用安裝任何東西。在 agent 的對話裡問：「讀 README，告訴我這個專案做什麼。」看著對話。回答之前，你會看到一行像「Read README.md」的字。那一行就是一次工具呼叫，秀給你看的。然後問一個需要三個檔案的問題，數一數有幾行。每一行是迴圈的一輪，每個結果現在都在上下文裡了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>循环</h3>
+<p>模型碰不到你的文件。它只能写文本。所以 agent 是这样工作的。模型写出一个工具调用。模型外面的一个程序，也就是不是 AI 的那部分，读到这段文本，真的去运行这个工具。然后程序把结果作为更多文本，贴到模型面前。模型读完，写出下一个工具调用。这样重复，直到模型写出一个不带工具调用的回答。这就是它认为自己做完了的信号。</p>
+<p>我把绕这个循环走一圈，叫作一<strong>轮</strong>。有些人用这个词指从你发消息到最终回答的整个来回，而且一圈里模型可以同时要求用好几个工具；这里的一轮，指的是一次“问、运行、喂回去”。</p>
+<figure class="fig steps" id="fig-2-1-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320">
+  <rect class="box" x="10" y="60" width="160" height="50" rx="8"/>
+  <text class="label" x="90" y="90" text-anchor="middle" data-t="request">你的话 + 规则</text>
+
+  <path class="line" d="M170 85 H220"/>
+  <path class="head" d="M220 79 L230 85 L220 91 Z"/>
+  <rect class="box-lit" x="230" y="55" width="150" height="60" rx="8"/>
+  <text class="label-lit" x="305" y="82" text-anchor="middle" data-t="model">模型</text>
+  <text class="label-muted" x="305" y="100" text-anchor="middle" data-t="model-note">只会写文本</text>
+
+  <g data-step="2">
+    <path class="line-lit" d="M380 72 H500"/>
+    <path class="head-lit" d="M500 66 L510 72 L500 78 Z"/>
+    <text class="label-muted" x="445" y="62" text-anchor="middle" data-t="ask">工具调用</text>
+  </g>
+
+  <g data-step="3">
+    <rect class="box" x="510" y="55" width="180" height="60" rx="8"/>
+    <text class="label" x="600" y="82" text-anchor="middle" data-t="program">外面的程序</text>
+    <text class="label-muted" x="600" y="100" text-anchor="middle" data-t="program-note">真正运行工具</text>
+  </g>
+
+  <g data-step="4">
+    <path class="line" d="M510 100 H390"/>
+    <path class="head" d="M390 94 L380 100 L390 106 Z"/>
+    <text class="label-muted" x="445" y="132" text-anchor="middle" data-t="result">结果（文本）</text>
+    <text class="label-muted" x="350" y="162" text-anchor="middle" data-t="repeat">……直到模型说做完了</text>
+  </g>
+
+  <g data-step="5">
+    <rect class="box-lit" x="10" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="180" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="10" y="234" width="335" height="44" rx="6"/>
+    <rect class="box-lit" x="355" y="234" width="335" height="44" rx="6"/>
+    <text class="label-lit" x="177" y="207" text-anchor="middle" data-t="p1">它读什么</text>
+    <text class="label-lit" x="522" y="207" text-anchor="middle" data-t="p2">有哪些工具</text>
+    <text class="label-lit" x="177" y="261" text-anchor="middle" data-t="p3">hook：调用之前</text>
+    <text class="label-lit" x="522" y="261" text-anchor="middle" data-t="p4">hook：调用之后</text>
+    <text class="label-muted" x="350" y="306" text-anchor="middle" data-t="points">每一轮里，你能插手的四个地方</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">你发出需求。平台加上规则，模型把两者一起读进去。</li><li data-step-text="2">模型不会直接碰你的文件。它写出一个工具调用的请求：读这个文件、运行这条命令。</li><li data-step-text="3">模型外面的程序真正运行这个工具。</li><li data-step-text="4">结果以文本送回模型，模型决定下一步。这样一轮轮重复，直到它说做完了。</li><li data-step-text="5">你改变不了模型怎么想。你能改的是它读什么、有哪些工具，以及每次调用的前后发生什么。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>agent 就是一个循环：模型提出要求，程序动手，结果送回去。每一轮里你有四个地方可以插手。</figcaption></figure>
+<p>由此得出两个事实，后面都会用到。</p>
+<ol>
+<li><strong>每个动作都是一次工具调用</strong>。模型没有别的办法做任何事。所以有一扇门，每个动作都要从这里经过。（对内置工具和子 agent，我见过每次调用都经过 hook 点；MCP 工具我没有测过。细节见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）站在这扇门口的人，能看到并拦住 agent 做的一切。hook 就站在那里。它是你的一个小程序，平台在每次工具调用的前后，在固定的点上运行它；<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>会讲解它。</li>
+<li><strong>模型只看得到文本</strong>。它看不到你的屏幕，也看不到你的磁盘。它看到的是上下文里的内容：规则、你说的话、之前工具调用的结果、它自己之前的回答。上下文就是它的整个世界，而且有大小上限。<a href="3-1-context-budget.html">上下文是一份预算</a>讲的就是这个。</li>
+</ol>
+<h3>它什么时候停？</h3>
+<p>通常的停止，是模型不再要求工具，直接作答。还有别的情况：你按了停止，平台到了某个上限，或者有什么东西拒绝了这次停止。</p>
+<p>最后这一种很有用。agent 要停的时候，可以运行一个 hook，去看任务的待办清单（它还没做完的步骤），然后说“还没完，第 4 步还开着”。循环就接着走下去。这就是让 agent 不用你守着、把一长串清单做完的办法。<a href="2-3-subagents.html">慎用子 agent</a>讲了这种情况和它的停止规则。Copilot 默认给轮数设了什么上限，我没有查过，所以这里不给数字。</p>
+<h3>你能在哪里插手</h3>
+<p>再看一遍这个循环。你改变不了模型怎么思考。你能改的，是它周围的四样东西。</p>
+<ol>
+<li><strong>它读什么</strong>。放进它上下文的规则和指令，以及指给它的文件。这是用得最多的杠杆，也是最便宜的。<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>讲的是这个。</li>
+<li><strong>有哪些工具</strong>。没有改文件工具的 agent，就改不了文件。而且工具的描述和报错信息，是模型拿到的关于它的唯一说明书（<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>）。自定义 agent 是给一个角色一份更短工具清单的办法（<a href="2-4-custom-agents.html">自定义 agent：固定模型和工具的角色</a>）。</li>
+<li><strong>调用前的 hook</strong>。在调用运行之前就看到它、并且能拒绝它的代码。平台保证每次调用都经过这个点，所以这里的规则是会运行的代码，不是请求。一份工具清单，或者一条让 agent 自查用的命令，也是代码，但各自覆盖的范围更窄（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。权限设置和沙箱是另一类杠杆：它们不读调用本身，而是限制任何命令能做什么。我没有在 Copilot 上逐个测过它们，所以没把它们放进这四样里。</li>
+<li><strong>调用后的 hook</strong>。看到结果、能留下记录、能为模型加一条备注的代码。它撤销不了已经发生的事。</li>
+</ol>
+<p>一个简便的记法：四样里，两样决定模型知道什么，两样决定它被允许做什么。光靠话，只能改变它知道什么。</p>
+<h3>为什么大多数错误不出在循环里</h3>
+<p>我是这样看 agent 的错误的。循环本身几乎不会坏。错误来自上下文里有什么，或者来自允许它做什么。下面这张清单是我自己用出来的，是我见过的情况，不是统计数据：</p>
+<table>
+<thead>
+<tr>
+<th>你看到的</th>
+<th>通常的原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它改了不该改的</td>
+<td>它推理的是怎么把活干完，不是被不被允许。prompt 里的规则只是请求。</td>
+</tr>
+<tr>
+<td>它忘了前面的某件事</td>
+<td>上下文被压缩了，或者对话太长了。</td>
+</tr>
+<tr>
+<td>它检查了自己的工作，说没问题</td>
+<td>同一个模型，同样的推理，有同样的盲区。</td>
+</tr>
+<tr>
+<td>它对一个被拒绝的操作不停重试</td>
+<td>它想把任务做完。</td>
+</tr>
+<tr>
+<td>它说“做完了”，其实没有</td>
+<td>按我的经验，模型倾向于汇报成功。</td>
+</tr>
+</tbody>
+</table>
+<p>注意，这几条里很少是因为模型不够聪明。第一条和最后一条，需要模型之外的一道检查。第二条，需要更好的上下文（<a href="3-2-long-sessions.html">长对话会变差</a>）。第三条，需要另一个视角（<a href="2-3-subagents.html">慎用子 agent</a>）。只有第四条，接近模型本身的习惯。每一种有多常见，我没有数据，所以这是我对所见的解读，不是测量。</p>
+<h3>自己看看这个循环</h3>
+<p>你不用安装任何东西。在 agent 的对话里问：“读一下 README，告诉我这个项目是做什么的。”看着对话。回答之前，你会看到一行类似“Read README.md”的字。这一行就是一次工具调用，展示给你看。然后再问一个需要三个文件的问题，数数有几行。每一行是循环的一轮，每个结果现在都在上下文里。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Every turn rereads the context.</strong> Each time around, the model reads the whole context again, now with one more result in it. A task of thirty turns is thirty reads of a growing text. This is why what the agent reads matters more than how clever the model is, and why <a href="1-1-models-and-cost.html">the model's price per token</a> is the wrong number to look at alone. One correction: the reread is not always charged at full price. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price (<a href="1-1-models-and-cost.html">Models and cost</a> has the sums). I have not checked how Copilot bills it. What the cache does not fix is the second cost: the model still has to attend to all of that text.</p>
 <p><strong>Tool results are the biggest and the least watched part.</strong> You wrote the prompt, so you know it. The file the agent read, or the log a command printed, you may never have seen. It is still in the context, and the model may act on it.</p>
 <p><strong>An agent is not always the answer.</strong> A loop that decides its own next step costs more and is harder to predict than a fixed series of model calls, or a single call. Anthropic's advice is to find the simplest solution possible and add complexity only when needed (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.</p>
@@ -453,12 +569,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>工具結果是最大、也最少人看的部分</strong>。prompt 是你寫的，所以你知道。agent 讀的檔案，或指令印出的紀錄，你可能從來沒看過。它還是在上下文裡，而模型可能照著做。</p>
 <p><strong>agent 不一定是答案</strong>。自己決定下一步的迴圈，比一串固定的模型呼叫，或單次呼叫，花得更多，也更難預測。Anthropic 的建議是找到最簡單的解法，只在需要時才加複雜度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件工作的步驟從來不變，一個在固定位置呼叫模型的腳本，可能比 agent 更適合你。</p>
 <p><strong>別把迴圈當成計劃來讀</strong>。模型不是先規劃好整條路再照著走。它每一輪都根據看到的東西決定。它走上錯的路，通常是因為前面某一輪的結果把它帶去的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>每一轮都要重读上下文</strong>。每绕一圈，模型都把整个上下文再读一遍，里面又多了一个结果。一个三十轮的任务，就是对一段越来越长的文本读三十遍。这就是为什么 agent 读什么，比模型多聪明更要紧；也是为什么只看<a href="1-1-models-and-cost.html">模型每个 token 的价格</a>是不对的。要更正一点：重读并不总是按全价收费。提供方会缓存重复的开头，在 Anthropic 的 API 上，读缓存的价格约是基础输入价的十分之一（算式见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。Copilot 怎么计这笔账，我没有查过。缓存解决不了的是第二笔开销：模型仍然得去关注那一大段文本。</p>
+<p><strong>工具结果是最大的、也是最少被盯着的部分</strong>。prompt 是你写的，所以你知道。agent 读的文件，或者一条命令打印的日志，你可能从没见过。它们仍然在上下文里，模型可能会照着它们去行动。</p>
+<p><strong>agent 不总是答案</strong>。自己决定下一步的循环，比一串固定的模型调用，或者单次调用，更贵，也更难预测。Anthropic 的建议是找最简单的解决办法，只在需要时才增加复杂度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件事的步骤从不改变，一个在固定位置调用模型的脚本，可能比 agent 更适合你。</p>
+<p><strong>别把循环当成计划</strong>。模型不会先规划好整条路径再照着走。它每一轮，根据看到的东西来决定。它走上错路，通常是因为前面某一轮的结果把它带过去的。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The reasoning about the loop does not retire while agents work by calling tools. The practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks. I would then drop the hooks, not the loop picture.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>只要 agent 還是靠呼叫工具運作，關於迴圈的推理就不會退役。實務的部分可能會。今天我在四個地方掌舵，是因為平台給我的就是這些。如果平台開始提供原生的辦法，來執行規則、預算或停止條件，我會用那個，不用自己的 hook。那時我會丟掉 hook，不會丟掉迴圈的圖像。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>只要 agent 还是靠调用工具来工作，关于循环的道理就不会退役。实际操作的那部分也许会。我今天在四个地方掌舵，是因为平台就给了我这些。如果平台开始提供原生的办法来强制执行规则、预算或停止条件，我会用它，而不是我自己的 hook。那时我会丢掉 hook，而不是循环这幅图。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Read this project&#x27;s instruction files and settings. For each rule or limit you find, tell me which of four places it works at: what the agent reads, which tools exist, a check before a tool call, or a check after a tool call. Mark every rule that is only a written request with nothing outside the model enforcing it. List the five rules where a break would matter most. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>讀這個專案的指令檔和設定。你找到的每條規則或限制，都告訴我它作用在四個地方的哪一個：agent 讀什麼、有哪些工具、工具呼叫前的檢查，或工具呼叫後的檢查。把每一條只是寫下來的請求、模型外面沒有任何東西執行它的規則標出來。列出五條壞掉時影響最大的規則。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>读这个项目的指令文件和设置。你找到的每条规则或限制，告诉我它在四个地方里的哪一个起作用：agent 读什么、有哪些工具、工具调用前的检查、工具调用后的检查。把只是写下来的请求、没有模型之外的东西来强制执行的规则，每一条都标出来。列出五条一旦被破坏影响最大的规则。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>. It defines agents as &quot;LLMs autonomously using tools in a loop&quot;.</li>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>, on when a fixed workflow is enough</li>
@@ -469,15 +592,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>，講什麼時候固定的 workflow 就夠了</li>
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The loop is the same everywhere, but in the harness you can watch each turn from the side: what is injected into the context, and which call a hook saw and what it answered. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>。它把 agent 定义为“在循环里自主使用工具的 LLM”。</li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>，讲什么时候固定的 workflow 就够了</li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The loop is the same everywhere, but in the harness you can watch each turn from the side: what is injected into the context, and which call a hook saw and what it answered. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The agent loop, and where you can step in&quot;. Teach me how this harness stands at the four places in the loop: what it puts into the context, which tools it allows, and what its hooks do before and after a call. Open the real files with me and draw how one turn passes through them.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>迴圈到處都一樣，但在 harness 裡，你可以從旁邊看每一輪：什麼被注入了上下文，hook 看到了哪次呼叫、答了什麼。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「agent 循環，和你能插手的地方」這一章。請教我這個 harness 怎麼站在迴圈的四個位置：它把什麼放進上下文、允許哪些工具，以及它的 hook 在呼叫之前和之後做什麼。帶我打開真實的檔案，並畫出一輪怎麼經過它們。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>循环在哪里都一样，但在 harness 里，你可以从旁边看每一轮：往上下文里注入了什么，hook 看到了哪次调用、回答了什么。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“agent 循环，以及你能插手的地方”这一章。请教我这个 harness 是怎么站在循环的四个地方的：它往上下文里放了什么、允许哪些工具，以及它的 hook 在调用前后做什么。带我打开真实的文件，并画出一轮是怎么穿过它们的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

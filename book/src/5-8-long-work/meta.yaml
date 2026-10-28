@@ -1,6 +1,6 @@
 id: "5.8"
 part: flow
-title: {en: "Long work across sessions", zh-Hant: 跨會話的長任務}
+title: {en: "Long work across sessions", zh-Hant: 跨會話的長任務, zh-Hans: "跨会话的长任务"}
 harness_tag: "1.5.50"
 wondering: [09-task-lifecycle]
 sources:

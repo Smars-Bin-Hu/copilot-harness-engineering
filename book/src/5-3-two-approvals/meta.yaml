@@ -1,7 +1,7 @@
 id: "5.3"
 part: flow
 core: true
-title: {en: "Two gates: where a person approves", zh-Hant: "兩道門：人在哪裡批准"}
+title: {en: "Two gates: where a person approves", zh-Hant: "兩道門：人在哪裡批准", zh-Hans: "两道门：人在哪里审批"}
 harness_tag: "1.5.50"
 wondering: [09-task-lifecycle, 15-design-choices, 08-permission-sandbox]
 sources:

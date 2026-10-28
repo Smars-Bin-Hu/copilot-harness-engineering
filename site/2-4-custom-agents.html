@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Custom agents</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">2.4</p><h1><span data-l="en" lang="en">Custom agents</span><span data-l="zh-Hant" lang="zh-Hant">Custom agent：固定模型和工具的角色</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a>, or at least know what a subagent is.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">2.4</p><h1><span data-l="en" lang="en">Custom agents</span><span data-l="zh-Hant" lang="zh-Hant">Custom agent：固定模型和工具的角色</span><span data-l="zh-Hans" lang="zh-Hans">自定义 agent：固定模型和工具的角色</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a>, or at least know what a subagent is.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過<a href="2-3-subagents.html">慎用子 agent</a>，或至少知道子 agent 是什麼。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Build a custom agent only when you must change the model or shrink the tools. To change what it knows or how it works, a skill or an instruction file is enough.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你读过<a href="2-3-subagents.html">慎用子 agent</a>，或者至少知道什么是子 agent。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Build a custom agent only when you must change the model or shrink the tools. To change what it knows or how it works, a skill or an instruction file is enough.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>只有在必須換模型、或縮小工具時，才做 custom agent。要改它知道什麼、怎麼做事，用 skill 或指令檔就夠了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>只有在必须换模型、或者缩小工具范围时，才去建自定义 agent。要改的是它知道什么、怎么干活，一个 skill 或一个指令文件就够了。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> approve a custom agent only when it changes something that cannot be shared another way: its tools, its model, or a context that must not see the caller's reasoning.</li>
 <li><strong>The risk:</strong> a role that is only a different tone and some know-how is a costume: one more file to keep in step that the platform does not enforce. In my early setup, three job-title agents cost about 4.5 times the usage of one agent on four small tasks, run once each, with no better result.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：一個角色如果只是換了語氣、加了些做事的訣竅，它就只是一件戲服：多一個要同步維護的檔案，平台並不會強制執行它。在我早期的設定裡，三個按職位分工的 agent，在四個小任務上（每個只跑一次）用量約是一個 agent 的 4.5 倍，結果沒有更好。</li>
 <li><strong>做對的成本</strong>：每一種真正的限制一個 agent 檔，像任何規則一樣走 code review 來改。我的只留了一個唯讀的幫手和一個檢查者。</li>
 <li><strong>可以問團隊</strong>：「這個 agent 檔有列出工具或模型嗎？沒有的話，為什麼不是 skill？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：自定义 agent 只在它改变了别的办法共享不了的东西时才批：它的工具、它的模型，或者一份不能让它看到调用方推理过程的上下文。</li>
+<li><strong>风险</strong>：一个只是换了语气、加了点专业知识的角色，是戏服：多一个要同步维护的文件，平台并不强制执行它。在我早期的配置里，三个按岗位分工的 agent，在四个小任务上（每个只跑了一次），用量约是一个 agent 的 4.5 倍，结果并没有更好。</li>
+<li><strong>做对的代价</strong>：每一个真实的限制，对应一个 agent 文件，像任何规则一样通过代码审查来改。我的配置里只留了一个只读的帮手和一个检查者。</li>
+<li><strong>可以问团队</strong>：“这个 agent 文件里列了工具或模型吗？如果没有，为什么它不是一个 skill？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p><a href="2-3-subagents.html">Use subagents sparingly</a> asked whether to split work between agents. This chapter asks a smaller question: when you want a different agent, what do you actually have to build?</p>
 <p>Many setups start by building roles: a &quot;SQL expert&quot;, a &quot;code reviewer&quot;, a &quot;documentation writer&quot;, each as its own agent file. It feels like organizing. But look at what an agent file holds, and you find that most of it is something you could give to the default agent in another way. A role that is only a different tone and some know-how is a costume. It adds a thing to maintain and nothing the platform enforces.</p>
@@ -248,6 +259,13 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <ul>
 <li><strong>custom agent</strong> 是一個檔案，為 agent 定義一個角色。在 VS Code Copilot 裡，它是副檔名為 <code>.agent.md</code> 的檔案。它有一段簡短的檔頭（名稱、描述、設定）和一段指令正文。</li>
 <li><strong>預設 agent</strong> 是你什麼都不選時對話的那個普通 agent。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p><a href="2-3-subagents.html">慎用子 agent</a>问的是，要不要把工作分给多个 agent。这一章问的是一个更小的问题：你想要一个不一样的 agent 时，到底要搭什么？</p>
+<p>很多配置一上来就搭角色：“SQL 专家”“代码 reviewer”“文档撰写者”，每个都是一个 agent 文件。这让人觉得井井有条。但看看 agent 文件里装的是什么，你会发现大部分内容，都可以用别的办法交给默认的 agent。一个只是换了语气、加了点专业知识的角色，就是戏服。它多出一样要维护的东西，却没有任何平台强制执行的内容。</p>
+<p>先说两个词。</p>
+<ul>
+<li><strong>自定义 agent</strong> 是为 agent 定义一个角色的文件。在 VS Code Copilot 里，它是以 <code>.agent.md</code> 结尾的文件。它有一小段头部（名字、描述、设置）和一段正文指令。</li>
+<li><strong>默认 agent</strong> 是你什么都不选时，与你对话的那个普通 agent。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What is in an agent file</h3>
 <p>The header holds a few settings. These are the ones that matter, from the VS Code docs and from my own files:</p>
@@ -369,6 +387,66 @@ tools: [&#x27;read&#x27;, &#x27;search&#x27;, &#x27;execute&#x27;]
 <p><strong>比呼叫者高一級的模型，可能被悄悄跳過</strong>。我見過一次，沒有再測：子 agent 的模型比主模型高一個等級時，平台不執行它，也不說一聲。所以「檢查到底有沒有做」，要由不是模型的東西來確認，例如一個把 reviewer 的回答存到磁碟的 hook。檢查如果對你重要，就留一份它執行過的紀錄。</p>
 <h3>測一測你自己的設定</h3>
 <p>拿一個你有的角色 agent（「SQL 專家」「文件作者」）。它的檔案有列出工具或模型嗎？都沒有的話，把它的正文搬進 skill（<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>），同一個任務給預設 agent，分別在有 skill 和沒有 skill 時做，然後比較。看不出差別，這個 agent 就是戲服。每種多跑幾次，再相信你看到的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>agent 文件里有什么</h3>
+<p>头部有几项设置。下面这些是要紧的，来自 VS Code 的文档和我自己的文件：</p>
+<ul>
+<li><strong>名字和描述</strong>。描述告诉模型什么时候该调用这个 agent。要写给调用方看：说明这个 agent 是做什么的，需要被告知什么。子 agent 从空白的上下文开始（<a href="2-3-subagents.html">慎用子 agent</a>），所以含糊的调用消息，让它无从下手。</li>
+<li><strong>工具清单</strong>。文件里给了清单，这个 agent 就只有清单上的工具。</li>
+<li><strong>模型</strong>，可选。它可以是一份按偏好排序的列表：第一个用不了，就试下一个。</li>
+<li><strong>谁可以调用它</strong>。有两个设置，作用不同。<code>user-invocable: false</code> 让这个 agent 不出现在下拉列表里（VS Code 文档叫它选择器里的可见性）。另一个单独的设置 <code>disable-model-invocation</code>，管的是模型能不能把它当子 agent 调用。见下面的“隐藏不等于禁止”。</li>
+</ul>
+<p>正文是文本：这个角色是干什么的、怎么干、不能做什么、交回什么。</p>
+<h3>只有 agent 文件才能做到的</h3>
+<figure class="fig" id="fig-2-4-what-differs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-lit" x="330" y="26" text-anchor="middle" data-t="col-default">默认 agent</text>
+  <text class="label-lit" x="500" y="26" text-anchor="middle" data-t="col-custom">自定义 agent</text>
+
+  <text class="label" x="20" y="68" data-t="row-model">用哪个模型</text>
+  <rect class="box" x="250" y="42" width="160" height="40" rx="6"/>
+  <text class="label-muted" x="330" y="67" text-anchor="middle" data-t="model-default">你选的那个</text>
+  <rect class="box-lit" x="420" y="42" width="160" height="40" rx="6"/>
+  <text class="label-lit" x="500" y="67" text-anchor="middle" data-t="model-custom">写死在文件里</text>
+
+  <text class="label" x="20" y="128" data-t="row-tools">有哪些工具</text>
+  <rect class="box" x="250" y="102" width="160" height="40" rx="6"/>
+  <text class="label-muted" x="330" y="127" text-anchor="middle" data-t="tools-default">全部</text>
+  <rect class="box-lit" x="420" y="102" width="160" height="40" rx="6"/>
+  <text class="label-lit" x="500" y="127" text-anchor="middle" data-t="tools-custom">只有清单上的</text>
+
+  <text class="label" x="20" y="188" data-t="row-know">知道什么、怎么干活</text>
+  <rect class="box-plain" x="250" y="162" width="330" height="40" rx="6"/>
+  <text class="label-muted" x="415" y="187" text-anchor="middle" data-t="know">两边一样：指令和 skill</text>
+
+  <text class="label-muted" x="300" y="240" text-anchor="middle" data-t="note">只有上面两行，才需要新建一个 agent。</text>
+</svg>
+<figcaption>自定义 agent 改的是模型和工具。agent 知道什么、怎么干活，用指令和 skill 就能交给任何 agent。</figcaption></figure>
+<p>把这些设置并排放在一起，然后问：哪些东西，我可以用别的办法交给默认 agent？</p>
+<ul>
+<li><strong>怎么干活、知道什么</strong>。指令文件和 skill 对任何 agent 都有效。SQL 风格指南、检查清单、这里的命名方式：放进 skill 或指令文件（<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>）。这样默认 agent 就能干这份活，不需要新的 agent。</li>
+<li><strong>有哪些工具</strong>。这没法用别的办法给。一个 agent 有它的文件里列出的那些工具，平台会强制执行这份清单。没有编辑工具的 agent，无论你怎么要求，都编辑不了。这是 agent 文件能给你的硬性限制。（写在文件正文里的规则，比如“不要改文件”，和别的规则一样是请求。）</li>
+<li><strong>用哪个模型</strong>。同样只有 agent 文件能做到。简单的活用便宜的模型，难的思考用强的。人可以在下拉列表里切换默认 agent 的模型，但子 agent 的模型是在它的文件里设的。</li>
+<li><strong>独立的上下文</strong>。作为子 agent 运行时，它从空白的上下文开始，只有它的报告会回来。这不是文件的属性，而是子 agent 这个身份的属性。想要独立检查时，这是搭一个的理由，<a href="2-3-subagents.html">慎用子 agent</a>讲了这一点。</li>
+</ul>
+<p>所以我用的规则很短。<strong>这几样里至少有一样没法共享时，才建自定义 agent：工具不同、模型不同，或者你需要一份不能让它看到调用方推理过程的上下文。</strong> 其他情况，都用默认 agent，把专业知识写下来。一个快速的检验：如果你能把它说成“做 X 的时候，这样做”，它就是 skill。如果你能把它说成“这份活不能有工具 Y”或者“这份活要用模型 Z 来跑”，它就是 agent。</p>
+<p>加一个之前，我问两个问题：它防的是哪种故障？默认 agent 为什么做不到同样的事？</p>
+<p>VS Code 的上下文工程指南把 agent 用在“遵循多轮流程、使用特定工具的 workflow”上，它的示例规划 agent 有一份简短的只读工具清单，和一条不要去实现的指令。这是同样的形状：工具清单是限制，指令是请求。</p>
+<h3>一个例子：reviewer</h3>
+<p>在我的配置里，有一个自定义 agent，是我比其他所有都更想保留的：reviewer。它是一个检查者，只看需求和结果。下面是它文件的开头：</p>
+<details class="code"><summary>reviewer 的头部：tools 那一行是限制，model 那一行是备选列表，description 是对调用它的模型的请求。</summary><pre><code class="language-markdown">---
+name: reviewer
+description: The independent checker. The default agent calls it when the user switches checks on ([review]=n). It looks only at the requirement, the work and the diff, gives PASS or FAIL, and names file:line for every finding. It changes no file.
+user-invocable: false
+agents: []
+model: [&#x27;Claude Sonnet 5.5 (copilot)&#x27;, &#x27;Claude Sonnet 5.5&#x27;, &#x27;Claude Haiku 5.5 (copilot)&#x27;, &#x27;Claude Haiku 5.5&#x27;, &#x27;Claude Haiku 4.5 (copilot)&#x27;, &#x27;Claude Haiku 4.5&#x27;]
+tools: [&#x27;read&#x27;, &#x27;search&#x27;, &#x27;execute&#x27;]
+---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/reviewer.agent.md#L1-L8">.github/agents/reviewer.agent.md L1–L8 @ 1.5.50</a></p></details>
+<p><code>tools</code> 那一行给了它读、搜索和运行命令的工具，没有改文件的。所以它没法“顺手修一下”。<code>agents: []</code> 表示它不能再启动别的子 agent。模型是一份备选列表，第一个用不了，就用下一个。每一项选择的理由，在<a href="2-3-subagents.html">慎用子 agent</a>里。这里要紧的是：头部里每一行会改变行为的，要么是工具限制，要么是模型，要么是上下文的边界。描述只是在请求。正文主要说该看什么、该交回什么。</p>
+<h3>我踩过的三个坑</h3>
+<p><strong>“隐藏”不等于“禁止”</strong>。让一个 agent 不出现在下拉列表里的设置，拦不住另一个 agent 把它当子 agent 来调用。让模型不去使用它的那个设置，也拦不住。如果“谁可以调用谁”很要紧，要由 hook 来决定（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），不能靠这两个设置。</p>
+<p><strong>hook 看不到当前是哪个 agent</strong>。hook 收到的事件里，没有主 agent 的名字（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>），所以不能把权限交给“admin agent”：任何 agent 都可以冒充它。权限只能跟着会话走，比如在我的配置里，admin 开关是由人在终端里打开的（<a href="4-3-guardrails.html">保护规则本身的文件</a>）。我曾经有过一个 admin agent，后来撤掉了。</p>
+<p><strong>比调用方更高一级的模型，可能被悄悄跳过</strong>。这个我见过一次，之后没再测过：当子 agent 的模型比主模型高一个级别时，平台不会运行它，也不吭声。所以“检查到底有没有发生”，必须由模型之外的东西来确认，比如一个把 reviewer 的回答存到磁盘上的 hook。一道检查如果对你要紧，就留一份它运行过的记录。</p>
+<h3>测一测你自己的配置</h3>
+<p>拿你有的一个角色 agent（“SQL 专家”“文档撰写者”）。它的文件里列了工具或模型吗？都没有的话，把它的正文挪进一个 skill（<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>），把同一个任务交给默认 agent，一次带这个 skill，一次不带，对比一下。如果看不出差别，这个 agent 就是戏服。每种多跑几次，再相信你看到的。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More agents are more to keep in step.</strong> Each file has a model name, a tool list and a body that can go out of date. Model names change. A name that no longer matches the drop-down breaks the agent. An agent file sets limits, so in a team change it through code review like any rule.</p>
 <p><strong>A switch may lose the chat.</strong> The VS Code docs say a selected agent applies to your requests until you switch. They do not say what happens to the chat history on a plain switch, and I have not tested it. Keep what matters in files (<a href="3-2-long-sessions.html">Long chats get worse</a>).</p>
 <p><strong>A role can feel like a limit when it is only a request.</strong> The body says &quot;do not do X&quot; and the agent does X anyway. Only the tool list is a limit.</p>
@@ -377,12 +455,19 @@ tools: [&#x27;read&#x27;, &#x27;search&#x27;, &#x27;execute&#x27;]
 <p><strong>切換可能會丟掉對話</strong>。VS Code 文件說，選定的 agent 會一直用在你的請求上，直到你切換。切換時對話紀錄會怎樣，文件沒說，我也沒測過。要緊的東西存進檔案（<a href="3-2-long-sessions.html">長對話會變差</a>）。</p>
 <p><strong>角色可能感覺像限制，其實只是請求</strong>。正文寫著「不要做 X」，agent 還是做了 X。只有工具清單是限制。</p>
 <p><strong>角色比你想的要少</strong>。在我早期的設定裡，有三個按職位分工的 agent（一個協調、一個實作、一個檢查）。在四個小任務上，它們的用量約是一個 agent 的 4.5 倍，結果沒有更好（<a href="2-3-subagents.html">慎用子 agent</a>）。我只留了檢查者。這是四個任務、各跑一次：證據很弱，不是結論。Anthropic 在不同的規模上報告了同樣的方向：在他們的研究系統裡，agent 用的 token 約是聊天的 4 倍，多 agent 系統約是 15 倍（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）。我的數字和他們的量的是不同的東西，所以只比較方向。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>agent 越多，要同步维护的越多</strong>。每个文件里都有模型名、工具清单和一段会过期的正文。模型名会变。和下拉列表对不上的名字，会让 agent 坏掉。agent 文件设定的是限制，所以在团队里，像任何规则一样通过代码审查来改。</p>
+<p><strong>切换可能丢掉对话</strong>。VS Code 文档说，选定的 agent 会作用于你的请求，直到你切换。对于一次单纯的切换，对话历史会怎么样，文档没有说，我也没测过。要紧的东西放在文件里（<a href="3-2-long-sessions.html">长对话会变差</a>）。</p>
+<p><strong>角色可能让人觉得是限制，其实只是请求</strong>。正文写着“不要做 X”，agent 照样做了 X。只有工具清单才是限制。</p>
+<p><strong>角色比你以为的要少</strong>。在我早期的配置里，我有三个按岗位分工的 agent（一个协调、一个开发、一个检查）。在四个小任务上，它们的用量约是一个 agent 的 4.5 倍，结果并没有更好（<a href="2-3-subagents.html">慎用子 agent</a>）。我只留下了检查者。那是四个任务、每个一次：是薄弱的证据，不是结果。Anthropic 在另一个量级上报告了同样的方向：在他们的研究系统里，agent 用的 token 约是聊天的 4 倍，多 agent 系统约是 15 倍（<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a>）。我的数字和他们的，衡量的是不同的东西，所以只比较方向。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>An agent file stays as long as it enforces something a skill cannot: a tool list or a model. Some platforms already let a skill carry tool settings. In Claude Code, a skill's <code>allowed-tools</code> only pre-approves tools and does not restrict them, and a separate <code>disallowed-tools</code> removes tools while the skill is active (<a href="https://code.claude.com/docs/en/skills">Skills</a>). Whether such a setting is enforced on your platform is something to check. Where it is, many agent files become unnecessary. And any agent whose only content is &quot;act like an expert in X&quot; can be deleted today.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>只要 agent 檔強制執行了 skill 做不到的東西：工具清單或模型，它就該留著。有些平台已經讓 skill 帶工具設定。在 Claude Code 裡，skill 的 <code>allowed-tools</code> 只是預先批准工具，並不限制工具；另有一個 <code>disallowed-tools</code>，在 skill 啟用期間移除工具（<a href="https://code.claude.com/docs/en/skills">Skills</a>）。這樣的設定在你的平台上有沒有強制執行，要自己去查。有的話，很多 agent 檔就不需要了。而任何內容只有「表現得像 X 的專家」的 agent，今天就可以刪掉。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>只要 agent 文件强制执行了 skill 做不到的东西：工具清单或模型，它就留着。有些平台已经让 skill 带上工具设置。在 Claude Code 里，skill 的 <code>allowed-tools</code> 只是预先批准某些工具，并不限制，而另一个单独的 <code>disallowed-tools</code>，会在 skill 生效期间移除工具（<a href="https://code.claude.com/docs/en/skills">Skills</a>）。这样的设置在你的平台上是不是强制执行的，要自己去查。如果是，很多 agent 文件就不再需要了。而任何内容只是“表现得像 X 领域专家”的 agent，今天就可以删。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every custom agent file in this project. For each one, report: does its header limit the tools, set a model, or neither; is the description written so a caller knows when to use it and what to say; and which lines of the body are only requests. Mark every agent with no tool limit and no model setting as a likely costume, and say which skill or instruction file could replace it. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個專案裡所有的 custom agent 檔。每一個回報：檔頭有沒有限制工具、設定模型，還是兩者都沒有；描述的寫法，是否讓呼叫者知道什麼時候用它、要說什麼；正文的哪幾行只是請求。沒有工具限制、也沒有模型設定的 agent，標成可能是戲服，並說明哪個 skill 或指令檔可以取代它。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个项目里每一个自定义 agent 文件。每一个，报告：它的头部是限制了工具、设置了模型，还是都没有；描述写得是否让调用方知道什么时候该用、该说什么；以及正文里哪些行只是请求。把没有工具限制、也没有模型设置的 agent，都标为疑似戏服，并说明哪个 skill 或指令文件可以替代它。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/custom-agents">Custom agents</a></li>
 <li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
@@ -395,15 +480,24 @@ tools: [&#x27;read&#x27;, &#x27;search&#x27;, &#x27;execute&#x27;]
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a></li>
 <li><a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>：改變 agent 行為的另一種方式</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has a very small set of custom agents on purpose: a read-only helper and a checker. You can open both files and compare each line with the table above. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/custom-agents">Custom agents</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/multi-agent-research-system">How we built our multi-agent research system</a></li>
+<li><a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>：改变 agent 行为的另一条路</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has a very small set of custom agents on purpose: a read-only helper and a checker. You can open both files and compare each line with the table above. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Custom agents&quot;. Teach me what is in this harness&#x27;s agent files: the tool lists, the model lists, and which lines change behavior and which are only requests. Open the real files with me, and show me why there are so few agents.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 裡刻意只放了很少的 custom agent：一個唯讀的幫手和一個檢查者。你可以打開這兩個檔案，把每一行和上面的表對照。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Custom agent：固定模型和工具的角色」這一章。請教我這個 harness 的 agent 檔裡有什麼：工具清單、模型清單，哪幾行會改變行為、哪幾行只是請求。每一項都帶我打開真實的檔案，並告訴我為什麼 agent 這麼少。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 里的自定义 agent 特意只有很小的一组：一个只读的帮手和一个检查者。你可以打开这两个文件，把每一行和上面的表对照。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“自定义 agent”这一章。请教我这个 harness 的 agent 文件里有什么：工具清单、模型列表，以及哪些行会改变行为、哪些只是请求。带我打开真实的文件，并让我看看为什么 agent 这么少。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

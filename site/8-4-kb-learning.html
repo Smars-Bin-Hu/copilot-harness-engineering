@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Learning a domain in batches</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.4</p><h1><span data-l="en" lang="en">Learning a domain in batches</span><span data-l="zh-Hant" lang="zh-Hant">分批學一個領域</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-3-kb-audit.html">The audit</a>. The map is now trusted enough to learn from. This is steps four to six of the road. It leans on <a href="3-1-context-budget.html">Context budget</a> for why one big context is a bad place to learn a lot. Two words from earlier: a <strong>task</strong> is one piece of work with a plan, a to-do list and its own files (<a href="5-1-tasks.html">5.1</a>); a <strong>write-back</strong> is the single copy of finished work into the base, which a person approves (<a href="5-3-two-approvals.html">5.3</a>).</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.4</p><h1><span data-l="en" lang="en">Learning a domain in batches</span><span data-l="zh-Hant" lang="zh-Hant">分批學一個領域</span><span data-l="zh-Hans" lang="zh-Hans">分批学一个领域</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-3-kb-audit.html">The audit</a>. The map is now trusted enough to learn from. This is steps four to six of the road. It leans on <a href="3-1-context-budget.html">Context budget</a> for why one big context is a bad place to learn a lot. Two words from earlier: a <strong>task</strong> is one piece of work with a plan, a to-do list and its own files (<a href="5-1-tasks.html">5.1</a>); a <strong>write-back</strong> is the single copy of finished work into the base, which a person approves (<a href="5-3-two-approvals.html">5.3</a>).</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-3-kb-audit.html">地圖對不對：盲抽查</a> 後面。地圖現在可信到足以拿來學。這是路線的第四到第六步。它靠 <a href="3-1-context-budget.html">上下文是一份預算</a> 來說明，為什麼一個大的上下文不適合一次學很多。前面出現過的兩個詞：<strong>任務</strong>是一件有計劃、待辦清單和自己檔案的工作（<a href="5-1-tasks.html">5.1</a>）<strong>；寫回</strong>是把做完的工作一次複製進知識庫，由人批准（<a href="5-3-two-approvals.html">5.3</a>）。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Learn from the bottom of the dependency tree upward, in batches small enough to read in one go. What an object uses is learned before it, so the cards above can point down at the cards below instead of reading their code again.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-3-kb-audit.html">地图对不对：盲抽查</a>后面。地图现在可信了，可以拿来学。这是路线的第四到第六步。为什么在一个大上下文里学很多东西不合适，要靠<a href="3-1-context-budget.html">上下文是一份预算</a>来理解。先回顾前面出现过的两个词：<strong>任务</strong>是一件有计划、待办清单和自己文件的工作（<a href="5-1-tasks.html">5.1</a>）；<strong>写回</strong>是把做完的工作一次性复制进知识库，由人审批（<a href="5-3-two-approvals.html">5.3</a>）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Learn from the bottom of the dependency tree upward, in batches small enough to read in one go. What an object uses is learned before it, so the cards above can point down at the cards below instead of reading their code again.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>從依賴樹的底部往上學，分成小到一次讀得完的批次。一個物件用到的東西，先於它被學到，所以上面的卡片可以指向下面的卡片，不用再讀它們的程式碼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>从依赖树的底部往上学，分成小到一次读得完的批次。一个对象用到的东西，先于它被学到，这样上面的卡片可以指向下面的卡片，不用再读一遍它们的代码。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> approve, for each domain, the entry points, the plan, and the final write-back into the base. A person chooses where a domain starts and ends.</li>
 <li><strong>The risk:</strong> the checks cover structure, not meaning. A note can pass every check and still misstate what a rule is for, and a wrong note low in the order spreads to the notes above it. Cited lines are checked only to fall inside the object, which a made-up citation can pass.</li>
@@ -235,6 +240,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：模型把每個物件的程式碼讀一遍，這是整個知識庫真正的 token 成本。審查的時間可能是最慢的部分。批次大小（最多 20 個物件、約 1500 行）是我挑的數字，不是量出來的。</li>
 <li><strong>可以問團隊</strong>：「誰來審查每則筆記的規則，意思是不是和引用的程式碼說的一樣，而不只是那些行存在？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：对每个领域，审批入口、计划和最后写回知识库这三处。一个领域从哪里开始、到哪里结束，由人来选。</li>
+<li><strong>风险</strong>：检查覆盖的是结构，不是含义。一条笔记可以通过每项检查，却仍然讲错了某条规则是干什么的；顺序靠下的一条错误笔记，还会传到它上面的笔记。引用的行只检查是否落在对象之内，编造的引用也能通过。</li>
+<li><strong>做对的代价</strong>：模型把每个对象的代码读一遍，这是整个知识库真正的 token 成本。审查的时间可能是最慢的一环。批次大小（最多 20 个对象、约 1500 行）是我挑的数字，不是测出来的。</li>
+<li><strong>可以问团队</strong>：“谁来审查每条笔记里的规则，意思是不是和引用的代码一致，而不只是那些行存在？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You have a trusted map and a few thousand objects, and you want a card for each. Two simple plans do not work.</p>
 <p><strong>Plan one: one big prompt.</strong> &quot;Learn the whole domain.&quot; One context holds everything the agent reads. As it fills, the agent can forget and mix things up toward the end (<a href="3-1-context-budget.html">context budget</a>), so I expect the cards written last to be the worst ones. That is reasoning; I have not compared the plans.</p>
 <p><strong>Plan two: object by object, in any order.</strong> Say the agent starts with a procedure that calls three others. To explain it properly, it has to read those three. So it reads them too. A few objects later it meets one of those three on its own and reads it again. The same code is read many times, and each card was written without the cards below it.</p>
@@ -243,6 +254,10 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>計劃一：一個大 prompt</strong>。「學完整個領域。」一個上下文裝著 agent 讀的一切。裝滿的時候，agent 可能忘掉並在接近尾聲時搞混（<a href="3-1-context-budget.html">上下文預算</a>），所以我預期最後寫的卡片是最差的。這是推理；我沒有比較過這幾個計劃。</p>
 <p><strong>計劃二：一個物件一個物件來，順序隨意</strong>。假設 agent 從一個呼叫其他三個的預存程序開始。要好好解釋它，就得讀那三個。所以它也讀了它們。幾個物件之後，它自己遇到那三個之一，又讀了一遍。同樣的程式碼讀了很多次，而且每張卡片寫的時候，下面的卡片都還沒有。</p>
 <p>好的順序，是先學那三個。這樣預存程序的卡片就可以說「它呼叫 A、B 和 C」，並指向它們的卡片。agent 不用再讀它們的程式碼。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你有一张可信的地图，有几千个对象，想给每个对象写一张卡片。两个简单的计划都行不通。</p>
+<p><strong>计划一：一个大 prompt</strong>。“把整个领域学完。”一个上下文装着 agent 读过的所有东西。装满之后，agent 可能忘掉前面的，到后面还会搞混（<a href="3-1-context-budget.html">上下文预算</a>），所以我预计最后写的卡片质量最差。这是推理；这几个计划我没有对比过。</p>
+<p><strong>计划二：一个对象一个对象地学，顺序随意</strong>。假设 agent 从一个调用另外三个的存储过程开始。要讲清楚它，就得读那三个，于是它也读了。几个对象之后，它自己撞上那三个之一，又读了一遍。同样的代码读了很多次，而且每张卡片写的时候，下面的卡片都还没有。</p>
+<p>好的顺序是先学那三个。这样存储过程的卡片就可以写“它调用 A、B 和 C”，并指向它们的卡片。agent 不用再读它们的代码。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Start from the entry points</h3>
 <p>A <strong>domain</strong> (see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>) is a group of objects that serve one job. To learn one, you need to say where it begins. An <strong>entry point</strong> is an object that the outside world calls: a screen's controller, a public API, a scheduled job. Starting from entry points, the map shows everything they reach.</p>
 <p><strong>A person chooses the entry points and the boundaries.</strong> A script and a research note can propose them, and the agent asks, but it is the person who knows which is which. Two boundaries matter:</p>
@@ -489,6 +504,129 @@ Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19)
 <li>照那個順序學，在一個任務裡，分兩、三批。</li>
 <li>檢查每張卡片的「用到」等於地圖上的，而且每一行引用都在物件裡面。</li>
 </ol>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>从入口开始</h3>
+<p><strong>领域</strong>（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）是为同一项工作服务的一组对象。要学一个领域，得先说清它从哪里开始。<strong>入口</strong>是外部会调用的对象：某个页面的 controller、公开的 API、定时任务。从入口出发，地图会显示它们能碰到的一切。</p>
+<p><strong>入口和边界由人来选</strong>。脚本和调研笔记可以提议，agent 也会来问，但哪个是哪个，只有人知道。有两条边界要紧：</p>
+<ul>
+<li><strong>停在不归你管的代码上</strong>。框架代码和别的团队的代码要切开，这样领域才不会长进它们里面去。</li>
+<li><strong>切开共用的对象</strong>。被很多入口用到的对象不属于任何一个领域。把它放在一边，一个领域才不会吞掉所有东西。（多少个入口用到才算共用，是一个可调的设置；如果一个领域还是吞掉了其余的，可以调低。）共用对象由谁来学、什么时候学，这一章没有定下来；很多东西依赖它们，所以应该有计划。</li>
+</ul>
+<h3>脚本定顺序</h3>
+<p>脚本从入口出发，自底向上走一遍地图。什么都不用的对象排第一。一个对象，要等它用到的所有东西都排完才轮到。然后脚本把这个顺序切成<strong>批次</strong>。</p>
+<figure class="fig steps" id="fig-8-4-bottom-up" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280">
+  <text class="label-muted" x="10" y="43" data-t="rl4">控制器</text>
+  <text class="label-muted" x="10" y="113" data-t="rl3">仓库层</text>
+  <text class="label-muted" x="10" y="183" data-t="rl2">实体</text>
+  <text class="label-muted" x="10" y="253" data-t="rl1">数据表</text>
+  <path class="line" d="M180 126 V150"/>
+  <path class="head" d="M175 150 L180 160 L185 150 Z"/>
+  <path class="line" d="M410 126 V150"/>
+  <path class="head" d="M405 150 L410 160 L415 150 Z"/>
+  <path class="line" d="M180 196 V220"/>
+  <path class="head" d="M175 220 L180 230 L185 220 Z"/>
+  <path class="line" d="M295 196 V220"/>
+  <path class="head" d="M290 220 L295 230 L300 220 Z"/>
+  <path class="line" d="M410 196 V220"/>
+  <path class="head" d="M405 220 L410 230 L415 220 Z"/>
+  <path class="line" d="M525 196 V220"/>
+  <path class="head" d="M520 220 L525 230 L530 220 Z"/>
+  <path class="line" d="M270 56 L210 90"/>
+  <path class="line" d="M365 56 L425 90"/>
+  <rect class="box" x="232" y="20" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="90" width="160" height="36" rx="6"/>
+  <rect class="box" x="340" y="90" width="170" height="36" rx="6"/>
+  <rect class="box" x="130" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="160" width="100" height="36" rx="6"/>
+  <rect class="box" x="130" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="245" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="360" y="230" width="100" height="36" rx="6"/>
+  <rect class="box" x="475" y="230" width="100" height="36" rx="6"/>
+  <g data-step="1">
+    <rect class="box-lit" x="130" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="230" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="230" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="2">
+    <rect class="box-lit" x="130" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="245" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="360" y="160" width="100" height="36" rx="6"/>
+    <rect class="box-lit" x="475" y="160" width="100" height="36" rx="6"/>
+  </g>
+  <g data-step="3">
+    <rect class="box-lit" x="130" y="90" width="160" height="36" rx="6"/>
+    <rect class="box-lit" x="340" y="90" width="170" height="36" rx="6"/>
+  </g>
+  <g data-step="4">
+    <rect class="box-lit" x="232" y="20" width="170" height="36" rx="6"/>
+  </g>
+  <text class="label-muted" x="317" y="43" text-anchor="middle" data-t="n-ownercontroller">OwnerController</text>
+  <text class="label-muted" x="210" y="113" text-anchor="middle" data-t="n-ownerrepository">OwnerRepository</text>
+  <text class="label-muted" x="425" y="113" text-anchor="middle" data-t="n-pettyperepository">PetTypeRepository</text>
+  <text class="label-muted" x="180" y="183" text-anchor="middle" data-t="n-owner">Owner</text>
+  <text class="label-muted" x="295" y="183" text-anchor="middle" data-t="n-pet">Pet</text>
+  <text class="label-muted" x="410" y="183" text-anchor="middle" data-t="n-pettype">PetType</text>
+  <text class="label-muted" x="525" y="183" text-anchor="middle" data-t="n-visit">Visit</text>
+  <text class="label-muted" x="180" y="253" text-anchor="middle" data-t="n-owners">owners</text>
+  <text class="label-muted" x="295" y="253" text-anchor="middle" data-t="n-pets">pets</text>
+  <text class="label-muted" x="410" y="253" text-anchor="middle" data-t="n-types">types</text>
+  <text class="label-muted" x="525" y="253" text-anchor="middle" data-t="n-visits">visits</text>
+</svg>
+<ol class="step-text"><li data-step-text="1">第 1 批：数据表。它们不依赖别的东西，所以最先学。</li><li data-step-text="2">第 2 批：实体。每个实体对应一张数据表，那张表的卡片已经有了，所以它的卡片可以指向下面。</li><li data-step-text="3">第 3 批：仓库层，它们读实体。</li><li data-step-text="4">第 4 批：控制器，最后学。它用到的卡片都已写好，所以不必再读那些代码。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>学习从依赖树的底部往上走。亮起的每一排是一批。名称来自开源示例 spring-petclinic。</figcaption></figure>
+<p>下面是一个真实的顺序，来自开源示例 spring-petclinic。先是四张表（owners、pets、types、visits）。然后是映射它们的实体。再然后是读取实体的仓库。最上面是 controller。每张 controller 卡片都指向它下面的卡片。</p>
+<h3>一批有多大</h3>
+<p>一批是<strong>同一种类型</strong>的对象，最多 <strong>20 个对象</strong>、合计约 <strong>1500 行</strong>代码。我挑这些数字，是为了让一批能装进一个上下文，还留有思考的空间。比这更长的对象自成一批，分段来读。</p>
+<p>一批只放一种类型有好处：同一类型的对象，卡片格式一样，要问的问题也一样。</p>
+<h3>一个领域，一个任务，一次写回</h3>
+<p>一个领域的所有批次是一个<strong>任务</strong>（见<a href="5-1-tasks.html">管任务，不管对话</a>）。这个任务有：</p>
+<ul>
+<li><strong>一份计划</strong>，列出所有批次，由人审批一次。</li>
+<li><strong>一份待办清单</strong>，每批一步。</li>
+<li><strong>卡片</strong>，整个领域学完之前都放在任务里。</li>
+</ul>
+<p>之后，整个领域通过<strong>一次写回</strong>写进知识库（把写好的卡片一次性复制进知识库，见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>），由人审批。所以知识库里不会出现只有半个领域的情况。</p>
+<p>对话会来来去去。每学两三批，我就开一个新对话，说“继续”。状态由任务保存：计划、已经学了什么、还剩什么。下一批，就是把已学的对象去掉之后，脚本给出的第一批。这和<a href="5-8-long-work.html">跨会话的长任务</a>是同一个思路：记忆放在文件里，不放在对话里。</p>
+<h3>检查模型写的东西</h3>
+<p>每张卡片由模型来写。措辞由它自己定，但有两部分由脚本检查：</p>
+<ul>
+<li><strong>关系行必须和地图一致</strong>。卡片列出的“用到”，要和地图上这个对象的“用到”相同。卡片不能多加，也不能漏掉。</li>
+<li><strong>每条规则都要引用行号</strong>，检查会确认这些行落在这个对象的代码之内。引用的行在对象之外，这条规则就是错的。这是个弱检查：它只能说明这些行存在，不能说明这些行支持这条规则。落在正确范围内的编造引用也能通过。引用的行是不是真的说了规则说的话，要由人或独立的 reviewer 抽查。</li>
+</ul>
+<p>架构页上的流程同样来自地图上的路径，用同样的办法检查。</p>
+<p>下面是一张卡片的样子，取自 harness 里写卡片的指南。例子是一个存储过程；关系行就是脚本要检查的那一行。</p>
+<details class="code"><summary>一张卡片：它是干什么的、关系（对照地图检查）、层级、带行号的规则、不知道的部分、坑。</summary><pre><code class="language-markdown">```markdown
+## sp:Db.dbo.usp_load_orders
+
+- What: loads the day&#x27;s orders from staging into dbo.orders, then logs the run
+- Reads: `table:Db.dbo.stg_orders`, `table:Db.dbo.calendar` · Writes: `table:Db.dbo.orders` · Called by: `job:Daily_Load` · Calls: `sp:Db.dbo.usp_log`
+- Level: verified (read in repo_a at 3f1c0a9e)
+
+In: @run_date (date, default today). Out: none; rows in dbo.orders.
+Changes: MERGE into dbo.orders on id (L18-L26): new rows inserted, known rows updated; then sets flag = 1 (L28).
+Twice: safe; the MERGE matches on id.
+On an error: no TRY/CATCH; the error goes to the job step, nothing is logged.
+
+Logic: only rows whose date is a working day in dbo.calendar (L12-L16). See the card of `sp:Db.dbo.usp_log` for the log.
+
+Not known: which environments run it on holidays (req-0004).
+
+Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19).
+```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-learn-batch/references/card.md#L5-L22">.github/skills/generic-kb-learn-batch/references/card.md L5–L22 @ 1.5.50</a></p></details>
+<p>指向下层卡片的卡片，会继承那张卡片的错误，因为它不再读代码。所以顺序靠下的一张错卡片，可能一路传到上面（<a href="8-5-kb-keep-true.html">8.5</a>）。</p>
+<p>没有检查的是：模型有没有把一条规则<em>理解</em>对。脚本分不出来。这要靠人审查，或者靠独立的 reviewer（<a href="5-6-model-checks-model.html">5.6</a>）。我不会说这些检查覆盖了含义。</p>
+<h3>代码里有地图没有的调用关系</h3>
+<p>读的时候，agent 可能看到代码里有一处调用关系，地图上没有。它不能手动把这条关系加进卡片。检查会拒绝，而且之后按同样格式写的对象也会漏掉它。它要把这一处记下来，这条记录作为一个待修的新例子回到 toolkit。然后重新生成地图，再检查一遍（<a href="8-3-kb-audit.html">8.3</a>）。</p>
+<h3>最后一步：架构页</h3>
+<p>所有批次做完后，模型写这个领域的架构页：目的、主要流程、从哪里开始读、坑和边界。流程是从地图上取下来的路径，模型把它们写成文字。这一页是大多数读者最先看到的部分。</p>
+<h3>测一测你自己的配置</h3>
+<ol>
+<li>挑一个小领域和一个入口。</li>
+<li>让脚本或 agent 列出这个入口能碰到的一切，最深的排最前。</li>
+<li>按这个顺序学，放在一个任务里，分两三批。</li>
+<li>检查每张卡片的“用到”和地图一致，每条引用的行都在对象之内。</li>
+</ol>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
 <li><strong>The model reads each object's code once.</strong> That is the real token cost of the whole base. The scripts are free.</li>
 <li><strong>Batches take patience.</strong> A domain of a few hundred objects is many batches. The plan lists them all, and a person must approve it. With approvals for the plan, each write-back and the entry points, review time can be the slowest part of the work.</li>
@@ -505,8 +643,17 @@ Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19)
 <li><strong>順序只有在地圖對的時候才有用</strong>。漏掉一個使用的地圖，會給出錯的順序，和少一個關係的卡片。抽查就是為這個而有的。</li>
 <li><strong>沒檢查的意義</strong>。見上面。一張卡片可以通過每個檢查，還是講錯一條規則是做什麼的。</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
+<li><strong>模型把每个对象的代码读一遍</strong>。这是整个知识库真正的 token 成本。脚本是免费的。</li>
+<li><strong>分批要有耐心</strong>。几百个对象的领域有很多批。计划里全部列出，必须由人审批。计划、每次写回、入口都要审批，审查的时间可能是整件事里最慢的一环。</li>
+<li><strong>缓存可能改变账单</strong>。重复上下文的缓存读取比新读便宜得多（Anthropic 文档：约十分之一）。在 Copilot 上能省多少，我没查过（<a href="1-1-models-and-cost.html">1.1</a>）。</li>
+<li><strong>特别长的对象会打破这个模式</strong>。几千行的存储过程自成一批，分段读。它的卡片可能更长。</li>
+<li><strong>顺序有用的前提是地图对</strong>。地图漏了一处调用关系，顺序就是错的，卡片也会缺一条关系。盲抽查就是为这个设的。</li>
+<li><strong>含义没有检查</strong>。见上文。一张卡片可以通过每项检查，却仍然讲错了某条规则是干什么的。</li>
+</ul>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The batch size is a guess for today's context windows and models. If a model can reliably read and write far more in one go, make the batches larger, or measure it (<a href="6-3-eval-tasks.html">6.3</a>). The bottom-up order stays useful as long as cards point at other cards.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>批次大小是對今天的上下文視窗和模型的猜測。如果模型能可靠地一次讀和寫多得多，就把批次加大，或者去量（<a href="6-3-eval-tasks.html">6.3</a>）。只要卡片指向別的卡片，由下往上的順序就一直有用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>批次大小是针对今天的上下文窗口和模型猜的。如果有模型一次能可靠地读和写多得多的内容，就把批次调大，或者去测一测（<a href="6-3-eval-tasks.html">6.3</a>）。只要卡片还指向别的卡片，自底向上的顺序就一直有用。</p>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="8-3-kb-audit.html">The audit</a>: the map this order comes from.</li>
 <li><a href="8-5-kb-keep-true.html">Keeping it true</a>: what happens after the cards are written.</li>
@@ -517,15 +664,23 @@ Traps: a staging row with a NULL id is dropped by the MERGE, with no error (L19)
 <li><a href="8-5-kb-keep-true.html">讓知識庫一直是對的</a>：卡片寫好之後會發生什麼。</li>
 <li><a href="5-8-long-work.html">跨會話的長任務</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness orders the objects, cuts them into batches and checks the cards. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="8-3-kb-audit.html">地图对不对：盲抽查</a>：这个顺序所依据的地图。</li>
+<li><a href="8-5-kb-keep-true.html">让知识库一直是对的</a>：卡片写完之后会发生什么。</li>
+<li><a href="5-8-long-work.html">跨会话的长任务</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness orders the objects, cuts them into batches and checks the cards. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Learning a domain in batches&quot;. Teach me topic 16, parts 16.4 and 16.5: how the order and the batches are worked out, and which checks run on a card. Walk me through the Spring sample&#x27;s four batches and one card check.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 把物件排序、切成批次，並檢查卡片。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「分批學一個領域」這一章。請教我主題 16 的 16.4 和 16.5：順序和批次是怎麼算出來的，以及卡片上跑哪些檢查。帶我走一遍 Spring 範例的四批，和一次卡片檢查。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 会给对象排序、切成批次，并检查卡片。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“分批学一个领域”这一章。请教我主题 16 的 16.4 和 16.5：顺序和批次是怎么算出来的，卡片上会跑哪些检查。带我走一遍 Spring 示例的四个批次和一次卡片检查。</code></pre></div>
+<p>它一次只教一小块，停下来问你跟上了没有，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

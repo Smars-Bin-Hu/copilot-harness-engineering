@@ -1,7 +1,7 @@
 id: "3.1"
 part: context
 core: true
-title: {en: Context is a budget, zh-Hant: 上下文是一份預算}
+title: {en: Context is a budget, zh-Hant: 上下文是一份預算, zh-Hans: 上下文是一份预算}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop, 02-instructions]
 sources:

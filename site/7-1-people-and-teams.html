@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>People and teams: what stays with a person</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">7.1</p><h1><span data-l="en" lang="en">People and teams: what stays with a person</span><span data-l="zh-Hant" lang="zh-Hant">人與團隊：留給人的事</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. The rules, their owners and their review are in <a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.1</p><h1><span data-l="en" lang="en">People and teams: what stays with a person</span><span data-l="zh-Hant" lang="zh-Hant">人與團隊：留給人的事</span><span data-l="zh-Hans" lang="zh-Hans">人与团队：留给人的事</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. The rules, their owners and their review are in <a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。規則、規則的負責人和審查，在 <a href="7-4-rollout-and-governance.html">落地與治理</a>。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>With an agent doing more, a person's work moves up to four judgments: what to do, what is allowed, where to say yes, and whether the result is good. A new teammate needs one habit and one real task, not the full tour.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，需要先读过<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>。规则、规则的负责人和审查，放在<a href="7-4-rollout-and-governance.html">落地与治理</a>里讲。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>With an agent doing more, a person's work moves up to four judgments: what to do, what is allowed, where to say yes, and whether the result is good. A new teammate needs one habit and one real task, not the full tour.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 做得越多，人的工作就上移成四個判斷：做什麼、允許什麼、在哪裡說好、結果好不好。新同事需要的是一個習慣和一個真實的任務，不是整套導覽。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 做得越多，人的工作就越往上移，剩下四个判断：做什么、什么被允许、在哪里点头、结果好不好。新同事需要的是一个习惯和一个真实的任务，不是把整套东西走一遍。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide who in the team makes each of the four judgments, and decide that a newcomer starts with one habit and one real task.</li>
 <li><strong>The risk:</strong> I have no numbers. The risk I can name is this: if the first hour is the full tour, a newcomer decides the setup is heavy and goes back to what they did before. And a setup that holds only if every person reads the rules is weaker than one that refuses the dangerous thing by itself.</li>
@@ -235,12 +240,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：每個新人一個小時，加上從團隊自己的工作裡挑一個小任務的時間。</li>
 <li><strong>可以問團隊</strong>：「誰決定什麼是允許的、哪裡必須有人說好、結果好不好？新人的第一個小時做什麼？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：定下团队里谁来做这四个判断，并定下新人从一个习惯和一个真实任务开始。</li>
+<li><strong>风险</strong>：我没有数据。我能说出的风险是：第一个小时就把整套东西走一遍，新人会觉得这套配置很重，转头回到老办法。另外，要靠每个人都读规则才成立的配置，比自己拒绝危险操作的配置更弱。</li>
+<li><strong>做对的代价</strong>：每个新人一个小时的上手时间，外加从团队自己的工作里挑一个小任务的时间。</li>
+<li><strong>可以问团队</strong>：“谁来决定什么被允许、哪里必须有人点头、结果好不好？新人的第一个小时做什么？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When one person uses an agent, the person does all four jobs without noticing. They know what they want, they know what the agent may touch, they decide when to stop and look, and they judge the result. Hand the setup to a team and these jobs have to be assigned, or nobody does them.</p>
 <p>There is a second problem, and it is about people, not rules. <strong>Some colleagues will not read anything.</strong> They did not ask for an agent. If their first hour is a lecture, they go back to what they did before.</p>
 <p>I should be honest about my own position. I built my setup for one person and I have not run a team rollout with measurements. What follows is a design built from what the setup already does and from my own use. Where something is only a proposal, I say so.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>一個人用 agent 的時候，這四件事都是這個人在做，自己沒注意到。他知道自己要什麼，知道 agent 可以碰什麼，決定什麼時候停下來看，並判斷結果。把設定交給一個團隊，這些工作就得分配出去，不然沒人做。</p>
 <p>還有第二個問題，它是關於人，不是關於規則。<strong>有些同事什麼都不會讀</strong>。他們沒有要求要一個 agent。如果他們的第一個小時是一場演講，他們會回到原本的做法。</p>
 <p>我該誠實說明自己的位置。我的設定是為一個人建的，我沒有帶著測量，做過團隊落地。下面是一個設計，根據設定已經在做的事，和我自己的使用建成的。只是提議的地方，我會說。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>一个人用 agent 的时候，四件事他一个人全做了，自己都没注意。他知道自己要什么，知道 agent 可以动什么，决定什么时候停下来看一眼，也判断结果好不好。把这套配置交给一个团队，这几件事就得分派下去，否则没人做。</p>
+<p>还有第二个问题，它和人有关，和规则无关。<strong>有些同事什么都不会读</strong>。他们没要求过用 agent。如果第一个小时是一场讲座，他们就回到原来的做法了。</p>
+<p>我要说清楚自己的位置。我的配置是为一个人搭的，我没有带着测量去做过团队落地。下面讲的，是根据这套配置现在能做的事和我自己的使用经验设计出来的。只是建议的地方，我会说明。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What stays with a person</h3>
 <p>First, what the people are for. The more the agent does, the more a person's work moves up, away from typing and toward four judgments the agent cannot make for you.</p>
 <figure class="fig" id="fig-7-1-person-moves-up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260">
@@ -327,6 +341,49 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>對不在乎的同事，我會要求一個習慣，不是一種心態：說出你要做什麼，並為它開一個任務。其餘由設定來承擔。危險的指令會被拒絕，不管這個人有沒有讀過規則；寫入需要批准，不管他記不記得為什麼。一個靠每個人都讀規則才行的 harness，是比較差的 harness。對一個沒有選擇它的團隊，這樣做的效果如何，我沒有量過。</p>
 <h3>要學什麼，要跳過什麼</h3>
 <p>大家該花多少心力學？<strong>學那些不變的問題</strong>：該信誰、怎麼知道是對的、agent 該知道什麼、怎麼拆工作、要花多少。<strong>跳過每個月都在變的</strong>：某一個工具的設定名稱、每個新外掛系統的細節、這週哪個模型最好。花一個小時，了解一個新東西是什麼、它回答哪一個舊問題，就夠了。需要確切的格式時再去查。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>留给人的事</h3>
+<p>先说人是干什么的。agent 做得越多，人的工作就越往上移，离开敲键盘，转向四个 agent 没法替你做的判断。</p>
+<figure class="fig" id="fig-7-1-person-moves-up"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 260">
+  <text class="label-muted" x="160" y="22" text-anchor="middle" data-t="agent-head">agent 做得更多的事</text>
+  <text class="label-muted" x="520" y="22" text-anchor="middle" data-t="person-head">人留下的事</text>
+  <rect class="box-plain" x="10" y="40" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="65" text-anchor="middle" data-t="a1">读、搜索代码</text>
+  <rect class="box-plain" x="10" y="90" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="115" text-anchor="middle" data-t="a2">写改动</text>
+  <rect class="box-plain" x="10" y="140" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="165" text-anchor="middle" data-t="a3">跑各个步骤</text>
+  <rect class="box-plain" x="10" y="190" width="300" height="40" rx="8"/>
+  <text class="label-muted" x="160" y="215" text-anchor="middle" data-t="a4">修自己的检查找到的问题</text>
+  <rect class="box-lit" x="370" y="40" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="65" text-anchor="middle" data-t="p1">要做什么</text>
+  <rect class="box-lit" x="370" y="90" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="115" text-anchor="middle" data-t="p2">什么被允许（规则）</text>
+  <rect class="box-lit" x="370" y="140" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="165" text-anchor="middle" data-t="p3">在哪里点头</text>
+  <rect class="box-lit" x="370" y="190" width="300" height="40" rx="8"/>
+  <text class="label-lit" x="520" y="215" text-anchor="middle" data-t="p4">结果好不好</text>
+  <path class="line" d="M315 135 H355"/>
+  <path class="head" d="M355 129 L365 135 L355 141 Z"/>
+</svg>
+<figcaption>agent 做得越多，人的工作就越往上移，剩下这四个判断。</figcaption></figure>
+<ol>
+<li><strong>做什么</strong>。需求是含糊的，还会变。由人确认那一页说明“做完”是什么意思的文档（<a href="5-2-requirements.html">需求由 agent 写，人确认</a>）。</li>
+<li><strong>什么被允许</strong>。规则，以及谁可以让某件事通过。谁负责规则、谁审查改动，是<a href="7-4-rollout-and-governance.html">落地与治理</a>的主题。</li>
+<li><strong>在哪里点头</strong>。花钱的、授予权力的、做了就撤不回的地方（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
+<li><strong>结果好不好</strong>。agent 的报告可能是错的。要由人来判断，或者由人信得过的检查来判断（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。</li>
+</ol>
+<p>团队四个都需要，而第二个是任何工具都不会替你做的。</p>
+<h3>让新人上手</h3>
+<p>要避开的失败是把整套东西走一遍。两道门（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）、看板（<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）、知识库和报告，第一天就全摆出来，等于告诉新人这套东西很重（<a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>）。更好的第一个小时有三部分。</p>
+<ol>
+<li><strong>带引导的、自己会检查的配置</strong>。一个 skill 带着他们一步一步走（安装、名字和语言、仓库、知识库），每一步后面都跑一次检查。新人不用猜“成功了没有”。</li>
+<li><strong>一个来自团队自己工作的小而真实的任务</strong>。在我的配置里，第一课以一个练习任务收尾，它的场景是一个文件，团队可以换成自己的。在他们真会动的代码上练，别用玩具。</li>
+<li><strong>有地方问“为什么”</strong>。新人能让 harness 打开真实的文件，给自己讲清楚它是怎么回事，就不需要有人坐在旁边。</li>
+</ol>
+<h3>不在乎的那位同事</h3>
+<p>对不在乎的同事，我只要求一个习惯，不要求一种心态：说出你要做什么，然后为它开一个任务。其余的由配置来扛。不管这个人读没读过规则，危险命令都会被拒绝；不管他还记不记得为什么，写入都需要审批。要靠每个人都读规则才成立的 harness，是更差的 harness。对一个不是自己选择的团队，这套做法效果如何，我没有测过。</p>
+<h3>学什么，跳过什么</h3>
+<p>人该学多少？<strong>学那些不变的问题</strong>：该信任谁，怎么知道结果对不对，agent 该知道什么，怎么拆分工作，要花多少钱。<strong>跳过每个月都在变的东西</strong>：某个工具的设置名，每个新插件系统的细节，这周哪个模型最好。花一个小时弄清一个新东西是什么、它回答的是哪个老问题，就够了。具体格式等用到时再查。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A guided first hour needs maintenance.</strong> The practice task and the checks go stale when the code changes. Someone has to own them.</p>
 <p><strong>A small real task can still be the wrong one.</strong> Pick one that is real but forgiving: a mistake should cost the newcomer a retry, not a bad day.</p>
 <p><strong>One habit is not enough forever.</strong> It gets the person started. Over time they will meet the gates and the reports, and the first hour should not hide them.</p>
@@ -335,12 +392,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>小的真實任務，仍然可能是錯的那一個</strong>。挑一個真實、但容得下錯的：犯錯應該只讓新人重試一次，不是毀掉一天。</p>
 <p><strong>一個習慣不會永遠夠用</strong>。它讓人開始。時間久了，他們會遇到門和報告，第一個小時不該把它們藏起來。</p>
 <p><strong>我沒有團隊的資料</strong>。第一個小時和那一個習慣，是根據一個人的使用建成的設計。新人怎麼接受它們，我沒有量過。把它們當成要檢查的起點，不要當成結果。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>带引导的第一个小时需要维护</strong>。练习任务和检查会随着代码的变化而过期。得有人负责它们。</p>
+<p><strong>小而真实的任务也可能选错</strong>。选真实但容错的：做错了，新人付出的代价是重试一次，不是糟糕的一天。</p>
+<p><strong>一个习惯不能管一辈子</strong>。它只是让人开始。时间一长，他们会遇到关卡和报告，第一个小时不该把这些藏起来。</p>
+<p><strong>我没有团队的数据</strong>。第一个小时和那一个习惯，是根据一个人的使用设计出来的。新人接不接受，我没有测过。把它们当作要验证的起点，不要当结果。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The guided setup exists because installing and configuring the harness takes many steps. If the setup shrinks to one command, or the platform does it, the guide can go. The four judgments do not go. They are what remains for a person however much the agent does.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>引導式設定存在，是因為安裝和設定 harness 要很多步。如果設定縮成一個指令，或由平台來做，引導就可以拿掉。四個判斷不會拿掉。不管 agent 做多少，它們都是留給人的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>带引导的配置之所以存在，是因为安装和配置 harness 要很多步。如果配置缩成一条命令，或者平台替你做了，这个引导就可以删。四个判断不会消失。不管 agent 做多少，它们都是留给人的。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Pretend you are a new teammate who has never used an AI agent here. Read this repository&#x27;s README and its agent instruction files, and write down your first hour: what you would have to install, read and learn before you could finish one small real task. Then, for each of these four judgments (what to do, what is allowed, where a person must say yes, whether the result is good), say where in this repository it is written down, or that it is not. Mark anything that would make a newcomer think the setup is heavy. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>假裝你是一個新同事，從來沒在這裡用過 AI agent。讀這個倉庫的 README 和它的 agent 指令檔，寫下你的第一個小時：在你能完成一個小的真實任務之前，你得安裝、閱讀和學習什麼。然後，對這四個判斷（做什麼、允許什麼、哪裡必須有人說好、結果好不好）中的每一個，說明它寫在這個倉庫的哪裡，或說明沒有寫。標出任何會讓新人覺得這套設定很重的東西。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>假设你是一个从没在这里用过 AI agent 的新同事。读这个仓库的 README 和它的 agent 指令文件，写下你的第一个小时：在能完成一个真实的小任务之前，你得安装什么、读什么、学什么。然后对下面四个判断（做什么、什么被允许、哪里必须有人点头、结果好不好），逐个说明它在这个仓库的哪里有写，或者没有写。把任何会让新人觉得这套配置很重的地方标出来。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>: who owns the rules, who reviews a change, and in what order to widen.</li>
 <li><a href="0-2-minimal-harness.html">A minimal harness in 30 minutes</a>: what a newcomer should have on day one.</li>
@@ -351,15 +415,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>：新人第一天該有什麼。</li>
 <li><a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>：「好」該放在哪裡。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The guided first setup and the first lesson run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="7-4-rollout-and-governance.html">落地与治理</a>：谁负责规则，谁审查改动，按什么顺序放开。</li>
+<li><a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>：新人第一天该有什么。</li>
+<li><a href="5-3-two-approvals.html">两道门：人在哪里审批</a>：“点头”该放在哪里。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The guided first setup and the first lesson run in Copilot Harness. The harness can show them to you with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;People and teams&quot;. Teach me how this harness gets a newcomer started: the guided first setup, the first lesson and its practice task that a team can replace with its own. Open the real files with me, and show what a new person sees in the first hour.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>引導式的第一次設定和第一堂課，在 Copilot Harness 裡執行。harness 可以用真實的檔案給你看。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「人與團隊：留給人的事」這一章。請教我這個 harness 怎麼讓新人開始：引導式的第一次設定、第一堂課，以及團隊可以換成自己的練習任務。帶我打開真實的檔案，並讓我看新人在第一個小時看到什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>带引导的首次配置和第一课，都在 Copilot Harness 里跑着。harness 可以带着真实的文件把它们展示给你。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“人与团队：留给人的事”这一章。请教我这个 harness 是怎么让新人上手的：带引导的首次配置、第一课，以及团队可以换成自己内容的练习任务。带我打开真实的文件，并展示新人在第一个小时里会看到什么。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

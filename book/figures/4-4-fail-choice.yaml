@@ -16,3 +16,12 @@ zh-Hant:
   open-cost: "代價：漏掉一條規則"
   open-for: "適用：只有程式碼的專案"
   caption: "兩種失敗方式。要在事情發生之前，一條規則一條規則地先決定。"
+zh-Hans:
+  broken: "hook 自己的代码坏了"
+  closed: "拦下这次调用"
+  closed-cost: "代价：所有工作停摆"
+  closed-for: "适用：生产环境、凭证"
+  open: "放行，并把错误记下来"
+  open-cost: "代价：漏掉一条规则"
+  open-for: "适用：只有代码的项目"
+  caption: "两种失败方式。要在事情发生之前，一条规则一条规则地先决定。"

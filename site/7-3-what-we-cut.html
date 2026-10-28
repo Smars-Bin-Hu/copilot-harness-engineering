@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>What I cut, and what the data says</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">7.3</p><h1><span data-l="en" lang="en">What I cut, and what the data says</span><span data-l="zh-Hant" lang="zh-Hant">我砍掉了什麼，數據怎麼說</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">7.3</p><h1><span data-l="en" lang="en">What I cut, and what the data says</span><span data-l="zh-Hant" lang="zh-Hant">我砍掉了什麼，數據怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">我砍掉了什么，数据怎么说</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-3-subagents.html">Use subagents sparingly</a> and <a href="5-1-tasks.html">Manage tasks, not chats</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="2-3-subagents.html">慎用子 agent</a> 和 <a href="5-1-tasks.html">管任務，不管對話</a>。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The three job-title agents cost the most and bought nothing I could measure. Removing them, along with levels and a separate coordinator, made the harness simpler. Only the first removal was measured.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，需要先读过<a href="2-3-subagents.html">慎用子 agent</a>和<a href="5-1-tasks.html">管任务，不管对话</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The three job-title agents cost the most and bought nothing I could measure. Removing them, along with levels and a separate coordinator, made the harness simpler. Only the first removal was measured.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>按職位分工的三個 agent 花得最多，卻沒買到任何我量得出來的東西。把它們拿掉，連同級別和獨立的協調者一起拿掉，harness 變簡單了。只有第一項砍掉的東西是量過的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>三个按岗位分工的 agent 花得最多，却没换来我能量出来的任何东西。把它们连同级别和单独的协调者一起拿掉，harness 简单了。只有第一刀是量过的。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> ask of every agent, rule and step what it bought and what would make it safe to remove, and set a time to review the answers.</li>
 <li><strong>The risk:</strong> setups only grow, so every part keeps costing context, upkeep and learning time. The one cut I measured was three job-title agents against one agent: several times the cost for the same number right, on four tasks run once each.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：設定只會越長越大，所以每個部分都在持續花上下文、維護和學習的時間。我量過的那一刀，是三個按職位分工的 agent 對一個 agent：答對的數量一樣，花費是好幾倍。四個任務，各跑一次。</li>
 <li><strong>做對的成本</strong>：一個小時，把各部分列出來，每個寫一行。更難的成本，是告訴已經在用某個部分的人，用什麼取代它。</li>
 <li><strong>可以問團隊</strong>：「每個 agent、規則和步驟：它買到了什麼，你怎麼知道，怎樣才能安全地拿掉？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：对每个 agent、规则和步骤都问一遍：它换来了什么，什么情况下可以安全地拿掉。并定一个时间来复查这些答案。</li>
+<li><strong>风险</strong>：配置只会越长越大，所以每个部分都在持续占用上下文、维护成本和学习时间。我量过的只有一刀：三个按岗位分工的 agent 对一个 agent，做对的数量一样，成本是好几倍；一共四个任务，每个只跑了一次。</li>
+<li><strong>做对的代价</strong>：花一个小时把各部分列出来，每个写一句话。更难的代价是，要告诉已经在用某个部分的人，拿什么来替代它。</li>
+<li><strong>可以问团队</strong>：“对每个 agent、规则和步骤：它换来了什么？你怎么知道？什么情况下可以安全地拿掉？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Every part you add to an agent setup has a price. It takes room in the context, it has to be kept true, and a newcomer has to learn it. Most setups only grow, because adding feels like progress and removing feels like losing something.</p>
 <p>I want to ask a different question of each part: <strong>what did it buy, and when can it go?</strong> If I cannot answer the first, the part is a cost with no return. If I cannot answer the second, I will keep it forever.</p>
@@ -254,6 +265,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>協調者</strong>是只負責把工作交給別人的 agent（用法和 <a href="2-3-subagents.html">慎用子 agent</a> 一樣）。在我舊的重級別裡，它是一個獨立的 agent。</li>
 <li><strong>請求資料夾</strong>是和任務分開的另一個資料夾。重級別的團隊把計劃、交接和結果放在這裡。</li>
 <li><strong>按職位分工的 agent</strong>是被給了一個角色的 agent，例如計劃者、實作者或 reviewer，就像一個人的團隊那樣。</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>给 agent 配置加的每个部分都有代价。它占上下文的空间，要一直保持正确，新人还得去学它。大多数配置只会越长越大，因为加东西像是在前进，拿东西则像是在失去什么。</p>
+<p>我想对每个部分问另一个问题：<strong>它换来了什么，什么时候可以拿掉</strong>？第一个答不上来，这个部分就是只花钱不回本。第二个答不上来，我就会永远留着它。</p>
+<p>我自己配置的 1.0 版，正好拿来检验这件事。它有好几个听起来很对的部分。我发了版，用了几天，在 1.1 版里拿掉了其中很大一部分。这一章列出我砍掉了什么、为什么。通篇保持一条清楚的线：<strong>每一刀，哪些是我量过的，哪些只是我的判断</strong>。</p>
+<p>先交代几个词。</p>
+<ul>
+<li><strong>级别</strong>，是用户在每个工作开始时做的一个选择：轻的用来快速回答，中等的用于中等任务，重的用于几个 agent 一起干活。不同的级别规则不同。</li>
+<li><strong>协调者</strong>，是只负责把活分给别人的 agent（这个词的用法和<a href="2-3-subagents.html">慎用子 agent</a>里一样）。在我以前的重级别里，它是一个单独的 agent。</li>
+<li><strong>请求文件夹</strong>，是和任务分开的另一个文件夹，重级别的团队把计划、交接和结果放在里面。</li>
+<li><strong>按岗位分工的 agent</strong>，是被指定了计划者、开发者或 reviewer 这类角色的 agent，就像人的团队那样。</li>
 </ul>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>At a glance</h3>
 <p>The four cuts, with how much evidence each has. The sections below give the reasons.</p>
@@ -467,6 +488,112 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>建在 Preview 或實驗性設定上的功能</strong>。它們可能改變或消失。等它們穩定了，再重新考慮。</li>
 </ul>
 <p>這份清單背後的習慣：附上理由和條件的「不」，可以重新打開。兩樣都沒有的「不」，會變成禁忌。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>一览</h3>
+<p>四刀，以及每一刀有多少证据。理由在下面各节。</p>
+<table>
+<thead>
+<tr>
+<th>砍掉的</th>
+<th>本来想换来什么</th>
+<th>为什么拿掉</th>
+<th>证据</th>
+<th>什么时候重新考虑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三个按岗位分工的 agent</td>
+<td>像人的团队那样分工</td>
+<td>成本好几倍，结果一样</td>
+<td>量过：4 个任务，各跑一次，只看方向</td>
+<td>在更大、更乱的任务上做对比，显示有好处</td>
+</tr>
+<tr>
+<td>级别</td>
+<td>规则配合工作的难度</td>
+<td>只用到一个；难选；规则互相打架</td>
+<td>我的使用经验，没有计数</td>
+<td>开工之前就能可靠地判断一个工作有多难</td>
+</tr>
+<tr>
+<td>单独的协调者</td>
+<td>有人负责分配工作</td>
+<td>懂的那个不是动手的那个；干活的要重学一遍</td>
+<td>推理出来的；测试记录里有线索，没有单独量过</td>
+<td>平台能恢复一个已结束的子 agent 的上下文</td>
+</tr>
+<tr>
+<td>请求文件夹</td>
+<td>团队文件的独立位置</td>
+<td>团队没了以后，没有东西需要它</td>
+<td>从其他几刀推出来的，没有测</td>
+<td>需要自己工作区的流程回来了</td>
+</tr>
+</tbody>
+</table>
+<h3>我对任何一个部分用的检验</h3>
+<p>你的配置也只会越长越大，所以这些问题是留给你的。在留下一个部分之前，我都问同样的几个问题（就是<a href="7-4-rollout-and-governance.html">落地与治理</a>里的那几个）：它防止了什么故障，有真实的例子吗？它花多少？要变成什么样，它才能拿掉？下面的几刀，就是这些问题在用过之后才答出来的结果。</p>
+<figure class="fig" id="fig-7-3-before-after"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 305">
+  <text class="label-muted" x="140" y="20" text-anchor="middle" data-t="v1">1.0 版</text>
+  <text class="label-muted" x="460" y="20" text-anchor="middle" data-t="v2">1.1 版</text>
+  <rect class="box-plain" x="20" y="35" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="60" text-anchor="middle" data-t="levels">三个 Level，由用户选</text>
+  <rect class="box-lit" x="20" y="90" width="240" height="95" rx="8"/>
+  <text class="label-lit" x="140" y="112" text-anchor="middle" data-t="team">三个岗位 agent</text>
+  <text class="label-muted" x="140" y="140" text-anchor="middle" data-t="r1">协调者</text>
+  <text class="label-muted" x="140" y="160" text-anchor="middle" data-t="r2">开发者</text>
+  <text class="label-muted" x="140" y="178" text-anchor="middle" data-t="r3">reviewer</text>
+  <rect class="box-plain" x="20" y="200" width="240" height="40" rx="8"/>
+  <text class="label" x="140" y="225" text-anchor="middle" data-t="req">request 文件夹</text>
+  <path class="line" d="M270 140 H320"/>
+  <path class="head" d="M320 134 L330 140 L320 146 Z"/>
+  <rect class="box" x="340" y="60" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="85" text-anchor="middle" data-t="task">一个任务文件夹</text>
+  <rect class="box" x="340" y="120" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="145" text-anchor="middle" data-t="one">一个 agent 干活</text>
+  <rect class="box" x="340" y="180" width="240" height="40" rx="8"/>
+  <text class="label" x="460" y="205" text-anchor="middle" data-t="rev">reviewer，需要时才用</text>
+  <rect class="box-lit" x="20" y="258" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="267" data-t="k1">移除有测量（只看方向）</text>
+  <rect class="box-plain" x="20" y="280" width="14" height="10" rx="3"/>
+  <text class="label-muted" x="42" y="289" data-t="k2">移除没有测量</text>
+</svg>
+<figcaption>结构的两个版本。拿掉了四样东西；只有三个岗位 agent 测量过，reviewer 留下来当独立检查。</figcaption></figure>
+<p>这张图画的是两个版本。亮着的框是我量过的那一刀。虚线框是我没量过的几刀。</p>
+<h3>第 1 刀：三个按岗位分工的 agent（量过）</h3>
+<p>在 1.0 里，重模式跑一个团队：协调者写计划，开发者改代码，reviewer 做检查。我拿它和一个 agent 单干，在同样的四个任务上做了对比。那个测试在<a href="2-3-subagents.html">慎用子 agent</a>里，这里不再重复。这里只关心它的局限。</p>
+<ul>
+<li><strong>四个任务，每个只跑一次</strong>。再跑一次，数字就会变。</li>
+<li><strong>两边条件不对等</strong>。单个 agent 用的是顶级模型；团队有一份知识库可读（<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。</li>
+<li><strong>我信的是方向</strong>。团队贵好几倍，做对的数量一样。具体倍数我不信。</li>
+</ul>
+<p>所以这一刀有数据，但数据很薄。足以说明在那些任务上，团队不划算。它不能说明团队永远不划算。我留下了一个角色，也就是独立的 reviewer，因为独立检查是值得多一个 agent 的四样东西之一。这是推理，不是测量：我没有用量过的那一刀同样的标准，单独测过 reviewer。</p>
+<h3>第 2 刀：级别（设计史，没有数据）</h3>
+<p>我没有量过级别。我手里有的，是用它们时看到的情况。</p>
+<ul>
+<li>只有中等级别被用到。轻的和重的大多数时候闲着。</li>
+<li>先选级别，每次都多一步。</li>
+<li>两套规则放在一起，会把 agent 弄糊涂。它会就“哪套适用”给出错误的解释。</li>
+<li>更深的原因是：一个工作有多难，开工之前是判断不了的。级别要你去猜。</li>
+</ul>
+<p>这是我几天里的亲身经验，不是计数。我没有记录每个级别被用了多少次。替代级别的是任务，谨慎的程度由出错的代价和任务的类型来定（<a href="5-1-tasks.html">管任务，不管对话</a>）。</p>
+<h3>第 3 刀：单独的协调者（推理出来的，部分来自测试）</h3>
+<p>问题不在协调者有没有弄懂任务。它弄懂了。问题在于：弄懂的那个不是动手的那个，所以它把任务交给的干活的，还得再学一遍。这和我在三角色测试的记录里看到的一致：协调者读了文件，弄懂了要改什么，而开发者从零开始，又把它们读了一遍。</p>
+<p>测试比较的是整个团队和一个 agent，不是有单独协调者和没有单独协调者的团队，所以单独的协调者我没有数字。记录里的重复阅读，是线索，不是测量。其余是一个论证：推动任务往前走的人必须理解它，而拿着这个任务的 agent 本来就理解。</p>
+<h3>第 4 刀：请求文件夹（设计史，没有数据）</h3>
+<p>重级别的团队把工作放在请求文件夹里，和任务文件夹分开。重级别的流程没了之后，再留一个放工作文件的地方就没有用了。任务文件夹就是工作区。一个地方更容易找，更容易备份，人或者新会话读起来也更容易。我没有测过这一点。它是从其他几刀推出来的：不再有东西需要它了。</p>
+<h3>这几刀拿掉了什么，对 harness 有什么影响</h3>
+<p>1.1 版拿掉了级别、整个重级别的流程（连同它的命令）、两个 agent、一个 skill、配置里的一些数字，还有请求文件夹。它还把注入在每条 prompt 最前面的规则缩短到三四行，并去掉了对搜索次数和工具调用次数的限制。现在 agent 看到的规则更少，能被弄糊涂的地方也更少。</p>
+<p>这是我最信的好处，而且它不是测量出来的。更小的 harness 更容易解释，更容易测试，也更容易交给同事（<a href="7-4-rollout-and-governance.html">落地与治理</a>）。对准确率和成本的影响，我没有量过。</p>
+<h3>我选择不做的</h3>
+<p>砍，是拿掉原来有的东西。还有第二份清单：我决定不做的东西，每一项都带着会让我重新考虑的条件。几个例子：</p>
+<ul>
+<li><strong>agent 之间互相发消息</strong>。子 agent 没有状态，跨会话的消息也没有验证过。等测出来可靠了再考虑。</li>
+<li><strong>好几个子 agent 同时改同样的文件</strong>。会有合并冲突，而且代码跑不起来，没法判断谁对。等仓库能在本地跑测试了再考虑。</li>
+<li><strong>我自己做沙箱、上下文压缩或子 agent 调度</strong>。平台一直在改这些，我宁可等平台。</li>
+<li><strong>建立在 Preview 或实验性设置上的功能</strong>。它们可能变，也可能消失。等稳定了再考虑。</li>
+</ul>
+<p>这份清单背后的习惯是：带着理由和条件的“不”，可以重新打开。两样都没有的“不”，就成了禁忌。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Cutting is also a bet.</strong> The three-role team lost on four tasks, one run each, in a made-up repository. A very large, messy repository with a vague request may be different, and I have no data either way. If your tasks look like that, test before you copy my cut.</p>
 <p><strong>Do not read &quot;multi-agent is bad&quot; from this.</strong> I kept an independent reviewer, on reasoning that I did not test. I use read-only helpers for broad reading (<a href="2-3-subagents.html">Use subagents sparingly</a>). What I cut is splitting one piece of work by job title.</p>
 <p><strong>An unmeasured cut is a judgment.</strong> Levels, the separate coordinator and the request folder went on reasoning and use. A reader could disagree, and I could be wrong. I have written which is which so that you can.</p>
@@ -477,14 +604,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>沒量過的砍法，是一個判斷</strong>。級別、獨立的協調者和請求資料夾，是靠推理和使用經驗拿掉的。讀者可以不同意，我也可能錯。我把哪個是哪個寫出來，讓你能自己判斷。</p>
 <p><strong>不要砍了就忘</strong>。把一樣東西為什麼拿掉、什麼時候重新考慮，寫下來，和當初加它的理由放在同一個地方。不然一年後，有人會因為同樣的理由把它加回來。</p>
 <p><strong>舊的設定需要退場的路</strong>。拿掉舊流程，讓一個進行中的請求壞掉了，有舊設定的人也得手動改。1.1 的說明寫了這點。拿掉一個部分，對已經在用的人是有成本的。拿掉的時候，要說明用什麼取代、怎麼搬過去、哪些舊設定不再有效，以及進行中的工作會怎樣。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>砍也是一种赌注</strong>。三角色团队是在一个虚构的仓库里、四个任务各跑一次的情况下输的。一个非常大、非常乱的仓库，加上一个含糊的需求，结果可能不同，两边我都没有数据。如果你的任务像那样，抄我的砍法之前先测一下。</p>
+<p><strong>别从这里得出“多 agent 不好”</strong>。我留下了独立的 reviewer，依据是我没测过的推理。我用只读的帮手做大范围阅读（<a href="2-3-subagents.html">慎用子 agent</a>）。我砍掉的，是把一份工作按岗位拆开。</p>
+<p><strong>没量过的一刀，只是判断</strong>。级别、单独的协调者和请求文件夹，是凭推理和使用经验拿掉的。读者可以不同意，我也可能错。我写明了哪些是哪种，好让你自己判断。</p>
+<p><strong>砍了就忘，不行</strong>。把一样东西为什么拿掉、什么时候重新考虑，写在你当初记下加它的理由的同一个地方。不然一年后有人出于同样的理由把它加回来。</p>
+<p><strong>旧的配置需要出路</strong>。拿掉旧流程，弄坏了一个进行中的请求，用着旧设置的人得手工改。1.1 版的发布说明里写了这一点。拿掉一个部分，对已经在用它的人是有代价的。你拿掉一个东西时，要说明拿什么来替代，怎么迁移，哪些旧设置不再生效，进行中的工作会怎样。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The best time to review a cut is after a model upgrade. The reasons behind my cuts were facts about the models and the platform of that month. Models get better at long tasks, and the platform may one day let a finished subagent be resumed, which would remove the relearning cost behind the coordinator cut. Re-run the same fixed tasks and see (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>).</p>
 <p>The list of &quot;not built, reconsider when&quot; is itself a thing to prune (<a href="6-5-model-upgrades.html">When the model is upgraded, delete</a> uses the same habit for the rules you keep). When a condition has been met, build it or strike it out.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>回頭檢查一刀的最好時機，是模型升級之後。我砍的那些理由，是那個月的模型和平台的事實。模型在長任務上會越來越好，平台有一天也可能讓已結束的子 agent 能繼續，那就會去掉協調者那一刀背後重學的成本。重跑同樣的固定任務，看看結果（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
 <p>「沒做，等條件到了再考慮」的清單，本身也是要修剪的東西（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a> 對你留下的規則，用的是同一個習慣）。條件到了，就做出來，或者劃掉。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>复查这几刀的最好时机，是模型升级之后。我砍的理由，是那个月的模型和平台的事实。模型在长任务上会越来越好，平台有一天也可能让已结束的子 agent 能接着干，那就会去掉协调者那一刀背后重学的成本。重跑同样的固定任务，看看结果（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</p>
+<p>“不做，等条件到了再考虑”的清单，本身也是要修剪的东西（<a href="6-5-model-upgrades.html">模型升级了，就要删</a>对你留下的规则，用的是同一个习惯）。条件到了，就做出来，或者划掉。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List every custom agent, skill, rule, hook and check this repository defines for AI agents. For each, write two things: what it bought (a failure it prevented, with a real example from git history or issues if one exists), and what would make it safe to remove. Mark each answer &quot;measured&quot;, &quot;seen&quot; or &quot;only reasoned&quot;. Put the parts with no stated purpose first. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個倉庫為 AI agent 定義的每個 custom agent、skill、規則、hook 和檢查。每一項寫兩件事：它買到了什麼（它防止的一次失敗；如果 git 歷史或 issue 裡有真實的例子，就附上），以及怎樣才能安全地拿掉它。每個答案標上「量過」、「看過」或「只是推理」。沒有說明用途的部分排在最前面。不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>列出这个仓库为 AI agent 定义的每个自定义 agent、skill、规则、hook 和检查。对每一项写两件事：它换来了什么（它防止的一个故障，如果 git 历史或 issue 里有真实的例子就附上），以及什么情况下可以安全地拿掉。把每个答案标成“量过”“见过”或“只是推理”。没有写明用途的部分放最前面。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li><a href="2-3-subagents.html">Use subagents sparingly</a>: the measured cut in full, and the four things a second agent can buy.</li>
 <li><a href="5-1-tasks.html">Manage tasks, not chats</a>: what replaced the levels.</li>
@@ -497,15 +633,24 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="7-4-rollout-and-governance.html">落地與治理</a>：留下任何規則或部分之前，要問的問題。</li>
 <li><a href="6-5-model-upgrades.html">模型升級了，就要刪</a>：換了模型之後，檢查還需要什麼。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The 1.0 design is gone from the current harness, but its release notes and design notes remain, with the reasons. The harness can walk you through them. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li><a href="2-3-subagents.html">慎用子 agent</a>：量过的那一刀的完整过程，以及第二个 agent 能换来的四样东西。</li>
+<li><a href="5-1-tasks.html">管任务，不管对话</a>：替代级别的东西。</li>
+<li><a href="7-4-rollout-and-governance.html">落地与治理</a>：留下任何规则或部分之前该问的问题。</li>
+<li><a href="6-5-model-upgrades.html">模型升级了，就要删</a>：换了模型之后，复查还需要什么。</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The 1.0 design is gone from the current harness, but its release notes and design notes remain, with the reasons. The harness can walk you through them. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;What I cut&quot;. Teach me topic 15, the design choices: why there are no Levels, and the list of what the harness deliberately does not do and when each would be reconsidered. Open the release notes of version 1.1.0 with me, and show what was retired.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>1.0 的設計已經不在現在的 harness 裡，但它的發布說明和設計筆記還在，理由也都在。harness 可以帶你走一遍。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「我砍掉了什麼，數據怎麼說」這一章。請教我主題 15，設計上的選擇：為什麼沒有級別，以及 harness 刻意不做的事的清單，和各項什麼時候會重新考慮。和我一起打開 1.1.0 版的發布說明，讓我看拿掉了什麼。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>1.0 的设计已经不在现在的 harness 里了，但它的发布说明和设计笔记还在，理由也在。harness 可以带你走一遍。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“我砍掉了什么，数据怎么说”这一章。请教我主题 15，设计取舍：为什么没有级别，以及 harness 有意不做的事的清单，和每一项在什么条件下会重新考虑。带我打开 1.1.0 版的发布说明，让我看看哪些被退役了。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

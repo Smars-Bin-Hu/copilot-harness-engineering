@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Long chats get worse</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">3.2</p><h1><span data-l="en" lang="en">Long chats get worse</span><span data-l="zh-Hant" lang="zh-Hant">長對話會變差</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent in a long chat, and read <a href="3-1-context-budget.html">the context budget</a> (the window has a size limit, and everything in it competes for room).</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">3.2</p><h1><span data-l="en" lang="en">Long chats get worse</span><span data-l="zh-Hant" lang="zh-Hant">長對話會變差</span><span data-l="zh-Hans" lang="zh-Hans">长对话会变差</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent in a long chat, and read <a href="3-1-context-budget.html">the context budget</a> (the window has a size limit, and everything in it competes for room).</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先在長對話裡用過寫程式的 AI agent，並讀過<a href="3-1-context-budget.html">上下文是一份預算</a>（視窗有大小上限，裡面所有東西都在搶位子）。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Long chats get worse. Do not trust the model to remember: write what matters into files, clear old tool results, or start a fresh chat.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你用过 AI 编程 agent 开过很长的对话，并且读过<a href="3-1-context-budget.html">上下文是一份预算</a>（窗口有大小上限，里面的东西互相争地方）。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Long chats get worse. Do not trust the model to remember: write what matters into files, clear old tool results, or start a fresh chat.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>長對話會變差。別指望模型記得：把要緊的寫進檔案、清掉舊的工具結果，或開一個新的對話。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>对话越长，表现越差。别指望模型自己记住：把重要的写进文件，清掉旧的工具结果，或者开一个新对话。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> require that anything that matters lives in a file, not only in the chat, and agree when to start a fresh chat.</li>
 <li><strong>The risk:</strong> long chats get worse, and a platform's summary of a chat drops details such as your exact words and the reason for a choice. I have not measured how fast quality falls in my own setup, so I give no rate.</li>
@@ -234,6 +239,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>風險</strong>：長對話會變差，而平台對對話做的摘要會丟細節，例如你原話的措辭和做某個選擇的理由。在我自己的設定裡，品質掉得多快我沒量過，所以不給比率。</li>
 <li><strong>做對的成本</strong>：每件工作一個簡短的筆記檔，每做完一步就更新。如果交接寫不滿半頁，說明這件工作還不夠清楚。</li>
 <li><strong>可以問團隊</strong>：「如果這個對話現在消失了，我們會丟掉什麼？」</li>
+</ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：要求重要的东西都放在文件里，而不是只留在对话中，并且约定好什么时候开新对话。</li>
+<li><strong>风险</strong>：对话变长会变差，而平台对对话做的摘要会丢细节，比如你的原话和做某个选择的原因。在我自己的配置里，质量下降得多快，我没量过，所以不给速率。</li>
+<li><strong>做对的代价</strong>：每项工作一个简短的笔记文件，每做完一步就更新一次。如果交接内容半页纸写不下，说明这件事还没想清楚。</li>
+<li><strong>可以问团队</strong>：“如果这个对话现在没了，我们会丢什么？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You have worked with an agent for two hours. It started sharp. Now it asks about something you settled at the start, repeats a mistake it fixed, or edits the wrong file. Nothing broke. The chat just got long.</p>
 <p>Three words first. The first two are defined in <a href="3-1-context-budget.html">Context is a budget</a>; here they are in brief.</p>
@@ -333,6 +344,55 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>壓縮會丟細節</strong>。摘要留下的是寫摘要的那方認為重要的東西。你原話的措辭、做某個選擇的理由、那一條古怪的限制，是摘要最先丟掉的，而你無從知道它丟了哪些。</li>
 </ol>
 <p>這些都不是某一個產品的 bug。它來自視窗的運作方式，所以適用於每一個 agent。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你和 agent 已经合作了两个小时。一开始它很利落。现在它却来问你开头就定下的事，重复犯一个已经修掉的错，或者改错了文件。什么都没坏。只是对话变长了。</p>
+<p>先说三个词。前两个在<a href="3-1-context-budget.html">上下文是一份预算</a>里定义过，这里简单提一下。</p>
+<ul>
+<li><strong>上下文窗口</strong>是模型一次能看到的文本。它有大小上限。</li>
+<li><strong>工具结果</strong>是 agent 用工具后返回的内容。它们通常是窗口里最大的几项。</li>
+<li><strong>压缩</strong>是平台在窗口快满时做的事：让模型把到目前为止的对话总结一下，然后从摘要接着往下走。</li>
+</ul>
+<p>在我自己的配置里，质量下降得多快，我没量过，所以不会给你一个数字。问题的形状已经足够清楚，可以据此行动，做模型的人也是这么描述的（见<a href="#industry">业界怎么说</a>）。</p>
+<h3>长对话为什么会变差</h3>
+<p>看图最容易懂：同一个对话的三个时刻。</p>
+<figure class="fig steps" id="fig-3-2-context-rot" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
+  <text class="label-muted" x="20" y="24" data-t="title">同一个对话，三个时刻（方框是上下文窗口）</text>
+
+  <text class="label" x="20" y="64" data-t="early">刚开始</text>
+  <rect class="box" x="150" y="46" width="420" height="26" rx="4"/>
+  <rect class="bar-lit" x="150" y="46" width="70" height="26" rx="4"/>
+  <rect class="bar" x="220" y="46" width="40" height="26" rx="4"/>
+
+  <g data-step="2">
+    <text class="label" x="20" y="114" data-t="middle">之后</text>
+    <rect class="box" x="150" y="96" width="420" height="26" rx="4"/>
+    <rect class="bar-lit" x="150" y="96" width="70" height="26" rx="4"/>
+    <rect class="bar" x="220" y="96" width="210" height="26" rx="4"/>
+  </g>
+
+  <g data-step="3">
+    <text class="label" x="20" y="164" data-t="late">很久之后</text>
+    <rect class="box" x="150" y="146" width="420" height="26" rx="4"/>
+    <rect class="bar-lit" x="150" y="146" width="70" height="26" rx="4"/>
+    <rect class="bar" x="220" y="146" width="350" height="26" rx="4"/>
+    <text class="label-muted" x="20" y="200" data-t="legend">亮：任务现在需要的。灰：旧的工具结果和旧的对话。</text>
+  </g>
+
+  <g data-step="4">
+    <text class="label-lit" x="20" y="234" data-t="fresh">新对话</text>
+    <rect class="box-lit" x="150" y="216" width="420" height="26" rx="4"/>
+    <rect class="bar-lit" x="150" y="216" width="70" height="26" rx="4"/>
+    <rect class="bar-lit" x="220" y="216" width="40" height="26" rx="4"/>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">刚开始，窗口里只有规则、需求，没什么别的。</li><li data-step-text="2">读过的每个文件、跑过的每条命令输出都留着。任务现在需要的东西一样大，却埋在越来越多的旧文本里。</li><li data-step-text="3">接近上限时窗口满了，平台只好做摘要或丢掉一些。有用的部分只占一小块。</li><li data-step-text="4">新对话只带你转交过去的东西：规则，加上从文件读来的一小段笔记。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>对话变长，不会让有用的部分变大，只会让其余部分变大。</figcaption></figure>
+<p>四件事同时发生。</p>
+<ol>
+<li><strong>有用的部分不会变大，其余的会。</strong> 任务眼下需要的（需求、你给的规则、正在改的文件）大小基本不变。其余的都堆在它周围：一小时前读的文件，一份又长又已经无关的测试输出，三次错误的尝试。</li>
+<li><strong>模型每次都要把所有内容读一遍。</strong> 它没有文件柜。每一轮，整个窗口都要重新读一遍。旧文本越多，那一行要紧的内容要争的对手就越多。（缓存能让重复读取省钱，见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>，但不会让窗口变得不那么挤。）这种现象叫<strong>上下文腐化</strong>：窗口越满，模型对里面内容的回忆就越不可靠。</li>
+<li><strong>早先的内容离用到它的地方很远。</strong> 第一条消息里的规则，现在已经在几千行之前。它还在，但离用到它的那一步很远。这一条是我自己对所见现象的理解，没有出处。</li>
+<li><strong>压缩会丢细节。</strong> 摘要留下的，是写摘要的一方认为重要的。你的原话、做某个选择的原因、那条古怪的约束，都是摘要最先丢掉的，而且你没法知道它丢了哪些。</li>
+</ol>
+<p>这些都不是某个产品的 bug。它来自窗口本身的工作方式，所以对每个 agent 都适用。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The answer is not &quot;a bigger window&quot; or &quot;a smarter summary&quot;. It is to stop depending on the chat as the place where important things live. There are four moves. The first is a habit to keep all the time. The other three you use as the chat grows, from lightest to heaviest.</p>
 <figure class="fig" id="fig-3-2-four-moves"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
   <text class="label-muted" x="20" y="24" data-t="cheap">cheapest</text>
@@ -513,6 +573,96 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>測一測你自己的設定</h3>
 <p>一個便宜的測試，不用額外設定，一個人一小時就能做。挑一條你在長對話早期給的規則，有兩三個部分的。工作一小時後，請 agent 不回頭看，把它說出來。然後開一個新的對話，只給它你的筆記檔，問同樣的問題。每個答案按它答對了幾個部分打分。如果第二個更準，你的對話就比你的檔案做得差。</p>
 <p>也檢查一下你的指令放在哪裡。只在對話裡給的規則，對話被壓縮時就丟了；放在平台會再讀的檔案裡的規則，不會。Claude Code 的文件對它的專案指令檔說的就是這個。要讓一條規則留下來，就把它放進檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>答案不是“更大的窗口”，也不是“更聪明的摘要”。而是别再把对话当成放重要东西的地方。一共有四招。第一招是要一直保持的习惯。另外三招在对话变长时用，从最轻到最重。</p>
+<figure class="fig" id="fig-3-2-four-moves"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
+  <text class="label-muted" x="20" y="24" data-t="cheap">最便宜</text>
+  <text class="label-muted" x="580" y="24" text-anchor="end" data-t="drastic">最彻底</text>
+  <path class="line" d="M20 36 H570"/>
+  <path class="head" d="M570 30 L580 36 L570 42 Z"/>
+  <rect class="box-lit" x="20" y="60" width="130" height="80" rx="6"/>
+  <text class="label-lit" x="85" y="94" text-anchor="middle" data-t="m1a">写进</text>
+  <text class="label-lit" x="85" y="116" text-anchor="middle" data-t="m1b">文件</text>
+  <rect class="box" x="163" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="228" y="94" text-anchor="middle" data-t="m2a">清掉旧的</text>
+  <text class="label" x="228" y="116" text-anchor="middle" data-t="m2b">工具结果</text>
+  <rect class="box" x="306" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="371" y="94" text-anchor="middle" data-t="m3a">大块阅读</text>
+  <text class="label" x="371" y="116" text-anchor="middle" data-t="m3b">交给子 agent</text>
+  <rect class="box" x="449" y="60" width="130" height="80" rx="6"/>
+  <text class="label" x="514" y="94" text-anchor="middle" data-t="m4a">开一个</text>
+  <text class="label" x="514" y="116" text-anchor="middle" data-t="m4b">新对话</text>
+  <text class="label-muted" x="85" y="170" text-anchor="middle" data-t="k1">什么都不丢</text>
+  <text class="label-muted" x="228" y="170" text-anchor="middle" data-t="k2">少些杂物</text>
+  <text class="label-muted" x="371" y="170" text-anchor="middle" data-t="k3">只带回答案</text>
+  <text class="label-muted" x="514" y="170" text-anchor="middle" data-t="k4">干净的窗口</text>
+  <text class="label-muted" x="300" y="210" text-anchor="middle" data-t="all">每一招都把要紧的东西放在对话外面。</text>
+</svg>
+<figcaption>对付长对话的四招，从最便宜到最彻底。第一招让后面几招都安全。</figcaption></figure>
+<h3>1. 把要紧的写进文件</h3>
+<p>问自己：如果这个对话现在没了，我会丢什么？不管答案是什么，那些东西都不该只存在于对话里。</p>
+<ul>
+<li><strong>定了什么</strong>，以及为什么。</li>
+<li><strong>做完了什么，下一步是什么。</strong></li>
+<li><strong>东西在哪</strong>（哪些文件，哪些命令）。</li>
+</ul>
+<p>这些写进 agent 能重新读到的文件：任务文件夹里的一份简短笔记，或者它的待办清单（两者都在<a href="5-1-tasks.html">管任务，不管对话</a>里讲）。文件不会被压缩，新对话一秒钟就能读完。重新读到时，它的文本在窗口的靠后位置，离用到它的地方很近。</p>
+<p>在我的配置里，每项工作都有一个文件夹，里面有一份<strong>交接文件</strong>：做到哪了、下一步、定了什么。新对话先读这份文件，然后接着干。因此丢一个对话，我损失的是几分钟，不是整份工作。</p>
+<p><strong>笔记怎么写。</strong> 要短。写现在是什么情况，不要讲怎么走到这一步的故事。下一步放在最上面。一页比十页好，因为新对话得读它，而它也占地方。</p>
+<p><strong>让 agent 来做。</strong> 让它每做完一步就更新笔记，不要等到最后。到最后你已经累了，对话也最长。一句话就能说清：“每做完一步，更新笔记文件：定了什么、做完了什么、下一步。”</p>
+<p>Anthropic 为长时间运行的 agent 描述过同样的习惯：一份进度文件加上 git 历史，新会话开始时 agent 先读它们（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。下面是我配置里交接文件的模板：</p>
+<details class="code"><summary>交接文件模板：状态、现在在做什么、下一步、要读的文件、已经定下的事，以及待解决的问题。</summary><pre><code class="language-markdown"># TASK: {name}
+
+&gt; The handover file. A new session reads this file first, then what it points to. Keep it within one screen. Update it every time before you stop.
+
+- **Kind**: {kind}
+- **Tier**: {tier}
+- **Created**: {created}
+- **Updated**: &lt;yyyy-mm-dd&gt;
+- **Status**: &lt;in progress / waiting for the user to approve the plan / waiting for the user to accept / done&gt;
+- **Doing now**: &lt;one sentence&gt;
+- **Next step**: &lt;the one thing to do next&gt;
+
+## Files to read
+
+&lt;The files a new session should read, in order, with links. Write &quot;none&quot; if there is nothing&gt;
+
+## Decided
+
+&lt;What the user has decided, one per line, with the date. Write &quot;none&quot; if there is nothing&gt;
+
+## Open questions
+
+&lt;Five at most. Delete each one once it is solved. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/TASK.md#L1-L23">.harness/contracts/templates/task/en/TASK.md L1–L23 @ 1.5.50</a></p></details>
+<h3>2. 清掉旧的工具结果</h3>
+<p>窗口里的大部分，通常是旧的工具输出。agent 为了找一个函数读了整个文件，整个文件还留在那里。一次测试跑出了好几页输出，真正有用的只有失败的那一行。</p>
+<p>扔掉这些，是最轻的一种压缩，也最安全：决定和结论留下，只去掉原始材料。agent 如果还要用那个文件，可以再读一遍。在 Anthropic 的 API 上，这是一个叫上下文编辑（context editing）的功能：名为 <code>clear_tool_uses</code> 的策略，会在输入超过你设定的大小之后，把最旧的工具结果清掉。它还在 beta 阶段，而且清除会让缓存的开头失效，所以是有代价的（<a href="https://platform.claude.com/docs/en/build-with-claude/context-editing">Context editing</a>）。你的工具有没有类似的功能、什么时候触发，需要去查，不能想当然。Copilot 今天怎么做，我没测过（见<a href="#costs-and-traps">代价和坑</a>）。</p>
+<p>你也可以手动做到同样的效果。一段长时间的阅读结束后，让 agent 只写下它的发现，然后在一个新对话里接着干，新对话里有发现，没有阅读的过程。</p>
+<h3>3. 把大块的阅读交给子 agent</h3>
+<p>如果下一步要读很多东西，别在主对话里读。<strong>子 agent</strong> 是第二个 agent，它从空窗口开始，只把一份简短的报告送回来。阅读的内容留在它的窗口里，你的主对话只拿到结论。这就是<a href="2-3-subagents.html">慎用子 agent</a>里的“并行阅读”那种情况，限制也一样：只有一份简短的报告就够用时才行，而且总共花得更多。</p>
+<p>有的平台把它做成了设置。在 VS Code 里，skill 可以在头部声明 <code>context: fork</code>，这样它就在自己的子 agent 里运行，而不是在你的对话里（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>；文档标明它是实验性的）。读得多、报告得少的 skill 很适合。我没试过，所以不知道它怎么计用量，也不知道 hook 怎么看待它。</p>
+<h3>4. 开一个新对话</h3>
+<p>有时候正确的做法是停下来。该停的信号：</p>
+<ul>
+<li>agent 重复你已经定下的事。</li>
+<li>它撤销了一小时前的修复。</li>
+<li>你发现自己在重新解释。</li>
+<li>任务变了（新任务就开新对话）。</li>
+</ul>
+<p>新对话从空窗口加规则开始。只给它继续干活所需的东西：让它去读笔记文件。按我的经验，它常常比旧对话到最后时做得更好，因为它读到的是一张干净的纸。这一点我没量过。</p>
+<p>比一比成本。重新开始让人觉得进度丢了。但进度在文件里、在代码里；对话里只留着对进度的记忆，而这份记忆早就磨损了。</p>
+<p><strong>有计划地重新开始。</strong> 对我拆成多步的长任务，我不会等对话变差。比如学一个大代码库，是分批做的，每两三批我就开一个新对话。状态在任务里，不在对话里，所以交界处什么也不会丢。</p>
+<h3>交接什么</h3>
+<p>换对话时，新对话需要一小套固定的内容：</p>
+<ol>
+<li>需求，几行就行。</li>
+<li>哪些定了，哪些没定。</li>
+<li>做完了什么，下一步是什么。</li>
+<li>文件在哪。</li>
+</ol>
+<p>这四样如果半页纸写不下，那才是真正的发现：这件事还没想清楚，没法交给任何人，包括明天的你自己。</p>
+<h3>检验你自己的配置</h3>
+<p>一个便宜的测试，不需要额外配置，一个人一小时就能做完。挑一条你在长对话早期给的规则，要有两三个部分。工作一小时后，让 agent 不回头看，直接复述这条规则。然后开一个新对话，只给它你的笔记文件，再问同样的问题。按每个回答答对了几个部分来打分。如果第二个更准确，说明你的对话还不如你的文件靠谱。</p>
+<p>还要查一下你的指令放在哪。只在对话里给的规则，对话被压缩时就丢了；放在平台会重新读取的文件里的规则就不会。Claude Code 的文档对它的项目指令文件，说的就是这一点。想让一条规则留下来，就把它放进文件。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Do not hide a bad habit.</strong> If chats get long because the task is too big, the fix is a smaller task, not better note-taking.</p>
 <p><strong>A note can be wrong.</strong> If the agent writes &quot;tests pass&quot; in the notes and they did not, the next chat starts from a false fact. Notes are the agent's report; check the ones that matter. <a href="3-5-memory.html">Memory</a> is about this problem at length.</p>
 <p><strong>Notes cost room too.</strong> A notes file that grows without trimming becomes the thing that fills the window. Keep it short and cut what is done. And a notes file can hold things you would not want shared, so think before it goes into a shared repository.</p>
@@ -523,6 +673,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>筆記也佔位子</strong>。一個不修剪、一直長大的筆記檔，會變成填滿視窗的東西。保持簡短，把做完的剪掉。而且筆記檔裡可能有你不想分享的東西，放進共用的倉庫之前要想一想。</p>
 <p><strong>新的對話會失去手感</strong>。舊的對話知道你怎麼說話，也知道你說「照平常的做法」是什麼意思。如果這很重要，就寫下來；這很可能就是一條規則。</p>
 <p><strong>我沒測的</strong>。我沒有量過我的平台怎麼壓縮：留下什麼、丟掉什麼，以及它會不會自己清掉舊的工具結果。在你為自己的工具查清楚之前，把壓縮當成有損的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>别掩盖坏习惯。</strong> 如果对话变长是因为任务太大，办法是把任务拆小，而不是更好地记笔记。</p>
+<p><strong>笔记可能是错的。</strong> 如果 agent 在笔记里写“测试通过”，而实际没有，下一个对话就是从一个假的事实出发。笔记是 agent 的报告；重要的要核对。<a href="3-5-memory.html">agent 该记住什么</a>详细讲的就是这个问题。</p>
+<p><strong>笔记也占地方。</strong> 一份不断变长又不修剪的笔记文件，会变成填满窗口的那个东西。保持简短，把已经做完的删掉。另外，笔记文件里可能有你不想共享的内容，放进共享仓库之前要想一想。</p>
+<p><strong>新对话会丢掉“默契”。</strong> 旧对话知道你怎么措辞，也知道你说的“老办法”是什么意思。如果这很重要，就写下来；它多半就是一条规则。</p>
+<p><strong>我没测的。</strong> 我没量过我用的平台是怎么压缩的：留下什么，丢掉什么，会不会自己清理旧的工具结果。在你为自己的工具查过之前，把压缩当作有损的。</p>
 </div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>Anthropic's engineering team describes this problem and the same fixes. They use the term context rot: as the window fills, &quot;the model's ability to accurately recall information from that context decreases&quot;. They name compaction (&quot;taking a conversation nearing the context window limit, summarizing its contents&quot;), call tool result clearing &quot;one of the safest lightest touch forms of compaction&quot;, and describe note-taking, where &quot;the agent regularly writes notes persisted to memory outside of the context window&quot;. (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>)</p>
 <p>Claude Code's documentation adds a practical detail: the project instruction file at the root is read again from disk after compaction, while an instruction given only in the conversation is gone. (<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>)</p>
 <p>For long tasks that need many sessions, Anthropic describes a progress file plus git history that each new session reads first. (<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>) On the API, tool result clearing is available as context editing, in beta. (<a href="https://platform.claude.com/docs/en/build-with-claude/context-editing">Context editing</a>)</p>
@@ -531,14 +686,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>Claude Code 的文件補充了一個實用的細節：根目錄的專案指令檔在壓縮後會從磁碟重新讀取，而只在對話裡給的指令就沒了。（<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>）</p>
 <p>對於需要很多個會話的長任務，Anthropic 描述了一份進度檔加上 git 歷史，每個新的會話先讀它們。（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）在 API 上，清除工具結果以 context editing 的形式提供，還在 beta。（<a href="https://platform.claude.com/docs/en/build-with-claude/context-editing">Context editing</a>）</p>
 <p>它們彼此一致，也和這一章一致。沒有一家給出對話多長才算太長的規則，我也不給；請看上面的跡象來判斷。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>Anthropic 的工程团队描述过这个问题和同样的办法。他们用的术语是上下文腐化（context rot）：窗口越满，“模型准确回忆那段上下文里信息的能力就越下降”。他们提出了压缩（“把一段接近上下文窗口上限的对话，总结其内容”），称清除工具结果是“最安全、最轻量的压缩方式之一”，还描述了记笔记，即“agent 定期写下笔记，保存在上下文窗口之外的内存里”。（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a>）</p>
+<p>Claude Code 的文档补充了一个实用细节：根目录的项目指令文件在压缩之后会从磁盘重新读取，而只在对话里给的指令就没了。（<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a>）</p>
+<p>对需要很多个会话才能完成的长任务，Anthropic 描述了一份进度文件加 git 历史，每个新会话先读它们。（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）在 API 上，清除工具结果以上下文编辑的形式提供，处于 beta 阶段。（<a href="https://platform.claude.com/docs/en/build-with-claude/context-editing">Context editing</a>）</p>
+<p>它们彼此一致，也和这一章一致。没有一家给出对话多长算太长的规则，我也没有；凭上面的信号来判断。</p>
 </div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>Part of this is the platform's job and will be done better by it: clearing old tool results, compacting, and carrying key facts across. When your tool does those well, and you have checked what it keeps, stop doing them by hand.</p>
 <p>The core stays: if the work matters, its state belongs in a file you can read, not in a chat. A bigger window and better compaction make chats last longer. They do not make a summary as good as the original, and they do not give a new chat your last two hours. I would look again if a platform showed that its compacted chats lose nothing I care about, measured on my own tasks.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>其中一部分是平台的工作，平台會做得更好：清掉舊的工具結果、壓縮，以及把關鍵事實帶過去。你的工具把這些做得好，而且你查過它留下了什麼，就不用再手動做。</p>
 <p>核心不變：工作如果要緊，它的狀態就屬於一個你能讀的檔案，不屬於對話。更大的視窗和更好的壓縮，讓對話撐得更久。它們不會讓摘要和原文一樣好，也不會讓新的對話擁有你最後那兩小時。如果有平台能證明，它壓縮過的對話不會丟掉我在乎的東西，而且是在我自己的任務上量的，我會再看一次。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>这里有一部分是平台的活，平台会做得更好：清掉旧的工具结果、压缩、把关键事实带到下一轮。等你的工具把这些做好了，而且你查过它留下什么，就不用再手动做了。</p>
+<p>核心不变：如果这项工作重要，它的状态就该放在你能读到的文件里，而不是对话里。窗口更大、压缩更好，能让对话撑得更久。但它们不会让摘要和原文一样好，也不会让新对话拥有你最近两个小时的经历。如果有平台能证明，它压缩后的对话没有丢掉我在意的任何东西，并且是在我自己的任务上量出来的，我会重新考虑。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Imagine this chat is lost and a new agent must carry on. From what you can see in this repository (recent commits, open changes, any notes or task files, the instruction files), write the handover that agent would need: the request in a few lines, what is decided, what is done and the next step, and where the files are. Then list what you could not tell from the repository, as the gaps a person must fill. Print it only. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>想像這個對話丟了，必須由一個新的 agent 接手。根據你在這個倉庫裡看得到的（最近的 commit、未提交的改動、任何筆記或任務檔、指令檔），寫出那個 agent 需要的交接：幾行的需求、已決定的事、已完成的事和下一步，以及檔案在哪裡。然後列出你從倉庫裡看不出來的部分，作為需要人來補的缺口。只印出來，不要改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>假设这个对话丢了，要由一个新的 agent 接着干。根据你在这个仓库里能看到的东西（最近的提交、未提交的改动、任何笔记或任务文件、指令文件），写出那个 agent 需要的交接内容：几行说清需求、哪些已经定了、做完了什么和下一步、文件在哪。然后列出你从仓库里看不出来的东西，作为必须由人来补上的空缺。只打印出来，不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
@@ -551,15 +714,24 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Claude Code 文件：<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
 <li>本書：<a href="2-3-subagents.html">慎用子 agent</a>、<a href="3-5-memory.html">agent 該記住什麼</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness keeps the state of every task in files, so a chat can end at any time. The harness can show you where those files are and how a new chat picks up from them. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+<li>Claude Code 文档：<a href="https://code.claude.com/docs/en/memory">How Claude remembers your project</a></li>
+<li>本书：<a href="2-3-subagents.html">慎用子 agent</a>、<a href="3-5-memory.html">agent 该记住什么</a></li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness keeps the state of every task in files, so a chat can end at any time. The harness can show you where those files are and how a new chat picks up from them. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Long chats get worse&quot;. Teach me how this harness keeps the state of a task in files: what the handover file holds, how a new session reads it to carry on, and what it does about a window that fills up (topics 1 and 9). Open the real files with me.</code></pre></div>
 <p>It teaches one small piece at a time and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 把每個任務的狀態都存在檔案裡，所以對話隨時可以結束。harness 可以讓你看到這些檔案在哪，以及新的對話怎麼從它們接手。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「長對話會變差」這一章。請教我這個 harness 怎麼把任務的狀態存在檔案裡：交接檔裡有什麼、新的會話怎麼讀它來接著做，以及視窗快滿時它怎麼處理（主題 1 和 9）。帶我打開真實的檔案。</code></pre></div>
 <p>它一次教一小塊，並和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 把每个任务的状态都放在文件里，所以对话随时可以结束。harness 能给你看这些文件在哪，以及新对话是怎么从它们接上的。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“长对话会变差”这一章。请教我这个 harness 是怎么把任务的状态放在文件里的：交接文件里有什么，新会话怎么读它来接着干，以及窗口快满时它是怎么处理的（主题 1 和 9）。带我打开真实的文件。</code></pre></div>
+<p>它一次只教一小块，并和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {

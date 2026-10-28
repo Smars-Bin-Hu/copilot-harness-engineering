@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-lang="en" data-langs='["en", "zh-Hant"]'>
+<html lang="en" data-lang="en" data-langs='["en", "zh-Hant", "zh-Hans"]'>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,7 @@
 <title>Unattended: when it must stop</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
+:root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
 .fig [data-step]{transition:opacity .35s}
 .fig [data-step].step-later{opacity:0}
 @media (prefers-reduced-motion: reduce){.fig [data-step]{transition:none}}
@@ -184,7 +185,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   table { display: block; overflow-x: auto; }
   figure.fig { padding: .5rem .3rem; margin-left: -.6rem; margin-right: -.6rem; border-left: 0; border-right: 0; border-radius: 0; }
   h1 { font-size: 1.8rem; }
-  .top { padding: .6rem 1rem; }
+  .top { padding: .6rem 1rem; gap: .6rem; }
+  .book-subtitle { display: none; }
+  .langs button { padding: .3rem .45rem; font-size: 12px; }
   .page { padding: 1.5rem 1rem 4rem; }
 }
 .leaders { padding: .2rem 1.2rem; border-left: 3px solid var(--accent); background: var(--lit-bg); border-radius: 0 8px 8px 0; }
@@ -214,15 +217,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </head>
 <body class="chapter">
 <header class="top">
-  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span></span></a>
-  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button></div>
+  <a class="home" href="index.html"><span class="prompt-sign">&gt;</span> <span data-l="en" lang="en">Harness Engineering</span><span data-l="zh-Hant" lang="zh-Hant">Harness Engineering</span><span data-l="zh-Hans" lang="zh-Hans">Harness Engineering</span> <span class="book-subtitle"><span data-l="en" lang="en">The engineering outside the model</span><span data-l="zh-Hant" lang="zh-Hant">模型之外的工程</span><span data-l="zh-Hans" lang="zh-Hans">模型之外的工程</span></span></a>
+  <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.7</p><h1><span data-l="en" lang="en">Unattended: when it must stop</span><span data-l="zh-Hant" lang="zh-Hant">無人值守：什麼時候必須停</span></h1></header><div data-l="en" lang="en"><p>This chapter picks up the unattended run from <a href="2-3-subagents.html">Use subagents sparingly</a>: a hook keeps the agent working down a to-do list while nobody watches. That chapter showed how it runs. This one is about how it ends.</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.7</p><h1><span data-l="en" lang="en">Unattended: when it must stop</span><span data-l="zh-Hant" lang="zh-Hant">無人值守：什麼時候必須停</span><span data-l="zh-Hans" lang="zh-Hans">无人值守：什么时候必须停</span></h1></header><div data-l="en" lang="en"><p>This chapter picks up the unattended run from <a href="2-3-subagents.html">Use subagents sparingly</a>: a hook keeps the agent working down a to-do list while nobody watches. That chapter showed how it runs. This one is about how it ends.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接著 <a href="2-3-subagents.html">慎用子 agent</a> 裡的無人值守的執行：一個 hook 讓 agent 在沒人看著的時候，沿著待辦清單繼續做。那一章講它怎麼跑。這一章講它怎麼結束。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An unattended agent goes only as far as its stop rules reach. Set them in advance as a total budget, not only a step count, and guard against it declaring the job done too early.</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接着<a href="2-3-subagents.html">慎用子 agent</a>里的无人值守的运行：一个 hook 让 agent 在没人看着的时候，沿着待办清单一直干下去。那一章讲了它怎么跑，这一章讲它怎么收场。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An unattended agent goes only as far as its stop rules reach. Set them in advance as a total budget, not only a step count, and guard against it declaring the job done too early.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>無人值守的 agent，只會走到停止規則所及的地方。事先設好規則，要設成總預算，不只是步數，並且防著它太早宣布完成。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>无人值守的 agent，只能走到它的停止规则管得到的地方。要提前把规则设好，用总预算，而不只是步数；还要防它过早宣布“做完了”。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> before approving an unattended run, set its stop rules in advance, as a total budget and not only a step count, and require a stop to hand back a reason.</li>
 <li><strong>The risk:</strong> when you leave, you stop being the stop rule. The run could loop for hours, spend a night's usage on a step that cannot succeed, or stop early and say it is finished. My setup has step and time limits but not a total budget yet, and I call unattended runs beta. I have not measured whether an unattended run beats a person watching to the end.</li>
@@ -235,12 +240,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>做對的成本</strong>：每個任務幾條規則和一個預算數字。規則緊的代價，是更多次停止，以及早上要有一個人待命。含糊的交回，花的時間比看著還多。</li>
 <li><strong>可以問團隊</strong>：「如果這個整晚在跑，結果出了問題，什麼會讓它停下來？早上我會看到什麼？」</li>
 </ul>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
+<li><strong>要拍板的事</strong>：批准无人值守的运行之前，先把它的停止规则设好，用总预算，而不只是步数，并要求每次停下都交回原因。</li>
+<li><strong>风险</strong>：你一走，就不再是那条停止规则了。运行可能循环好几个小时，可能在一个注定成不了的步骤上烧掉一晚上的用量，也可能提前停下，还说自己做完了。我的配置有步数和时间的限制，但还没有总预算，我把无人值守的运行叫作 beta。无人值守的运行是否比人盯到最后更好，我没有测过。</li>
+<li><strong>做对的代价</strong>：每个任务几条规则，加一个预算数字。规则收得紧的代价，是停得更多，早上得有人待命。含糊的交回，比盯着看更费时间。</li>
+<li><strong>可以问团队</strong>：“如果这个任务通宵跑、中途出了问题，什么会让它停下来？我早上会看到什么？”</li>
+</ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>When you watch an agent, you are the stop rule. You see it go wrong and you press stop. When you leave, that rule leaves with you. What remains is whatever you wrote down before going.</p>
 <p>So the question for an unattended run is not &quot;will it work?&quot; It is &quot;what happens when it does not?&quot; It could loop for hours. It could spend a night's worth of usage on a step that cannot succeed. It could hit a choice that only you can make, and make it anyway. Or it could do the opposite: stop early and say it is finished.</p>
 <p>Each of these needs a different rule, set before you leave. There are three questions: when must it stop, what does it hand back, and how do we know it is really done.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你看著 agent 的時候，你就是停止規則。你看到它出錯，就按停止。你離開時，這條規則也跟著你走了。剩下的，就是你離開前寫下來的東西。</p>
 <p>所以對無人值守的執行，問題不是「它會成功嗎？」而是「它不成功的時候會怎樣？」它可能繞幾個小時。它可能把一整晚的用量花在一個不可能成功的步驟上。它可能碰到只有你能做的選擇，卻自己做了。或者反過來：太早停下來，說自己做完了。</p>
 <p>這幾種情況，各需要一條不同的規則，在你離開之前設好。有三個問題：它什麼時候必須停？它交回什麼？我們怎麼知道它真的做完了？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你盯着 agent 的时候，你就是停止规则。你看到它跑偏了，就按停。你一走，这条规则也跟着走了。剩下的，只有你走之前写下的东西。</p>
+<p>所以，对无人值守的运行，问题不是“它行不行”，而是“不行的时候会怎样”。它可能循环好几个小时。它可能在一个注定成不了的步骤上，烧掉一晚上的用量。它可能遇到只有你才能做的选择，却自己做了决定。它也可能反过来：提前停下，还说自己做完了。</p>
+<p>这几种情况各需要一条不同的规则，而且要在你走之前设好。有三个问题：什么时候必须停，停下时交回什么，以及怎么知道它真的做完了。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><figure class="fig steps" id="fig-5-7-stop-points" data-steps="6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
   <rect class="box" x="10" y="120" width="70" height="40" rx="8"/>
   <text class="label" x="45" y="145" text-anchor="middle" data-t="start">start</text>
@@ -379,6 +393,75 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ul>
 <p>這時「做完了」才是一個狀態，不是一個說法。</p>
 <p>這並不密不透風。agent 可以勾掉一步卻沒做完。檢查者在最後讀整個結果，人讀整份 diff，但程式裡沒有任何東西證明第 7 步真的做了。我把勾當成說法，把運行結束時的檢查當成算數的東西。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><figure class="fig steps" id="fig-5-7-stop-points" data-steps="6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
+  <rect class="box" x="10" y="120" width="70" height="40" rx="8"/>
+  <text class="label" x="45" y="145" text-anchor="middle" data-t="start">开始</text>
+  <path class="line" d="M80 140 H500"/>
+  <path class="head" d="M500 134 L510 140 L500 146 Z"/>
+  <rect class="box" x="510" y="120" width="80" height="40" rx="8"/>
+  <text class="label" x="550" y="145" text-anchor="middle" data-t="done">完成</text>
+  <g data-step="2">
+  <path class="line-lit" d="M140 140 V119"/>
+  <rect class="box-lit" x="65" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="140" y="107" text-anchor="middle" data-t="budget">预算用完</text>
+  </g>
+  <g data-step="3">
+  <path class="line-lit" d="M250 140 V69"/>
+  <rect class="box-lit" x="175" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="250" y="57" text-anchor="middle" data-t="refuse">常被拒绝</text>
+  </g>
+  <g data-step="4">
+  <path class="line-lit" d="M360 140 V119"/>
+  <rect class="box-lit" x="285" y="85" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="360" y="107" text-anchor="middle" data-t="stall">没有进展</text>
+  </g>
+  <g data-step="5">
+  <path class="line-lit" d="M460 140 V69"/>
+  <rect class="box-lit" x="385" y="35" width="150" height="34" rx="6"/>
+  <text class="label-lit" x="460" y="57" text-anchor="middle" data-t="choice">需要人决定</text>
+  </g>
+  <g data-step="6">
+  <rect class="box-plain" x="40" y="195" width="520" height="44" rx="8"/>
+  <text class="label-muted" x="300" y="215" text-anchor="middle" data-t="hand">每次停下，都要交回：</text>
+  <text class="label-muted" x="300" y="231" text-anchor="middle" data-t="hand2">为什么停、走到哪、人要决定什么</text>
+  </g>
+</svg>
+<ol class="step-text"><li data-step-text="1">无人值守的运行沿着一条路从开始走到完成，没有人看着。</li><li data-step-text="2">停点 1：总预算（用量和时间，主 agent 和帮手合计）用完了。</li><li data-step-text="3">停点 2：agent 一再尝试不被允许的事。</li><li data-step-text="4">停点 3：一直往前推，却没有完成任何一步。</li><li data-step-text="5">停点 4：遇到只有人才能做的选择。</li><li data-step-text="6">不管在哪个停点停下，都交回原因、走到的位置和还没决定的问题。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>运行只能走到停止规则管得到的地方。每个停点都带着理由把工作交回来。</figcaption></figure>
+<h3>1. 停止规则的种类</h3>
+<p>每条规则抓一种运行出错的方式。它们的共同点是：<strong>由代码根据事实来判断，不由 agent 判断</strong>。一个卡住的 agent，最没资格判断自己是不是卡住了。</p>
+<ul>
+<li><strong>三条基本规则</strong>。步数和时间的上限；一次运行里护栏拒绝了 agent 两次就停；没有任何一步被勾掉就停。它们和具体数字都在<a href="2-3-subagents.html">慎用子 agent</a>里。（<strong>一步</strong>是待办清单上的一项。这条停止规则不是<a href="4-3-guardrails.html">保护规则本身的文件</a>里的熔断器，那个熔断器针对的是同一个会话里同一次拒绝反复出现。）</li>
+<li><strong>计划变了</strong>。人批准的是一份计划，运行只被允许执行这份计划。计划一变，授权立刻失效。</li>
+<li><strong>检查次数用完了</strong>。独立检查一直不通过，达到了它的上限（见<a href="5-5-counted-checks.html">让“通过”可信</a>）。</li>
+<li><strong>agent 说它走不下去了</strong>。有些停止，事实显示不出来：两张表对同一个字段的定义不一样，计划里没说用哪个。只有 agent 看得到这一点。所以它可以自己停，但必须写明原因，而且只限于需要人的情况，小事不行。</li>
+</ul>
+<p>以上是我配置里的数字。它们只是例子，不是什么真理：是我选的，我没有测过它们是不是合适。</p>
+<h3>2. 预算是总量，不是次数</h3>
+<p>上面的规则数的是东西：步数和拒绝次数。但你怕的是<strong>花费</strong>。次数限制不了花费。二十个小步骤，和二十个每步都启动帮手的步骤，账单不一样。</p>
+<p><strong>预算</strong>是对用量和时间的一个总量，把主 agent 和它所有的帮手合在一起算。帮手拿到的是剩下的部分，而不是自己另有一份额度。越过第一条线，运行就停。</p>
+<p>下面是一种搭法；我自己的配置还没有（它有上面那些次数限制和一个时间限制）。由人给每个任务设一个预算，用量和分钟数各一个。每一步之前，hook 根据平台自己的会话记录，把主会话和每个帮手会话的用量加起来。到了线，就停下运行，把“预算”写成原因。帮手的用量能不能及时出现在记录里、赶得上叫停，我没有查过。</p>
+<p>用量也不等于钱：服务商已缓存的输入，读取价格约是基础价格的十分之一（见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。Copilot 怎么计这部分，我没有查过。</p>
+<p>有些工具已经为非交互的运行提供了简单的版本。Claude Code 有 <code>--max-turns</code> 和 <code>--max-budget-usd</code>，都只用于 print 模式（<code>claude -p</code>）。金额上限对照的是客户端的估算，不是你的账单，可能被超过；子 agent 的花费也算进去，一旦达到上限，就不能再启动新的子 agent（见 <a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>）。我没有试过。</p>
+<h3>3. 停下时交回什么</h3>
+<p>一次不说明原因就停下的运行，是留给回来的人的一个谜。所以停下时必须交回三样东西：</p>
+<ol>
+<li><strong>为什么停</strong>，用一个人能据此行动的词：预算、被拒绝、没有进展、需要决定。</li>
+<li><strong>走到哪了</strong>：做完的步骤、正在做的那一步，以及工作的状态。</li>
+<li><strong>人要决定什么</strong>，一句话。</li>
+</ol>
+<p>在我的配置里，由事实触发的停止，原因由代码写；agent 自己停的时候，由它写一句话。这句话的指令是：哪一步卡住了，为什么，你要决定什么。“遇到了问题”不够。</p>
+<p>它一路上做的决定也很重要。计划没定、由 agent 自己选的每一处，它都写一行：选了什么，为什么。这是人回来时读的日志，也是无人值守的工作能被复核的原因。</p>
+<h3>4. 防止过早说“做完了”</h3>
+<p>另一边的失败同样真实。Anthropic 在一个长时间运行的编程 agent 上描述过：“后来的 agent 实例四下看看，发现已经有了进展，就宣布任务完成”（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。</p>
+<p>agent 有理由说自己做完了：停下就是别人要它做的。所以运行不该在 agent 说“做完了”的时候结束。清单上的一个勾，本身也只是一个声明（下面几段会讲），所以运行的结束要看事实：</p>
+<ul>
+<li><strong>清单上的每一步都勾掉了。</strong></li>
+<li><strong>独立检查通过了</strong>，由代码计数，针对的是工作现在的这个版本。</li>
+<li><strong>计划就是当时批准的那一份。</strong></li>
+<li><strong>写回计划已经做好</strong>，供人阅读（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
+</ul>
+<p>到这时，“做完了”才是一种状态，而不是一个声明。</p>
+<p>这并不严密。agent 可以不完成就勾掉一步。检查者在最后读整个结果，人读整个 diff，但没有任何代码能证明第 7 步真的做了。我把勾当作声明，把运行结束时的检查当作算数的东西。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>More rules, fewer wins.</strong> A run with tight stop rules will stop on many nights and hand back little. The price of safe is a person on call in the morning. I have not measured whether an unattended run is better than a person watching to the end. In my setup it is still called beta for this reason.</p>
 <p><strong>A stop is not an answer.</strong> The run stops, and the work is half done. The snapshots taken at the gates (<a href="5-3-two-approvals.html">Two gates</a>) are where a person can look at the state it stopped in. If the hand-back is vague, it costs the person more time than watching would.</p>
 <p><strong>Some work should not run unattended at all.</strong> The three points of <a href="5-3-two-approvals.html">Two gates</a> apply: work that spends real money, grants power such as writing to a shared repository, or cannot be undone needs a person, however good the stop rules are.</p>
@@ -387,12 +470,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>停止不是答案</strong>。運行停了，工作只做了一半。在門上拍的快照（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），是人可以看它停下來時狀態的地方。如果交回得含糊，花掉人的時間比看著還多。</p>
 <p><strong>有些工作根本不該無人值守</strong>。<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 的那三個點適用：花真錢、給權力（例如寫入共用的倉庫）、或不能反悔的工作，不管停止規則多好，都需要人。</p>
 <p><strong>不要為了避開拒絕而繞路</strong>。拒絕是系統在告訴你，這一步超出範圍。我給 agent 的規則是：照原因說的改一次；如果不行，就停下來。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>规则越多，赢得越少</strong>。停止规则收得紧的运行，会在很多个晚上停下来，交回的东西很少。安全的代价，是早上得有人待命。无人值守是否比人盯到最后更好，我没有测过。在我的配置里，正是因为这个，它仍然叫 beta。</p>
+<p><strong>停下不等于有了答案</strong>。运行停了，活只做了一半。在关卡处拍下的快照（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>），是人查看它停下时状态的地方。如果交回的内容含糊，花在人身上的时间比盯着看更多。</p>
+<p><strong>有些活根本不该无人值守</strong>。<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>里的三点在这里同样适用：花真钱、授予权力（比如写入共享仓库）、或者无法撤销的活，不管停止规则多好，都需要人。</p>
+<p><strong>别为了躲开拒绝而绕路</strong>。拒绝，是系统在告诉你这一步超出范围。我给 agent 定的规则是：按理由说的改一次；还不行，就停。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The stop rules exist because the platform does not provide them. If the platform gives you a total budget over the whole run, helpers included, use it. The stop-on-fact idea stays: the agent's &quot;I'm done&quot; is not a finish line.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>停止規則存在，是因為平台沒有提供它們。如果平台給你一個涵蓋整次運行、包括幫手的總預算，就用它。根據事實停止的想法會留下：agent 的「我做完了」不是終點線。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>这些停止规则存在，是因为平台没有提供它们。如果平台提供覆盖整个运行（包括帮手）的总预算，就用平台的。基于事实来停的想法还在：agent 说的“我做完了”不是终点线。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>No harness needed. Open your agent in your own repository and paste:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every place in this project where an agent can run without a person watching: scheduled jobs, CI steps that call an agent, auto-approve or autopilot settings, loops, background tasks. For each, tell me what stops it (a step or time limit, a spend limit, a refusal count, a check), whether the limit covers helper agents too, and what it leaves behind when it stops: reason, state, and the decision a person must make. Flag any run with no stop rule at all. Do not change any files and do not start any run.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>不用裝 harness。在你自己的倉庫裡打開 agent，貼上：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個專案裡，agent 可以在沒有人看著的情況下執行的每個地方：排程的工作、呼叫 agent 的 CI 步驟、自動批准或 autopilot 的設定、迴圈、背景任務。對每一個，告訴我什麼讓它停下來（步數或時間上限、花費上限、拒絕次數、某個檢查）、這個上限有沒有涵蓋幫手 agent，以及它停下來時留下什麼：原因、狀態，以及人必須做的決定。標出完全沒有停止規則的運行。不要改任何檔案，也不要啟動任何運行。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>不用装 harness。在你自己的仓库里打开 agent，粘贴：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个项目里 agent 可以在没人看着的情况下运行的每一处：定时任务、调用 agent 的 CI 步骤、自动批准或 autopilot 的设置、循环、后台任务。对每一处，告诉我是什么让它停下（步数或时间上限、花费上限、拒绝次数、某项检查），这个上限是否也覆盖帮手 agent，以及停下时它留下了什么：原因、状态，以及人必须做的决定。把完全没有停止规则的运行标出来。不要修改任何文件，也不要启动任何运行。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
 <li>Claude Code docs: <a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a> (<code>--max-turns</code>, <code>--max-budget-usd</code>)</li>
@@ -401,15 +491,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
 <li>Claude Code 文件：<a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>（<code>--max-turns</code>、<code>--max-budget-usd</code>）</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The stop rules, the facts that decide each stop, and what the agent writes when it stops itself all run in Copilot Harness (the unattended run is in beta there). The budget over helpers is not built yet. The harness can teach the rest from the inside, with the real files. After the setup above, type:</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a></li>
+<li>Claude Code 文档：<a href="https://code.claude.com/docs/en/cli-reference">CLI reference</a>（<code>--max-turns</code>、<code>--max-budget-usd</code>）</li>
+</ul>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The stop rules, the facts that decide each stop, and what the agent writes when it stops itself all run in Copilot Harness (the unattended run is in beta there). The budget over helpers is not built yet. The harness can teach the rest from the inside, with the real files. After the setup above, type:</p>
 <div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Unattended: when it must stop&quot;. Teach me how this harness&#x27;s unattended run (autorun) decides when to stop (topics 11 and 15): the stop reasons, who judges each one, and what is handed back. Open the real files with me and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to ask if you are following, and opens the files with you.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>停止規則、決定每次停止的事實，以及 agent 自己停止時寫下的東西，都在 Copilot Harness 裡執行（無人值守的執行在那裡是 beta）。涵蓋幫手的預算還沒做。其餘的，harness 可以從裡面教你，附上真實的檔案。照上面的說明準備好之後，輸入：</p>
 <div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「無人值守：什麼時候必須停」這一章。請教我這個 harness 的無人值守執行（autorun）怎麼決定什麼時候停止（主題 11 和 15）：有哪些停止的原因、每一個由誰判斷，以及交回什麼。帶我打開真實的檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
 <p>它一次教一小塊，停下來確認你跟得上，然後和你一起打開檔案。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>停止规则、决定每次停止的事实，以及 agent 自己停下时写的内容，都在 Copilot Harness 里跑着（那里的无人值守的运行是 beta）。针对帮手的预算还没有做。其余的，harness 可以从内部教你，配上真实的文件。按上面的说明准备好之后，输入：</p>
+<div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“无人值守：什么时候必须停”这一章。请教我这个 harness 的无人值守的运行（autorun）是怎么决定什么时候停的（主题 11 和 15）：有哪些停止原因，每一个由谁来判断，以及交回什么。和我一起打开真实的文件，并画出各部分是怎么拼在一起的。</code></pre></div>
+<p>它一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p>
 </div></section></article>
 </main>
-<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
+<footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>
 <script>// Behaviour every theme gets: the language switch, the copy button and step figures.
 // A theme only styles; it does not need to know about either.
 (function () {
