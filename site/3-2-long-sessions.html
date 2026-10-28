@@ -396,6 +396,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>You can get the same effect by hand. When a long read is done, ask the agent to write down only what it found, and then continue in a new chat that has the finding but not the reading.</p>
 <h3>3. Send a big read to a subagent</h3>
 <p>If the next step is to read a lot, do not read it in your main chat. A <strong>subagent</strong> is a second agent that starts with an empty window and sends back only a short report. The reading stays in its window, and your main chat gets the conclusion. This is the &quot;parallel reading&quot; case in <a href="2-3-subagents.html">Use subagents sparingly</a>, with the same limits: it only works when a short report is enough, and it costs more in total.</p>
+<p>Some platforms make this a setting. In VS Code, a skill can declare <code>context: fork</code> in its header, and it then runs in a subagent of its own instead of in your chat (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>; the docs mark it experimental). A skill that reads a lot and reports a little is a good fit. I have not tried it, so I do not know how it counts usage or how hooks see it.</p>
 <h3>4. Start a fresh chat</h3>
 <p>Sometimes the right move is to stop. Signs it is time:</p>
 <ul>
@@ -485,6 +486,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>你也可以手動得到同樣的效果。一次很長的閱讀做完後，請 agent 只寫下它發現了什麼，然後在新的對話裡繼續，新的對話有這個發現，但沒有那些閱讀。</p>
 <h3>3. 把大量閱讀交給子 agent</h3>
 <p>如果下一步要讀很多東西，別在主對話裡讀。<strong>子 agent</strong> 是第二個 agent，它從空的視窗開始，只交回一份簡短的報告。閱讀留在它的視窗裡，你的主對話拿到結論。這就是<a href="2-3-subagents.html">慎用子 agent</a>裡的「並行閱讀」，限制也一樣：只有一份簡短的報告就夠的時候才行得通，而且總共花得更多。</p>
+<p>有些平台把這件事做成了一個設定。在 VS Code 裡，skill 可以在檔頭寫 <code>context: fork</code>，它就會在自己的子 agent 裡執行，不在你的對話裡（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>；文件標明是實驗性的）。讀得多、回報得少的 skill 很適合這樣做。我沒試過，所以不知道它的用量怎麼算，hook 又怎麼看到它。</p>
 <h3>4. 開一個新的對話</h3>
 <p>有時候對的做法是停下來。該停的跡象：</p>
 <ul>

@@ -76,6 +76,8 @@ You can get the same effect by hand. When a long read is done, ask the agent to 
 
 If the next step is to read a lot, do not read it in your main chat. A **subagent** is a second agent that starts with an empty window and sends back only a short report. The reading stays in its window, and your main chat gets the conclusion. This is the "parallel reading" case in [Use subagents sparingly](2-3-subagents.html), with the same limits: it only works when a short report is enough, and it costs more in total.
 
+Some platforms make this a setting. In VS Code, a skill can declare `context: fork` in its header, and it then runs in a subagent of its own instead of in your chat ([Agent skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills); the docs mark it experimental). A skill that reads a lot and reports a little is a good fit. I have not tried it, so I do not know how it counts usage or how hooks see it.
+
 ### 4. Start a fresh chat
 
 Sometimes the right move is to stop. Signs it is time:

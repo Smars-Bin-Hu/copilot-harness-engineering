@@ -18,3 +18,6 @@ sources:
   - what: "Context editing: clear_tool_uses_20250919 clears the oldest tool results past a threshold; in beta; invalidates cached prompt prefixes"
     where: https://platform.claude.com/docs/en/build-with-claude/context-editing
     checked: 2026-10-28
+  - what: "VS Code: a skill with context: fork in its frontmatter runs in a subagent context (experimental)"
+    where: https://code.visualstudio.com/docs/copilot/customization/agent-skills
+    checked: 2026-10-28

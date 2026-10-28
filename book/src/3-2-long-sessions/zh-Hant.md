@@ -76,6 +76,8 @@ Anthropic 為長時間運行的 agent 描述了同樣的習慣：一份進度檔
 
 如果下一步要讀很多東西，別在主對話裡讀。**子 agent** 是第二個 agent，它從空的視窗開始，只交回一份簡短的報告。閱讀留在它的視窗裡，你的主對話拿到結論。這就是[慎用子 agent](2-3-subagents.html)裡的「並行閱讀」，限制也一樣：只有一份簡短的報告就夠的時候才行得通，而且總共花得更多。
 
+有些平台把這件事做成了一個設定。在 VS Code 裡，skill 可以在檔頭寫 `context: fork`，它就會在自己的子 agent 裡執行，不在你的對話裡（[Agent skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)；文件標明是實驗性的）。讀得多、回報得少的 skill 很適合這樣做。我沒試過，所以不知道它的用量怎麼算，hook 又怎麼看到它。
+
 ### 4. 開一個新的對話
 
 有時候對的做法是停下來。該停的跡象：
