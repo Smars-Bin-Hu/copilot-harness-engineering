@@ -221,58 +221,46 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What goes wrong as the hook grows?</span><span data-l="zh-Hant" lang="zh-Hant">hook 越寫越大，會出什麼問題？</span><span data-l="zh-Hans" lang="zh-Hans">hook 越写越大，会出什么问题？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How to build the layer, and what to do when it breaks</span><span data-l="zh-Hant" lang="zh-Hant">這一層怎麼搭，壞了又怎麼辦</span><span data-l="zh-Hans" lang="zh-Hans">这一层怎么搭，它坏了又怎么办</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the structure costs, and what can still go wrong</span><span data-l="zh-Hant" lang="zh-Hant">這套結構要付出什麼，還會在哪裡出錯</span><span data-l="zh-Hans" lang="zh-Hans">这套结构要付出什么，还会在哪里出错</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What do the platform docs say?</span><span data-l="zh-Hant" lang="zh-Hant">平台文件怎麼說？</span><span data-l="zh-Hans" lang="zh-Hans">平台文档怎么说？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When the adapter and the timing check can go</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉轉接器和計時檢查</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉适配器和计时检查</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
 <article><header class="chapter-head"><p class="chapter-no">4.4</p><h1><span data-l="en" lang="en">Build the enforcement layer like software</span><span data-l="zh-Hant" lang="zh-Hant">把執行層當軟體來設計</span><span data-l="zh-Hans" lang="zh-Hans">把执行层当软件来设计</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="2-2-hooks.html">Hooks</a>, or know that a hook is code the platform runs before tool calls, and that it can refuse the call.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你讀過<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>，或者知道 hook 是平台在工具呼叫之前執行的程式碼，而且它能拒絕這次呼叫。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>，或者至少知道：hook 是平台在工具调用之前运行的代码，它能拒绝这次调用。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The enforcement layer is software, and it will fail. Decide in advance whether a failure lets the call through or blocks it, and build the layer so it can be tested and moved to another platform.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>執行層是軟體，它會出錯。事先決定好：出錯時放行這次呼叫，還是擋下它；並把執行層做成可以測試、可以搬到別的平台的樣子。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>执行层就是软件，软件会出故障。要事先决定：出故障时是放行这次调用，还是拦下它；并且把这一层做成可以测试、可以搬到别的平台的样子。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>執行層是軟體，它會出錯。要事先決定好，出錯時是放行這次呼叫還是擋下它；並且把執行層做成可以測試、可以搬到別的平台的樣子。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>执行层就是软件，它会出故障。要事先决定，出故障时是放行这次调用还是拦下它；并且把这一层做成可以测试、可以搬到别的平台的样子。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> decide, and write down, whether the guard fails open (lets the call through) or fails closed (blocks it) when it breaks, and name the person who owns the layer.</li>
-<li><strong>The risk:</strong> nobody decides this on purpose; it is decided by whatever the script does when it crashes. The platform has its own rules too: a crash can refuse the call, while a timeout is a silent pass for every event. A guard that fails open and says nothing leaves a hole nobody knows about.</li>
-<li><strong>The cost of doing it right:</strong> for a small setup, one short script is enough. The structure in the chapter pays off when rules multiply, when several people edit them, or when a second platform arrives. Someone must own the layer and re-run fixed scenarios after each platform update.</li>
+<li><strong>The risk:</strong> nobody decides this on purpose, so it ends up decided by whatever the script does when it crashes. The platform has its own rules on top of that: a crash can refuse the call, while a timeout is a silent pass for every event. A guard that fails open and says nothing leaves a hole nobody knows about.</li>
+<li><strong>The cost of doing it right:</strong> for a small setup, one short script is enough. The structure in this chapter pays off when rules multiply, when several people edit them, or when a second platform arrives. Either way, someone must own the layer and re-run fixed scenarios after each platform update.</li>
 <li><strong>Ask the team:</strong> &quot;If our guard crashes tomorrow, what happens to the next action, and who would see the error?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：決定並寫下來：守衛壞掉時，是失效放行（放過這次呼叫），還是失效關閉（擋下它）；並指定誰負責這一層。</li>
-<li><strong>風險</strong>：沒有人是有意去決定這件事的；它是由腳本崩潰時碰巧做的事決定的。平台也有自己的規則：崩潰可以拒絕這次呼叫，而逾時對每一種事件都是默默放行。失效放行又不吭聲的守衛，留下一個沒人知道的洞。</li>
-<li><strong>做對的成本</strong>：小的設定，一個短腳本就夠了。章裡的結構，在規則變多、有幾個人在改、或第二個平台出現時才划算。要有人負責這一層，每次平台更新後重跑固定的情境。</li>
+<li><strong>要做的決定</strong>：決定守衛壞掉時是失效放行（放過這次呼叫），還是失效關閉（擋下它），把決定寫下來，並指定誰負責這一層。</li>
+<li><strong>風險</strong>：沒有人會刻意去做這個決定，結果就由腳本崩潰時碰巧怎麼表現來決定。平台在這之上還有自己的規則：崩潰可能直接拒絕這次呼叫，逾時則對每一種事件都默默放行。一個失效放行又不吭聲的守衛，會留下一個沒人知道的洞。</li>
+<li><strong>做對的成本</strong>：設定不大的話，一個短腳本就夠了。等規則變多、有好幾個人在改，或者第二個平台出現，這一章的結構才划算。不管哪種情況，都要有人負責這一層，每次平台更新後重跑固定的情境。</li>
 <li><strong>可以問團隊</strong>：「如果我們的守衛明天崩潰，下一個動作會怎樣？誰會看到錯誤？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：决定出故障时守卫是放行（fail open）还是拦下（fail closed），把决定写下来，并指定这一层的负责人。</li>
-<li><strong>风险</strong>：没人是有意做这个决定的，它是由脚本崩溃时碰巧做了什么决定的。平台自己也有规矩：崩溃可能直接拒绝这次调用，而超时则是对每一类事件都悄悄放行。一个放行了又一声不吭的守卫，会留下一个没人知道的洞。</li>
-<li><strong>做对的代价</strong>：小规模的配置，一个简短的脚本就够了。规则多起来、好几个人在改规则、或者来了第二个平台时，本章里的结构才划算。必须有人负责这一层，每次平台更新后重跑固定场景。</li>
+<li><strong>要拍板的事</strong>：决定守卫坏了的时候是放行（fail open）还是拦下（fail closed），把决定写下来，并指定这一层的负责人。</li>
+<li><strong>风险</strong>：没有人会特意去做这个决定，结果就由脚本崩溃时碰巧怎么表现来定了。平台在这之上还有自己的规矩：崩溃可能直接拒绝这次调用，超时则对每一类事件都悄悄放行。一个放行了又一声不吭的守卫，会留下一个谁也不知道的洞。</li>
+<li><strong>做对的代价</strong>：配置不大的话，一个简短的脚本就够了。等规则多起来、好几个人在改规则，或者来了第二个平台，这一章里的结构才划算。不管哪种情况，都得有人负责这一层，每次平台更新后重跑固定场景。</li>
 <li><strong>可以问团队</strong>：“如果明天我们的守卫崩溃了，下一个动作会怎样？谁会看到这个错误？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first hook is easy. It is one script with a few <code>if</code> lines: if the command contains <code>rm -rf</code>, refuse. It works, and you are pleased.</p>
-<p>Then the rules grow. One rule guards a list of folders. One keeps a record of every call. One keeps count of something. One has to know which task the agent is working on. Each of them needs the same input, so each is added to the same script, and the script becomes a tangle. Three things go wrong.</p>
-<ul>
-<li><strong>You cannot change a number safely.</strong> The limit on repeated refusals, the list of protected folders, the time limit: they sit in the middle of the code. To change one you read all of it.</li>
-<li><strong>You cannot test it.</strong> The platform calls the script with a long piece of JSON. To check a rule you must run the agent and hope it does the thing you want to see.</li>
-<li><strong>You cannot move it.</strong> The script reads the platform's field names. When the platform renames one, or you add a second platform, every rule changes.</li>
-</ul>
-<p>There is a fourth problem, and it is the one this chapter is about. This script runs before tool calls, so a bug in it is a bug in everything the agent does. What should happen when the hook itself breaks? Block the call, or let it through? Nobody decides this on purpose. It gets decided by whatever the script happens to do when it crashes. <a href="2-2-hooks.html">Hooks</a> showed that the platform itself decides two cases for you, and they point in opposite directions. Better to decide yours first.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>第一個 hook 很簡單。一個腳本，幾行 <code>if</code>：指令裡有 <code>rm -rf</code> 就拒絕。它管用，你很高興。</p>
-<p>然後規則變多了。一條規則守一串資料夾。一條記錄每次呼叫。一條計某樣東西的數。一條要知道 agent 正在做哪個任務。每一條都需要同樣的輸入，所以都加進同一個腳本，腳本就變成一團亂。有三件事出錯。</p>
-<ul>
-<li><strong>你不能安全地改一個數字</strong>。重複拒絕的上限、受保護資料夾的清單、時間限制：它們都夾在程式碼中間。要改一個，就得把全部讀一遍。</li>
-<li><strong>你不能測試它</strong>。平台用一大段 JSON 呼叫腳本。要檢查一條規則，你得執行 agent，然後祈禱它做你想看的事。</li>
-<li><strong>你不能搬走它</strong>。腳本讀的是平台的欄位名稱。平台改了一個名字，或者你加了第二個平台，每條規則都要改。</li>
-</ul>
-<p>還有第四個問題，這一章講的就是它。這個腳本在工具呼叫之前執行，所以它裡面的一個 bug，就是 agent 做的每件事的 bug。hook 自己壞掉的時候該怎麼辦？擋下呼叫，還是放行？沒有人是有意決定這件事的。它是由腳本崩潰時碰巧做的事決定的。<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>說過，平台自己替你決定了兩種情況，而且方向相反。最好是你先決定自己的。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>第一个 hook 很容易写。一个脚本，几行 <code>if</code>：命令里有 <code>rm -rf</code> 就拒绝。它管用，你很满意。</p>
-<p>然后规则越来越多。一条规则守着一批文件夹。一条记录每次调用。一条给某样东西计数。一条要知道 agent 正在做哪个任务。它们需要的输入都一样，于是都加进同一个脚本，脚本就缠成了一团。会出三个问题。</p>
-<ul>
-<li><strong>没法放心地改一个数字</strong>。连续被拒绝多少次就停、受保护的文件夹清单、时间限制：它们都埋在代码中间。要改一个，就得把整份代码读一遍。</li>
-<li><strong>没法测试</strong>。平台调用脚本时传进来一大段 JSON。要验证一条规则，你只能跑起 agent，然后指望它恰好做出你想看的那件事。</li>
-<li><strong>没法搬走</strong>。脚本直接读平台的字段名。平台把某个字段改了名，或者你加了第二个平台，每一条规则都得改。</li>
-</ul>
-<p>还有第四个问题，也是这一章真正要讲的。这个脚本在工具调用之前运行，所以它里面的 bug，就是 agent 做的每一件事的 bug。hook 自己坏了，该怎么办？拦下调用，还是放行？没人是有意做这个决定的，它是由脚本崩溃时碰巧做了什么决定的。<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>讲过，有两种情况是平台替你决定的，而且方向正好相反。最好先把你自己的决定做了。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>Four design choices make the layer something you can change, test and move. Then one decision, and one way to test it. If you read only one part, read the decision, &quot;when the layer itself fails&quot;. The four design choices are more structure than a small setup needs (see the traps below); skim them unless you are building one.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>What goes wrong as the hook grows?</h2><p>The first hook is easy to write. It is one script with a few <code>if</code> lines (if the command contains <code>rm -rf</code>, refuse), and it works, so you are pleased.</p>
+<p>Then the rules grow. One guards a list of folders, another keeps a record of every call, a third keeps count of something, and a fourth has to know which task the agent is working on. They all need the same input, so each is added to the same script. Before long it is a tangle, and three things go wrong.</p>
+<p>Changing a number is no longer safe. The limit on repeated refusals, the list of protected folders and the time limit all sit in the middle of the code, so to change one you have to read all of it. Testing gets hard too, because the platform calls the script with a long piece of JSON, and to check a rule you must run the agent and hope it does the thing you want to see. And the script cannot be moved, since it reads the platform's field names directly. When the platform renames one, or you add a second platform, every rule changes.</p>
+<p>A fourth problem is the one this chapter is really about. The script runs before tool calls, so a bug in it is a bug in everything the agent does. What, then, should happen when the hook itself breaks: block the call, or let it through? Nobody decides this on purpose. It gets decided by whatever the script happens to do when it crashes, and <a href="2-2-hooks.html">Hooks</a> showed that the platform itself already settles two cases for you, in opposite directions. Better to decide yours first.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>hook 越寫越大，會出什麼問題？</h2><p>第一個 hook 很好寫。一個腳本，幾行 <code>if</code>（指令裡有 <code>rm -rf</code> 就拒絕），它也管用，你很滿意。</p>
+<p>然後規則越來越多：一條守著一串資料夾，一條記錄每次呼叫，一條替某樣東西計數，還有一條得知道 agent 正在做哪個任務。它們需要的輸入都一樣，所以一條條都加進同一個腳本。沒過多久，腳本就纏成了一團，三個問題也跟著出現。</p>
+<p>首先，改一個數字不再安全。重複拒絕的上限、受保護資料夾的清單、時間限制，全都夾在程式碼中間，要改其中一個，就得把整份程式碼讀一遍。測試也變難了，因為平台呼叫腳本時傳進來的是一大段 JSON，想檢查一條規則，你只能把 agent 跑起來，再祈禱它剛好做出你想看的事。腳本還搬不走：它直接讀平台的欄位名稱，平台改了某個名稱，或者你加了第二個平台，每一條規則都得跟著改。</p>
+<p>還有第四個問題，也是這一章真正想講的。這個腳本在工具呼叫之前執行，所以它裡面的 bug，就是 agent 做的每一件事的 bug。那麼 hook 自己壞掉時，該擋下呼叫，還是放行？沒有人會刻意去做這個決定，結果就由腳本崩潰時碰巧怎麼表現來決定。<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>也說過，平台本身已經替你決定了兩種情況，而且方向正好相反。最好是你先把自己的決定做了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>hook 越写越大，会出什么问题？</h2><p>第一个 hook 很好写。一个脚本，几行 <code>if</code>（命令里有 <code>rm -rf</code> 就拒绝），它也管用，你挺满意。</p>
+<p>然后规则越来越多：一条守着一批文件夹，一条记录每次调用，一条给某样东西计数，还有一条得知道 agent 正在做哪个任务。它们要的输入都一样，所以一条条都加进了同一个脚本。没过多久，脚本就缠成了一团，三个问题也跟着来了。</p>
+<p>首先，改一个数字不再放心。连续被拒绝多少次就停、受保护的文件夹清单、时间限制，这些都埋在代码中间，要改其中一个，就得把整份代码读一遍。测试也变难了，因为平台调用脚本时传进来的是一大段 JSON，想验证一条规则，你只能把 agent 跑起来，再指望它恰好做出你想看的那件事。脚本还搬不走：它直接读平台的字段名，平台给某个字段改了名，或者你加了第二个平台，每一条规则都得跟着改。</p>
+<p>还有第四个问题，也是这一章真正想讲的。这个脚本在工具调用之前运行，所以它里面的 bug，就是 agent 做的每一件事的 bug。那么 hook 自己坏了，该拦下调用，还是放行？没有人会特意去做这个决定，结果就由脚本崩溃时碰巧怎么表现来定了。<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>里也讲过，平台本身已经替你定了两种情况，而且方向正好相反。最好你先把自己的决定做了。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How to build the layer, and what to do when it breaks</h2><p>The first three problems have the same kind of answer. Four design choices make the layer something you can change, test and move. The fourth problem needs something else: one decision, and a way to test that it holds. If you read only one part, read the one on the decision, &quot;when the layer itself fails&quot;. The four design choices are more structure than a small setup needs (see the costs further down), so skim them unless you are building one.</p>
 <h3>One call through the layer</h3>
-<p>Some words first. The <strong>enforcement layer</strong> is everything that stands between the model and the tools and says yes or no: the hooks and the code behind them. A <strong>module</strong> is one part of that code that is responsible for one thing, such as &quot;protect these folders&quot; or &quot;record calls&quot;. An <strong>adapter</strong> is a small part that translates between two formats. The <strong>core</strong> is the part that runs the modules and combines what they say.</p>
+<p>To follow a call through, it helps to name the parts. The <strong>enforcement layer</strong> is everything that stands between the model and the tools and says yes or no: the hooks and the code behind them. Inside that code, a <strong>module</strong> is a part responsible for one thing, such as &quot;protect these folders&quot; or &quot;record calls&quot;. An <strong>adapter</strong> is a small part that translates between two formats. The <strong>core</strong> is the part that runs the modules and combines what they say.</p>
 <figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
   <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
   <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">platform</text>
@@ -312,19 +300,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">The platform sends an event in its own format. The adapter, the one entry point, turns it into one common event.</li><li data-step-text="2">The modules that listen to this event each look at it. One checks paths and commands, one keeps records, one handles the task. They do not talk to each other.</li><li data-step-text="3">The core merges the views. If any module says deny, the answer is deny; then ask; then allow.</li><li data-step-text="4">The adapter turns the answer back into what the platform expects. If anything above throws an error, the error goes to a log and the call is let through.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>One call through the enforcement layer. Only the adapter knows the platform, so only the adapter changes when the platform does.</figcaption></figure>
 <h3>1. One entry, and an adapter that is the only part that knows the platform</h3>
-<p>The platform is told about one hook, not ten. Every event goes to the same entry point. I did it this way for a practical reason: the platform does not filter by tool name for me, so ten small hooks would start ten processes for every call, most of them with nothing to do. I expect one entry that decides inside which modules care to be cheaper; I did not time it.</p>
-<p>The first thing the entry does is hand the platform's JSON to the adapter. The adapter reads the platform's field names and spellings (tool names, upper and lower case, where the arguments are) and produces one <strong>common event</strong> that the rest of the code uses. On the way out, it does the reverse.</p>
-<p>This is what makes the layer movable. When the platform changes a field, or you add a second platform, you write or change one adapter. The modules and their tests stay as they are. When the platform changes, I record real input from it first, check that the adapter reads the recording, and only then touch anything else.</p>
+<p>The platform is told about one hook, not ten, so every event goes to the same entry point. I did it this way for a practical reason. The platform does not filter by tool name for me, so ten small hooks would start ten processes for every call, most of them with nothing to do. I expect a single entry that figures out for itself which modules care to be cheaper, but I have not timed it.</p>
+<p>The first thing the entry does is hand the platform's JSON to the adapter. The adapter reads the platform's field names and spellings (tool names, upper and lower case, where the arguments are) and produces one <strong>common event</strong> for the rest of the code to use. On the way out, it does the reverse.</p>
+<p>This is what makes the layer movable. When the platform changes a field, or you add a second platform, you write or change one adapter, while the modules and their tests stay as they are. So when the platform does change, I start with the adapter: I record real input from the platform, check that the adapter reads the recording, and only then touch anything else.</p>
 <h3>2. Modules give opinions; the core decides</h3>
-<p>Each module sees the common event and returns one of: no opinion, allow, ask, deny, or &quot;add these words for the model to read&quot;. A module imports only the shared basics, never another module. So you can add a module, or switch one off, without reading the others.</p>
-<p>The core merges the opinions with a fixed order: <strong>deny beats ask, and ask beats allow.</strong> If any module says deny, the answer is deny, whatever the others think. The words that modules want to add are joined in order. This is the same idea as a vote where any single member can veto, and it means a new module can only make the layer stricter, never quietly weaker.</p>
-<p>A module that raises an error is treated as having no opinion. One broken module cannot take the others with it. Note what follows: if the broken module was a deny rule, its refusal is gone and the call passes. That is the fail-open choice below, applied module by module.</p>
+<p>Each module looks at the common event and returns one of these: no opinion, allow, ask, deny, or &quot;add these words for the model to read&quot;. A module imports only the shared basics and never another module, so you can add a module, or switch one off, without reading the others.</p>
+<p>The core merges the opinions in a fixed order: <strong>deny beats ask, and ask beats allow.</strong> If any module says deny, the answer is deny, whatever the others think. The words that modules want to add are joined in order. It is the same idea as a vote where any single member can veto. What it buys you is that a new module can only make the layer stricter, never quietly weaker.</p>
+<p>What if a module itself breaks? A module that raises an error is treated as having no opinion, so one broken module cannot take the others with it. Notice what follows, though: if the broken module was a deny rule, its refusal is gone and the call passes. That is the fail-open choice below, applied module by module.</p>
 <h3>3. Numbers live in files, not in code</h3>
-<p>How many refusals in a row before the breaker trips (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>), which folders are guarded, how long a granted exception lasts: these are all <strong>policy files</strong>, plain data that code reads and never contains. The reasons for this are plain. A person who is not a programmer can read them and change one. A company can put its own values in a separate override next to the standard ones, so updating the standard never collides with local changes. And a rule's number is written in one place, so the docs cannot disagree with the code.</p>
-<p>The texts people read follow the same idea: every refusal reason and message sits in a table, one table per language, with the same names. A test fails if one language lacks a name.</p>
+<p>How many refusals in a row before the breaker trips (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>), which folders are guarded, how long a granted exception lasts: all of these are <strong>policy files</strong>, plain data that the code reads but never contains. This pays off in three ways. Someone who is not a programmer can read these files and change a value. A company can put its own values in a separate override next to the standard ones, so updating the standard never collides with local changes. And since a rule's number is written in one place, the docs cannot disagree with the code.</p>
+<p>The texts people read follow the same idea. Every refusal reason and message sits in a table, one table per language with the same names in each. A test fails if one language lacks a name.</p>
 <h3>4. State lives in files, one writer per field</h3>
-<p>The layer runs as a fresh process for every event. It cannot keep anything in memory between two calls. So whatever must be remembered (which task is active, how many refusals so far, whether a human override is on) goes in a small file per session, read under a lock and written back. Each field has one module that is allowed to write it. A version number in the file lets old files be upgraded rather than break.</p>
-<p>Files also make the layer easy to inspect. When something odd happens, you open the file and see what the layer believed.</p>
+<p>Because the layer runs as a fresh process for every event, it cannot keep anything in memory between two calls. Whatever must be remembered (which task is active, how many refusals so far, whether a human override is on) goes in a small file per session instead, read under a lock and written back. Each field has one module that is allowed to write it. A version number in the file lets old files be upgraded rather than break.</p>
+<p>Files also make the layer easy to inspect: when something odd happens, you open the file and see what the layer believed.</p>
 <h3>The decision: when the layer itself fails</h3>
 <figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
   <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
@@ -344,14 +332,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">for: a project that is only code</text>
 </svg>
 <figcaption>Two ways to fail. Decide which one before the day it happens, rule by rule.</figcaption></figure>
-<p>Now the question from the start. There are two ways to fail.</p>
-<ul>
-<li><strong>Fail open:</strong> when the hook's own code breaks, let the call through and write the error to a log.</li>
-<li><strong>Fail closed:</strong> when it breaks, block the call.</li>
-</ul>
-<p>In my setup the hook fails open. The reason is a cost comparison, and I only claim it for this kind of project. The hook runs before tool calls. If a bug in it blocked every call, the agent would be useless until someone fixed the bug, and the person would be angry at the harness. If it lets one call through, the cost is one missed stop, and the error is in a log and shows up in a <strong>health check</strong> (a command that tests whether the setup is sound). In a project that is only code under version control, a missed stop can usually be found and undone. Blocked work cannot be made up as easily.</p>
-<p>The platform adds its own rules, and they need care. VS Code's page points to GitHub's hook reference for the exit-code rules (<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>, checked 2026-10-28). For a before-tool command hook: exit code 2 is a deny, and any other non-zero exit is also a deny (&quot;hook errored&quot;), so a crash or a failed start refuses the call. If the hook takes longer than its time limit, it is killed and the call goes on through the normal permission flow: a silent pass, for every event. On other events, a non-zero exit is only logged and the run continues. My own measurement agreed on the crash and the timeout. So &quot;fail open&quot; is not something you get by doing nothing. The hook has to catch its own errors and answer &quot;no opinion&quot; on purpose, so that an ordinary bug does not turn into the platform's refusal. A crash of the whole program is a different case, which the platform decides. And &quot;too slow&quot; is a failure too: I run the hook once on purpose in that health check, and warn when the slowest recent call comes near the time limit, so I find out before the platform quietly drops my rules.</p>
-<p>A rough guide, from the cost comparison above:</p>
+<p>Now back to the question from the start. When the hook's own code breaks, there are two ways for it to fail. It can <strong>fail open</strong>, letting the call through and writing the error to a log, or it can <strong>fail closed</strong> and block the call.</p>
+<p>Blocking sounds like the safe default. Why, then, would anyone let a call through? In my setup the hook fails open, and the reason is a cost comparison that I only claim for this kind of project. Because the hook runs before tool calls, a bug that blocked every call would leave the agent useless, and the person angry at the harness, until someone fixed it. A bug that lets one call through costs one missed stop. The error is in a log and shows up in a <strong>health check</strong> (a command that tests whether the setup is sound). In a project that is only code under version control, a missed stop can usually be found and undone, while blocked work cannot be made up as easily.</p>
+<p>As the opening said, the platform already makes part of this decision for you. VS Code's page points to GitHub's hook reference for the exit-code rules (<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>, checked 2026-10-28). For a before-tool command hook, exit code 2 is a deny. Any other non-zero exit is also a deny (&quot;hook errored&quot;), so a crash or a failed start refuses the call. A timeout goes the other way. If the hook takes longer than its time limit, it is killed and the call goes on through the normal permission flow, a silent pass for every event. On other events, a non-zero exit is only logged and the run continues. My own measurement agreed on the crash and the timeout.</p>
+<p>So &quot;fail open&quot; is not something you get by doing nothing. The hook has to catch its own errors and answer &quot;no opinion&quot; on purpose, or an ordinary bug turns into the platform's refusal. A crash of the whole program is a different case, which the platform decides.</p>
+<p>Slowness needs its own check, because the platform lets a timeout through silently. In the health check I mentioned above, I run the hook once on purpose and warn when the slowest recent call comes near the time limit, so that I find out before the platform quietly drops my rules.</p>
+<p>From the cost comparison above comes a rough guide:</p>
 <table>
 <thead>
 <tr>
@@ -374,27 +360,27 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p><strong>This choice is not for everything.</strong> Fail open is right when a missed stop is cheap to find and fix. It is wrong where a missed stop cannot be undone: a command that touches production data, a file that holds credentials. For those, one design is to fail closed, rule by rule, on a short list: if the hook breaks and the call touches anything on that list, block. I have not built this. But the better answer is the next chapter's: do not rely on a hook for those things at all (<a href="4-5-least-privilege.html">Least privilege</a>).</p>
-<p>Whichever you pick, <strong>write it down and make a failure visible.</strong> A layer that fails open and says nothing is the worst of both: you have a hole and do not know.</p>
+<p>Fail open is not the answer for everything. It is right when a missed stop is cheap to find and fix. Where a missed stop cannot be undone, as with a command that touches production data or a file that holds credentials, it is wrong. For those, one design I have not built is to fail closed rule by rule, on a short list: if the hook breaks and the call touches anything on that list, block it. The better answer, though, is the next chapter's: do not rely on a hook for those things at all (<a href="4-5-least-privilege.html">Least privilege</a>).</p>
+<p>Whichever you pick, <strong>write it down and make a failure visible.</strong> A layer that fails open and says nothing is the worst of both, because you have a hole and do not know it is there.</p>
 <h3>How to test it</h3>
-<p>The layer's input is data, so the test is easy: feed in an event and read the answer. Three kinds of test matter.</p>
+<p>Because the layer's input is data, testing it is easy: feed in an event and read the answer. Three kinds of test matter.</p>
 <ul>
-<li><strong>Rule tests.</strong> For each rule, a few events that must be refused, a few that must pass. Use input recorded from the real platform, not input you made up. Made-up input has the spellings you expect, and the platform does not.</li>
-<li><strong>Failure tests.</strong> Break a module on purpose and check that the others still answer. Feed in a broken settings file and check the result is the one you chose, fail open or closed. Platform docs tell you to do this: &quot;Test the exit-code and timeout rules instead of assuming that every failure blocks work.&quot;</li>
-<li><strong>Delivery tests.</strong> The layer can be right and the answer can still be lost on the way (<a href="2-2-hooks.html">Hooks</a> has an example). Check what the model really received.</li>
+<li>Rule tests give each rule a few events that must be refused and a few that must pass. Use input recorded from the real platform, not input you made up, because made-up input has the spellings you expect, not the ones the platform sends.</li>
+<li>Failure tests break a module on purpose and check that the others still answer, or feed in a broken settings file and check that the result is the one you chose, open or closed. The platform docs tell you to do this: &quot;Test the exit-code and timeout rules instead of assuming that every failure blocks work.&quot;</li>
+<li>Delivery tests check what the model really received, since the layer can be right and its answer can still be lost on the way (<a href="2-2-hooks.html">Hooks</a> has an example).</li>
 </ul>
-<p>Add one more habit. Keep a small set of fixed scenarios (&quot;this command must be refused&quot;, &quot;this edit must pass&quot;) and run them after every platform update. An update changes your layer without your changing a line of it.</p>
-<h3>Test your own setup</h3>
-<p><strong>Three questions:</strong></p>
+<p>Add one more habit on top of these: keep a small set of fixed scenarios (&quot;this command must be refused&quot;, &quot;this edit must pass&quot;) and run them after every platform update, because an update changes your layer without your changing a line of it.</p>
+<h3>Three questions and a small test</h3>
+<p>Before going on, ask three questions of your own setup.</p>
 <ol>
 <li>If your hook crashes tomorrow, what happens to the next tool call? Do you know, or are you guessing?</li>
 <li>If the platform renames a field, how many files do you edit?</li>
 <li>Can you change the number of a rule without reading the code that uses it?</li>
 </ol>
-<p><strong>A test you can run today.</strong> Add a deliberate bug to a copy of your hook (a line that raises an error). Run a harmless task. Watch what the platform does and what your log says. Then fix the bug.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>四個設計選擇，讓這一層可以改、可以測、可以搬。然後是一個決定，和一個測試它的辦法。只讀一部分的話，讀那個決定：「執行層自己出錯的時候」。這四個設計選擇比小設定需要的結構更多（見下面的陷阱）；不是要自己做一個的話，掃過去就好。</p>
+<p>Then try a test you can run today: add a deliberate bug to a copy of your hook (a line that raises an error) and run a harmless task. Watch what the platform does and what your log says, then fix the bug.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>這一層怎麼搭，壞了又怎麼辦</h2><p>前三個問題，答案是同一類：靠四個設計選擇，讓這一層可以改、可以測、可以搬。第四個問題要的是另一樣東西：一個決定，以及檢驗它是否成立的測試。如果只讀一部分，就讀講決定的那一段，「執行層自己出錯的時候」。四個設計選擇帶來的結構，比小設定需要的還多（見後面講代價的一節），不打算自己做一個的話，掃過去就好。</p>
 <h3>一次呼叫經過執行層</h3>
-<p>先說幾個詞。<strong>執行層</strong>是站在模型和工具之間、說好或不好的全部東西：hook 和它背後的程式碼。<strong>模組</strong>是這些程式碼裡負責一件事的一部分，例如「保護這些資料夾」或「記錄呼叫」。<strong>轉接器</strong>是在兩種格式之間翻譯的一小部分。<strong>核心</strong>是執行各個模組、並合併它們意見的那一部分。</p>
+<p>要跟著一次呼叫走一遍，得先替各個部分取個名字。站在模型和工具之間、負責說「可以」或「不行」的全部東西，也就是 hook 和它背後的程式碼，叫做<strong>執行層</strong>。在這些程式碼裡，負責一件事的那一部分叫<strong>模組</strong>，例如「保護這些資料夾」或「記錄呼叫」。<strong>轉接器</strong>是在兩種格式之間翻譯的一小部分。<strong>核心</strong>則負責執行各個模組，再把它們的意見合併起來。</p>
 <figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
   <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
   <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">平台</text>
@@ -434,19 +420,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">平台用自己的格式送來一個事件。轉接層是唯一的入口，把它變成一個共通的事件。</li><li data-step-text="2">聽這個事件的模組各自看一眼。一個查路徑和指令，一個做紀錄，一個管任務。它們彼此不說話。</li><li data-step-text="3">核心合併各家意見。只要有一個模組說拒絕，答案就是拒絕；其次是詢問；最後才是放行。</li><li data-step-text="4">轉接層把答案轉回平台要的格式。上面任何一步出錯，錯誤會寫進紀錄，這次呼叫放行。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次呼叫穿過執行層。只有轉接層認得平台，所以平台改了，只改轉接層。</figcaption></figure>
 <h3>1. 一個入口，和只有它認識平台的轉接器</h3>
-<p>平台只被告知一個 hook，不是十個。每個事件都送到同一個入口。我這樣做有實際的原因：平台不會替我按工具名稱過濾，所以十個小 hook 會在每次呼叫時啟動十個處理程序，大多數無事可做。我預期一個入口、在裡面決定哪些模組要管，會比較便宜；我沒有計時。</p>
-<p>入口做的第一件事，是把平台的 JSON 交給轉接器。轉接器讀平台的欄位名稱和寫法（工具名稱、大小寫、參數放在哪裡），產出一個<strong>共通事件</strong>，其餘的程式碼都用它。輸出時，它做相反的事。</p>
-<p>這就是讓這一層可以搬的原因。平台改了一個欄位，或你加了第二個平台，你只寫或改一個轉接器。模組和它們的測試都不動。平台改版時，我先錄下它真實的輸入，確認轉接器讀得懂這份錄音，然後才動其他的東西。</p>
+<p>平台只知道一個 hook，而不是十個，所以每個事件都送到同一個入口。我這樣做有實際的原因：平台不會替我按工具名稱過濾，十個小 hook 就代表每次呼叫都要啟動十個處理程序，其中大多數無事可做。我預期，只留一個入口、由它自己判斷哪些模組要管這次呼叫，會比較省，不過我沒有實際計過時。</p>
+<p>入口拿到平台的 JSON，第一件事就是交給轉接器。轉接器讀平台的欄位名稱和寫法（工具名稱、大小寫、參數放在哪裡），產出一個<strong>共通事件</strong>，其餘的程式碼用的都是它。輸出時，它把這件事反過來做一遍。</p>
+<p>這一層能搬，靠的就是這個。平台改了一個欄位，或者你加了第二個平台，只要寫或改一個轉接器，模組和它們的測試都不用動。所以平台一改版，我就先從轉接器下手：錄下平台真實的輸入，確認轉接器讀得懂這份錄下來的資料，然後才去動其他東西。</p>
 <h3>2. 模組提意見，核心做決定</h3>
-<p>每個模組看到共通事件，回傳其中一個：沒有意見、允許、詢問、拒絕，或「加上這些話給模型讀」。模組只匯入共用的基礎部分，從不匯入別的模組。所以你可以加一個模組，或關掉一個，不用讀其他的。</p>
-<p>核心用固定的順序合併意見：<strong>拒絕大過詢問，詢問大過允許</strong>。只要有一個模組說拒絕，答案就是拒絕，不管其他的怎麼想。模組想加的話，按順序接起來。這和投票時任何一個成員都能否決是同一個想法，意思是新模組只會讓這一層更嚴，不會悄悄變弱。</p>
-<p>丟出錯誤的模組，被當成沒有意見。一個壞掉的模組帶不走其他的。注意接下來會發生什麼：如果壞掉的是一條拒絕規則，它的拒絕就沒了，呼叫就過去了。這就是下面講的失效放行，一個模組一個模組地套用。</p>
+<p>每個模組看到共通事件後，回傳其中一種：沒有意見、允許、詢問、拒絕，或「加上這些話給模型讀」。模組只匯入共用的基礎部分，從不匯入別的模組，所以加一個模組或關掉一個，都不用去讀其他模組。</p>
+<p>核心用固定的順序合併這些意見：<strong>拒絕大過詢問，詢問大過允許</strong>。只要有一個模組說拒絕，答案就是拒絕，不管其他模組怎麼想；模組想加的話，則按順序接起來。這和投票時任何一個成員都能否決是同一個想法，好處是新加的模組只會讓這一層更嚴，不會悄悄變鬆。</p>
+<p>那模組自己壞掉怎麼辦？丟出錯誤的模組會被當成沒有意見，所以一個壞掉的模組拖不垮其他模組。但要注意接下來會發生什麼：如果壞掉的剛好是一條拒絕規則，它的拒絕就沒了，呼叫也就過去了。這其實就是下面要講的失效放行，只不過是一個模組一個模組地套用。</p>
 <h3>3. 數字放在檔案裡，不放在程式碼裡</h3>
-<p>連續拒絕幾次斷路器才跳開（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）、哪些資料夾受保護、給出的例外能持續多久：這些都是<strong>政策檔</strong>，是程式碼讀、但不包含在程式碼裡的純資料。理由很直白。不是程式設計師的人也能讀，也能改其中一個。公司可以把自己的值放在標準值旁邊的另一個 override 裡，所以更新標準值不會和本地的改動衝突。規則的數字只寫在一個地方，文件也就不會和程式碼對不上。</p>
-<p>給人讀的文字也是同一個想法：每一條拒絕原因和訊息都放在表裡，每種語言一張表，名稱相同。有一種語言缺了一個名稱，測試就會失敗。</p>
+<p>連續拒絕幾次斷路器才跳開（見<a href="4-3-guardrails.html">保護規則本身的檔案</a>）、哪些資料夾受保護、給出的例外能持續多久，這些都寫在<strong>政策檔</strong>裡。政策檔是純資料，由程式碼去讀，但不寫在程式碼裡。為什麼要單獨放出來？好處有三個。一來，不是程式設計師的人也能讀懂，也能改其中一個值。二來，公司可以把自己的值放在標準值旁邊另一個 override 裡，這樣更新標準值時，就不會和本地的改動衝突。再者，規則的數字只寫在一個地方，文件也就不會和程式碼對不上。</p>
+<p>同樣的想法也用在給人讀的文字上。每一條拒絕原因和訊息都放在表裡，每種語言一張表，名稱一一對應；有一種語言缺了一個名稱，測試就會失敗。</p>
 <h3>4. 狀態放在檔案裡，每個欄位只有一個寫入者</h3>
-<p>這一層每個事件都是一個全新的處理程序。兩次呼叫之間，它在記憶體裡什麼也留不住。所以需要記住的東西（哪個任務在進行、到目前拒絕了幾次、人的 override 開著沒有），都放在每個會話一個小檔案裡，加鎖讀、再寫回去。每個欄位只有一個模組可以寫。檔案裡的版本號，讓舊檔案可以升級，不會壞掉。</p>
-<p>檔案也讓這一層容易檢查。出現怪事時，你打開檔案，就看到這一層當時相信什麼。</p>
+<p>這一層對每個事件都是啟動一個全新的處理程序，所以兩次呼叫之間，它在記憶體裡什麼也留不住。需要記住的東西（哪個任務在進行、到目前拒絕了幾次、人的 override 開著沒有），都改放在每個會話一個的小檔案裡，加鎖讀取，再寫回去。每個欄位只有一個模組可以寫。檔案裡還有一個版本號，舊檔案因此可以升級，而不會直接壞掉。</p>
+<p>這樣放在檔案裡，還有個好處是容易檢查。出現怪事時，打開檔案，就能看到這一層當時是怎麼判斷的。</p>
 <h3>決定：執行層自己出錯的時候</h3>
 <figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
   <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
@@ -466,14 +452,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">適用：只有程式碼的專案</text>
 </svg>
 <figcaption>兩種失敗方式。要在事情發生之前，一條規則一條規則地先決定。</figcaption></figure>
-<p>現在回到一開始的問題。出錯有兩種方式。</p>
-<ul>
-<li><strong>失效放行</strong>：hook 自己的程式碼壞掉時，放行這次呼叫，並把錯誤寫進日誌。</li>
-<li><strong>失效關閉</strong>：壞掉時，擋下這次呼叫。</li>
-</ul>
-<p>在我的設定裡，hook 是失效放行。理由是成本比較，而且我只對這一類專案這樣說。hook 在工具呼叫之前執行。如果它裡面的 bug 擋下每一次呼叫，在有人修好 bug 之前 agent 就沒用了，人還會對 harness 生氣。如果它放過一次呼叫，代價是漏掉一次攔截，而錯誤在日誌裡，並且會出現在<strong>健康檢查</strong>裡（測試設定是否健全的指令）。在只有版本控制下的程式碼的專案裡，漏掉的一次攔截通常找得到、撤得回。被擋住的工作就沒那麼容易補回來。</p>
-<p>平台也加了自己的規則，要小心。VS Code 的頁面指向 GitHub 的 hook 參考，裡面有結束代碼的規則（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查過）。對工具呼叫之前的指令型 hook：結束代碼 2 是拒絕，其他任何非零的結束代碼也是拒絕（「hook 出錯」），所以崩潰或啟動失敗會拒絕這次呼叫。如果 hook 超過時間限制，它會被殺掉，呼叫則照一般的權限流程繼續：對每一種事件都是默默放行。在其他事件上，非零的結束代碼只會被記錄，執行繼續。我自己的測量，在崩潰和逾時上和這個一致。所以「失效放行」不是什麼都不做就能得到的。hook 必須自己接住錯誤，並刻意回答「沒有意見」，這樣普通的 bug 才不會變成平台的拒絕。整個程式崩潰是另一種情況，由平台決定。而「太慢」也是一種失敗：我在那個健康檢查裡刻意執行 hook 一次，最近最慢的一次呼叫接近時間限制時就發出警告，這樣我能在平台默默丟掉我的規則之前發現。</p>
-<p>從上面的成本比較，得出一個大略的指引：</p>
+<p>現在回到一開始的問題。hook 自己的程式碼壞掉時，有兩種失敗的方式：一種是<strong>失效放行</strong>，放過這次呼叫，把錯誤寫進日誌；另一種是<strong>失效關閉</strong>，直接擋下這次呼叫。</p>
+<p>擋下聽起來像是比較穩妥的預設做法。那為什麼還會有人選擇放行？在我的設定裡，hook 是失效放行，理由是一筆成本帳，這話我也只對這一類專案說。hook 在工具呼叫之前執行，如果它裡面的 bug 擋下每一次呼叫，那在有人修好之前，agent 就完全沒用，人還會對 harness 生氣。如果 bug 只是放過了一次呼叫，代價是漏掉一次攔截，而錯誤會留在日誌裡，也會出現在<strong>健康檢查</strong>裡（測試設定是否健全的指令）。在只有程式碼、而且放在版本控制下的專案裡，漏掉的攔截通常找得到、也撤得回；被擋住的工作，卻沒那麼容易補回來。</p>
+<p>開頭說過，平台本身已經替你做了一部分決定。VS Code 的頁面把結束代碼的規則指向 GitHub 的 hook 參考（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查過）。對工具呼叫之前的指令型 hook 來說，結束代碼 2 是拒絕，其他任何非零的結束代碼也是拒絕（「hook 出錯」），所以崩潰或啟動失敗都會拒絕這次呼叫。逾時則正好相反：如果 hook 超過時間限制，它會被殺掉，呼叫則照一般的權限流程繼續，對每一種事件來說都是默默放行。在其他事件上，非零的結束代碼只會被記錄下來，執行照常繼續。我自己測的結果，在崩潰和逾時這兩點上和文件一致。</p>
+<p>所以說，「失效放行」不是什麼都不做就能得到的。hook 必須自己接住錯誤，刻意回答「沒有意見」，否則一個普通的 bug 就會變成平台的拒絕。當然，如果整個程式崩潰了，那就輪不到 hook 說話，由平台來決定。</p>
+<p>除了出錯，還有一種失敗要單獨檢查：太慢。逾時會被平台默默放過去，所以我在前面提到的健康檢查裡，刻意把 hook 執行一次，最近最慢的一次呼叫接近時間限制時就發出警告，趕在平台丟掉我的規則之前發現。</p>
+<p>從上面這筆成本帳，可以得出一個大略的指引：</p>
 <table>
 <thead>
 <tr>
@@ -496,27 +480,27 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p><strong>這個選擇不適用於所有事</strong>。漏掉的攔截容易找到、容易修的時候，失效放行才對。漏掉的攔截無法撤銷的地方，它就不對：碰到正式環境資料的指令、存放憑證的檔案。對這些，一種設計是一條規則一條規則地、在一份短清單上失效關閉：hook 壞了，而呼叫碰到清單上的任何東西，就擋下。我沒有做這個。但更好的答案是下一章的：這些東西根本不要靠 hook（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
-<p>不管你選哪個，<strong>寫下來，並讓失敗看得見</strong>。失效放行又不吭聲的執行層是兩邊最壞的：你有一個洞，而且不知道。</p>
+<p>失效放行並不是什麼情況都適用。漏掉的攔截容易找到、容易修的時候，它是對的；可是漏掉一次就無法撤銷的地方，例如碰到正式環境資料的指令、存放憑證的檔案，它就不對。對這些東西，有一種我沒有做過的設計，是一條規則一條規則地失效關閉，只針對一份短清單：hook 壞了，而這次呼叫又碰到清單上的任何東西，就擋下。不過更好的答案在下一章：這些東西根本不要靠 hook（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
+<p>不管你選哪一種，<strong>都要寫下來，並讓失敗看得見</strong>。一個失效放行又不吭聲的執行層，等於兩頭吃虧：洞照樣在，你卻不知道。</p>
 <h3>怎麼測試</h3>
-<p>這一層的輸入是資料，所以測試很容易：丟進一個事件，讀答案。有三種測試重要。</p>
+<p>這一層的輸入是資料，所以測試起來很容易：丟進一個事件，讀它給的答案。重要的測試有三種。</p>
 <ul>
-<li><strong>規則測試</strong>。每條規則，準備幾個必須被拒絕的事件，幾個必須通過的。用從真實平台錄下來的輸入，不要用你編的。編的輸入帶的是你預期的寫法，而平台不是。</li>
-<li><strong>失敗測試</strong>。故意弄壞一個模組，確認其他的還會回答。丟進一個壞掉的設定檔，確認結果是你選的那個，失效放行或關閉。平台文件叫你這樣做：「要測試結束代碼和逾時的規則，不要假設每種失敗都會擋住工作。」</li>
-<li><strong>送達測試</strong>。這一層可以是對的，答案卻在路上丟了（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>有個例子）。檢查模型實際收到了什麼。</li>
+<li>規則測試：替每條規則準備幾個必須被拒絕的事件、幾個必須通過的事件。要用從真實平台錄下來的輸入，不要用自己編的，因為編出來的輸入帶著你預期的寫法，平台送來的卻不是。</li>
+<li>失敗測試：故意弄壞一個模組，確認其他模組還會回答；或者丟進一個壞掉的設定檔，確認結果是你選的那一種，失效放行或關閉。平台文件也叫你這樣做：「要測試結束代碼和逾時的規則，不要假設每種失敗都會擋住工作。」</li>
+<li>送達測試：檢查模型實際收到了什麼，因為這一層可能是對的，答案卻還是在路上丟了（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>有個例子）。</li>
 </ul>
-<p>再加一個習慣。留一小組固定的情境（「這個指令必須被拒絕」、「這個編輯必須通過」），每次平台更新後都跑一遍。更新會改變你的執行層，而你一行都沒動。</p>
-<h3>測一下你自己的設定</h3>
-<p><strong>三個問題</strong>：</p>
+<p>在這些之外，再養成一個習慣：留一小組固定的情境（「這個指令必須被拒絕」、「這個編輯必須通過」），每次平台更新後都跑一遍。平台一更新，你的執行層就跟著變了，即使你一行都沒動。</p>
+<h3>三個問題和一個小測試</h3>
+<p>往下讀之前，先拿三個問題問問你自己的設定。</p>
 <ol>
 <li>如果你的 hook 明天崩潰，下一次工具呼叫會怎樣？你知道，還是在猜？</li>
 <li>如果平台改了一個欄位名稱，你要編輯幾個檔案？</li>
 <li>你能不讀用到它的程式碼，就改一條規則的數字嗎？</li>
 </ol>
-<p><strong>今天就能跑的測試</strong>。在你 hook 的副本裡加一個故意的 bug（一行會丟出錯誤的程式碼）。執行一個無害的任務。看平台做了什麼，看你的日誌寫了什麼。然後把 bug 修好。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>有四个设计选择，能让这一层变得可以修改、可以测试、可以搬走。再加一个决定，和一种测试它的方法。如果只读一部分，就读那个决定：“执行层自己出故障时怎么办”。四个设计选择比小规模的配置需要的结构要多（见下面的坑），不打算自己搭的话，扫一眼就行。</p>
+<p>接著做一個今天就能跑的測試：在你 hook 的副本裡故意加一個 bug（一行會丟出錯誤的程式碼），執行一個無害的任務，看平台做了什麼、你的日誌寫了什麼，最後把 bug 修好。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这一层怎么搭，它坏了又怎么办</h2><p>前三个问题，答案是同一类：靠四个设计选择，让这一层可以改、可以测、可以搬。第四个问题要的是另一样东西：一个决定，以及检验它是否成立的测试。如果只读一部分，就读讲决定的那一段，“执行层自己出故障时怎么办”。四个设计选择带来的结构，比小规模的配置需要的要多（见后面讲代价的一节），不打算自己搭的话，扫一眼就行。</p>
 <h3>一次调用怎样穿过执行层</h3>
-<p>先交代几个词。<strong>执行层</strong>是站在模型和工具之间、负责说“可以”或“不行”的全部东西：hook 和它背后的代码。<strong>模块</strong>是这些代码里负责一件事的一部分，比如“保护这些文件夹”或者“记录调用”。<strong>适配器</strong>是在两种格式之间翻译的一小段代码。<strong>核心</strong>是运行各个模块、并把它们的意见合起来的那部分。</p>
+<p>要跟着一次调用走一遍，得先给各个部分起个名字。站在模型和工具之间、负责说“可以”或“不行”的全部东西，也就是 hook 和它背后的代码，叫<strong>执行层</strong>。在这些代码里，负责一件事的那一部分叫<strong>模块</strong>，比如“保护这些文件夹”或者“记录调用”。<strong>适配器</strong>是在两种格式之间翻译的一小段代码。<strong>核心</strong>则负责运行各个模块，再把它们的意见合起来。</p>
 <figure class="fig steps" id="fig-4-4-one-call" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 295">
   <rect class="box" x="10" y="100" width="90" height="50" rx="8"/>
   <text class="label" x="55" y="130" text-anchor="middle" data-t="platform">平台</text>
@@ -556,19 +540,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">平台用自己的格式送来一个事件。适配器是唯一的入口，把它变成一个通用事件。</li><li data-step-text="2">关心这个事件的模块各自看一眼。一个查路径和命令，一个做记录，一个管任务。它们彼此不说话。</li><li data-step-text="3">核心合并各家意见。只要有一个模块说拒绝，答案就是拒绝；其次是询问；最后才是放行。</li><li data-step-text="4">适配器把答案转回平台要的格式。上面任何一步出错，错误会写进日志，这次调用放行。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>一次调用穿过执行层。只有适配器认得平台，所以平台改了，只改适配器。</figcaption></figure>
 <h3>1. 一个入口，一个唯一认得平台的适配器</h3>
-<p>告诉平台的是一个 hook，不是十个。所有事件都进同一个入口。我这么做有个实际的原因：平台不会替我按工具名过滤，所以十个小 hook 意味着每次调用要启动十个进程，其中大多数无事可做。我预计，一个入口、在里面决定哪些模块关心这次调用，会更省；但我没有计过时。</p>
-<p>入口做的第一件事，是把平台的 JSON 交给适配器。适配器读平台的字段名和写法（工具名、大小写、参数在哪里），产出一个<strong>通用事件</strong>，其余代码都用它。回程时，它做相反的事。</p>
-<p>这就是这一层能搬走的原因。平台改了字段，或者你加了第二个平台，只要写或改一个适配器。模块和它们的测试原样不动。平台一变，我先录下它的真实输入，检查适配器能读懂这份录制，然后才动别的。</p>
+<p>平台只知道一个 hook，而不是十个，所以所有事件都进同一个入口。我这么做有个实际的原因：平台不会替我按工具名过滤，十个小 hook 就意味着每次调用都要启动十个进程，其中大多数无事可做。我预计，只留一个入口、由它自己判断哪些模块关心这次调用，会更省，但我没有计过时。</p>
+<p>入口拿到平台的 JSON，第一件事就是交给适配器。适配器读平台的字段名和写法（工具名、大小写、参数放在哪里），产出一个<strong>通用事件</strong>，其余代码用的都是它。往回走的时候，它把这件事反过来做一遍。</p>
+<p>这一层能搬走，靠的就是这个。平台改了字段，或者你加了第二个平台，只要写或改一个适配器，模块和它们的测试都原样不动。所以平台一变，我先从适配器下手：录下平台的真实输入，确认适配器读得懂这份录制，然后才去动别的。</p>
 <h3>2. 模块给意见，核心来决定</h3>
-<p>每个模块看到通用事件，返回下面几种之一：没意见、放行、询问、拒绝，或者“加上这几句话给模型看”。模块只导入共用的基础代码，从不导入别的模块。所以你可以加一个模块，或者关掉一个，不用读其他模块。</p>
-<p>核心按固定的顺序合并这些意见：<strong>拒绝压过询问，询问压过放行</strong>。只要有一个模块说拒绝，答案就是拒绝，不管其他模块怎么想。模块想加的那些话，按顺序拼起来。这和“任何一个成员都能一票否决”的投票是同一个思路，意思是：新加一个模块，只会让这一层更严，绝不会悄悄变松。</p>
-<p>抛出错误的模块，按没意见处理。一个坏掉的模块拖不垮其他模块。注意这带来的后果：如果坏掉的是一条拒绝规则，它的拒绝就没了，调用就过去了。这就是下面要讲的“出故障时放行”，一个模块一个模块地生效。</p>
+<p>每个模块看到通用事件后，返回下面几种之一：没意见、放行、询问、拒绝，或者“加上这几句话给模型看”。模块只导入共用的基础代码，从不导入别的模块，所以加一个模块或者关掉一个，都不用去读其他模块。</p>
+<p>核心按固定的顺序合并这些意见：<strong>拒绝压过询问，询问压过放行</strong>。只要有一个模块说拒绝，答案就是拒绝，不管其他模块怎么想；模块想加的那些话，则按顺序拼起来。这和“任何一个成员都能一票否决”的投票是同一个思路，好处是新加一个模块，只会让这一层更严，绝不会悄悄变松。</p>
+<p>那模块自己坏了怎么办？抛出错误的模块按没意见处理，所以一个坏掉的模块拖不垮其他模块。但要注意这带来的后果：如果坏掉的恰好是一条拒绝规则，它的拒绝就没了，调用也就过去了。这其实就是下面要讲的“故障放行”，只不过是一个模块一个模块地生效。</p>
 <h3>3. 数字放在文件里，不放在代码里</h3>
-<p>连续拒绝多少次熔断器才跳闸（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）、哪些文件夹要守、一次授予的例外持续多久：这些都是<strong>策略文件</strong>，是代码去读、而不是代码里自带的普通数据。理由很简单。不会写程序的人也能读懂，也能改一个数。公司可以把自己的值放进一个单独的 override，和标准值并排放着，所以更新标准值不会和本地改动冲突。规则的数字只写在一个地方，文档就不会和代码对不上。</p>
-<p>给人看的文字也是同样的思路：每条拒绝理由和每条消息都放在一张表里，每种语言一张表，名字一一对应。哪种语言少了一个名字，测试就会失败。</p>
+<p>连续拒绝多少次熔断器才跳闸（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）、哪些文件夹要守、一次授予的例外持续多久，这些都写在<strong>策略文件</strong>里。策略文件是普通的数据，由代码去读，但不写在代码里。为什么要单独放出来？好处有三个。一来，不会写程序的人也能读懂它，也能改其中一个值。二来，公司可以把自己的值放进一个单独的 override，和标准值并排放着，这样更新标准值时就不会和本地改动冲突。再者，规则的数字只写在一个地方，文档也就不会和代码对不上。</p>
+<p>同样的思路也用在给人看的文字上。每条拒绝理由和每条消息都放在一张表里，每种语言一张，名字一一对应；哪种语言少了一个名字，测试就会失败。</p>
 <h3>4. 状态放在文件里，每个字段只有一个写入者</h3>
-<p>这一层对每个事件都是起一个新进程来运行，两次调用之间没法在内存里留任何东西。所以凡是要记住的（哪个任务是当前的、到目前为止拒绝了几次、人工 override 开着没有），都放进每个会话一个的小文件，加锁读取，再写回去。每个字段只有一个模块有权写。文件里的版本号让旧文件可以升级，而不是直接坏掉。</p>
-<p>文件也让这一层好查。出了怪事，打开文件，就能看到这一层当时是怎么认为的。</p>
+<p>这一层对每个事件都是起一个新进程来运行，所以两次调用之间，它没法在内存里留下任何东西。凡是要记住的（哪个任务是当前的、到目前为止拒绝了几次、人工 override 开着没有），都改放进每个会话一个的小文件里，加锁读取，再写回去。每个字段只有一个模块有权写。文件里还有一个版本号，旧文件因此可以升级，而不是直接坏掉。</p>
+<p>这样放在文件里，还有个好处是好查。出了怪事，打开文件，就能看到这一层当时是怎么认为的。</p>
 <h3>决定：执行层自己出故障时怎么办</h3>
 <figure class="fig" id="fig-4-4-fail-choice"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 230">
   <rect class="box-plain" x="170" y="15" width="260" height="44" rx="8"/>
@@ -588,14 +572,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="450" y="195" text-anchor="middle" data-t="open-for">适用：只有代码的项目</text>
 </svg>
 <figcaption>两种失败方式。要在事情发生之前，一条规则一条规则地先决定。</figcaption></figure>
-<p>现在回到开头的问题。失败有两种方式。</p>
-<ul>
-<li><strong>故障放行（fail open）</strong>：hook 自己的代码坏了，就放行这次调用，并把错误写进日志。</li>
-<li><strong>故障拦截（fail closed）</strong>：它坏了，就拦下这次调用。</li>
-</ul>
-<p>在我的配置里，hook 是故障放行。理由是一次成本比较，而且我只对这一类项目这么说。hook 在工具调用之前运行。如果它里面的 bug 把每次调用都拦下，agent 在有人修好 bug 之前就一无用处，人还会对 harness 发火。如果它放过了一次调用，代价是漏掉一次拦截，而错误会在日志里，也会出现在<strong>健康检查</strong>里（一条检查配置是否健全的命令）。在只有代码、放在版本控制下的项目里，漏掉的拦截通常能被发现并撤销。被拦住的工作，就不那么容易补回来了。</p>
-<p>平台还有自己的规则，需要留意。VS Code 的页面把退出码的规则指向 GitHub 的 hook 参考（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查阅）。对于工具调用之前的命令 hook：退出码 2 是拒绝，任何其他非零的退出码也是拒绝（“hook errored”），所以崩溃或者启动失败都会拒绝这次调用。如果 hook 超过了时间限制，它会被杀掉，调用则按正常的权限流程继续：对每一类事件，都是悄悄放行。在其他事件上，非零退出只会被记录，运行继续。我自己的测量在崩溃和超时这两点上和文档一致。所以“故障放行”不是什么都不做就能得到的。hook 必须自己捕获错误，并有意回答“没意见”，这样一个普通的 bug 才不会变成平台的拒绝。整个程序崩溃是另一种情况，由平台决定。而且“太慢”也是一种故障：我在健康检查里特意把 hook 跑一次，最近最慢的一次调用接近时间限制时就发警告，这样我能赶在平台悄悄丢掉我的规则之前发现。</p>
-<p>根据上面的成本比较，一个大致的指引：</p>
+<p>现在回到开头的问题。hook 自己的代码坏了，有两种失败的方式：一种是<strong>故障放行</strong>（fail open），放过这次调用，把错误写进日志；另一种是<strong>故障拦截</strong>（fail closed），直接拦下这次调用。</p>
+<p>拦下听起来像是更稳妥的默认做法。那为什么还会有人选择放行？在我的配置里，hook 是故障放行，理由是一笔成本账，这话我也只对这一类项目说。hook 在工具调用之前运行，如果它里面的 bug 把每次调用都拦下来，那在有人修好之前，agent 就一点用都没有，人还会冲着 harness 发火。如果 bug 只是放过了一次调用，代价是漏掉一次拦截，而错误会留在日志里，也会出现在<strong>健康检查</strong>里（一条检查配置是否健全的命令）。在只有代码、而且放在版本控制下的项目里，漏掉的拦截通常能被发现，也能撤销；被拦住的工作，却没那么容易补回来。</p>
+<p>开头说过，平台本身已经替你做了一部分决定。VS Code 的页面把退出码的规则指向了 GitHub 的 hook 参考（<a href="https://docs.github.com/en/copilot/reference/hooks-reference#exit-codes-for-command-hooks">GitHub hooks reference</a>，2026-10-28 查阅）。对于工具调用之前的命令 hook，退出码 2 是拒绝，其他任何非零的退出码也是拒绝（“hook errored”），所以崩溃或者启动失败都会拒绝这次调用。超时则正好相反：如果 hook 超过了时间限制，它会被杀掉，调用则按正常的权限流程继续，对每一类事件来说都是悄悄放行。在其他事件上，非零退出只会被记录下来，运行照常继续。我自己测的结果，在崩溃和超时这两点上和文档一致。</p>
+<p>所以说，“故障放行”不是什么都不做就能得到的。hook 必须自己接住错误，有意地回答“没意见”，否则一个普通的 bug 就会变成平台的拒绝。当然，如果整个程序崩溃了，那就轮不到 hook 说话，由平台来定。</p>
+<p>除了出错，还有一种故障要单独检查：太慢。超时会被平台悄悄放过去，所以我在前面提到的健康检查里，特意把 hook 跑一次，最近最慢的一次调用接近时间限制时就发警告，赶在平台丢掉我的规则之前发现。</p>
+<p>根据上面这笔成本账，可以得出一个大致的指引：</p>
 <table>
 <thead>
 <tr>
@@ -618,48 +600,48 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p><strong>这个选择不是对什么都适用</strong>。漏掉的拦截容易发现、容易补救时，故障放行是对的。漏掉的拦截没法撤销时，它就是错的：碰生产数据的命令、存着凭证的文件。对这些，有一种设计是按规则故障拦截，用一份短清单：hook 坏了，而这次调用碰了清单上的任何东西，就拦下。这个我没有做。但更好的答案在下一章：这些东西根本不要靠 hook（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
-<p>不管选哪个，<strong>都要写下来，并且让故障看得见</strong>。一个故障放行又一声不吭的执行层是两头都落了坏处：你有一个洞，却不知道。</p>
+<p>故障放行并不是什么情况都适用。漏掉的拦截容易发现、容易补救时，它是对的；可要是漏掉一次就没法撤销，比如碰生产数据的命令、存着凭证的文件，它就是错的。对这些东西，有一种我没有做过的设计，是逐条规则地故障拦截，只针对一份短清单：hook 坏了，而这次调用又碰到清单上的任何东西，就拦下。不过更好的答案在下一章：这些东西根本不要靠 hook（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p>不管选哪一种，<strong>都要写下来，并且让故障看得见</strong>。一个故障放行又一声不吭的执行层，等于两头吃亏：洞照样在，你却不知道。</p>
 <h3>怎么测试</h3>
-<p>这一层的输入是数据，所以测试很容易：喂一个事件进去，读它的答案。有三种测试重要。</p>
+<p>这一层的输入是数据，所以测试起来很容易：喂一个事件进去，读它给出的答案。要紧的测试有三种。</p>
 <ul>
-<li><strong>规则测试</strong>。每条规则准备几个必须被拒绝的事件、几个必须通过的事件。用从真实平台录下来的输入，别用你编的。编出来的输入用的是你预期的写法，而平台不一定。</li>
-<li><strong>故障测试</strong>。故意弄坏一个模块，检查其他模块还能回答。喂一份损坏的配置文件，检查结果是你选的那一种，放行或拦截。平台文档也要求这么做：“测试退出码和超时的规则，别假设每种故障都会挡住工作。”</li>
-<li><strong>送达测试</strong>。这一层可以是对的，答案却还是在路上丢了（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>里有个例子）。检查模型实际收到了什么。</li>
+<li>规则测试：给每条规则准备几个必须被拒绝的事件、几个必须通过的事件。要用从真实平台录下来的输入，别用自己编的，因为编出来的输入带着你预期的写法，平台发来的却不是。</li>
+<li>故障测试：故意弄坏一个模块，检查其他模块还能回答；或者喂一份损坏的配置文件，检查结果是不是你选的那一种，放行或者拦截。平台文档也要求这么做：“测试退出码和超时的规则，别假设每种故障都会挡住工作。”</li>
+<li>送达测试：检查模型实际收到了什么，因为这一层可能是对的，答案却还是在路上丢了（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>里有个例子）。</li>
 </ul>
-<p>再养成一个习惯。留一小批固定场景（“这条命令必须被拒绝”“这个编辑必须通过”），每次平台更新之后都跑一遍。更新会改变你的执行层，而你一行代码都没动。</p>
-<h3>测试你自己的配置</h3>
-<p><strong>三个问题：</strong></p>
+<p>在这些之外，再养成一个习惯：留一小批固定场景（“这条命令必须被拒绝”“这个编辑必须通过”），每次平台更新之后都跑一遍。平台一更新，你的执行层就跟着变了，哪怕你一行代码都没动。</p>
+<h3>三个问题和一个小测试</h3>
+<p>往下读之前，先拿三个问题问问你自己的配置。</p>
 <ol>
 <li>如果明天你的 hook 崩溃了，下一次工具调用会怎样？你是知道，还是在猜？</li>
 <li>如果平台给某个字段改了名，你要改几个文件？</li>
 <li>不读用到某条规则的代码，你能改它的数字吗？</li>
 </ol>
-<p><strong>今天就能做的一个测试</strong>。在你的 hook 的一份副本里，故意加一个 bug（一行抛错的代码）。跑一个无害的任务。看平台怎么处理，看你的日志里写了什么。然后把 bug 修好。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>This is more structure than the first hook needs.</strong> One script of twenty lines is fine for a dozen rules. The structure pays when rules multiply, when more than one person edits them, or when you plan a second platform. I grew into it; I did not start with it.</p>
-<p><strong>An adapter hides the differences, not removes them.</strong> Platforms differ in what a hook can see and when it runs. A common event is a lowest common denominator, and anything the adapter cannot fill in is missing from every module. I use one platform today, so I have not tested the idea on a second.</p>
-<p><strong>Fail open is a bet, and it can be lost.</strong> It was cheap in my project. Take care if you copy it: ask what the worst missed stop would be in yours. The person who owns the project should make this choice, not the script's author by accident.</p>
-<p><strong>Platform updates change your layer.</strong> Someone has to own the layer and run the fixed scenarios after each update. If no one does, the layer drifts without anyone noticing.</p>
-<p><strong>Veto power makes a bad module costly.</strong> A module that wrongly says deny blocks everything. The tests above, and refusal reasons that say what to do instead, are how I keep it in check.</p>
-<p><strong>A record nobody reads is no use.</strong> The error log of a layer that fails open is the only sign that it failed. Read it, or have a command that reports it.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>這比第一個 hook 需要的結構更多</strong>。二十行的一個腳本，管十來條規則就夠了。結構在規則變多、不只一個人在改、或你打算接第二個平台時才划算。我是慢慢長成這樣的，不是一開始就這樣。</p>
-<p><strong>轉接器是藏起差異，不是去掉差異</strong>。平台在 hook 能看到什麼、什麼時候執行上都不同。共通事件是最小公約數，轉接器填不出來的東西，每個模組都看不到。我今天只用一個平台，所以沒有在第二個平台上測過這個想法。</p>
-<p><strong>失效放行是一場賭，可能會輸</strong>。在我的專案裡它很便宜。要抄的話請小心：問自己，在你的專案裡最糟的一次漏攔會是什麼。這個選擇應該由專案的負責人來做，不該是腳本作者無意中做出的。</p>
-<p><strong>平台更新會改變你的執行層</strong>。要有人負責這一層，每次更新後跑固定的情境。沒人做的話，這一層會在沒人注意時慢慢漂走。</p>
-<p><strong>否決權讓壞模組代價很高</strong>。一個錯誤地說拒絕的模組會擋下一切。上面的測試，和說明該改做什麼的拒絕原因，是我管住它的辦法。</p>
-<p><strong>沒人讀的紀錄沒有用</strong>。失效放行的執行層，它的錯誤日誌是它失敗了的唯一跡象。去讀它，或者弄一個指令來回報它。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>这比第一个 hook 需要的结构多</strong>。二十行的一个脚本，管十来条规则完全够用。规则增多、不止一个人在改、或者你打算接第二个平台时，这套结构才划算。我是慢慢长到这一步的，不是一开始就这么搭。</p>
-<p><strong>适配器是遮住差异，不是消除差异</strong>。各平台的 hook 能看到什么、什么时候运行，是不一样的。通用事件只取各平台的交集，适配器填不出来的东西，每个模块都看不到。我现在只用一个平台，所以没有在第二个平台上测过这个想法。</p>
-<p><strong>故障放行是一场赌，而且可能输</strong>。在我的项目里它很划算。照搬时要小心：问问在你的项目里，最糟的一次漏拦会是什么。这个选择应该由项目负责人来做，而不是由脚本作者无意中做出。</p>
-<p><strong>平台更新会改变你的执行层</strong>。得有人负责这一层，每次更新后跑固定场景。没人做的话，这一层就会在没人察觉的情况下慢慢漂移。</p>
-<p><strong>否决权让一个坏模块代价很高</strong>。一个错误地说“拒绝”的模块，会拦下所有东西。上面的测试，以及写明“该怎么做”的拒绝理由，是我用来管住它的办法。</p>
-<p><strong>没人读的记录没有用</strong>。故障放行的执行层，它的错误日志是它出过故障的唯一迹象。要么去读它，要么有一条命令把它报告出来。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>The VS Code docs agree on the cautions. They describe a command hook's error on a before-tool event as denying the call, say that a timeout falls through to normal permissions, and tell you to test both (the exact exit codes are in GitHub's reference, above). They also say that hooks and instructions are &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>) I did not find a published recommendation on fail open versus fail closed for agent hooks, so that part of the chapter is my reasoning, not a standard.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 文件在這些警告上是一致的。它們描述指令型 hook 在工具呼叫之前事件上的錯誤會拒絕這次呼叫，說逾時會落到一般的權限，並叫你兩個都測（確切的結束代碼在上面 GitHub 的參考裡）。它們還說 hooks 和指令「不能代替強制的權限、沙箱或企業管控」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）對於 agent hook 該失效放行還是失效關閉，我沒找到公開的建議，所以這一章的那部分是我的推理，不是標準。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 文档在这些提醒上是一致的。它把命令 hook 在工具调用之前的错误描述为拒绝这次调用，说超时会回落到正常的权限流程，并要求两者都要测试（具体的退出码在上面 GitHub 的参考里）。它还说，hook 和指令“不能替代强制执行的权限、沙箱或企业管控”。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）关于 agent hook 应该故障放行还是故障拦截，我没找到公开发表的建议，所以本章这一部分是我自己的推理，不是标准。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The adapter is there because platforms differ and change. If the platforms converge on one hook format, the adapter shrinks to nothing. The timing check goes when a timeout is reported and not silent. If the platform one day offers enforced policy of its own (a rule file it checks itself, with a defined failure mode), I would move the hard rules there and keep the hook for records and reminders. The question of what happens when the enforcement fails does not retire: it moves to that policy.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>轉接器存在，是因為平台各不相同，而且會變。如果各平台收斂到同一種 hook 格式，轉接器就縮到沒有。逾時被明確回報、而不再默默發生的時候，計時檢查就可以去掉。如果平台有一天提供它自己的強制政策（一個它自己檢查、有明確失敗模式的規則檔），我會把硬規則搬過去，hook 留給紀錄和提醒。執行層出錯時會怎樣，這個問題不會退場：它只是搬到那份政策上。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>适配器之所以存在，是因为各平台不一样，而且会变。如果各平台收敛到同一种 hook 格式，适配器就会缩到什么都不剩。超时有了明确的报告、不再悄悄发生时，计时检查就可以去掉。如果平台有一天提供了它自己的强制策略（一份由它自己检查的规则文件，故障时的行为有明确定义），我会把硬规则搬过去，hook 只留作记录和提醒。执行失败时会怎样这个问题不会退役：它会转移到那份策略上。</p>
+<p>然后做一个今天就能做的测试：在你的 hook 的一份副本里故意加一个 bug（一行抛错的代码），跑一个无害的任务，看平台怎么处理、你的日志里写了什么，最后把 bug 修好。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the structure costs, and what can still go wrong</h2><p>All of this is more structure than the first hook needs. One script of twenty lines is fine for a dozen rules. The structure pays when rules multiply, when more than one person edits them, or when you plan a second platform. I grew into it rather than starting with it.</p>
+<p>The adapter has a limit of its own: it only hides the differences between platforms. It does not remove them. Platforms differ in what a hook can see and when it runs. A common event is a lowest common denominator: anything the adapter cannot fill in is missing from every module. I use one platform today, so I have not tested the idea on a second.</p>
+<p>The core's veto cuts both ways. It keeps a new module from weakening the layer, but a module that wrongly says deny blocks everything. The tests above, and refusal reasons that say what to do instead, are how I keep it in check.</p>
+<p>Fail open is a bet that can be lost. It was cheap in my project. If you copy it, first ask what the worst missed stop would be in yours. The person who owns the project should make this choice, not the script's author by accident.</p>
+<p>When the bet is lost, you at least need to know it. A record nobody reads is no use: the error log of a layer that fails open is the only sign that it failed, so read it, or have a command that reports it.</p>
+<p>Last, as the test section warned, platform updates change your layer too. Someone has to own the layer and run the fixed scenarios after each update. If no one does, the layer drifts without anyone noticing. How much of this do the platform docs back?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>這套結構要付出什麼，還會在哪裡出錯</h2><p>上面這些，比第一個 hook 需要的結構更多。二十行的一個腳本，管十來條規則就夠了；等規則變多、不只一個人在改，或者你打算接第二個平台，這套結構才划算。我是慢慢長成這樣的，不是一開始就這樣。</p>
+<p>這套結構裡的轉接器，還有一個局限：它只是把平台之間的差異藏起來，並沒有去掉它。各平台的 hook 能看到什麼、什麼時候執行，都不一樣，而共通事件只能取各平台的交集：轉接器填不出來的東西，每個模組都看不到。我今天只用一個平台，所以還沒有在第二個平台上測過這個想法。</p>
+<p>核心的否決權是兩面刃。它讓新模組沒辦法把這一層變鬆，可是一個錯誤地說拒絕的模組，也會把一切都擋下來。我靠上面那些測試，以及說明該改做什麼的拒絕原因，來管住它。</p>
+<p>失效放行是一場賭，而賭就可能會輸。在我的專案裡它很划算。如果你要照抄，先問自己，在你的專案裡最糟的一次漏攔會是什麼。這個選擇應該由專案的負責人來做，不該是腳本作者無意中做出的。</p>
+<p>賭輸的時候，你至少得知道自己輸了。可是沒人讀的紀錄等於沒有：對一個失效放行的執行層來說，錯誤日誌是它失敗過的唯一跡象，所以要嘛有人去讀，要嘛弄一個指令來回報它。</p>
+<p>最後，就像測試一節提醒過的，平台更新也會改變你的執行層。要有人負責這一層，每次更新後跑一遍固定的情境；沒人做的話，這一層就會在沒人注意時慢慢走樣。這些做法，平台文件又認可多少？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这套结构要付出什么，还会在哪里出错</h2><p>上面这些，比第一个 hook 需要的结构要多。二十行的一个脚本，管十来条规则完全够用；等规则多起来、不止一个人在改，或者你打算接第二个平台，这套结构才划算。我是慢慢长到这一步的，不是一开始就这么搭。</p>
+<p>这套结构里的适配器，还有一个局限：它只是把平台之间的差异遮住了，并没有消除它。各平台的 hook 能看到什么、什么时候运行，都不一样，而通用事件只能取各平台的交集：适配器填不出来的东西，每个模块都看不到。我现在只用一个平台，所以还没有在第二个平台上测过这个想法。</p>
+<p>核心的一票否决是把双刃剑。它让新模块没法把这一层变松，可一个错误地说“拒绝”的模块，也会把所有东西都拦下来。我靠上面那些测试，以及写明“该改做什么”的拒绝理由，来管住它。</p>
+<p>故障放行是一场赌，而赌就可能输。在我的项目里它很划算。如果你要照搬，先问问在你的项目里，最糟的一次漏拦会是什么。这个选择应该由项目负责人来做，而不是由脚本作者无意中做出。</p>
+<p>赌输的时候，你至少得知道自己输了。可没人读的记录等于没有：对一个故障放行的执行层来说，错误日志是它出过故障的唯一迹象，所以要么有人去读，要么有一条命令把它报告出来。</p>
+<p>最后，正如测试一节提醒过的，平台更新也会改变你的执行层。得有人负责这一层，每次更新后跑一遍固定场景；没人做的话，这一层就会在没人察觉的情况下慢慢漂移。这些做法，平台文档又认可多少？</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What do the platform docs say? <span class="status status-industry">Industry practice</span></h2><p>The VS Code docs agree on the cautions. They describe a command hook's error on a before-tool event as denying the call, say that a timeout falls through to normal permissions, and tell you to test both (the exact exit codes are in GitHub's reference, above). They also say that hooks and instructions are &quot;not substitutes for enforced permissions, sandboxing, or enterprise controls&quot;. (<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>) What I did not find is a published recommendation on fail open versus fail closed for agent hooks, so that part of the chapter is my reasoning, not a standard.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>平台文件怎麼說？ <span class="status status-industry">業界做法</span></h2><p>在這些警告上，VS Code 文件的說法是一致的。文件說，指令型 hook 在工具呼叫之前出錯，會拒絕這次呼叫，逾時則會落到一般的權限流程。文件也叫你兩種情況都要測（確切的結束代碼在上面提到的 GitHub 參考裡），還提醒 hooks 和指令「不能代替強制的權限、沙箱或企業管控」。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）至於 agent hook 該失效放行還是失效關閉，我沒找到公開的建議，所以這一章的那部分是我自己的推理，不是標準。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>平台文档怎么说？ <span class="status status-industry">业界做法</span></h2><p>在这些提醒上，VS Code 文档的说法是一致的。它把命令 hook 在工具调用之前的错误描述为拒绝这次调用，说超时会回落到正常的权限流程，并要求两种情况都要测（具体的退出码在上面提到的 GitHub 参考里）。它还说，hook 和指令“不能替代强制执行的权限、沙箱或企业管控”。（<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Agent hooks in VS Code</a>）至于 agent hook 应该故障放行还是故障拦截，我没找到公开发表的建议，所以这一章里这部分是我自己的推理，不是标准。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When the adapter and the timing check can go <span class="status status-industry">Industry practice</span></h2><p>The adapter is there because platforms differ and change, so if the platforms converge on one hook format, the adapter shrinks to nothing. The timing check can go when a timeout is reported instead of silent. And if the platform one day offers enforced policy of its own (a rule file it checks itself, with a defined failure mode), I would move the hard rules there and keep the hook for records and reminders. Even then, the question of what happens when the enforcement fails does not retire. It moves to that policy.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉轉接器和計時檢查 <span class="status status-industry">業界做法</span></h2><p>轉接器之所以存在，是因為平台各不相同，而且會變；如果各平台收斂到同一種 hook 格式，轉接器就會縮到沒有。等逾時被明確回報、不再默默發生，計時檢查就可以去掉。如果平台有一天提供它自己的強制政策（一個它自己檢查、有明確失敗模式的規則檔），我會把硬規則搬過去，hook 只留給紀錄和提醒。即使到了那一天，執行層出錯時會怎樣這個問題也不會退場，只是搬到那份政策上。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉适配器和计时检查 <span class="status status-industry">业界做法</span></h2><p>适配器之所以存在，是因为各平台不一样，而且会变；如果各平台收敛到同一种 hook 格式，适配器就会缩到什么都不剩。等超时有了明确的报告、不再悄悄发生，计时检查就可以去掉。如果平台有一天提供了自己的强制策略（一份由它自己检查的规则文件，故障时的行为有明确定义），我会把硬规则搬过去，hook 只留作记录和提醒。即便到了那一天，执行失败时会怎样这个问题也不会消失，只是转移到了那份策略上。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>If this project uses hooks or a similar enforcement layer, read it and answer: (1) what happens to the next tool call if a hook crashes or times out, for each hook; (2) where the numbers and patterns of the rules live, in data files or inside the code; (3) which tests or fixed scenarios exist, and whether they use input recorded from the real platform; (4) where errors are logged and whether anyone would see them. If there is no hook, say so and stop. Do not change any files, and do not run the hooks.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>如果這個專案用了 hook 或類似的執行層，讀它並回答：(1) 每個 hook 崩潰或逾時的話，下一次工具呼叫會怎樣；(2) 規則的數字和模式放在哪裡，是資料檔還是程式碼裡；(3) 有哪些測試或固定的情境，它們用的是不是從真實平台錄下來的輸入；(4) 錯誤記錄在哪裡，有沒有人會看到。如果沒有 hook，就說沒有，然後停止。不要改任何檔案，也不要執行這些 hook。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>如果这个项目用了 hook 或类似的执行层，读一下它，并回答：（1）对每个 hook，如果它崩溃或超时，下一次工具调用会怎样；（2）规则的数字和匹配模式放在哪里，是在数据文件里，还是在代码里；（3）有哪些测试或固定场景，它们用的是不是从真实平台录下来的输入；（4）错误记在哪里，会不会有人看到。如果没有 hook，就这么说，然后停下。不要修改任何文件，也不要运行这些 hook。</code></pre></div>
@@ -678,11 +660,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>：hook 运行的时机，以及 hook 出错的三种方式</li>
 <li><a href="4-5-least-privilege.html">有些东西根本不给</a>：碰不得的东西该怎么办</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has this layer: one hook entry, an adapter for Copilot, modules, a core that merges, policy files, session state files, and a health check that tries the hook.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness has this whole layer, from one hook entry and an adapter for Copilot to modules, a core that merges, policy files, session state files, and a health check that tries the hook.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Build the enforcement layer like software&quot;. Teach me how this harness is built inside: the one hook entry, the adapter, the modules and the merge (topic 14), and why the hook lets a call through when it fails itself (topic 15.5). Open the real files with me, and show me what is in the error log.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 有這一層：一個 hook 入口、一個 Copilot 的轉接器、模組、一個合併的核心、政策檔、會話狀態檔，和一個會試跑 hook 的健康檢查。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 裡把這一整層都做出來了：一個 hook 入口、一個 Copilot 的轉接器、模組、一個合併的核心、政策檔、會話狀態檔，還有一個會試跑 hook 的健康檢查。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「把執行層當軟體來設計」這一章。請教我這個 harness 內部怎麼建的：一個 hook 入口、轉接器、模組和合併（主題 14），以及為什麼 hook 自己出錯時會放行呼叫（主題 15.5）。和我一起打開真實的檔案，讓我看錯誤日誌裡有什麼。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 里有这一层：一个 hook 入口、一个 Copilot 适配器、若干模块、一个合并意见的核心、策略文件、会话状态文件，以及一个会试跑 hook 的健康检查。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 里把这一整层都搭出来了：一个 hook 入口、一个 Copilot 适配器、若干模块、一个合并意见的核心、策略文件、会话状态文件，还有一个会试跑 hook 的健康检查。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“把执行层当软件来设计”这一章。请教我这个 harness 内部是怎么搭的：唯一的 hook 入口、适配器、模块和合并（主题 14），以及为什么 hook 自己出故障时会放行这次调用（主题 15.5）。带我打开真实的文件，并让我看看错误日志里有什么。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
