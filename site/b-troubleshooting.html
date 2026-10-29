@@ -425,7 +425,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>Chapter.</strong> <a href="5-4-self-checks.html">Let the agent check its own work</a> and <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>, &quot;When 'done' comes too early&quot;.</p>
 <h3>Subagent usage does not add up {#subagent-usage}</h3>
 <p><strong>Check first.</strong> A tool often shows the usage of the main conversation only. Check whether yours counts subagents too. Remember also that each subagent starts with an empty context and reads from zero, so several of them cost several times one agent. A limit on how many start is not a budget.</p>
-<p><strong>Chapter.</strong> <a href="2-3-subagents.html">Use subagents sparingly</a>, &quot;How sure I am, and what else it costs&quot;, and <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>, section &quot;A budget is a total, not a count&quot;.</p>
+<p><strong>Chapter.</strong> <a href="2-3-subagents.html">Use subagents sparingly</a>, &quot;What the extra cost bought, and what else it costs&quot;, and <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>, section &quot;A budget is a total, not a count&quot;.</p>
 <h3>The bill is higher than expected {#bill}</h3>
 <p><strong>Check first.</strong> Start with what the agent reads. Every turn rereads the whole context, so what is read matters more than how clever the model is. Look at tool results and loaded rules first, then at how often a task is redone. When you cut, stop short of the point where tasks fail and are thrown away. Check the usage numbers of one whole run, not one message. Cached context is billed at a lower rate (Anthropic's docs: about a tenth of the base price), though I have not verified that on Copilot, so look at what your own plan shows.</p>
 <p><strong>Chapter.</strong> <a href="1-1-models-and-cost.html">Choosing a model: cost per finished task</a>, <a href="2-1-agent-loop.html">The agent loop</a> and <a href="3-1-context-budget.html">Context is a budget</a>.</p>
@@ -440,7 +440,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>章節</strong>。<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a> 和 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a> 的「『做完了』說得太早」。</p>
 <h3>子 agent 的用量加不起來 {#subagent-usage}</h3>
 <p><strong>先檢查</strong>。工具通常只顯示主對話的用量。確認一下你的工具有沒有把子 agent 也算進去。也要記得，每個子 agent 都從空的上下文開始、從零讀起，所以好幾個子 agent 的花費就是一個的好幾倍。也正因為這樣，光限制能啟動幾個，並不等於有了預算。</p>
-<p><strong>章節</strong>。<a href="2-3-subagents.html">慎用子 agent</a> 的「我有多確定，拆分還有哪些代價」，以及 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a> 的「預算是總量，不是次數」一節。</p>
+<p><strong>章節</strong>。<a href="2-3-subagents.html">慎用子 agent</a> 的「多花的錢換到了什麼，拆分還有哪些代價」，以及 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a> 的「預算是總量，不是次數」一節。</p>
 <h3>帳單比預期高 {#bill}</h3>
 <p><strong>先檢查</strong>。先看 agent 讀了什麼。每一輪都會重讀整個上下文，所以讀了什麼，比模型多聰明更重要。先看工具結果和載入的規則，再看任務被重做的頻率。砍的時候要停在任務開始失敗、被整個丟掉之前。看用量要看一整次運行，不是一則訊息。快取的上下文用較低的費率計費（Anthropic 的文件：約基本價格的十分之一），不過這一點我沒有在 Copilot 上驗證過，所以請看你自己的方案顯示什麼。</p>
 <p><strong>章節</strong>。<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>、<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 和 <a href="3-1-context-budget.html">上下文是一份預算</a>。</p>
@@ -455,7 +455,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>章节</strong>。<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>和<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>的“‘做完了’说得太早”。</p>
 <h3>子 agent 的用量对不上 {#subagent-usage}</h3>
 <p><strong>先查什么</strong>。工具往往只显示主对话的用量。看看你的工具有没有把子 agent 也算进去。还要记住，每个子 agent 都从空白的上下文开始、从零读起，所以几个子 agent 的成本就是单个的好几倍。也正因为这样，光限制能开几个，并不等于有了预算。</p>
-<p><strong>章节</strong>。<a href="2-3-subagents.html">慎用子 agent</a>的“我有多大把握，拆分还有哪些代价”，以及<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>的“预算是总量，不是次数”一节。</p>
+<p><strong>章节</strong>。<a href="2-3-subagents.html">慎用子 agent</a>的“多花的钱换来了什么，拆分还有哪些代价”，以及<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>的“预算是总量，不是次数”一节。</p>
 <h3>账单比预想的高 {#bill}</h3>
 <p><strong>先查什么</strong>。先看 agent 读了什么。每一轮都会把整个上下文重读一遍，所以读了什么，比模型多聪明更要紧。先看工具返回的结果和加载的规则，再看任务被重做的频率。削减的时候要停在任务开始失败、被整个扔掉之前。看用量要看一整次运行，不要只看一条消息。缓存的上下文按较低的价格计费（Anthropic 文档：约为基础价格的十分之一），不过这一点我没有在 Copilot 上验证过，所以请看你自己的套餐显示什么。</p>
 <p><strong>章节</strong>。<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>、<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>和<a href="3-1-context-budget.html">上下文是一份预算</a>。</p>

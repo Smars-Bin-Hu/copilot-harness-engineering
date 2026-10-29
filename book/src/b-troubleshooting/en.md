@@ -137,7 +137,7 @@ Then test with the smallest hook your platform allows, one that only appends the
 
 **Check first.** A tool often shows the usage of the main conversation only. Check whether yours counts subagents too. Remember also that each subagent starts with an empty context and reads from zero, so several of them cost several times one agent. A limit on how many start is not a budget.
 
-**Chapter.** [Use subagents sparingly](2-3-subagents.html), "How sure I am, and what else it costs", and [Unattended: when it must stop](5-7-when-to-stop.html), section "A budget is a total, not a count".
+**Chapter.** [Use subagents sparingly](2-3-subagents.html), "What the extra cost bought, and what else it costs", and [Unattended: when it must stop](5-7-when-to-stop.html), section "A budget is a total, not a count".
 
 ### The bill is higher than expected {#bill}
 

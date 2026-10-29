@@ -6,8 +6,8 @@ Dividing the work has no value in itself. Another agent is worth it only when it
 
 ## For leaders {#for-leaders}
 
-- **The decision:** approve an extra agent only when it buys one of the four: an independent check, parallel work, work that runs unattended, or a hard limit on tools.
-- **The risk:** a team of role agents can cost several times the usage and time for the same result. In my test, on four tasks run once each, it took about 4.5 times the usage and 6 times the time.
+- **The decision:** approve an extra agent only when it buys one of the four things above.
+- **The risk:** a team of role agents can cost several times the usage and time for the same result. In my test on four tasks, it took about 4.5 times the usage and 6 times the time.
 - **The cost of doing it right:** usually one extra agent per task, a reviewer.
 - **Ask the team:** "Which of the four does this agent buy, and did you try the task without it?"
 
@@ -31,11 +31,11 @@ Each task was then done two ways. The three-role team did it once, with a knowle
 
 ::: figure agents-vs-roles
 
-Both ways got all four tasks right. So the team bought nothing in correctness, yet it paid about 4.5 times the usage and about 6 times the time. Trust the direction (the team cost several times more for the same outcome) rather than the exact ratio, for reasons that [How sure I am, and what else it costs](#costs-and-traps) explains.
+Both ways got all four tasks right, so the team bought nothing in correctness for its extra cost. Each task ran once, though, so another run would move the numbers. The two sides were also not equal, because the single agent used a top model with no extra setup while the team had a knowledge base to read, and each difference could push the numbers either way. So I trust the direction, that the team cost several times more for the same outcome, but not the exact ratio. A gap of four to six times is large enough to take seriously, but being sure of its size would take several runs.
 
 ### Where the extra cost went
 
-When I read the records of each run, the biggest waste turned out to be the handover. The coordinator studied the task carefully, reading the request and the files until it understood what had to change. Then it wrote a short plan and handed it over. The builder started with an empty context, so after reading the plan it had to study the same files again. The same understanding was paid for twice.
+When I read the records of each run, the biggest waste turned out to be the handover. The coordinator studied the task carefully, reading the request and the files until it understood what had to change. Then it wrote a short plan and handed it over. The builder started with an empty context, so after reading the plan it had to study the same files again.
 
 ::: figure handoff-relearn
 
@@ -49,17 +49,17 @@ And a title on its own carries no knowledge. "You are a designer" changes the to
 
 The team also handed a model decisions it did not need to make. Questions like "who works next" and "is it finished" often have fixed answers, and a small program answers them right every time, where a model answers them right most of the time. So what a fixed rule can decide should not be left to a model. And when the work has to be redone, rework starts from zero: in my setup, every round of checks starts a new reviewer, which reads the work again from the start.
 
-None of this means a second agent never helps. It means the second agent has to earn its place, so the question becomes when it does.
+None of this means a second agent never helps, only that it has to earn its place. So when does it?
 
 ## When is a second agent worth it? {#how-it-works}
 
 ### What a subagent can and cannot do
 
-Before asking what a second agent can buy, it helps to see how little it starts with. Think of a subagent as a contractor you send a written brief to. It sees only the brief, not your conversation or your notes. It cannot call you back either, so if the brief is missing something, it guesses or stops. And what it sends back is a report, not its understanding, because everything it read stays with it.
+Think of a subagent as a contractor you send a written brief to. It sees only the brief, not your conversation or your notes. It cannot call you back either, so if the brief is missing something, it guesses or stops. And what it sends back is a report, not its understanding, because everything it read stays with it.
 
 So before you split off any work, ask one question: **will a short report be enough for the main agent to go on?**
 
-If yes, a split can work. If the main agent needs everything the helper understood, do not split. A designer handing work to a developer fails this test, because the developer needs everything the designer understood, not a summary of it.
+If yes, a split can work. If the main agent needs everything the helper understood, do not split. A designer handing work to a developer fails this test, because the developer needs more than a summary.
 
 Passing the test is not enough, though. The split also has to buy something one agent cannot get alone, and there are four such things.
 
@@ -90,7 +90,7 @@ Instead, the work can be split the way big data jobs are split. You **map** each
 
 ::: figure parallel-read
 
-**This is where several agents clearly win.** Anthropic built a research system on this pattern, in which a lead agent plans and subagents search different directions at the same time. On their internal research tests it beat a single agent (Claude Opus 4) by 90.2%, and it shines on broad questions that split into independent directions. The price is that such systems use about 15 times the tokens of a chat. Anthropic also notes that most coding tasks have fewer truly parallel parts than research. ([How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system))
+**This is where several agents clearly win.** Anthropic built a research system on this pattern, in which a lead agent plans and subagents search different directions at the same time. On their internal research tests it beat a single agent (Claude Opus 4) by 90.2%, and it shines on broad questions that split into independent directions. The price is that such systems use about 15 times the tokens of a chat. Anthropic also notes that most coding tasks have fewer parts that can run in parallel than research does. ([How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system))
 
 So the test comes down to two questions: does the job split into parts that do not need each other, and is the answer worth several times the cost?
 
@@ -129,7 +129,7 @@ A better version works like a site manager on a building site. The manager does 
 
 Why does this split work, when the three-role team did not? The team split one piece of work by phase, so one agent understood it and another had to act on that understanding. Here the split is by piece. Each worker gets a whole small job, both the doing and the testing, so the main agent needs only "done, tests pass" to go on, which passes the summary test.
 
-This split still has a price, and two things cause most of it. The first is that every worker starts from zero, with only its brief. It cannot ask back, so the brief must be complete, with whatever it needs written down. It also has to read its files again, so many small steps cost more than one agent doing them in a row. The second is that the main agent sees only reports, and a report is not proof. A worker that says "tests pass" may be wrong, and the main agent cannot tell. That is why the independent check at the end matters, and why the main agent should open the files of a step now and then.
+This split still has a price, and two things cause most of it. The first is that every worker starts from zero, with only its brief. It cannot ask back, so the brief must be complete, with whatever it needs written down. It also has to read its files again, so many small steps cost more than one agent doing them in a row. The second is that the main agent sees only reports, and a report is not proof. A worker that says "tests pass" may be wrong, and the main agent cannot tell. So the independent check at the end matters, and the main agent should open the files of a step now and then.
 
 Steps that depend on each other's details do not fit this split at all. If step 4 needs to know exactly how step 3 was done, either write that down for the next worker or keep both steps with one agent.
 
@@ -153,56 +153,43 @@ A hook makes it a rule. One that runs just before any subagent starts can read t
 
 Once more than one agent is involved, the work has to pass between them, but they should not send each other messages to do it. Instead, give each piece of work its own **task folder**, holding the request, the plan, the to-do list and the results of every check. The agents then hand over by writing files there.
 
-Why files rather than messages? Because of what files give you. You can open the same files and see what happened. If you stop for a day, the next session picks the work up from the files. And afterwards, the folder is a record of who did what and what the checks said.
+Why files rather than messages? Because you can open the same files and see what happened. If you stop for a day, the next session picks the work up from the files. And afterwards, the folder is a record of who did what and what the checks said.
 
 ::: figure subagent-map
 
 ### Test your own setup
 
-You can turn all of this into three questions for any extra agent, whether it is in your own setup or in a proposal you are asked to approve:
-
-1. Which of the four does it buy?
-2. Will a short report be enough for the main agent to go on?
-3. Did you try the same task without it?
-
-You can also run a test today, with no extra setup. Take a task you know the right answer to and do it twice in your own tool. The first time, ask the agent to check its own work. The second time, open a new chat, give it only the request and the result, and ask it to check. Then compare what each one found.
+You can run a test today, with no extra setup. Take a task you know the right answer to and do it twice in your own tool. The first time, ask the agent to check its own work. The second time, open a new chat, give it only the request and the result, and ask it to check. Then compare what each one found.
 
 If you want to compare two setups fairly, a few habits matter:
 
 - Run each one several times, not once, because an agent does not do the same thing twice.
 - Score both the same way, ideally with a script.
 - Write down three numbers: was it right, how much usage, how long.
-- Do not decide from a single run.
 
 To repeat my test, the made-up repository, the four tasks and the scoring script are in [`labs/subagents/`](../labs/subagents/README.md). They work with any agent tool.
 
-## How sure I am, and what else it costs {#costs-and-traps}
+## What the extra cost bought, and what else it costs {#costs-and-traps}
 
-How far should you trust the numbers this chapter started with? I am sure of the direction, but not of the exact ratio, for two reasons. Each task ran once, so another run would move the numbers. The two sides were also not equal. The single agent used a top model with no extra setup, but the team had a knowledge base to read. Each difference could push the numbers either way. A gap of four to six times is large enough to take seriously, but to be sure of it, the test has to be run several times.
+Even in my test, the extra money was not all wasted. Once, when the builder missed two references across areas, the reviewer caught them and sent the work back, with no person stepping in. So when the rest of the team went, I kept the reviewer.
 
-There is also a case the test did not cover, a vague request in a very large, messy repository. That is where splitting might pay off, though I have no data either way.
+Splitting also has two costs that are easy to miss. The first is that parallel reading is not free, because every mapper starts from an empty context and reads its part from zero. Use it when the reading is too much for one context, not to save time on a few files.
 
-Even within the test, the extra money was not all wasted. Once, when the builder missed two references across areas, the reviewer caught them and sent the work back, with no person stepping in. That is why I kept the reviewer when the rest of the team went.
-
-Beyond the test, splitting has a few costs worth knowing about. Parallel reading is not free. Every mapper starts from an empty context and reads its part from zero, so four mappers cost several times one agent. Use it when the reading is too much for one context, not to save time on a few files.
-
-Subagent usage is also easy to miss, because a tool often shows the usage of the main conversation only. Check whether yours counts subagents too. And even once you can see it, a count is not a budget. Limiting how many helpers start does not limit what they spend together. The better design gives the main agent and all its subagents one budget, so that a subagent gets what is left of it, not a fresh one of its own.
+The other is subagent usage, because a tool often shows the usage of the main conversation only. Check whether yours counts subagents too. And even once you can see it, limiting how many helpers start does not limit what they spend together. The better design gives the main agent and all its subagents one budget, so that a subagent gets what is left of it, not a fresh one of its own.
 
 ## Do the platform makers agree? {#industry}
 {status: industry}
 
-Beyond my own test, the platform makers agree on the direction: more agents, many more tokens.
-
-Anthropic's research system (above) uses about 15 times the tokens of a chat, which is worth it for broad research and less so for most coding ([How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)). Claude Code has *agent teams*, several agents that act as a team and message each other. Its docs say they "use approximately 7x more tokens than standard sessions when teammates run in plan mode" (plan mode: each teammate plans before it acts). That is a different setup from my test, so the numbers do not compare directly. Agent teams are also experimental and off by default ([Manage costs](https://code.claude.com/docs/en/costs)). The VS Code guide, for its part, says: "Keep agent chains as shallow as practical and limit tools to what each agent actually needs." ([Context engineering guide](https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide))
+The platform makers agree on the direction: more agents, many more tokens. Anthropic's research system under parallel reading is one example ([How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)). Claude Code has *agent teams*, several agents that act as a team and message each other. Its docs say they "use approximately 7x more tokens than standard sessions when teammates run in plan mode" (plan mode: each teammate plans before it acts). That is a different setup from my test, so the numbers do not compare directly. Agent teams are also experimental and off by default ([Manage costs](https://code.claude.com/docs/en/costs)). The VS Code guide, for its part, says: "Keep agent chains as shallow as practical and limit tools to what each agent actually needs." ([Context engineering guide](https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide))
 
 None of them says one agent is always better. Read together with my test, they come down to this: for one task with a clear request, do not orchestrate, but for broad work that splits into independent parts, several agents can be worth their cost.
 
 ## When to delete the hooks, and when to rethink the split {#when-to-delete-it}
 {status: industry}
 
-The hooks in this chapter (allow only named subagents, count the helpers, push an unattended run) exist because the platform does not do these things yet. When Copilot itself can allow only named subagents and cap the usage of the main agent and all its subagents together, drop the hooks.
+The hooks in this chapter (allow only named subagents, count the helpers, push an unattended run) exist because the platform does not do these things yet. When Copilot itself can allow only named subagents and give a whole task one usage budget, drop the hooks.
 
-The hooks can go, but the reasoning stays. What would make me look again at the split itself is one of two things. The first is a platform that can resume a finished subagent. Rework would then stop starting from zero, and a thin coordinator inside one task might pay off, although I have not tested whether Copilot can do this today. The second would be a comparison showing that a self-check catches everything an independent check catches, in which case even the reviewer could go.
+The hooks can go, but the reasoning stays. What would make me look again at the split itself is one of two things. The first is a platform that can resume a finished subagent. Rework would then stop starting from zero, and a thin coordinator inside one task might pay off. The second would be a comparison showing that a self-check catches everything an independent check catches, in which case even the reviewer could go.
 
 ## Try it on your own setup {#try-it}
 

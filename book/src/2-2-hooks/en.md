@@ -7,8 +7,8 @@ A hook is code the platform runs at fixed points in every turn, including inside
 ## For leaders {#for-leaders}
 
 - **The decision:** decide which rules must hold every time, and put those in a hook (code the platform runs on every tool call) rather than in a prompt.
-- **The risk:** a hook sees the text of a call, not what a command does once it runs, and it can fail quietly. In Copilot as I saw it in October 2026, a hook that times out counts as a pass, while one that cannot start blocks every tool. In one small batch on one machine, about a third of prompts reached the model without the rules a hook was meant to add. Read that as "a lot", not as a rate.
-- **The cost of doing it right:** one small program and one configuration file, kept under code review. Mine normally runs in a few dozen milliseconds.
+- **The risk:** a hook sees only the text of a call, and it can fail quietly. In Copilot as I saw it in October 2026, a hook that times out counts as a pass, while one that cannot start blocks every tool. In one small batch on one machine, about a third of prompts reached the model without the rules a hook was meant to add.
+- **The cost of doing it right:** one small program and one configuration file, kept under code review.
 - **Ask the team:** "What happens to our rules when the hook is slow or broken, and how do we know the model actually received them?"
 
 ## What makes a rule hold every time? {#problem}
@@ -19,9 +19,9 @@ What you need, then, is something that does not depend on the model's memory or 
 
 More exactly, a hook is a small program that you write and the platform runs for you at fixed moments. Each time, the platform hands it a piece of JSON (a plain text format for data) that says what is happening, such as "the agent wants to run this command". The hook answers, also in JSON, which the platform then acts on. It is the platform that runs the hook, not the model, so the model cannot skip it.
 
-My first lesson about hooks, though, came from one that did not work. I used a hook to put the harness's rules in front of the model at the start of each prompt. On the surface it worked, since it ran every time and its output looked right. Yet when I looked at what the model had actually received, in a small batch of prompts on one machine in October 2026, about a third had no rules in them (I did not keep the exact count, so read "a third" as "a lot", not as a rate). The hook had returned the right answer, and still nothing had happened. The cause turned out to be VS Code itself, which adds its own reminders to a prompt. Those reminders took the one slot the hook used. I fixed it by adding a second check at the last point before the text goes to the model. The whole text is visible there, so the check can put the rules back if they are missing.
+My first lesson about hooks, though, came from one that did not work. I used a hook to put the harness's rules in front of the model at the start of each prompt. On the surface it worked, since it ran every time and its output looked right. Yet when I looked at what the model had actually received, in a small batch of prompts on one machine in October 2026, about a third had no rules in them (read "a third" as "a lot", not as a rate). The cause turned out to be VS Code itself, which adds its own reminders to a prompt. Those reminders took the one slot the hook used. I fixed it by adding a second check at the last point before the text goes to the model. The whole text is visible there, so the check can put the rules back if they are missing.
 
-That lesson holds for every hook: **check what the model really received, not what the hook returned.** And if a hook that ran every time could still fail like this, it is worth knowing exactly what a hook can do, how else it fails, and what it cannot see at all.
+That lesson holds for every hook: **check what the model received, not what the hook returned.** But if a hook that ran every time could still fail like this, how else can it fail, and what can it not see at all?
 
 ## What can a hook do, and what can it not? {#how-it-works}
 
@@ -40,7 +40,7 @@ A hook runs only at the moments the platform offers. The ones I use are below, w
 | A subagent starts or stops | A helper agent begins or ends | Hand it its package; record the end |
 | The agent is about to stop | The model wrote an answer | Say "not yet", once, if work is open |
 
-Of these, only the moment before a tool call can refuse one specific action. A rule needs a call that exists but has not happened yet, and this is the only moment that has one. The other moments can watch, record and add words. (The stop moment can also say "not yet", as described below, but that is not a refusal of an action.) If you want to see these moments for yourself, the small test at the end of this section shows them.
+Of these, only the moment before a tool call can refuse one specific action. A rule needs a call that exists but has not happened yet, and only this moment has one. The other moments can watch, record and add words. (The stop moment can also say "not yet", as described below, but that is not a refusal of an action.) If you want to see these moments for yourself, the test at the end of this section shows them.
 
 ### What goes in and what comes out
 
@@ -48,7 +48,7 @@ What does the hook actually get at one of these moments? It receives JSON that s
 
 ::: code harness .harness/eval/fixtures/hooks/copilot-sdk/payloads/PostToolUse.Bash.json L1-L15 "What a hook receives after a terminal command: the event, the tool name, the arguments and the result."
 
-The hook answers in JSON too, and there are really only three useful answers:
+The hook answers in JSON too, and only three answers are useful:
 
 - Let it through. An empty answer counts as no opinion, and the platform's normal permission checks still apply.
 - Refuse, with a reason. The call does not run, and the reason is shown to the model and to you.
@@ -66,17 +66,17 @@ All of this assumes the hook works. A hook is software, though, so it will fail,
 | --- | --- |
 | The hook runs and refuses | The call is stopped, the reason is shown. This works in the default mode and in the modes that skip permission prompts. |
 | The hook cannot start (for example, the language it is written in is not installed) | Treated as a refusal: no tool can run, and the screen says little more than "hook errored". |
-| The hook takes too long | Treated as a pass, silently. The VS Code docs describe it as falling through to normal permissions. |
+| The hook takes too long | Treated as a pass, silently. |
 
-So the same failure can lock you out or leave the door open, depending on how it fails. Which of the two you would rather have is a design choice. [Enforcement design](4-4-enforcement-design.html) is about how to make it. It also describes the choice I made: let the call through and log the error, and warn when the slowest recent call nears the time limit.
+Whether a broken hook should lock you out or leave the door open is therefore a design choice. [Enforcement design](4-4-enforcement-design.html) is about how to make it. It also describes the choice I made: let the call through and log the error, and warn when the slowest recent call nears the time limit.
 
 ### Inside subagents
 
-A subagent is a second agent started for a piece of the work ([Use subagents sparingly](2-3-subagents.html)). Because it runs in its own session, you might expect it to be out of reach of the hooks. In Copilot today it is not, since its tool calls go through the hooks as well, with the event carrying the id of the parent session. So a rule set for the main agent also holds for the helpers it starts. I have not tested other platforms, so I would not assume it there.
+A subagent is a second agent started for a piece of the work ([Use subagents sparingly](2-3-subagents.html)). Because it runs in its own session, you might expect it to be out of reach of the hooks. In Copilot today it is not, since its tool calls go through the hooks as well, with the event carrying the id of the parent session. So a rule set for the main agent also holds for the helpers it starts.
 
 ### What a hook cannot see
 
-So far this has been about what a hook does. What it cannot see is the part I most want you to remember.
+Of everything in this chapter, this is the part I most want you to remember.
 
 ::: figure 2-2-blind-spot
 
@@ -84,31 +84,25 @@ So far this has been about what a hook does. What it cannot see is the part I mo
 
 Even for the calls it does see, a hook does not know which agent is making them. In Copilot today the event does not carry the name of the main agent, so "this agent is allowed to" cannot be a rule, because any agent could pass for it. If rights must differ, they have to come from something the agent cannot set, such as a switch the person turns on in a terminal.
 
-Some calls it never sees at all, because a hook does not run everywhere. In my measurements, the repository's hooks did not run when I used the command-line mode of Copilot (no window), and a setting that looks like an off switch did not stop them in the newer sessions. A company policy can also turn hooks off for a workspace, and even a change to the hook file takes effect only after a reload, because the file is read when the window starts. These are the facts as I found them in October 2026, and they will change, so look at the platform's current docs.
+Some calls it never sees at all, because a hook does not run everywhere. In my measurements in October 2026, the repository's hooks did not run when I used the command-line mode of Copilot (no window), and a setting that looks like an off switch did not stop them in the newer sessions. A company policy can also turn hooks off for a workspace, and even a change to the hook file takes effect only after a reload, because the file is read when the window starts.
 
-Finally, even when a hook runs and answers, its message can be lost. That is the story at the top of this chapter, where output from a hook may never reach the model. So test the delivery, not only the hook.
+Finally, even when a hook runs and answers, its message can be lost on the way to the model, as in the story at the top of this chapter.
 
 ### Other things that stand in the loop
 
 Is a hook, then, the only thing that stands between the model and the world? It is not. A **wrapper** (a small program you call instead of the raw command), an **MCP server** ([MCP](1-3-mcp.html)) and a **proxy** between the platform and the model all stand there too. But each of them sees only what is routed through it, and the agent can route around them. What sets the hook apart is that the platform promises to call it. For the built-in tools and for subagents I saw every call pass through it, although I have not tested MCP tools.
 
-### Three questions and a small test
+### A test you can run today
 
-To put this to work on your own setup, ask three questions about any rule you care about.
-
-1. Is it written in a prompt, or in a hook? If it is in a prompt, it is a request.
-2. What does the hook see when the rule is broken? The call text, or the effect?
-3. What happens when the hook itself breaks or is slow?
-
-There is also a test you can run today. Write the smallest hook your platform allows, one that only appends the event name and the tool name to a file. Use your agent for a small task, then read the file. You will see every moment in the table above, in order, and how many there are, which makes it the quickest way to understand the loop. Follow the [VS Code hooks docs](https://code.visualstudio.com/docs/copilot/customization/hooks) for the file format.
+Write the smallest hook your platform allows, one that only appends the event name and the tool name to a file. Use your agent for a small task, then read the file. You will see every moment in the table above, in order, and how many there are, which makes it the quickest way to understand the loop. Follow the [VS Code hooks docs](https://code.visualstudio.com/docs/copilot/customization/hooks) for the file format.
 
 ## What a hook costs, and what to watch for {#costs-and-traps}
 
-Of the three failures above, the one that matters most in a team is the timeout, because a timeout is a silent pass. The rule is not enforced, and nobody is told. So watch the time your hook takes and read [Enforcement design](4-4-enforcement-design.html) before you choose what happens on failure.
+Of the three failures above, the one that matters most in a team is the timeout, because a timeout is a silent pass. So watch the time your hook takes.
 
 Time matters for a second reason, too. A hook runs on every call, so if it is slow, everything is slow. Mine normally takes a few dozen milliseconds. Keep yours cheap, and put a limit on what it may do.
 
-A hook is also code you must trust. It runs on your machine and reads whatever the agent sends, so never put the agent's text straight into a shell command inside a hook. In a team, treat the hook file like any other code that guards something, which means changing it through review. Hooks are also still in Preview in VS Code, so their behavior may change with the platform. What I wrote in the failure table is only what I saw, so check it again after each update.
+A hook is also code you must trust. It runs on your machine and reads whatever the agent sends, so never put the agent's text straight into a shell command inside a hook. In a team, treat the hook file like any other code that guards something, which means changing it through review. Hooks are also still in Preview in VS Code, so their behavior may change with the platform. What this chapter says about how Copilot behaves is only what I saw, so check it again after each update.
 
 One last trap is in the reason itself, which can be too good. A refusal that explains exactly how to get around the rule teaches the model to do that. Say what to do instead, not how to dodge.
 
@@ -117,12 +111,10 @@ One last trap is in the reason itself, which can be too good. A refusal that exp
 
 VS Code lists the moments I used (session start, prompt submitted, before and after a tool, subagent start and stop, agent stop) and states that a `preToolUse` hook can return a deny with a reason. It also notes that a timeout falls through to normal permissions and that the feature is in Preview. ([Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks))
 
-I have not compared this in detail with other platforms' hooks, which differ in their event names and in what they cover.
-
 ## Which parts to delete, and when {#when-to-delete-it}
 {status: industry}
 
-A hook for a rule stays as long as the platform lets rules in prompts be ignored, because the reasoning behind it does not retire. The parts I would delete first are the workarounds. The second check that puts back rules lost on the way goes when the platform delivers hook output reliably, and the timing watch goes when a timeout is reported instead of silently passing. If the platform one day offers a native, enforced policy (a rule file it checks itself), I would move the hard rules there and keep hooks for records and reminders.
+A hook for a rule stays as long as the platform lets rules in prompts be ignored. The parts I would delete first are the workarounds. The second check that puts back rules lost on the way goes when the platform delivers hook output reliably, and the timing watch goes when a timeout is reported instead of silently passing. If the platform one day offers a native, enforced policy (a rule file it checks itself), I would move the hard rules there and keep hooks for records and reminders.
 
 ## Try it on your own setup {#try-it}
 

@@ -230,30 +230,30 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 是一个循环：问模型，运行它要的工具，把结果喂回去。你在每一轮的几个点上掌舵。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> when an agent misbehaves, ask which of four places to fix (what it reads, which tools it has, a check before a call, a check after a call) before asking for a bigger model or a longer prompt.</li>
-<li><strong>The risk:</strong> the loop itself almost never breaks. As I read it, mistakes come from what is in the context or from what the agent is allowed to do, and a rule written in a prompt is only a request. I have no counts of how often each happens.</li>
+<li><strong>The risk:</strong> the loop itself almost never breaks, but a rule that lives only in a prompt is a request the model may not follow.</li>
 <li><strong>The cost of doing it right:</strong> mostly setup time. The cheapest lever, what the agent reads, takes only a few lines of written rules.</li>
 <li><strong>Ask the team:</strong> &quot;For the last bad result, was the fix a better context, a tighter tool list, or a check outside the model?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
 <li><strong>要做的決定</strong>：agent 出錯時，先問該修四個地方的哪一個（它讀什麼、有哪些工具、呼叫前的檢查、呼叫後的檢查），再去要更大的模型或更長的 prompt。</li>
-<li><strong>風險</strong>：迴圈本身幾乎不會壞。依我的看法，錯誤不是出在上下文裡有什麼，就是出在允許 agent 做什麼，而寫在 prompt 裡的規則只是請求。每一種發生得多頻繁，我沒有計數。</li>
+<li><strong>風險</strong>：迴圈本身幾乎不會壞，可是只寫在 prompt 裡的規則不過是請求，模型不一定照做。</li>
 <li><strong>做對的成本</strong>：主要是設定的時間。最便宜的槓桿是 agent 讀什麼，只要寫幾行規則。</li>
 <li><strong>可以問團隊</strong>：「上一次的壞結果，修法是更好的上下文、更緊的工具清單，還是模型外面的一道檢查？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
 <li><strong>要拍板的事</strong>：agent 出了问题，先问该改四个地方里的哪一个（它读什么、有哪些工具、调用前的检查、调用后的检查），再去考虑换更大的模型或写更长的 prompt。</li>
-<li><strong>风险</strong>：循环本身几乎不会坏。在我看来，错误要么出在上下文里有什么，要么出在允许它做什么，而写在 prompt 里的规则只是请求。每一种有多常见，我没有统计。</li>
+<li><strong>风险</strong>：循环本身几乎不会坏，可只写在 prompt 里的规则不过是请求，模型不一定照做。</li>
 <li><strong>做对的代价</strong>：主要是配置的时间。最便宜的杠杆是 agent 读什么，只要写几行规则。</li>
 <li><strong>可以问团队</strong>：“上一次的坏结果，修的办法是更好的上下文、更紧的工具清单，还是模型之外的一道检查？”</li>
 </ul>
 </div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>When an agent goes wrong, what is actually wrong?</h2><p>When an agent does something wrong, it is natural to picture a mind that has made a bad choice. The trouble is that this picture sends people to the wrong fix. They write a longer prompt, add &quot;be careful&quot; in capital letters, or switch to a bigger model. Sometimes that helps, but often it does not, because the problem was not in the thinking.</p>
-<p>If the problem is not in the thinking, where is it? To answer that, it helps to know what the machine actually is. It turns out to be small and plain. Once you can see it, you can also see the few places where you can reach into it, so let us draw the machine and mark them. Every later chapter in this part, like most of the chapters after it, works on one of them.</p>
+<p>If the problem is not in the thinking, where is it? The answer lies in the machine. It turns out to be small and plain, with a few places where you can reach into it. Every later chapter in this part, like most of the chapters after it, works on one of them.</p>
 <p>The machine starts with the <strong>model</strong>, the AI itself. It reads text and writes text and does nothing else, yet an agent plainly does more than write, since it reads files, searches, changes files and runs commands. Each of these is a <strong>tool</strong>, one thing the agent can do in your project. What joins the two is the <strong>tool call</strong>, which is the model's request to use a tool, written as text: &quot;read this file&quot;. How a model that can only write text ends up changing your files is what the loop explains.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>agent 出錯時，到底錯在哪裡？</h2><p>agent 做錯事的時候，人很自然會覺得，是背後有個頭腦做了糟糕的選擇。問題是，這個想像會把人引到錯誤的修法上：把 prompt 寫得更長、用大寫字母加上「小心點」，或者換成更大的模型。這些有時有用，但常常沒用，因為問題本來就不在思考裡。</p>
-<p>那麼，不在思考裡，又在哪裡？要回答這個問題，得先知道這台機器到底是什麼。其實它很小，也很普通。看清楚它之後，你也就看得到有哪幾個地方能伸手進去，所以我們先把它畫出來，再把這幾個地方標上。這一部分後面的每一章，和再往後的大部分章節一樣，都在處理其中一個地方。</p>
+<p>那麼，不在思考裡，又在哪裡？答案在這台機器裡。其實它很小，也很普通，上面只有幾個地方能伸手進去。這一部分後面的每一章，和再往後的大部分章節一樣，都在處理其中一個地方。</p>
 <p>這台機器的起點是<strong>模型</strong>，也就是 AI 本身。它讀文字、寫文字，除此之外什麼都不做。可是 agent 顯然不只會寫字，它還會讀檔案、搜尋、改檔案、執行指令。這裡的每一樣都叫一個<strong>工具</strong>，也就是 agent 在你的專案裡能做的一件事。把兩者接起來的是<strong>工具呼叫</strong>：模型想用某個工具時提出的要求，寫成文字，例如「讀這個檔案」。一個只會寫字的模型，最後怎麼會改到你的檔案？答案就在迴圈裡。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>agent 出了错，到底错在哪？</h2><p>agent 做错事的时候，人很自然会觉得，是背后有个头脑做了个糟糕的选择。麻烦在于，这幅图景会把人引向错误的修法：把 prompt 写得更长，用大写字母加上一句“小心”，或者换一个更大的模型。这些有时候管用，但往往不管用，因为问题本来就不出在思考上。</p>
-<p>那么，不出在思考上，又出在哪？要回答这个问题，得先弄清这台机器到底是什么。其实它又小又朴素。看清了它，你也就能看清有哪几个地方可以伸手进去，所以我们先把它画出来，再把这几个地方标上。这一部分后面的每一章，和再往后的大多数章一样，都是在其中某一个地方下功夫。</p>
+<p>那么，不出在思考上，又出在哪？答案在这台机器里。其实它又小又朴素，上面只有几个地方可以伸手进去。这一部分后面的每一章，和再往后的大多数章一样，都是在其中某一个地方下功夫。</p>
 <p>这台机器的起点是<strong>模型</strong>，也就是 AI 本身。它读文本、写文本，别的什么都不做。可 agent 显然不只会写字，它还会读文件、搜索、改文件、运行命令。这里的每一样，都叫一个<strong>工具</strong>，也就是 agent 在你的项目里能做的一件事。把两者连起来的是<strong>工具调用</strong>：模型要用某个工具时提出的请求，写成文本，比如“读这个文件”。一个只会写字的模型，最后怎么就改了你的文件？答案就在循环里。</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>What the machine is, and where you can reach into it</h2><h3>Ask, run, feed back</h3>
 <p>The model cannot touch your files, because all it can do is write text. So an agent needs a program outside the model to do the acting for it. The model writes a tool call, and a program around the model, the part that is not AI, reads that text and runs the tool for real, then pastes the result back in front of the model as more text. The model reads that result and writes the next tool call. This repeats until the model writes an answer with no tool call in it, which is the signal that it thinks it is done.</p>
@@ -300,23 +300,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">You send a request. The platform adds the rules, and the model reads both.</li><li data-step-text="2">The model does not touch your files. It writes a request for a tool call: read this file, run this command.</li><li data-step-text="3">The program around the model runs the tool for real.</li><li data-step-text="4">The result goes back to the model as text, and the model decides the next step. This repeats until it says it is done.</li><li data-step-text="5">You cannot change the model&#x27;s thinking. You can change what it reads, which tools exist, and what happens just before and just after each call.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>An agent is a loop. The model asks, the program acts, the result goes back. You steer at four places in each turn.</figcaption></figure>
-<p>Two facts follow from this picture, and both matter later.</p>
+<p>Two facts follow from this picture.</p>
 <p>The first is that every action is a tool call. The model has no other way to do anything, so there is a door that every action passes through. Whoever stands at that door can see, and stop, everything the agent does. A <strong>hook</strong> stands there: a small program of yours that the platform runs at fixed points, just before and just after each tool call. (For the built-in tools and for subagents I have seen every call pass the hook point, though I have not tested MCP tools. The next chapter, <a href="2-2-hooks.html">Hooks</a>, has the details.)</p>
-<p>The second is that the model sees only text. It does not see your screen or your disk, only what is in its context: the rules, your words, the results of earlier tool calls and its own earlier answers. That context is its whole world. It also has a size limit, which is what <a href="3-1-context-budget.html">The context is a budget</a> is about.</p>
+<p>The second is that the model sees only text. It does not see your screen or your disk, only what is in its context: the rules, your words, the results of earlier tool calls and its own earlier answers. That context also has a size limit, which is what <a href="3-1-context-budget.html">The context is a budget</a> is about.</p>
 <h3>When does it stop?</h3>
-<p>The ordinary stop is the one just described, the model answering without asking for a tool. But there are others. You can press stop, the platform can reach a limit (I have not checked what limit on turns Copilot sets by default, so I do not give one here), or something can refuse the stop.</p>
+<p>The ordinary stop is the one just described, the model answering without asking for a tool. But there are others. You can press stop, the platform can reach a limit, or something can refuse the stop.</p>
 <p>That last one is useful. A hook can run when the agent is about to stop, look at the to-do list of the task (the steps it still has open), and say &quot;not yet, step 4 is open&quot;, after which the loop goes on. This is how an agent is made to work through a long list without you, a case that <a href="2-3-subagents.html">Use subagents sparingly</a> covers along with its stop rules. It is a first sign that the loop has places where your own code can step in.</p>
 <h3>Where you can step in</h3>
 <p>Look at the loop again. You cannot change how the model thinks. What you can change are four things around it.</p>
 <ol>
 <li><strong>What it reads.</strong> The rules and instructions put in its context, and the files it is pointed at, make up the most used lever and also the cheapest. <a href="3-3-instructions-and-skills.html">Instructions and skills</a> is about it.</li>
 <li><strong>Which tools exist.</strong> An agent that has no tool for changing files cannot change files. A tool's description and its error messages are also the only manual the model gets for it (<a href="1-2-tool-calling.html">Tool calling</a>). To give a role a shorter list, you use a custom agent (<a href="2-4-custom-agents.html">Custom agents</a>).</li>
-<li><strong>A hook before a call.</strong> Code here sees the call before it runs and can refuse it. Because the platform guarantees that every call passes through this point, a rule here is code that runs, not a request. A hook is not the only rule made of code, though. A tool list, or a command the agent runs to check itself, also counts, only each covers a narrower range (<a href="4-1-requests-and-rules.html">chapter 4.1</a>). Permission settings and sandboxes are another kind of lever, since they do not read the call but limit what any command can do. I have not tested them one by one on Copilot, so I leave them out of the four.</li>
+<li><strong>A hook before a call.</strong> Code here sees the call before it runs and can refuse it. Because the platform guarantees that every call passes through this point, a rule here is code that runs, not a request. A hook is not the only rule made of code, though. A tool list, or a command the agent runs to check itself, also counts, only each covers a narrower range (<a href="4-1-requests-and-rules.html">chapter 4.1</a>). Permission settings and sandboxes are another kind of lever. They do not read the call but limit what any command can do, so I leave them out of the four.</li>
 <li><strong>A hook after a call.</strong> Code here sees the result, can keep a record, and can add a note for the model. It cannot undo what happened.</li>
 </ol>
 <p>A short way to remember the four is that two of them decide what the model knows, and two decide what it is allowed to do. Words only change what it knows.</p>
 <h3>Why most mistakes are not in the loop</h3>
-<p>That split, between what the model knows and what it is allowed to do, is also how I read an agent's mistakes. The loop itself almost never breaks. The mistakes come from what is in the context, or from what is allowed. Below is the list I keep from my own use. It records what I have seen rather than a statistic, since I have no counts of how often each happens.</p>
+<p>That split, between what the model knows and what it is allowed to do, is also how I read an agent's mistakes. The loop itself almost never breaks. The mistakes come from what is in the context, or from what is allowed. Below is the list I keep from my own use. It records what I have seen, not a statistic.</p>
 <table>
 <thead>
 <tr>
@@ -327,7 +327,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tbody>
 <tr>
 <td>It changed what it should not</td>
-<td>It reasons about how to get the job done, not whether it is allowed. A rule in a prompt is only a request.</td>
+<td>It reasons about how to get the job done, not whether it is allowed.</td>
 </tr>
 <tr>
 <td>It forgot something from earlier</td>
@@ -347,7 +347,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p>Few of these, you will notice, are about the model being unintelligent. The first and the last need a check outside the model. Of the rest, the second needs a better context (<a href="3-2-long-sessions.html">Long chats get worse</a>) and the third a second view (<a href="2-3-subagents.html">Use subagents sparingly</a>). Only the fourth is close to a habit of the model itself. That is the answer the opening question was pointing to: the fix usually belongs at one of the four places, not in the model's thinking.</p>
+<p>Few of these are about the model being unintelligent. The first and the last need a check outside the model. Of the rest, the second needs a better context (<a href="3-2-long-sessions.html">Long chats get worse</a>) and the third a second view (<a href="2-3-subagents.html">Use subagents sparingly</a>). Only the fourth is close to a habit of the model itself. So the opening question has its answer: the fix usually belongs at one of the four places, not in the model's thinking.</p>
 <h3>See the loop yourself</h3>
 <p>You do not need to install anything to watch the loop go round. In your agent's chat, ask &quot;Read the README and tell me what the project does&quot; and watch the chat. Before the answer you will see a line such as &quot;Read README.md&quot;. That line is one tool call, shown to you. Now ask a question that needs three files, and count the lines. Each is one turn of the loop, and each result is now in the context.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>這台機器是什麼，你又能從哪裡伸手進去</h2><h3>問、執行、餵回去</h3>
@@ -395,23 +395,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">你送出需求。平台加上規則，模型把兩者一起讀進去。</li><li data-step-text="2">模型不會直接碰你的檔案。它寫出一個工具呼叫的請求：讀這個檔案、執行這個指令。</li><li data-step-text="3">模型外面的程式真正執行這個工具。</li><li data-step-text="4">結果以文字送回模型，模型決定下一步。這樣一圈圈重複，直到它說做完了。</li><li data-step-text="5">你改變不了模型怎麼想。你能改的是它讀到什麼、有哪些工具、以及每次呼叫的前後發生什麼。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>agent 就是一個循環：模型提出要求，程式動手，結果送回去。每一圈裡你有四個地方可以插手。</figcaption></figure>
-<p>這張圖引出兩個事實，之後都會用到。</p>
+<p>這張圖引出兩個事實。</p>
 <p>第一個事實是，每個動作都是工具呼叫。模型沒有別的辦法做任何事，所以有一扇每個動作都會經過的門。誰站在這扇門口，誰就看得到、也擋得住 agent 做的一切。<strong>hook</strong> 就站在那裡：它是你的一個小程式，平台在每次工具呼叫之前和之後的固定位置執行它。（內建工具和子 agent，我看過每次呼叫都經過 hook 的位置，不過 MCP 工具我沒有測過。細節見下一章 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>。）</p>
-<p>第二個事實是，模型只看得到文字。你的螢幕、你的磁碟，它都看不到，它看到的只有上下文裡的東西：規則、你說的話、之前工具呼叫的結果，還有它自己之前的回答。上下文就是它的整個世界。這個世界還有大小上限，<a href="3-1-context-budget.html">上下文是一份預算</a> 講的就是這件事。</p>
+<p>第二個事實是，模型只看得到文字。你的螢幕、你的磁碟，它都看不到，它看到的只有上下文裡的東西：規則、你說的話、之前工具呼叫的結果，還有它自己之前的回答。而上下文還有大小上限，<a href="3-1-context-budget.html">上下文是一份預算</a> 講的就是這件事。</p>
 <h3>什麼時候停？</h3>
-<p>一般的停止就是上面說的那種：模型沒有要求工具，直接回答。但停下來的方式不只一種。你可以按停止，平台可能到了上限（Copilot 預設把輪數限制在多少，我沒有查過，所以這裡不給數字），也可能有東西拒絕了這次停止。</p>
+<p>一般的停止就是上面說的那種：模型沒有要求工具，直接回答。但停下來的方式不只一種。你可以按停止，平台可能到了上限，也可能有東西拒絕了這次停止。</p>
 <p>最後這種很有用。agent 要停下來的時候，可以執行一個 hook，去看任務的待辦清單（還沒做完的步驟），然後說「還沒，第 4 步還沒做完」，迴圈就會繼續下去。讓 agent 不靠你、把一長串清單做完，靠的就是這個辦法，<a href="2-3-subagents.html">慎用子 agent</a> 講了這種情況和它的停止規則。從這裡已經能看出一點端倪：迴圈上有一些地方，你自己的程式碼可以插進去。</p>
 <h3>你能在哪裡插手</h3>
 <p>再看一次這個迴圈。模型怎麼思考，你改變不了；你能改變的，是它周圍的四樣東西。</p>
 <ol>
 <li><strong>它讀什麼</strong>。放進它上下文的規則和指令，以及指給它看的檔案，是用得最多、也最便宜的槓桿。<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 講的就是這個。</li>
 <li><strong>有哪些工具</strong>。沒有改檔案工具的 agent，就改不了檔案。工具的描述和錯誤訊息，也是模型拿到的關於這個工具的唯一手冊（<a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>）。想給一個角色較短的工具清單，就用 custom agent（<a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a>）。</li>
-<li><strong>呼叫前的 hook</strong>。這裡的程式碼在呼叫執行之前就看得到它，並且能拒絕它。平台保證每次呼叫都會經過這一點，所以這裡的規則是會執行的程式碼，不是請求。不過，用程式碼寫成的規則不只 hook 一種。工具清單，或 agent 用來檢查自己的指令，也算，只是各自涵蓋的範圍窄一些（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。權限設定和沙箱是另一種槓桿，因為它們不讀呼叫，而是限制任何指令能做什麼。我沒有在 Copilot 上一項項測過，所以沒把它們算進這四樣。</li>
+<li><strong>呼叫前的 hook</strong>。這裡的程式碼在呼叫執行之前就看得到它，並且能拒絕它。平台保證每次呼叫都會經過這一點，所以這裡的規則是會執行的程式碼，不是請求。不過，用程式碼寫成的規則不只 hook 一種。工具清單，或 agent 用來檢查自己的指令，也算，只是各自涵蓋的範圍窄一些（<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a>）。權限設定和沙箱是另一種槓桿。它們不讀呼叫，而是限制任何指令能做什麼，所以我沒把它們算進這四樣。</li>
 <li><strong>呼叫後的 hook</strong>。這裡的程式碼看得到結果、可以留下紀錄，還能為模型加一則備註。不過，已經發生的事，它沒辦法撤銷。</li>
 </ol>
 <p>有個簡單的記法：這四樣裡，兩樣決定模型知道什麼，兩樣決定它被允許做什麼。光靠寫下來的話，你改變的只是它知道什麼。</p>
 <h3>為什麼大部分錯誤不在迴圈裡</h3>
-<p>「知道什麼」和「被允許做什麼」這條分界，也是我看 agent 錯誤的角度。迴圈本身幾乎不會壞，錯誤不是出在上下文裡有什麼，就是出在允許它做什麼。下面這張清單，是我自己用下來慢慢整理的，記的是我看到的情況，算不上統計，因為每一種發生得多頻繁，我沒有計數。</p>
+<p>「知道什麼」和「被允許做什麼」這條分界，也是我看 agent 錯誤的角度。迴圈本身幾乎不會壞，錯誤不是出在上下文裡有什麼，就是出在允許它做什麼。下面這張清單，是我自己用下來慢慢整理的，記的是我看到的情況，算不上統計。</p>
 <table>
 <thead>
 <tr>
@@ -422,7 +422,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tbody>
 <tr>
 <td>它改了不該改的</td>
-<td>它推理的是怎麼把事做完，不是被不被允許。prompt 裡的規則只是請求。</td>
+<td>它推理的是怎麼把事做完，不是被不被允許。</td>
 </tr>
 <tr>
 <td>它忘了先前的某件事</td>
@@ -490,23 +490,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">你发出需求。平台加上规则，模型把两者一起读进去。</li><li data-step-text="2">模型不会直接碰你的文件。它写出一个工具调用的请求：读这个文件、运行这条命令。</li><li data-step-text="3">模型外面的程序真正运行这个工具。</li><li data-step-text="4">结果以文本送回模型，模型决定下一步。这样一轮轮重复，直到它说做完了。</li><li data-step-text="5">你改变不了模型怎么想。你能改的是它读什么、有哪些工具，以及每次调用的前后发生什么。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>agent 就是一个循环：模型提出要求，程序动手，结果送回去。每一轮里你有四个地方可以插手。</figcaption></figure>
-<p>这幅图引出了两个事实，后面都会用到。</p>
+<p>这幅图引出了两个事实。</p>
 <p>第一个事实是，每个动作都是一次工具调用。模型没有别的办法做任何事，所以有一扇门，每个动作都要从这里经过。谁站在这扇门口，谁就能看到并拦住 agent 做的一切。<strong>hook</strong> 就站在那里：它是你的一个小程序，平台在每次工具调用之前和之后、在固定的点上运行它。（对内置工具和子 agent，我见过每次调用都经过 hook 点，不过 MCP 工具我没有测过。细节见下一章<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）</p>
-<p>第二个事实是，模型只看得到文本。你的屏幕、你的磁盘，它都看不到，它看到的只有上下文里的内容：规则、你说的话、之前工具调用的结果，还有它自己之前的回答。上下文就是它的整个世界。这个世界还有大小上限，<a href="3-1-context-budget.html">上下文是一份预算</a>讲的就是这件事。</p>
+<p>第二个事实是，模型只看得到文本。你的屏幕、你的磁盘，它都看不到，它看到的只有上下文里的内容：规则、你说的话、之前工具调用的结果，还有它自己之前的回答。而上下文还有大小上限，<a href="3-1-context-budget.html">上下文是一份预算</a>讲的就是这件事。</p>
 <h3>它什么时候停？</h3>
-<p>通常的停止就是上面说的那种：模型不再要求工具，直接作答。但停下来的方式不止这一种。你可以按停止，平台可能到了某个上限（Copilot 默认给轮数设了多少，我没有查过，所以这里不给数字），也可能有什么东西拒绝了这次停止。</p>
+<p>通常的停止就是上面说的那种：模型不再要求工具，直接作答。但停下来的方式不止这一种。你可以按停止，平台可能到了某个上限，也可能有什么东西拒绝了这次停止。</p>
 <p>最后这一种很有用。agent 要停的时候，可以运行一个 hook，去看任务的待办清单（它还没做完的步骤），然后说“还没完，第 4 步还没做”，循环就会接着走下去。让 agent 不用你守着、把一长串清单做完，靠的就是这个办法，<a href="2-3-subagents.html">慎用子 agent</a>讲了这种情况和它的停止规则。从这里已经能看出一点端倪：循环上有一些地方，你自己的代码可以插进去。</p>
 <h3>你能在哪里插手</h3>
 <p>再看一遍这个循环。模型怎么思考，你改变不了；你能改的，是它周围的四样东西。</p>
 <ol>
 <li><strong>它读什么</strong>。放进它上下文的规则和指令，以及指给它看的文件，是用得最多的杠杆，也是最便宜的。<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>讲的是这个。</li>
 <li><strong>有哪些工具</strong>。没有改文件工具的 agent，就改不了文件。工具的描述和报错信息，也是模型拿到的关于这个工具的唯一说明书（<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>）。想给一个角色一份更短的工具清单，就用自定义 agent（<a href="2-4-custom-agents.html">自定义 agent：固定模型和工具的角色</a>）。</li>
-<li><strong>调用前的 hook</strong>。这里的代码在调用运行之前就能看到它，并且能拒绝它。平台保证每次调用都经过这个点，所以这里的规则是会运行的代码，不是请求。不过，用代码写成的规则不只 hook 一种。一份工具清单，或者一条让 agent 自查用的命令，也算，只是各自覆盖的范围更窄（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。权限设置和沙箱是另一类杠杆，因为它们不读调用本身，而是限制任何命令能做什么。我没有在 Copilot 上逐个测过它们，所以没把它们算进这四样里。</li>
+<li><strong>调用前的 hook</strong>。这里的代码在调用运行之前就能看到它，并且能拒绝它。平台保证每次调用都经过这个点，所以这里的规则是会运行的代码，不是请求。不过，用代码写成的规则不只 hook 一种。一份工具清单，或者一条让 agent 自查用的命令，也算，只是各自覆盖的范围更窄（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。权限设置和沙箱是另一类杠杆。它们不读调用本身，而是限制任何命令能做什么，所以我没把它们算进这四样里。</li>
 <li><strong>调用后的 hook</strong>。这里的代码能看到结果、留下记录，还能给模型加一条备注。不过，已经发生的事它撤销不了。</li>
 </ol>
 <p>有个简便的记法：这四样里，两样决定模型知道什么，两样决定它被允许做什么。光靠写下来的话，你改变的只是它知道什么。</p>
 <h3>为什么大多数错误不出在循环里</h3>
-<p>“知道什么”和“被允许做什么”这条分界，也是我看 agent 犯错的角度。循环本身几乎不会坏，错误要么出在上下文里有什么，要么出在允许它做什么。下面这张清单是我在自己的使用中攒下来的，记的是我见过的情况，算不上统计数据，因为每一种有多常见，我没有数过。</p>
+<p>“知道什么”和“被允许做什么”这条分界，也是我看 agent 犯错的角度。循环本身几乎不会坏，错误要么出在上下文里有什么，要么出在允许它做什么。下面这张清单是我在自己的使用中攒下来的，记的是我见过的情况，算不上统计数据。</p>
 <table>
 <thead>
 <tr>
@@ -517,7 +517,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tbody>
 <tr>
 <td>它改了不该改的</td>
-<td>它推理的是怎么把活干完，不是被不被允许。prompt 里的规则只是请求。</td>
+<td>它推理的是怎么把活干完，不是被不被允许。</td>
 </tr>
 <tr>
 <td>它忘了前面的某件事</td>
@@ -537,27 +537,27 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p>细看这几条，很少是因为模型不够聪明。第一条和最后一条，需要模型之外的一道检查。剩下的，第二条需要更好的上下文（<a href="3-2-long-sessions.html">长对话会变差</a>），第三条需要另一个视角（<a href="2-3-subagents.html">慎用子 agent</a>）。只有第四条，接近模型本身的习惯。这下就回答了开头的问题：要修的，通常是这四个地方中的某一个，而不是模型的思考。</p>
+<p>细看这几条，很少是因为模型不够聪明。第一条和最后一条，需要模型之外的一道检查。剩下的，第二条需要更好的上下文（<a href="3-2-long-sessions.html">长对话会变差</a>），第三条需要另一个视角（<a href="2-3-subagents.html">慎用子 agent</a>）。只有第四条，接近模型本身的习惯。这下，开头的问题有了答案：要修的，通常是这四个地方中的某一个，而不是模型的思考。</p>
 <h3>自己看看这个循环</h3>
 <p>想亲眼看看循环怎么转，你不用安装任何东西。在 agent 的对话里问一句：“读一下 README，告诉我这个项目是做什么的。”然后盯着对话看。回答出来之前，你会看到一行类似“Read README.md”的字，这一行就是一次工具调用，只是展示给你看了。接着再问一个需要读三个文件的问题，数数有几行。每一行都是循环的一轮，而每一个结果，现在都留在了上下文里。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the loop costs, and how it is misread</h2><p>The cost of the loop starts from that last point, that every result stays in the context. Each time around, the model reads the whole context again, now with one more result in it, so a task of thirty turns is thirty reads of a growing text. This is why what the agent reads matters more than how clever the model is, and why <a href="1-1-models-and-cost.html">the model's price per token</a> is the wrong number to look at alone.</p>
-<p>One correction is needed, though, because the reread is not always charged at full price. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price (<a href="1-1-models-and-cost.html">Models and cost</a> has the sums). I have not checked how Copilot bills it. So the cache lowers the bill. It does nothing for the other cost: the model still has to attend to all of that text.</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the loop costs, and how it is misread</h2><p>The cost of the loop starts from that last point, that every result stays in the context. Each time around, the model reads the whole context again, now with one more result in it, so a task of thirty turns is thirty reads of a growing text. What the agent reads therefore matters more than how clever the model is, and <a href="1-1-models-and-cost.html">the model's price per token</a> is the wrong number to look at alone.</p>
+<p>The reread is not always charged at full price, though. Providers cache a repeated beginning, and on Anthropic's API a cache read costs about a tenth of the base input price (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>). So the cache lowers the bill. It does nothing for the other cost: the model still has to attend to all of that text.</p>
 <p>And of all that text, tool results are the biggest part and the least watched. You wrote the prompt, so you know what is in it. The file the agent read, or the log a command printed, you may never have seen. It is still in the context, where the model may act on it.</p>
-<p>An agent is not always the answer, either, because letting the model choose its own next step has a price. Such a loop costs more and is harder to predict than a fixed series of model calls, or a single call. Sometimes that price is not worth paying. Anthropic's advice is to find the simplest solution possible and add complexity only when needed (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.</p>
+<p>An agent is not always the answer, either, because letting the model choose its own next step has a price. Such a loop costs more and is harder to predict than a fixed series of model calls, or a single call. Anthropic's advice is to find the simplest solution possible and add complexity only when needed (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). If the steps of a job never change, a script that calls the model at fixed points may serve you better than an agent.</p>
 <p>One more trap has nothing to do with cost. It is easy to read the loop as a plan, and it is not one. The model does not plan the whole path and then follow it. It decides one turn at a time from what it sees, so when it goes down a wrong path, it is usually because the result of an earlier turn led it there.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>迴圈要花什麼，又容易被怎麼誤讀</h2><p>迴圈的開銷，就是從「每個結果都留在上下文裡」這一點開始的。每繞一圈，模型都要把整個上下文重讀一遍，裡面又多了一個結果，所以三十輪的任務，就是把一份越來越長的文字讀三十次。這就是為什麼 agent 讀什麼，比模型有多聰明更重要，也是為什麼只看<a href="1-1-models-and-cost.html">每個 token 的單價</a>，是看錯了數字。</p>
-<p>不過這裡要補一句：重讀不一定按全價收費。供應商會把重複的開頭快取起來，在 Anthropic 的 API 上，讀快取的價格大約是基本輸入價的十分之一（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a> 有算式）。Copilot 怎麼計費，我沒有查過。快取省下的是錢，省不下的是另一筆：模型還是得把注意力分到那麼多文字上。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>迴圈要花什麼，又容易被怎麼誤讀</h2><p>迴圈的開銷，就是從「每個結果都留在上下文裡」這一點開始的。每繞一圈，模型都要把整個上下文重讀一遍，裡面又多了一個結果，所以三十輪的任務，就是把一份越來越長的文字讀三十次。也因此，agent 讀什麼比模型有多聰明更重要，只看<a href="1-1-models-and-cost.html">每個 token 的單價</a>，是看錯了數字。</p>
+<p>不過，重讀不一定按全價收費。供應商會把重複的開頭快取起來，在 Anthropic 的 API 上，讀快取的價格大約是基本輸入價的十分之一（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。快取省下的是錢，省不下的是另一筆：模型還是得把注意力分到那麼多文字上。</p>
 <p>而在這麼多文字裡，工具結果是最大的一塊，也是最少人盯著的一塊。prompt 是你寫的，裡面有什麼你心裡有數。可是 agent 讀的檔案、指令印出來的紀錄，你可能從來沒看過。它們照樣在上下文裡，模型也可能照著它們去做。</p>
-<p>也不是每件事都該交給 agent，因為讓模型自己決定下一步是有代價的。這樣的迴圈比一串固定的模型呼叫、或單次呼叫花得更多，也更難預測。有時候，這個代價並不值得付。Anthropic 的建議是找到最簡單的解法，只在需要時才加複雜度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件工作的步驟從來不變，一個在固定位置呼叫模型的腳本，可能比 agent 更適合你。</p>
+<p>也不是每件事都該交給 agent，因為讓模型自己決定下一步是有代價的。這樣的迴圈比一串固定的模型呼叫、或單次呼叫花得更多，也更難預測。Anthropic 的建議是找到最簡單的解法，只在需要時才加複雜度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件工作的步驟從來不變，一個在固定位置呼叫模型的腳本，可能比 agent 更適合你。</p>
 <p>還有一個陷阱和開銷無關。人很容易把迴圈讀成一份計劃，可它不是。模型不是先規劃好整條路，再照著走下去，而是每一輪根據眼前看到的東西做決定。所以它走錯路，通常是前面某一輪的結果把它帶去的。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>循环要花什么，又容易被怎么误读</h2><p>循环的开销，正是从“每个结果都留在上下文里”这一点开始的。每绕一圈，模型都要把整个上下文重读一遍，而里面又多了一个结果，所以一个三十轮的任务，就是把一段越来越长的文本读三十遍。这就是为什么 agent 读什么，比模型多聪明更要紧，也是为什么只盯着<a href="1-1-models-and-cost.html">模型每个 token 的价格</a>看是不对的。</p>
-<p>不过这里要补一句：重读并不总是按全价收费。提供方会缓存重复的开头，在 Anthropic 的 API 上，读缓存的价格约是基础输入价的十分之一（算式见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。Copilot 怎么计这笔账，我没有查过。缓存省下的是钱，省不下的是另一笔：模型还是得把注意力分到那一大段文本上。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>循环要花什么，又容易被怎么误读</h2><p>循环的开销，正是从“每个结果都留在上下文里”这一点开始的。每绕一圈，模型都要把整个上下文重读一遍，而里面又多了一个结果，所以一个三十轮的任务，就是把一段越来越长的文本读三十遍。也因此，agent 读什么比模型多聪明更要紧，只盯着<a href="1-1-models-and-cost.html">模型每个 token 的价格</a>看也是不对的。</p>
+<p>不过，重读并不总是按全价收费。提供方会缓存重复的开头，在 Anthropic 的 API 上，读缓存的价格约是基础输入价的十分之一（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。缓存省下的是钱，省不下的是另一笔：模型还是得把注意力分到那一大段文本上。</p>
 <p>而在这一大段文本里，工具结果是最大的一块，也是最少有人盯着的一块。prompt 是你写的，里面有什么你心里有数。可 agent 读的文件、一条命令打印出来的日志，你可能从来没见过。它们照样在上下文里，模型也可能照着它们去行动。</p>
-<p>也不是每件事都该交给 agent，因为让模型自己决定下一步是有代价的。这样的循环比一串固定的模型调用、或者单次调用更贵，也更难预测。有时候，这个代价并不值得付。Anthropic 的建议是找最简单的解决办法，只在需要时才增加复杂度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件事的步骤从来不变，一个在固定位置调用模型的脚本，可能比 agent 更适合你。</p>
+<p>也不是每件事都该交给 agent，因为让模型自己决定下一步是有代价的。这样的循环比一串固定的模型调用、或者单次调用更贵，也更难预测。Anthropic 的建议是找最简单的解决办法，只在需要时才增加复杂度（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。如果一件事的步骤从来不变，一个在固定位置调用模型的脚本，可能比 agent 更适合你。</p>
 <p>还有一个坑和开销无关。人很容易把循环读成一份计划，可它不是。模型不会先规划好整条路，再照着走下去，而是每一轮根据眼前看到的东西做决定。所以它走上错路，通常是前面某一轮的结果把它带过去的。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete my hooks, and what stays <span class="status status-industry">Industry practice</span></h2><p>Will any of this go out of date? The reasoning about the loop does not retire while agents work by calling tools, but the practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks. I would then drop the hooks, not the loop picture.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉我的 hook，什麼會留下來 <span class="status status-industry">業界做法</span></h2><p>這一章講的這些，會不會過時？只要 agent 還是靠呼叫工具運作，關於迴圈的道理就不會退役，但實務的部分可能會。今天我在四個地方掌舵，是因為平台給我的就是這些。如果平台開始提供原生的辦法，來執行規則、預算或停止條件，我會改用那個，不再用自己的 hook。到那時我丟掉的是 hook，不是這張圖。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉我的 hook，什么会留下 <span class="status status-industry">业界做法</span></h2><p>这一章讲的这些，会不会过时？只要 agent 还是靠调用工具来工作，关于循环的道理就不会退役，但实际操作的那部分也许会。我今天在四个地方掌舵，是因为平台给我的就是这些。如果平台开始提供原生的办法，来强制执行规则、预算或停止条件，我会改用它，而不再用自己的 hook。到那时我丢掉的是 hook，而不是循环这幅图。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete my hooks, and what stays <span class="status status-industry">Industry practice</span></h2><p>Will any of this go out of date? The reasoning about the loop does not retire while agents work by calling tools, but the practical parts may. Today I steer at four places because that is what the platform gives me. If the platform starts to offer a native way to enforce a rule, a budget or a stop condition, I will use that instead of my own hooks.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉我的 hook，什麼會留下來 <span class="status status-industry">業界做法</span></h2><p>這一章講的這些，會不會過時？只要 agent 還是靠呼叫工具運作，關於迴圈的道理就不會退役，但實務的部分可能會。今天我在四個地方掌舵，是因為平台給我的就是這些。如果平台開始提供原生的辦法，來執行規則、預算或停止條件，我會改用那個，不再用自己的 hook。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉我的 hook，什么会留下 <span class="status status-industry">业界做法</span></h2><p>这一章讲的这些，会不会过时？只要 agent 还是靠调用工具来工作，关于循环的道理就不会退役，但实际操作的那部分也许会。我今天在四个地方掌舵，是因为平台给我的就是这些。如果平台开始提供原生的办法，来强制执行规则、预算或停止条件，我会改用它，而不再用自己的 hook。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Read this project&#x27;s instruction files and settings. For each rule or limit you find, tell me which of four places it works at: what the agent reads, which tools exist, a check before a tool call, or a check after a tool call. Mark every rule that is only a written request with nothing outside the model enforcing it. List the five rules where a break would matter most. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>讀這個專案的指令檔和設定。你找到的每條規則或限制，都告訴我它作用在四個地方的哪一個：agent 讀什麼、有哪些工具、工具呼叫前的檢查，或工具呼叫後的檢查。把每一條只是寫下來的請求、模型外面沒有任何東西執行它的規則標出來。列出五條壞掉時影響最大的規則。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>读这个项目的指令文件和设置。你找到的每条规则或限制，告诉我它在四个地方里的哪一个起作用：agent 读什么、有哪些工具、工具调用前的检查、工具调用后的检查。把只是写下来的请求、没有模型之外的东西来强制执行的规则，每一条都标出来。列出五条一旦被破坏影响最大的规则。不要修改任何文件。</code></pre></div>
