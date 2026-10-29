@@ -221,51 +221,43 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why a confirmation box is not an approval</span><span data-l="zh-Hant" lang="zh-Hant">確認框為什麼算不上批准</span><span data-l="zh-Hans" lang="zh-Hans">确认框为什么算不上审批</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Where to put the person, and how to make the yes count</span><span data-l="zh-Hant" lang="zh-Hant">人要放在哪裡，又怎樣讓他的「同意」算數</span><span data-l="zh-Hans" lang="zh-Hans">把人放在哪里，又怎样让他的“同意”算数</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the gates cost, and where they can still fail</span><span data-l="zh-Hant" lang="zh-Hant">這兩道門要付出什麼，還會在哪裡失守</span><span data-l="zh-Hans" lang="zh-Hans">关卡要付出什么，还会在哪里失守</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the typed approval</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉在終端機輸入的批准</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉敲码审批</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
 <article><header class="chapter-head"><p class="chapter-no">5.3</p><h1><span data-l="en" lang="en">Two gates: where a person approves</span><span data-l="zh-Hant" lang="zh-Hant">兩道門：人在哪裡批准</span><span data-l="zh-Hans" lang="zh-Hans">两道门：人在哪里审批</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Ask or refuse</a> and <a href="4-3-guardrails.html">Guardrails</a>: why &quot;ask me first&quot; is not a limit, and why the agent must not be able to edit the rules.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="4-2-ask-vs-refuse.html">詢問不是限制</a> 和 <a href="4-3-guardrails.html">保護規則本身的檔案</a>：為什麼「先問我」不是限制，以及為什麼 agent 不能改規則。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章之前，你需要先讀過 <a href="4-2-ask-vs-refuse.html">詢問不是限制</a> 和 <a href="4-3-guardrails.html">保護規則本身的檔案</a>：為什麼「先問我」不是限制，以及為什麼 agent 不能改規則。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="4-2-ask-vs-refuse.html">询问不是限制</a>和<a href="4-3-guardrails.html">保护规则本身的文件</a>：为什么“先问我”不是限制，以及为什么 agent 不能有权编辑规则。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Put a person at the points that cost money, grant power or cannot be undone. Make the approval come through a channel the agent cannot reach, and bind it to exactly the plan that was approved.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>在花錢、給權力、不能反悔的地方放一個人。讓批准從 agent 碰不到的管道進來，而且只綁定到被批准的那一份計畫。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>在花錢、授權、不能反悔的地方放一個人。讓批准從 agent 碰不到的管道進來，而且只綁定到被批准的那一份計畫。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>在花钱、授权、无法撤销的地方放一个人。让审批走 agent 够不着的渠道，并把它绑定到被批准的那份计划上，一字不差。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> decide where a person must approve: at points that cost money, grant power or cannot be undone, and nowhere else. The approval must come through a channel the agent cannot reach, and it must belong to exactly the plan or change the person read.</li>
-<li><strong>The risk:</strong> a confirmation box can be switched off for the session without anyone noticing, and an approval the agent can give itself is not an approval. A tired person can still approve without reading; binding the approval to the content stops a swap, not a careless yes.</li>
-<li><strong>The cost of doing it right:</strong> each gate costs a person one read and one command. Too many gates and people stop reading. In my setup, snapshots at the gates are kept for 14 days by default.</li>
+<li><strong>The decision:</strong> where a person must approve. Put them at the points that cost money, grant power or cannot be undone, and nowhere else. The approval must come through a channel the agent cannot reach, and it must belong to exactly the plan or change the person read.</li>
+<li><strong>The risk:</strong> a confirmation box can be switched off for the session without anyone noticing, and an approval the agent can give itself is not an approval. Even a real approval has a weak spot, because a tired person can still approve without reading. Binding the approval to the content stops a swap, not a careless yes.</li>
+<li><strong>The cost of doing it right:</strong> each gate costs a person one read and one command, and with too many gates people stop reading. In my setup, snapshots at the gates are kept for 14 days by default.</li>
 <li><strong>Ask the team:</strong> &quot;Which approvals in our flow could the agent give itself or switch off, and does an approval still count if the plan changes afterwards?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：決定人必須在哪裡批准：花錢、給權力、不能反悔的地方，其他地方都不用。批准必須走 agent 碰不到的管道，而且只屬於人讀過的那份計畫或那次改動。</li>
-<li><strong>風險</strong>：確認框可以在整個會話裡被悄悄關掉，而 agent 能自己給的批准不是批准。累了的人還是可能不讀就批准；把批准綁到內容上，擋得住掉包，擋不住隨手按的「好」。</li>
-<li><strong>做對的成本</strong>：每道門要人讀一次、打一個指令。門太多，人就不讀了。在我的設定裡，門上的快照預設保留 14 天。</li>
+<li><strong>要做的決定</strong>：人必須在哪裡批准。只放在花錢、授權、不能反悔的地方，其他地方都不放。批准必須走 agent 碰不到的管道，而且只屬於人讀過的那份計畫或那次改動。</li>
+<li><strong>風險</strong>：確認框可以在整個會話裡被關掉，沒有人會發現；agent 能自己給的批准，也算不上批准。就算批准是真的，也有弱點，因為人累了還是可能不讀就批准。把批准綁到內容上，擋得住掉包，擋不住隨手按的「同意」。</li>
+<li><strong>做對的成本</strong>：每道門要人讀一次、輸入一個指令，門一多，人就不讀了。在我的設定裡，門上的快照預設保留 14 天。</li>
 <li><strong>可以問團隊</strong>：「我們的流程裡，哪些批准是 agent 能自己給或自己關掉的？計畫事後改了，批准還算數嗎？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：决定哪些地方必须由人审批：花钱、授权、无法撤销的地方，别的地方都不用。审批必须走 agent 够不着的渠道，并且只属于人读过的那份计划或改动。</li>
-<li><strong>风险</strong>：确认框可以在整个会话里被关掉，而没有人注意到；agent 自己能给的审批，不是审批。疲惫的人仍然可能不读就批；把审批绑定到内容上，能防住被调包，防不住草率地点“同意”。</li>
-<li><strong>做对的代价</strong>：每道关卡让人读一次、敲一条命令。关卡太多，人就不读了。在我的配置里，关卡处的快照默认保留 14 天。</li>
+<li><strong>要拍板的事</strong>：哪些地方必须由人审批。只放在花钱、授权、无法撤销的地方，别处都不放。审批必须走 agent 够不着的渠道，而且只属于人读过的那份计划或那次改动。</li>
+<li><strong>风险</strong>：确认框可以在整个会话里被关掉，没有人会注意到；agent 自己能给的审批，也算不上审批。就算审批是真的，也有软肋，因为人累了照样可能不读就批。把审批绑定到内容上，能防住调包，防不住随手点的“同意”。</li>
+<li><strong>做对的代价</strong>：每道关卡要人读一遍、敲一条命令，关卡一多，人就不读了。在我的配置里，关卡处的快照默认保留 14 天。</li>
 <li><strong>可以问团队</strong>：“我们的流程里，哪些审批是 agent 能自己给、或者能关掉的？计划事后改了，审批还算数吗？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You want a person to approve the important steps. The obvious tool is the confirmation box that the agent tool shows: &quot;Allow this?&quot; It does not work well, for two reasons.</p>
-<p>First, people click Allow. By the hundredth box they are not reading it (<a href="4-2-ask-vs-refuse.html">Ask or refuse</a>). Second, many tools let you tick &quot;allow for this session&quot;, and then the box never appears again. The approval you relied on is gone, and nothing tells you.</p>
-<p>A third problem is subtler. Suppose the approval is a command the person types. If the agent can run commands, it can type that command too. An approval that the agent can give is not an approval.</p>
-<p>So the question is where to put the person, and how to make their yes something the agent cannot produce or reuse.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你想讓人批准重要的步驟。最直接的工具是 agent 工具跳出的確認框：「允許這個嗎？」它效果不好，原因有兩個。</p>
-<p>第一，人會按允許。到第一百個框，就沒人在讀了（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。第二，很多工具讓你勾「這個會話都允許」，之後框就再也不出現。你倚靠的批准不見了，也沒有任何東西告訴你。</p>
-<p>第三個問題更微妙。假設批准是一個由人打出來的指令。如果 agent 能執行指令，它也能打出同一個指令。agent 自己能給的批准，不是批准。</p>
-<p>所以問題是：人要放在哪裡，以及怎麼讓他的「好」成為 agent 造不出來、也沒辦法重複使用的東西。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你想让人批准重要的步骤。最顺手的工具，是 agent 工具弹出的确认框：“允许吗？”它不太管用，有两个原因。</p>
-<p>第一，人会点“允许”。到第一百个框的时候，他们已经不读了（见<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。第二，很多工具让你勾选“本次会话都允许”，勾了之后框就再也不出现了。你依赖的审批没了，也没有任何东西告诉你。</p>
-<p>第三个问题更微妙。假设审批是人敲的一条命令。如果 agent 能运行命令，它也能敲这条命令。agent 能自己给的审批，不是审批。</p>
-<p>所以问题是：把人放在哪里，以及怎样让他的“同意”成为 agent 造不出来、也重复用不了的东西。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Where to put the person</h3>
-<p>A person's attention is the scarcest thing in the system. Spend it on three kinds of point, and nowhere else:</p>
-<ul>
-<li><strong>Points that cost money.</strong> For example, starting an expensive run.</li>
-<li><strong>Points that grant power.</strong> Letting the agent write to a shared repository.</li>
-<li><strong>Points that cannot be undone.</strong> Something that cannot be taken back once done.</li>
-</ul>
-<p>Everything inside a task folder is cheap to redo, so the agent works there freely (<a href="5-1-tasks.html">Manage tasks, not chats</a>). A task that changes a real repository has two such points. I call each a <strong>gate</strong>: the task cannot pass until a person approves.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Why a confirmation box is not an approval</h2><p>You want a person to approve the important steps, and the obvious tool is already in front of you: the confirmation box that the agent tool shows, asking &quot;Allow this?&quot; It does not work well, for two reasons. The first is that people click Allow. By the hundredth box they are no longer reading it (<a href="4-2-ask-vs-refuse.html">Ask or refuse</a>). The second is that many tools let you tick &quot;allow for this session&quot;, after which the box never appears again. The approval you relied on is gone, and nothing tells you.</p>
+<p>A third problem is subtler. Suppose that instead of a box, the approval is a command the person types. If the agent can run commands, it can type that command too. An approval that the agent can give is not an approval.</p>
+<p>Where, then, should the person stand? And how can their yes become something the agent can neither produce nor reuse?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>確認框為什麼算不上批准</h2><p>你希望重要的步驟由人來批准，而最直接的工具就在眼前：agent 工具跳出來的確認框，問你「允許這個嗎？」可是它效果不好，原因有兩個。一是人會按允許，到了第一百個框，早就沒在讀了（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。二是很多工具可以勾「這個會話都允許」，勾了之後，框就再也不會出現。你倚靠的批准就這樣不見了，也沒有任何東西告訴你。</p>
+<p>還有第三個問題，比較不容易察覺。假設批准不是一個框，而是一個由人輸入的指令。可是如果 agent 能執行指令，它也能輸入同一個指令。一個 agent 自己就能給的批准，算不上批准。</p>
+<p>那麼，人要放在哪裡？他的「同意」又怎樣才能成為 agent 既造不出來、也沒辦法重複使用的東西？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>确认框为什么算不上审批</h2><p>你希望重要的步骤由人来批准，而最顺手的工具就摆在眼前：agent 工具弹出来的确认框，问你“允许吗？”可它不太管用，原因有两个。一是人会点“允许”，到了第一百个框，早就不读了（见<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。二是很多工具可以勾选“本次会话都允许”，勾了之后这个框再也不会出现。你指望的审批就这样没了，也没有任何东西提醒你。</p>
+<p>还有第三个问题，更不容易察觉。假设审批不是一个框，而是人敲的一条命令。可如果 agent 能运行命令，它也能敲这条命令。一个 agent 自己就能给出的审批，算不上审批。</p>
+<p>那么，人该放在哪里？他的“同意”又怎样才能成为 agent 既造不出来、也没法重复使用的东西？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Where to put the person, and how to make the yes count</h2><h3>Where to put the person</h3>
+<p>The first question has a short answer. A person's attention is the scarcest thing in the system, so spend it on three kinds of point and nowhere else. Some points cost money, such as starting an expensive run. Some grant power, such as letting the agent write to a shared repository. And some cannot be undone: once the step is done, nothing takes it back.</p>
+<p>Most of the agent's work is none of these, since everything inside a task folder is cheap to redo and the agent can work there freely (<a href="5-1-tasks.html">Manage tasks, not chats</a>). A task that changes a real repository, though, has two points of this kind. I call each of them a <strong>gate</strong>, because the task cannot pass it until a person approves.</p>
 <figure class="fig steps" id="fig-5-3-two-gates" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <g data-step="1">
   <rect class="box" x="10" y="60" width="100" height="56" rx="8"/>
@@ -311,44 +303,37 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">The agent writes the plan and stops. It cannot go on.</li><li data-step-text="2">Gate 1. The person reads the plan in an editor, then types the approval in a terminal. The agent has no way to type it.</li><li data-step-text="3">The agent works inside the task folder. A copy of the work is kept at each gate, so a broken state can be found again.</li><li data-step-text="4">Gate 2. The person reads the exact diff, then approves in the terminal. Only then does the result reach the repository.</li><li data-step-text="5">The approval is tied to the exact plan that was read. Change the plan and the approval is void.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>Two gates, at the points that cost money, grant power or cannot be undone. Each is an action the agent cannot do for the person.</figcaption></figure>
 <h3>Gate 1: approve the plan</h3>
-<p>The agent writes the requirement and a plan, then stops. The person reads the plan, and only then approves. Before this, the agent may draft and read; it may not start changing the work files.</p>
-<p>The point of this gate is cost. A wrong plan is cheap to fix as a paragraph and expensive to fix as a finished change. In my setup the plan also stands on a confirmed requirement (<a href="5-2-requirements.html">The agent writes the requirement</a>), so one approval can confirm both.</p>
+<p>The first gate comes before any work file changes. The agent writes the requirement and a plan and then stops, and until the person has read the plan and approved it, the agent may draft and read but may not start on the changes.</p>
+<p>The reason for stopping here is cost, since a wrong plan is cheap to fix while it is still a paragraph but expensive to fix once it has become a finished change. In my setup the plan also stands on a confirmed requirement (<a href="5-2-requirements.html">The agent writes the requirement</a>), so one approval can confirm both.</p>
 <h3>Gate 2: approve the write-back</h3>
-<p>The agent has made the changes in the task folder, and checks have run. Now the result is about to go to the real repository. Copying it there is the <strong>write-back</strong>. The person reads the exact <strong>diff</strong>: the list of lines that would change. Then they approve.</p>
-<p>At the write-back, the result goes to a new branch of the repository and is left uncommitted. It never touches the main branch directly. And before it is written, code checks that:</p>
+<p>By the second gate, the agent has made its changes in the task folder and the checks have run. What is left is to copy the result to the real repository, a step called the <strong>write-back</strong>. Before that happens, the person reads the exact <strong>diff</strong>, which is the list of lines that would change, and then approves it.</p>
+<p>Even an approved write-back does not go straight to the main branch. It goes to a new branch of the repository and is left uncommitted. And before anything is written, code checks that:</p>
 <ul>
 <li>the working tree is clean,</li>
 <li>the branch name is free,</li>
 <li>none of the files to change has moved on the main branch since it was copied.</li>
 </ul>
-<p>If any repository fails a check, nothing is written. This is also where two people, or two tasks, changing the same file are found: by the program here, not later in a review.</p>
+<p>If any repository fails a check, nothing is written. This is also where two people, or two tasks, changing the same file are found, by the program here rather than later in a review.</p>
 <h3>Why the approval is typed in a terminal</h3>
-<p>A confirmation box in the chat can be switched off by &quot;allow for this session&quot;. A code that the person types in a terminal cannot. The approval command needs a real terminal, and when an agent runs it, it is refused. Three points make this hold:</p>
-<ol>
-<li><strong>The terminal is not a wall.</strong> A check that &quot;this is a terminal&quot; is not a security boundary; a determined program can imitate one.</li>
-<li><strong>A hook is the second leg.</strong> It is code that refuses the agent's attempt to run the approval command at all, and it sits outside the agent's reach, as <a href="4-3-guardrails.html">Guardrails</a> explains. If that hook is gone, or the agent can edit it, the approval is only a polite request. The design stands on both legs, and neither is enough alone.</li>
-<li><strong>The refusal must survive an error.</strong> The enforcement layer lets a call through when it breaks itself (<a href="4-4-enforcement-design.html">Build the enforcement layer like software</a>). So the refusal of the approval command belongs on the short list of rules that must block even when the hook errors; otherwise this leg breaks exactly when it is needed.</li>
-</ol>
-<p>The content is read elsewhere. Plans and diffs are hard to read in a terminal, so the person reads them in an editor, and the terminal shows only the file path and the code to type. Reading and approving are separate acts on purpose.</p>
+<p>Now the second question. How do you make a yes the agent cannot produce? A confirmation box in the chat can be switched off by &quot;allow for this session&quot;, but a code that the person types in a terminal cannot. That is why the approval is a command that needs a real terminal. The design stands on two legs, though, and the terminal is only the first.</p>
+<p>On its own, the terminal is not a wall. A check that &quot;this is a terminal&quot; is not a security boundary, because a determined program can imitate one. So what stops a program that pretends?</p>
+<p>That is the second leg, a hook. When an agent tries to run the approval command, this piece of code refuses the attempt outright. It must sit outside the agent's reach, as <a href="4-3-guardrails.html">Guardrails</a> explains: if the hook is gone, or the agent can edit it, the approval is only a polite request. Neither leg is enough alone.</p>
+<p>The hook, in turn, has to keep refusing when something goes wrong. The enforcement layer lets a call through when it breaks itself (<a href="4-4-enforcement-design.html">Build the enforcement layer like software</a>), so the refusal of the approval command belongs on the short list of rules that must block even when the hook errors. Otherwise this leg breaks exactly when it is needed.</p>
+<p>None of this means the person reads the plan in the terminal. Plans and diffs are hard to read there, so the person reads them in an editor, while the terminal shows only the file path and the code to type. Reading and approving are separate acts on purpose.</p>
 <h3>Tie the approval to what was read</h3>
-<p>Suppose the person approves a plan, and then the agent edits the plan. Is the approval still good? It should not be. So the code the person types is derived from the plan's content: a hash, a fingerprint that changes if one character changes. When the plan changes after approval, the approval no longer matches, and the gate closes again.</p>
-<p>The same goes for the write-back: the approval belongs to the exact diff that was shown. This is what &quot;bind it to exactly the plan that was approved&quot; means. Without it, a person approves one thing and the agent delivers another.</p>
+<p>That leaves reuse. Suppose the person approves a plan, and then the agent edits the plan. Is the approval still good? It should not be. That is why the code the person types is derived from the plan's content. It is a hash, a fingerprint that changes if a single character changes, so when the plan changes after approval, the approval no longer matches and the gate closes again.</p>
+<p>The same goes for the write-back, where the approval belongs to the exact diff that was shown. This is what &quot;bind it to exactly the plan that was approved&quot; means. Without it, a person approves one thing and the agent delivers another.</p>
 <h3>Snapshots at the gates</h3>
-<p>When the plan is approved, before each check, and before the dry run of a write-back, a copy of the work (a snapshot) is saved automatically. When something breaks, the state of that moment can be found again. In my setup they are kept for 14 days by default.</p>
-<p>A failure in the middle of a write to several repositories is not rolled back by itself. The task goes to a &quot;partly written&quot; state, and a person runs a recovery. I chose not to guess at an automatic undo.</p>
-<h3>Without any of this machinery</h3>
-<p>The habit works by hand too. Read the plan before you tell the agent to go. Read the diff before you commit. Do not tick &quot;allow for this session&quot; on a tool that writes. The machinery above only makes sure these happen when you are tired or not there.</p>
+<p>Besides deciding what may go forward, the gates are where the work is saved. When the plan is approved, before each check, and before the dry run of a write-back, a copy of the work (a snapshot) is saved automatically, so that when something breaks, the state of that moment can be found again. In my setup they are kept for 14 days by default.</p>
+<p>Finding a state again is not the same as going back to it, though. A failure in the middle of a write to several repositories is not rolled back by itself. Instead the task goes to a &quot;partly written&quot; state, and a person runs a recovery. I chose not to guess at an automatic undo.</p>
 <h3>Several rounds</h3>
-<p>After a write-back, the same goal can come back: a reviewer finds a defect, or a change is asked for. A new round starts. The old work moves aside, a new plan is written, and both gates apply again. A different goal is a new task.</p>
-<p>Testing in other environments is not another round. The agent cannot run anything there; the person does. That becomes its own task of kind <em>testing</em>, where the agent writes the instructions, waits for the person's results, and judges them. A failed test goes back to the development task as a new round.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>人要放在哪裡</h3>
-<p>人的注意力是系統裡最稀少的東西。只把它花在三種地方，其他地方都不花：</p>
-<ul>
-<li><strong>花錢的地方</strong>。例如，開始一次昂貴的運行。</li>
-<li><strong>給權力的地方</strong>。讓 agent 寫入共用的倉庫。</li>
-<li><strong>不能反悔的地方</strong>。做了就收不回來的事。</li>
-</ul>
-<p>任務資料夾裡的一切，重做都很便宜，所以 agent 在那裡可以自由工作（<a href="5-1-tasks.html">管任務，不管對話</a>）。一個會改動真實倉庫的任務有兩個這樣的地方。我把每一個叫做<strong>門</strong>：人批准之前，任務不能通過。</p>
+<p>A task does not always end at the write-back. The same goal can come back, because a reviewer finds a defect or someone asks for a change. In that case a new round starts, in which the old work moves aside, a new plan is written and both gates apply again. A different goal, by contrast, is a new task.</p>
+<p>Testing in other environments looks like another round, but it is not. The agent cannot run anything there, so the person does the running, and the work becomes its own task of kind <em>testing</em>, in which the agent writes the instructions, waits for the person's results and judges them. If a test fails, it goes back to the development task as a new round.</p>
+<h3>Without any of this machinery</h3>
+<p>The habit behind the gates works by hand too. Read the plan before you tell the agent to go, read the diff before you commit, and do not tick &quot;allow for this session&quot; on a tool that writes. The machinery above only makes sure these things happen when you are tired or not there.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>人要放在哪裡，又怎樣讓他的「同意」算數</h2><h3>人要放在哪裡</h3>
+<p>第一個問題的答案很簡單。人的注意力是整個系統裡最稀少的東西，所以只把它花在三種地方，其他地方一概不花。有些地方要花錢，例如開始一次昂貴的執行；有些地方會授權，例如讓 agent 寫入共用的倉庫；還有些地方不能反悔，一旦做了，就再也收不回來。</p>
+<p>agent 大部分的工作都不屬於這三種，因為任務資料夾裡的一切重做都很便宜，agent 在那裡可以自由工作（<a href="5-1-tasks.html">管任務，不管對話</a>）。不過，一個會改動真實倉庫的任務，會遇到兩個這樣的地方。我把每一個都叫做一道<strong>門</strong>，因為人批准之前，任務過不去。</p>
 <figure class="fig steps" id="fig-5-3-two-gates" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <g data-step="1">
   <rect class="box" x="10" y="60" width="100" height="56" rx="8"/>
@@ -394,44 +379,37 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">agent 寫好計畫就停下，不能繼續。</li><li data-step-text="2">第一道門。人在編輯器裡讀計畫，再到終端機輸入批准。agent 沒辦法替人輸入。</li><li data-step-text="3">agent 在任務資料夾裡工作。每道門都留一份工作的副本，壞了可以找回那一刻的樣子。</li><li data-step-text="4">第二道門。人讀確切的差異，再在終端機批准。之後結果才進到倉庫。</li><li data-step-text="5">批准綁在人讀過的那份計畫上。計畫一改，批准就作廢。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>兩道門，放在花錢、放權、不可逆的點上。每道都是 agent 替不了人做的動作。</figcaption></figure>
 <h3>第一道門：批准計畫</h3>
-<p>agent 寫出需求和計畫，然後停下來。人讀計畫，讀完才批准。在這之前，agent 可以起草、可以讀；不能開始改工作檔案。</p>
-<p>這道門是為了成本。計畫錯了，改一段文字很便宜；錯到做完才改，就很貴。在我的設定裡，計畫也建立在已確認的需求上（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>），所以一次批准可以同時確認兩者。</p>
+<p>第一道門設在任何工作檔案被改動之前。agent 寫出需求和計畫之後就停下來，在人讀完計畫、批准之前，它可以起草、可以讀，但還不能動手改。</p>
+<p>之所以停在這裡，是為了成本。計畫錯了，還只是一段文字的時候改起來很便宜，等它變成做完的改動再改，就很貴了。在我的設定裡，計畫也建立在已確認的需求上（<a href="5-2-requirements.html">需求由 agent 寫，人確認</a>），所以一次批准可以把兩者一起確認。</p>
 <h3>第二道門：批准寫回</h3>
-<p>agent 已經在任務資料夾裡做完改動，檢查也跑過了。現在結果要送到真實的倉庫。把它複製過去叫<strong>寫回</strong>。人讀的是確切的 <strong>diff</strong>：會被改動的那些行的清單。然後批准。</p>
-<p>寫回時，結果會進到倉庫的一個新分支，而且不提交。它絕不會直接碰主分支。寫入之前，程式先檢查：</p>
+<p>到了第二道門，agent 已經在任務資料夾裡做完改動，檢查也跑過了，剩下的就是把結果複製到真實的倉庫，這一步叫<strong>寫回</strong>。寫回之前，人要讀那份確切的 <strong>diff</strong>，也就是會被改動的那些行的清單，然後才批准。</p>
+<p>就算批准了，寫回也不會直接進主分支。結果會進到倉庫的一個新分支，而且不提交。而且在真正寫入之前，程式會先檢查：</p>
 <ul>
 <li>工作樹是乾淨的，</li>
 <li>分支名稱沒被用掉，</li>
 <li>要改的檔案，自從被複製之後，在主分支上都沒有動過。</li>
 </ul>
-<p>只要有一個倉庫沒通過檢查，就什麼都不寫。兩個人、或兩個任務改同一個檔案，也是在這裡被發現的：由程式在這裡發現，不是之後在審查裡。</p>
-<h3>為什麼批准要在終端機裡打</h3>
-<p>聊天裡的確認框，可以被「這個會話都允許」關掉。人在終端機裡打的一段碼，不行。批准指令需要真正的終端機，agent 去執行它時會被拒絕。有三點讓這件事成立：</p>
-<ol>
-<li><strong>終端機不是牆</strong>。檢查「這是終端機」不是安全邊界；有心的程式可以假裝。</li>
-<li><strong>hook 是第二條腿</strong>。它是一段程式碼，直接拒絕 agent 去執行批准指令，而且它在 agent 碰不到的地方，像 <a href="4-3-guardrails.html">保護規則本身的檔案</a> 說的。如果這個 hook 不見了，或 agent 能編輯它，批准就只是客氣的請求。這個設計站在兩條腿上，單靠任何一條都不夠。</li>
-<li><strong>拒絕必須撐過錯誤</strong>。執行層在自己壞掉時會放行呼叫（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>）。所以拒絕批准指令，要放在那份「即使 hook 出錯也必須擋住」的短清單上；不然這條腿剛好在最需要的時候斷掉。</li>
-</ol>
-<p>內容在別處讀。計畫和 diff 在終端機裡很難讀，所以人在編輯器裡讀，終端機只顯示檔案路徑和要打的碼。讀和批准是兩個動作，這是故意的。</p>
+<p>只要有一個倉庫沒通過檢查，就什麼都不寫。兩個人、或兩個任務改了同一個檔案，也是在這裡被發現的，而且是由這裡的程式發現，不是之後在審查裡才發現。</p>
+<h3>為什麼批准要在終端機裡輸入</h3>
+<p>再看第二個問題的前一半：怎麼讓一個「同意」成為 agent 造不出來的東西？聊天裡的確認框可以被「這個會話都允許」關掉，人在終端機裡輸入的一串碼卻關不掉，所以批准被做成一個需要真正終端機的指令。不過，這個設計是站在兩條腿上的，終端機只是其中一條。</p>
+<p>可是光靠終端機，算不上一道牆。檢查「這是不是終端機」並不是安全邊界，因為有心的程式可以假裝成終端機。那要是真有程式假裝，靠什麼擋住它？</p>
+<p>靠的是第二條腿，也就是 hook。agent 只要想執行批准指令，這段程式碼就會直接拒絕。它必須放在 agent 碰不到的地方，就像<a href="4-3-guardrails.html">保護規則本身的檔案</a>說的：如果這個 hook 不見了，或 agent 能編輯它，批准就只剩一個客氣的請求。兩條腿，單靠任何一條都不夠。</p>
+<p>而 hook 本身出錯的時候，也必須照樣拒絕。執行層在自己壞掉時會放行呼叫（<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>），所以拒絕批准指令這一條，要放進那份「即使 hook 出錯也必須擋住」的短清單。不然的話，這條腿剛好會在最需要它的時候斷掉。</p>
+<p>這不表示人要在終端機裡讀計畫。計畫和 diff 在終端機裡很難讀，所以人是在編輯器裡讀，終端機只顯示檔案路徑和要輸入的碼。讀和批准是兩個動作，這是故意分開的。</p>
 <h3>把批准綁到讀過的內容</h3>
-<p>假設人批准了一份計畫，然後 agent 改了這份計畫。批准還有效嗎？不應該。所以人要打的碼，是從計畫的內容算出來的：一個 hash，一種指紋，改一個字就會變。批准之後計畫變了，批准就對不上，門就又關上了。</p>
-<p>寫回也一樣：批准屬於當時顯示的那份確切的 diff。「綁定到被批准的那一份計畫」就是這個意思。沒有這一步，人批准的是一樣東西，agent 交出的卻是另一樣。</p>
+<p>剩下的是後一半：重複使用。假設人批准了一份計畫，之後 agent 又改了這份計畫，那批准還有效嗎？不應該有效。正因為這樣，人要輸入的碼是從計畫的內容算出來的。它是一個 hash，像一枚指紋，只要改一個字就會變；所以批准之後計畫一變，批准就對不上，門也就重新關上了。</p>
+<p>同樣地，寫回的批准只屬於當時顯示的那份確切的 diff。「綁定到被批准的那一份計畫」就是這個意思。沒有這一步，人批准的是一樣東西，agent 交出的卻可能是另一樣。</p>
 <h3>門上的快照</h3>
-<p>計畫被批准時、每次檢查之前、寫回的試跑之前，都會自動存一份工作的副本（快照）。哪裡壞了，那個時刻的狀態找得回來。在我的設定裡，預設保留 14 天。</p>
-<p>寫入多個倉庫的途中失敗，不會自動回復。任務進入「寫了一部分」的狀態，由人執行恢復。我選擇不去猜一個自動的還原。</p>
-<h3>沒有這些機制</h3>
-<p>用手也能養成這個習慣。叫 agent 動手之前，先讀計畫。提交之前，先讀 diff。對會寫入的工具，不要勾「這個會話都允許」。上面的機制，只是確保你累了、或不在的時候，這些事也會發生。</p>
+<p>門除了決定什麼可以往下走，也負責把工作存下來。計畫被批准時、每次檢查之前、寫回的試跑之前，都會自動存一份工作的副本（快照），這樣哪裡壞了，那個時刻的狀態就找得回來。在我的設定裡，快照預設保留 14 天。</p>
+<p>不過，找得回某個狀態，不等於能自動退回去。寫入多個倉庫的途中失敗了，不會自動回復，任務會進入「寫了一部分」的狀態，由人執行恢復。自動還原只能靠猜，我寧可不做。</p>
 <h3>多輪</h3>
-<p>寫回之後，同一個目標可能再回來：reviewer 找到缺陷，或有人要求改動。新的一輪開始。舊的工作移到一旁，寫新的計畫，兩道門都再走一次。不同的目標是新任務。</p>
-<p>在其他環境測試，不算另一輪。agent 在那裡什麼都不能執行，要由人來。那會成為自己的一個<em>測試</em>類任務：agent 寫說明，等人給結果，再判斷結果。測試失敗，就回到開發任務，成為新的一輪。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>把人放在哪里</h3>
-<p>人的注意力是系统里最稀缺的东西。只把它花在三类点上，别的地方不花：</p>
-<ul>
-<li><strong>花钱的点</strong>。比如启动一次昂贵的运行。</li>
-<li><strong>授权的点</strong>。让 agent 往共享仓库里写。</li>
-<li><strong>无法撤销的点</strong>。一旦做了就收不回来的事。</li>
-</ul>
-<p>任务文件夹里的一切，重做起来都很便宜，所以 agent 在那里可以随便干（见<a href="5-1-tasks.html">管任务，不管对话</a>）。改真实仓库的任务有两个这样的点。我把每一个叫一道<strong>关卡</strong>：人批准之前，任务过不去。</p>
+<p>任務不一定在寫回之後就結束。同一個目標可能再回來，例如 reviewer 找到缺陷，或有人要求改動，這時就開始新的一輪：舊的工作移到一旁，重新寫計畫，兩道門都再走一次。如果是不同的目標，那就是新任務。</p>
+<p>在其他環境測試，看起來像是又一輪，其實不是。agent 在那裡什麼都不能執行，只能由人來跑，所以這件事另外開成一個<em>測試</em>類的任務：agent 寫好說明，等人給結果，再判斷結果。測試失敗的話，就回到開發任務，成為新的一輪。</p>
+<h3>沒有這些機制</h3>
+<p>門背後的習慣，用手也做得到：叫 agent 動手之前先讀計畫，提交之前先讀 diff，對會寫入的工具不要勾「這個會話都允許」。上面這些機制，只是確保你累了、或不在的時候，這些事也照樣會發生。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把人放在哪里，又怎样让他的“同意”算数</h2><h3>把人放在哪里</h3>
+<p>第一个问题的答案很简单。人的注意力是整个系统里最稀缺的东西，所以只把它花在三类点上，别处一概不花。有的点要花钱，比如启动一次昂贵的运行；有的点会授权，比如让 agent 往共享仓库里写东西；还有的点无法撤销，一旦做了，就再也收不回来。</p>
+<p>agent 的大部分工作都不属于这三类，因为任务文件夹里的一切重做起来都很便宜，agent 在那里可以放手去干（见<a href="5-1-tasks.html">管任务，不管对话</a>）。但一个要改真实仓库的任务，会碰上两个这样的点。我把每一个都叫作一道<strong>关卡</strong>，因为人批准之前，任务过不去。</p>
 <figure class="fig steps" id="fig-5-3-two-gates" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <g data-step="1">
   <rect class="box" x="10" y="60" width="100" height="56" rx="8"/>
@@ -477,63 +455,52 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">agent 写好计划就停下，不能继续。</li><li data-step-text="2">关卡 1。人在编辑器里读计划，再到终端里敲批准。agent 没办法替人敲。</li><li data-step-text="3">agent 在任务文件夹里工作。每道关卡都留一份工作的副本，坏了可以找回那一刻的样子。</li><li data-step-text="4">关卡 2。人读确切的 diff，再在终端里批准。之后结果才进到仓库。</li><li data-step-text="5">批准绑在人读过的那份计划上。计划一改，批准就作废。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>两道关卡，放在花钱、授权、无法撤销的点上。每道都是 agent 替不了人做的动作。</figcaption></figure>
 <h3>关卡 1：批准计划</h3>
-<p>agent 写出需求和计划，然后停下。人读计划，之后才批准。在此之前，agent 可以起草、可以读；不能开始改工作文件。</p>
-<p>这道关卡的意义在成本。一份错的计划，作为一段文字改起来很便宜，作为一个做完的改动改起来很贵。在我的配置里，计划还建立在已确认的需求之上（见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>），所以一次审批可以同时确认两者。</p>
+<p>第一道关卡设在任何工作文件被改动之前。agent 写出需求和计划后就停下来，在人读完计划、批准之前，它可以起草、可以读，但还不能动手改。</p>
+<p>之所以停在这里，是为了成本。一份错的计划，还停留在一段文字的时候改起来很便宜，等它变成一个做完的改动再改就贵了。在我的配置里，计划还建立在已经确认的需求之上（见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>），所以一次审批可以把两者一起确认。</p>
 <h3>关卡 2：批准写回</h3>
-<p>agent 已经在任务文件夹里做完了改动，检查也跑过了。现在结果要进入真实的仓库。把它复制过去，就是<strong>写回</strong>。人读确切的 <strong>diff</strong>：将要改动的那些行的清单。然后批准。</p>
-<p>写回时，结果进入仓库的一个新分支，并且不提交。它从不直接碰主分支。而且在写之前，代码会检查：</p>
+<p>到了第二道关卡，agent 已经在任务文件夹里做完改动，检查也跑过了，剩下的就是把结果复制到真实的仓库里，这一步叫<strong>写回</strong>。在写回之前，人要读那份确切的 <strong>diff</strong>，也就是将要改动的那些行的清单，然后再批准。</p>
+<p>就算批准了，写回也不会直接进主分支。结果会进入仓库的一个新分支，并且不提交。而且在真正写之前，代码会先检查：</p>
 <ul>
 <li>工作树是干净的，</li>
 <li>分支名没被占用，</li>
 <li>要改的文件在复制之后，没有在主分支上变动过。</li>
 </ul>
-<p>只要有一个仓库没通过检查，就什么都不写。两个人、或者两个任务改同一个文件，也是在这里发现的：由这里的程序发现，而不是以后在评审里。</p>
+<p>只要有一个仓库没通过检查，就什么都不写。两个人或者两个任务改了同一个文件，也是在这里被发现的，发现它的是这里的程序，而不是后来的评审。</p>
 <h3>为什么审批要在终端里敲</h3>
-<p>聊天里的确认框，可以被“本次会话都允许”关掉。人在终端里敲的一个码，关不掉。审批命令需要一个真正的终端，agent 来运行它，就会被拒绝。有三点让这一条站得住：</p>
-<ol>
-<li><strong>终端不是一堵墙</strong>。检查“这是个终端”不是安全边界；有心的程序可以假冒。</li>
-<li><strong>hook 是第二条腿</strong>。它是一段代码，会拒绝 agent 运行审批命令的任何尝试，而且它在 agent 够不着的地方，正如<a href="4-3-guardrails.html">保护规则本身的文件</a>所讲。如果这个 hook 没了，或者 agent 能编辑它，审批就只是一个客客气气的请求。这个设计靠两条腿站着，单靠哪一条都不够。</li>
-<li><strong>拒绝必须经得起出错</strong>。执行层在自己出故障时会放行调用（见<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>）。所以对审批命令的拒绝，应该放在那份即使 hook 出错也必须拦下的短清单上；否则这条腿恰好在最需要它的时候断了。</li>
-</ol>
-<p>内容在别处读。计划和 diff 在终端里不好读，所以人在编辑器里读，终端只显示文件路径和要敲的码。读和批准是有意分开的两个动作。</p>
+<p>再看第二个问题的前一半：怎样让一声“同意”成为 agent 造不出来的东西？聊天里的确认框可以被“本次会话都允许”关掉，人在终端里敲的一个码却关不掉，所以审批被做成一条需要真正终端的命令。不过，这个设计是靠两条腿站着的，终端只是其中一条。</p>
+<p>可光靠终端，算不上一堵墙。检查“这是不是终端”并不是安全边界，因为有心的程序完全可以假冒一个终端。那要是真有程序假冒，靠什么拦住它？</p>
+<p>靠的是第二条腿，也就是 hook。agent 只要试图运行审批命令，这段代码就会直接拒绝。它必须放在 agent 够不着的地方，正如<a href="4-3-guardrails.html">保护规则本身的文件</a>所讲的那样：如果这个 hook 没了，或者 agent 能编辑它，审批就只剩一个客客气气的请求。两条腿，单靠哪一条都不够。</p>
+<p>而 hook 本身出了错的时候，也得照样拒绝。执行层在自己出故障时会放行调用（见<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>），所以对审批命令的拒绝，应该列进那份即使 hook 出错也必须拦下的短清单。不然的话，这条腿恰恰会在最需要它的时候断掉。</p>
+<p>这并不是说人要在终端里读计划。计划和 diff 在终端里很难读，所以人是在编辑器里读的，终端只显示文件路径和要敲的码。读和批准是两个有意分开的动作。</p>
 <h3>把审批绑在读过的内容上</h3>
-<p>假设人批准了一份计划，然后 agent 编辑了这份计划。批准还有效吗？不应该有效。所以人要敲的那个码，是从计划的内容算出来的：一个哈希，一个指纹，改一个字符它就变。批准之后计划变了，批准就对不上了，关卡重新关上。</p>
-<p>写回也一样：批准属于展示过的那份确切的 diff。这就是“绑定到被批准的那份计划上，一字不差”的意思。没有它，人批准的是一样东西，agent 交付的是另一样。</p>
+<p>剩下的是后一半：重复使用。假设人批准了一份计划，之后 agent 又改了这份计划，那这个批准还有效吗？不应该有效。正因为这样，人要敲的那个码是从计划的内容算出来的。它是一个哈希，相当于一枚指纹，哪怕只改一个字符它也会变；所以批准之后计划一变，批准就对不上了，关卡也随之重新关上。</p>
+<p>同样，写回的批准只属于当时展示的那份确切的 diff。所谓“绑定到被批准的那份计划上，一字不差”，说的就是这个。没有这一步，人批准的是一样东西，agent 交出来的可能是另一样。</p>
 <h3>关卡处的快照</h3>
-<p>计划被批准时、每次检查之前、写回试运行（dry run）之前，会自动保存一份工作的副本（快照）。出了问题，那一刻的状态能找回来。在我的配置里，它们默认保留 14 天。</p>
-<p>往多个仓库写的中途失败，不会自动回滚。任务进入“部分写入”状态，由人来做恢复。我选择不去猜一个自动撤销。</p>
-<h3>没有这套机制也行</h3>
-<p>这个习惯用手工也行。叫 agent 动手之前，先读计划。提交之前，先读 diff。对会写东西的工具，别勾“本次会话都允许”。上面的机制只是保证，在你累了或者不在的时候，这些事也照样发生。</p>
+<p>关卡除了决定什么能往下走，还负责把工作存下来。计划被批准时、每次检查之前、写回试运行（dry run）之前，系统都会自动保存一份工作的副本（快照），这样出了问题，就能把那一刻的状态找回来。在我的配置里，快照默认保留 14 天。</p>
+<p>不过，能找回某个状态，不等于能自动退回去。往多个仓库写到一半失败了，并不会自动回滚，任务会进入“部分写入”的状态，由人来做恢复。自动撤销只能靠猜，我宁可不做。</p>
 <h3>好几轮</h3>
-<p>写回之后，同一个目标可能再来：reviewer 发现了缺陷，或者有人要求改动。新的一轮开始。旧的工作挪到一边，写新的计划，两道关卡再走一遍。不同的目标，是一个新任务。</p>
-<p>在其他环境里测试，不算另一轮。agent 在那里运行不了任何东西；由人来跑。这成为一个单独的任务，类型是<em>测试</em>：agent 写说明，等人给结果，再判断结果。测试失败，作为新的一轮回到开发任务。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
-<li><strong>It stops the agent, and so it slows the work.</strong> Each gate costs a person a read and a command. That is the price. If you put gates everywhere, people stop reading, and you are back at the hundredth box.</li>
-<li><strong>It holds only while the refusing hook is there.</strong> If the hook that refuses the approval command is removed, edited or fails, an agent that can run commands could approve for itself. Protect that hook as the rules in <a href="4-3-guardrails.html">Guardrails</a> say, and test it. A test is cheap: ask the agent to run the approval and check that it is refused.</li>
-<li><strong>A person can approve without reading.</strong> Binding the approval to the plan stops a swap. It does not stop a tired yes. Making the diff short and the gates few helps; nothing here removes the problem. One idea I have not tried is to record how long each approval took and how big the diff was: a very fast yes on a big diff is a signal worth looking at.</li>
-<li><strong>The terminal check is not a lock.</strong> Treat it as a guard against accidents, not against an attack (<a href="4-5-least-privilege.html">Least privilege</a>).</li>
-<li><strong>No automatic undo across repositories.</strong> A partial failure needs a person.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
-<li><strong>它會讓 agent 停下來，所以工作變慢</strong>。每道門要人讀一次、打一個指令。這是代價。門放得到處都是，人就不讀了，又回到第一百個框。</li>
-<li><strong>只有拒絕的 hook 在的時候才成立</strong>。拒絕批准指令的 hook 如果被移除、被編輯或失敗，能執行指令的 agent 就可能自己批准。照 <a href="4-3-guardrails.html">保護規則本身的檔案</a> 的規則保護這個 hook，並且測試它。測試很便宜：叫 agent 去執行批准，確認它被拒絕。</li>
-<li><strong>人可能不讀就批准</strong>。把批准綁到計畫，擋得住掉包，擋不住累了的「好」。讓 diff 短、門少，會有幫助；這裡沒有任何東西能消除這個問題。一個我還沒試過的想法，是記下每次批准花了多久、diff 有多大：大 diff 卻很快就批准，是值得看一眼的訊號。</li>
-<li><strong>終端機檢查不是鎖</strong>。把它當成防意外的措施，不是防攻擊的（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</li>
-<li><strong>跨倉庫沒有自動還原</strong>。部分失敗需要人處理。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
-<li><strong>它会拦住 agent，所以会拖慢工作</strong>。每道关卡让人读一次、敲一条命令。这就是价钱。如果到处设关卡，人就不读了，你又回到了第一百个框。</li>
-<li><strong>只有拒绝用的 hook 在，它才成立</strong>。如果拒绝审批命令的 hook 被删了、被改了或者出故障了，能运行命令的 agent 就可能自己批准自己。按<a href="4-3-guardrails.html">保护规则本身的文件</a>里的规则保护这个 hook，并测试它。测试很便宜：让 agent 运行审批，检查它被拒绝。</li>
-<li><strong>人可以不读就批</strong>。把审批绑到计划上，能防住被调包，防不住疲惫的“同意”。让 diff 短一点、关卡少一点有帮助；这里没有任何东西能消除这个问题。有一个我没试过的想法：记录每次审批用了多久、diff 有多大：对一个大 diff 飞快地批，是值得留意的信号。</li>
-<li><strong>终端检查不是锁</strong>。把它当作防意外的守卫，不是防攻击的（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</li>
-<li><strong>跨仓库没有自动撤销</strong>。部分失败需要人来处理。</li>
-</ul>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The typed-approval mechanism exists because a platform's own confirmation can be switched off for a session, and cannot be tied to a plan's hash. If a platform offers an approval that the agent cannot dismiss, that records what was shown, and that stops being valid when the content changes, use that and drop mine.</p>
-<p>The idea stays: a person at the three kinds of point, and an approval that belongs to exactly what they read.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>打出來的批准機制存在，是因為平台自己的確認可以在一個會話裡被關掉，也沒辦法綁到計畫的 hash。如果平台提供一種批准：agent 無法關掉、會記錄當時顯示的內容、內容一變就失效，那就用它，把我的拿掉。</p>
-<p>想法會留下：在三種地方放一個人，而且批准只屬於他讀過的內容。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>敲码审批的机制之所以存在，是因为平台自己的确认可以在一个会话里被关掉，也没法绑到计划的哈希上。如果平台提供这样的审批：agent 关不掉、会记录展示过什么、内容一变就失效，那就用它，把我的去掉。</p>
-<p>想法留着：在三类点上放一个人，审批只属于他读过的那份确切内容。</p>
+<p>任务不一定在写回之后就结束。同一个目标可能再回来，比如 reviewer 发现了缺陷，或者有人要求改动，这时就开始新的一轮：旧的工作挪到一边，重新写计划，两道关卡再走一遍。如果是不同的目标，那就是一个新任务。</p>
+<p>在其他环境里测试，看起来像是又一轮，其实不是。agent 在那里什么都运行不了，只能由人来跑，所以这件事另外开成一个<em>测试</em>类的任务：agent 写好说明，等人给出结果，再判断结果。测试失败的话，就作为新的一轮回到开发任务。</p>
+<h3>没有这套机制也行</h3>
+<p>关卡背后的习惯，手工也做得到：叫 agent 动手之前先读计划，提交之前先读 diff，对会写东西的工具别勾“本次会话都允许”。上面这套机制，只是保证你累了或者不在的时候，这些事也照样会发生。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the gates cost, and where they can still fail</h2><p>The plainest cost is time. Each gate holds the agent until a person has done one read and typed one command, and that is the price of the design. If you put gates everywhere, people stop reading, which brings you back to the hundredth box.</p>
+<p>The gates also hold only while the refusing hook is there. If the hook that refuses the approval command is removed, edited or fails, an agent that can run commands could approve for itself. So protect that hook as the rules in <a href="4-3-guardrails.html">Guardrails</a> say, and test it. A test is cheap: ask the agent to run the approval and check that it is refused.</p>
+<p>Even with the hook in place, a person can approve without reading. Binding the approval to the plan stops a swap, but it does not stop a tired yes. Making the diff short and the gates few helps, yet nothing here removes the problem. One idea I have not tried is to record how long each approval took and how big the diff was, because a very fast yes on a big diff is a signal worth looking at.</p>
+<p>The last two limits came up above. The terminal check protects against accidents, not against an attack (<a href="4-5-least-privilege.html">Least privilege</a>), and a partial failure across repositories still needs a person.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>這兩道門要付出什麼，還會在哪裡失守</h2><p>最直接的代價是時間。每道門都要讓 agent 停下來，等人讀一次、輸入一個指令，這是這套設計要付的代價。可是門要是放得到處都是，人就不讀了，又回到第一百個框。</p>
+<p>這兩道門也只有在負責拒絕的 hook 還在的時候才成立。拒絕批准指令的 hook 如果被移除、被編輯或失敗，能執行指令的 agent 就可能自己批准自己。所以要照<a href="4-3-guardrails.html">保護規則本身的檔案</a>的規則保護好這個 hook，並且測試它。測試很便宜，叫 agent 去執行批准，確認它被拒絕就行。</p>
+<p>就算 hook 好好的，人還是可能不讀就批准。把批准綁到計畫上，擋得住掉包，卻擋不住累了的「同意」。讓 diff 短一點、門少一點會有幫助，但這裡沒有任何東西能消除這個問題。一個我還沒試過的想法，是記下每次批准花了多久、diff 有多大，因為大 diff 卻很快就批准，是值得看一眼的訊號。</p>
+<p>剩下兩條限制前面已經說過：終端機檢查只防意外，防不了攻擊（<a href="4-5-least-privilege.html">有些東西根本不給</a>）；跨倉庫的部分失敗，還是要人來處理。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>关卡要付出什么，还会在哪里失守</h2><p>最直接的代价是时间。每道关卡都要让 agent 停下来，等人读一遍、敲一条命令，这是这套设计要付的价。可要是到处都设关卡，人就不读了，你又回到了第一百个框。</p>
+<p>这套关卡也只有在负责拒绝的 hook 还在时才成立。如果拒绝审批命令的 hook 被删了、被改了，或者出了故障，能运行命令的 agent 就可能自己批准自己。所以要按<a href="4-3-guardrails.html">保护规则本身的文件</a>里的规则保护好这个 hook，并且测试它。测试很便宜，让 agent 去运行审批，看它是不是被拒绝就行。</p>
+<p>就算 hook 好好的，人也可能不读就批。把审批绑到计划上，能防住调包，却防不住一句疲惫的“同意”。让 diff 短一点、关卡少一点会有帮助，但这里没有任何东西能消除这个问题。有一个我还没试过的想法，是记下每次审批用了多久、diff 有多大，因为对一个很大的 diff 飞快地批下来，是值得留意的信号。</p>
+<p>剩下两条限制前面已经说过：终端检查只防意外，防不了攻击（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）；跨仓库的部分失败，仍然要人来处理。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete the typed approval</h2><p>Of all this, the typed approval is the part that depends on the platform. It exists because a platform's own confirmation can be switched off for a session and cannot be tied to a plan's hash. If a platform offers an approval that the agent cannot dismiss, that records what was shown, and that stops being valid when the content changes, use that and drop mine.</p>
+<p>The idea stays either way: a person at the three kinds of point, and an approval that belongs to exactly what they read.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉在終端機輸入的批准</h2><p>整套設計裡，在終端機輸入的批准是跟平台綁在一起的那一部分。它之所以存在，是因為平台自己的確認可以在一個會話裡被關掉，也沒辦法綁到計畫的 hash。如果哪天平台提供的批准，agent 無法關掉、會記錄當時顯示的內容、內容一變就失效，那就用平台的，把我的拿掉。</p>
+<p>不管怎樣，想法會留下：在三種地方放一個人，而且批准只屬於他讀過的那份內容。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉敲码审批</h2><p>整套设计里，敲码审批是跟平台绑在一起的那一部分。它之所以存在，是因为平台自己的确认可以在一个会话里被关掉，也没法绑到计划的哈希上。如果哪天平台提供的审批 agent 关不掉、会记录展示过什么、内容一变就失效，那就用平台的，把我的这套去掉。</p>
+<p>不管怎样，想法会留下来：在三类点上放一个人，而审批只属于他读过的那份确切内容。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Walk through how work moves from this agent&#x27;s changes to the main branch or to production in this project: pull requests, required reviews, CI, deploy steps, and any approval prompts in the agent tools. For each point where money is spent, power is granted or something cannot be undone, say who approves, through what channel, and whether the agent could give or skip that approval. Also say whether the approval would still stand if the change were edited after it was given. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>走一遍在這個專案裡，工作怎麼從這個 agent 的改動走到主分支或正式環境：pull request、必要的審查、CI、部署步驟，以及 agent 工具裡的任何批准提示。對每一個花錢、給權力或不能反悔的點，說明誰批准、走什麼管道，以及 agent 能不能自己給出或跳過那個批准。也說明：批准給出之後，如果改動又被編輯，批准還算不算數。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>梳理一下，在这个项目里，工作是怎么从这个 agent 的改动走到主分支或生产环境的：pull request、必需的评审、CI、部署步骤，以及 agent 工具里的各种审批提示。对每一个花钱、授权或无法撤销的点，说清楚由谁批准、走什么渠道、agent 能不能自己给出或跳过这个审批。另外说一下：如果审批给出之后改动又被编辑了，这个审批还算不算数。不要修改任何文件。</code></pre></div>
@@ -557,7 +524,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The two gates, the typed approval, the plan hash, and the snapshots run in Copilot Harness.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Two gates&quot;. Teach me how this harness builds the two approvals (topic 9, and topic 8 on permissions): why they are typed in a terminal, what the approval is bound to, and which hook refuses the agent. Walk me through a real task going through both gates, and draw it.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>兩道門、打出來的批准、計畫的 hash 和快照，都在 Copilot Harness 裡執行。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>兩道門、在終端機輸入的批准、計畫的 hash 和快照，都在 Copilot Harness 裡執行。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「兩道門：人在哪裡批准」這一章。請教我這個 harness 怎麼做這兩道批准（主題 9，以及講權限的主題 8）：為什麼要在終端機裡打、批准綁定到什麼，以及哪個 hook 拒絕 agent。帶我看一個真實的任務怎麼走過兩道門，並且畫出來。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>两道关卡、敲码审批、计划的哈希和快照，都在 Copilot Harness 里跑着。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“两道门”这一章。请教我这个 harness 是怎么搭出两道审批的（主题 9，以及讲权限的主题 8）：为什么要在终端里敲，审批绑定的是什么，以及哪个 hook 会拒绝 agent。带我走一遍一个真实任务过两道关卡的过程，并画出来。</code></pre></div>
