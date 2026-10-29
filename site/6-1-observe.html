@@ -221,83 +221,69 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">6.1</p><h1><span data-l="en" lang="en">Record what happened, not what the agent said</span><span data-l="zh-Hant" lang="zh-Hant">記下發生了什麼，不是 agent 說了什麼</span><span data-l="zh-Hans" lang="zh-Hans">记下发生了什么，而不是 agent 说了什么</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent, such as Copilot in agent mode. Nothing else.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent，例如 agent 模式的 Copilot。不需要別的。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个写代码的 AI agent，比如 Copilot 的 agent 模式。别的都不需要。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent's summary can be wrong; a log can be checked. Record every call (one line each, without its arguments) and every refusal, and when something fails, read the trace.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 的總結可能是錯的，紀錄可以查。每一次呼叫記一行（不記參數），每一次拒絕也記下來；出了問題，就去讀軌跡。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 自己写的总结可能是错的，日志却可以核对。记下每一次调用（每次一行，不含参数）和每一次拒绝；出了问题，就去读轨迹。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">How would you know if the agent's story is wrong?</span><span data-l="zh-Hant" lang="zh-Hant">agent 說的不對，你怎麼知道？</span><span data-l="zh-Hans" lang="zh-Hans">agent 说的不对，你怎么知道？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">What to record, who writes it, and how to read it</span><span data-l="zh-Hant" lang="zh-Hant">記什麼、誰來寫、怎麼讀</span><span data-l="zh-Hans" lang="zh-Hans">记什么，谁来写，怎么读</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What a log costs, and what it cannot tell you</span><span data-l="zh-Hant" lang="zh-Hant">日誌的代價，和它回答不了的事</span><span data-l="zh-Hans" lang="zh-Hans">日志的代价，和它回答不了的事</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the hook, and what stays</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這個 hook，什麼會留下來</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这个 hook，什么会留下来</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.1</p><h1><span data-l="en" lang="en">Record what happened, not what the agent said</span><span data-l="zh-Hant" lang="zh-Hant">記下發生了什麼，不是 agent 說了什麼</span><span data-l="zh-Hans" lang="zh-Hans">记下发生了什么，而不是 agent 说了什么</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes only that you have used an AI coding agent, such as Copilot in agent mode.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過寫程式的 AI agent，例如 agent 模式的 Copilot。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个写代码的 AI agent，比如 Copilot 的 agent 模式。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>An agent's summary can be wrong, but a log can be checked. So record every call (one line each, without its arguments) and every refusal, and when something fails, read the trace.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 寫的總結可能是錯的，日誌卻可以查證。所以每一次呼叫都記一行（不記參數），每一次拒絕也記下來；出了問題，就去讀軌跡。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 写的总结可能是错的，日志却可以核对。所以要记下每一次调用（每次一行，不含参数）和每一次拒绝；出了问题，就去读轨迹。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> require that every agent task leaves a record written by code, and decide who reads it and when.</li>
-<li><strong>The risk:</strong> the agent's own summary is then the only account of what happened, and a summary can be wrong. In the one run I read closely (one run, not a pattern), the agent's own account said nothing about the handover that cost the most.</li>
-<li><strong>The cost of doing it right:</strong> one small program that writes a line per tool call, plus someone's time to read the record when a run fails. Mostly setup time.</li>
+<li><strong>The decision:</strong> require every agent task to leave a record written by code, and decide who reads it and when.</li>
+<li><strong>The risk:</strong> without that record, the agent's own summary is the only account of what happened, and a summary can be wrong. In the one run I read closely (one run, not a pattern), the agent's own account said nothing about the handover that cost the most.</li>
+<li><strong>The cost of doing it right:</strong> one small program that writes a line per tool call, plus someone's time to read the record when a run fails. Most of it is setup time.</li>
 <li><strong>Ask the team:</strong> &quot;For the last task that mattered, show me what the agent did from the record, not from its summary.&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：要求每個 agent 任務都留下由程式寫的紀錄，並決定誰在什麼時候讀它。</li>
-<li><strong>風險</strong>：不這樣做，agent 自己的總結就是唯一的說法，而總結可能是錯的。在我仔細讀過的那一次運行裡（只有一次，不是通則），agent 自己的說法，沒有提到花得最多的那次交接。</li>
-<li><strong>做對的成本</strong>：一個小程式，每次工具呼叫寫一行；再加上運行失敗時，有人花時間讀紀錄。大多是設定的時間。</li>
+<li><strong>要做的決定</strong>：要求每個 agent 任務都留下一份由程式寫的紀錄，並決定誰在什麼時候讀它。</li>
+<li><strong>風險</strong>：沒有這份紀錄，agent 自己的總結就是唯一的說法，而總結可能是錯的。在我仔細讀過的那一次運行裡（只有一次，不是通則），agent 自己的說法完全沒提到花得最多的那次交接。</li>
+<li><strong>做對的成本</strong>：一個小程式，每次工具呼叫寫一行，再加上運行失敗時有人花時間讀紀錄。大部分是設定的時間。</li>
 <li><strong>可以問團隊</strong>：「上一個重要的任務，請你用紀錄，不是用 agent 的總結，告訴我它做了什麼。」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：要求每个 agent 任务都留下一份由代码写的记录，并决定谁来读、什么时候读。</li>
-<li><strong>风险</strong>：否则 agent 自己的总结就成了对发生过什么的唯一说法，而总结可能是错的。在我仔细读过的那一次运行里（只是一次，不是规律），agent 自己的说法对花得最多的那次交接只字未提。</li>
-<li><strong>做对的代价</strong>：一个小程序，每次工具调用写一行；再加上运行失败时有人花时间去读记录。主要是搭建的时间。</li>
+<li><strong>要拍板的事</strong>：要求每个 agent 任务都留下一份由代码写的记录，并定下谁来读、什么时候读。</li>
+<li><strong>风险</strong>：没有这份记录，agent 自己的总结就成了关于发生过什么的唯一说法，而总结可能是错的。在我仔细读过的那一次运行里（只是一次，不是规律），agent 自己的说法对花得最多的那次交接只字未提。</li>
+<li><strong>做对的代价</strong>：一个小程序，每次工具调用写一行，再加上运行失败时有人花时间去读记录。大部分是搭建的时间。</li>
 <li><strong>可以问团队</strong>：“拿最近一个重要的任务，给我看 agent 做了什么，要从记录里看，不要看它的总结。”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>At the end of a task the agent writes something like: &quot;I changed three files, ran the tests, and they pass.&quot; That is a story about what happened, told by the one who did it. Most of the time it is right. When it is wrong, you cannot tell from the story alone.</p>
-<p>Three words first.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>How would you know if the agent's story is wrong?</h2><p>At the end of a task the agent writes something like &quot;I changed three files, ran the tests, and they pass.&quot; That is a story about what happened, told by the one who did it. Most of the time it is right, but when it is wrong, you cannot tell from the story alone.</p>
+<p>What you need is an account that the agent did not write. The plainest one is a <strong>log</strong>, a list of what happened that is written down at the moment it happens, one line per event. If you read the log of one run from the first call to the last, you have a <strong>trace</strong>, which shows what the agent did and in what order. Both are kinds of <strong>record</strong>, the word this chapter uses for any written-down fact you can look at later, as long as the agent did not write it.</p>
+<p>The idea, then, is simple. When a fact matters, get it from a record that code wrote, not from the agent's own words. I first leaned on it in <a href="2-3-subagents.html">Use subagents sparingly</a>, reading the records of the runs to find where the three-role team's extra money went. In the one run I read closely (one run, not a pattern), the agent's own account never mentioned the handover that cost the most. <a href="5-5-counted-checks.html">Make a pass count</a> later rests on the same idea: there the checker's answer is saved by code, not by the agent.</p>
+<p>If the agent's word is not enough, you have to keep a record of your own. That leaves three questions: what should it hold, who should write it, and how do you read it when a run goes wrong?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>agent 說的不對，你怎麼知道？</h2><p>任務結束時，agent 會寫類似這樣的話：「我改了三個檔案，跑了測試，都通過。」這是做事的那一方自己講的經過。多半時候它是對的，可是錯了的話，光看這段話，你是分辨不出來的。</p>
+<p>所以你需要一份不是 agent 寫的說法。最樸素的一種是<strong>日誌</strong>（log）：在事情發生的當下把它記下來，每件事一行，累積成一份清單。把一次運行的日誌從第一次呼叫讀到最後一次，看到的就是<strong>軌跡</strong>（trace），也就是 agent 依什麼順序做了什麼。這兩樣都算是<strong>紀錄</strong>。這一章說的紀錄，是任何寫下來、以後可以回頭查的事實，前提是它不是 agent 寫的。</p>
+<p>這裡的道理其實很簡單：事情真正重要的時候，就從程式寫的紀錄去查，不要聽 agent 自己怎麼說。我第一次靠它，是在 <a href="2-3-subagents.html">慎用子 agent</a> 那一章，當時我讀了那些運行的紀錄，想弄清楚三角色團隊多花的錢花到哪裡去了。在我仔細讀過的那一次運行裡（只有一次，不是通則），agent 自己的說法完全沒提到花得最多的那次交接。後面的 <a href="5-5-counted-checks.html">讓「通過」可信</a> 也建立在同一個道理上：在那裡，檢查者的答案由程式存下來，不是由 agent 存。</p>
+<p>既然 agent 的話靠不住，我們就得自己留一份紀錄。可是這份紀錄該記什麼、由誰來寫，運行出錯時又該怎麼讀？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>agent 说的不对，你怎么知道？</h2><p>任务结束时，agent 会写类似这样的话：“我改了三个文件，跑了测试，通过了。”这是干活的人自己讲的经过。多数时候它是对的，可要是错了，光看这段话，你是看不出来的。</p>
+<p>所以你需要一份不是 agent 写的说法。最朴素的一种是<strong>日志</strong>：在事情发生的当下把它写下来，一件事一行，攒成一份清单。把一次运行的日志从第一次调用读到最后一次，看到的就是<strong>轨迹</strong>，也就是 agent 按什么顺序做了什么。这两样都属于<strong>记录</strong>。这一章说的记录，是任何写下来、之后能回头查的事实，前提是它不是 agent 写的。</p>
+<p>这里的道理其实很简单：事实真正要紧的时候，就从代码写的记录里拿，不要拿 agent 自己的话。我第一次靠它，是在<a href="2-3-subagents.html">慎用子 agent</a>那一章，当时我读了那些运行的记录，想弄清三个角色的团队多花的钱去了哪里。在我仔细读过的那一次运行里（只是一次，不是规律），agent 自己的说法对花得最多的那次交接只字未提。后面的<a href="5-5-counted-checks.html">让“通过”可信</a>也建立在同一个道理上：在那里，检查者的回答由代码保存，而不是由 agent 保存。</p>
+<p>既然 agent 的话靠不住，我们就得自己留一份记录。可这份记录该记什么、由谁来写，运行出了错又该怎么读？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>What to record, who writes it, and how to read it</h2><h3>The log is written by code that the agent does not control</h3>
+<p>Who writes the log comes first, since a record only counts if the agent did not write it. A good writer is a <strong>hook</strong>, a small program that the tool runs at fixed moments, for example just before each tool call and just after. The one that runs before can even refuse the command. (<a href="2-2-hooks.html">Hooks</a> says how they work and where they have gaps.)</p>
+<p>A hook suits the job for two reasons. Because it runs on every call, nothing depends on the agent remembering to write something down. And because the hook writes the log, the agent's own tools never need to touch the files that hold it, so those files can be put out of the agent's reach like any other protected file (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>). Both reasons hold only while the hook sees the call and the fence around those files holds. Where they do not is covered below, under What a log costs.</p>
+<p>What goes on each line is a choice. In my setup there is one line per hook call, holding five things:</p>
 <ul>
-<li>A <strong>log</strong> is a list of what happened, written down at the moment it happened, one line per event.</li>
-<li>A <strong>trace</strong> is the log of one run, read from the first call to the last: what the agent did, in order.</li>
-<li>A <strong>record</strong> is any such written-down fact that you can look at later. In this chapter, &quot;record&quot; means something the agent did not write.</li>
+<li>the event: before a call, after a call, a prompt, or the agent stopping;</li>
+<li>the kind of tool: read, edit, run a command, or start a subagent;</li>
+<li>the result: let through or refused, and which rule refused it;</li>
+<li>the time it took;</li>
+<li>the skills used, which show up for free, because using a skill is itself one tool call.</li>
 </ul>
-<p>The idea is simple. When a fact matters, get it from a record that code wrote, not from the agent's own words. I used this idea first in <a href="2-3-subagents.html">Use subagents sparingly</a>. There I read the records of the runs to see where the extra money in the three-role team went. In the one run I read closely (so this is one run, not a pattern), the agent's own account said nothing about the handover that cost the most. And a later chapter, <a href="5-5-counted-checks.html">Make a pass count</a>, rests on the same thing: the checker's answer is saved by code, not by the agent.</p>
-<p>So the question is what to record, who writes it, and how to read it when a run goes wrong.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>任務結束時，agent 會寫類似這樣的話：「我改了三個檔案，跑了測試，都通過。」這是做事的那一方講的、關於發生了什麼的故事。多半是對的。錯的時候，光看這個故事，你分辨不出來。</p>
-<p>先交代三個詞。</p>
-<ul>
-<li><strong>日誌</strong>（log）是一份清單，記下發生的事，在事情發生的當下寫，每件事一行。</li>
-<li><strong>軌跡</strong>（trace）是一次運行的日誌，從第一次呼叫讀到最後一次：agent 依序做了什麼。</li>
-<li><strong>紀錄</strong>是任何這類寫下來、以後可以回頭看的事實。在這一章裡，「紀錄」指的是不是 agent 寫的東西。</li>
-</ul>
-<p>想法很簡單。一件事重要的時候，要從程式寫的紀錄去查，不要聽 agent 自己怎麼說。我第一次用這個想法，是在 <a href="2-3-subagents.html">慎用子 agent</a>。我讀了那些運行的紀錄，看三角色團隊多花的錢花到哪裡去。在我仔細讀過的那一次運行裡（所以是一次，不是通則），agent 自己的說法，沒有提到花得最多的那次交接。後面的 <a href="5-5-counted-checks.html">讓「通過」可信</a> 也建立在同一件事上：檢查者的答案由程式存下來，不是由 agent 存。</p>
-<p>所以問題是：記什麼、誰來寫、運行出錯時怎麼讀。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>任务结束时，agent 会写类似这样的话：“我改了三个文件，跑了测试，通过了。”这是干活的人讲的、关于发生了什么的一个故事。多数时候它是对的。它错了的时候，光看这个故事，你看不出来。</p>
-<p>先说三个词。</p>
-<ul>
-<li><strong>日志</strong>，是发生了什么的清单，在事情发生的当下写下，一件事一行。</li>
-<li><strong>轨迹</strong>，是一次运行的日志，从第一次调用读到最后一次：agent 按顺序做了什么。</li>
-<li><strong>记录</strong>，是任何这样写下来、之后可以回头看的事实。在这一章里，“记录”指的是不是 agent 写的东西。</li>
-</ul>
-<p>想法很简单。一个事实要紧的时候，就从代码写的记录里拿，不要拿 agent 自己的话。我最早用这个想法，是在<a href="2-3-subagents.html">慎用子 agent</a>里。我读了那些运行的记录，看三个角色的团队多花的钱去了哪里。在我仔细读过的那一次运行里（所以这是一次运行，不是规律），agent 自己的说法对花得最多的那次交接只字未提。后面的一章，<a href="5-5-counted-checks.html">让“通过”可信</a>，也建立在同一件事上：检查者的回答由代码保存，不由 agent 保存。</p>
-<p>所以问题是：记什么，谁来写，运行出错时怎么读。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The log is written by code that the agent does not control</h3>
-<p>A <strong>hook</strong> is a small program that the tool runs at fixed moments, for example just before each tool call, where it can refuse a command before it runs, and just after. (<a href="2-2-hooks.html">Hooks</a> says how they work and where they have gaps.) A hook is a good place to write the log, for two reasons. It runs on every call, so nothing depends on the agent remembering to write something down. And the agent's tools do not write the log, the hook does; the files that hold it can be put out of the agent's reach like any other protected file (<a href="4-3-guardrails.html">Guard the files that hold the rules</a>). This holds only while the hook sees the call and the fence holds. See the gaps in Costs below.</p>
-<p>What each line holds is a choice. In my setup there is one line per hook call:</p>
-<ul>
-<li><strong>The event:</strong> before a call, after a call, a prompt, the agent stopping.</li>
-<li><strong>The kind of tool:</strong> read, edit, run a command, start a subagent.</li>
-<li><strong>The result:</strong> let through, or refused, and which rule refused it.</li>
-<li><strong>The time it took.</strong></li>
-<li><strong>The skills used.</strong> Using a skill is one tool call, so it shows up for free.</li>
-</ul>
-<p><strong>What the log leaves out is as deliberate as what it keeps.</strong> It does not record the arguments of a call or the text of the prompts, because those can hold code or secrets. The exception is a call that was refused or needed a person's confirmation: for that one, the path and the command are recorded, cut to a fixed length. The reason is simple. When something was refused, the one thing you will want to know is what the agent tried. The logs stay on the computer and are not put into git. Old ones can be deleted.</p>
-<p>There is a middle way that I have not built: keep the light line for every call, and switch on a full record (arguments and all) only for refused calls, for one task you are debugging, or when a switch is on. That keeps the secrets out by default and still gives you something to replay when it matters. A full transcript of the run is better than any log for this, because it shows what the agent saw and said between the calls; the log tells you which transcript to open.</p>
+<p>It is tempting to log everything, just in case. But <strong>what the log leaves out is as deliberate as what it keeps.</strong> It does not record the arguments of a call or the text of the prompts, because those can hold code or secrets. The exception is a call that was refused or needed a person's confirmation. For that one the path and the command are recorded, cut to a fixed length. The reason is simple: when something was refused, the one thing you will want to know is what the agent tried. The logs stay on the computer and are not put into git, and old ones can be deleted.</p>
+<p>Between that one light line and recording everything, there is a middle way that I have not built. You would keep the light line for every call and switch on a full record, arguments and all, only for refused calls, for one task you are debugging, or when a switch is on. That keeps the secrets out by default and still gives you something to replay when it matters. Even so, a log is a poor thing to replay from. A full transcript of the run is better, because it shows what the agent saw and said between the calls. The log's job is to tell you which transcript to open.</p>
 <h3>Reading a bad run</h3>
-<p>This is the part that earns the whole chapter. A run failed, or went strangely. You have the trace. What do you do with it?</p>
+<p>This is the part that earns the whole chapter. Say a run failed, or went strangely. You have its trace, so what do you do with it?</p>
 <ol>
-<li><strong>Start from the symptom, not from the start of the log.</strong> What was wrong with the result? Which file, which turn?</li>
-<li><strong>Find the first refusal or failed call.</strong> A rule that refused something is a clue. A tool that failed and was retried is another. Many bad runs begin with one small refusal that the agent worked around in a way nobody wanted.</li>
-<li><strong>Put the agent's account next to the record.</strong> Did it say it ran the tests? Is there a call that ran them? Did it say a file was untouched? Is there an edit of that file? Where the two disagree, believe the record.</li>
-<li><strong>Look at where the time and usage jump.</strong> One prompt that took far longer than the others, or one turn that read the same files again, tells you where the run went off course.</li>
-<li><strong>Decide which kind of problem it is.</strong> A missing rule? A rule the agent could not understand? A refusal message that did not say what to do instead? A step the model is simply bad at? The fix depends on the answer, and a trace is how you get to the answer instead of guessing.</li>
+<li>Start from the symptom, not from the start of the log. What was wrong with the result, in which file, at which turn?</li>
+<li>Find the first refusal or failed call. A rule that refused something is a clue, and so is a tool that failed and was retried. Many bad runs begin with one small refusal that the agent worked around in a way nobody wanted.</li>
+<li>Put the agent's account next to the record. If it said it ran the tests, is there a call that ran them? If it said a file was untouched, is there an edit of that file? Where the two disagree, believe the record.</li>
+<li>Look at where the time and usage jump. One prompt that took far longer than the others, or one turn that read the same files again, tells you where the run went off course.</li>
+<li>Decide which kind of problem it is. Was a rule missing, or was there a rule the agent could not understand? Did a refusal message fail to say what to do instead, or is this a step the model is simply bad at? The fix depends on the answer, and the trace is how you get to the answer instead of guessing.</li>
 </ol>
-<p>For example, suppose the agent's last message says &quot;the tests pass&quot;, and the log has no call that ran a test command. Step 3 catches that in a minute, and no amount of reading the message would.</p>
+<p>Suppose, for example, that the agent's last message says &quot;the tests pass&quot;, yet the log has no call that ran a test command. Step 3 catches that in a minute. No amount of reading the message would.</p>
 <p>Anthropic makes the same point about evaluations: &quot;You won't know if your graders are working well unless you read the transcripts and grades from many trials.&quot; (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>)</p>
 <h3>Eight questions</h3>
-<p>Once the log exists, other records can grow around it. In my setup there are eight, and the clearest way to see why is to list the question each one answers. If you build only one thing, build the hook log, with the refusals in it.</p>
+<p>Once the log exists, other records can grow around it. In my setup there are eight. The clearest way to see why each one exists is to look at the question it answers, so that is how the picture lists them. If you build only one thing, though, build the hook log, with the refusals in it.</p>
 <figure class="fig" id="fig-6-1-eight-questions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
   <text class="label-muted" x="10" y="16" data-t="h-q">THE QUESTION</text>
   <text class="label-muted" x="370" y="16" data-t="h-t">WHAT ANSWERS IT</text>
@@ -351,49 +337,49 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="386" y="351" data-t="t8">fixed scenarios</text>
 </svg>
 <figcaption>Eight questions, eight records. The first one, the log of every call, is what the others are built on.</figcaption></figure>
-<p>I did not plan eight. Each was added because I kept asking the question and had no way to answer it. Two are worth a word, and the third is one line.</p>
-<ul>
-<li><strong>The reading record</strong> (of the knowledge base, see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>) answers &quot;which knowledge-base files does the agent read, and which does nobody read?&quot; It is the one exception to &quot;a call that is let through records nothing about what it touched&quot;: it keeps file names only, and it can be switched off. A file that nobody reads is a candidate for deletion.</li>
-<li><strong>The health check</strong> is the odd one. It does not look at the agent. It looks at the setup: are all the files there, are the rule files valid, does the hook run (it runs it once, for real), when was it last called, and is the slowest recent call too close to its time limit? Its output has three grades: fine, warning (does not block), error (must be fixed). It finds problems after the fact; it cannot prevent them.</li>
-<li><strong>The fixed scenarios</strong> answer &quot;did the behaviour change after I changed something?&quot; That is <a href="6-3-eval-tasks.html">the next chapters</a>. The other four records are listed in the picture.</li>
-</ul>
+<p>I did not plan eight. Each was added because I kept asking a question and had no way to answer it. Of the seven beyond the log, two are worth a word here and a third needs only a line, while the picture is enough for the other four.</p>
+<p>The <strong>reading record</strong> answers &quot;which knowledge-base files does the agent read, and which does nobody read?&quot; (the knowledge base is the subject of <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>). A file that nobody reads is a candidate for deletion. The reading record is also the one exception to the rule that a call which is let through records nothing about what it touched. It keeps file names only, and it can be switched off.</p>
+<p>The <strong>health check</strong> turns the other way. It looks at the setup, not the agent. It checks whether all the files are there, whether the rule files are valid, whether the hook runs (it runs it once, for real), when the hook was last called, and whether the slowest recent call is too close to its time limit. Its output has three grades: fine, warning (does not block) and error (must be fixed). It finds problems after the fact, but it cannot prevent them.</p>
+<p>The <strong>fixed scenarios</strong> ask a different kind of question: did the behaviour change after I changed something? They are what <a href="6-3-eval-tasks.html">the next chapters</a> are about.</p>
 <h3>Tokens and time</h3>
-<p>A hook sees calls, not how many tokens the model read. In my setup the hook log records no tokens, on purpose: the platform keeps its own record of time and usage, and a second copy would drift. The page that shows where a task's time and usage went reads that platform record, and falls back to times from the hook log when it cannot. Whatever you read usage from, find out what it counts: the main conversation's number may not include the subagents' (<a href="2-3-subagents.html">Use subagents sparingly</a> has the same warning).</p>
+<p>One of the eight questions is where a task's time and usage went, and the hook cannot answer it alone. A hook sees calls, not how many tokens the model read. In my setup the hook log records no tokens, and that is on purpose: the platform keeps its own record of time and usage, and a second copy would drift. So the usage page reads the platform's record, and falls back to the times in the hook log when it cannot. Whatever you read usage from, find out what it counts, since the main conversation's number may not include the subagents' (<a href="2-3-subagents.html">Use subagents sparingly</a> has the same warning).</p>
 <h3>When the recorder fails</h3>
-<p>The hook is software, and it will fail. In my setup, when the hook itself fails it lets the call through and writes the error into a separate file; the health check reminds me to look. That was a deliberate choice, and <a href="4-4-enforcement-design.html">Build the enforcement layer like software</a> says why it fits a coding harness and what to do where it does not. For a recorder it is easy to accept: a missed log line is a gap in the evidence, not an accident. But know it: a log with no lines in a period can mean &quot;nothing happened&quot; or &quot;the recorder was down&quot;. The error file is how you tell them apart.</p>
-<h3>Test your own setup</h3>
-<p><strong>Three questions:</strong></p>
+<p>The hook is software, so it will fail. In my setup, when the hook itself fails it lets the call through and writes the error into a separate file, which the health check reminds me to look at. That was a deliberate choice, and <a href="4-4-enforcement-design.html">Build the enforcement layer like software</a> says why it fits a coding harness and what to do where it does not. For a recorder the choice is easy to accept, because a missed log line is a gap in the evidence, not an accident.</p>
+<p>You do need to know what follows from it, though. A log with no lines for a while can mean &quot;nothing happened&quot; or &quot;the recorder was down&quot;, and the error file is how you tell them apart.</p>
+<h3>Three questions and a test you can run today</h3>
+<p>That is how my setup stands. To see where yours does, ask three questions.</p>
 <ol>
 <li>For the last agent task that mattered, can you say what it did from a record, not from its summary?</li>
 <li>If it had done something you did not want, would you have found out, and when?</li>
 <li>Does your record say what was refused, or only what succeeded?</li>
 </ol>
-<p><strong>A test you can run today, with no extra setup.</strong> Ask your agent to do a small task and to say at the end which commands it ran. Then look at your tool's own history of tool calls (where it shows is different in each tool, and I have not checked each). Compare the two lists. If they match, you have learned how much to trust the summary on this kind of task. If they do not, you have found out why you want a record.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>日誌由 agent 控制不了的程式來寫</h3>
-<p><strong>hook</strong> 是工具在固定時刻執行的小程式，例如每次工具呼叫之前（這時它可以在指令執行前拒絕它），和之後。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 講它怎麼運作、哪裡有缺口。）hook 很適合用來寫日誌，有兩個原因。它每次呼叫都會執行，所以不用靠 agent 記得寫下什麼。而且寫日誌的是 hook，不是 agent 的工具；放日誌的檔案，可以像其他受保護的檔案一樣，放到 agent 碰不到的地方（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）。這只在 hook 看得到呼叫、圍欄守得住的時候成立。缺口見下面的「代價」。</p>
-<p>每一行放什麼，是一個選擇。在我的設定裡，每次 hook 呼叫一行：</p>
+<p>There is also a test you can run today, with no extra setup. Ask your agent to do a small task and to say at the end which commands it ran. Then look at your tool's own history of tool calls (where it shows is different in each tool, and I have not checked each) and compare the two lists. If they match, you have learned how much to trust the summary on this kind of task. If they do not, you have found out why you want a record.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>記什麼、誰來寫、怎麼讀</h2><h3>日誌由 agent 控制不了的程式來寫</h3>
+<p>先說誰來寫，因為只有不是 agent 寫的，才稱得上紀錄。適合的寫手是 <strong>hook</strong>，也就是工具在固定時刻執行的小程式，例如每次工具呼叫之前和之後。在呼叫之前執行的那一個，甚至可以把指令直接拒絕掉。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 講它怎麼運作、哪裡有缺口。）</p>
+<p>這件事交給 hook 很合適，原因有兩個。它每次呼叫都會執行，所以不用靠 agent 記得寫下什麼。而且日誌由 hook 來寫，agent 自己的工具根本不需要碰這些檔案，所以可以像其他受保護的檔案一樣，把它們放到 agent 碰不到的地方（<a href="4-3-guardrails.html">保護規則本身的檔案</a>）。不過這兩點都有前提，就是 hook 看得到這次呼叫，而且圍住這些檔案的圍欄守得住。守不住的地方，後面「日誌的代價，和它回答不了的事」會講。</p>
+<p>每一行放什麼，是一個選擇。在我的設定裡，每次 hook 呼叫記一行，一行裡有五樣東西：</p>
 <ul>
-<li><strong>事件</strong>：呼叫之前、呼叫之後、一個 prompt、agent 停下來。</li>
-<li><strong>工具的種類</strong>：讀、改、執行指令、啟動子 agent。</li>
-<li><strong>結果</strong>：放行，或拒絕，以及是哪條規則拒絕的。</li>
-<li><strong>花了多久</strong>。</li>
-<li><strong>用了哪些 skill</strong>。用 skill 就是一次工具呼叫，所以不用額外做就會出現。</li>
+<li>事件：呼叫之前、呼叫之後、一個 prompt，或 agent 停下來；</li>
+<li>工具的種類：讀、改、執行指令，或啟動子 agent；</li>
+<li>結果：放行還是拒絕，以及是哪條規則拒絕的；</li>
+<li>花了多久；</li>
+<li>用了哪些 skill。這一項不用額外做就會出現，因為用 skill 本身就是一次工具呼叫。</li>
 </ul>
-<p><strong>日誌不記什麼，和它記什麼一樣是刻意的</strong>。它不記呼叫的參數，也不記 prompt 的文字，因為那些可能含有程式碼或機密。例外是被拒絕、或需要人確認的呼叫：這種呼叫會記下路徑和指令，並截成固定長度。理由很簡單。有東西被拒絕時，你唯一想知道的，就是 agent 想做什麼。日誌留在電腦上，不放進 git。舊的可以刪。</p>
-<p>有一條折衷的路，我還沒做：每次呼叫都記輕的一行；只在被拒絕的呼叫、你正在除錯的某個任務、或開關打開的時候，才開啟完整紀錄（連參數都有）。這樣預設不會留下機密，需要時又有東西可以重播。為了這個目的，一次運行的完整對話紀錄比任何日誌都好，因為它顯示 agent 在兩次呼叫之間看到了什麼、說了什麼；日誌告訴你該打開哪一份。</p>
+<p>你也許覺得，日誌記得越完整越好。其實<strong>日誌不記什麼，和它記什麼一樣，都是刻意的</strong>。它不記呼叫的參數，也不記 prompt 的文字，因為那些可能含有程式碼或機密。例外是被拒絕、或需要人確認的呼叫，這種呼叫會記下路徑和指令，並截成固定長度。理由很簡單，有東西被拒絕時，你最想知道的就是 agent 想做什麼。日誌留在電腦上，不放進 git，舊的可以刪掉。</p>
+<p>在「只記一行」和「什麼都記」之間，還有一條折衷的路，我還沒做。做法是每次呼叫照樣只記簡短的一行，只在呼叫被拒絕、你正在除錯某個任務，或打開了某個開關的時候，才記下完整的內容，連參數都記。這樣預設不會留下機密，真正需要時又有東西可以重播。即使如此，日誌也不是拿來重播的好材料。一次運行的完整對話紀錄好得多，因為它顯示 agent 在兩次呼叫之間看到了什麼、說了什麼。日誌的用處，是告訴你該打開哪一份對話紀錄。</p>
 <h3>讀一次出錯的運行</h3>
-<p>整章的價值在這一段。一次運行失敗了，或是怪怪的。你手上有軌跡。要拿它做什麼？</p>
+<p>整章的價值，就在這一段。假設一次運行失敗了，或是跑得怪怪的，你手上有它的軌跡，接下來要怎麼用？</p>
 <ol>
-<li><strong>從症狀開始，不要從日誌的開頭開始</strong>。結果哪裡不對？哪個檔案、哪一輪？</li>
-<li><strong>找第一次拒絕或失敗的呼叫</strong>。一條規則拒絕了什麼，是一條線索。一個工具失敗後又重試，是另一條。很多壞掉的運行，起點都是一次小小的拒絕，agent 用沒人想要的方式繞了過去。</li>
-<li><strong>把 agent 的說法和紀錄放在一起看</strong>。它說跑了測試，有沒有一次呼叫跑了測試？它說某個檔案沒動，有沒有改過那個檔案的紀錄？兩者不一致的地方，相信紀錄。</li>
-<li><strong>看時間和用量在哪裡跳高</strong>。某一個 prompt 花的時間比其他的長很多，或某一輪又把同樣的檔案讀了一遍，就告訴你運行是在哪裡走偏的。</li>
-<li><strong>判斷這是哪一種問題</strong>。少了一條規則？一條 agent 看不懂的規則？一則沒說該改做什麼的拒絕訊息？還是模型單純不擅長的一步？怎麼修，取決於答案；有軌跡，你是找到答案，不是猜。</li>
+<li>從症狀開始，不要從日誌的開頭開始。結果哪裡不對，是哪個檔案、哪一輪？</li>
+<li>找出第一次拒絕或失敗的呼叫。一條規則拒絕了什麼，是一條線索；一個工具失敗後又重試，是另一條。很多出錯的運行，起點都是一次小小的拒絕，agent 繞了過去，繞的方式卻沒有人想要。</li>
+<li>把 agent 的說法和紀錄擺在一起看。它說跑了測試，那有沒有一次呼叫真的跑了測試？它說某個檔案沒動，那有沒有改過那個檔案的紀錄？兩邊對不上的地方，相信紀錄。</li>
+<li>看時間和用量在哪裡跳高。如果某一個 prompt 花的時間比其他的長很多，或某一輪又把同樣的檔案讀了一遍，運行就是在那裡走偏的。</li>
+<li>判斷這是哪一種問題。是少了一條規則，還是有一條 agent 看不懂的規則？是拒絕訊息沒說該改做什麼，還是這一步模型本來就不擅長？怎麼修，取決於答案；有了軌跡，你才是在找答案，而不是在猜。</li>
 </ol>
-<p>舉個例子：agent 的最後一則訊息說「測試通過」，日誌裡卻沒有任何一次呼叫執行過測試指令。第 3 步一分鐘就抓到，讀再多遍那則訊息也看不出來。</p>
+<p>舉個例子，agent 的最後一則訊息說「測試通過」，日誌裡卻沒有任何一次呼叫執行過測試指令。第 3 步一分鐘就能抓到，可是那則訊息你讀再多遍也看不出來。</p>
 <p>Anthropic 對評測也說過同樣的話：「你不讀很多次試驗的對話紀錄和評分，就不會知道你的評分器有沒有在好好工作。」（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
 <h3>八個問題</h3>
-<p>日誌有了之後，其他紀錄可以圍著它長出來。在我的設定裡有八種，最清楚的看法，是列出每一種回答哪個問題。如果你只做一件事，就做 hook 日誌，並把拒絕記進去。</p>
+<p>有了日誌，其他紀錄就可以圍著它長出來。在我的設定裡一共有八種。要看清每一種為什麼存在，最清楚的方法是看它回答哪個問題，所以圖裡就是按問題列的。不過如果你只做一件事，就做 hook 日誌，並且把拒絕記進去。</p>
 <figure class="fig" id="fig-6-1-eight-questions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
   <text class="label-muted" x="10" y="16" data-t="h-q">問題</text>
   <text class="label-muted" x="370" y="16" data-t="h-t">誰來回答</text>
@@ -447,49 +433,49 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="386" y="351" data-t="t8">固定情境</text>
 </svg>
 <figcaption>八個問題，八種紀錄。第一種，記下每次呼叫的紀錄，是其他幾種的基礎。</figcaption></figure>
-<p>我沒有計畫要八種。每一種都是因為我一直在問那個問題，卻沒有辦法回答才加的。其中兩種值得多說一句，第三種只用一行帶過。</p>
-<ul>
-<li><strong>讀取紀錄</strong>（知識庫的，見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）回答「agent 讀了哪些知識庫檔案，哪些沒人讀？」它是「放行的呼叫不記它碰了什麼」這條的唯一例外：它只記檔名，而且可以關掉。沒人讀的檔案，是可以刪的候選。</li>
-<li><strong>健康檢查</strong>是個特別的。它不看 agent，它看設定：檔案都在嗎、規則檔有效嗎、hook 能執行嗎（它真的執行一次）、上次呼叫是什麼時候、最近最慢的一次呼叫是不是太接近時間上限？它的輸出分三級：正常、警告（不擋）、錯誤（必須修）。它是事後發現問題，沒辦法預防。</li>
-<li><strong>固定情境</strong>回答「我改了東西之後，行為有沒有變？」那是 <a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a> 和後面幾章。其他四種紀錄，列在圖裡。</li>
-</ul>
+<p>這八種不是我事先計畫好的。每一種，都是因為我一直想問同一個問題，卻沒有辦法回答，才加上去的。日誌以外的七種裡，有兩種值得在這裡多說幾句，第三種一句話就夠，另外四種看圖就行。</p>
+<p><strong>讀取紀錄</strong>回答的是「agent 讀了哪些知識庫檔案，又有哪些從來沒人讀？」（知識庫見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。沒人讀的檔案，就是可以刪的候選。照規矩，放行的呼叫不記它碰了什麼，讀取紀錄是唯一的例外。它只記檔名，而且可以關掉。</p>
+<p><strong>健康檢查</strong>的方向正好反過來，它看的是設定本身，不是 agent。它查的是這些事：檔案都在不在、規則檔是否有效、hook 能不能執行（它會真的執行一次）、上次被呼叫是什麼時候、最近最慢的一次呼叫是不是太接近時間上限。它的輸出分三級：正常、警告（不擋）和錯誤（必須修）。它能在事後發現問題，卻沒辦法預防。</p>
+<p><strong>固定情境</strong>回答的是另一類問題：我改了東西之後，行為有沒有變？那是 <a href="6-3-eval-tasks.html">後面幾章</a> 的內容。</p>
 <h3>token 和時間</h3>
-<p>hook 看到的是呼叫，看不到模型讀了多少 token。在我的設定裡，hook 日誌刻意不記 token：平台自己有時間和用量的紀錄，再留一份只會對不上。顯示一個任務的時間和用量花在哪裡的那一頁，讀的是平台的紀錄，讀不到時就退回用 hook 日誌裡的時間。不管你從哪裡讀用量，都要先弄清楚它算了什麼：主對話的數字，可能不含子 agent 的（<a href="2-3-subagents.html">慎用子 agent</a> 有同樣的提醒）。</p>
+<p>八個問題裡有一個是「時間和用量花在哪」，光靠 hook 回答不了。hook 看到的是呼叫，看不到模型讀了多少 token。在我的設定裡，hook 日誌不記 token，這是刻意的，因為平台自己有一份時間和用量的紀錄，再多留一份，早晚會對不上。所以，我用一個分析頁來顯示一個任務的時間和用量花在哪裡，它讀的是平台的紀錄，讀不到的時候，才退回去用 hook 日誌裡的時間。不管你從哪裡讀用量，都要先弄清楚它算的是什麼，因為主對話的數字可能不含子 agent 的（<a href="2-3-subagents.html">慎用子 agent</a> 也有同樣的提醒）。</p>
 <h3>記錄器壞掉的時候</h3>
-<p>hook 是軟體，會壞。在我的設定裡，hook 自己失敗時會放行這次呼叫，並把錯誤寫進另一個檔案；健康檢查會提醒我去看。這是刻意的選擇，<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a> 說了為什麼它適合寫程式的 harness，以及不適合時該怎麼辦。對記錄器來說，這很容易接受：少一行日誌，是證據裡的一個缺口，不是一場事故。但要知道這件事：某段時間日誌沒有任何一行，可能表示「什麼都沒發生」，也可能表示「記錄器停了」。錯誤檔就是用來分辨這兩種的。</p>
-<h3>測你自己的設定</h3>
-<p><strong>三個問題</strong>：</p>
+<p>hook 是軟體，就一定會壞。在我的設定裡，hook 自己失敗時會放行這次呼叫，把錯誤寫進另一個檔案，健康檢查會提醒我去看。這是刻意的選擇，<a href="4-4-enforcement-design.html">把執行層當軟體來設計</a> 說了為什麼它適合寫程式的 harness，以及不適合時該怎麼辦。對記錄器來說，這個選擇很容易接受，因為少一行日誌，只是證據裡的一個缺口，算不上事故。</p>
+<p>但它帶來的後果，你得心裡有數。某段時間日誌一行也沒有，可能表示「什麼都沒發生」，也可能表示「記錄器停了」；要分辨這兩種情況，就得看那個錯誤檔。</p>
+<h3>三個問題，和一個今天就能跑的測試</h3>
+<p>我的設定就是這樣。想知道你自己的做到哪一步，可以先問三個問題。</p>
 <ol>
 <li>上一個重要的 agent 任務，你能不能用紀錄，而不是它的總結，說出它做了什麼？</li>
 <li>如果它做了你不想要的事，你會發現嗎？什麼時候發現？</li>
 <li>你的紀錄有沒有記被拒絕的，還是只記成功的？</li>
 </ol>
-<p><strong>今天就能跑的測試，不用額外設定</strong>。請你的 agent 做一件小任務，並在最後說出它執行了哪些指令。然後去看你的工具自己的工具呼叫歷史（顯示在哪裡，每個工具都不同，我沒有一一確認過）。比對兩份清單。如果一致，你就知道在這類任務上，可以多信任總結一點。如果不一致，你就知道為什麼需要紀錄了。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>日志由 agent 控制不了的代码来写</h3>
-<p><strong>hook</strong> 是工具在固定时刻运行的一个小程序，比如在每次工具调用之前（它可以在命令运行之前拒绝它），以及之后。（hook 怎么工作、哪里有缺口，见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）hook 是写日志的好地方，有两个原因。它在每次调用时都运行，所以不用指望 agent 记得写点什么。而且 agent 的工具不写日志，是 hook 写；存放日志的文件，可以像其他受保护的文件一样放到 agent 够不着的地方（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）。这只在 hook 看得到这次调用、围栏也守得住的时候成立。缺口见下面的“代价”。</p>
-<p>每一行装什么，是个取舍。在我的配置里，每次 hook 调用一行：</p>
+<p>還有一個今天就能跑的測試，不用額外設定。請你的 agent 做一件小任務，並在最後說出它執行了哪些指令，然後去看你的工具自己的工具呼叫歷史（顯示在哪裡，每個工具都不同，我沒有一一確認過），把兩份清單比對一下。如果一致，你就知道在這類任務上，總結可以信到什麼程度；如果不一致，你也就知道為什麼需要紀錄了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>记什么，谁来写，怎么读</h2><h3>日志由 agent 控制不了的代码来写</h3>
+<p>先说谁来写，因为只有不是 agent 写的，才算得上记录。合适的写手是 <strong>hook</strong>，也就是工具在固定时刻运行的一个小程序，比如每次工具调用之前和之后。在调用之前运行的那个，甚至可以把命令直接拒绝掉。（hook 怎么工作、哪里有缺口，见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）</p>
+<p>这件事交给 hook 合适，原因有两个。它在每次调用时都会运行，所以不用指望 agent 记得写点什么。而且日志由 hook 来写，agent 自己的工具根本用不着碰这些文件，所以可以像其他受保护的文件一样，把它们放到 agent 够不着的地方（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）。不过这两条都有前提，就是 hook 看得到这次调用，而且围住这些文件的围栏守得住。守不住的地方，后面“日志的代价，和它回答不了的事”里会讲。</p>
+<p>每一行装什么，是个取舍。在我的配置里，每次 hook 调用记一行，一行里有五样东西：</p>
 <ul>
-<li><strong>事件</strong>：调用前、调用后、一个 prompt、agent 停下。</li>
-<li><strong>工具的种类</strong>：读、改、运行命令、启动子 agent。</li>
-<li><strong>结果</strong>：放行，还是拒绝，以及是哪条规则拒绝的。</li>
-<li><strong>花的时间。</strong></li>
-<li><strong>用到的 skill</strong>。用 skill 本身就是一次工具调用，所以不用额外做什么就能看到。</li>
+<li>事件：调用前、调用后、一个 prompt，或者 agent 停下；</li>
+<li>工具的种类：读、改、运行命令，或者启动子 agent；</li>
+<li>结果：放行还是拒绝，以及是哪条规则拒绝的；</li>
+<li>花了多长时间；</li>
+<li>用到了哪些 skill。这一项不用额外做什么，因为用 skill 本身就是一次工具调用。</li>
 </ul>
-<p><strong>日志不记什么，和它记什么一样是有意为之</strong>。它不记调用的参数，也不记 prompt 的文字，因为那些里面可能有代码或密钥。例外是被拒绝、或需要人确认的调用：这种调用会记下路径和命令，截成固定长度。理由很简单。出现拒绝的时候，你唯一想知道的就是 agent 试了什么。日志留在本机，不放进 git。旧的可以删。</p>
-<p>有一条折中的路我还没搭：对每次调用保留那一行简短的，只在被拒绝的调用、你正在调试的某一个任务、或者开关打开的时候，才打开完整的记录（参数等全都记）。这样默认不留密钥，真需要时又有东西可以回放。这件事上，运行的完整对话记录比任何日志都好，因为它显示了调用之间 agent 看到了什么、说了什么；日志告诉你该打开哪一份对话记录。</p>
+<p>你也许觉得，日志记得越全越好。其实<strong>日志不记什么，和它记什么一样，都是有意为之</strong>。它不记调用的参数，也不记 prompt 的文字，因为那里面可能有代码或密钥。例外是被拒绝、或者需要人确认的调用，这种调用会记下路径和命令，截成固定长度。理由很简单，出现拒绝的时候，你最想知道的就是 agent 试图做什么。日志留在本机，不放进 git，旧的可以删掉。</p>
+<p>在“只记一行”和“什么都记”之间，还有一条折中的路，我还没搭。做法是每次调用照样只记那简短的一行，只在调用被拒绝、你在调试某一个任务，或者打开了某个开关的时候，才记完整的内容，参数也一并记下。这样默认不会留下密钥，真需要的时候又有东西可以回放。即便如此，日志也不是拿来回放的好材料。一次运行的完整对话记录要好得多，因为它能显示两次调用之间 agent 看到了什么、说了什么。日志的用处，是告诉你该打开哪一份对话记录。</p>
 <h3>怎么读一次糟糕的运行</h3>
-<p>整章的价值就在这一部分。一次运行失败了，或者跑得很奇怪。你手上有轨迹。怎么用它？</p>
+<p>整章的价值，就在这一部分。假设一次运行失败了，或者跑得很奇怪，你手上有它的轨迹，接下来怎么用？</p>
 <ol>
-<li><strong>从症状开始，不要从日志开头开始</strong>。结果哪里不对？哪个文件，哪一轮？</li>
-<li><strong>找到第一次拒绝或失败的调用</strong>。拒绝了什么的规则是一条线索。失败后又重试的工具是另一条。很多糟糕的运行，都是从一次小小的拒绝开始，agent 绕了过去，绕的方式没有人想要。</li>
-<li><strong>把 agent 的说法放在记录旁边</strong>。它说跑了测试？有没有一次调用真的跑了测试？它说某个文件没动？有没有对那个文件的修改？两者不一致的地方，相信记录。</li>
-<li><strong>看时间和用量在哪里陡增</strong>。某一个 prompt 比其他的久得多，或者某一轮又把同样的文件读了一遍，就告诉你运行是在哪里偏离的。</li>
-<li><strong>判断是哪一种问题</strong>。缺了一条规则？一条 agent 看不懂的规则？一条没说该改做什么的拒绝信息？还是模型本来就不擅长的一步？怎么修取决于答案，而轨迹让你得到答案，而不是瞎猜。</li>
+<li>从症状开始，不要从日志开头开始。结果哪里不对，是哪个文件、哪一轮？</li>
+<li>找到第一次拒绝或失败的调用。一条规则拒绝了什么，是一条线索；一个工具失败后又重试，是另一条。很多糟糕的运行，都是从一次小小的拒绝开始的，agent 绕了过去，绕的方式却谁也不想要。</li>
+<li>把 agent 的说法和记录摆在一起。它说跑了测试，那有没有一次调用真的跑了测试？它说某个文件没动，那有没有对这个文件的修改？两边对不上的地方，相信记录。</li>
+<li>看时间和用量在哪里陡增。如果某一个 prompt 比其他的久得多，或者某一轮又把同样的文件读了一遍，运行就是在那里跑偏的。</li>
+<li>判断是哪一种问题。是缺了一条规则，还是有一条 agent 看不懂的规则？是拒绝信息没说该改做什么，还是这一步模型本来就不擅长？怎么修取决于答案，而有了轨迹，你才是在找答案，而不是在瞎猜。</li>
 </ol>
-<p>比如，agent 最后一条消息说“测试通过了”，日志里却没有一次调用运行过测试命令。第 3 步一分钟就能抓出来，把那条消息读上多少遍也看不出来。</p>
-<p>Anthropic 在评测上也说了同样的话：“除非你读了很多次试验的对话记录和评分，否则你不会知道你的评分器工作得好不好。”（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
+<p>举个例子，agent 最后一条消息说“测试通过了”，日志里却没有任何一次调用运行过测试命令。第 3 步一分钟就能抓出来，可那条消息你读上多少遍也看不出来。</p>
+<p>Anthropic 在评测上也说过同样的话：“除非你读了很多次试验的对话记录和评分，否则你不会知道你的评分器工作得好不好。”（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
 <h3>八个问题</h3>
-<p>有了日志，别的记录就可以围着它长出来。我的配置里有八种，看清为什么，最好的办法是列出每一种回答的问题。如果你只做一样，就做 hook 日志，把拒绝记在里面。</p>
+<p>有了日志，别的记录就可以围着它长出来。我的配置里一共有八种。要看清每一种为什么存在，最好的办法是看它回答什么问题，所以图里就是按问题列的。不过如果你只做一样，就做 hook 日志，并且把拒绝记在里面。</p>
 <figure class="fig" id="fig-6-1-eight-questions"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 372">
   <text class="label-muted" x="10" y="16" data-t="h-q">问题</text>
   <text class="label-muted" x="370" y="16" data-t="h-t">谁来回答</text>
@@ -543,45 +529,44 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="386" y="351" data-t="t8">固定场景</text>
 </svg>
 <figcaption>八个问题，八种记录。第一种，记下每次调用的日志，是其他几种的基础。</figcaption></figure>
-<p>八种不是我规划出来的。每一种，都是因为我一再问同一个问题，又没有办法回答，才加上的。其中两种值得说一句，第三种一行就够。</p>
-<ul>
-<li><strong>读取记录</strong>（针对知识库，见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）回答“agent 读了知识库里的哪些文件，没人读的是哪些？”它是“放行的调用不记它碰了什么”这条规矩的唯一例外：它只记文件名，而且可以关掉。没人读的文件，是可以删的候选。</li>
-<li><strong>健康检查</strong>比较特别。它不看 agent，它看配置本身：文件都在吗，规则文件有效吗，hook 能运行吗（它真的运行一次），上次被调用是什么时候，最近最慢的一次调用是不是离它的时间限制太近了？它的输出分三级：正常、警告（不拦截）、错误（必须修）。它事后发现问题，预防不了。</li>
-<li><strong>固定场景</strong>回答“我改了什么之后，行为变了吗？”那是<a href="6-3-eval-tasks.html">后面几章</a>的内容。另外四种记录在图里列出了。</li>
-</ul>
+<p>这八种不是我事先规划好的。每一种，都是因为我一再想问同一个问题，又没有办法回答，才加上的。日志之外的七种里，有两种值得在这里说几句，第三种一句话就够，另外四种看图就行。</p>
+<p><strong>读取记录</strong>回答的是“agent 读了知识库里的哪些文件，又有哪些从来没人读？”（知识库见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。没人读的文件，就是可以删的候选。按规矩，放行的调用不记它碰了什么，读取记录是唯一的例外。它只记文件名，而且可以关掉。</p>
+<p><strong>健康检查</strong>的方向正好反过来，它看的是配置本身，不是 agent。它查的是这些事：文件都在不在，规则文件是否有效，hook 能不能运行（它会真的运行一次），上一次被调用是什么时候，最近最慢的那次调用是不是离时间限制太近。它的输出分三级：正常、警告（不拦截）和错误（必须修）。它能在事后发现问题，却预防不了。</p>
+<p><strong>固定场景</strong>回答的是另一类问题：我改了什么之后，行为有没有变？那是<a href="6-3-eval-tasks.html">后面几章</a>的内容。</p>
 <h3>token 和时间</h3>
-<p>hook 看到的是调用，看不到模型读了多少 token。在我的配置里，hook 日志有意不记 token：平台自己有一份时间和用量的记录，再多一份会对不上。显示一个任务的时间和用量花在哪里的页面，读的是平台那份记录；读不到时，就退回到 hook 日志里的时间。不管你从哪里读用量，都要弄清它数的是什么：主对话的数字可能不含子 agent 的（<a href="2-3-subagents.html">慎用子 agent</a>里有同样的提醒）。</p>
+<p>八个问题里有一个是“时间和用量花在哪”，光靠 hook 回答不了。hook 看到的是调用，看不到模型读了多少 token。在我的配置里，hook 日志不记 token，这是有意的，因为平台自己有一份时间和用量的记录，再多记一份，迟早会对不上。所以，我用一个分析页来显示一个任务的时间和用量花在哪里，它读的是平台那份记录，读不到的时候，才退回去用 hook 日志里的时间。不管你从哪里读用量，都要先弄清它数的是什么，因为主对话的数字可能不含子 agent 的（<a href="2-3-subagents.html">慎用子 agent</a>里也有同样的提醒）。</p>
 <h3>记录器出故障时</h3>
-<p>hook 是软件，会出故障。在我的配置里，hook 本身出错时，会放行这次调用，并把错误写进单独的文件；健康检查会提醒我去看。这是有意的选择，<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>讲了为什么它适合编程用的 harness，以及不适合的地方该怎么办。对记录器来说，它很容易接受：漏了一行日志，是证据里的一个缺口，不是事故。但要知道这一点：某段时间里日志一行也没有，可能是“什么都没发生”，也可能是“记录器挂了”。错误文件就是用来区分这两种情况的。</p>
-<h3>测一测你自己的配置</h3>
-<p><strong>三个问题：</strong></p>
+<p>hook 是软件，就一定会出故障。在我的配置里，hook 本身出错时，会放行这次调用，把错误写进一个单独的文件，健康检查会提醒我去看。这是有意的选择，<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>讲了它为什么适合编程用的 harness，以及不适合的地方该怎么办。对记录器来说，这个选择很容易接受，因为漏了一行日志，只是证据里的一个缺口，算不上事故。</p>
+<p>但它带来的后果你得心里有数。某段时间里日志一行也没有，可能是“什么都没发生”，也可能是“记录器挂了”，要分清这两种情况，就得看那个错误文件。</p>
+<h3>三个问题，和一个今天就能做的测试</h3>
+<p>我的配置就是这样。想知道你自己的做到了哪一步，可以先问三个问题。</p>
 <ol>
 <li>对最近一个重要的 agent 任务，你能根据记录，而不是根据它的总结，说出它做了什么吗？</li>
 <li>如果它做了你不想要的事，你会发现吗？什么时候发现？</li>
 <li>你的记录写了什么被拒绝了，还是只写了什么成功了？</li>
 </ol>
-<p><strong>今天就能做的测试，不用额外的配置</strong>。让 agent 做一个小任务，并在最后说出它运行了哪些命令。然后看你的工具自己有关工具调用的历史（在哪里看，每个工具不一样，我没有逐个查过）。把两份清单对一对。如果一致，你就知道了在这类任务上总结能信到什么程度。如果不一致，你就明白了为什么需要一份记录。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Usage comes from a file that is not a public format.</strong> It may change under you, and then the page shows times only. This is a dependency on the platform: an update can make your usage numbers stop working, and I have not tested what mine does after one.</p>
-<p><strong>A log nobody reads is a cost with no benefit.</strong> Decide who reads it, and when. For me it is: when a run fails, and when I change a rule. Not every day. If a team keeps logs, also decide how long they stay, who may read them, and whether they can hold personal data. A log is an audit trail only if someone owns it.</p>
-<p><strong>A hook sees only what the platform shows it.</strong> Some actions happen outside the tool calls a hook can see. Then the log has a hole you cannot see from the log. (<a href="2-2-hooks.html">Hooks</a> says what Copilot covers today.)</p>
-<p><strong>Leaving out arguments is a trade.</strong> It protects code and secrets in the log. The price is that you cannot replay a run from the log alone. For that you need the platform's own record, which you cannot count on keeping.</p>
-<p><strong>The log shows what happened, not whether it was right.</strong> A clean trace can still end in wrong code. That is what the checks in <a href="5-4-self-checks.html">Let the agent check its own work</a> and <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a> are for.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>用量來自一個不是公開格式的檔案</strong>。它可能在你不知道的時候改變，到時候那一頁就只會顯示時間。這是對平台的依賴：一次更新就可能讓你的用量數字失效，我沒有測過更新之後我的會怎樣。</p>
-<p><strong>沒人讀的日誌，是有成本、沒好處</strong>。決定誰讀、什麼時候讀。對我來說是：運行失敗的時候，和我改規則的時候。不是每天。如果團隊要留日誌，還要決定留多久、誰可以讀、能不能含個人資料。日誌要有人負責，才算稽核軌跡。</p>
-<p><strong>hook 只看得到平台給它看的</strong>。有些動作發生在 hook 看不到的工具呼叫之外。那時日誌有個洞，而你從日誌裡看不到這個洞。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 說了 Copilot 今天涵蓋什麼。）</p>
-<p><strong>不記參數是一個取捨</strong>。它保護日誌裡的程式碼和機密。代價是，光靠日誌你沒辦法重播一次運行。要重播，需要平台自己的紀錄，而你不能指望它一直留著。</p>
-<p><strong>日誌顯示發生了什麼，不顯示對不對</strong>。一份乾淨的軌跡，仍然可能以錯的程式碼收場。這就是 <a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a> 和 <a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a> 裡的檢查要做的事。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>用量来自一个不是公开格式的文件</strong>。它可能在你不知道的时候改掉，那时页面就只显示时间了。这是对平台的依赖：一次更新就可能让你的用量数字失效，更新之后我的会怎样，我没有测过。</p>
-<p><strong>没人读的日志，是有成本、没收益</strong>。决定谁来读，什么时候读。我的做法是：运行失败的时候，和我改规则的时候。不是每天。如果团队要留日志，还要决定留多久，谁可以读，能不能含有个人数据。日志只有在有人负责的时候，才是审计的依据。</p>
-<p><strong>hook 只看得到平台给它看的东西</strong>。有些操作发生在 hook 看不到的工具调用之外。这时日志里有个洞，而你从日志里看不出来。（Copilot 现在覆盖到哪里，见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）</p>
-<p><strong>不记参数是一种取舍</strong>。它保护日志里的代码和密钥。代价是，光靠日志，你没法回放一次运行。要回放，得用平台自己的记录，而你没法指望它一直保留。</p>
-<p><strong>日志显示发生了什么，不显示对不对</strong>。一份干净的轨迹，最后仍可能得到错误的代码。<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>和<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>里的检查，就是管这个的。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>The hook that writes my log exists because I want one record format that I own and can read. If a platform gives you a trace of every tool call that you can export and the agent cannot change, use that and drop the hook. The same goes for the usage page: if the platform shows usage per task, drop the part that reads its session file.</p>
-<p>The reasoning does not retire. When a fact matters, it should come from a record that was written by code and not by the one being judged. I would look again at the eight records if I found that I never open one of them.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>寫我的日誌的那個 hook 存在，是因為我想要一種我自己擁有、自己讀得懂的紀錄格式。如果平台提供每次工具呼叫的軌跡，可以匯出、agent 又改不了，就用那個，把 hook 丟掉。用量那一頁也一樣：如果平台直接顯示每個任務的用量，就把讀它會話檔的那部分丟掉。</p>
-<p>道理不會退役。一件事重要的時候，它應該來自程式寫的紀錄，不是來自被評判的那一方。如果我發現八種紀錄裡有一種我從來沒打開過，我會重新檢視這八種。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>写我这份日志的 hook 之所以存在，是因为我想要一种我自己拥有、自己能读的记录格式。如果平台提供一份每次工具调用的轨迹，可以导出，agent 又改不了，就用那个，把 hook 去掉。用量页面也一样：如果平台按任务显示用量，就去掉读它会话文件的那一部分。</p>
-<p>背后的道理不会退役。一个事实要紧的时候，它应该来自代码写的记录，而不是来自被评判的那一方。如果我发现八种记录里有哪一种我从来不打开，我会重新审视这八种。</p>
+<p>还有一个今天就能做的测试，不用额外配置。让 agent 做一个小任务，并在最后说出它运行了哪些命令，然后去看你的工具自己记下的工具调用历史（在哪里看，每个工具不一样，我没有逐个查过），把两份清单对一对。如果一致，你就知道了在这类任务上，总结能信到什么程度；如果不一致，你也就明白为什么需要一份记录了。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What a log costs, and what it cannot tell you</h2><p>A record is not free, and some of its price comes from leaning on the platform. Usage comes from a file that is not a public format, so a platform update can change it under you. If that happens, the usage page falls back to showing times only, and I have not tested what mine does after one.</p>
+<p>A log also costs something to keep, and it pays nothing back if nobody reads it. So decide who reads it, and when. For me that is when a run fails and when I change a rule, not every day. If a team keeps logs, it also has to decide how long they stay, who may read them, and whether they can hold personal data. A log is an audit trail only if someone owns it.</p>
+<p>Then there are the limits of what a log can tell you. A hook sees only what the platform shows it, and some actions happen outside the tool calls a hook can see. When they do, the log has a hole that you cannot see from the log. (<a href="2-2-hooks.html">Hooks</a> says what Copilot covers today.)</p>
+<p>There is also a hole I made on purpose: the log leaves out the arguments. That protects code and secrets in the log, but it means you cannot replay a run from the log alone. For that you need the platform's own record, which you cannot count on keeping.</p>
+<p>Nor does the log say whether what happened was right. A clean trace can still end in wrong code. Catching that is the job of the checks in <a href="5-4-self-checks.html">Let the agent check its own work</a> and <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>日誌的代價，和它回答不了的事</h2><p>紀錄不是免費的，有一部分代價來自對平台的依賴。用量來自一個不是公開格式的檔案，平台一次更新，就可能在你不知道的時候把它改掉。真到那時，分析頁就只能顯示時間。更新之後我的會怎樣，我還沒有測過。</p>
+<p>就算平台一切照常，日誌光留著不讀，也只是成本，換不來任何好處。所以要決定誰讀、什麼時候讀。我的做法是運行失敗的時候讀，改規則的時候讀，不是每天讀。如果團隊要留日誌，還得決定留多久、誰可以讀、能不能含個人資料。日誌要有人負責，才算得上稽核軌跡。</p>
+<p>再來是日誌能告訴你的東西有哪些限度。hook 只看得到平台給它看的，有些動作發生在 hook 看得到的工具呼叫之外。那時日誌就有一個洞，而光看日誌，你看不到這個洞。（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 說了 Copilot 今天涵蓋什麼。）</p>
+<p>還有一個洞，是我們自己刻意留下的：日誌不記參數。這保護了日誌裡的程式碼和機密，代價是光靠日誌，你沒辦法重播一次運行。要重播，就需要平台自己的紀錄，而那份紀錄你不能指望它一直留著。</p>
+<p>日誌也不會告訴你，發生的事對不對。一份乾淨的軌跡，最後仍然可能以錯的程式碼收場。要抓住這種問題，靠的是 <a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a> 和 <a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a> 裡的檢查。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>日志的代价，和它回答不了的事</h2><p>记录不是免费的，有一部分代价来自对平台的依赖。用量来自一个不是公开格式的文件，平台一次更新，就可能在你不知道的时候把它改掉。真到那时，分析页就只能显示时间。更新之后我的会怎样，我还没有测过。</p>
+<p>就算平台一切照常，日志光留着不读，也只是成本，换不来任何收益。所以要定下谁来读、什么时候读。我的做法是在运行失败的时候读，在改规则的时候读，不是每天都读。如果团队要留日志，还得定下留多久、谁可以读、能不能含有个人数据。日志只有在有人负责的时候，才算得上审计的依据。</p>
+<p>再来看日志能告诉你的东西有哪些限度。hook 只看得到平台给它看的东西，有些操作发生在 hook 看得到的工具调用之外。这时日志里就有一个洞，而光看日志，你发现不了这个洞。（Copilot 现在覆盖到哪里，见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。）</p>
+<p>还有一个洞，是我们自己有意留下的：日志不记参数。这保护了日志里的代码和密钥，代价是光靠日志，你没法回放一次运行。要回放，就得用平台自己的记录，而那份记录你没法指望它一直留着。</p>
+<p>日志也不会告诉你，发生的事对不对。一份干净的轨迹，最后照样可能得到错误的代码。要抓住这种问题，靠的是<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>和<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>里的检查。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete the hook, and what stays <span class="status status-industry">Industry practice</span></h2><p>The hook that writes my log exists because I want one record format that I own and can read. If a platform gives you a trace of every tool call that you can export and the agent cannot change, use that and drop the hook. The same goes for the usage page. If the platform shows usage per task, drop the part that reads its session file.</p>
+<p>The reasoning does not retire, though. When a fact matters, it should come from a record that was written by code and not by the one being judged. I would also look at the eight records again if I found that I never open one of them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉這個 hook，什麼會留下來 <span class="status status-industry">業界做法</span></h2><p>寫我這份日誌的 hook 之所以存在，是因為我想要一種自己擁有、自己讀得懂的紀錄格式。如果平台能提供每次工具呼叫的軌跡，可以匯出、agent 又改不了，那就用平台的，把 hook 拿掉。用量那一頁也一樣，如果平台已經顯示每個任務的用量，就把讀它會話檔的那部分拿掉。</p>
+<p>但背後的道理不會退役。事情真正重要的時候，它應該來自程式寫的紀錄，而不是來自被評判的那一方。如果我發現八種紀錄裡有一種我從來沒打開過，我也會把這八種重新檢視一遍。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉这个 hook，什么会留下来 <span class="status status-industry">业界做法</span></h2><p>写我这份日志的 hook 之所以存在，是因为我想要一种自己拥有、自己读得懂的记录格式。如果平台能给你一份每次工具调用的轨迹，可以导出，agent 又改不了，那就用平台的，把 hook 去掉。用量页面也一样，如果平台已经按任务显示用量，就去掉读它会话文件的那一部分。</p>
+<p>但背后的道理不会退役。事实真正要紧的时候，它应该来自代码写的记录，而不是来自被评判的那一方。如果我发现八种记录里有哪一种我从来不打开，我也会把这八种重新审视一遍。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find out what records exist of what AI agents do in this project and on this machine: the tool&#x27;s own logs or transcripts, any hook or audit settings, and any reports. For each record, tell me where it is, what one entry holds, whether the agent itself could edit or delete it, whether it could contain secrets or personal data, and who can read it. Then say which of these questions I could answer from records alone and not from the agent&#x27;s summary: what it ran, what it changed, what was refused. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>查一下這個專案裡、這台機器上，有哪些關於 AI agent 做了什麼的紀錄：工具自己的日誌或對話紀錄、任何 hook 或稽核設定、任何報告。對每一種紀錄，告訴我它在哪裡、一筆裡面放什麼、agent 自己能不能改或刪、可能含不含機密或個人資料、誰可以讀。然後說說，下面這些問題裡，哪些我可以只靠紀錄回答，不用靠 agent 的總結：它執行了什麼、改了什麼、什麼被拒絕。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个项目里和这台机器上，有哪些关于 AI agent 所做之事的记录：工具自己的日志或对话记录、任何 hook 或审计设置，以及任何报告。对每一种记录，告诉我它在哪里，一条记录里有什么，agent 自己能不能编辑或删除它，它可能含有密钥或个人数据吗，谁可以读。然后说，下面这些问题里，哪些我只靠记录就能回答、不用看 agent 的总结：它运行了什么，它改了什么，什么被拒绝了。不要修改任何文件。</code></pre></div>
@@ -597,11 +582,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>，讲要读对话记录，不能只看分数</li>
 <li>本书内：<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>、<a href="5-5-counted-checks.html">让“通过”可信</a>、<a href="6-2-task-report.html">一份五分钟读得完的报告</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes the log with a hook, keeps the other seven records on top of it, and has a health check for the setup. The harness can show them to you from the inside, with a real log.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes its log with a hook, keeps the other seven records on top of it, and has a health check for the setup. The harness can walk you through them from the inside, with a real log open.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Record what happened, not what the agent said&quot;. Teach me how this harness records and reports (topic 12): what the session log holds and leaves out, where usage comes from, and what the health check looks at. Open a real log with me, and draw how the pieces fit together.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用 hook 寫日誌，在它上面再放另外七種紀錄，還有一個檢查設定的健康檢查。harness 可以用一份真的日誌，從裡面帶你看。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用 hook 寫日誌，在它上面再放另外七種紀錄，還有一個檢查設定的健康檢查。harness 可以打開一份真的日誌，從裡面帶你走一遍。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「記下發生了什麼，不是 agent 說了什麼」這一章。請教我這個 harness 怎麼記錄和回報（主題 12）：會話日誌放什麼、不放什麼，用量從哪裡來，健康檢查看什麼。帶我打開一份真的日誌，並畫出這些部分怎麼接在一起。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 用一个 hook 写日志，在它之上还有另外七种记录，也有针对配置的健康检查。harness 可以从内部给你看这些，附一份真实的日志。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 用一个 hook 写日志，在它之上还有另外七种记录，也有一个检查配置的健康检查。harness 可以打开一份真实的日志，从内部带你走一遍。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“记下发生了什么，而不是 agent 说了什么”这一章。请教我这个 harness 是怎么记录和报告的（主题 12）：会话日志记什么、不记什么，用量从哪里来，健康检查看什么。和我一起打开一份真实的日志，并画出各部分是怎么拼在一起的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
