@@ -221,50 +221,49 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.5</p><h1><span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span><span data-l="zh-Hans" lang="zh-Hans">让知识库一直是对的</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-4-kb-learning.html">Learning in batches</a>. It is step seven of the road, and it never ends. For why notes should carry a source and a date in general, see <a href="3-5-memory.html">What an agent should remember</a>; this chapter shows it for code.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-4-kb-learning.html">分批學一個領域</a> 後面。它是路線的第七步，而且永遠不會結束。筆記為什麼一般來說該帶有來源和日期，見 <a href="3-5-memory.html">agent 該記住什麼</a>；這一章說明它用在程式碼上是什麼樣子。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-4-kb-learning.html">分批学一个领域</a>后面。它是路线的第七步，而且永远做不完。笔记为什么一般都该带来源和日期，见<a href="3-5-memory.html">agent 该记住什么</a>；这一章讲的是怎么把它用在代码上。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Knowledge goes stale. So each card records the commit it was read at, and when the code changes you can list the stale cards and fix only the lines that changed.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>知識會過期。所以每張卡片記下它讀的是哪個 commit，程式碼改了之後，你可以列出過期的卡片，只修改有變的那幾行。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>知识会过期。所以每张卡片都记下它是在哪个 commit 读的；代码一变，就能列出过期的卡片，只修改动过的那几行。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Which cards are still true?</span><span data-l="zh-Hant" lang="zh-Hant">哪些卡片還是對的？</span><span data-l="zh-Hans" lang="zh-Hans">哪些卡片还是对的？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Making staleness visible and cheap</span><span data-l="zh-Hant" lang="zh-Hant">讓過期看得見，又便宜</span><span data-l="zh-Hans" lang="zh-Hans">让过期看得见，而且便宜</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the list misses, and what still needs a person</span><span data-l="zh-Hant" lang="zh-Hant">清單漏掉了什麼，哪些還得靠人</span><span data-l="zh-Hans" lang="zh-Hans">清单漏掉了什么，哪些还得靠人</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete your own comparison</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉自己的比較</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉自己的比较</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.5</p><h1><span data-l="en" lang="en">Keeping the knowledge base true</span><span data-l="zh-Hant" lang="zh-Hant">讓知識庫一直是對的</span><span data-l="zh-Hans" lang="zh-Hans">让知识库一直是对的</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-4-kb-learning.html">Learning in batches</a> and is step seven of the road, a step that never ends. Why notes in general should carry a source and a date is covered in <a href="3-5-memory.html">What an agent should remember</a>, while this chapter shows what that looks like for code.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-4-kb-learning.html">分批學一個領域</a> 後面，是路線的第七步，而這一步永遠不會結束。筆記為什麼一般來說該帶有來源和日期，<a href="3-5-memory.html">agent 該記住什麼</a> 已經講過。用在程式碼上，這個習慣是什麼樣子，就是這一章要說的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-4-kb-learning.html">分批学一个领域</a>后面，是路线的第七步，而这一步永远做不完。笔记为什么一般都该带上来源和日期，<a href="3-5-memory.html">agent 该记住什么</a>里讲过。落到代码上，这套习惯是什么样子，就是这一章要讲的。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Knowledge goes stale, so each card records the commit it was read at. When the code changes, you can then list the stale cards and fix only the lines that changed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>知識會過期，所以每張卡片都記下它讀的是哪個 commit。這樣程式碼改了之後，你就可以列出過期的卡片，只修改有變的那幾行。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>知识会过期，所以每张卡片都记下自己是在哪个 commit 读的。这样代码一变，就能列出过期的卡片，只修改动过的那几行。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> name an owner for the knowledge base and agree how often stale notes are refreshed, and who may mark a note as checked.</li>
-<li><strong>The risk:</strong> a base that was true once and is never checked can be worse than none, because people believe it. A stamp that says &quot;checked&quot; is only as good as the check before it. The list of stale notes misses the callers of a changed object; I have not tested how often that leaves a note wrong.</li>
-<li><strong>The cost of doing it right:</strong> each refresh reads only what changed in the code, not the whole file, in tasks of at most about 20 notes. The list of stale notes costs no reading.</li>
+<li><strong>The decision:</strong> name an owner for the knowledge base, and agree how often stale notes are refreshed and who may mark a note as checked.</li>
+<li><strong>The risk:</strong> a base that was true once and is never checked can be worse than none, because people believe it. A stamp that says &quot;checked&quot; is only as good as the check before it. The list of stale notes also misses the callers of a changed object, and I have not tested how often that leaves a note wrong.</li>
+<li><strong>The cost of doing it right:</strong> each refresh reads only what changed in the code, not the whole file, and works in tasks of at most about 20 notes. Making the list of stale notes costs no reading at all.</li>
 <li><strong>Ask the team:</strong> &quot;How many of our notes are older than the code they describe, and who is responsible for them?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
 <li><strong>要做的決定</strong>：為知識庫指定一位負責人，講好過期的筆記多久更新一次，以及誰可以把一則筆記標成已檢查。</li>
-<li><strong>風險</strong>：曾經是對的、卻從沒檢查過的知識庫，可能比沒有還糟，因為人們會相信它。寫著「已檢查」的印章，只有它前面的那次檢查那麼可靠。過期筆記的清單，會漏掉被改動物件的呼叫者；我沒有測過這會讓多少筆記變錯。</li>
-<li><strong>做對的成本</strong>：每次更新只讀程式碼裡改過的部分，不是整個檔案，在最多約 20 則筆記的任務裡進行。過期筆記的清單不用讀任何東西。</li>
+<li><strong>風險</strong>：曾經是對的、之後再也沒人檢查過的知識庫，可能比沒有還糟，因為人們會相信它。寫著「已檢查」的印章，只有它前面的那次檢查那麼可靠。過期筆記的清單也會漏掉被改動物件的呼叫者，這會讓多少筆記變錯，我沒有測過。</li>
+<li><strong>做對的成本</strong>：每次更新只讀程式碼裡改過的部分，不是整個檔案，而且每個任務最多約 20 則筆記。至於列出過期筆記的清單，完全不用讀任何東西。</li>
 <li><strong>可以問團隊</strong>：「我們有多少筆記比它描述的程式碼更舊，誰負責它們？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：给知识库指定一个负责人，约定多久刷新一次过期的笔记，以及谁有权把一条笔记标成“已检查”。</li>
-<li><strong>风险</strong>：一个曾经正确、之后再没检查过的知识库，可能比没有还糟，因为大家会信它。“已检查”的戳，只有它之前那次检查那么可靠。过期笔记的清单会漏掉被改动对象的调用方；这会让多少笔记变错，我没有测过。</li>
-<li><strong>做对的代价</strong>：每次刷新只读代码里改动的部分，不读整个文件，每个任务最多约 20 条笔记。列出过期笔记的清单不需要读任何东西。</li>
+<li><strong>要拍板的事</strong>：给知识库指定一个负责人，约定过期的笔记多久刷新一次，以及谁有权把一条笔记标成“已检查”。</li>
+<li><strong>风险</strong>：一个曾经正确、之后再没检查过的知识库，可能比没有还糟，因为大家会信它。“已检查”的戳，只有它之前那次检查那么可靠。过期笔记的清单还会漏掉被改动对象的调用方，这会让多少笔记变错，我没有测过。</li>
+<li><strong>做对的代价</strong>：每次刷新只读代码里改动的部分，不读整个文件，而且每个任务最多约 20 条笔记。列出过期笔记的清单，则完全不需要读任何东西。</li>
 <li><strong>可以问团队</strong>：“我们有多少条笔记比它所描述的代码还旧，由谁负责？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A team writes good cards in March. By June, a third of the files they came from have been changed. Nobody can say which cards are now wrong. So readers lose trust in all of them, and the base is ignored. A base that was true once and is never checked can be worse than none, because it is believed.</p>
-<p>Two ways to deal with this fail. One is &quot;rewrite everything now and then&quot;: it costs as much as the first build. The other is &quot;hope people fix cards when they notice&quot;: they do not notice.</p>
-<p>The fix is to make staleness <em>visible and cheap</em>. A card says exactly which version of the code it read, and then a script can answer &quot;what has moved?&quot;. You can try the idea without any tool: write down the commit a note was read at, and later run <code>git diff &lt;that commit&gt;..HEAD -- &lt;the file&gt;</code>. If the diff is empty, the note's source has not changed.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>一個團隊在三月寫了很好的卡片。到了六月，它們來源的檔案有三分之一改過了。沒有人說得出現在哪些卡片是錯的。於是讀者對所有卡片都失去信任，知識庫被無視。曾經是對的、卻從沒檢查過的知識庫，可能比沒有還糟，因為它被人相信。</p>
-<p>有兩種處理辦法都行不通。一種是「時不時全部重寫」：成本和第一次建一樣。另一種是「希望人們注意到時就修卡片」：他們不會注意到。</p>
-<p>解法是讓過期<em>看得見、又便宜</em>。卡片精確地說它讀的是程式碼的哪個版本，然後腳本就能回答「什麼動過了？」你不用任何工具也可以試這個想法：寫下一則筆記讀的是哪個 commit，之後執行 <code>git diff &lt;那個 commit&gt;..HEAD -- &lt;那個檔案&gt;</code>。如果 diff 是空的，筆記的來源就沒有變。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>一个团队在三月写出了很好的卡片。到六月，它们所依据的文件已经改了三分之一。没人说得清哪些卡片现在是错的。于是读者对所有卡片都失去信任，知识库没人看了。一个曾经正确、之后再没检查过的知识库，可能比没有还糟，因为大家会信它。</p>
-<p>有两种应对办法，都不行。一种是“隔一阵子全部重写”：成本和第一次建库一样高。另一种是“指望大家发现卡片不对就去改”：他们发现不了。</p>
-<p>解法是让过期<em>看得见，而且花费很低</em>。卡片写明它读的是代码的哪个版本，脚本就能回答“什么动过了？”。这个思路不用任何工具也能试：记下一条笔记是在哪个 commit 读的，以后运行 <code>git diff &lt;那个 commit&gt;..HEAD -- &lt;文件&gt;</code>。diff 是空的，说明这条笔记的来源没变。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The version on the card</h3>
-<p>Commits and shas were explained in <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>. The <strong>object index</strong> is the script-built list of every object and its source file.</p>
-<p>Three places hold a version:</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Which cards are still true?</h2><p>Say a team writes good cards in March. By June, a third of the files they came from have been changed. Nobody can say which cards are now wrong, so readers lose trust in all of them and the base is ignored, or worse, its wrong cards are believed.</p>
+<p>Two ways of dealing with this both fail. Rewriting everything now and then costs as much as the first build did. Hoping people fix cards when they notice a mistake fails too, because they do not notice.</p>
+<p>The fix is to make staleness <em>visible and cheap</em>. If a card says exactly which version of the code it read, a script can answer the question &quot;what has moved?&quot;. You can try the idea without any tool, by writing down the commit a note was read at and later running <code>git diff &lt;that commit&gt;..HEAD -- &lt;the file&gt;</code>. If the diff is empty, the note's source has not changed. For a whole base, though, the version has to be kept somewhere a script can read it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>哪些卡片還是對的？</h2><p>假設一個團隊在三月寫了一批很好的卡片。到了六月，它們來源的檔案已經有三分之一改過了。現在哪些卡片是錯的，沒有人說得出來，於是讀者對所有卡片都失去信任，知識庫不是沒人理，就是更糟：錯的卡片還有人相信。</p>
+<p>有兩種處理辦法，都行不通。「時不時全部重寫一次」，成本和第一次建庫一樣高。「希望大家發現卡片有錯時順手修掉」也不行，因為大家根本不會發現。</p>
+<p>既然這兩條路都走不通，真正有用的，是讓過期<em>看得見、又便宜</em>。只要卡片精確地寫明它讀的是程式碼的哪個版本，腳本就能回答「什麼動過了？」。這個想法不用任何工具也能試：寫下一則筆記讀的是哪個 commit，之後執行 <code>git diff &lt;那個 commit&gt;..HEAD -- &lt;那個檔案&gt;</code>。diff 是空的，就表示這則筆記的來源沒有變。不過，要對整個知識庫這樣做，版本就得記在腳本讀得到的地方。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>哪些卡片还是对的？</h2><p>假设一个团队在三月写出了一批很好的卡片。到了六月，这些卡片所依据的文件已经改了三分之一。哪些卡片现在是错的，谁也说不清，于是读者对所有卡片都失去了信任，知识库要么没人看，要么更糟：错的卡片还有人信。</p>
+<p>有两种应对办法，都不行。“隔一阵子全部重写一遍”，成本和第一次建库一样高。“指望大家发现卡片不对就顺手改掉”也行不通，因为大家根本发现不了。</p>
+<p>既然这两条路都走不通，真正管用的，是让过期<em>看得见，而且花费很低</em>。只要卡片写明它读的是代码的哪个版本，脚本就能回答“什么动过了？”。这个思路不用任何工具也能试：记下一条笔记是在哪个 commit 读的，以后运行 <code>git diff &lt;那个 commit&gt;..HEAD -- &lt;文件&gt;</code>。diff 是空的，就说明这条笔记的来源没变。不过，要对整个知识库这样做，版本就得记在脚本读得到的地方。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Making staleness visible and cheap</h2><h3>The version on the card</h3>
+<p>So where does the version live? In three places. The first is the <strong>object index</strong>, the list a script builds of every object and its source file. (Commits and shas were covered in <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>.)</p>
 <ul>
-<li><strong>Every line of the object index</strong> keeps the sha of the source file at the time the card was written.</li>
-<li><strong>Every card</strong> carries a mark that says it was verified against the code, and at which commit it was read. The mark tells the reader whether the card was checked against code or not.</li>
-<li><strong>The domain</strong> records the commit of each repository it was learned at.</li>
+<li><strong>Every line of the object index</strong> keeps the sha the source file had when the card was written.</li>
+<li><strong>Every card</strong> carries a mark saying that it was verified against the code and at which commit it was read, so the reader can tell whether the card was checked against code or not.</li>
+<li><strong>The domain</strong> records, for each repository, the commit it was learned at.</li>
 </ul>
 <h3>Listing the stale cards</h3>
-<p>A script compares the sha on each index line with the file on the base branch (the main line of the code) now. A card is <strong>stale</strong> when its source changed. A card whose source was deleted is listed too.</p>
+<p>Because every index line holds a sha, a script can compare it with the file as it is now on the base branch (the main line of the code). A card is <strong>stale</strong> when its source has changed. A card whose source was deleted is listed too.</p>
 <figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
   <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">commit 1</text>
@@ -304,47 +303,42 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">Three cards were written when the code was at commit 1. Each card records that commit.</li><li data-step-text="2">The code moves on to commit 2. It changes the source that card B was written from.</li><li data-step-text="3">Compare each card&#x27;s commit with the code now. Only card B is stale. A and C are untouched.</li><li data-step-text="4">Read only what changed in B&#x27;s source, fix the lines of the card it touches, and stamp the card with commit 2.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A card records the commit it was read at. When the code moves, the stale cards can be listed, and only they are looked at.</figcaption></figure>
-<p>Only the cards that changed need attention, so a small change in a big code base means a short list. The share of stale cards is also the number to put on a board. One gap to know about: the list names the cards whose own source changed, not the cards of their callers (see <a href="#costs-and-traps">Costs and traps</a>).</p>
+<p>Only the cards that changed need attention, so a small change in a big code base means a short list. Its length, as a share of all cards, is the number to put on a board. There is one gap to know about, though: the list names the cards whose own source changed, not the cards of their callers (see <a href="#costs-and-traps">What the list misses, and what still needs a person</a>).</p>
 <h3>Refresh: read the diff, not the file</h3>
-<p>For each stale card the agent reads the <strong>diff</strong>: exactly what changed in the source since the card was written. That is cheaper than reading the file again, and it points at the lines of the card that may be wrong.</p>
-<ul>
-<li>If the change does not touch what the card says (a comment, formatting, a part the card does not cover), the text stays.</li>
-<li>If it does, the agent changes only the lines it touches.</li>
-<li>Then it <strong>stamps</strong> the card: it records that the card was checked against the code as it is now. A stamp is a claim, so it is only for cards the agent really checked. Stamping a card nobody read hides a wrong card until the next change.</li>
-</ul>
-<p>A refresh is a task like any other: a plan listing each card and what is expected to change, a person's approval, then a write-back (<a href="5-3-two-approvals.html">Two gates: where a person approves</a>). At most about 20 cards per task; for more, do the most used first.</p>
-<p><strong>When a source is gone</strong>, the agent looks for a rename first. If it was renamed, the path is updated. If it was removed, the agent asks a person whether to drop the card or keep it. A card that is kept is marked &quot;source gone&quot;, and its mark becomes <em>unknown</em>, so it does not read like checked knowledge.</p>
+<p>Why not just read the file again? Because the <strong>diff</strong>, exactly what changed in the source since the card was written, is cheaper, and it also points at the lines of the card that may now be wrong.</p>
+<p>If the change does not touch what the card says (a comment, formatting, a part the card does not cover), the text stays as it is. When it does touch the card, the agent changes only the lines it touches. After that, it <strong>stamps</strong> the card, recording that the card was checked against the code as it is now. A stamp is a claim, so it belongs only on cards the agent really checked. Stamp a card nobody read, and a wrong card stays hidden until the next change.</p>
+<p>A refresh is a task like any other. Its plan lists each card and what is expected to change, a person approves that plan, and then the result is written back (<a href="5-3-two-approvals.html">Two gates: where a person approves</a>). A task holds at most about 20 cards. If more are stale, do the most used first.</p>
+<p>A card whose source is gone needs one more decision. The agent first checks whether the file was renamed, and if so it updates the path. If the file was removed, the agent asks a person whether to drop the card or keep it. A card that is kept is marked &quot;source gone&quot; and its mark becomes <em>unknown</em>, so it does not read like checked knowledge.</p>
 <h3>What a finished task teaches</h3>
-<p>Cards also go wrong in another way: while doing a task, an agent finds that a card is wrong or missing. It notes this in the task's log as it works. When the task ends, a separate step (I call it <strong>capture</strong>) picks out what is worth keeping and <strong>drafts</strong> it for a person to approve. Nothing goes into the base by itself. &quot;It will still be true next month&quot; is only a prediction by the model, so the person's approval is the real check.</p>
-<p>It keeps an item only if all of these hold: a future agent would get it wrong without it; the task holds the evidence (a file and line); it is not already recorded; and it will still be true next month. &quot;Nothing here is worth keeping&quot; is a good answer. The general rules for what to remember are in <a href="3-5-memory.html">What an agent should remember</a>.</p>
+<p>A changed source is not the only way a card goes wrong. While doing a task, an agent may find that a card is wrong or missing and note this in the task's log as it works. When the task ends, a separate step (I call it <strong>capture</strong>) picks out what is worth keeping and <strong>drafts</strong> it for a person to approve. Nothing goes into the base by itself. &quot;It will still be true next month&quot; is only a prediction by the model, so the person's approval is the real check.</p>
+<p>Capture keeps an item only if all of these hold: a future agent would get it wrong without it, the task holds the evidence (a file and line), it is not already recorded, and it will still be true next month. &quot;Nothing here is worth keeping&quot; is a good answer. The general rules for what to remember are in <a href="3-5-memory.html">What an agent should remember</a>.</p>
 <h3>The requests list: what the code cannot tell</h3>
-<p>By my own guess (not a measurement), a small part of the base cannot come from code. It comes from people and from running systems. So each domain has a <strong>requests list</strong>: one row for each thing a person must give. A row has:</p>
+<p>Some of the base cannot come from code at all, because it comes from people and from running systems. By my own guess this is a small part, though I have not measured it. So each domain has a <strong>requests list</strong>, with one row for each thing a person must give. A row has:</p>
 <ul>
 <li>a <strong>kind</strong>: <em>code</em> (a source that is in no repository), <em>runtime</em> (a value from one environment), <em>history</em> (something to find in git), or <em>decision</em> (a choice someone must make);</li>
 <li>a read-only command or query the person can run as it is;</li>
 <li>a <strong>status</strong>: <em>open</em>, <em>answered</em> (when, by whom, where it went), or <em>declined</em> (and then it is not asked again).</li>
 </ul>
-<p>The agent asks at its next stop, never in the middle of work. Rows come from the places the map is blind (<a href="8-3-kb-audit.html">8.3</a>): dynamic names, outside names, deleted sources.</p>
-<p>What comes back goes into a second file of <strong>environment facts</strong>: one fact per row, such as whether a job is enabled or what a rule table holds. Each row has the environment, the date, the object, the sha of its code that day, and who gave it. When the code moves on, you can see that the fact was seen against older code. What a person pastes back is still untrusted text: it can hold dirty data or even instructions, so treat it as in <a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>.</p>
+<p>The rows come from the places where the map is blind (<a href="8-3-kb-audit.html">8.3</a>): dynamic names, outside names and deleted sources. The agent asks at its next stop, never in the middle of work.</p>
+<p>Whatever comes back goes into a second file of <strong>environment facts</strong>, one fact per row, such as whether a job is enabled or what a rule table holds. Each row records the environment, the date, the object, the sha of its code that day, and who gave it. When the code moves on, that sha shows the fact was seen against older code. What a person pastes back is still untrusted text, though. It can hold dirty data or even instructions, so treat it as in <a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>.</p>
 <h3>Bringing in a base you already have</h3>
-<p>If you already have notes about the code, they can be moved into this form. Set each sha to the commit the old notes were written at, not to today. Then the stale list is honest from the first day: it shows what changed since the notes were written. Old notes often do not say which commit they came from; then you must guess, and a wrong guess hides stale cards. Expect this to be harder than it sounds.</p>
+<p>If you already have notes about the code, they can be moved into this form. Set each sha to the commit the old notes were written at, not to today. The stale list is then honest from the first day, because what it shows is what changed since the notes were written. The catch is that old notes often do not say which commit they came from, and then you must guess. A wrong guess hides stale cards, so expect this to be harder than it sounds.</p>
 <h3>Test your own setup</h3>
 <ol>
-<li>Take three cards. Write the commit each was read at.</li>
-<li>Change one source file. List the cards whose source changed.</li>
-<li>Refresh from the diff only. Count how many lines you read compared with the whole file (<code>git diff --stat</code> shows the lines changed; <code>wc -l</code> shows the file).</li>
+<li>Take three cards and write down the commit each was read at.</li>
+<li>Change one source file, then list the cards whose source changed.</li>
+<li>Refresh from the diff only, and count how many lines you read compared with the whole file (<code>git diff --stat</code> shows the lines changed; <code>wc -l</code> shows the file).</li>
 <li>Add one row to a requests list, with a kind, a read-only query and a status.</li>
 </ol>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>卡片上的版本</h3>
-<p>commit 和 sha 在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 解釋過。<strong>物件索引</strong>是腳本建出來的清單，列出每個物件和它的原始檔案。</p>
-<p>有三個地方記著版本：</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>讓過期看得見，又便宜</h2><h3>卡片上的版本</h3>
+<p>那版本記在哪裡？一共三個地方。第一個是<strong>物件索引</strong>，也就是腳本建出來的一份清單，列出每個物件和它的原始檔案。（commit 和 sha 在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 解釋過。）</p>
 <ul>
 <li><strong>物件索引的每一行</strong>，保留寫卡片時原始檔案的 sha。</li>
-<li><strong>每張卡片</strong>帶有一個標記，說明它已對照程式碼驗證過，以及它讀的是哪個 commit。這個標記告訴讀者，卡片有沒有對照程式碼檢查過。</li>
-<li><strong>領域</strong>記下它學的時候，每個倉庫的 commit。</li>
+<li><strong>每張卡片</strong>帶有一個標記，說明它已對照程式碼驗證過，以及它讀的是哪個 commit。讀者看這個標記，就知道卡片有沒有對照程式碼檢查過。</li>
+<li><strong>領域</strong>按倉庫記下它學的時候所在的 commit。</li>
 </ul>
 <h3>列出過期的卡片</h3>
-<p>腳本把每一行索引上的 sha，和基底分支（程式碼的主線）上現在的檔案比較。來源改了的卡片就<strong>過期</strong>。來源被刪掉的卡片也列出來。</p>
+<p>既然每一行索引上都有 sha，腳本就可以拿它和基準分支（程式碼的主線）上現在的檔案比較。來源改了，卡片就<strong>過期</strong>了。來源被刪掉的卡片，也會列出來。</p>
 <figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
   <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">提交 1</text>
@@ -384,47 +378,42 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">三張卡片寫成時，程式碼在提交 1。每張卡片都記下這個提交。</li><li data-step-text="2">程式碼走到提交 2，改了卡片 B 所依據的那個來源。</li><li data-step-text="3">把每張卡片記的提交和現在的程式碼比。只有卡片 B 過期。A 和 C 沒動。</li><li data-step-text="4">只讀 B 的來源改了什麼，改卡片中被牽動的那幾行，再蓋上提交 2。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>卡片記住讀的是哪個提交。程式碼一動，就能列出過期的卡片，只看它們。</figcaption></figure>
-<p>只有改過的卡片需要注意，所以大程式碼庫裡的小改動，清單就很短。過期卡片的比例，也是適合放在看板上的數字。要知道一個缺口：清單列出的是自己的來源改過的卡片，不是它們的呼叫者的卡片（見 <a href="#costs-and-traps">代價和陷阱</a>）。</p>
+<p>這樣一來，需要注意的只有改過的卡片，大程式碼庫裡的一個小改動，清單也就很短。清單的長度占全部卡片的比例，就是該放在看板上的數字。不過有一個缺口要知道：清單列出的是自己的來源改過的卡片，不包括呼叫者的卡片（見 <a href="#costs-and-traps">清單漏掉了什麼，哪些還得靠人</a>）。</p>
 <h3>更新：讀 diff，不讀檔案</h3>
-<p>對每張過期的卡片，agent 讀的是 <strong>diff</strong>：卡片寫好之後，來源到底改了什麼。這比重讀檔案便宜，而且它指出卡片裡可能錯的那幾行。</p>
-<ul>
-<li>如果改動沒碰到卡片說的內容（註解、格式、卡片沒涵蓋的部分），文字就保持不變。</li>
-<li>如果碰到了，agent 只改它碰到的那幾行。</li>
-<li>然後它<strong>蓋章</strong>：記下這張卡片已對照現在的程式碼檢查過。印章是一個宣稱，所以只用在 agent 真的檢查過的卡片上。給沒人讀過的卡片蓋章，會把一張錯的卡片藏到下一次改動。</li>
-</ul>
-<p>更新是一個和其他任務一樣的任務：一份列出每張卡片和預期改什麼的計劃、人的批准，然後寫回（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。每個任務最多約 20 張卡片；更多的話，先做最常用的。</p>
-<p><strong>來源不見的時候</strong>，agent 先找有沒有改名。如果改名了，就更新路徑。如果被移除了，agent 問人，要丟掉這張卡片還是留著。留下的卡片會標成「來源已不在」，它的標記變成<em>未知</em>，這樣它讀起來就不像檢查過的知識。</p>
+<p>為什麼不乾脆把檔案重讀一遍？<strong>diff</strong>，也就是卡片寫好之後來源改了什麼，讀起來比較便宜，還能指出卡片裡可能已經錯了的那幾行。</p>
+<p>如果改動沒碰到卡片說的內容（註解、格式、卡片沒涵蓋的部分），文字就保持不變；碰到了，agent 也只改它碰到的那幾行。改完之後，agent 替卡片<strong>蓋章</strong>，記下這張卡片已對照現在的程式碼檢查過。蓋章就是一種聲明，所以只該蓋在 agent 真的檢查過的卡片上。要是給一張沒人讀過的卡片蓋了章，一張錯的卡片就會一直藏到下一次改動。</p>
+<p>一次更新和其他任務沒什麼不同：先有一份計劃，列出每張卡片和預期要改什麼，人批准了這份計劃，再把結果寫回（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。一個任務最多約 20 張卡片，過期的更多，就先做最常用的。</p>
+<p>還有來源不見了的卡片，要多做一個決定。agent 先查檔案是不是改了名，改名了就更新路徑。如果檔案被移除了，agent 就問人：這張卡片要丟掉還是留著。留下的卡片會標成「來源已不在」，它的標記也變成<em>未知</em>，這樣它讀起來就不像檢查過的知識。</p>
 <h3>做完的任務教了什麼</h3>
-<p>卡片還有另一種出錯的方式：做任務的時候，agent 發現一張卡片是錯的或缺的。它工作時把這點記在任務的紀錄裡。任務結束時，另一個步驟（我叫它<strong>擷取</strong>）挑出值得留下的，並<strong>起草</strong>給人批准。沒有任何東西會自己進知識庫。「下個月還是對的」只是模型的預測，所以人的批准才是真正的檢查。</p>
-<p>只有在以下全部成立時，它才留下一項：沒有它，未來的 agent 會做錯；任務裡有證據（一個檔案和行號）；它還沒被記錄過；下個月還會是對的。「這裡沒有值得留下的」是個好答案。要記住什麼的一般規則，在 <a href="3-5-memory.html">agent 該記住什麼</a>。</p>
+<p>來源改了，並不是卡片出錯的唯一原因。agent 在做任務的時候，也可能發現一張卡片是錯的或缺的，就一邊工作，一邊把這點記在任務的紀錄裡。等任務結束，另一個步驟（我叫它<strong>擷取</strong>）會挑出值得留下的，並<strong>起草</strong>出來給人批准。沒有任何東西會自己進知識庫。「下個月還是對的」只是模型的預測，所以人的批准才是真正的檢查。</p>
+<p>擷取只在以下條件全部成立時才留下一項：沒有它，未來的 agent 會做錯；任務裡有證據（一個檔案和行號）；它還沒被記錄過；下個月還會是對的。「這裡沒有值得留下的」也是個好答案。要記住什麼的一般規則，在 <a href="3-5-memory.html">agent 該記住什麼</a>。</p>
 <h3>請求清單：程式碼說不出的</h3>
-<p>照我自己的猜測（不是量測），知識庫有一小部分不能來自程式碼。它來自人和正在執行的系統。所以每個領域有一份<strong>請求清單</strong>：每件必須由人提供的事，一列。一列有：</p>
+<p>擷取補上的，是 agent 工作時自己碰到的東西。有些東西它把程式碼讀得再細也碰不到，因為它們根本不在程式碼裡，而是來自人和正在執行的系統（照我的猜測只占一小部分，沒有量測過）。所以每個領域都有一份<strong>請求清單</strong>，每件必須由人提供的事占一列。一列有：</p>
 <ul>
 <li>一個<strong>種類</strong>：<em>code</em>（一個不在任何倉庫裡的來源）、<em>runtime</em>（某個環境的值）、<em>history</em>（要在 git 裡找的東西），或 <em>decision</em>（某人必須做的選擇）；</li>
 <li>一個唯讀的指令或查詢，人可以原樣執行；</li>
 <li>一個<strong>狀態</strong>：<em>open</em>、<em>answered</em>（什麼時候、誰、放到哪裡去了），或 <em>declined</em>（之後就不再問）。</li>
 </ul>
-<p>agent 在下一個停下來的地方問，從不在工作到一半時問。這些列來自地圖看不見的地方（<a href="8-3-kb-audit.html">8.3</a>）：動態的名字、外部的名字、被刪掉的來源。</p>
-<p>回來的東西，進入第二個檔案，<strong>環境事實</strong>：一列一個事實，例如某個工作是否啟用，或一張規則表裡有什麼。每一列有環境、日期、物件、當天它的程式碼的 sha，以及誰提供的。程式碼往前走之後，你看得出這個事實，是對照比較舊的程式碼看到的。人貼回來的東西，仍然是不可信的文字：可能有髒資料，甚至有指令，所以要像 <a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 那樣處理。</p>
+<p>這些列來自地圖看不見的地方（<a href="8-3-kb-audit.html">8.3</a>）：動態的名字、外部的名字、被刪掉的來源。agent 在下一個停下來的地方問，從不在工作到一半時問。</p>
+<p>人給回來的東西，寫進第二個檔案，叫<strong>環境事實</strong>，一列一個事實，例如某個工作有沒有啟用，或一張規則表裡有什麼。每一列記下環境、日期、物件、當天它的程式碼的 sha，以及是誰提供的。這樣程式碼往前走之後，從那個 sha 就看得出這個事實是對照比較舊的程式碼看到的。不過，人貼回來的東西仍然是不可信的文字：可能有髒資料，甚至有指令，所以要像 <a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 那樣處理。</p>
 <h3>把你已有的知識庫帶進來</h3>
-<p>如果你已經有關於程式碼的筆記，可以搬成這個形式。把每個 sha 設成舊筆記寫的那個 commit，不是今天。這樣過期清單從第一天起就是誠實的：它顯示筆記寫好之後改了什麼。舊筆記常常沒說它們來自哪個 commit；那你就得猜，而猜錯會把過期的卡片藏起來。預期這比聽起來難。</p>
+<p>如果你手上已經有關於程式碼的筆記，也可以搬成這個形式。每個 sha 要設成舊筆記寫的那個 commit，而不是今天的。這樣過期清單從第一天起就是誠實的，因為它顯示的正是筆記寫好之後改了什麼。麻煩在於，舊筆記常常沒說它們來自哪個 commit，只能猜。猜錯了，過期的卡片反而被藏起來，所以這一步會比聽起來難。</p>
 <h3>測你自己的設定</h3>
 <ol>
-<li>拿三張卡片。寫下每一張讀的是哪個 commit。</li>
-<li>改一個原始檔案。列出來源改過的卡片。</li>
-<li>只從 diff 更新。算一算，你讀的行數和整個檔案比起來是多少（<code>git diff --stat</code> 顯示改了的行；<code>wc -l</code> 顯示檔案）。</li>
+<li>拿三張卡片，寫下每一張讀的是哪個 commit。</li>
+<li>改一個原始檔案，再列出來源改過的卡片。</li>
+<li>只從 diff 更新，算一算你讀的行數和整個檔案比起來是多少（<code>git diff --stat</code> 顯示改了的行；<code>wc -l</code> 顯示檔案）。</li>
 <li>在請求清單加一列，附上種類、一個唯讀的查詢和一個狀態。</li>
 </ol>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>卡片上的版本</h3>
-<p>commit 和 sha 在<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>里讲过。<strong>对象索引</strong>是脚本生成的清单，列出每个对象和它的源文件。</p>
-<p>有三个地方记着版本：</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>让过期看得见，而且便宜</h2><h3>卡片上的版本</h3>
+<p>那版本记在哪里？一共三个地方。头一个是<strong>对象索引</strong>，也就是脚本生成的一份清单，列出每个对象和它的源文件。（commit 和 sha 在<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>里讲过。）</p>
 <ul>
 <li><strong>对象索引的每一行</strong>，保存写卡片时源文件的 sha。</li>
-<li><strong>每张卡片</strong>带一个标记，说明它对照代码验证过，以及是在哪个 commit 读的。这个标记告诉读者，这张卡片有没有对照代码检查过。</li>
-<li><strong>领域</strong>记录它学习时每个仓库所在的 commit。</li>
+<li><strong>每张卡片</strong>带一个标记，说明它对照代码验证过、是在哪个 commit 读的。读者看这个标记，就知道这张卡片有没有对照代码检查过。</li>
+<li><strong>领域</strong>按仓库记下它学习时所在的 commit。</li>
 </ul>
 <h3>列出过期的卡片</h3>
-<p>脚本把索引每一行上的 sha，和基线分支（代码的主线）上现在的文件比较。来源变了，卡片就<strong>过期</strong>。来源被删除的卡片也会列出来。</p>
+<p>既然索引的每一行都有 sha，脚本就可以拿它和基线分支（代码的主线）上现在的文件比较。来源变了，卡片就<strong>过期</strong>了。来源被删除的卡片，也会列出来。</p>
 <figure class="fig steps" id="fig-8-5-stale-cards" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <rect class="box" x="55" y="20" width="100" height="36" rx="6"/>
   <text class="label" x="105" y="43" text-anchor="middle" data-t="c1">提交 1</text>
@@ -464,61 +453,45 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">三张卡片写成时，代码在提交 1。每张卡片都记下这个提交。</li><li data-step-text="2">代码走到提交 2，改了卡片 B 所依据的那个来源。</li><li data-step-text="3">拿每张卡片记的提交和现在的代码比。只有卡片 B 过期。A 和 C 没动。</li><li data-step-text="4">只读 B 的来源改了什么，改卡片中被牵动的那几行，再盖上提交 2。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>卡片记住读的是哪个提交。代码一动，就能列出过期的卡片，只看它们。</figcaption></figure>
-<p>只有变了的卡片需要关注，所以大代码库里的小改动，对应的是一份短清单。过期卡片所占的比例，也正是适合放上看板的数字。有一个缺口要知道：清单列出的是自己的来源变了的卡片，不包括它们调用方的卡片（见<a href="#costs-and-traps">代价和坑</a>）。</p>
+<p>这样一来，需要关注的只有变了的卡片，大代码库里的一个小改动，对应的也只是一份短清单。清单的长度占全部卡片的比例，就是该放上看板的数字。不过有一个缺口要知道：清单列出的是自己的来源变了的卡片，不包括调用方的卡片（见<a href="#costs-and-traps">清单漏掉了什么，哪些还得靠人</a>）。</p>
 <h3>刷新：读 diff，不读文件</h3>
-<p>对每张过期卡片，agent 读的是 <strong>diff</strong>：自卡片写成以来，来源里到底改了什么。这比重新读整个文件便宜，还能指出卡片里哪些行可能错了。</p>
-<ul>
-<li>如果改动没碰到卡片说的内容（注释、格式、卡片没覆盖的部分），文字保持不变。</li>
-<li>如果碰到了，agent 只改被牵动的那几行。</li>
-<li>然后给卡片<strong>盖戳</strong>：记录这张卡片已对照现在的代码检查过。戳是一种声明，所以只给 agent 真正检查过的卡片盖。给没人读过的卡片盖戳，会把一张错卡片藏到下一次改动。</li>
-</ul>
-<p>一次刷新和别的任务一样：一份计划，列出每张卡片和预计要改什么；人审批；然后写回（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。每个任务最多约 20 张卡片；更多的话，先做用得最多的。</p>
-<p><strong>来源不见了的时候</strong>，agent 先找是不是改名了。改名了，就更新路径。被删了，agent 就问人：这张卡片是删掉还是留着。留下的卡片标成“来源已不在”，它的标记变成<em>未知</em>，这样它读起来就不像检查过的知识。</p>
+<p>为什么不干脆把文件重读一遍？<strong>diff</strong>，也就是自卡片写成以来来源里改了什么，读起来更便宜，还能指出卡片里哪几行可能已经错了。</p>
+<p>如果改动没碰到卡片说的内容（注释、格式、卡片没覆盖的部分），文字就保持不变；碰到了，agent 也只改被牵动的那几行。改完之后，agent 给卡片<strong>盖戳</strong>，记下这张卡片已经对照现在的代码检查过。戳是一种声明，所以只该盖在 agent 真正检查过的卡片上。要是给一张没人读过的卡片盖了戳，一张错卡片就会一直藏到下一次改动。</p>
+<p>一次刷新和别的任务没什么两样：先有一份计划，列出每张卡片和预计要改什么，人审批了这份计划，再把结果写回（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。一个任务最多约 20 张卡片，过期的更多，就先做用得最多的。</p>
+<p>还有来源不见了的卡片，要多做一个决定。agent 先查文件是不是改了名，改名了就更新路径。如果文件被删了，agent 就去问人：这张卡片是删掉还是留着。留下的卡片会标成“来源已不在”，它的标记也变成<em>未知</em>，这样它读起来就不像检查过的知识。</p>
 <h3>做完的任务教会了什么</h3>
-<p>卡片还有另一种出错的方式：agent 在做任务的时候，发现某张卡片是错的或者缺了。它一边干活，一边在任务的日志里记下来。任务结束时，另有一步（我叫它<strong>捕获</strong>）挑出值得留下的内容，<strong>起草</strong>出来给人审批。没有任何东西会自己进知识库。“下个月还成立”只是模型的预测，所以人的审批才是真正的检查。</p>
-<p>只有同时满足下面这些条件，它才会留下一条：没有它，将来的 agent 会做错；任务里有证据（一个文件和行号）；知识库里还没有记录；下个月还会成立。“这里没有值得留的”是一个好答案。该记什么的通用规则，在<a href="3-5-memory.html">agent 该记住什么</a>里。</p>
+<p>来源变了，并不是卡片出错的唯一原因。agent 在做任务的时候，也可能发现某张卡片是错的或者缺了，就一边干活，一边在任务的日志里记下来。等任务结束，另有一步（我叫它<strong>捕获</strong>）挑出值得留下的内容，<strong>起草</strong>出来交给人审批。没有任何东西会自己进知识库。“下个月还成立”只是模型的预测，所以人的审批才是真正的检查。</p>
+<p>捕获只在下面这些条件同时满足时才留下一条：没有它，将来的 agent 会做错；任务里有证据（一个文件和行号）；知识库里还没有记录；下个月还会成立。“这里没有值得留的”也是一个好答案。该记什么的通用规则，在<a href="3-5-memory.html">agent 该记住什么</a>里。</p>
 <h3>请求清单：代码说不出来的东西</h3>
-<p>按我自己的估计（不是测出来的），知识库里有一小部分无法从代码得到。它来自人，来自正在运行的系统。所以每个领域有一份<strong>请求清单</strong>：人要提供的每样东西占一行。一行有：</p>
+<p>捕获补上的，是 agent 干活时自己撞见的东西。有些东西它读代码再细也撞不见，因为它们根本不在代码里，而来自人和正在运行的系统（按我的估计只占一小部分，没有测过）。所以每个领域都有一份<strong>请求清单</strong>，人要提供的每样东西占一行。一行有：</p>
 <ul>
 <li>一个<strong>类别</strong>：<em>code</em>（不在任何仓库里的源码）、<em>runtime</em>（某个环境里的值）、<em>history</em>（要到 git 里找的东西）或 <em>decision</em>（需要某个人做出的选择）；</li>
 <li>一条只读的命令或查询，人可以原样运行；</li>
 <li>一个<strong>状态</strong>：<em>open</em>（未处理）、<em>answered</em>（已回答，记下什么时候、谁回答的、填到了哪里）或 <em>declined</em>（已拒绝，之后不再问）。</li>
 </ul>
-<p>agent 在下一次停下来的时候提问，绝不在干活中途打断。这些行来自地图看不见的地方（<a href="8-3-kb-audit.html">8.3</a>）：动态名字、外部名字、被删掉的来源。</p>
-<p>人给回来的东西，写进第二个文件，叫<strong>环境事实</strong>：一行一条事实，比如某个作业是否启用，或者某张规则表里有什么。每行记下环境、日期、对象、当天该对象代码的 sha，以及是谁提供的。代码往前走之后，就能看出这条事实是对着更旧的代码看到的。人贴回来的内容仍然是不可信的文本：里面可能有脏数据，甚至有指令，所以要按<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>里的办法对待。</p>
+<p>这些行来自地图看不见的地方（<a href="8-3-kb-audit.html">8.3</a>）：动态名字、外部名字、被删掉的来源。agent 在下一次停下来的时候提问，绝不在干活中途打断。</p>
+<p>人给回来的东西写进第二个文件，叫<strong>环境事实</strong>，一行一条事实，比如某个作业有没有启用，某张规则表里有什么。每行记下环境、日期、对象、当天该对象代码的 sha，以及是谁提供的。这样代码往前走了之后，从那个 sha 就看得出，这条事实是对着更旧的代码看到的。不过，人贴回来的内容仍然是不可信的文本：里面可能有脏数据，甚至有指令，所以要照<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>里的办法对待。</p>
 <h3>把已有的知识库接进来</h3>
-<p>如果你已经有关于代码的笔记，可以改成这个格式。把每个 sha 设成旧笔记写成时的 commit，不要设成今天的。这样从第一天起，过期清单就是诚实的：它显示的是自笔记写成以来变了什么。旧笔记往往不写明出自哪个 commit；那就只能猜，而猜错会把过期的卡片藏起来。这件事会比听起来难。</p>
+<p>如果你手上已经有关于代码的笔记，也可以改成这种格式。每个 sha 要设成旧笔记写成时的 commit，而不是今天的。这样从第一天起，过期清单就是诚实的，因为它显示的正是笔记写成以来变了什么。麻烦在于，旧笔记往往没写明出自哪个 commit，只能猜。猜错了，过期的卡片反倒被藏起来，所以这一步要比听起来难。</p>
 <h3>测一测你自己的配置</h3>
 <ol>
 <li>拿三张卡片，写下各自是在哪个 commit 读的。</li>
-<li>改一个源文件。列出来源变了的卡片。</li>
-<li>只按 diff 刷新。数一数你读了多少行，和整个文件比（<code>git diff --stat</code> 显示改了多少行；<code>wc -l</code> 显示文件有多少行）。</li>
+<li>改一个源文件，再列出来源变了的卡片。</li>
+<li>只按 diff 刷新，数一数你读了多少行，和整个文件比一比（<code>git diff --stat</code> 显示改了多少行；<code>wc -l</code> 显示文件有多少行）。</li>
 <li>往请求清单里加一行，写上类别、一条只读查询和一个状态。</li>
 </ol>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
-<li><strong>Staleness is per source file.</strong> If object A calls B and only B changes, B's card is listed, A's is not. A's card might need a change too if the meaning of the call moved. I have not tested how often this leaves a caller's card wrong. Cards that only point down and do not copy the lower card's content lose less. The map already knows who uses B, so a cheap fix is to list the callers of every stale card as &quot;may be stale&quot;. I have not built or tested that.</li>
-<li><strong>A stamp can lie.</strong> Its value is only as good as the check before it. Stamp only what you read. Decide who may stamp, and keep a record of who did. You can also have an independent reviewer re-read a few stamped cards against the code, as in the audit (<a href="8-3-kb-audit.html">8.3</a>).</li>
-<li><strong>Someone must own the refresh.</strong> The list shows what is stale. It does not fix anything by itself.</li>
-<li><strong>Declined requests are a loss, not a fix.</strong> A declined row stays visible, so the gap is honest.</li>
-<li><strong>Capture can fill the base with noise.</strong> The four conditions above are there to keep it small.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
-<li><strong>過期是以原始檔案為單位</strong>。如果物件 A 呼叫 B，而只有 B 改了，B 的卡片會列出來，A 的不會。如果那個呼叫的意思變了，A 的卡片可能也需要改。我沒有測過這會讓多少呼叫者的卡片變錯。只往下指、不複製下層卡片內容的卡片，損失比較小。地圖已經知道誰用 B，所以一個便宜的修法，是把每張過期卡片的呼叫者列為「可能過期」。我沒有做過或測過這個。</li>
-<li><strong>印章可能說謊</strong>。它的價值，只有它前面的檢查那麼好。只蓋你讀過的。決定誰可以蓋章，並記下是誰蓋的。你也可以讓獨立的 reviewer，像抽查那樣（<a href="8-3-kb-audit.html">8.3</a>），對照程式碼重讀幾張蓋了章的卡片。</li>
-<li><strong>必須有人負責更新</strong>。清單顯示什麼過期了。它自己不修任何東西。</li>
-<li><strong>被拒絕的請求是損失，不是解法</strong>。被拒絕的列仍然看得見，所以缺口是誠實的。</li>
-<li><strong>擷取可能讓知識庫塞滿雜訊</strong>。上面的四個條件，就是為了讓它保持小。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
-<li><strong>过期是按源文件算的</strong>。如果对象 A 调用 B，只有 B 变了，列出的是 B 的卡片，不是 A 的。如果这次调用的含义变了，A 的卡片可能也要改。这会让调用方的卡片错多少次，我没有测过。只往下指、不照抄下层卡片内容的卡片，损失更小。地图本来就知道谁用了 B，所以一个便宜的办法是：把每张过期卡片的调用方都列为“可能过期”。我没有做过，也没有测过。</li>
-<li><strong>戳可能说谎</strong>。它的价值只有它之前那次检查那么大。只给读过的卡片盖戳。定好谁有权盖戳，并记录下是谁盖的。你也可以让独立的 reviewer 对照代码，重读几张盖过戳的卡片，就像盲抽查那样（<a href="8-3-kb-audit.html">8.3</a>）。</li>
-<li><strong>刷新必须有人负责</strong>。清单显示什么过期了，它自己不会去修。</li>
-<li><strong>被拒绝的请求是损失，不是解决</strong>。被拒绝的行仍然看得见，所以这个缺口是诚实的。</li>
-<li><strong>捕获可能让知识库塞满噪音</strong>。上面的四个条件就是为了让它保持精简。</li>
-</ul>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If a platform tracks which stored notes are older than the code they describe, use it, and drop your own comparison. The habit of recording a version with every fact still applies.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果平台會追蹤哪些存下來的筆記比它描述的程式碼舊，就用它，放掉你自己的比較。每個事實都記下一個版本的習慣，仍然適用。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果平台能追踪哪些存起来的笔记比它描述的代码更旧，就用平台的，去掉你自己的比较。给每条事实记下版本的习惯仍然适用。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the list misses, and what still needs a person</h2><p>Because staleness is counted per source file, the list itself has a gap. If object A calls B and only B changes, B's card is listed but A's is not, even though A's card might need a change too if the meaning of the call moved. I have not tested how often this leaves a caller's card wrong. Cards that only point down, without copying the lower card's content, lose less. The map already knows who uses B, so a cheap fix would be to list the callers of every stale card as &quot;may be stale&quot;, although I have not built or tested that.</p>
+<p>A stamp can lie, because it is only as good as the check before it. So stamp only what you read, decide who may stamp, and keep a record of who did. You can also have an independent reviewer re-read a few stamped cards against the code, as in the audit (<a href="8-3-kb-audit.html">8.3</a>).</p>
+<p>The rest is not a gap in the list but work only a person can do. Someone must own the refresh, because the list shows what is stale and fixes nothing. A declined request is a loss, not a fix. Its row stays visible, so the gap is honest. Capture, too, can fill the base with noise. The four conditions above are there to keep it small.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>清單漏掉了什麼，哪些還得靠人</h2><p>過期是以原始檔案為單位來算的，所以清單本身就有一個缺口。如果物件 A 呼叫 B，而只有 B 改了，列出來的是 B 的卡片，A 的不會；可是如果那個呼叫的意思變了，A 的卡片可能也需要改。這會讓多少呼叫者的卡片變錯，我沒有測過。只往下指、不複製下層卡片內容的卡片，損失會比較小。地圖本來就知道誰用了 B，所以一個便宜的修法，是把每張過期卡片的呼叫者都列為「可能過期」，不過這個修法我沒有做過，也沒有測過。</p>
+<p>印章也可能說謊，因為它只有它前面的那次檢查那麼可靠。所以只蓋你讀過的，決定誰可以蓋章，並記下是誰蓋的。你也可以讓獨立的 reviewer 對照程式碼，重讀幾張蓋了章的卡片，就像抽查（<a href="8-3-kb-audit.html">8.3</a>）那樣。</p>
+<p>剩下的不是清單的漏洞，而是只有人能做的事。更新必須有人負責，因為清單只顯示什麼過期了，自己什麼也不修。被拒絕的請求是損失，問題並沒有解決。不過被拒絕的那一列仍然看得見，所以這個缺口是誠實的。擷取也可能讓知識庫塞滿雜訊，上面那四個條件，就是為了讓它保持精簡。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>清单漏掉了什么，哪些还得靠人</h2><p>过期是按源文件算的，所以清单本身就有一个缺口。如果对象 A 调用 B，而只有 B 变了，列出来的是 B 的卡片，不是 A 的；可要是这次调用的含义变了，A 的卡片也可能要改。这会让调用方的卡片错多少次，我没有测过。只往下指、不照抄下层卡片内容的卡片，损失会小一些。地图本来就知道谁用了 B，所以一个便宜的办法是把每张过期卡片的调用方都列为“可能过期”，不过这个办法我没有做过，也没有测过。</p>
+<p>戳也可能说谎，因为它只有它之前那次检查那么可靠。所以只给读过的卡片盖戳，定好谁有权盖戳，并记录下是谁盖的。你也可以让独立的 reviewer 对照代码，重读几张盖过戳的卡片，就像审计（<a href="8-3-kb-audit.html">8.3</a>）里那样。</p>
+<p>剩下的不是清单的漏洞，而是只有人能做的事。刷新得有人负责，因为清单只显示什么过期了，自己什么也不修。被拒绝的请求是损失，问题并没有解决。不过被拒绝的那一行仍然看得见，所以这个缺口是诚实的。捕获也可能让知识库塞满噪音，上面那四个条件，就是为了让它保持精简。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete your own comparison</h2><p>If a platform tracks which stored notes are older than the code they describe, use it and drop your own comparison. The habit of recording a version with every fact still applies.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉自己的比較</h2><p>如果平台會追蹤哪些存下來的筆記比它描述的程式碼舊，就用平台的，拿掉你自己的比較。替每個事實記下版本的習慣，仍然適用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉自己的比较</h2><p>如果平台能追踪哪些存起来的笔记比它描述的代码更旧，就用平台的，把你自己的比较去掉。给每条事实记下版本的习惯，仍然适用。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find the documents in this repository that describe the code (design notes, READMEs of modules, architecture pages, runbooks). For each, use git history to tell me when it was last changed and how many commits have touched the code it describes since then. Rank them from most to least out of date. Mark any that state no date or commit they were written against. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出這個倉庫裡描述程式碼的文件（設計筆記、各模組的 README、架構頁、runbook）。每一份，用 git 歷史告訴我：它最後是什麼時候改的，以及從那之後有多少個 commit 碰過它描述的程式碼。從最過期到最不過期排序。標出沒有寫明它是對照哪個日期或 commit 寫的那幾份。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出这个仓库里描述代码的文档（设计笔记、各模块的 README、架构页、运维手册）。对每一份，用 git 历史告诉我它最后一次修改是什么时候，以及从那以后有多少个 commit 动过它描述的代码。按过期程度从高到低排序。没有写明是对照哪个日期或 commit 写成的，请标出来。不要修改任何文件。</code></pre></div>
