@@ -221,58 +221,43 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">6.2</p><h1><span data-l="en" lang="en">A report a person can read in five minutes</span><span data-l="zh-Hant" lang="zh-Hant">一份五分鐘讀得完的報告</span><span data-l="zh-Hans" lang="zh-Hans">一份五分钟读得完的报告</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It helps to have read <a href="6-1-observe.html">Record what happened, not what the agent said</a>, but you can follow without it.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent。先讀過 <a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 會有幫助，不讀也跟得上。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Who needs to know what a task did?</span><span data-l="zh-Hant" lang="zh-Hant">誰需要知道一個任務做了什麼？</span><span data-l="zh-Hans" lang="zh-Hans">谁需要知道一个任务做了什么？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">A page for each task, and a board for many</span><span data-l="zh-Hant" lang="zh-Hant">每個任務一頁，很多任務一塊看板</span><span data-l="zh-Hans" lang="zh-Hans">每个任务一页，很多任务一块看板</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What a report cannot tell you, and what it costs to keep it short</span><span data-l="zh-Hant" lang="zh-Hant">報告說不出的事，和守住篇幅的成本</span><span data-l="zh-Hans" lang="zh-Hans">报告说不出的事，和守住篇幅的代价</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the pages, and what stays</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這些頁面，什麼會留下來</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这些页面，什么会留下来</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">6.2</p><h1><span data-l="en" lang="en">A report a person can read in five minutes</span><span data-l="zh-Hant" lang="zh-Hant">一份五分鐘讀得完的報告</span><span data-l="zh-Hans" lang="zh-Hans">一份五分钟读得完的报告</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. Reading <a href="6-1-observe.html">Record what happened, not what the agent said</a> first helps, but you can follow without it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過寫程式的 AI agent。先讀過 <a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 會有幫助，不讀也跟得上。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你需要用过一个写代码的 AI agent。先读过<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>会有帮助，不读也跟得上。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Every finished task needs a report that a person can read in five minutes. When you run many tasks at once, a board is the one page that tells you which one to open.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個完成的任務，都需要一份人五分鐘讀得完的報告。同時跑很多任務時，看板是告訴你該打開哪一個的那一頁。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>每个完成的任务，都需要一份人五分钟读得完的报告。同时跑很多任务时，看板是告诉你该打开哪一个的那一页。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個完成的任務，都需要一份人五分鐘讀得完的報告。同時跑很多任務時，看板告訴你該打開哪一個。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>每个完成的任务，都需要一份人五分钟读得完的报告。同时跑很多任务时，看板告诉你该打开哪一个。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> require that every finished task has a one-page report, written by code, and decide what the page must show.</li>
-<li><strong>The risk:</strong> a log is not a report. Nobody reads thousands of lines, so the only thing a colleague or a leader reads is the agent's own summary, which is what the log exists to check. A report is also only as honest as its sources: a hole in the log is a hole in the report.</li>
+<li><strong>The decision:</strong> require that every finished task has a one-page report written by code, and decide what that page must show.</li>
+<li><strong>The risk:</strong> a log is not a report. Nobody reads thousands of lines, so the only thing a colleague or a leader ends up reading is the agent's own summary, the very thing the log is there to check. And a report is only as honest as its sources: a hole in the log is a hole in the report.</li>
 <li><strong>The cost of doing it right:</strong> one program that reads the task folder and the log. The real cost is defending the five-minute limit against requests for one more number.</li>
 <li><strong>Ask the team:</strong> &quot;Show me the report of the last finished task. Can I read it in five minutes, and does it say who approved it and what was refused?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
 <li><strong>要做的決定</strong>：要求每個完成的任務都有一頁由程式寫的報告，並決定這一頁必須顯示什麼。</li>
-<li><strong>風險</strong>：日誌不是報告。沒有人會讀幾千行，所以同事或主管唯一會讀的，是 agent 自己的總結，而日誌存在的目的，就是檢查這份總結。報告的誠實程度，也只和它的來源一樣：日誌有洞，報告就有洞。</li>
+<li><strong>風險</strong>：日誌不是報告。幾千行沒有人會讀，所以同事或主管最後讀到的，只有 agent 自己的總結，而日誌存在的目的，正是檢查這份總結。報告再誠實，也誠實不過它的來源：日誌有洞，報告就有洞。</li>
 <li><strong>做對的成本</strong>：一個讀任務資料夾和日誌的程式。真正的成本，是擋住大家「再加一個數字」的要求，守住五分鐘這條線。</li>
 <li><strong>可以問團隊</strong>：「給我看上一個完成任務的報告。我能在五分鐘內讀完嗎？它有沒有說是誰批准的、什麼被拒絕了？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：要求每个完成的任务都有一页由代码写的报告，并决定这一页必须显示什么。</li>
-<li><strong>风险</strong>：日志不是报告。没人会读几千行，所以同事或管理者唯一会读的，是 agent 自己的总结，而日志存在的目的，恰恰是检查这份总结。报告也只和它的来源一样诚实：日志有漏洞，报告就有漏洞。</li>
+<li><strong>要拍板的事</strong>：要求每个完成的任务都有一页由代码写的报告，并定下这一页必须显示什么。</li>
+<li><strong>风险</strong>：日志不是报告。几千行没人会读，所以同事或管理者最后读到的，只有 agent 自己的总结，而日志存在的目的，正是检查这份总结。报告再诚实，也诚实不过它的来源：日志有漏洞，报告就有漏洞。</li>
 <li><strong>做对的代价</strong>：一个读任务文件夹和日志的程序。真正的代价，是顶住大家“再加一个数字”的要求，守住五分钟这条线。</li>
 <li><strong>可以问团队</strong>：“给我看上一个完成任务的报告。我能在五分钟内读完吗？它有没有写是谁审批的、什么被拒绝了？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>A log is not a report. After <a href="6-1-observe.html">the previous chapter</a> you may have a log with thousands of lines. Nobody reads that to answer &quot;what did this task do?&quot;. And the agent's own summary, which is short enough to read, is the thing the log exists to check.</p>
-<p>Who needs the answer? Three people, at three times.</p>
-<ul>
-<li><strong>You, the next morning.</strong> The work was yesterday. You do not remember which files changed, or why a check was done twice.</li>
-<li><strong>A colleague or a leader</strong> who did not watch. They want to know what was done and whether anyone checked it, and they will give it a few minutes.</li>
-<li><strong>You, when something goes wrong later.</strong> Someone asks &quot;who approved this change?&quot; and &quot;was it checked?&quot;. You want the answer from a document, not from memory.</li>
-</ul>
-<p>If the report takes an hour to read, these people will not read it. So the report is a design problem: what to put on one page, and what to leave to the log.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>日誌不是報告。讀完 <a href="6-1-observe.html">上一章</a> 之後，你可能有一份幾千行的日誌。沒有人會讀它來回答「這個任務做了什麼？」。而 agent 自己的總結，短到讀得完，卻正是日誌存在要檢查的東西。</p>
-<p>誰需要這個答案？三個人，在三個時間點。</p>
-<ul>
-<li><strong>你，隔天早上</strong>。工作是昨天做的。你不記得改了哪些檔案，也不記得為什麼某個檢查做了兩次。</li>
-<li><strong>沒在旁邊看的同事或主管</strong>。他們想知道做了什麼、有沒有人檢查過，而且願意花幾分鐘。</li>
-<li><strong>你，以後出了問題的時候</strong>。有人問「這個改動是誰批准的？」「有檢查過嗎？」。你想從文件裡找到答案，不是靠記憶。</li>
-</ul>
-<p>報告要是要讀一個小時，這些人就不會讀。所以報告是個設計問題：一頁上放什麼，什麼留給日誌。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>日志不是报告。读完<a href="6-1-observe.html">上一章</a>之后，你可能有一份几千行的日志。没人会读它来回答“这个任务做了什么”。而 agent 自己的总结，短到读得完，却正是日志要检查的东西。</p>
-<p>谁需要这个答案？三个人，在三个时间点。</p>
-<ul>
-<li><strong>你，第二天早上</strong>。活是昨天干的。你不记得改了哪些文件，也不记得为什么某个检查做了两次。</li>
-<li><strong>没在旁边看的同事或管理者</strong>。他们想知道做了什么、有没有人检查过，而且愿意花几分钟。</li>
-<li><strong>你，以后出了问题的时候</strong>。有人问“这个改动是谁审批的”“检查过吗”。你想从文档里找到答案，而不是靠记忆。</li>
-</ul>
-<p>报告要是得读一个小时，这些人就不会读。所以报告是个设计问题：一页上放什么，什么留给日志。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>One page per task, written by code</h3>
-<p>A <strong>task</strong> here is one piece of work with its own folder: the request, the plan, the checks and the changes (<a href="5-1-tasks.html">Manage tasks, not chats</a>). When the task closes, a program reads the folder and the records, and writes one report. The agent does not write it.</p>
-<p>That one choice carries most of the weight. A report written by the agent is a summary, and a summary is what you could not trust in the first place. A report put together by a program from the folder and the log has the same facts every time, in the same places, so a reader learns where to look.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Who needs to know what a task did?</h2><p>After <a href="6-1-observe.html">the previous chapter</a> you may have a log with thousands of lines. A log, though, is not a report. Nobody reads thousands of lines to answer &quot;what did this task do?&quot;. The agent's own summary is short enough to read, but it is the very thing the log exists to check.</p>
+<p>So who needs that answer, and how long will they look for it? Three people need it, at three different times. One of them is you, the next morning, when the work was yesterday and you no longer remember which files changed, or why a check was done twice. Another is a colleague or a leader who did not watch the task. They want to know what was done and whether anyone checked it, and they will give it a few minutes. The last is you again, later, when something goes wrong and someone asks &quot;who approved this change?&quot; and &quot;was it checked?&quot;. By then you want the answer from a document, not from memory.</p>
+<p>If the report takes an hour to read, none of these people will read it. That makes the report a design problem. What goes on one page, and what is left to the log?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>誰需要知道一個任務做了什麼？</h2><p>讀完 <a href="6-1-observe.html">上一章</a>，你手上可能已經有一份幾千行的日誌。可是日誌不是報告，沒有人會為了回答「這個任務做了什麼」去讀幾千行。agent 自己的總結倒是短到讀得完，問題是，日誌存在的目的，正是要檢查這份總結。</p>
+<p>那麼，誰需要這個答案，他們又願意花多久去找？需要它的有三個人，在三個不同的時間點。一個是隔天早上的你：工作是昨天做的，改了哪些檔案、為什麼某個檢查做了兩次，你已經記不得了。另一個是沒在旁邊看的同事或主管，他們想知道做了什麼、有沒有人檢查過，願意為此花上幾分鐘。最後一個還是你，在以後出了問題的時候：有人問「這個改動是誰批准的」「有檢查過嗎」，到那時你想從文件裡找到答案，不是靠記憶。</p>
+<p>報告要是得讀一個小時，這三個人誰都不會讀。這樣一來，報告就成了一個設計問題：一頁上放什麼，什麼留給日誌？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>谁需要知道一个任务做了什么？</h2><p>读完<a href="6-1-observe.html">上一章</a>，你手里可能已经有一份几千行的日志。可日志不是报告，没人会为了回答“这个任务做了什么”去读几千行。agent 自己的总结倒是短到读得完，问题是，日志存在的目的，恰恰就是检查这份总结。</p>
+<p>那么，谁需要这个答案，他们又肯花多久去找？需要它的有三个人，在三个不同的时间点。一个是第二天早上的你：活是昨天干的，改了哪些文件、为什么某个检查做了两次，你已经记不清了。另一个是没在旁边看的同事或管理者，他们想知道做了什么、有没有人检查过，愿意为此花上几分钟。最后一个还是你，在以后出了问题的时候：有人问“这个改动是谁审批的”“检查过吗”，到那时你想从文档里找到答案，而不是靠记忆。</p>
+<p>报告要是得读一个小时，这三个人谁都不会读。这样一来，报告就成了一个设计问题：一页上放什么，什么留给日志？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>A page for each task, and a board for many</h2><h3>One page per task, written by code</h3>
+<p>Before deciding what goes on the page, decide who writes it. The page covers one <strong>task</strong>. A task here is one piece of work with its own folder: the request, the plan, the checks and the changes (<a href="5-1-tasks.html">Manage tasks, not chats</a>). When the task closes, a program reads that folder and the records and writes one report. The agent does not write it.</p>
+<p>That one choice carries most of the weight. Why not simply let the agent write it? Because a report written by the agent would be a summary, and a summary is what you could not trust in the first place. A report that a program puts together from the folder and the log has the same facts every time, in the same places, so a reader learns where to look.</p>
 <figure class="fig" id="fig-6-2-report-page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <text class="label-muted" x="10" y="22" data-t="board-title">MANY TASKS: THE BOARD</text>
   <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
@@ -302,15 +287,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>The board shows many tasks at a glance. When one task finishes, it gets one page a person can read in five minutes.</figcaption></figure>
 <h3>What goes on the page</h3>
-<p>Start from the questions the three readers ask, and give each a place. In my setup the report holds:</p>
+<p>To decide what the page holds, start from the questions the three readers ask and give each of them a place. In my setup the report holds five things:</p>
 <ol>
-<li><strong>What was asked and what was done.</strong> The requirement the person confirmed, and the plan.</li>
-<li><strong>Who approved, and when.</strong> The times of the two approvals (<a href="5-3-two-approvals.html">Two gates</a>).</li>
-<li><strong>What changed.</strong> Which files, how many lines added and removed, and which knowledge-base files were read (<a href="8-1-why-a-knowledge-base.html">A knowledge base</a>).</li>
-<li><strong>The checks.</strong> How many independent checks, and the verdict of each (<a href="5-5-counted-checks.html">Make a pass count</a>).</li>
-<li><strong>What was refused.</strong> The calls the rules turned down, and why. This part surprises people, and it often explains why a task took longer than expected.</li>
+<li>What was asked and what was done: the requirement the person confirmed, and the plan.</li>
+<li>Who approved, and when: the times of the two approvals (<a href="5-3-two-approvals.html">Two gates</a>).</li>
+<li>What changed: which files, how many lines were added and removed, and which knowledge-base files were read (<a href="8-1-why-a-knowledge-base.html">A knowledge base</a>).</li>
+<li>The checks: how many independent checks ran, and the verdict of each (<a href="5-5-counted-checks.html">Make a pass count</a>).</li>
+<li>What was refused: the calls the rules turned down, and why. This part surprises people, and it often explains why a task took longer than expected.</li>
 </ol>
-<p>Here is the layout, as a template and not a real report:</p>
+<p>On the page itself, those five things look like this (a template, not a real report):</p>
 <ul>
 <li>Asked: <em>the confirmed requirement, in one paragraph</em></li>
 <li>Approved: <em>plan, at (time); write-back, at (time)</em></li>
@@ -318,26 +303,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Checks: <em>(n) independent checks; verdict of each</em></li>
 <li>Refused: <em>each refused call and the rule that refused it</em></li>
 </ul>
-<p>What is left out is the log itself. The report points at the facts and does not repeat all of them. A good test is the five minutes: if a reader cannot finish the page in that time, something on it belongs in the log instead.</p>
+<p>What the page leaves out is the log itself: the report points at the facts rather than repeating all of them. The five minutes are the test of where to draw that line. If a reader cannot finish the page in that time, something on it belongs in the log instead.</p>
 <h3>Where the time and usage went</h3>
-<p>A second page next to the report answers a different question: not &quot;what happened?&quot; but &quot;where did the time and the usage go?&quot;. It splits each prompt into the model thinking, tools running, subagents, and <strong>waiting for the person</strong>. Then it sums these by <strong>stage</strong> (requirement, plan, development, write-back, done; an independent check is a stage of its own).</p>
-<p>The waiting time is the number I did not expect to matter. Suppose a task &quot;took three days&quot;, and the page shows the agent worked for forty minutes and waited for a person the rest (the numbers are an example, not a result). Then the cost is waiting, not the agent. That is a different problem from a slow agent, and it has a different fix: fewer or cheaper gates, or someone to answer them (<a href="7-2-many-tasks.html">Ten things at once</a>).</p>
-<p>The numbers come from the hook log and the platform's own session record, not from the agent's word (<a href="6-1-observe.html">Record what happened, not what the agent said</a> says where usage comes from and what happens when that record cannot be read). Opening the page costs no tokens. If you want the agent to explain it to you, you ask for that on purpose, and then it reads the page.</p>
+<p>The report answers &quot;what happened?&quot;. Where the time and the usage went is a different question. The analysis page, a second page next to the report, answers it. It splits each prompt into the model thinking, tools running, subagents and <strong>waiting for the person</strong>, and then sums these by <strong>stage</strong>. The stages are requirement, plan, development, write-back and done, and an independent check counts as a stage of its own.</p>
+<p>Of these numbers, the waiting time is the one I did not expect to matter. Suppose a task &quot;took three days&quot;, and the page shows that the agent worked for forty minutes and waited for a person the rest of the time (the numbers are an example, not a result). Then what the task cost was waiting, not the agent. That is a different problem from a slow agent, and it has a different fix: fewer or cheaper gates, or someone to answer them (<a href="7-2-many-tasks.html">Ten things at once</a>).</p>
+<p>Like the report, these numbers do not rest on the agent's word. They come from the hook log and the platform's own session record (<a href="6-1-observe.html">Record what happened, not what the agent said</a> says where usage comes from and what happens when that record cannot be read). Opening the page costs no tokens, because the agent reads it only when you ask it, on purpose, to explain the page.</p>
 <h3>The board: many tasks at a glance</h3>
-<p>When you have one task, you do not need a board. When you have ten, the question changes from &quot;what did this task do?&quot; to &quot;which task needs me now?&quot;. A <strong>board</strong> is one page that lists every open task, what it is waiting for, and for how long. It is built from the same task folders and records as the report, so the two cannot disagree. <a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a> has the design.</p>
+<p>With one task, you do not need a board. With ten, the question changes from &quot;what did this task do?&quot; to &quot;which task needs me now?&quot;, and that is the question a <strong>board</strong> answers. It is one page that lists every open task, what it is waiting for, and for how long. Because it is built from the same task folders and records as the report, the two cannot disagree. <a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a> has the design.</p>
 <h3>Try it by hand</h3>
-<p>You do not need a program to see whether the idea works. After your next agent task, write five lines from the diff and the tool-call history: what was asked, what changed, what was run, what was refused or failed, and who said yes. Then ask yourself whether you would read that page tomorrow, and whether a colleague could use it. If it takes you more than a few minutes to write, that tells you what the program has to collect.</p>
+<p>Before any program exists, you can try the idea of the report by hand. After your next agent task, write five lines from the diff and the tool-call history: what was asked, what changed, what was run, what was refused or failed, and who said yes. Then ask yourself whether you would read that page tomorrow and whether a colleague could use it. If writing it takes you more than a few minutes, that tells you what the program will have to collect.</p>
 <h3>Where the person steps in</h3>
-<p>The report and the board are where a person meets the system. Three points matter.</p>
-<ul>
-<li><strong>The board is for steering.</strong> You open a task from it, approve a plan, or pause a task. Approvals still go through a channel the agent cannot reach.</li>
-<li><strong>The report is for reading afterwards.</strong> It is written when the task closes, so it shows the task as it ended.</li>
-<li><strong>A saved copy is for people with no access.</strong> The task page can be saved as a single file that opens offline, for a leader who has no access to your board. It is a copy from the moment you saved it, with no buttons. Read it before you send it, and take out internal names and paths before it goes outside the group that owns the task.</li>
-</ul>
-<p>What an agent writes is drawn as plain text on these pages, so a task file cannot make the page run anything (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>).</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>每個任務一頁，由程式寫</h3>
-<p>這裡的<strong>任務</strong>，是有自己資料夾的一件工作：需求、計畫、檢查和改動（<a href="5-1-tasks.html">管任務，不管對話</a>）。任務結束時，一個程式讀資料夾和紀錄，寫出一份報告。不是 agent 寫的。</p>
-<p>這個選擇承擔了大部分的分量。agent 寫的報告是一份總結，而總結本來就是你一開始不能信的東西。由程式從資料夾和日誌拼出來的報告，每次都有同樣的事實、放在同樣的位置，讀的人就學會該看哪裡。</p>
+<p>Once the pages exist, the report and the board are where a person meets the system, and the two are used in different ways. The board is for steering. From it you open a task, approve a plan or pause a task. The approval itself, though, still travels through a channel the agent cannot reach. The report is for reading afterwards. It is written when the task closes, so it shows the task as it ended.</p>
+<p>Some readers, a leader for example, have no access to your board. For them the task page can be saved as a single file that opens offline. It is a copy from the moment you saved it, with no buttons. Read it before you send it, and take out internal names and paths before it goes outside the group that owns the task.</p>
+<p>These pages show what the agent wrote, but only as plain text, so a task file cannot make the page run anything (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>每個任務一頁，很多任務一塊看板</h2><h3>每個任務一頁，由程式寫</h3>
+<p>先說這一頁由誰來寫。這裡的<strong>任務</strong>，指有自己資料夾的一件工作，需求、計畫、檢查和改動都放在裡面（<a href="5-1-tasks.html">管任務，不管對話</a>）。任務結束時，一個程式去讀這個資料夾和那些紀錄，寫出一份報告。寫報告的不是 agent。</p>
+<p>這個選擇，整套做法都靠它。為什麼不乾脆讓 agent 自己寫？因為 agent 寫的報告會是一份總結，而總結本來就是你一開始信不過的東西。由程式從資料夾和日誌拼出來的報告，每次都有同樣的事實、放在同樣的位置，讀的人就會學到該看哪裡。</p>
 <figure class="fig" id="fig-6-2-report-page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <text class="label-muted" x="10" y="22" data-t="board-title">很多任務：看板</text>
   <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
@@ -367,15 +348,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>看板讓你一眼看完很多任務。一個任務做完，就有一頁五分鐘讀得完的報告。</figcaption></figure>
 <h3>這一頁放什麼</h3>
-<p>從三種讀者會問的問題出發，每個問題給一個位置。在我的設定裡，報告包含：</p>
+<p>一頁上放什麼，要從三種讀者會問的問題出發，替每個問題留一個位置。在我的設定裡，報告包含五樣東西：</p>
 <ol>
-<li><strong>要求了什麼、做了什麼</strong>。人確認過的需求，和計畫。</li>
-<li><strong>誰批准、什麼時候</strong>。兩次批准的時間（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
-<li><strong>改了什麼</strong>。哪些檔案、加了多少行、刪了多少行，以及讀了哪些知識庫檔案（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
-<li><strong>檢查</strong>。有幾次獨立檢查，每一次的結論（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
-<li><strong>什麼被拒絕</strong>。規則擋下的呼叫，和原因。這一塊常讓人意外，也常能解釋為什麼任務比預期花得久。</li>
+<li>要求了什麼、做了什麼：人確認過的需求，和計畫。</li>
+<li>誰批准、什麼時候：兩次批准的時間（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
+<li>改了什麼：哪些檔案、加了多少行、刪了多少行，以及讀了哪些知識庫檔案（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
+<li>檢查：跑了幾次獨立檢查，每一次的結論是什麼（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</li>
+<li>什麼被拒絕了：規則擋下的呼叫，和擋下的原因。這一塊常讓人意外，也常能解釋為什麼任務比預期花得久。</li>
 </ol>
-<p>版面是這樣，這是範本，不是真的報告：</p>
+<p>放到頁面上，這五樣東西是這個樣子（這是範本，不是真的報告）：</p>
 <ul>
 <li>要求：<em>確認過的需求，一段</em></li>
 <li>批准：<em>計畫，於（時間）；寫回，於（時間）</em></li>
@@ -383,26 +364,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>檢查：<em>（n）次獨立檢查；每一次的結論</em></li>
 <li>拒絕：<em>每一次被拒絕的呼叫，和拒絕它的規則</em></li>
 </ul>
-<p>沒放進去的是日誌本身。報告指向這些事實，不會全部重複一遍。一個好用的測試就是五分鐘：讀的人在這段時間內讀不完這一頁，就是上面有東西該放回日誌。</p>
+<p>這一頁沒放進去的，是日誌本身：報告只指向這些事實，不會把它們全部重複一遍。這條線畫在哪裡，就用五分鐘來檢驗。讀的人在這段時間內讀不完這一頁，就表示上面有東西該搬回日誌。</p>
 <h3>時間和用量花在哪裡</h3>
-<p>報告旁邊有第二頁，回答另一個問題：不是「發生了什麼？」，而是「時間和用量花在哪裡？」。它把每個 prompt 拆成模型思考、工具執行、子 agent，和<strong>等人</strong>。然後依<strong>階段</strong>加總（需求、計畫、開發、寫回、完成；獨立檢查自己算一個階段）。</p>
-<p>等待的時間，是我沒想到會這麼重要的數字。假設一個任務「花了三天」，那一頁顯示 agent 工作了四十分鐘，其餘時間都在等人（數字只是舉例，不是結果）。那麼成本是在等待，不是 agent。這和 agent 慢是不同的問題，修法也不同：少一點門，或讓門便宜一點，或找人來回答它們（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）。</p>
-<p>數字來自 hook 日誌和平台自己的會話紀錄，不是 agent 的一面之詞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 說了用量從哪裡來，以及讀不到那份紀錄時會怎樣）。打開這一頁不花 token。如果你要 agent 解釋給你聽，你得特地要求，那時它才會去讀這一頁。</p>
+<p>報告回答的是「發生了什麼」。時間和用量花在哪裡，是另一個問題。回答它的是分析頁，也就是報告旁邊的第二頁。它把每個 prompt 拆成模型思考、工具執行、子 agent 和<strong>等人</strong>幾塊，再依<strong>階段</strong>加總。階段指的是需求、計畫、開發、寫回、完成，獨立檢查自己單獨算一個階段。</p>
+<p>這些數字裡，我原本沒想到等待的時間會這麼重要。假設一個任務「花了三天」，這一頁卻顯示 agent 工作了四十分鐘，其餘時間都在等人（數字只是舉例，不是結果）。那麼這個任務的成本是在等待，不是 agent。這和 agent 慢是兩回事，修法也不一樣：少設幾道門，或讓門便宜一點，或找人來回答它們（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）。</p>
+<p>和報告一樣，這些數字也不靠 agent 的一面之詞，而是來自 hook 日誌和平台自己的會話紀錄（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a> 說了用量從哪裡來，以及讀不到那份紀錄時會怎樣）。打開這一頁不花 token。只有你特地要 agent 解釋給你聽，它才會去讀。</p>
 <h3>看板：一眼看完很多任務</h3>
-<p>只有一個任務時，你不需要看板。有十個時，問題從「這個任務做了什麼？」變成「現在哪個任務需要我？」。<strong>看板</strong>是一頁，列出每個還開著的任務、它在等什麼、等了多久。它用和報告相同的任務資料夾和紀錄建成，所以兩者不會不一致。設計見 <a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>。</p>
+<p>只有一個任務的時候，用不著看板。可是一旦有十個，問題就從「這個任務做了什麼」變成「現在哪個任務需要我」，回答這個問題的就是<strong>看板</strong>。它是一頁，列出每個還開著的任務、它在等什麼、等了多久。因為看板和報告用的是同一批任務資料夾和紀錄，兩者不會不一致。設計見 <a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>。</p>
 <h3>手動試試</h3>
-<p>不用程式，也能看這個想法行不行。下一個 agent 任務之後，從 diff 和工具呼叫的歷史寫五行：要求了什麼、改了什麼、執行了什麼、什麼被拒絕或失敗、誰說了好。然後問自己，明天你會不會讀這一頁，同事能不能用。如果你寫它要花超過幾分鐘，那就告訴你，程式要去收集什麼。</p>
+<p>在寫任何程式之前，你就可以先手動試試報告這個想法。下一個 agent 任務結束後，你就從 diff 和工具呼叫的歷史寫五行：要求了什麼、改了什麼、執行了什麼、什麼被拒絕或失敗、誰點了頭。寫完問問自己，明天你還會不會讀這一頁，同事又能不能用。如果寫它要花超過幾分鐘，這本身就告訴你，程式得去收集些什麼。</p>
 <h3>人在哪裡插手</h3>
-<p>報告和看板，是人和系統碰面的地方。有三點要緊。</p>
-<ul>
-<li><strong>看板用來掌舵</strong>。你從它打開一個任務、批准計畫，或暫停一個任務。批准仍然走 agent 碰不到的管道。</li>
-<li><strong>報告用來事後閱讀</strong>。它在任務結束時寫成，所以顯示的是任務結束時的樣子。</li>
-<li><strong>存下來的副本，給沒有權限的人</strong>。任務頁可以存成一個離線也能打開的單一檔案，給沒有權限進你的看板的主管。它是你存下那一刻的副本，沒有按鈕。送出之前先讀過；要送到擁有這個任務的團體之外時，先拿掉內部名稱和路徑。</li>
-</ul>
-<p>agent 寫的東西，在這些頁面上是以純文字畫出來的，所以任務檔案沒辦法讓頁面去執行任何東西（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>每个任务一页，由代码写</h3>
-<p>这里的<strong>任务</strong>，是有自己文件夹的一件工作：需求、计划、检查和改动（<a href="5-1-tasks.html">管任务，不管对话</a>）。任务结束时，一个程序读文件夹和记录，写出一份报告。不是 agent 写的。</p>
-<p>这个选择承担了大部分分量。agent 写的报告是一份总结，而总结本来就是你一开始不能信的东西。由程序从文件夹和日志拼出来的报告，每次都有同样的事实，放在同样的位置，读的人就知道该看哪里。</p>
+<p>等這些頁面有了，報告和看板就是人和系統碰面的地方，只是兩者的用法不一樣。看板用來掌舵：你從它打開一個任務、批准計畫，或暫停一個任務，只是批准本身仍然走 agent 碰不到的管道。報告則是事後讀的，它在任務結束時寫成，顯示的也就是那一刻的樣子。</p>
+<p>還有些讀者，例如主管，根本沒有權限進你的看板。給他們的辦法，是把任務頁存成一個離線也能打開的單一檔案。它是你存下那一刻的副本，沒有按鈕。送出之前先讀過；要送到負責這個任務的團隊之外時，先拿掉內部名稱和路徑。</p>
+<p>這些頁面會顯示 agent 寫的東西，但只以純文字顯示，所以任務檔案沒辦法讓頁面去執行任何東西（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>每个任务一页，很多任务一块看板</h2><h3>每个任务一页，由代码写</h3>
+<p>先说这一页由谁来写。这里的<strong>任务</strong>，指有自己文件夹的一件工作，需求、计划、检查和改动都放在里面（<a href="5-1-tasks.html">管任务，不管对话</a>）。任务结束时，一个程序去读这个文件夹和那些记录，写出一份报告。写报告的不是 agent。</p>
+<p>这个选择，整套做法都靠它。为什么不干脆让 agent 自己写？因为 agent 写的报告会是一份总结，而总结本来就是你一开始信不过的东西。由程序从文件夹和日志拼出来的报告，每次都有同样的事实，放在同样的位置，读的人慢慢就知道该看哪里。</p>
 <figure class="fig" id="fig-6-2-report-page"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 330">
   <text class="label-muted" x="10" y="22" data-t="board-title">很多任务：看板</text>
   <rect class="box" x="10" y="34" width="170" height="34" rx="6"/>
@@ -432,15 +409,15 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>看板让你一眼看完很多任务。一个任务做完，就有一页五分钟读得完的报告。</figcaption></figure>
 <h3>这一页放什么</h3>
-<p>从三种读者会问的问题出发，每个问题给一个位置。在我的配置里，报告包含：</p>
+<p>一页上放什么，要从三种读者会问的问题出发，给每个问题留一个位置。在我的配置里，报告包含五样东西：</p>
 <ol>
-<li><strong>要求了什么、做了什么</strong>。人确认过的需求，和计划。</li>
-<li><strong>谁审批、什么时候</strong>。两次审批的时间（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
-<li><strong>改了什么</strong>。哪些文件、加了多少行、删了多少行，以及读过哪些知识库文件（<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。</li>
-<li><strong>检查</strong>。有几次独立检查，每一次的结论（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</li>
-<li><strong>什么被拒绝</strong>。规则拦下的调用，和原因。这一块常让人意外，也常能解释为什么任务比预期花的时间长。</li>
+<li>要求了什么、做了什么：人确认过的需求，和计划。</li>
+<li>谁审批的、什么时候：两次审批的时间（<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
+<li>改了什么：哪些文件、加了多少行、删了多少行，以及读过哪些知识库文件（<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。</li>
+<li>检查：跑了几次独立检查，每一次的结论是什么（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</li>
+<li>什么被拒绝了：规则拦下的调用，和拦下的原因。这一块常让人意外，也常能解释为什么任务比预期花的时间长。</li>
 </ol>
-<p>版面是这样的，这是模板，不是真的报告：</p>
+<p>放到页面上，这五样东西是这个样子（这是模板，不是真的报告）：</p>
 <ul>
 <li>要求：<em>确认过的需求，一段</em></li>
 <li>审批：<em>计划，于（时间）；写回，于（时间）</em></li>
@@ -448,44 +425,40 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>检查：<em>（n）次独立检查；每一次的结论</em></li>
 <li>拒绝：<em>每一次被拒绝的调用，和拒绝它的规则</em></li>
 </ul>
-<p>没放进去的是日志本身。报告指向这些事实，不会全部重复一遍。一个好用的测试就是五分钟：读的人在这段时间内读不完这一页，就说明上面有东西该放回日志。</p>
+<p>这一页没放进去的，是日志本身：报告只指向这些事实，不会把它们全部重复一遍。这条线划在哪里，就用五分钟来检验。读的人在这段时间里读不完这一页，就说明上面有东西该挪回日志。</p>
 <h3>时间和用量花在哪里</h3>
-<p>报告旁边有第二页，回答另一个问题：不是“发生了什么”，而是“时间和用量花在哪里”。它把每个 prompt 拆成模型思考、工具运行、子 agent，和<strong>等人</strong>。然后按<strong>阶段</strong>加总（需求、计划、开发、写回、完成；独立检查自己算一个阶段）。</p>
-<p>等待的时间，是我没想到会这么重要的数字。假设一个任务“花了三天”，那一页显示 agent 干了四十分钟，其余时间都在等人（数字只是举例，不是结果）。那么代价出在等待上，不在 agent。这和 agent 慢是不同的问题，解法也不同：少设几道关卡，或者让关卡更便宜，或者找人来回答它们（<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）。</p>
-<p>这些数字来自 hook 日志和平台自己的会话记录，不是 agent 的一面之词（用量从哪里来，记录读不到时会怎样，见<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）。打开这一页不花 token。如果你想让 agent 给你讲解，要专门提出来，那时它才会去读这一页。</p>
+<p>报告回答的是“发生了什么”。时间和用量花在了哪里，是另一个问题。回答它的是分析页，也就是报告旁边的第二页。它把每个 prompt 拆成模型思考、工具运行、子 agent 和<strong>等人</strong>几块，再按<strong>阶段</strong>加总。阶段指的是需求、计划、开发、写回、完成，独立检查自己单算一个阶段。</p>
+<p>这些数字里，我原本没想到等待的时间会这么要紧。假设一个任务“花了三天”，这一页却显示 agent 干了四十分钟，其余时间都在等人（数字只是举例，不是结果）。那么这个任务的代价出在等待上，不在 agent。这和 agent 慢是两回事，解法也不一样：少设几道关卡，或者让关卡更便宜，或者找人来回答它们（<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）。</p>
+<p>和报告一样，这些数字也不靠 agent 的一面之词，而是来自 hook 日志和平台自己的会话记录（用量从哪里来，记录读不到时会怎样，见<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）。打开这一页不花 token。只有你专门让 agent 来讲解，它才会去读。</p>
 <h3>看板：一眼看完很多任务</h3>
-<p>只有一个任务时，不需要看板。有十个时，问题就从“这个任务做了什么”变成“哪个任务现在需要我”。<strong>看板</strong>是一页纸，列出每个未完成的任务、它在等什么、等了多久。它用的任务文件夹和记录，和报告是同一份，所以两者不会互相矛盾。设计见<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>。</p>
+<p>只有一个任务的时候，用不着看板。可一旦有十个，问题就从“这个任务做了什么”变成了“哪个任务现在需要我”，回答这个问题的就是<strong>看板</strong>。它是一页纸，列出每个未完成的任务、它在等什么、等了多久。因为看板和报告用的是同一批任务文件夹和记录，两者不会互相矛盾。设计见<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>。</p>
 <h3>手动试一次</h3>
-<p>不用写程序，也能看出这个想法行不行。下次 agent 做完一个任务后，根据 diff 和工具调用历史写五行：要求了什么、改了什么、跑了什么、什么被拒绝或失败了、谁点了头。然后问问自己，明天你会不会读这一页，同事用不用得上。如果写起来要好几分钟以上，这就告诉你程序要去收集什么。</p>
+<p>在写任何程序之前，你就可以先手动试试报告这个想法。下次 agent 做完一个任务，你就根据 diff 和工具调用历史写五行：要求了什么、改了什么、跑了什么、什么被拒绝或失败了、谁点了头。写完问问自己，明天你还会不会读这一页，同事又用不用得上。如果写起来要超过几分钟，这本身就告诉你，程序得去收集些什么。</p>
 <h3>人在哪里介入</h3>
-<p>报告和看板，是人和这套系统见面的地方。有三点要紧。</p>
-<ul>
-<li><strong>看板用来掌舵</strong>。你从它打开一个任务、审批一份计划，或者暂停一个任务。审批仍然走 agent 够不着的渠道。</li>
-<li><strong>报告用来事后阅读</strong>。它在任务结束时写成，所以展示的是任务结束时的样子。</li>
-<li><strong>保存的副本给没有权限的人</strong>。任务页可以存成一个能离线打开的单文件，给没有权限访问你看板的管理者。它是你保存那一刻的副本，没有按钮。发出去之前先读一遍，并且在它离开负责这个任务的小组之前，去掉内部名称和路径。</li>
-</ul>
-<p>agent 写的内容在这些页面上都按纯文本显示，所以任务文件没法让页面运行任何东西（<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>）。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A report is only as honest as its sources.</strong> It is built from the log and the folder. If the log has a hole (<a href="6-1-observe.html">Record what happened</a>), the report has the same hole and does not say so.</p>
-<p><strong>Five minutes is a limit you have to defend.</strong> Everyone wants one more number on the page. Move it to the log or the analysis page; keep the report short.</p>
-<p><strong>A report says what happened, not whether it was good.</strong> It can show that the task went through the two approvals and that its checks passed. It cannot show that the work was better than last week's, because nothing scores quality across tasks; I have no such score. To get one you would run fixed tasks before and after a change (<a href="6-3-eval-tasks.html">the next chapters</a>), which are not real work, or have a person read a sample of finished tasks.</p>
-<p><strong>A report is a record, not a signature.</strong> Whether it counts as evidence for approving a change, how long it is kept, and who may edit it are decisions for the team (<a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>). The report itself is written once, by code, at close.</p>
-<p><strong>Nobody reads a report that nobody asks for.</strong> If no one ever opens the reports, ask why before you improve them.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>報告的誠實程度，只和它的來源一樣</strong>。它由日誌和資料夾建成。日誌有洞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>），報告就有一樣的洞，而且不會說出來。</p>
-<p><strong>五分鐘是一條要守的線</strong>。每個人都想在頁面上多加一個數字。把它移到日誌或分析頁，讓報告保持簡短。</p>
-<p><strong>報告說的是發生了什麼，不是做得好不好</strong>。它能顯示任務經過了兩道批准、檢查都通過。它不能顯示這次的工作比上週好，因為沒有東西在跨任務為品質打分；我沒有這樣的分數。要有的話，你得在改動前後跑固定的任務（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>），那不是真實的工作，或者讓人讀一批完成任務的樣本。</p>
-<p><strong>報告是紀錄，不是簽名</strong>。它算不算批准一項改動的證據、保留多久、誰可以編輯，是團隊要決定的事（<a href="7-4-rollout-and-governance.html">落地與治理</a>）。報告本身只在結束時，由程式寫一次。</p>
-<p><strong>沒人要的報告，沒人會讀</strong>。如果從來沒有人打開報告，先問為什麼，再去改進它們。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>报告只和它的来源一样诚实</strong>。它是从日志和文件夹拼出来的。日志里有漏洞（<a href="6-1-observe.html">记下发生了什么</a>），报告里就有同样的漏洞，而且不会说出来。</p>
-<p><strong>五分钟是一条要靠你去守的线</strong>。每个人都想在页面上再加一个数字。把它移到日志或分析页，让报告保持简短。</p>
-<p><strong>报告说的是发生了什么，不是做得好不好</strong>。它能显示任务走过了两次审批、检查都通过了。它没法显示这份活比上周的更好，因为没有东西能跨任务给质量打分；我没有这样的分数。要得到这样的分数，你得在改动前后各跑一遍固定任务（<a href="6-3-eval-tasks.html">后面几章</a>），这些不是真正的工作；或者让人抽样读一些完成的任务。</p>
-<p><strong>报告是记录，不是签字</strong>。它算不算批准一项改动的证据、保存多久、谁能编辑它，这些是团队要定的事（<a href="7-4-rollout-and-governance.html">落地与治理</a>）。报告本身只在结束时由代码写一次。</p>
-<p><strong>没人要的报告，就没人读</strong>。如果从来没人打开这些报告，先问为什么，再去改进它们。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>My report and board exist because the platform shows a chat, not a task. If the platform gives you tasks with their own history, approvals and usage per task, use that and drop the page you built. If it can show a leader a read-only view with the same facts, drop the saved copy too.</p>
-<p>The reasoning stays. A person who did not watch needs to know what was done, who approved it, what was checked and what it cost, in a form that takes minutes. I would look again at the board if I found that I never run more than two tasks at once.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>我的報告和看板存在，是因為平台顯示的是對話，不是任務。如果平台提供任務，並且有各自的歷史、批准和每個任務的用量，就用那個，把你建的頁面丟掉。如果它能給主管一個唯讀的檢視、事實相同，存下來的副本也可以丟掉。</p>
-<p>道理會留著。沒在旁邊看的人，需要知道做了什麼、誰批准、檢查了什麼、花了多少，而且形式要是幾分鐘就讀完。如果我發現自己從來不會同時跑超過兩個任務，我會重新檢視看板。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>我的报告和看板之所以存在，是因为平台显示的是对话，不是任务。如果平台给你的是任务，每个任务有自己的历史、审批和用量，就用它的，把你自己搭的那一页丢掉。如果它能给管理者一个只读视图，展示同样的事实，保存的副本也可以丢掉。</p>
-<p>背后的道理不变。没在旁边看的人，需要在几分钟内知道做了什么、谁审批的、检查了什么、花了多少。如果我发现自己同时从来不会跑超过两个任务，我会重新考虑看板。</p>
+<p>等这些页面有了，报告和看板就是人和这套系统见面的地方，只是两者的用法不一样。看板用来掌舵：你从它打开一个任务、审批一份计划，或者暂停一个任务，只是审批本身仍然走 agent 够不着的渠道。报告则是事后读的，它在任务结束时写成，展示的也就是那一刻的样子。</p>
+<p>还有些读者，比如管理者，根本没有权限访问你的看板。给他们的办法，是把任务页存成一个能离线打开的单文件。它是你保存那一刻的副本，没有按钮。发出去之前先读一遍；在它离开负责这个任务的小组之前，先把内部名称和路径去掉。</p>
+<p>这些页面会显示 agent 写的内容，但只按纯文本显示，所以任务文件没法让页面运行任何东西（<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>）。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What a report cannot tell you, and what it costs to keep it short</h2><p>A report is built from the log and the task folder, so it is only as honest as its sources. If the log has a hole (<a href="6-1-observe.html">Record what happened, not what the agent said</a>), the report has the same hole and does not say so.</p>
+<p>Sources aside, <strong>a report says what happened, not whether it was good.</strong> It can show that the task went through the two approvals and that its checks passed. It cannot show that the work was better than last week's, because nothing scores quality across tasks (I have no such score). One way to get a score is to run fixed tasks before and after a change (<a href="6-3-eval-tasks.html">the next chapters</a>), although those are not real work. The other is to have a person read a sample of finished tasks.</p>
+<p>Nor is a report a signature. It is a record, and whether it counts as evidence for approving a change, how long it is kept and who may edit it are decisions for the team (<a href="7-4-rollout-and-governance.html">Roll out and govern a harness</a>). The report itself is written once, by code, at close.</p>
+<p>Then there is the cost of keeping the report short. Five minutes is a limit you have to defend, because everyone wants one more number on the page. Each time, move that number to the log or the analysis page instead.</p>
+<p>And a report nobody asks for is a report nobody reads. If no one ever opens the reports, ask why before you improve them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>報告說不出的事，和守住篇幅的成本</h2><p>報告是由日誌和任務資料夾建成的，再誠實，也誠實不過這些來源。日誌有洞（<a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>），報告就有一樣的洞，而且不會說出來。</p>
+<p>來源之外，報告還有一件事說不出來：<strong>報告說的是發生了什麼，不是做得好不好</strong>。它能顯示任務經過了兩道批准、檢查都通過，卻不能顯示這次的工作比上週好，因為沒有什麼能跨任務替品質打分（我也沒有這樣的分數）。想要有這樣的分數，一個辦法是在改動前後跑固定的任務（<a href="6-3-eval-tasks.html">後面幾章</a>），只是那不是真實的工作；另一個辦法是讓人讀一批完成任務的樣本。</p>
+<p>報告也不是簽名，它只是紀錄。它算不算批准一項改動的證據、保留多久、誰可以編輯，是團隊要決定的事（<a href="7-4-rollout-and-governance.html">落地與治理</a>）。報告本身只在結束時，由程式寫一次。</p>
+<p>讓報告保持簡短，也有成本。守住五分鐘要花力氣：每個人都想在頁面上多加一個數字，你只能一次次把它移到日誌或分析頁去。</p>
+<p>最後，沒人要的報告，也就沒人會讀。如果從來沒有人打開報告，先問為什麼，再去改進它們。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>报告说不出的事，和守住篇幅的代价</h2><p>报告是从日志和任务文件夹拼出来的，再诚实，也诚实不过这些来源。日志里有漏洞（<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>），报告里就有同样的漏洞，而且不会说出来。</p>
+<p>来源之外，报告还有一件事说不出来：<strong>报告说的是发生了什么，不是做得好不好</strong>。它能显示任务走过了两次审批、检查都通过了，却没法显示这份活比上周的更好，因为没有东西能跨任务给质量打分（我也没有这样的分数）。想得到这样的分数，一个办法是在改动前后各跑一遍固定任务（<a href="6-3-eval-tasks.html">后面几章</a>），只是这些不是真正的工作；另一个办法是让人抽样读一些完成的任务。</p>
+<p>报告也不是签字，它只是记录。它算不算批准一项改动的证据、保存多久、谁能编辑它，这些是团队要定的事（<a href="7-4-rollout-and-governance.html">落地与治理</a>）。报告本身只在结束时由代码写一次。</p>
+<p>让报告保持简短，也有代价。守住五分钟要花力气：每个人都想在页面上再加一个数字，你只能一次次把它挪到日志或分析页去。</p>
+<p>最后，没人要的报告，也就没人读。如果从来没人打开这些报告，先问问为什么，再去改进它们。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete the pages, and what stays <span class="status status-industry">Industry practice</span></h2><p>My report and board exist because the platform shows a chat, not a task. If the platform gives you tasks with their own history, approvals and usage per task, use that and drop the page you built. If it can also show a leader a read-only view with the same facts, drop the saved copy too.</p>
+<p>The reasoning stays, though. A person who did not watch still needs to know what was done, who approved it, what was checked and what it cost, in a form that takes minutes to read. As for the board, I would look at it again if I found that I never run more than two tasks at once.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉這些頁面，什麼會留下來 <span class="status status-industry">業界做法</span></h2><p>我的報告和看板之所以存在，是因為平台顯示的是對話，不是任務。如果平台提供任務，每個任務有各自的歷史、批准和用量，就用平台的，把你自己建的頁面丟掉。如果它還能給主管一個唯讀的檢視、事實相同，存下來的副本也可以丟掉。</p>
+<p>不過，背後的道理會留下來。沒在旁邊看的人，仍然需要知道做了什麼、誰批准、檢查了什麼、花了多少，而且要能在幾分鐘內讀完。至於看板，如果我發現自己從來不會同時跑超過兩個任務，我會重新檢視它。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉这些页面，什么会留下来 <span class="status status-industry">业界做法</span></h2><p>我的报告和看板之所以存在，是因为平台显示的是对话，不是任务。如果平台给你的是任务，每个任务有自己的历史、审批和用量，那就用平台的，把你自己搭的那一页丢掉。如果它还能给管理者一个只读视图，展示同样的事实，保存的副本也可以丢掉。</p>
+<p>不过，背后的道理会留下来。没在旁边看的人，仍然需要在几分钟内知道做了什么、谁审批的、检查了什么、花了多少。至于看板，如果我发现自己从来不会同时跑两个以上的任务，我会重新考虑它。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Take the last three merged changes in this repository. For each one, write a five-line report from git history and any linked review or task notes only: what was asked, what changed (files, lines), what was run or checked, what was refused or failed, and who said yes. Where a fact cannot be found in the repository, write &quot;not recorded&quot;. Then tell me which of the five facts are missing most often. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>拿這個倉庫最近三個合併的改動。對每一個，只用 git 歷史和任何連結的審查或任務筆記，寫一份五行的報告：要求了什麼、改了什麼（檔案、行數）、執行或檢查了什麼、什麼被拒絕或失敗、誰說了好。倉庫裡找不到的事實，寫「沒有記錄」。然後告訴我，這五件事裡，哪幾件最常缺。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>取这个仓库最近合并的三个改动。对每一个，只根据 git 历史和关联的 review 或任务笔记，写一份五行的报告：要求了什么、改了什么（文件、行数）、跑了或检查了什么、什么被拒绝或失败了、谁点了头。仓库里找不到的事实，写“未记录”。然后告诉我，这五项事实里哪几项最常缺。不要改任何文件。</code></pre></div>
@@ -498,7 +471,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
 <li>本书内：<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>、<a href="5-1-tasks.html">管任务，不管对话</a>、<a href="5-3-two-approvals.html">两道门：人在哪里审批</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes a report and an analysis page for every task it closes, and has a board of all open tasks. The harness can show you the real pages.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness writes a report and an analysis page for every task it closes, and keeps a board of all open tasks. The harness can show you the real pages.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A report a person can read in five minutes&quot;. Teach me how this harness reports on a task (topic 12): what the task report holds, how the analysis page gets its time and usage, and what the board shows. Open a real report with me and point out where each part comes from.</code></pre></div>
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 為它結束的每個任務寫一份報告和一頁分析，並有一個列出所有開著的任務的看板。harness 可以給你看真的頁面。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「一份五分鐘讀得完的報告」這一章。請教我這個 harness 怎麼為任務出報告（主題 12）：任務報告放什麼、分析頁的時間和用量從哪裡來、看板顯示什麼。帶我打開一份真的報告，並指出每一部分是從哪裡來的。</code></pre></div>

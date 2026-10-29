@@ -221,44 +221,45 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.9</p><h1><span data-l="en" lang="en">Who decides: code, a cheap model, the main model, a person</span><span data-l="zh-Hant" lang="zh-Hant">誰來判斷：程式、便宜模型、主模型、人</span><span data-l="zh-Hans" lang="zh-Hans">谁来判断：代码、便宜模型、主模型、人</span></h1></header><div data-l="en" lang="en"><p>This chapter is about cost, not about safety. <a href="4-1-requests-and-rules.html">Requests and rules</a> asks how hard a rule is enforced: a request, a command, a hook. This chapter asks something else: for each judgment in your workflow, who is the cheapest one that can make it?</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章講的是成本，不是安全。<a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 問的是規則被執行得多硬：請求、命令、hook。這一章問的是另一件事：對工作流程裡的每一個判斷，誰是能做出它的最便宜的那個？</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章讲的是成本，不是安全。<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>问的是一条规则被执行得有多硬：请求、命令，还是 hook。这一章问的是另一件事：对你工作流里的每一个判断，能做出它的最便宜的是谁？</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Give each judgment to the cheapest level that can make it: code first, then a cheap model, the main model, a person. Cheap models tend to be weakest at the vague calls (my rule of thumb, not measured).</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個判斷，交給能做出它的最便宜的那一層：先是程式，再來是便宜的模型、主模型、人。便宜的模型，往往在模糊的判斷上最弱（這是我的經驗法則，沒有量過）。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Who should make all the small judgments?</span><span data-l="zh-Hant" lang="zh-Hant">這麼多小判斷，該交給誰？</span><span data-l="zh-Hans" lang="zh-Hans">这么多小判断，该交给谁？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Four levels, and how to choose between them</span><span data-l="zh-Hant" lang="zh-Hant">四層評審，怎麼挑</span><span data-l="zh-Hans" lang="zh-Hans">四层裁判，怎么挑</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the levels cost, and where they mislead</span><span data-l="zh-Hant" lang="zh-Hant">這些層級的代價，和會讓人看走眼的地方</span><span data-l="zh-Hans" lang="zh-Hans">这些层的代价，和会让人看走眼的地方</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">What stays, and how the line moves</span><span data-l="zh-Hant" lang="zh-Hant">什麼會留下，界線又怎麼移動</span><span data-l="zh-Hans" lang="zh-Hans">什么会留下，界线又怎么移动</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">5.9</p><h1><span data-l="en" lang="en">Who decides: code, a cheap model, the main model, a person</span><span data-l="zh-Hant" lang="zh-Hant">誰來判斷：程式、便宜模型、主模型、人</span><span data-l="zh-Hans" lang="zh-Hans">谁来判断：代码、便宜模型、主模型、人</span></h1></header><div data-l="en" lang="en"><p><a href="4-1-requests-and-rules.html">Requests and rules</a> asks how hard a rule is enforced: as a request, a command or a hook. That is a question about safety. This chapter asks one about cost instead: for each judgment in your workflow, who is the cheapest one that can make it?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p><a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 問的是一條規則被執行得多硬：是請求、命令，還是 hook，那是安全的問題。這一章問的是成本：同樣是工作流程裡的判斷，交給誰做最省，又不會做壞？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p><a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>问的是一条规则被执行得有多硬：是请求、命令，还是 hook，那是安全的问题。这一章问的是成本：同样是你工作流里的判断，交给谁做最省钱，又不至于做砸？</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Give each judgment to the cheapest level that can make it: code first, then a cheap model, then the main model, then a person. Cheap models tend to be weakest at the vague calls (my rule of thumb, not measured).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>每個判斷，交給能做出它的最便宜的那一層：先是程式，再來是便宜的模型、主模型，最後是人。便宜的模型，往往在模糊的判斷上最弱（這是我的經驗法則，沒有量過）。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>每个判断，交给能做出它的最便宜的一层：先是代码，再是便宜的模型，然后是主模型，最后是人。便宜的模型往往最不擅长模糊的判断（这是我的经验法则，没有测过）。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> assign each judgment in the workflow to the cheapest level that can make it well: code first, then a cheap model, then the main model, then a person.</li>
-<li><strong>The risk:</strong> giving everything to the main model wastes usage, gives different answers on different days and is slow. Pushing everything into code is brittle and fails with full confidence on the first case it did not foresee. A cheap model on a vague question is the worst case; this is my rule of thumb, which I have not measured.</li>
-<li><strong>The cost of doing it right:</strong> mostly setup time. Every level you add is one more thing to configure and to fail, so do not add a cheap judge for a call that happens twice a week. Levels are guesses until tested on cases where you know the answer.</li>
+<li><strong>The risk:</strong> giving everything to the main model wastes usage, gives different answers on different days and is slow. Pushing everything into code goes wrong the other way, because code is brittle and fails with full confidence on the first case it did not foresee. The worst case is a cheap model on a vague question, though that is my rule of thumb and I have not measured it.</li>
+<li><strong>The cost of doing it right:</strong> mostly setup time. Every level you add is one more thing to configure and one more thing that can fail, so do not add a cheap judge for a call that happens twice a week. Until you have tested the levels on cases where you know the answer, they are only guesses.</li>
 <li><strong>Ask the team:</strong> &quot;Which judgments in our workflow does a model make that a script could settle, and which does a script make that needs judgment?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：把工作流程裡的每個判斷，交給能把它做好的最便宜的那一層：先是程式，再來是便宜的模型，然後是主模型，然後是人。</li>
-<li><strong>風險</strong>：把一切都交給主模型，浪費用量，不同天給不同答案，也慢。把一切都推進程式，則很脆，碰到第一個它沒預料到的情況，就信心十足地錯。便宜的模型碰上模糊的問題，是最糟的情況；這是我的經驗法則，我沒有量過。</li>
-<li><strong>做對的成本</strong>：多半是設定的時間。你每加一層，就多一樣要設定、也會壞的東西，所以不要為一週只發生兩次的判斷加一個便宜的評審。在拿你知道答案的案例測過之前，這些層級都只是猜測。</li>
-<li><strong>可以問團隊</strong>：「我們的工作流程裡，哪些判斷是模型在做、腳本就能解決的？哪些是腳本在做、卻需要判斷的？」</li>
+<li><strong>要做的決定</strong>：把工作流程裡的每個判斷，交給能把它做好的最便宜的那一層：先是程式，再來是便宜的模型，然後是主模型，最後是人。</li>
+<li><strong>風險</strong>：把一切都交給主模型，既浪費用量，不同天還會給出不同的答案，而且慢。把一切都推進程式，則錯在另一頭：程式很脆，碰到第一個沒預料到的情況，就信心十足地錯。最糟的情況，是讓便宜的模型去回答模糊的問題，不過這是我的經驗法則，我沒有量過。</li>
+<li><strong>做對的成本</strong>：多半是設定的時間。每加一層，就多一樣要設定、也可能壞掉的東西，所以不要為一週只發生兩次的判斷加一個便宜的評審。在拿你知道答案的案例測過之前，這些層級都只是猜測。</li>
+<li><strong>可以問團隊</strong>：「我們的工作流程裡，哪些判斷是模型在做、其實腳本就能解決？哪些是腳本在做、其實需要判斷？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
 <li><strong>要拍板的事</strong>：把工作流里的每个判断，分给能把它做好的最便宜的一层：先代码，再便宜的模型，再主模型，最后是人。</li>
-<li><strong>风险</strong>：什么都交给主模型，浪费用量，不同的日子给出不同的答案，还慢。什么都塞进代码，又很脆，碰到第一个没预料到的情况，就会信心十足地出错。让便宜的模型去答模糊的问题，是最糟的情形；这是我的经验法则，我没有测过。</li>
-<li><strong>做对的代价</strong>：主要是搭建的时间。每多加一层，就多一样要配置、也会出故障的东西，所以别给一周只发生两次的判断加一个便宜的裁判。这些层在拿你知道答案的案例测过之前，都只是猜测。</li>
+<li><strong>风险</strong>：什么都交给主模型，既浪费用量，不同的日子还会给出不同的答案，而且慢。什么都塞进代码，则错在另一头：代码很脆，碰到第一个没预料到的情况，就会信心十足地出错。最糟的情形，是让便宜的模型去答模糊的问题，不过这是我的经验法则，我没有测过。</li>
+<li><strong>做对的代价</strong>：主要是搭建的时间。每多加一层，就多一样要配置、也可能出故障的东西，所以别给一周只发生两次的判断加一个便宜的裁判。这些层在拿你知道答案的案例测过之前，都只是猜测。</li>
 <li><strong>可以问团队</strong>：“我们工作流里，哪些判断是模型在做、其实脚本就能定？哪些是脚本在做、其实需要判断力？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>An agent workflow is full of small judgments. Is this path inside the allowed folder? Has the check passed three times? Is this Excel sheet a mapping table? Does this step go beyond the approved plan? Is this design good?</p>
-<p>The easy habit is to give all of them to the main model, because it can answer anything. It gets answers, and it is wasteful in three ways. It costs tokens for questions code answers for free. It answers the same question differently on different days. And it is slow: a model call takes seconds, a check in code takes milliseconds.</p>
-<p>The opposite habit is just as bad. Code is the cheapest and most reliable judge, so people push everything into code: a pattern list for &quot;dangerous commands&quot;, a keyword match for &quot;is this a bug report&quot;. It works until the first case the pattern did not foresee, and then it is wrong with full confidence.</p>
-<p>So the real question is: <strong>what is the cheapest level that is still good enough for this judgment?</strong></p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>agent 的工作流程裡，滿是小小的判斷。這個路徑在允許的資料夾裡嗎？檢查連續通過三次了嗎？這張 Excel 工作表是對照表嗎？這一步超出已批准的計畫了嗎？這個設計好不好？</p>
-<p>最省事的習慣，是把它們全交給主模型，因為它什麼都能回答。它確實給出答案，但在三個地方浪費。程式免費就能回答的問題，它要花 token。它在不同的日子，對同一個問題給不同的答案。而且它慢：一次模型呼叫要幾秒，程式裡的檢查只要幾毫秒。</p>
-<p>相反的習慣一樣糟。程式是最便宜、最可靠的評審，所以人們把一切都推進程式：用一份樣式清單判斷「危險指令」，用關鍵字比對判斷「這是不是 bug 報告」。這在碰到第一個樣式沒預料到的情況之前都行得通，之後它就信心十足地錯。</p>
-<p>所以真正的問題是：<strong>對這個判斷，仍然夠好的最便宜的一層是哪一層</strong>？</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>agent 的工作流里满是小判断。这个路径在允许的文件夹里吗？检查连续通过三次了吗？这张 Excel 表是映射表吗？这一步超出批准的计划了吗？这个设计好不好？</p>
-<p>省事的习惯，是把它们全交给主模型，因为它什么都能答。它确实能给出答案，但在三个方面浪费。代码能免费回答的问题，它要花 token。同一个问题，它在不同的日子答得不一样。而且它慢：一次模型调用要几秒，代码里的一次检查只要几毫秒。</p>
-<p>反过来的习惯同样糟。代码是最便宜、最可靠的裁判，于是有人把一切都塞进代码：用一张模式列表判断“危险命令”，用关键词匹配判断“这是不是缺陷报告”。它能用，直到碰上第一个模式没预料到的情况，然后它就信心十足地出错。</p>
-<p>所以真正的问题是：<strong>对这个判断，仍然够用的最便宜的一层是哪一层？</strong></p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>Four levels</h3>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Who should make all the small judgments?</h2><p>An agent workflow is full of small judgments. Is this path inside the allowed folder, and has the check passed three times? Is this Excel sheet a mapping table? Does this step go beyond the approved plan? Is this design good? Each of these has to be answered by something, and the question is what.</p>
+<p>You might think the safest choice is the smartest judge. That is the easy habit: give all of them to the main model, because it can answer anything. It does get answers, but it is wasteful in three ways. It spends tokens on questions that code would answer for free. It answers the same question differently on different days. And it is slow, since a model call takes seconds while a check in code takes milliseconds.</p>
+<p>The opposite habit is just as bad. Because code is the cheapest and most reliable judge, people push everything into it, such as a pattern list for &quot;dangerous commands&quot; or a keyword match for &quot;is this a bug report&quot;. It holds up until the first case the pattern did not foresee, and on that case it is wrong with full confidence.</p>
+<p>Both habits hand every judgment to one judge. The real question has to be asked one judgment at a time: <strong>what is the cheapest level that is still good enough for this judgment?</strong></p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>這麼多小判斷，該交給誰？</h2><p>agent 的工作流程裡，滿是小小的判斷。這個路徑在允許的資料夾裡嗎？檢查連續通過三次了嗎？這張 Excel 工作表是對照表嗎？這一步超出已批准的計畫了嗎？這個設計好不好？每一個都得有個東西來回答，問題是交給誰。</p>
+<p>你也許覺得，交給最聰明的評審最穩當，於是最省事的習慣，就是全交給主模型，反正它什麼都能回答。答案它確實給得出來，但在三個地方浪費。程式免費就能回答的問題，它要花 token；同一個問題，它在不同的日子會答得不一樣；而且它慢，一次模型呼叫要幾秒，程式裡的一次檢查只要幾毫秒。</p>
+<p>反過來的習慣也一樣糟。程式是最便宜、最可靠的評審，所以有人把一切都推進程式，例如用一份樣式清單判斷「危險指令」，用關鍵字比對判斷「這是不是 bug 報告」。這樣一直行得通，直到碰上第一個樣式沒預料到的情況，那時它就信心十足地錯。</p>
+<p>兩種習慣，都是把所有判斷交給同一個評審。真正的問題得一個判斷一個判斷地問：<strong>對這個判斷，仍然夠好的最便宜的一層是哪一層</strong>？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这么多小判断，该交给谁？</h2><p>agent 的工作流里满是小判断。这个路径在允许的文件夹里吗？检查连续通过三次了吗？这张 Excel 表是映射表吗？这一步超出批准的计划了吗？这个设计好不好？每一个都得有个东西来回答，问题是交给谁。</p>
+<p>你也许觉得，交给最聪明的裁判最稳妥，于是最省事的习惯，就是全交给主模型，反正它什么都能答。答案它确实给得出来，但在三个地方浪费。代码能免费回答的问题，它要花 token；同一个问题，它在不同的日子会答得不一样；而且它慢，一次模型调用要几秒，代码里的一次检查只要几毫秒。</p>
+<p>反过来的习惯同样糟。代码是最便宜、最可靠的裁判，于是有人把一切都塞进代码，比如用一张模式列表判断“危险命令”，用关键词匹配判断“这是不是缺陷报告”。这样一直能用，直到碰上第一个模式没预料到的情况，那时它就信心十足地出错。</p>
+<p>两种习惯都是把所有判断交给同一个裁判。真正的问题得一个判断一个判断地问：<strong>对这个判断，仍然够用的最便宜的一层是哪一层？</strong></p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Four levels, and how to choose between them</h2><h3>Four levels</h3>
+<p>To answer it, it helps to have a short ladder of judges, from the cheapest to the most expensive.</p>
 <table>
 <thead>
 <tr>
@@ -300,17 +301,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p>Everyday cases for level 1, where a model is often asked by habit: does this file exist, how many rows does this table have, do these two files differ. A script answers each exactly and for free.</p>
-<p>Read the table from the top. For each judgment, ask: can code do this? If yes, stop. If not, can a narrow cheap judge? If not, the main model. If the answer has consequences nobody should delegate, a person.</p>
-<p>Each level also has a clear failure.</p>
-<ul>
-<li><strong>Code used for a vague question</strong> is brittle. It passes what it has seen and misses the rest.</li>
-<li><strong>A cheap model used for a vague question</strong> is the worst case. It answers fast, in the same confident tone as for an easy question, and is wrong more often. That is why cheap models are weakest at the vague calls, and why the example for level 2 is a question with clear options. I hold this as a rule of thumb from how these models behave; I have not measured the gap on my own tasks.</li>
-<li><strong>The main model used for a code question</strong> is just a waste.</li>
-<li><strong>A person used for what code could settle</strong> wears out the person, until they approve without reading (<a href="5-3-two-approvals.html">Two approvals</a>).</li>
-</ul>
+<p>To use the table, read it from the top. For each judgment, first ask whether code can do it, and if it can, stop there. If it cannot, ask whether a narrow cheap judge can. If that fails too, the judgment goes to the main model, unless the answer has consequences nobody should delegate, in which case it goes to a person.</p>
+<p>The first question applies to everyday cases too. Does this file exist, how many rows does this table have, do these two files differ? Questions like these are often put to a model by habit, yet they belong at level 1, because a script answers each one exactly and for free.</p>
+<p>Each level also fails in a clear way when it gets the wrong kind of question. Code given a vague question is brittle, passing what it has seen and missing the rest. A cheap model given a vague question is the worst case, because it answers fast, in the same confident tone it uses for an easy question, and is wrong more often. That is why cheap models are weakest at the vague calls, and why the example for level 2 has clear options. It is a rule of thumb from how these models behave, not something I have measured on my own tasks.</p>
+<p>The other two failures run the opposite way, with a judge that costs more than the question needs. The main model given a code question is just a waste. A person asked to settle what code could settle is worn out by it, until they approve without reading (<a href="5-3-two-approvals.html">Two gates</a>).</p>
 <h3>Prepare the input in code too</h3>
-<p>The same idea reaches before the model. Turning a Word file or an Excel sheet into plain text is a fixed job, so a program does it, not a model: the model should not pay for cover pages, hidden sheets and comments, or take that noise for a requirement (<a href="5-2-requirements.html">The agent writes the requirement</a> has the details). The model then reads the small, clean result and never sees the originals.</p>
+<p>The same idea reaches back to before the model starts. Turning a Word file or an Excel sheet into plain text is a fixed job, so a program does it, not a model. The model should not pay for cover pages, hidden sheets and comments, or take that noise for a requirement (<a href="5-2-requirements.html">The agent writes the requirement</a> has the details). What it reads is the small, clean result, and it never sees the originals.</p>
 <figure class="fig" id="fig-5-9-convert-first"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
   <text class="label" x="72" y="60" text-anchor="middle" data-t="file">Word or Excel</text>
@@ -338,22 +334,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">pays for covers, hidden sheets and noise, and may guess</text>
 </svg>
 <figcaption>A fixed job such as converting a file goes to a program. The model gets only what needs judgment.</figcaption></figure>
-<p>The split is the point. Converting is level 1. Deciding what the requirement means is level 3 or 4. Mixing the two makes the model do both, badly.</p>
+<p>The point is the split: converting is level 1, while deciding what the requirement means is level 3 or 4. If you mix the two, the model ends up doing both, and doing both badly.</p>
 <h3>Make questions computable</h3>
-<p>You can move more work down to level 1 by changing the data, not the judge. If &quot;is this knowledge still right?&quot; is asked of a model, it reads everything, guesses, and guesses differently next time. If each card of knowledge records the version of the code it was read from, then &quot;which cards are stale?&quot; is a comparison a script does exactly. The rule is: <strong>where a question has one right answer that a program can compute, put the data in a fixed form and let a program compute it.</strong> The model keeps what needs judgment.</p>
-<h3>When to go up</h3>
-<p>Move a judgment up a level when:</p>
+<p>You can also move work down to level 1 by changing the data rather than the judge. Take the question &quot;is this knowledge still right?&quot;. Put to a model, it means reading everything and guessing, and the guess may be different next time. But if each card of knowledge records the version of the code it was read from, &quot;which cards are stale?&quot; becomes a comparison that a script does exactly. The rule is: <strong>where a question has one right answer that a program can compute, put the data in a fixed form and let a program compute it.</strong> The model keeps what needs judgment.</p>
+<h3>When to move a judgment up or down</h3>
+<p>How do you notice that a judgment sits at the wrong level? Move it up a level when one of these happens:</p>
 <ul>
-<li>The lower level is unsure, and says so. Code can be built to say &quot;I cannot tell&quot; and hand on. A model's own statement of confidence is a weak signal, so for a model the safer trigger is the sample you check by hand (next bullet).</li>
+<li>The lower level is unsure, and says so. Code can be built to say &quot;I cannot tell&quot; and hand the case on. A model's own statement of confidence is a weak signal, though, so for a model the safer trigger is the sample you check by hand (the next item).</li>
 <li>Its answers disagree with a sample you checked by hand.</li>
-<li>The cost of a wrong answer is higher than the cost of the next level. Wrong on a write-back (copying finished work into the real repository, <a href="5-3-two-approvals.html">Two gates</a>) costs more than a call to the main model.</li>
-<li>The judgment turned out to need context it does not have.</li>
+<li>A wrong answer would cost more than the next level does. Being wrong on a write-back (copying finished work into the real repository, <a href="5-3-two-approvals.html">Two gates</a>) costs more than a call to the main model.</li>
+<li>The judgment turns out to need context it does not have.</li>
 </ul>
-<p>And move one down when you notice you are using a big judge on a question with a stable answer. Most judgments start at level 3 because that is the quickest way to get something working; the work is in noticing which ones can sink.</p>
+<p>And move one down when you notice you are using a big judge on a question with a stable answer. Most judgments start at level 3, because that is the quickest way to get something working, so the work is in noticing which ones can sink.</p>
 <h3>What my setup does</h3>
-<p>My harness's decisions in code include: path and command checks, counting passes, working out fingerprints, the board of task states (<a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a>), the staleness of knowledge cards (<a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>), scoring of fixed test tasks, and the conversion of business documents. The main model does the thinking and the writing. The independent checker is a model, because reading a result against a requirement is not a narrow call. People hold the approvals.</p>
-<p>I have designed a place for a level 2 judge: a cheap model for judgments that are frequent and too varied for rules, such as &quot;has this step gone beyond the approved scope?&quot; It is not built. The first step would be to check whether code can do it, and only then add the cheap judge, with code deciding what to do with its answer, and a fallback to rules when it fails. I have not tested whether a cheap model is good enough for that call.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>四層</h3>
+<p>In my harness, the decisions made in code fall into a few kinds. Some guard the work, such as path and command checks. Some keep track, such as counting passes, working out fingerprints and the board of task states (<a href="7-2-many-tasks.html">Ten things at once: parallel tasks</a>). And some check or prepare things, such as the staleness of knowledge cards (<a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>), the scoring of fixed test tasks and the conversion of business documents. The main model does the thinking and the writing. The independent checker is a model too, because reading a result against a requirement is not a narrow call. The approvals stay with people.</p>
+<p>That leaves level 2 empty. I have designed a place for a judge there, a cheap model for judgments that are frequent but too varied for rules, such as &quot;has this step gone beyond the approved scope?&quot;, but it is not built. If I built it, I would first check whether code can make the call, and only if it cannot would the cheap judge come in. Code would decide what to do with its answer, and when the judge fails, it would fall back to rules. Whether a cheap model is good enough for that call, I have not tested.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>四層評審，怎麼挑</h2><h3>四層</h3>
+<p>要回答這個問題，手邊最好有一架短短的梯子，從最便宜的評審排到最貴的。</p>
 <table>
 <thead>
 <tr>
@@ -370,7 +367,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <td>任何只有一個正確答案、可以算出來的事</td>
 <td>幾乎沒有，每次答案都一樣</td>
 <td>任何需要理解意思的事</td>
-<td>數連續的通過；路徑在不在允許的資料夾裡；資料有沒有必要的欄位；檔案被讀過之後有沒有變</td>
+<td>數連續通過幾次；路徑在不在允許的資料夾裡；資料有沒有必要的欄位；檔案被讀過之後有沒有變</td>
 </tr>
 <tr>
 <td><strong>2. 便宜的模型</strong></td>
@@ -388,24 +385,19 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 <tr>
 <td><strong>4. 人</strong></td>
-<td>花錢、給權力、不能反悔、或需要業務來決定的事</td>
+<td>花錢、授權、不能反悔、或需要業務來決定的事</td>
 <td>他們的時間，這是最貴的</td>
 <td>速度；晚上在不在</td>
 <td>批准計畫；在需求的兩種讀法之間決定；驗收結果</td>
 </tr>
 </tbody>
 </table>
-<p>第 1 層的日常例子，這些是人們常憑習慣去問模型的：這個檔案存在嗎、這張表有幾列、這兩個檔案有沒有不同。腳本對每一個都能精確回答，而且免費。</p>
-<p>從表的上面往下讀。對每個判斷，問：程式做得到嗎？做得到，就停。做不到，一個窄的、便宜的評審做得到嗎？不行，就主模型。如果答案的後果是誰都不該代為決定的，就交給人。</p>
-<p>每一層也都有明確的失敗方式。</p>
-<ul>
-<li><strong>用程式處理模糊的問題</strong>，會很脆。它放行見過的，漏掉其餘的。</li>
-<li><strong>用便宜的模型處理模糊的問題</strong>，是最糟的情況。它回答得很快，語氣和回答簡單問題時一樣有把握，卻錯得更多。這就是為什麼便宜的模型在模糊的判斷上最弱，也是為什麼第 2 層的例子是選項清楚的問題。我把這當作一個經驗法則，來自這些模型的行為；我沒有在自己的任務上量過這個差距。</li>
-<li><strong>用主模型處理程式的問題</strong>，純粹是浪費。</li>
-<li><strong>用人處理程式就能解決的事</strong>，會把人累垮，直到他不讀就批准（<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</li>
-</ul>
+<p>用這張表，要從上往下讀。對每個判斷，先問程式做不做得到；做得到，就到此為止。做不到，再問一個窄的、便宜的評審做不做得到。還是不行，就交給主模型；如果答案的後果是誰都不該代為決定的，那就交給人。</p>
+<p>第一個問題，對日常的小事也一樣要問。這個檔案存不存在、這張表有幾列、這兩個檔案有沒有不同，這類問題常常憑習慣拿去問模型，其實都屬於第 1 層，因為腳本能精確回答，而且免費。</p>
+<p>而每一層碰上不對路的問題，也都會以明確的方式失敗。用程式處理模糊的問題，它很脆，見過的能放行，沒見過的就漏掉。用便宜的模型處理模糊的問題，是最糟的情況：它回答得很快，語氣和回答簡單問題時一樣有把握，卻錯得更多。所以便宜的模型最怕模糊的判斷，第 2 層的例子才都挑了選項清楚的問題。這是我看這些模型平常的表現得出的經驗法則，不是在自己的任務上量出來的。</p>
+<p>另外兩種失敗方向正好相反，是評審比問題需要的更貴。用主模型處理程式就能處理的問題，純粹是浪費。讓人去決定程式就能解決的事，會把人累垮，直到他不讀就批准（見<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。</p>
 <h3>輸入也用程式準備</h3>
-<p>同樣的想法，在模型之前就開始了。把 Word 檔或 Excel 工作表轉成純文字，是一件固定的工作，所以由程式做，不是模型：模型不該為封面、隱藏的工作表和註解付錢，也不該把這些雜訊當成需求（細節見 <a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。模型接著讀的是小而乾淨的結果，永遠看不到原始檔。</p>
+<p>同樣的想法，還能往前延伸到模型開始之前。把 Word 檔或 Excel 工作表轉成純文字，是一件固定的工作，所以由程式來做，不是模型。模型不該為封面、隱藏的工作表和註解付錢，也不該把這些雜訊當成需求（細節見 <a href="5-2-requirements.html">需求由 agent 寫，人確認</a>）。它讀到的，只是那份小而乾淨的結果，原始檔它永遠看不到。</p>
 <figure class="fig" id="fig-5-9-convert-first"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
   <text class="label" x="72" y="60" text-anchor="middle" data-t="file">Word 或 Excel</text>
@@ -433,22 +425,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">要為封面、隱藏工作表和雜訊付費，還可能猜錯</text>
 </svg>
 <figcaption>轉檔這種固定的活交給程式，模型只拿到需要判斷的部分。</figcaption></figure>
-<p>分工就是重點。轉換是第 1 層。決定需求是什麼意思，是第 3 層或第 4 層。把兩者混在一起，會讓模型兩件事都做，而且都做不好。</p>
+<p>重點在於分開：轉換是第 1 層，決定需求是什麼意思，則是第 3 層或第 4 層。兩者混在一起，模型就得兩件事都做，結果都做不好。</p>
 <h3>讓問題可以被計算</h3>
-<p>你可以改資料，不改評審，把更多工作移到第 1 層。如果「這份知識還對嗎？」是問模型的，它會把所有東西都讀一遍，猜一個答案，下次又猜得不一樣。如果每張知識卡片都記下它是從哪個版本的程式碼讀來的，那麼「哪些卡片過期了？」就是腳本能精確做的一個比對。規則是：<strong>只要一個問題有一個程式能算出來的正確答案，就把資料放成固定的形式，讓程式來算</strong>。需要判斷的，留給模型。</p>
-<h3>什麼時候往上移</h3>
-<p>出現以下情況，就把一個判斷往上移一層：</p>
+<p>要把工作移到第 1 層，還有一個辦法：不換評審，改資料。拿「這份知識還對嗎？」來說，問模型的話，它得把所有東西讀一遍再猜，下次猜出來的可能又不一樣。可是如果每張知識卡片都記下它是從哪個版本的程式碼讀來的，「哪些卡片過期了？」就成了腳本能精確完成的一次比對。規則是：<strong>只要一個問題有一個程式能算出來的正確答案，就把資料放成固定的形式，讓程式來算</strong>。需要判斷的，留給模型。</p>
+<h3>什麼時候往上移、什麼時候往下移</h3>
+<p>怎麼察覺一個判斷放錯了層？出現以下情況，就把它往上移一層：</p>
 <ul>
-<li>較低的一層不確定，而且說出來了。程式可以做成說「我判斷不了」並交出去。模型自己說的把握是個弱訊號，所以對模型，比較安全的觸發條件是你用手檢查的抽樣（下一條）。</li>
-<li>它的答案和你用手檢查過的抽樣不一致。</li>
-<li>答錯的成本，高過下一層的成本。寫回出錯（把做完的工作複製到真實的倉庫，<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），比呼叫一次主模型更貴。</li>
-<li>事實證明，這個判斷需要它沒有的上下文。</li>
+<li>下面那一層沒把握，而且說出來了。程式可以做成會說「我判斷不了」，再把這件事交出去。不過模型自己說的把握是個弱訊號，所以對模型來說，比較安全的觸發條件是人工抽查的樣本（見下一條）。</li>
+<li>它的答案和人工抽查過的樣本不一致。</li>
+<li>答錯的成本，高過上一層的成本。寫回出錯（把做完的工作複製到真實的倉庫，見<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>），比呼叫一次主模型更貴。</li>
+<li>事後發現，這個判斷需要它沒有的上下文。</li>
 </ul>
-<p>當你發現自己拿一個大評審去回答答案穩定的問題，就往下移一層。大多數判斷一開始都在第 3 層，因為那是讓東西動起來最快的辦法；功夫在於注意到哪些可以沉下去。</p>
-<h3>我的設定做什麼</h3>
-<p>我的 harness 裡由程式做的決定包括：路徑和指令的檢查、計算通過、算出指紋、任務狀態的看板（<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）、知識卡片的過期（<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）、固定測試任務的打分，以及商業文件的轉換。主模型負責思考和寫作。獨立的檢查者是個模型，因為拿結果去對照需求來讀，不是一個窄的判斷。批准由人掌握。</p>
-<p>我設計過一個放第 2 層評審的位置：一個便宜的模型，處理頻繁、又多樣到規則寫不完的判斷，例如「這一步超出已批准的範圍了嗎？」它還沒做。第一步是檢查程式能不能做，之後才加便宜的評審，由程式決定怎麼處理它的答案，失敗時退回規則。便宜的模型對這個判斷夠不夠好，我沒有測過。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>四层</h3>
+<p>反過來，發現自己拿大評審去回答答案穩定的問題，就往下移一層。大多數判斷一開始都在第 3 層，因為那是讓東西動起來最快的辦法，所以真正的功夫在於注意到哪些可以沉下去。</p>
+<h3>我的設定怎麼分</h3>
+<p>我的 harness 裡，由程式做的決定分幾類。有的守著工作，例如路徑和指令的檢查。有的負責記錄，例如計算通過、算出指紋、任務狀態的看板（見<a href="7-2-many-tasks.html">同時管十件事：並行的是任務</a>）。還有的負責檢查或準備東西，例如知識卡片的過期（見<a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）、固定測試任務的打分，以及商業文件的轉換。思考和寫作交給主模型，獨立的檢查者也是模型，因為拿結果去對照需求來讀，不是一個窄的判斷。批准則留在人手裡。</p>
+<p>這樣算下來，第 2 層還是空的。我為它設計過一個評審的位置：一個便宜的模型，處理頻繁、又多樣到規則寫不完的判斷，例如「這一步超出已批准的範圍了嗎？」，但它還沒做。真要做的話，還是先看程式能不能決定；程式決定不了，才輪到便宜的評審。它給的答案怎麼用，由程式決定，它一失敗，就退回規則。便宜的模型對這個判斷夠不夠好，我沒有測過。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>四层裁判，怎么挑</h2><h3>四层</h3>
+<p>要回答这个问题，手边最好有一架短短的梯子，从最便宜的裁判排到最贵的。</p>
 <table>
 <thead>
 <tr>
@@ -490,17 +483,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-<p>第 1 层的日常例子，也是常常出于习惯去问模型的：这个文件存在吗，这张表有多少行，这两个文件有没有差别。脚本对每一个都答得精确，而且免费。</p>
-<p>从表的上面往下读。对每个判断，问：代码能做吗？能，就到此为止。不能，一个窄的便宜裁判能做吗？不能，就用主模型。如果答案的后果没人应该代为承担，就交给人。</p>
-<p>每一层也有各自明显的失败。</p>
-<ul>
-<li><strong>用代码答模糊的问题</strong>，很脆。见过的它能处理，没见过的它就漏掉。</li>
-<li><strong>用便宜的模型答模糊的问题</strong>，是最糟的情形。它答得快，语气和答简单问题时一样自信，却错得更多。这就是便宜的模型最不擅长模糊判断的原因，也是第 2 层的例子都是选项明确的问题的原因。这是我从这些模型的表现得出的经验法则；这个差距在我自己的任务上我没有测过。</li>
-<li><strong>用主模型答代码就能答的问题</strong>，纯属浪费。</li>
-<li><strong>用人去定代码能定的事</strong>，会把人磨累，直到他不看就批（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</li>
-</ul>
+<p>用这张表，要从上往下读。对每个判断，先问代码能不能做；能，就到此为止。不能，再问一个窄的便宜裁判能不能做。还不能，就交给主模型；如果答案的后果没人应该代为承担，那就交给人。</p>
+<p>第一个问题，对日常的小事也一样要问。这个文件存不存在、这张表有多少行、这两个文件有没有差别，这类问题常常出于习惯拿去问模型，其实都归第 1 层，因为脚本能答得一丝不差，而且免费。</p>
+<p>每一层拿到不对路的问题，也都会以明显的方式失败。用代码答模糊的问题，它很脆，见过的能处理，没见过的就漏掉。用便宜的模型答模糊的问题，是最糟的情形：它答得快，语气和答简单问题时一样自信，却错得更多。所以便宜的模型最怕模糊的判断，第 2 层的例子才都挑了选项明确的问题。这是我看这些模型平时的表现得出的经验法则，不是在自己的任务上测出来的。</p>
+<p>另外两种失败方向正好相反，是裁判比问题需要的更贵。用主模型答代码就能答的问题，纯属浪费。让人去定代码能定的事，会把人磨累，直到他不看就批（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。</p>
 <h3>输入也用代码准备</h3>
-<p>同样的想法，也延伸到模型之前。把一个 Word 文件或 Excel 表转成纯文本，是固定的活，所以由程序来做，不由模型来做：模型不该为封面、隐藏的工作表和批注付费，也不该把那些噪声当成需求（细节见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>）。这样模型读到的是小而干净的结果，永远看不到原件。</p>
+<p>同样的想法，还能往前延伸到模型开始之前。把一个 Word 文件或 Excel 表转成纯文本，是固定的活，所以由程序来做，不由模型来做。模型不该为封面、隐藏的工作表和批注付费，也不该把这些噪声当成需求（细节见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>）。它读到的，只是那份小而干净的结果，原件它永远看不到。</p>
 <figure class="fig" id="fig-5-9-convert-first"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="5" y="30" width="135" height="50" rx="8"/>
   <text class="label" x="72" y="60" text-anchor="middle" data-t="file">Word 或 Excel</text>
@@ -528,39 +516,39 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="300" y="219" text-anchor="middle" data-t="bad">要为封面、隐藏工作表和噪声付费，还可能猜错</text>
 </svg>
 <figcaption>转文件这种固定的活交给程序，模型只拿到需要判断的部分。</figcaption></figure>
-<p>分开，才是关键。转换是第 1 层。判断需求是什么意思，是第 3 层或第 4 层。把两件事混在一起，就让模型两件都做，还做不好。</p>
+<p>关键在于分开：转换是第 1 层，判断需求是什么意思，则是第 3 层或第 4 层。两件事混在一起，模型就得两件都做，结果两件都做不好。</p>
 <h3>让问题能被算出来</h3>
-<p>你可以通过改数据，而不是改裁判，把更多的活下移到第 1 层。如果拿“这条知识还对不对”去问模型，它要把一切读一遍，猜一个答案，下次又猜成另一个。如果每张知识卡片都记着它读的是哪个版本的代码，那么“哪些卡片过期了”就是脚本能精确做的一次比较。规则是：<strong>只要一个问题有程序能算出的唯一正确答案，就把数据放成固定的形式，让程序去算</strong>。需要判断的，留给模型。</p>
-<h3>什么时候往上升一层</h3>
-<p>遇到下面的情况，把判断上升一层：</p>
+<p>把活下移到第 1 层，还有一个办法：不换裁判，改数据。拿“这条知识还对不对”来说，问模型的话，它得把一切读一遍再猜，下次猜出来的可能又不一样。可如果每张知识卡片都记着它读的是哪个版本的代码，“哪些卡片过期了”就成了脚本能精确完成的一次比较。规则是：<strong>只要一个问题有程序能算出的唯一正确答案，就把数据放成固定的形式，让程序去算</strong>。需要判断的，留给模型。</p>
+<h3>什么时候往上升、什么时候往下沉</h3>
+<p>怎么察觉一个判断放错了层？遇到下面的情况，就把它上升一层：</p>
 <ul>
-<li>下面那一层没把握，而且说了出来。代码可以做成说“我判断不了”并往上交。模型自己说的信心是个弱信号，所以对模型，更稳妥的触发条件是你手工检查的那个样本（见下一条）。</li>
+<li>下面那一层没把握，而且说了出来。代码可以做成会说“我判断不了”，再把这件事往上交。不过模型自己说的信心是个弱信号，所以对模型来说，更稳妥的触发条件是你手工检查的那个样本（见下一条）。</li>
 <li>它的答案和你手工检查过的样本对不上。</li>
-<li>答错的代价，比再往上一层的成本高。写回（把做完的工作复制进真正的仓库，见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）答错了，比调一次主模型花得多。</li>
+<li>答错的代价，比上一层的成本还高。写回（把做完的工作复制进真正的仓库，见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）答错了，比调一次主模型花得多。</li>
 <li>这个判断后来发现需要它没有的上下文。</li>
 </ul>
-<p>反过来，发现自己用大裁判去答一个答案稳定的问题时，就下移一层。大多数判断一开始都在第 3 层，因为那是让东西最快跑起来的办法；真正要做的功夫，是留意哪些可以往下沉。</p>
+<p>反过来，发现自己在用大裁判答一个答案稳定的问题，就把它下移一层。大多数判断一开始都在第 3 层，因为那是让东西最快跑起来的办法，所以真正要下的功夫，是留意哪些可以往下沉。</p>
 <h3>我的配置怎么做</h3>
-<p>我的 harness 里，由代码做的决定包括：路径和命令的检查、计数通过次数、算指纹、任务状态的看板（见<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）、知识卡片的过期判断（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）、固定测试任务的打分，以及业务文档的转换。主模型负责思考和写作。独立检查者是模型，因为对照需求读一个结果，不是窄的判断。审批由人来做。</p>
-<p>我为第 2 层的裁判设计了位置：用便宜的模型处理频繁、又太多样而无法用规则覆盖的判断，比如“这一步是不是超出了批准的范围”。它还没有做。第一步应该是看代码能不能做，然后才加便宜的裁判，由代码决定怎么处理它的答案，失败时退回到规则。便宜的模型对这个判断够不够用，我没有测过。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>Levels are guesses until you test.</strong> Whether a judgment fits level 2 depends on the model you use this month. Measure it on cases where you know the answer (<a href="6-3-eval-tasks.html">Eval tasks</a>).</p>
-<p><strong>More levels, more parts.</strong> Each level you add is something to configure and to fail. Do not add a cheap judge for a call that happens twice a week.</p>
-<p><strong>Code can be confidently wrong.</strong> A pattern that blocks &quot;dangerous commands&quot; will not see a dangerous command in a form it has not met. For safety, how hard the rule is enforced is the question, and <a href="4-1-requests-and-rules.html">Requests and rules</a> is the chapter.</p>
-<p><strong>Cost per call is not the whole bill.</strong> Input the provider has cached is read at about a tenth of the base price, so a repeated long prefix is cheaper than it looks (<a href="1-1-models-and-cost.html">Models and cost</a>). I have not checked how Copilot applies this, so measure on your own setup before you decide that moving a judgment saves money.</p>
-<p><strong>Moving down saves money but can hide errors.</strong> Cheaper judgments are less often looked at. Keep a sample you read by eye.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>層級在測過之前都是猜測</strong>。一個判斷適不適合第 2 層，取決於你這個月用的模型。拿你知道答案的案例去量（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
-<p><strong>層越多，零件越多</strong>。你每加一層，就多一樣要設定、也會壞的東西。不要為一週只發生兩次的判斷加一個便宜的評審。</p>
-<p><strong>程式可能信心十足地錯</strong>。擋「危險指令」的樣式，看不出它沒見過的形式的危險指令。談安全，問題是規則被執行得多硬，那是 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 的內容。</p>
-<p><strong>每次呼叫的成本不是整張帳單</strong>。供應商快取過的輸入，讀取的價格大約是基本價格的十分之一，所以重複的長前綴比看起來便宜（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。Copilot 怎麼套用這點，我沒有檢查過，所以在你決定移動一個判斷能省錢之前，先在你自己的設定上量。</p>
-<p><strong>往下移省錢，但可能藏住錯誤</strong>。越便宜的判斷，越少有人去看。保留一份你用眼睛讀的抽樣。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>这些层在你测之前都是猜测</strong>。一个判断适不适合第 2 层，取决于你这个月用的模型。拿你知道答案的案例去测（见<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</p>
-<p><strong>层越多，零件越多</strong>。每加一层，就多一样要配置、也会出故障的东西。别给一周只发生两次的判断加一个便宜的裁判。</p>
-<p><strong>代码可能信心十足地出错</strong>。拦“危险命令”的模式，看不出一条以它没见过的形式出现的危险命令。对安全来说，问题是规则被执行得有多硬，那是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>这一章的内容。</p>
-<p><strong>单次调用的成本不是全部账单</strong>。服务商已缓存的输入，读取价格约是基础价格的十分之一，所以反复出现的长前缀，比看上去便宜（见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。Copilot 怎么用这一点，我没有查过，所以在断定把某个判断下移能省钱之前，先在你自己的环境里测。</p>
-<p><strong>往下移省钱，但可能藏住错误</strong>。越便宜的判断，被看的次数越少。留一个你亲眼读的样本。</p>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>The levels stay; the line between them moves. As cheap models get better at vague calls, level 2 will take more. As the main model gets cheaper, level 3 will matter less as a cost and more as a reliability question. Re-run your own test of each judgment when the model changes (<a href="6-5-model-upgrades.html">After a model upgrade</a>).</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>層級會留著；它們之間的線會移動。便宜的模型在模糊的判斷上越來越好，第 2 層會接下更多。主模型越來越便宜，第 3 層就越不是成本問題，更像是可靠性的問題。模型換了，就對每個判斷重做你自己的測試（<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>这些层会留下来；它们之间的界线会移动。便宜的模型越来越会做模糊的判断，第 2 层就会接更多。主模型越来越便宜，第 3 层就更少是成本问题，更多是可靠性问题。模型一换，就把你自己对每个判断的测试重跑一遍（见<a href="6-5-model-upgrades.html">模型升级了，就要删</a>）。</p>
+<p>我的 harness 里，由代码做的决定分几类。有的守着工作，比如路径和命令的检查。有的负责记录，比如计数通过次数、算指纹、任务状态的看板（见<a href="7-2-many-tasks.html">同时管十件事：并行的是任务</a>）。还有的负责检查或准备东西，比如知识卡片的过期判断（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）、固定测试任务的打分，以及业务文档的转换。思考和写作交给主模型，独立检查者也是模型，因为对照需求读一个结果，不是窄的判断。审批则留在人手里。</p>
+<p>这么一数，第 2 层还是空的。我为它设计了一个裁判的位置：用便宜的模型处理那些频繁、却又多样到规则覆盖不了的判断，比如“这一步是不是超出了批准的范围”，但它还没有做。真要做的话，还是先看代码能不能定；代码定不了，才轮到便宜的裁判。它给出的答案怎么用，由代码决定，它一失败，就退回到规则。便宜的模型对这个判断够不够用，我没有测过。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the levels cost, and where they mislead</h2><p>Setting the levels up has two costs. That untested judge points to the first: the levels are guesses until you test them. Whether a judgment fits level 2 depends on the model you use this month, so measure it on cases where you know the answer (<a href="6-3-eval-tasks.html">Eval tasks</a>).</p>
+<p>The other is that every level is one more part. Each one you add is something to configure and something that can fail, so do not add a cheap judge for a call that happens twice a week.</p>
+<p>Code adds a trap of its own: as the brittle pattern at the start of the chapter showed, it can be confidently wrong. A pattern that blocks &quot;dangerous commands&quot; will not see a dangerous command in a form it has not met. If the worry is safety rather than cost, though, the question is how hard the rule is enforced, and that is what <a href="4-1-requests-and-rules.html">Requests and rules</a> is about.</p>
+<p>Before you move a judgment down to save money, two more things are worth checking. One is that the cost per call is not the whole bill. Input the provider has cached is read at about a tenth of the base price, so a long prefix that repeats is cheaper than it looks (<a href="1-1-models-and-cost.html">Models and cost</a>). I have not checked how Copilot applies this, so measure on your own setup before you decide that moving a judgment saves money.</p>
+<p>The other is that moving a judgment down saves money but can also hide errors, because cheaper judgments are less often looked at. Keep a sample that you read by eye.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>這些層級的代價，和會讓人看走眼的地方</h2><p>這個沒測過的評審，正好帶出第一項代價：這些層級在測過之前，都只是猜測。一個判斷適不適合第 2 層，取決於你這個月用的模型，所以要拿你知道答案的案例去量（見<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
+<p>再說，每一層都是一個零件。每加一層，就多一樣要設定、也可能壞掉的東西，所以不要為一週只發生兩次的判斷加一個便宜的評審。</p>
+<p>程式自己也有一個坑：開頭說過的那種樣式清單，同樣會信心十足地錯。擋「危險指令」的樣式，看不出它沒見過的形式的危險指令。不過，如果擔心的是安全而不是成本，問題在於規則被執行得多硬，那是 <a href="4-1-requests-and-rules.html">提示裡的規則只是請求</a> 的內容。</p>
+<p>往下移來省錢之前，還有兩件事要留意。每次呼叫的成本，不是整張帳單。供應商快取過的輸入，讀取的價格大約是基本價格的十分之一，所以重複的長前綴比看起來便宜（見<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。Copilot 怎麼套用這點，我沒有檢查過，所以在認定把判斷往下移真能省錢之前，先在你自己的設定上量一量。</p>
+<p>還有，把判斷往下移能省錢，卻也可能藏住錯誤，因為越便宜的判斷，越少有人去看。留一份你親自讀過的樣本。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这些层的代价，和会让人看走眼的地方</h2><p>这个没测过的裁判，正好引出第一项代价：这些层在你测之前，都只是猜测。一个判断适不适合第 2 层，取决于你这个月用的模型，所以要拿你知道答案的案例去测（见<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</p>
+<p>再说，每一层都是一个零件。每加一层，就多一样要配置、也可能出故障的东西，所以别给一周只发生两次的判断加一个便宜的裁判。</p>
+<p>代码自己也有一个坑：开头说过的那种模式列表，同样会信心十足地出错。拦“危险命令”的模式，认不出一条以它没见过的形式出现的危险命令。不过，如果担心的是安全而不是成本，问题在于规则被执行得有多硬，那是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>这一章的内容。</p>
+<p>往下移来省钱之前，还有两件事要留心。单次调用的成本，不是全部账单。服务商已缓存的输入，读取价格约是基础价格的十分之一，所以反复出现的长前缀，比看上去便宜（见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）。Copilot 怎么用这一点，我没有查过，所以在断定把某个判断下移能省钱之前，先在你自己的环境里测一测。</p>
+<p>还有，把判断往下移能省钱，却也可能藏住错误，因为越便宜的判断，被人看的次数越少。留一个你亲眼读的样本。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>What stays, and how the line moves</h2><p>The levels themselves stay, but the line between them moves. As cheap models get better at vague calls, level 2 will take on more, and as the main model gets cheaper, level 3 will matter less as a cost and more as a question of reliability. So when the model changes, re-run your own test of each judgment (<a href="6-5-model-upgrades.html">After a model upgrade</a>).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼會留下，界線又怎麼移動</h2><p>這些層級本身留著，會動的是它們之間的界線。便宜的模型在模糊的判斷上越來越好，第 2 層就會接下更多；主模型越來越便宜，第 3 層就越不是成本問題，更像是可靠性的問題。所以模型一換，就對每個判斷重做你自己的測試（見<a href="6-5-model-upgrades.html">模型升級了，就要刪</a>）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么会留下，界线又怎么移动</h2><p>这些层本身留着，会动的是它们之间的界线。便宜的模型越来越会做模糊的判断，第 2 层就会接下更多；主模型越来越便宜，第 3 层就更少是成本问题，更多是可靠性问题。所以模型一换，就把你自己对每个判断的测试重跑一遍（见<a href="6-5-model-upgrades.html">模型升级了，就要删</a>）。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>List the judgments in this project&#x27;s agent workflow: what the instruction files, skills, hooks, scripts and review steps each decide (for example, is this path allowed, did the check pass, is this change in scope, is this design good). For each, name who decides today: code, a cheap model, the main model, or a person. Then mark the ones where a model decides something a script could settle, and the ones where a script or pattern decides something that needs meaning. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>列出這個專案的 agent 工作流程裡的判斷：指令檔、skill、hook、腳本和審查步驟各自決定什麼（例如：這個路徑允許嗎、檢查通過了嗎、這個改動在範圍內嗎、這個設計好不好）。對每一個，說出今天是誰決定：程式、便宜的模型、主模型，還是人。然後標出：模型在決定、腳本就能解決的那些，以及腳本或樣式在決定、卻需要理解意思的那些。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>列出这个项目的 agent 工作流里的各个判断：指令文件、skill、hook、脚本和审查步骤各自在决定什么（比如：这个路径允许吗，检查通过了吗，这个改动在范围内吗，这个设计好不好）。对每一个，说出现在由谁来决定：代码、便宜的模型、主模型，还是人。然后标出两类：模型在决定、脚本其实就能定的；脚本或模式在决定、其实需要理解含义的。不要修改任何文件。</code></pre></div>
@@ -573,11 +561,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
 <li>Claude Code 文档：<a href="https://code.claude.com/docs/en/costs">Manage costs</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The code-first judgments, the conversion of business files, and the places where a person decides all run in Copilot Harness. The cheap-model level is not built. The harness can teach what exists from the inside, with the real files.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The code-first judgments, the conversion of business files and the places where a person decides all run in Copilot Harness, while the cheap-model level is not built. For what does exist, the harness can teach you from the inside, with the real files.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Who decides&quot;. Teach me which judgments this harness gives to code, which to the model and which to a person (topic 15), and how it converts business documents before the model reads them. Open the real files with me and draw how the pieces fit together.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>先交給程式的判斷、商業檔案的轉換，以及由人決定的地方，都在 Copilot Harness 裡執行。便宜模型那一層還沒做。harness 可以從裡面教你現有的部分，附上真實的檔案。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>先交給程式的判斷、商業檔案的轉換，以及由人決定的地方，都在 Copilot Harness 裡執行，只有便宜模型那一層還沒做。已經做好的部分，可以讓 harness 帶你打開真實的檔案，從裡面講給你聽。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「誰來判斷」這一章。請教我這個 harness 把哪些判斷交給程式、哪些交給模型、哪些交給人（主題 15），以及它在模型讀之前，怎麼轉換商業文件。帶我打開真實的檔案，並畫出這些部分怎麼組合在一起。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>代码优先的判断、业务文件的转换，以及由人来决定的地方，都在 Copilot Harness 里跑着。便宜模型这一层还没有做。已有的部分，harness 可以从内部教你，配上真实的文件。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>代码优先的判断、业务文件的转换，以及由人来决定的地方，都在 Copilot Harness 里跑着，只有便宜模型这一层还没有做。已经做好的部分，可以让 harness 带你打开真实的文件，从里面讲给你听。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“谁来判断”这一章。请教我这个 harness 把哪些判断交给代码、哪些交给模型、哪些交给人（主题 15），以及它在模型读业务文档之前是怎么转换这些文档的。和我一起打开真实的文件，并画出各部分是怎么拼在一起的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>

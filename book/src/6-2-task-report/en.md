@@ -1,4 +1,4 @@
-This chapter assumes you have used an AI coding agent. It helps to have read [Record what happened, not what the agent said](6-1-observe.html), but you can follow without it.
+This chapter assumes you have used an AI coding agent. Reading [Record what happened, not what the agent said](6-1-observe.html) first helps, but you can follow without it.
 
 ## In one sentence {#in-one-sentence}
 
@@ -6,44 +6,40 @@ Every finished task needs a report that a person can read in five minutes. When 
 
 ## For leaders {#for-leaders}
 
-- **The decision:** require that every finished task has a one-page report, written by code, and decide what the page must show.
-- **The risk:** a log is not a report. Nobody reads thousands of lines, so the only thing a colleague or a leader reads is the agent's own summary, which is what the log exists to check. A report is also only as honest as its sources: a hole in the log is a hole in the report.
+- **The decision:** require that every finished task has a one-page report written by code, and decide what that page must show.
+- **The risk:** a log is not a report. Nobody reads thousands of lines, so the only thing a colleague or a leader ends up reading is the agent's own summary, the very thing the log is there to check. And a report is only as honest as its sources: a hole in the log is a hole in the report.
 - **The cost of doing it right:** one program that reads the task folder and the log. The real cost is defending the five-minute limit against requests for one more number.
 - **Ask the team:** "Show me the report of the last finished task. Can I read it in five minutes, and does it say who approved it and what was refused?"
 
-## The problem {#problem}
+## Who needs to know what a task did? {#problem}
 
-A log is not a report. After [the previous chapter](6-1-observe.html) you may have a log with thousands of lines. Nobody reads that to answer "what did this task do?". And the agent's own summary, which is short enough to read, is the thing the log exists to check.
+After [the previous chapter](6-1-observe.html) you may have a log with thousands of lines. A log, though, is not a report. Nobody reads thousands of lines to answer "what did this task do?". The agent's own summary is short enough to read, but it is the very thing the log exists to check.
 
-Who needs the answer? Three people, at three times.
+So who needs that answer, and how long will they look for it? Three people need it, at three different times. One of them is you, the next morning, when the work was yesterday and you no longer remember which files changed, or why a check was done twice. Another is a colleague or a leader who did not watch the task. They want to know what was done and whether anyone checked it, and they will give it a few minutes. The last is you again, later, when something goes wrong and someone asks "who approved this change?" and "was it checked?". By then you want the answer from a document, not from memory.
 
-- **You, the next morning.** The work was yesterday. You do not remember which files changed, or why a check was done twice.
-- **A colleague or a leader** who did not watch. They want to know what was done and whether anyone checked it, and they will give it a few minutes.
-- **You, when something goes wrong later.** Someone asks "who approved this change?" and "was it checked?". You want the answer from a document, not from memory.
+If the report takes an hour to read, none of these people will read it. That makes the report a design problem. What goes on one page, and what is left to the log?
 
-If the report takes an hour to read, these people will not read it. So the report is a design problem: what to put on one page, and what to leave to the log.
-
-## How it works {#how-it-works}
+## A page for each task, and a board for many {#how-it-works}
 
 ### One page per task, written by code
 
-A **task** here is one piece of work with its own folder: the request, the plan, the checks and the changes ([Manage tasks, not chats](5-1-tasks.html)). When the task closes, a program reads the folder and the records, and writes one report. The agent does not write it.
+Before deciding what goes on the page, decide who writes it. The page covers one **task**. A task here is one piece of work with its own folder: the request, the plan, the checks and the changes ([Manage tasks, not chats](5-1-tasks.html)). When the task closes, a program reads that folder and the records and writes one report. The agent does not write it.
 
-That one choice carries most of the weight. A report written by the agent is a summary, and a summary is what you could not trust in the first place. A report put together by a program from the folder and the log has the same facts every time, in the same places, so a reader learns where to look.
+That one choice carries most of the weight. Why not simply let the agent write it? Because a report written by the agent would be a summary, and a summary is what you could not trust in the first place. A report that a program puts together from the folder and the log has the same facts every time, in the same places, so a reader learns where to look.
 
 ::: figure 6-2-report-page
 
 ### What goes on the page
 
-Start from the questions the three readers ask, and give each a place. In my setup the report holds:
+To decide what the page holds, start from the questions the three readers ask and give each of them a place. In my setup the report holds five things:
 
-1. **What was asked and what was done.** The requirement the person confirmed, and the plan.
-2. **Who approved, and when.** The times of the two approvals ([Two gates](5-3-two-approvals.html)).
-3. **What changed.** Which files, how many lines added and removed, and which knowledge-base files were read ([A knowledge base](8-1-why-a-knowledge-base.html)).
-4. **The checks.** How many independent checks, and the verdict of each ([Make a pass count](5-5-counted-checks.html)).
-5. **What was refused.** The calls the rules turned down, and why. This part surprises people, and it often explains why a task took longer than expected.
+1. What was asked and what was done: the requirement the person confirmed, and the plan.
+2. Who approved, and when: the times of the two approvals ([Two gates](5-3-two-approvals.html)).
+3. What changed: which files, how many lines were added and removed, and which knowledge-base files were read ([A knowledge base](8-1-why-a-knowledge-base.html)).
+4. The checks: how many independent checks ran, and the verdict of each ([Make a pass count](5-5-counted-checks.html)).
+5. What was refused: the calls the rules turned down, and why. This part surprises people, and it often explains why a task took longer than expected.
 
-Here is the layout, as a template and not a real report:
+On the page itself, those five things look like this (a template, not a real report):
 
 - Asked: *the confirmed requirement, in one paragraph*
 - Approved: *plan, at (time); write-back, at (time)*
@@ -51,52 +47,50 @@ Here is the layout, as a template and not a real report:
 - Checks: *(n) independent checks; verdict of each*
 - Refused: *each refused call and the rule that refused it*
 
-What is left out is the log itself. The report points at the facts and does not repeat all of them. A good test is the five minutes: if a reader cannot finish the page in that time, something on it belongs in the log instead.
+What the page leaves out is the log itself: the report points at the facts rather than repeating all of them. The five minutes are the test of where to draw that line. If a reader cannot finish the page in that time, something on it belongs in the log instead.
 
 ### Where the time and usage went
 
-A second page next to the report answers a different question: not "what happened?" but "where did the time and the usage go?". It splits each prompt into the model thinking, tools running, subagents, and **waiting for the person**. Then it sums these by **stage** (requirement, plan, development, write-back, done; an independent check is a stage of its own).
+The report answers "what happened?". Where the time and the usage went is a different question. The analysis page, a second page next to the report, answers it. It splits each prompt into the model thinking, tools running, subagents and **waiting for the person**, and then sums these by **stage**. The stages are requirement, plan, development, write-back and done, and an independent check counts as a stage of its own.
 
-The waiting time is the number I did not expect to matter. Suppose a task "took three days", and the page shows the agent worked for forty minutes and waited for a person the rest (the numbers are an example, not a result). Then the cost is waiting, not the agent. That is a different problem from a slow agent, and it has a different fix: fewer or cheaper gates, or someone to answer them ([Ten things at once](7-2-many-tasks.html)).
+Of these numbers, the waiting time is the one I did not expect to matter. Suppose a task "took three days", and the page shows that the agent worked for forty minutes and waited for a person the rest of the time (the numbers are an example, not a result). Then what the task cost was waiting, not the agent. That is a different problem from a slow agent, and it has a different fix: fewer or cheaper gates, or someone to answer them ([Ten things at once](7-2-many-tasks.html)).
 
-The numbers come from the hook log and the platform's own session record, not from the agent's word ([Record what happened, not what the agent said](6-1-observe.html) says where usage comes from and what happens when that record cannot be read). Opening the page costs no tokens. If you want the agent to explain it to you, you ask for that on purpose, and then it reads the page.
+Like the report, these numbers do not rest on the agent's word. They come from the hook log and the platform's own session record ([Record what happened, not what the agent said](6-1-observe.html) says where usage comes from and what happens when that record cannot be read). Opening the page costs no tokens, because the agent reads it only when you ask it, on purpose, to explain the page.
 
 ### The board: many tasks at a glance
 
-When you have one task, you do not need a board. When you have ten, the question changes from "what did this task do?" to "which task needs me now?". A **board** is one page that lists every open task, what it is waiting for, and for how long. It is built from the same task folders and records as the report, so the two cannot disagree. [Ten things at once: parallel tasks](7-2-many-tasks.html) has the design.
+With one task, you do not need a board. With ten, the question changes from "what did this task do?" to "which task needs me now?", and that is the question a **board** answers. It is one page that lists every open task, what it is waiting for, and for how long. Because it is built from the same task folders and records as the report, the two cannot disagree. [Ten things at once: parallel tasks](7-2-many-tasks.html) has the design.
 
 ### Try it by hand
 
-You do not need a program to see whether the idea works. After your next agent task, write five lines from the diff and the tool-call history: what was asked, what changed, what was run, what was refused or failed, and who said yes. Then ask yourself whether you would read that page tomorrow, and whether a colleague could use it. If it takes you more than a few minutes to write, that tells you what the program has to collect.
+Before any program exists, you can try the idea of the report by hand. After your next agent task, write five lines from the diff and the tool-call history: what was asked, what changed, what was run, what was refused or failed, and who said yes. Then ask yourself whether you would read that page tomorrow and whether a colleague could use it. If writing it takes you more than a few minutes, that tells you what the program will have to collect.
 
 ### Where the person steps in
 
-The report and the board are where a person meets the system. Three points matter.
+Once the pages exist, the report and the board are where a person meets the system, and the two are used in different ways. The board is for steering. From it you open a task, approve a plan or pause a task. The approval itself, though, still travels through a channel the agent cannot reach. The report is for reading afterwards. It is written when the task closes, so it shows the task as it ended.
 
-- **The board is for steering.** You open a task from it, approve a plan, or pause a task. Approvals still go through a channel the agent cannot reach.
-- **The report is for reading afterwards.** It is written when the task closes, so it shows the task as it ended.
-- **A saved copy is for people with no access.** The task page can be saved as a single file that opens offline, for a leader who has no access to your board. It is a copy from the moment you saved it, with no buttons. Read it before you send it, and take out internal names and paths before it goes outside the group that owns the task.
+Some readers, a leader for example, have no access to your board. For them the task page can be saved as a single file that opens offline. It is a copy from the moment you saved it, with no buttons. Read it before you send it, and take out internal names and paths before it goes outside the group that owns the task.
 
-What an agent writes is drawn as plain text on these pages, so a task file cannot make the page run anything ([Text the agent reads can give it orders](4-6-untrusted-input.html)).
+These pages show what the agent wrote, but only as plain text, so a task file cannot make the page run anything ([Text the agent reads can give it orders](4-6-untrusted-input.html)).
 
-## Costs and traps {#costs-and-traps}
+## What a report cannot tell you, and what it costs to keep it short {#costs-and-traps}
 
-**A report is only as honest as its sources.** It is built from the log and the folder. If the log has a hole ([Record what happened](6-1-observe.html)), the report has the same hole and does not say so.
+A report is built from the log and the task folder, so it is only as honest as its sources. If the log has a hole ([Record what happened, not what the agent said](6-1-observe.html)), the report has the same hole and does not say so.
 
-**Five minutes is a limit you have to defend.** Everyone wants one more number on the page. Move it to the log or the analysis page; keep the report short.
+Sources aside, **a report says what happened, not whether it was good.** It can show that the task went through the two approvals and that its checks passed. It cannot show that the work was better than last week's, because nothing scores quality across tasks (I have no such score). One way to get a score is to run fixed tasks before and after a change ([the next chapters](6-3-eval-tasks.html)), although those are not real work. The other is to have a person read a sample of finished tasks.
 
-**A report says what happened, not whether it was good.** It can show that the task went through the two approvals and that its checks passed. It cannot show that the work was better than last week's, because nothing scores quality across tasks; I have no such score. To get one you would run fixed tasks before and after a change ([the next chapters](6-3-eval-tasks.html)), which are not real work, or have a person read a sample of finished tasks.
+Nor is a report a signature. It is a record, and whether it counts as evidence for approving a change, how long it is kept and who may edit it are decisions for the team ([Roll out and govern a harness](7-4-rollout-and-governance.html)). The report itself is written once, by code, at close.
 
-**A report is a record, not a signature.** Whether it counts as evidence for approving a change, how long it is kept, and who may edit it are decisions for the team ([Roll out and govern a harness](7-4-rollout-and-governance.html)). The report itself is written once, by code, at close.
+Then there is the cost of keeping the report short. Five minutes is a limit you have to defend, because everyone wants one more number on the page. Each time, move that number to the log or the analysis page instead.
 
-**Nobody reads a report that nobody asks for.** If no one ever opens the reports, ask why before you improve them.
+And a report nobody asks for is a report nobody reads. If no one ever opens the reports, ask why before you improve them.
 
-## When to delete it {#when-to-delete-it}
+## When to delete the pages, and what stays {#when-to-delete-it}
 {status: industry}
 
-My report and board exist because the platform shows a chat, not a task. If the platform gives you tasks with their own history, approvals and usage per task, use that and drop the page you built. If it can show a leader a read-only view with the same facts, drop the saved copy too.
+My report and board exist because the platform shows a chat, not a task. If the platform gives you tasks with their own history, approvals and usage per task, use that and drop the page you built. If it can also show a leader a read-only view with the same facts, drop the saved copy too.
 
-The reasoning stays. A person who did not watch needs to know what was done, who approved it, what was checked and what it cost, in a form that takes minutes. I would look again at the board if I found that I never run more than two tasks at once.
+The reasoning stays, though. A person who did not watch still needs to know what was done, who approved it, what was checked and what it cost, in a form that takes minutes to read. As for the board, I would look at it again if I found that I never run more than two tasks at once.
 
 ## Try it on your own setup {#try-it}
 
@@ -110,7 +104,7 @@ Take the last three merged changes in this repository. For each one, write a fiv
 
 ## Explore it in the harness {#explore}
 
-Copilot Harness writes a report and an analysis page for every task it closes, and has a board of all open tasks. The harness can show you the real pages.
+Copilot Harness writes a report and an analysis page for every task it closes, and keeps a board of all open tasks. The harness can show you the real pages.
 
 ::: prompt
 /harness-rookie-wondering I have read the chapter "A report a person can read in five minutes". Teach me how this harness reports on a task (topic 12): what the task report holds, how the analysis page gets its time and usage, and what the board shows. Open a real report with me and point out where each part comes from.
