@@ -7,17 +7,17 @@ An agent never does exactly the same thing twice, so one run proves nothing. Run
 ## For leaders {#for-leaders}
 
 - **The decision:** require that every claim that one setup is better states how many times each side was run and under what conditions. For unattended work, ask for "works every time", not for the average.
-- **The risk:** one run each proves nothing. In the textbook example in this chapter, 4 passes out of 5 runs is compatible with a true pass rate anywhere from about 38 to 96 percent, and telling 50 from 70 percent reliably takes roughly ninety runs a side.
-- **The cost of doing it right:** the runs multiply, because you pay for tasks times setups times runs. Most of that is money and time.
+- **The risk:** a handful of runs leaves a wide range. In the textbook example in this chapter, 4 passes out of 5 runs is compatible with a true pass rate anywhere from about 38 to 96 percent, and telling 50 from 70 percent reliably takes roughly ninety runs a side.
+- **The cost of doing it right:** you pay for tasks times setups times runs, mostly in money and time.
 - **Ask the team:** "How many times was each side run, do the ranges overlap, and is everything equal except the thing being tested?"
 
 ## Is the new setup really better? {#problem}
 
 Say you changed something in your setup, such as a new instruction file or a different model. You ran a task once with the old setup and once with the new one, and the new one scored higher. Is the new one better, or would the old one have scored higher the next time?
 
-This is not only a beginner's question. Anthropic's guide to agent evals puts it plainly: "a task that passed on one eval run might fail on the next." That is the reason it gives for running each task several times: "Because model outputs vary between runs, we run multiple trials to produce more consistent results." ([Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents))
+This is not only a beginner's question. Anthropic's guide to agent evals warns that "a task that passed on one eval run might fail on the next," and it runs each task several times for that reason: "Because model outputs vary between runs, we run multiple trials to produce more consistent results." ([Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents))
 
-To answer that, we need names for two things. One attempt by the agent at one task, from the start to the end, is a **run**. How much the results differ between runs of the same setup on the same task is the **spread**. Before asking how big the spread is, it is worth asking why there is any spread at all.
+To answer that, we need names for two things. One attempt by the agent at one task, from the start to the end, is a **run**. How much the results differ between runs of the same setup on the same task is the **spread**. Before asking how big the spread is, there is an earlier question: why is there any spread at all?
 
 ## Seeing the spread, and saying what it means {#how-it-works}
 
@@ -29,7 +29,7 @@ The first is that the model picks its words with some chance in it. It does not 
 
 The world around the agent changes as well. Tools return what they return at that moment, so a command takes a different time, times out or is slowed by a rate limit, and a search lists its results in a different order. Even the model itself can change. If the platform can change the model behind a name without telling you, two runs a week apart may not be the same model, so note the model and the date next to every run.
 
-For this chapter it does not matter which of these adds the most. What matters is that the spread exists and that you see it before you decide anything.
+Whichever of these adds the most, the remedy is the same: see the spread before you decide anything.
 
 ### One run against several
 
@@ -41,27 +41,25 @@ In the picture, setup B looks better than setup A when each side runs once. Run 
 
 There is no number that is right for every case, because the size of the difference you want to see decides it. A large gap shows up in a few runs, while a small gap needs many.
 
-To feel why, start with a single setup that passed 4 of 5 runs. The usual 95 percent interval for that (the Wilson interval) runs from about 38 percent to 96 percent. Even with 5 of 5 it is still only about 57 percent to 100 percent. Five runs, in other words, cannot tell a setup that passes 40 percent of the time from one that passes 95 percent. Comparing two setups needs more: the standard sample-size formula says that to see 50 against 70 percent reliably, you need roughly ninety runs on each side. These are rough, textbook numbers for a pass/fail task, not measurements of any agent.
+To feel why, start with a single setup that passed 4 of 5 runs. The usual 95 percent interval for that (the Wilson interval) runs from about 38 percent to 96 percent. Even with 5 of 5 it is still only about 57 percent to 100 percent. So five runs cannot tell a setup that passes 40 percent of the time from one that passes 95 percent. Comparing two setups needs more: the standard sample-size formula says that to see 50 against 70 percent reliably, you need roughly ninety runs on each side. These are rough, textbook numbers for a pass/fail task, not measurements of any agent.
 
-In practice I start small, with a few runs of the setup I already have on one task, to see how much the results differ by themselves. If the results differ a lot, a few runs cannot show small effects, so the next step is to add runs until the picture stops changing. Once another run no longer moves the range much, I have a rough idea of the spread.
+In practice I start small, with a few runs of the setup I already have on one task, to see how much the results differ by themselves. If the results differ a lot, a few runs cannot show small effects, so the next step is to add runs. Once another run no longer moves the range much, I have a rough idea of the spread.
 
 Five per side is a starting point, not a conclusion. For the comparison itself, work in pairs: run both setups on the same tasks and look at the difference task by task. A task that is hard for both sides then stops adding noise to the comparison, so this takes fewer runs than comparing two averages would. Evan Miller's paper on error bars for evals recommends the same thing for comparing two models, and calls the paired analysis a "free" reduction in noise, because a question that is hard for one model tends to be hard for the other ([Adding Error Bars to Evals](https://arxiv.org/abs/2411.00640)).
 
-Runs cost money, and the bill grows fast because it is tasks times setups times runs. The bill is also a reason to keep the set of tasks small and well chosen ([Fixed tasks, scored by a script](6-3-eval-tasks.html)), and to be honest when you could not afford more. Not everything needs that many, so I save the extra runs for the changes I care about.
+Runs cost money, and the bill grows fast because it is tasks times setups times runs. The bill is also a reason to keep the set of tasks small and well chosen ([Fixed tasks, scored by a script](6-3-eval-tasks.html)). Not everything needs that many, so I save the extra runs for the changes I care about.
 
 ### "All k succeeded" and "at least one of k succeeded"
 
-Once you run a task k times, there are two questions you can ask of the results, with very different answers. The first is whether at least one of the k runs succeeded. That is what matters if a person can try several times and pick the best. This measure is called **pass@k**. Anthropic defines it as "the likelihood that an agent gets at least one correct solution in k attempts". It goes up as k grows.
+Once you run a task k times, there are two questions you can ask of the results, with very different answers. The first is whether at least one of the k runs succeeded, which is the question to ask when a person can try several times and pick the best. This measure is called **pass@k**. Anthropic defines it as "the likelihood that an agent gets at least one correct solution in k attempts". It goes up as k grows.
 
-The second question is whether all k runs succeeded. That is what matters if the agent runs alone, nobody is watching and it must work every time. This one is called **pass^k**. It goes down as k grows, because "demanding consistency across more trials is a harder bar to clear." ([Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents))
+The second question is whether all k runs succeeded, which is the one to ask when the agent runs alone, with nobody watching, and must work every time ([Unattended: when it must stop](5-7-when-to-stop.html)). This one is called **pass^k**. It goes down as k grows, because "demanding consistency across more trials is a harder bar to clear." ([Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents))
 
-The tau-bench paper proposed pass^k for this reason. It reported that the agents it tested in 2024 were "quite inconsistent (pass^8 <25% in retail)", where pass^8 means that all eight tries of the same task succeeded ([tau-bench](https://arxiv.org/abs/2406.12045)). The figure belongs to their retail tasks and those models, but the question carries over. If the agent runs unattended, an average pass rate of 80 percent is not the number you need. What you need to know is how often it works every time. Judge a pilot by that too.
-
-So pick the question that matches how you use the agent. With a person watching, ask the first. For an agent running overnight, ask the second ([Unattended: when it must stop](5-7-when-to-stop.html)).
+The tau-bench paper proposed pass^k for this reason. It reported that the agents it tested in 2024 were "quite inconsistent (pass^8 <25% in retail)", where pass^8 means that all eight tries of the same task succeeded ([tau-bench](https://arxiv.org/abs/2406.12045)). The figure belongs to their retail tasks and those models, but the question carries over. If the agent runs unattended, an average pass rate of 80 percent is not the number you need, and a pilot should be judged the same way, by how often it works every time.
 
 ### Direction yes, ratio no
 
-Does that mean a result from few runs is worthless? Not quite, because a few runs can still show a direction when the gap is large. The comparison in [Use subagents sparingly](2-3-subagents.html) is an example. Each of four tasks ran once, and a three-role team used about 4.5 times the usage and about 6 times the time of a single agent for the same answers. A gap of four to six times is large enough to trust its direction: the team cost much more for the same result. What it cannot support is "4.5" or "6", because another run would move them and the two sides were not set up the same way. This is the shape of an honest claim from few runs. It says which way the result points but not how far.
+Does that mean a result from few runs is worthless? Not quite. When one setup passes nearly every time and the other rarely does, even a few runs can show which way the result points, because chance alone would seldom flip a gap that large. What a few runs cannot give you is the size of the gap. The range around each result is wide (38 to 96 percent for 4 of 5 above), so the next handful of runs could move the gap a long way. A claim from few runs can say which way the result points, but not how far. The comparison in [Use subagents sparingly](2-3-subagents.html), with one run per task, is a case of this.
 
 ### Common misreadings
 
@@ -73,9 +71,9 @@ Running each side once is the misreading we started with, but it is not the only
 - Comparing sides that are not equal, such as a top model against a smaller one, with or without a knowledge base ([A knowledge base: an honest index of the code](8-1-why-a-knowledge-base.html)), with different rules. The gap is then the sum of several differences, so keep everything the same except the thing you test.
 - Leaving out the hidden costs. If the usage you report does not include the subagents, the setup that uses them looks cheap ([Use subagents sparingly](2-3-subagents.html)).
 
-### How to write one honest sentence
+### What to write next to a number
 
-What an honest sentence needs is its conditions, written next to the number. A number with no conditions can be neither checked nor repeated. These are the conditions I write down:
+A number with nothing beside it can be neither checked nor repeated, so I write these next to it:
 
 1. How many runs, and of how many tasks.
 2. Which model and setup, on each side.
@@ -83,23 +81,13 @@ What an honest sentence needs is its conditions, written next to the number. A n
 4. What the usage counts (main conversation only, or subagents too).
 5. What the spread was, or that it was run once.
 
-Here is the subagent comparison above, written that way: "Four tasks, one run each; one agent on a top model against a three-role team with a knowledge base; scored by the same script; usage in AI credits from the platform. Both got all four right. The team used about 4.5 times the usage and about 6 times the time. One run each, so I trust the direction and not the ratio."
-
-It is a worse-looking sentence than "the team costs 4.5 times as much", but it is the one that is true.
-
 ### Test your own setup
 
-For any claim that something is better, ask three questions:
-
-1. How many times was each side run?
-2. Do the ranges overlap?
-3. Is everything equal except the thing being tested?
-
-You can also see the spread of your own setup today. Take one task you know the right answer to and give it to your agent five times with the same request, each time in a new chat. The new chat matters, because an old chat carries what it learned and the later runs would not be fair. Make a small table with one row per run (pass or fail, minutes, usage), then look at the five results next to each other. That is the spread of your own setup on that task. It is usually bigger than people expect.
+Take one task you know the right answer to and give it to your agent five times with the same request, each time in a new chat. The new chat matters, because an old chat carries what it learned and the later runs would not be fair. Make a small table with one row per run (pass or fail, minutes, usage). The five rows side by side are the spread of your own setup on that task, and it is usually bigger than people expect.
 
 ## What more runs cost, and what they cannot tell you {#costs-and-traps}
 
-When the spread turns out bigger than you expected, the natural answer is more runs, and more runs cost real money. If the budget does not allow enough of them, say so and use the weaker words: "points toward", "I ran it twice".
+When the spread turns out bigger than you expected, the natural answer is more runs. If the budget does not allow enough of them, say so and use the weaker words: "points toward", "I ran it twice".
 
 And even when you can afford them, the spread itself is not a fault to remove. A tighter setup can lower it, but part of it stays, so plan for it with checks, a person at the gates and a limit on retries ([Make a pass count](5-5-counted-checks.html)).
 
