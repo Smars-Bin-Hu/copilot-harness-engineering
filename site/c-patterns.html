@@ -221,54 +221,54 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li><a href="#core-limits"><span data-l="en" lang="en">Put the core limits on one page</span><span data-l="zh-Hant" lang="zh-Hant">把核心限制放在一頁上</span><span data-l="zh-Hans" lang="zh-Hans">把核心限制放在一页上</span></a></li><li><a href="#rules-by-file"><span data-l="en" lang="en">Load rules only for the files they apply to</span><span data-l="zh-Hant" lang="zh-Hant">只為適用的檔案載入規則</span><span data-l="zh-Hans" lang="zh-Hans">规则只为它适用的文件加载</span></a></li><li><a href="#one-hook-entry"><span data-l="en" lang="en">One hook entry for every moment</span><span data-l="zh-Hant" lang="zh-Hant">每個時刻共用一個 hook 入口</span><span data-l="zh-Hans" lang="zh-Hans">所有时机只用一个 hook 入口</span></a></li><li><a href="#refuse-with-reason"><span data-l="en" lang="en">Refuse a dangerous command, with a reason</span><span data-l="zh-Hant" lang="zh-Hant">拒絕危險的指令，並附上原因</span><span data-l="zh-Hans" lang="zh-Hans">拒绝危险命令，并给出理由</span></a></li><li><a href="#person-only-commands"><span data-l="en" lang="en">Keep approvals for the person's terminal</span><span data-l="zh-Hant" lang="zh-Hant">把批准留給人的終端機</span><span data-l="zh-Hans" lang="zh-Hans">审批留在人的终端里</span></a></li><li><a href="#user-only-skill"><span data-l="en" lang="en">Mark a skill that only a person may start</span><span data-l="zh-Hant" lang="zh-Hant">標記一個只有人能啟動的 skill</span><span data-l="zh-Hans" lang="zh-Hans">标出只有人才能启动的 skill</span></a></li><li><a href="#read-only-helper"><span data-l="en" lang="en">A read-only helper</span><span data-l="zh-Hant" lang="zh-Hant">一個唯讀的幫手</span><span data-l="zh-Hans" lang="zh-Hans">只读的帮手</span></a></li><li><a href="#helper-brief"><span data-l="en" lang="en">Give a helper a brief it can use alone</span><span data-l="zh-Hant" lang="zh-Hant">給幫手一份它能單獨使用的簡報</span><span data-l="zh-Hans" lang="zh-Hans">给帮手一份它能独立使用的任务说明</span></a></li><li><a href="#pass-fail-checker"><span data-l="en" lang="en">A checker that answers PASS or FAIL</span><span data-l="zh-Hant" lang="zh-Hant">回答 PASS 或 FAIL 的檢查者</span><span data-l="zh-Hans" lang="zh-Hans">只回答 PASS 或 FAIL 的检查者</span></a></li><li><a href="#requirement-page"><span data-l="en" lang="en">Write the requirement on one page and have the person confirm it</span><span data-l="zh-Hant" lang="zh-Hant">把需求寫在一頁上，並讓人確認</span><span data-l="zh-Hans" lang="zh-Hans">把需求写在一页上，并让人确认</span></a></li><li><a href="#handover-file"><span data-l="en" lang="en">A handover file for the next session</span><span data-l="zh-Hant" lang="zh-Hant">給下一個會話的交接檔</span><span data-l="zh-Hans" lang="zh-Hans">给下一个会话的交接文件</span></a></li><li><a href="#known-uses"><span data-l="en" lang="en">Write down the uses a person knew</span><span data-l="zh-Hant" lang="zh-Hant">寫下人知道的那些使用</span><span data-l="zh-Hans" lang="zh-Hans">把人知道的调用关系写下来</span></a></li><li><a href="#audit-report"><span data-l="en" lang="en">Report an audit the same way every time</span><span data-l="zh-Hant" lang="zh-Hant">每次都用同樣的方式報告抽查</span><span data-l="zh-Hans" lang="zh-Hans">每次都用同样的格式汇报一次抽查</span></a></li><li><a href="#stop-reason"><span data-l="en" lang="en">Make a stop explain itself</span><span data-l="zh-Hant" lang="zh-Hant">讓一次停止自己說明原因</span><span data-l="zh-Hans" lang="zh-Hans">让每次停下都自己说明原因</span></a></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">C</p><h1><span data-l="en" lang="en">Patterns you can copy</span><span data-l="zh-Hant" lang="zh-Hant">可以照抄的模式</span><span data-l="zh-Hans" lang="zh-Hans">可以照抄的模式</span></h1></header><div data-l="en" lang="en"><p>This appendix is a shelf of small patterns. Each one has the problem in a line, the pattern in a few lines, a real file from my harness to copy from, and the chapter that explains why. They are examples to adapt, not to paste. The files are the real ones at the pinned tag, so they are longer and more specific than your first version should be. Check each one in your own setup after you copy it. If you do not know where to start, take the safety patterns first (refuse a command, keep approvals for the person), then the ones that save context, then the ones for long work. Each pattern has a <strong>Limit</strong> line, taken from the chapter it links to.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這個附錄是一個小模式的架子。每個模式有：一行的問題、幾行的模式、一個你可以照著抄的我的 harness 的真實檔案，以及解釋原因的章節。它們是讓你改寫的例子，不是讓你整份貼上的。這些檔案是釘住的 tag 上的真實檔案，所以比你的第一版應該有的更長、更具體。抄過去之後，在你自己的環境裡把每一個都檢查一遍。如果不知道從哪裡開始，先拿安全的模式（拒絕一個指令，把批准留給人），然後是省上下文的，再來是給長任務用的。每個模式都有一行<strong>限制</strong>，取自它連結的那一章。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这个附录是一个小模式的书架。每个模式有一行问题，几行做法，一个可以照着抄的、来自我的 harness 的真实文件，以及讲道理的那一章。它们是拿来改的例子，不是拿来粘贴的。这些文件是钉住的 tag 上的真实文件，所以比你的第一版应有的样子更长、更具体。抄过去之后，要在你自己的环境里逐个检查。如果不知道从哪里开始，先看安全类的模式（拒绝一条命令、审批留给人），再看省上下文的，最后看长任务用的。每个模式都有一行<strong>局限</strong>，取自它所链接的那一章。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li><a href="#core-limits"><span data-l="en" lang="en">Put the core limits on one page</span><span data-l="zh-Hant" lang="zh-Hant">把核心限制放在一頁上</span><span data-l="zh-Hans" lang="zh-Hans">把核心限制放在一页上</span></a></li><li><a href="#rules-by-file"><span data-l="en" lang="en">Load rules only for the files they apply to</span><span data-l="zh-Hant" lang="zh-Hant">只為適用的檔案載入規則</span><span data-l="zh-Hans" lang="zh-Hans">规则只为它适用的文件加载</span></a></li><li><a href="#one-hook-entry"><span data-l="en" lang="en">One hook entry for every moment</span><span data-l="zh-Hant" lang="zh-Hant">每個時刻共用一個 hook 入口</span><span data-l="zh-Hans" lang="zh-Hans">所有时机只用一个 hook 入口</span></a></li><li><a href="#refuse-with-reason"><span data-l="en" lang="en">Refuse a dangerous command, with a reason</span><span data-l="zh-Hant" lang="zh-Hant">拒絕危險的指令，並附上原因</span><span data-l="zh-Hans" lang="zh-Hans">拒绝危险命令，并给出理由</span></a></li><li><a href="#person-only-commands"><span data-l="en" lang="en">Keep approvals for the person's terminal</span><span data-l="zh-Hant" lang="zh-Hant">把批准留給人的終端機</span><span data-l="zh-Hans" lang="zh-Hans">审批留在人的终端里</span></a></li><li><a href="#user-only-skill"><span data-l="en" lang="en">Mark a skill that only a person may start</span><span data-l="zh-Hant" lang="zh-Hant">標記一個只有人能啟動的 skill</span><span data-l="zh-Hans" lang="zh-Hans">标出只有人才能启动的 skill</span></a></li><li><a href="#read-only-helper"><span data-l="en" lang="en">A read-only helper</span><span data-l="zh-Hant" lang="zh-Hant">一個唯讀的幫手</span><span data-l="zh-Hans" lang="zh-Hans">只读的帮手</span></a></li><li><a href="#helper-brief"><span data-l="en" lang="en">Give a helper a brief it can use alone</span><span data-l="zh-Hant" lang="zh-Hant">給幫手一份它能單獨使用的任務說明</span><span data-l="zh-Hans" lang="zh-Hans">给帮手一份它能独立使用的任务说明</span></a></li><li><a href="#pass-fail-checker"><span data-l="en" lang="en">A checker that answers PASS or FAIL</span><span data-l="zh-Hant" lang="zh-Hant">回答 PASS 或 FAIL 的檢查者</span><span data-l="zh-Hans" lang="zh-Hans">只回答 PASS 或 FAIL 的检查者</span></a></li><li><a href="#requirement-page"><span data-l="en" lang="en">Write the requirement on one page and have the person confirm it</span><span data-l="zh-Hant" lang="zh-Hant">把需求寫在一頁上，並讓人確認</span><span data-l="zh-Hans" lang="zh-Hans">把需求写在一页上，并让人确认</span></a></li><li><a href="#handover-file"><span data-l="en" lang="en">A handover file for the next session</span><span data-l="zh-Hant" lang="zh-Hant">給下一個會話的交接檔</span><span data-l="zh-Hans" lang="zh-Hans">给下一个会话的交接文件</span></a></li><li><a href="#known-uses"><span data-l="en" lang="en">Write down the uses a person knew</span><span data-l="zh-Hant" lang="zh-Hant">寫下人知道的那些使用</span><span data-l="zh-Hans" lang="zh-Hans">把人知道的调用关系写下来</span></a></li><li><a href="#audit-report"><span data-l="en" lang="en">Report an audit the same way every time</span><span data-l="zh-Hant" lang="zh-Hant">每次都用同樣的方式報告抽查</span><span data-l="zh-Hans" lang="zh-Hans">每次都用同样的格式汇报一次抽查</span></a></li><li><a href="#stop-reason"><span data-l="en" lang="en">Make a stop explain itself</span><span data-l="zh-Hant" lang="zh-Hant">讓一次停止自己說明原因</span><span data-l="zh-Hans" lang="zh-Hans">让每次停下都自己说明原因</span></a></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">C</p><h1><span data-l="en" lang="en">Patterns you can copy</span><span data-l="zh-Hant" lang="zh-Hant">可以照抄的模式</span><span data-l="zh-Hans" lang="zh-Hans">可以照抄的模式</span></h1></header><div data-l="en" lang="en"><p>This appendix is a shelf of small patterns, each set out the same way: the problem in a line, the pattern in a few lines, a real file from my harness to copy from, and the chapter that explains why. Most patterns also end with a <strong>Limit</strong> line, taken from the chapter it links to. Treat the patterns as examples to adapt rather than to paste. The files are the real ones at the pinned tag, so they are longer and more specific than your first version should be, and each one needs checking in your own setup after you copy it. If you do not know where to start, take the safety patterns first (refuse a command, keep approvals for the person), then the ones that save context, and then the ones for long work. The shelf below is not in that order.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這個附錄像一個架子，上面擺著一些小模式，每個都照同樣的格式寫：一行問題、幾行做法、一份可以照著抄的、來自我的 harness 的真實檔案，還有解釋原因的那一章。大多數模式最後還有一行<strong>限制</strong>，取自它連結的那一章。這些檔案是釘住的 tag 上的真實版本，比你的第一版該有的樣子更長、更具體，所以它們是讓你改寫的例子，不是讓你整份貼上的。抄過去之後，每一個都還要在你自己的環境裡檢查一遍。如果不知道從哪裡開始，先看安全的模式（拒絕一個指令、把批准留給人），再看省上下文的，最後看給長任務用的，這和下面的排列順序不一樣。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这个附录像一个书架，上面摆着一些小模式，每个都按同样的格式写：一行问题，几行做法，一份可以照着抄的、来自我的 harness 的真实文件，还有讲清道理的那一章。大多数模式最后还有一行<strong>局限</strong>，取自它链接的那一章。这些文件是钉住的 tag 上的真实版本，比你的第一版该有的样子更长、更具体，所以它们是拿来改的例子，不是拿来直接粘贴的。抄过去以后，每一个都还要在你自己的环境里检查一遍。如果不知道从哪里下手，先看安全类的模式（拒绝一条命令、把审批留给人），再看省上下文的，最后看长任务用的，这和下面的排列顺序不一样。</p>
 </div><section id="core-limits" class="sec"><div data-l="en" lang="en"><h2>Put the core limits on one page</h2><p><strong>Problem.</strong> The agent guesses paths and commands, or tidies files you changed.</p>
-<p><strong>Pattern.</strong> Keep a short always-loaded page. Put in it only what the model would get wrong without it, and put it first. Two limits are enough to begin.</p>
+<p><strong>Pattern.</strong> Keep a short page that is always loaded. Put in it only what the model would get wrong without it, and put it first. Two limits are enough to begin with.</p>
 <details class="code"><summary>Two core limits from the shipped rules page: look before you act, and keep the user&#x27;s own changes.</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
 - Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> A page that grows long stops being read; every line must earn its place.</p>
+<p><strong>Limit.</strong> A page that grows long stops being read, so every line must earn its place.</p>
 <p>More in <a href="3-3-instructions-and-skills.html">Instructions and skills</a> and <a href="0-2-minimal-harness.html">A minimal harness</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>把核心限制放在一頁上</h2><p><strong>問題</strong>。agent 亂猜路徑和指令，或者把你改過的檔案「整理」掉。</p>
-<p><strong>模式</strong>。保留一頁永遠載入的短頁面。只放沒有它模型就會做錯的東西，並放在最前面。開始時，兩條限制就夠了。</p>
+<p><strong>做法</strong>。保留一頁永遠載入的簡短規則。裡面只放沒有它模型就會做錯的東西，而且放在最前面。剛開始，有兩條限制就夠了。</p>
 <details class="code"><summary>出貨的規則頁裡的兩條核心限制：動手前先看，並保留使用者自己的改動。</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
 - Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。越寫越長的頁面就不會被讀了；每一行都必須有存在的理由。</p>
-<p>更多在 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把核心限制放在一页上</h2><p><strong>问题。</strong> agent 乱猜路径和命令，或者把你改的文件“整理”掉。</p>
-<p><strong>做法。</strong> 保留一页简短的、始终加载的规则。只放没有它模型就会做错的内容，并放在最前面。开头有两条限制就够了。</p>
+<p><strong>限制</strong>。頁面一長就不會有人讀了，所以每一行都得有它存在的理由。</p>
+<p>更多內容見 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="0-2-minimal-harness.html">30 分鐘搭一個最小 harness</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把核心限制放在一页上</h2><p><strong>问题</strong>。agent 乱猜路径和命令，或者把你改过的文件“整理”掉。</p>
+<p><strong>做法</strong>。保留一页始终加载的简短规则。里面只放模型没有它就会做错的内容，并且放在最前面。一开始，有两条限制就够了。</p>
 <details class="code"><summary>随 harness 发布的规则页里的两条核心限制：先看再动手，保留用户自己的改动。</summary><pre><code class="language-markdown">- Look at the real files before you act. Do not guess a path, a command, a setting or how to test.
 - Keep the changes the user already made. Do not touch unrelated files.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/AGENTS.md#L44-L45">AGENTS.md L44–L45 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 变长的页面就没人读了；每一行都要有存在的理由。</p>
+<p><strong>局限</strong>。页面一长就没人读了，所以每一行都得有它存在的理由。</p>
 <p>更多内容见<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>和<a href="0-2-minimal-harness.html">30 分钟搭一个最小 harness</a>。</p>
 </div></section><section id="rules-by-file" class="sec"><div data-l="en" lang="en"><h2>Load rules only for the files they apply to</h2><p><strong>Problem.</strong> A rule that matters for one kind of file costs room in every chat.</p>
-<p><strong>Pattern.</strong> Put the rule in an instruction file with an <code>applyTo</code> pattern. It loads when the agent works on a matching file and costs nothing otherwise.</p>
+<p><strong>Pattern.</strong> Put the rule in an instruction file with an <code>applyTo</code> pattern. Then it loads only when the agent works on a matching file and costs nothing the rest of the time.</p>
 <details class="code"><summary>The header of a file-based instruction: a description and an applyTo pattern.</summary><pre><code class="language-markdown">---
 description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
 applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
 <p><strong>Limit.</strong> It is a request to the model, not a rule the platform enforces.</p>
 <p>More in <a href="3-3-instructions-and-skills.html">Instructions and skills</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>只為適用的檔案載入規則</h2><p><strong>問題</strong>。只對某一種檔案重要的規則，在每個對話裡都占空間。</p>
-<p><strong>模式</strong>。把規則放進帶 <code>applyTo</code> 樣式的指令檔。agent 處理符合的檔案時才載入，其他時候不花任何東西。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>只為適用的檔案載入規則</h2><p><strong>問題</strong>。一條只對某一種檔案重要的規則，卻在每個對話裡都占著空間。</p>
+<p><strong>做法</strong>。把規則放進帶 <code>applyTo</code> 樣式的指令檔。這樣一來，只有 agent 處理符合的檔案時它才載入，其他時候一點空間都不占。</p>
 <details class="code"><summary>依檔案載入的指令的標頭：一段描述和一個 applyTo 樣式。</summary><pre><code class="language-markdown">---
 description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
 applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
 <p><strong>限制</strong>。這是對模型的請求，不是平台強制的規則。</p>
-<p>更多在 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>规则只为它适用的文件加载</h2><p><strong>问题。</strong> 一条只对某一类文件要紧的规则，在每个对话里都占地方。</p>
-<p><strong>做法。</strong> 把规则放进带 <code>applyTo</code> 匹配模式的指令文件。agent 处理匹配的文件时才加载，其余时候不占任何空间。</p>
+<p>更多內容見 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>规则只为它适用的文件加载</h2><p><strong>问题</strong>。一条只对某一类文件要紧的规则，却在每个对话里都占着地方。</p>
+<p><strong>做法</strong>。把规则放进带 <code>applyTo</code> 匹配模式的指令文件。这样一来，只有 agent 处理匹配的文件时它才加载，其余时候一点空间都不占。</p>
 <details class="code"><summary>按文件加载的指令的头部：一段描述和一个 applyTo 匹配模式。</summary><pre><code class="language-markdown">---
 description: &#x27;Guidelines for creating high-quality Agent Skills for GitHub Copilot&#x27;
 applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/instructions/skills.instructions.md#L1-L4">.github/instructions/skills.instructions.md L1–L4 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 这是对模型的请求，不是平台强制执行的规则。</p>
+<p><strong>局限</strong>。这是对模型的请求，不是平台强制执行的规则。</p>
 <p>更多内容见<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>。</p>
 </div></section><section id="one-hook-entry" class="sec"><div data-l="en" lang="en"><h2>One hook entry for every moment</h2><p><strong>Problem.</strong> Several hook scripts, each with its own timeout and shell, are hard to keep in step.</p>
-<p><strong>Pattern.</strong> Make the configuration file only say which moments to call, and point every moment to one program. The program decides what to do. Set a time limit, and remember the file is read when the window starts.</p>
+<p><strong>Pattern.</strong> Let the configuration file say only which moments to call, and point every moment at the same program. What to do at each moment is then up to the program. Two details matter here. Give the entry a time limit, and remember that the file is read when the window starts.</p>
 <details class="code"><summary>The entry for the moment before a tool runs: it only names the program and its time limit.</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
       {
         &quot;type&quot;: &quot;command&quot;,
@@ -283,8 +283,8 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
     ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
 <p><strong>Limit.</strong> A hook that times out is treated as a pass, so keep it fast.</p>
 <p>More in <a href="2-2-hooks.html">Hooks</a> and <a href="4-4-enforcement-design.html">Build the enforcement layer like software</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>每個時刻共用一個 hook 入口</h2><p><strong>問題</strong>。好幾個 hook 腳本，各有自己的逾時和 shell，很難保持一致。</p>
-<p><strong>模式</strong>。讓設定檔只說要在哪些時刻呼叫，並把每個時刻都指向同一個程式。由程式決定要做什麼。設定時間上限，並記得這個檔案是在視窗啟動時讀的。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>每個時刻共用一個 hook 入口</h2><p><strong>問題</strong>。好幾個 hook 腳本各有自己的逾時和 shell，很難保持一致。</p>
+<p><strong>做法</strong>。設定檔只說要在哪些時刻呼叫，每個時刻都指向同一個程式，到時候要做什麼由這個程式決定。還要注意兩件事：給這個入口設定時間上限，並且記得這個檔案是在視窗啟動時讀的。</p>
 <details class="code"><summary>工具執行之前那個時刻的入口：它只指名程式和它的時間上限。</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
       {
         &quot;type&quot;: &quot;command&quot;,
@@ -297,10 +297,10 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
         &quot;timeoutSec&quot;: 30
       }
     ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。逾時的 hook 會被當成通過，所以要讓它快。</p>
-<p>更多在 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 和 <a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>所有时机只用一个 hook 入口</h2><p><strong>问题。</strong> 好几个 hook 脚本，各有各的超时和 shell，很难保持一致。</p>
-<p><strong>做法。</strong> 让配置文件只说明在哪些时机调用，并让每个时机都指向同一个程序。做什么由这个程序决定。设一个时间限制，并记住这个文件是在窗口启动时读取的。</p>
+<p><strong>限制</strong>。逾時的 hook 會被當成通過，所以要讓它跑得快。</p>
+<p>更多內容見 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a> 和 <a href="4-4-enforcement-design.html">把執行層當軟體來設計</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>所有时机只用一个 hook 入口</h2><p><strong>问题</strong>。好几个 hook 脚本各有各的超时和 shell，很难保持一致。</p>
+<p><strong>做法</strong>。配置文件只说明在哪些时机调用，每个时机都指向同一个程序，到时候做什么由这个程序决定。还要注意两件事：给这个入口设一个时间限制，并且记住这个文件是在窗口启动时读取的。</p>
 <details class="code"><summary>工具运行之前那个时机的入口：它只写出程序的名字和时间限制。</summary><pre><code class="language-json">    &quot;PreToolUse&quot;: [
       {
         &quot;type&quot;: &quot;command&quot;,
@@ -313,58 +313,58 @@ applyTo: &#x27;.github/skills/**/SKILL.md&#x27;
         &quot;timeoutSec&quot;: 30
       }
     ],</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/hooks/harness.json#L40-L51">.github/hooks/harness.json L40–L51 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 超时的 hook 会被当作通过，所以要让它快。</p>
+<p><strong>局限</strong>。超时的 hook 会被当作通过，所以要让它跑得快。</p>
 <p>更多内容见<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>和<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>。</p>
 </div></section><section id="refuse-with-reason" class="sec"><div data-l="en" lang="en"><h2>Refuse a dangerous command, with a reason</h2><p><strong>Problem.</strong> A command whose damage cannot be undone, such as recursive deletion of a root or home folder, should never run.</p>
-<p><strong>Pattern.</strong> Write a pattern and a <code>why</code> sentence for each. The agent reads the reason, so say what the command would do. Keep the pattern narrow, because a false refusal is a stuck task. It stops common spellings, not every spelling.</p>
+<p><strong>Pattern.</strong> Write a pattern for each command, with a <code>why</code> sentence beside it. Because the agent reads the reason, say what the command would do. Keep the pattern narrow as well, because every false refusal leaves a task stuck.</p>
 <details class="code"><summary>One real refusal rule: recursive force-delete of the root, home or current folder, with a reason the agent can read.</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
         &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
       },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> This is a speed bump, not a boundary: it stops common spellings. For things that must never be touched, do not hand them over (<a href="4-5-least-privilege.html">Some things you never hand over</a>).</p>
+<p><strong>Limit.</strong> This is a speed bump, not a boundary, because it stops the common spellings of a command and not every spelling. So anything that must never be touched should not be handed over at all (<a href="4-5-least-privilege.html">Some things you never hand over</a>).</p>
 <p>More in <a href="4-2-ask-vs-refuse.html">Asking is not a limit</a> and <a href="2-2-hooks.html">Hooks</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>拒絕危險的指令，並附上原因</h2><p><strong>問題</strong>。造成的傷害無法復原的指令，例如遞迴刪除根目錄或家目錄，絕不該執行。</p>
-<p><strong>模式</strong>。每一條寫一個樣式和一句 <code>why</code>。agent 會讀這個原因，所以要說這個指令會做什麼。樣式要窄，因為錯誤的拒絕就是一個卡住的任務。它擋得住常見的寫法，不是每一種寫法。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>拒絕危險的指令，並附上原因</h2><p><strong>問題</strong>。有些指令造成的傷害無法復原，例如遞迴刪除根目錄或家目錄，這種指令絕不該執行。</p>
+<p><strong>做法</strong>。每一條指令寫一個樣式，旁邊配一句 <code>why</code>。agent 會讀這個原因，所以要說清楚這個指令會做什麼。樣式也要窄，因為每誤擋一次，就有一個任務卡住。</p>
 <details class="code"><summary>一條真實的拒絕規則：遞迴強制刪除根目錄、家目錄或目前的資料夾，附上 agent 讀得懂的原因。</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
         &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
       },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。這是減速丘，不是邊界：它擋住常見的寫法。對絕不能被碰的東西，不要交出去（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
-<p>更多在 <a href="4-2-ask-vs-refuse.html">詢問不是限制</a> 和 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>拒绝危险命令，并给出理由</h2><p><strong>问题。</strong> 造成的损害无法挽回的命令，比如递归删除根目录或主目录，永远不该运行。</p>
-<p><strong>做法。</strong> 为每一条写一个匹配模式和一句 <code>why</code>。agent 会读这个理由，所以要写清这条命令会做什么。匹配模式要窄，因为一次误拒就是一个卡住的任务。它拦得住常见的写法，拦不住所有的写法。</p>
+<p><strong>限制</strong>。這是減速丘，不是邊界，因為它只擋得住指令的常見寫法，擋不住每一種寫法。所以，絕不能被碰的東西，乾脆就不要交出去（<a href="4-5-least-privilege.html">有些東西根本不給</a>）。</p>
+<p>更多內容見 <a href="4-2-ask-vs-refuse.html">詢問不是限制</a> 和 <a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>拒绝危险命令，并给出理由</h2><p><strong>问题</strong>。有些命令造成的损害无法挽回，比如递归删除根目录或主目录，这类命令永远不该运行。</p>
+<p><strong>做法</strong>。为每条命令写一个匹配模式，旁边配一句 <code>why</code>。agent 会读这个理由，所以要写清这条命令会做什么。匹配模式也要窄，因为每误拒一次，就有一个任务卡住。</p>
 <details class="code"><summary>一条真实的拒绝规则：对根目录、主目录或当前文件夹做递归强制删除，附上 agent 读得懂的理由。</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;it recursively deletes the root, the home folder or the current folder&quot;, &quot;zh&quot;: &quot;递归删除根目录、家目录或当前目录&quot;},
         &quot;pattern&quot;: &quot;{cmd}rm\\s+(?:-[a-z]+\\s+)*-[a-z]*(?:r[a-z]*f|f[a-z]*r)[a-z]*\\s+(?:/|~|\\$home|\\*|\\.|\\.\\.)/?\\*?(?:\\s|$|[;&amp;|])&quot;
       },</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L59-L62">.harness/policies/gate.json L59–L62 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 这是个减速带，不是边界：它只拦常见的写法。对那些绝不能碰的东西，不要交出去（<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p><strong>局限</strong>。这是减速带，不是边界，因为它只拦得住命令的常见写法，拦不住所有写法。所以，绝不能碰的东西，干脆就不要交出去（<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
 <p>更多内容见<a href="4-2-ask-vs-refuse.html">询问不是限制</a>和<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>。</p>
 </div></section><section id="person-only-commands" class="sec"><div data-l="en" lang="en"><h2>Keep approvals for the person's terminal</h2><p><strong>Problem.</strong> If the agent can run the approval command, the approval means nothing.</p>
-<p><strong>Pattern.</strong> Refuse, in the same hook, every command that grants a right. The reason tells the agent to ask the person to run it in their own terminal. Test it by asking the agent to run one.</p>
+<p><strong>Pattern.</strong> In the same hook, refuse every command that grants a right, with a reason that tells the agent to ask the person to run it in their own terminal. To test it, ask the agent to run one.</p>
 <details class="code"><summary>A refusal for the commands only a person may run: approvals, waivers, switching unattended mode on.</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;only the user may run these, in their own terminal: approving a plan (task approve-plan), confirming the requirement (task confirm-req), approving a write-back (task approve-promote), recovering a promote that failed halfway (task recover), giving more checks, waiving them or dismissing one (task review extend, task review waive, task review dismiss), pausing and resuming a task (task pause, task resume, and all at once: task offwork, task onwork), switching autorun on (task autorun on), serving the board with buttons that act (task board, task board --serve; an agent writes the page with task board --once), approving a git command (approve-command), switching admin mode on (admin on). Tell the user to run the command; do not run it yourself&quot;, &quot;zh&quot;: &quot;批准计划（task approve-plan）、批准回写（task approve-promote）、恢复中途出错的 promote（task recover）、再给检查次数、放行或作废一次检查（task review extend、task review waive、task review dismiss）、搁置和恢复任务（task pause、task resume，以及一次全部：task offwork、task onwork）、开 autorun（task autorun on）、启动能操作的看板服务（task board、task board --serve；agent 只能用 task board --once 生成页面）、批准 git 命令（approve-command）、开 admin 模式（admin on）只能由用户在自己的终端里运行。告诉用户运行这条命令，不要自己运行&quot;},
         &quot;pattern&quot;: &quot;\\b(?:cli\\.py|harness(?:\\.cmd)?)\\s+(?:task\\s+(?:approve-plan|confirm-req|approve-promote|recover|pause|resume|offwork|onwork|autorun\\s+on|review\\s+(?:extend|waive|dismiss)|board\\b(?![^;&amp;|\\n]*\\s--once\\b))|approve-command|admin\\s+on)\\b&quot;
       }</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L83-L86">.harness/policies/gate.json L83–L86 @ 1.5.50</a></p></details>
 <p><strong>Limit.</strong> It works only while the hook runs and its files are guarded.</p>
 <p>More in <a href="5-3-two-approvals.html">Two gates: where a person approves</a> and <a href="4-3-guardrails.html">Guard the files that hold the rules</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>把批准留給人的終端機</h2><p><strong>問題</strong>。如果 agent 能執行批准的指令，批准就沒有意義。</p>
-<p><strong>模式</strong>。在同一個 hook 裡，拒絕每一個授予權限的指令。原因要告訴 agent，請人在他自己的終端機裡執行。請 agent 執行其中一個，來測試它。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>把批准留給人的終端機</h2><p><strong>問題</strong>。如果 agent 自己就能執行批准的指令，批准就沒有意義了。</p>
+<p><strong>做法</strong>。在同一個 hook 裡拒絕每一個授予權限的指令，並在原因裡告訴 agent，請人在他自己的終端機裡執行。要測試它，就請 agent 執行其中一個。</p>
 <details class="code"><summary>對只有人才能執行的指令的拒絕：批准、豁免、開啟無人值守模式。</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;only the user may run these, in their own terminal: approving a plan (task approve-plan), confirming the requirement (task confirm-req), approving a write-back (task approve-promote), recovering a promote that failed halfway (task recover), giving more checks, waiving them or dismissing one (task review extend, task review waive, task review dismiss), pausing and resuming a task (task pause, task resume, and all at once: task offwork, task onwork), switching autorun on (task autorun on), serving the board with buttons that act (task board, task board --serve; an agent writes the page with task board --once), approving a git command (approve-command), switching admin mode on (admin on). Tell the user to run the command; do not run it yourself&quot;, &quot;zh&quot;: &quot;批准计划（task approve-plan）、批准回写（task approve-promote）、恢复中途出错的 promote（task recover）、再给检查次数、放行或作废一次检查（task review extend、task review waive、task review dismiss）、搁置和恢复任务（task pause、task resume，以及一次全部：task offwork、task onwork）、开 autorun（task autorun on）、启动能操作的看板服务（task board、task board --serve；agent 只能用 task board --once 生成页面）、批准 git 命令（approve-command）、开 admin 模式（admin on）只能由用户在自己的终端里运行。告诉用户运行这条命令，不要自己运行&quot;},
         &quot;pattern&quot;: &quot;\\b(?:cli\\.py|harness(?:\\.cmd)?)\\s+(?:task\\s+(?:approve-plan|confirm-req|approve-promote|recover|pause|resume|offwork|onwork|autorun\\s+on|review\\s+(?:extend|waive|dismiss)|board\\b(?![^;&amp;|\\n]*\\s--once\\b))|approve-command|admin\\s+on)\\b&quot;
       }</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L83-L86">.harness/policies/gate.json L83–L86 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。只有在 hook 執行、它的檔案被保護時才行得通。</p>
-<p>更多在 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 和 <a href="4-3-guardrails.html">保護規則本身的檔案</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>审批留在人的终端里</h2><p><strong>问题。</strong> 如果 agent 能运行审批命令，审批就没有意义。</p>
-<p><strong>做法。</strong> 在同一个 hook 里，拒绝每一条授予权限的命令。理由告诉 agent，请人到自己的终端里去运行。测一下：让 agent 运行其中一条。</p>
+<p><strong>限制</strong>。只有在 hook 執行、它的檔案也受到保護時，這一招才行得通。</p>
+<p>更多內容見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a> 和 <a href="4-3-guardrails.html">保護規則本身的檔案</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>审批留在人的终端里</h2><p><strong>问题</strong>。如果 agent 自己就能运行审批命令，审批就没有意义了。</p>
+<p><strong>做法</strong>。在同一个 hook 里拒绝所有授予权限的命令，并在理由里告诉 agent，请人到自己的终端里去运行。要测试它，就让 agent 运行其中一条。</p>
 <details class="code"><summary>对只有人才能运行的命令的拒绝：审批、豁免、打开无人值守模式。</summary><pre><code class="language-json">      {
         &quot;why&quot;: {&quot;en&quot;: &quot;only the user may run these, in their own terminal: approving a plan (task approve-plan), confirming the requirement (task confirm-req), approving a write-back (task approve-promote), recovering a promote that failed halfway (task recover), giving more checks, waiving them or dismissing one (task review extend, task review waive, task review dismiss), pausing and resuming a task (task pause, task resume, and all at once: task offwork, task onwork), switching autorun on (task autorun on), serving the board with buttons that act (task board, task board --serve; an agent writes the page with task board --once), approving a git command (approve-command), switching admin mode on (admin on). Tell the user to run the command; do not run it yourself&quot;, &quot;zh&quot;: &quot;批准计划（task approve-plan）、批准回写（task approve-promote）、恢复中途出错的 promote（task recover）、再给检查次数、放行或作废一次检查（task review extend、task review waive、task review dismiss）、搁置和恢复任务（task pause、task resume，以及一次全部：task offwork、task onwork）、开 autorun（task autorun on）、启动能操作的看板服务（task board、task board --serve；agent 只能用 task board --once 生成页面）、批准 git 命令（approve-command）、开 admin 模式（admin on）只能由用户在自己的终端里运行。告诉用户运行这条命令，不要自己运行&quot;},
         &quot;pattern&quot;: &quot;\\b(?:cli\\.py|harness(?:\\.cmd)?)\\s+(?:task\\s+(?:approve-plan|confirm-req|approve-promote|recover|pause|resume|offwork|onwork|autorun\\s+on|review\\s+(?:extend|waive|dismiss)|board\\b(?![^;&amp;|\\n]*\\s--once\\b))|approve-command|admin\\s+on)\\b&quot;
       }</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/policies/gate.json#L83-L86">.harness/policies/gate.json L83–L86 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 只有在 hook 运行、并且它的文件受到保护的时候才有效。</p>
+<p><strong>局限</strong>。只有 hook 在运行、它的文件也受到保护时，这一招才有效。</p>
 <p>更多内容见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>和<a href="4-3-guardrails.html">保护规则本身的文件</a>。</p>
 </div></section><section id="user-only-skill" class="sec"><div data-l="en" lang="en"><h2>Mark a skill that only a person may start</h2><p><strong>Problem.</strong> A skill that spends money or hands over rights should not start because the model thought it fit.</p>
-<p><strong>Pattern.</strong> Set <code>disable-model-invocation: true</code>, and say in the description that the agent must not call it. This limits who starts the skill. It does not limit what the skill does once started.</p>
+<p><strong>Pattern.</strong> Set <code>disable-model-invocation: true</code>. In the description, say that the agent must not call it.</p>
 <details class="code"><summary>The top of a skill only the user may start: the flag in the header and the sentence in the description.</summary><pre><code class="language-markdown">---
 name: harness-autorun
 description: &#x27;autorun (beta): the agent that holds a task works down TODO.md without the user watching every step, and stops only for what a person must decide. This skill takes the user through getting ready and switching autorun on, and sets the rules while it runs. Use only when the user clearly types /harness-autorun; an agent must not call it by itself. Keywords: autorun, unattended, run to the end, keep going, no need to watch.&#x27;
@@ -373,10 +373,10 @@ disable-model-invocation: true
 type: workflow
 specificTo: generic
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/harness-autorun/SKILL.md#L1-L8">.github/skills/harness-autorun/SKILL.md L1–L8 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> It limits who starts the skill, not what the skill does.</p>
+<p><strong>Limit.</strong> It limits who starts the skill, not what the skill does once started.</p>
 <p>More in <a href="3-3-instructions-and-skills.html">Instructions and skills</a> and <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>標記一個只有人能啟動的 skill</h2><p><strong>問題</strong>。一個花錢或交出權限的 skill，不該因為模型覺得合適就啟動。</p>
-<p><strong>模式</strong>。設定 <code>disable-model-invocation: true</code>，並在描述裡說明 agent 不可以呼叫它。這限制的是誰來啟動 skill。它不限制 skill 啟動之後做什麼。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>標記一個只有人能啟動的 skill</h2><p><strong>問題</strong>。一個會花錢或交出權限的 skill，不該因為模型覺得合適就啟動。</p>
+<p><strong>做法</strong>。設定 <code>disable-model-invocation: true</code>，並在描述裡說明 agent 不可以呼叫它。</p>
 <details class="code"><summary>一個只有使用者能啟動的 skill 的開頭：標頭裡的旗標，和描述裡的那句話。</summary><pre><code class="language-markdown">---
 name: harness-autorun
 description: &#x27;autorun (beta): the agent that holds a task works down TODO.md without the user watching every step, and stops only for what a person must decide. This skill takes the user through getting ready and switching autorun on, and sets the rules while it runs. Use only when the user clearly types /harness-autorun; an agent must not call it by itself. Keywords: autorun, unattended, run to the end, keep going, no need to watch.&#x27;
@@ -385,10 +385,10 @@ disable-model-invocation: true
 type: workflow
 specificTo: generic
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/harness-autorun/SKILL.md#L1-L8">.github/skills/harness-autorun/SKILL.md L1–L8 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。它限制誰來啟動 skill，不限制 skill 做什麼。</p>
-<p>更多在 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>标出只有人才能启动的 skill</h2><p><strong>问题。</strong> 一个会花钱或者会交出权限的 skill，不该因为模型觉得合适就启动。</p>
-<p><strong>做法。</strong> 设置 <code>disable-model-invocation: true</code>，并在描述里写明 agent 不得调用它。这限制的是谁来启动这个 skill，不限制它启动之后做什么。</p>
+<p><strong>限制</strong>。它限制的是誰來啟動 skill，不限制 skill 啟動之後做什麼。</p>
+<p>更多內容見 <a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>标出只有人才能启动的 skill</h2><p><strong>问题</strong>。一个会花钱或者会交出权限的 skill，不该因为模型觉得合适就启动。</p>
+<p><strong>做法</strong>。设置 <code>disable-model-invocation: true</code>，并在描述里写明 agent 不得调用它。</p>
 <details class="code"><summary>只有用户才能启动的 skill 的开头：头部的标志，和描述里的那句话。</summary><pre><code class="language-markdown">---
 name: harness-autorun
 description: &#x27;autorun (beta): the agent that holds a task works down TODO.md without the user watching every step, and stops only for what a person must decide. This skill takes the user through getting ready and switching autorun on, and sets the rules while it runs. Use only when the user clearly types /harness-autorun; an agent must not call it by itself. Keywords: autorun, unattended, run to the end, keep going, no need to watch.&#x27;
@@ -397,10 +397,10 @@ disable-model-invocation: true
 type: workflow
 specificTo: generic
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/harness-autorun/SKILL.md#L1-L8">.github/skills/harness-autorun/SKILL.md L1–L8 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 它限制谁来启动 skill，不限制 skill 做什么。</p>
+<p><strong>局限</strong>。它限制的是谁来启动这个 skill，不限制 skill 启动之后做什么。</p>
 <p>更多内容见<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>和<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>。</p>
 </div></section><section id="read-only-helper" class="sec"><div data-l="en" lang="en"><h2>A read-only helper</h2><p><strong>Problem.</strong> You want an agent to read a lot without being able to change anything.</p>
-<p><strong>Pattern.</strong> Create a custom agent whose <code>tools</code> list has only read and search, and which cannot call other agents. The tool list is the limit; the &quot;do not&quot; lines in the body are requests. Say in the body what the helper must hand back.</p>
+<p><strong>Pattern.</strong> Create a custom agent whose <code>tools</code> list has only read and search, and which cannot call other agents. Only the tool list actually limits the helper. The &quot;do not&quot; lines in the body are requests. What the body is for is saying what the helper must hand back.</p>
 <details class="code"><summary>A read-only helper: the tool list is read and search only, and it calls no other agent.</summary><pre><code class="language-markdown">---
 name: mapper
 description: The read-only chunk reader. After the user types /generic-mapreduce, the default agent calls several in parallel: each reads the part it is given and hands in only a summary with sources. It changes no file and runs no command.
@@ -411,8 +411,8 @@ tools: [&#x27;read&#x27;, &#x27;search&#x27;]
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/mapper.agent.md#L1-L8">.github/agents/mapper.agent.md L1–L8 @ 1.5.50</a></p></details>
 <p><strong>Limit.</strong> Each helper starts with an empty context, so several helpers cost several times one agent.</p>
 <p>More in <a href="2-4-custom-agents.html">Custom agents</a> and <a href="2-3-subagents.html">Use subagents sparingly</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一個唯讀的幫手</h2><p><strong>問題</strong>。你想讓 agent 讀很多東西，卻不能改任何東西。</p>
-<p><strong>模式</strong>。建立一個 custom agent，它的 <code>tools</code> 清單只有讀和搜尋，而且不能呼叫別的 agent。工具清單是限制；內文裡的「不要」是請求。在內文裡說明這個幫手必須交回什麼。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一個唯讀的幫手</h2><p><strong>問題</strong>。你想讓 agent 讀很多東西，又不讓它改任何東西。</p>
+<p><strong>做法</strong>。建立一個 custom agent，它的 <code>tools</code> 清單只有讀和搜尋，而且不能呼叫別的 agent。工具清單才是限制，內文裡那些「不要」只是請求。內文的用處，是說明這個幫手必須交回什麼。</p>
 <details class="code"><summary>一個唯讀的幫手：工具清單只有讀和搜尋，而且它不呼叫其他 agent。</summary><pre><code class="language-markdown">---
 name: mapper
 description: The read-only chunk reader. After the user types /generic-mapreduce, the default agent calls several in parallel: each reads the part it is given and hands in only a summary with sources. It changes no file and runs no command.
@@ -421,10 +421,10 @@ agents: []
 model: [&#x27;Claude Sonnet 5.5 (copilot)&#x27;, &#x27;Claude Sonnet 5.5&#x27;, &#x27;Claude Haiku 5.5 (copilot)&#x27;, &#x27;Claude Haiku 5.5&#x27;, &#x27;Claude Haiku 4.5 (copilot)&#x27;, &#x27;Claude Haiku 4.5&#x27;]
 tools: [&#x27;read&#x27;, &#x27;search&#x27;]
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/mapper.agent.md#L1-L8">.github/agents/mapper.agent.md L1–L8 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。每個幫手都從空的上下文開始，所以好幾個幫手的花費是一個 agent 的好幾倍。</p>
-<p>更多在 <a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a> 和 <a href="2-3-subagents.html">慎用子 agent</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>只读的帮手</h2><p><strong>问题。</strong> 你想让一个 agent 大量阅读，却不能改任何东西。</p>
-<p><strong>做法。</strong> 建一个自定义 agent，它的 <code>tools</code> 列表里只有读和搜索，也不能调用别的 agent。工具列表才是限制；正文里的“不要……”是请求。在正文里写明这个帮手必须交回什么。</p>
+<p><strong>限制</strong>。每個幫手都從空的上下文開始，所以好幾個幫手的花費就是一個 agent 的好幾倍。</p>
+<p>更多內容見 <a href="2-4-custom-agents.html">Custom agent：固定模型和工具的角色</a> 和 <a href="2-3-subagents.html">慎用子 agent</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>只读的帮手</h2><p><strong>问题</strong>。你想让一个 agent 大量阅读，又不让它改任何东西。</p>
+<p><strong>做法</strong>。建一个自定义 agent，它的 <code>tools</code> 列表里只有读和搜索，也不能调用别的 agent。工具列表才是限制，正文里那些“不要……”只是请求。正文的用处，是写明这个帮手必须交回什么。</p>
 <details class="code"><summary>一个只读的帮手：工具列表只有读和搜索，也不调用别的 agent。</summary><pre><code class="language-markdown">---
 name: mapper
 description: The read-only chunk reader. After the user types /generic-mapreduce, the default agent calls several in parallel: each reads the part it is given and hands in only a summary with sources. It changes no file and runs no command.
@@ -433,10 +433,10 @@ agents: []
 model: [&#x27;Claude Sonnet 5.5 (copilot)&#x27;, &#x27;Claude Sonnet 5.5&#x27;, &#x27;Claude Haiku 5.5 (copilot)&#x27;, &#x27;Claude Haiku 5.5&#x27;, &#x27;Claude Haiku 4.5 (copilot)&#x27;, &#x27;Claude Haiku 4.5&#x27;]
 tools: [&#x27;read&#x27;, &#x27;search&#x27;]
 ---</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/mapper.agent.md#L1-L8">.github/agents/mapper.agent.md L1–L8 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 每个帮手都从空白的上下文开始，所以几个帮手的成本是单个 agent 的好几倍。</p>
+<p><strong>局限</strong>。每个帮手都从空白的上下文开始，所以几个帮手的成本就是单个 agent 的好几倍。</p>
 <p>更多内容见<a href="2-4-custom-agents.html">自定义 agent：固定模型和工具的角色</a>和<a href="2-3-subagents.html">慎用子 agent</a>。</p>
 </div></section><section id="helper-brief" class="sec"><div data-l="en" lang="en"><h2>Give a helper a brief it can use alone</h2><p><strong>Problem.</strong> A helper cannot see your conversation, so a vague call gets a vague answer.</p>
-<p><strong>Pattern.</strong> Write the question, the scope to read, and the items to hand back, with a length limit and a source for every conclusion.</p>
+<p><strong>Pattern.</strong> Write down the question, the scope to read and the items to hand back. Add a length limit and ask for a source for every conclusion.</p>
 <details class="code"><summary>A brief for a read-only helper: question, scope, what to hand in, length and sources.</summary><pre><code class="language-markdown">```text
 Question: &lt;what to answer, in a sentence or two&gt;
 
@@ -452,8 +452,8 @@ Length: &lt;N&gt; lines at most. Every conclusion has its source (path:line).
 Background: &lt;a sentence or two it needs to know; delete this line if there is none&gt;
 ```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-mapreduce/templates/brief.md#L5-L18">.github/skills/generic-mapreduce/templates/brief.md L5–L18 @ 1.5.50</a></p></details>
 <p>More in <a href="2-3-subagents.html">Use subagents sparingly</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給幫手一份它能單獨使用的簡報</h2><p><strong>問題</strong>。幫手看不到你的對話，所以含糊的呼叫只會得到含糊的答案。</p>
-<p><strong>模式</strong>。寫下問題、要讀的範圍，和要交回的項目，附上長度限制，每個結論都要有來源。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>給幫手一份它能單獨使用的任務說明</h2><p><strong>問題</strong>。幫手看不到你的對話，所以呼叫時說得含糊，得到的答案也含糊。</p>
+<p><strong>做法</strong>。寫下問題、要讀的範圍和要交回的項目，再加上長度限制，並要求每個結論都附上來源。</p>
 <details class="code"><summary>給唯讀幫手的簡報：問題、範圍、要交什麼、長度和來源。</summary><pre><code class="language-markdown">```text
 Question: &lt;what to answer, in a sentence or two&gt;
 
@@ -468,9 +468,9 @@ To hand in:
 Length: &lt;N&gt; lines at most. Every conclusion has its source (path:line).
 Background: &lt;a sentence or two it needs to know; delete this line if there is none&gt;
 ```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-mapreduce/templates/brief.md#L5-L18">.github/skills/generic-mapreduce/templates/brief.md L5–L18 @ 1.5.50</a></p></details>
-<p>更多在 <a href="2-3-subagents.html">慎用子 agent</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>给帮手一份它能独立使用的任务说明</h2><p><strong>问题。</strong> 帮手看不到你的对话，所以含糊的调用只会得到含糊的回答。</p>
-<p><strong>做法。</strong> 写明问题、要读的范围和要交回的条目，附上长度限制，并要求每个结论都给出来源。</p>
+<p>更多內容見 <a href="2-3-subagents.html">慎用子 agent</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>给帮手一份它能独立使用的任务说明</h2><p><strong>问题</strong>。帮手看不到你的对话，所以调用时说得含糊，换来的回答也含糊。</p>
+<p><strong>做法</strong>。写明问题、要读的范围和要交回的条目，再加上长度限制，并要求每个结论都给出来源。</p>
 <details class="code"><summary>给只读帮手的任务说明：问题、范围、要交回什么、长度和来源。</summary><pre><code class="language-markdown">```text
 Question: &lt;what to answer, in a sentence or two&gt;
 
@@ -487,7 +487,7 @@ Background: &lt;a sentence or two it needs to know; delete this line if there is
 ```</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-mapreduce/templates/brief.md#L5-L18">.github/skills/generic-mapreduce/templates/brief.md L5–L18 @ 1.5.50</a></p></details>
 <p>更多内容见<a href="2-3-subagents.html">慎用子 agent</a>。</p>
 </div></section><section id="pass-fail-checker" class="sec"><div data-l="en" lang="en"><h2>A checker that answers PASS or FAIL</h2><p><strong>Problem.</strong> A checker that writes essays gives a person nothing to count and a script nothing to read.</p>
-<p><strong>Pattern.</strong> Fix the first line to PASS or FAIL. Every finding names a file and a line and the rule it breaks. No advice, no fix, a length limit. Then a script can count passes and drop findings that point nowhere.</p>
+<p><strong>Pattern.</strong> Fix the first line to PASS or FAIL, and make every finding name a file, a line and the rule it breaks. Keep it within a length limit and leave out advice and fixes. Then a script can count the passes and drop any finding that points nowhere.</p>
 <details class="code"><summary>The fixed output of an independent checker: a verdict line, findings with file and line, a length cap.</summary><pre><code class="language-markdown">## Output
 
 The first line must be one of these two, with no character in front:
@@ -507,10 +507,10 @@ Then one line per finding, in this fixed format:
 - Write no lines besides findings and evidence: no summary, no advice, no &quot;also&quot;.
 - For PASS, write one line of evidence per requirement item (with `file:line` too).
 - 20 lines at most in all. Your answer is saved as written into `REVIEW/round-NNN/verdict.md`.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/reviewer.agent.md#L58-L76">.github/agents/reviewer.agent.md L58–L76 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> A model still makes mistakes as a checker; a false FAIL sends the author after a problem that is not there.</p>
+<p><strong>Limit.</strong> A model still makes mistakes as a checker. A false FAIL sends the author after a problem that is not there.</p>
 <p>More in <a href="5-5-counted-checks.html">Make a pass count</a> and <a href="5-6-model-checks-model.html">Can a model check a model?</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>回答 PASS 或 FAIL 的檢查者</h2><p><strong>問題</strong>。寫長篇大論的檢查者，讓人沒有東西可數，腳本也沒有東西可讀。</p>
-<p><strong>模式</strong>。把第一行固定為 PASS 或 FAIL。每個發現都指名一個檔案和一行，以及它違反的規則。不給建議，不給修法，有長度限制。這樣腳本就可以數通過的次數，並丟掉沒有指向任何地方的發現。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>回答 PASS 或 FAIL 的檢查者</h2><p><strong>問題</strong>。寫長篇大論的檢查者，交出來的東西人沒辦法數，腳本也沒辦法讀。</p>
+<p><strong>做法</strong>。把第一行固定為 PASS 或 FAIL，每個發現都要指出檔案、行號，以及它違反的規則。篇幅控制在上限以內，不給建議，也不給修法。這樣一來，腳本就能數出通過了幾次，並丟掉沒有指向任何地方的發現。</p>
 <details class="code"><summary>獨立檢查者的固定輸出：一行結論、附檔案和行號的發現、長度上限。</summary><pre><code class="language-markdown">## Output
 
 The first line must be one of these two, with no character in front:
@@ -530,10 +530,10 @@ Then one line per finding, in this fixed format:
 - Write no lines besides findings and evidence: no summary, no advice, no &quot;also&quot;.
 - For PASS, write one line of evidence per requirement item (with `file:line` too).
 - 20 lines at most in all. Your answer is saved as written into `REVIEW/round-NNN/verdict.md`.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/reviewer.agent.md#L58-L76">.github/agents/reviewer.agent.md L58–L76 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。模型當檢查者還是會犯錯；錯誤的 FAIL 會讓作者去追一個不存在的問題。</p>
-<p>更多在 <a href="5-5-counted-checks.html">讓「通過」可信</a> 和 <a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>只回答 PASS 或 FAIL 的检查者</h2><p><strong>问题。</strong> 一个写长篇大论的检查者，既没给人留下可数的东西，也没给脚本留下可读的东西。</p>
-<p><strong>做法。</strong> 把第一行固定为 PASS 或 FAIL。每条发现都写明文件、行号和违反的规则。不提建议，不给修复，有长度限制。这样脚本就能数通过的次数，并丢掉哪里都没指向的发现。</p>
+<p><strong>限制</strong>。模型當檢查者還是會犯錯，一次錯誤的 FAIL 就會讓作者去追一個不存在的問題。</p>
+<p>更多內容見 <a href="5-5-counted-checks.html">讓「通過」可信</a> 和 <a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>只回答 PASS 或 FAIL 的检查者</h2><p><strong>问题</strong>。一个写长篇大论的检查者，交出来的东西人没法数，脚本也没法读。</p>
+<p><strong>做法</strong>。把第一行固定为 PASS 或 FAIL，每条发现都要写明文件、行号和它违反的规则。篇幅控制在上限以内，不提建议，也不给修法。这样一来，脚本就能数出通过了几次，并丢掉哪里都没指向的发现。</p>
 <details class="code"><summary>独立检查者的固定输出：一行结论、带文件和行号的发现、长度上限。</summary><pre><code class="language-markdown">## Output
 
 The first line must be one of these two, with no character in front:
@@ -553,10 +553,10 @@ Then one line per finding, in this fixed format:
 - Write no lines besides findings and evidence: no summary, no advice, no &quot;also&quot;.
 - For PASS, write one line of evidence per requirement item (with `file:line` too).
 - 20 lines at most in all. Your answer is saved as written into `REVIEW/round-NNN/verdict.md`.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/agents/reviewer.agent.md#L58-L76">.github/agents/reviewer.agent.md L58–L76 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 模型当检查者仍然会出错；一次误报的 FAIL 会让作者去追一个不存在的问题。</p>
+<p><strong>局限</strong>。模型当检查者照样会出错，一次误报的 FAIL 就会让作者去追一个不存在的问题。</p>
 <p>更多内容见<a href="5-5-counted-checks.html">让“通过”可信</a>和<a href="5-6-model-checks-model.html">模型能检查模型吗</a>。</p>
 </div></section><section id="requirement-page" class="sec"><div data-l="en" lang="en"><h2>Write the requirement on one page and have the person confirm it</h2><p><strong>Problem.</strong> The request is vague and shifts, and nobody can say later what was agreed.</p>
-<p><strong>Pattern.</strong> The agent writes a page with what to do, what not to do, when it is done, and an honest &quot;not clear yet&quot; list. A line at the top records whether the person confirmed it.</p>
+<p><strong>Pattern.</strong> The agent writes one page that says what to do, what not to do and when it is done, along with an honest &quot;not clear yet&quot; list. A line at the top records whether the person confirmed it.</p>
 <details class="code"><summary>The requirement page: what to do, what not to do, done when, not clear yet, and who confirmed it.</summary><pre><code class="language-markdown"># REQ: {name}
 
 &gt; The requirement. The agent writes it from the conversation with the user. It counts only after the user has read it. When the requirement changes, change this file and add a line at the end.
@@ -600,8 +600,8 @@ Then one line per finding, in this fixed format:
 
 &lt;yyyy-mm-dd: what changed, and why. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/REQ.md#L1-L42">.harness/contracts/templates/task/en/REQ.md L1–L42 @ 1.5.50</a></p></details>
 <p>More in <a href="5-2-requirements.html">The agent writes the requirement, the person confirms it</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>把需求寫在一頁上，並讓人確認</h2><p><strong>問題</strong>。請求含糊又會變，之後沒有人說得出當初同意了什麼。</p>
-<p><strong>模式</strong>。agent 寫一頁：要做什麼、不要做什麼、什麼時候算做完，以及一份誠實的「還不清楚」清單。最上面一行記下人有沒有確認。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>把需求寫在一頁上，並讓人確認</h2><p><strong>問題</strong>。請求含糊又會變，事後沒有人說得出當初同意了什麼。</p>
+<p><strong>做法</strong>。由 agent 寫一頁，說明要做什麼、不要做什麼、什麼時候算做完，再附一份誠實的「還不清楚」清單。最上面有一行，記下人有沒有確認過。</p>
 <details class="code"><summary>需求頁：要做什麼、不要做什麼、做完的條件、還不清楚的，和誰確認的。</summary><pre><code class="language-markdown"># REQ: {name}
 
 &gt; The requirement. The agent writes it from the conversation with the user. It counts only after the user has read it. When the requirement changes, change this file and add a line at the end.
@@ -644,9 +644,9 @@ Then one line per finding, in this fixed format:
 ## Changes
 
 &lt;yyyy-mm-dd: what changed, and why. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/REQ.md#L1-L42">.harness/contracts/templates/task/en/REQ.md L1–L42 @ 1.5.50</a></p></details>
-<p>更多在 <a href="5-2-requirements.html">需求由 agent 寫，人確認</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把需求写在一页上，并让人确认</h2><p><strong>问题。</strong> 请求含糊，还会变来变去，事后没人说得清当时约定了什么。</p>
-<p><strong>做法。</strong> agent 写一页，写明要做什么、不做什么、什么时候算完成，以及一份诚实的“还不清楚”清单。顶上有一行，记录人是否确认过。</p>
+<p>更多內容見 <a href="5-2-requirements.html">需求由 agent 寫，人確認</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把需求写在一页上，并让人确认</h2><p><strong>问题</strong>。请求含糊，还会变来变去，事后没人说得清当初约定了什么。</p>
+<p><strong>做法</strong>。由 agent 写一页，写明要做什么、不做什么、做到什么算完成，再附一份诚实的“还不清楚”清单。页面顶上有一行，记录人有没有确认过。</p>
 <details class="code"><summary>需求页：要做什么、不做什么、做到什么算完成、还不清楚的事，以及是谁确认的。</summary><pre><code class="language-markdown"># REQ: {name}
 
 &gt; The requirement. The agent writes it from the conversation with the user. It counts only after the user has read it. When the requirement changes, change this file and add a line at the end.
@@ -691,7 +691,7 @@ Then one line per finding, in this fixed format:
 &lt;yyyy-mm-dd: what changed, and why. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/REQ.md#L1-L42">.harness/contracts/templates/task/en/REQ.md L1–L42 @ 1.5.50</a></p></details>
 <p>更多内容见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>。</p>
 </div></section><section id="handover-file" class="sec"><div data-l="en" lang="en"><h2>A handover file for the next session</h2><p><strong>Problem.</strong> A new chat knows nothing about the work done in the old one.</p>
-<p><strong>Pattern.</strong> Keep one short file a new session reads first: status, what is being done, the next step, what to read, and what the person decided. Update it before every stop. Do not trust it blindly: the agent writes it.</p>
+<p><strong>Pattern.</strong> Keep one short file that a new session reads first, with the status, what is being done, the next step, what to read and what the person decided. Update it before every stop.</p>
 <details class="code"><summary>The handover file of a task: status, doing now, next step, files to read, decisions, open questions.</summary><pre><code class="language-markdown"># TASK: {name}
 
 &gt; The handover file. A new session reads this file first, then what it points to. Keep it within one screen. Update it every time before you stop.
@@ -715,10 +715,10 @@ Then one line per finding, in this fixed format:
 ## Open questions
 
 &lt;Five at most. Delete each one once it is solved. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/TASK.md#L1-L23">.harness/contracts/templates/task/en/TASK.md L1–L23 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> The agent writes it, so it can be wrong; check what matters against the source.</p>
+<p><strong>Limit.</strong> The agent writes it, so it can be wrong. Check what matters against the source instead of taking it on trust.</p>
 <p>More in <a href="5-1-tasks.html">Manage tasks, not chats</a> and <a href="5-8-long-work.html">Long work across sessions</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給下一個會話的交接檔</h2><p><strong>問題</strong>。新的對話對舊對話裡做過的工作一無所知。</p>
-<p><strong>模式</strong>。保留一個新會話最先讀的短檔案：狀態、正在做什麼、下一步、要讀什麼，以及人做了什麼決定。每次停下來之前更新它。不要盲目相信它：是 agent 寫的。</p>
+<p><strong>做法</strong>。保留一個短檔案讓新會話最先讀，裡面寫著狀態、正在做什麼、下一步、要讀什麼，以及人做了什麼決定。每次停下來之前都更新它。</p>
 <details class="code"><summary>任務的交接檔：狀態、現在在做什麼、下一步、要讀的檔案、決定、未解決的問題。</summary><pre><code class="language-markdown"># TASK: {name}
 
 &gt; The handover file. A new session reads this file first, then what it points to. Keep it within one screen. Update it every time before you stop.
@@ -742,10 +742,10 @@ Then one line per finding, in this fixed format:
 ## Open questions
 
 &lt;Five at most. Delete each one once it is solved. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/TASK.md#L1-L23">.harness/contracts/templates/task/en/TASK.md L1–L23 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。是 agent 寫的，所以可能是錯的；把重要的對照來源檢查。</p>
-<p>更多在 <a href="5-1-tasks.html">管任務，不管對話</a> 和 <a href="5-8-long-work.html">跨會話的長任務</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>给下一个会话的交接文件</h2><p><strong>问题。</strong> 新对话对旧对话里做过的工作一无所知。</p>
-<p><strong>做法。</strong> 留一个简短的文件，新会话先读它：状态、正在做什么、下一步、该读什么，以及人做过的决定。每次停下之前都更新。不要盲目相信它：它是 agent 写的。</p>
+<p><strong>限制</strong>。它是 agent 寫的，所以可能是錯的。重要的地方要對照來源檢查，而不是直接相信它。</p>
+<p>更多內容見 <a href="5-1-tasks.html">管任務，不管對話</a> 和 <a href="5-8-long-work.html">跨會話的長任務</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>给下一个会话的交接文件</h2><p><strong>问题</strong>。新对话对旧对话里做过的工作一无所知。</p>
+<p><strong>做法</strong>。留一个简短的文件让新会话先读，里面写着状态、正在做什么、下一步、该读什么，以及人做过的决定。每次停下之前都更新它。</p>
 <details class="code"><summary>任务的交接文件：状态、正在做、下一步、要读的文件、决定、未解决的问题。</summary><pre><code class="language-markdown"># TASK: {name}
 
 &gt; The handover file. A new session reads this file first, then what it points to. Keep it within one screen. Update it every time before you stop.
@@ -769,37 +769,37 @@ Then one line per finding, in this fixed format:
 ## Open questions
 
 &lt;Five at most. Delete each one once it is solved. Write &quot;none&quot; if there is nothing&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/contracts/templates/task/en/TASK.md#L1-L23">.harness/contracts/templates/task/en/TASK.md L1–L23 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 它是 agent 写的，所以可能有错；要紧的内容要对照源头检查。</p>
+<p><strong>局限</strong>。它是 agent 写的，所以可能有错。要紧的内容要对照源头检查，而不是直接相信它。</p>
 <p>更多内容见<a href="5-1-tasks.html">管任务，不管对话</a>和<a href="5-8-long-work.html">跨会话的长任务</a>。</p>
-</div></section><section id="known-uses" class="sec"><div data-l="en" lang="en"><h2>Write down the uses a person knew</h2><p><strong>Problem.</strong> A map of the code that a model or a script produced looks fine, and you have no way to know if it lost something later.</p>
-<p><strong>Pattern.</strong> A person writes a few uses they know are there, one per line, before the extractor exists. Every run of the map must find all of them.</p>
+</div></section><section id="known-uses" class="sec"><div data-l="en" lang="en"><h2>Write down the uses a person knew</h2><p><strong>Problem.</strong> A map of the code that a model or a script produced looks fine, but if it loses something later, you have no way to know.</p>
+<p><strong>Pattern.</strong> Before the extractor exists, a person writes down a few uses they know are there, one per line. From then on, every run of the map must find all of them.</p>
 <details class="code"><summary>Five known uses of the Spring sample: one object, the kind of use, the other object.</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
 {&quot;from&quot;: &quot;entity:Owner&quot;, &quot;kind&quot;: &quot;maps&quot;, &quot;to&quot;: &quot;table:owners&quot;}
 {&quot;from&quot;: &quot;entity:Pet&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;entity:Visit&quot;}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/facts.jsonl#L4-L8">.harness/examples/kb-toolkits/spring/facts.jsonl L4–L8 @ 1.5.50</a></p></details>
-<p><strong>Limit.</strong> A short list shows the map can find a use. It does not show the map finds them all.</p>
+<p><strong>Limit.</strong> A short list shows that the map can find a use, not that it finds them all.</p>
 <p>More in <a href="8-2-kb-toolkit.html">The toolkit</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>寫下人知道的那些使用</h2><p><strong>問題</strong>。模型或腳本產生的程式碼地圖看起來沒問題，而你沒有辦法知道它之後有沒有弄丟東西。</p>
-<p><strong>模式</strong>。人在抽取器出現之前，寫下幾個他知道存在的使用，一行一個。地圖的每次執行，都必須找到所有這些。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>寫下人知道的那些使用</h2><p><strong>問題</strong>。模型或腳本產生的程式碼地圖看起來沒問題，可是它後來要是弄丟了東西，你沒有辦法知道。</p>
+<p><strong>做法</strong>。在抽取器出現之前，由人寫下幾個他確定存在的使用，一行一個。從那之後，地圖的每一次執行都必須把它們全部找到。</p>
 <details class="code"><summary>Spring 範例的五個已知使用：一個物件、使用的種類、另一個物件。</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
 {&quot;from&quot;: &quot;entity:Owner&quot;, &quot;kind&quot;: &quot;maps&quot;, &quot;to&quot;: &quot;table:owners&quot;}
 {&quot;from&quot;: &quot;entity:Pet&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;entity:Visit&quot;}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/facts.jsonl#L4-L8">.harness/examples/kb-toolkits/spring/facts.jsonl L4–L8 @ 1.5.50</a></p></details>
-<p><strong>限制</strong>。一份短清單，說明地圖找得到一個使用。它不說明地圖全都找得到。</p>
-<p>更多在 <a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把人知道的调用关系写下来</h2><p><strong>问题。</strong> 模型或脚本生成的代码地图看起来没问题，你却没办法知道它之后有没有丢东西。</p>
-<p><strong>做法。</strong> 在抽取器还不存在的时候，由人写下几条他知道确实存在的调用关系，一行一条。每次生成地图，都必须把它们全部找出来。</p>
+<p><strong>限制</strong>。一份短清單只能說明地圖找得到使用，不能說明它全都找得到。</p>
+<p>更多內容見 <a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>把人知道的调用关系写下来</h2><p><strong>问题</strong>。模型或脚本生成的代码地图看起来没问题，可它后来要是丢了东西，你没办法知道。</p>
+<p><strong>做法</strong>。在抽取器还不存在的时候，由人写下几条他确知存在的调用关系，一行一条。从那以后，每次生成地图都必须把它们全部找出来。</p>
 <details class="code"><summary>Spring 示例里五条已知的调用关系：一个对象、调用的类型、另一个对象。</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
 {&quot;from&quot;: &quot;entity:Owner&quot;, &quot;kind&quot;: &quot;maps&quot;, &quot;to&quot;: &quot;table:owners&quot;}
 {&quot;from&quot;: &quot;entity:Pet&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;entity:Visit&quot;}</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/facts.jsonl#L4-L8">.harness/examples/kb-toolkits/spring/facts.jsonl L4–L8 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 一份短清单只能说明地图找得到某些调用关系，不能说明它全都找得到。</p>
+<p><strong>局限</strong>。一份短清单只能说明地图找得到调用关系，不能说明它全都找得到。</p>
 <p>更多内容见<a href="8-2-kb-toolkit.html">Toolkit：用脚本画出代码的地图</a>。</p>
-</div></section><section id="audit-report" class="sec"><div data-l="en" lang="en"><h2>Report an audit the same way every time</h2><p><strong>Problem.</strong> A check of a model's output ends as a paragraph, and two audits cannot be compared.</p>
-<p><strong>Pattern.</strong> A fixed report: pass or fail, a score per type, each difference with its file and line, the patterns, the readings that were corrected.</p>
+</div></section><section id="audit-report" class="sec"><div data-l="en" lang="en"><h2>Report an audit the same way every time</h2><p><strong>Problem.</strong> A check of a model's output ends as a paragraph, so two audits cannot be compared.</p>
+<p><strong>Pattern.</strong> Use a fixed report: pass or fail, a score per type, each difference with its file and line, the patterns, and the readings that were corrected.</p>
 <details class="code"><summary>The audit report template: result, score per type, misses, false uses, patterns, corrected readings.</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -838,8 +838,8 @@ Result: **pass** | **fail**
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
 <p><strong>Limit.</strong> A small sample shows only large gaps.</p>
 <p>More in <a href="8-3-kb-audit.html">Is the map right?</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>每次都用同樣的方式報告抽查</h2><p><strong>問題</strong>。對模型輸出的檢查，最後變成一段文字，兩次抽查沒辦法比較。</p>
-<p><strong>模式</strong>。一份固定的報告：通過或失敗、每種類型的分數、每一處差異及其檔案和行號、規律、被修正的解讀。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>每次都用同樣的方式報告抽查</h2><p><strong>問題</strong>。對模型輸出的檢查，最後變成一段文字，所以兩次抽查沒辦法比較。</p>
+<p><strong>做法</strong>。用一份固定的報告：通過或失敗、每種類型的分數、每一處差異和它的檔案與行號、規律，以及被修正的解讀。</p>
 <details class="code"><summary>抽查報告的範本：結果、每種類型的分數、漏掉的、假的使用、規律、被修正的解讀。</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -877,9 +877,9 @@ Result: **pass** | **fail**
 
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
 <p><strong>限制</strong>。小樣本只看得出大的差距。</p>
-<p>更多在 <a href="8-3-kb-audit.html">地圖對不對：盲抽查</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>每次都用同样的格式汇报一次抽查</h2><p><strong>问题。</strong> 对模型输出的检查，最后写成了一段文字，两次抽查没法比较。</p>
-<p><strong>做法。</strong> 一份固定的报告：通过还是失败，每种类型一个分数，每处差异附上文件和行号，出现的规律，以及被纠正过的读法。</p>
+<p>更多內容見 <a href="8-3-kb-audit.html">地圖對不對：盲抽查</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>每次都用同样的格式汇报一次抽查</h2><p><strong>问题</strong>。对模型输出的检查，最后写成了一段文字，所以两次抽查没法比较。</p>
+<p><strong>做法</strong>。用一份固定的报告：通过还是失败，每种类型一个分数，每处差异附上文件和行号，出现的规律，以及被纠正过的读法。</p>
 <details class="code"><summary>抽查报告模板：结果、每种类型的分数、漏掉的、误报的调用关系、规律、被纠正的读法。</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -916,10 +916,10 @@ Result: **pass** | **fail**
 ## Not counted
 
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
-<p><strong>局限。</strong> 样本小，只看得出大的缺口。</p>
+<p><strong>局限</strong>。样本小，只看得出大的缺口。</p>
 <p>更多内容见<a href="8-3-kb-audit.html">地图对不对：盲抽查</a>。</p>
-</div></section><section id="stop-reason" class="sec"><div data-l="en" lang="en"><h2>Make a stop explain itself</h2><p><strong>Problem.</strong> An unattended run that stops with &quot;ran into a problem&quot; leaves the person to work out what happened.</p>
-<p><strong>Pattern.</strong> Tell the agent when to stop and when not to, and what the reason must contain: which step is stuck, why, and what the person must decide. The hook still judges the stops that facts can show.</p>
+</div></section><section id="stop-reason" class="sec"><div data-l="en" lang="en"><h2>Make a stop explain itself</h2><p><strong>Problem.</strong> When an unattended run stops with &quot;ran into a problem&quot;, the person is left to work out what happened.</p>
+<p><strong>Pattern.</strong> Tell the agent when to stop and when not to, and what the reason must contain: which step is stuck, why, and what the person must decide. This does not replace the hook. The hook still judges the stops that facts can show.</p>
 <details class="code"><summary>When to stop by yourself, when not to, and how to write the reason for the person who comes back.</summary><pre><code class="language-markdown">## Stop
 
 | Case | Example |
@@ -947,8 +947,8 @@ Write it for the user who comes back. One sentence that says: which step is stuc
 - Good: `Step 3: orders and orders_v2 both have updated_at, defined differently, and the plan does not say which to use. Yours to decide.`
 - Bad: `Ran into a problem`</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/harness-autorun/references/when-to-stop.md#L11-L36">.github/skills/harness-autorun/references/when-to-stop.md L11–L36 @ 1.5.50</a></p></details>
 <p>More in <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>讓一次停止自己說明原因</h2><p><strong>問題</strong>。無人值守的執行以「遇到問題」停下來，讓人自己去弄清楚發生了什麼。</p>
-<p><strong>模式</strong>。告訴 agent 什麼時候該停、什麼時候不該停，以及原因必須包含什麼：哪一步卡住了、為什麼、人必須決定什麼。事實能顯示的停止，仍然由 hook 判斷。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>讓一次停止自己說明原因</h2><p><strong>問題</strong>。無人值守的執行停下來時只說一句「遇到問題」，人只好自己去弄清楚發生了什麼。</p>
+<p><strong>做法</strong>。告訴 agent 什麼時候該停、什麼時候不該停，以及原因裡必須寫什麼：哪一步卡住了、為什麼卡住、人必須決定什麼。不過這些話並不取代 hook，凡是從事實就看得出該停的，還是交給 hook 判斷。</p>
 <details class="code"><summary>什麼時候自己停、什麼時候不停，以及怎麼為回來的人寫下原因。</summary><pre><code class="language-markdown">## Stop
 
 | Case | Example |
@@ -975,9 +975,9 @@ Write it for the user who comes back. One sentence that says: which step is stuc
 
 - Good: `Step 3: orders and orders_v2 both have updated_at, defined differently, and the plan does not say which to use. Yours to decide.`
 - Bad: `Ran into a problem`</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/harness-autorun/references/when-to-stop.md#L11-L36">.github/skills/harness-autorun/references/when-to-stop.md L11–L36 @ 1.5.50</a></p></details>
-<p>更多在 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>让每次停下都自己说明原因</h2><p><strong>问题。</strong> 无人值守的运行以“遇到了问题”停下，留给人去弄清发生了什么。</p>
-<p><strong>做法。</strong> 告诉 agent 什么时候该停、什么时候不该停，以及理由里必须有什么：哪一步卡住了、为什么、人要决定什么。能用事实判断出来的停止，仍然由 hook 来判断。</p>
+<p>更多內容見 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>让每次停下都自己说明原因</h2><p><strong>问题</strong>。无人值守的运行停下来时只说一句“遇到了问题”，人只好自己去弄清发生了什么。</p>
+<p><strong>做法</strong>。告诉 agent 什么时候该停、什么时候不该停，以及理由里必须写什么：哪一步卡住了、为什么卡住、人要决定什么。不过这些话并不取代 hook，凡是从事实就看得出该停的，还是交给 hook 判断。</p>
 <details class="code"><summary>什么时候该自己停、什么时候不该停，以及怎么给回来的人写理由。</summary><pre><code class="language-markdown">## Stop
 
 | Case | Example |
