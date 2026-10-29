@@ -2,36 +2,36 @@ This chapter assumes you have read [Asking is not a limit](4-2-ask-vs-refuse.htm
 
 ## In one sentence {#in-one-sentence}
 
-If the agent can edit the rules, the rules mean nothing. Keep the rules and the hook files out of its reach, and make any human override last one session, expire, and leave a record.
+If the agent can edit the rules, the rules mean nothing. So keep the rule files and the hook files out of its reach, and make any human override last one session, expire, and leave a record.
 
 ## For leaders {#for-leaders}
 
 - **The decision:** decide that the agent may not edit the files that hold its rules, its hooks or its evidence, and that any human override is limited to one session, expires and leaves a record.
-- **The risk:** a rule the agent can edit is a rule the agent can remove, and a "passed" record it can write is a pass it can give itself. I have no incident to report. The argument is the point, not a count.
-- **The cost of doing it right:** a list of protected files, kept up to date as parts are added, and a way for a person to open the fence on purpose. My override depends on a person remembering to switch it off; a time limit and a second reader are better, and I do not have them.
+- **The risk:** a rule the agent can edit is a rule it can remove, and a "passed" record it can write is a pass it can give itself. I have no incident to report, so the case rests on the argument, not on a count.
+- **The cost of doing it right:** a list of protected files, kept up to date as parts are added, plus a way for a person to open the fence on purpose. My own override depends on a person remembering to switch it off. A time limit and a second reader would be better, but I do not have them.
 - **Ask the team:** "Can the agent edit the files that hold its own rules and records, and can you show me a refusal when it tries?"
 
-## The problem {#problem}
+## What if the agent edits the rule? {#problem}
 
-Who is the threat here? Mostly a careless agent, not a hostile one: an agent that is under pressure to finish a task and loosens a rule that is in the way. An agent led by injected text is a second case ([Text the agent reads can give it orders](4-6-untrusted-input.html)); it needs the same fence, and more.
+Say you have a hook that refuses dangerous commands. It works. Now ask where that hook lives. It lives in a file, and so does the configuration that tells the platform to run it. The numbers it uses are in a file too. And the agent has an edit tool.
 
-You have a hook that refuses dangerous commands. It works. Now ask: where does the hook live? In a file. The configuration that tells the platform to run it is a file. The numbers it uses are a file. And the agent has an edit tool.
+The agent does not need bad intent to change those files. Picture one that is stuck behind a refusal and under pressure to finish its task. It sees that the rule is in the way and does the sensible-looking thing, which is to loosen the rule. A rule the agent can edit is a rule the agent can remove. I have no incident to report and did not measure how often agents try to edit rules, so the point rests on the argument alone.
 
-An agent that is stuck behind a refusal does not need bad intent to change the file. It only needs to be trying to finish the task, see that the rule is in the way, and do the sensible-looking thing: loosen the rule. I have no incident to report. The argument is the point: a rule the agent can edit is a rule the agent can remove.
+Records have the same weakness. If a check leaves a "passed" file and the agent can write that file, then the agent can pass itself. So the question is not only which commands are refused. It is also who can change the things that do the refusing and the proving.
 
-The same is true of records. If a check leaves a "passed" file and the agent can write that file, the agent can pass itself. So the question is not only "which commands are refused", it is "who can change the things that do the refusing and the proving".
+In both cases the threat is mostly a careless agent, not a hostile one. An agent led by injected text is a second case ([Text the agent reads can give it orders](4-6-untrusted-input.html)), one that needs the same fence and more.
 
-I call the files that must be out of reach **guardrail files**: a fence, in the sense that the agent works inside it and cannot move it.
+I call the files that must be out of the agent's reach **guardrail files**. Together they are a fence, in the sense that the agent works inside it and cannot move it. That raises three questions: which files belong in the fence, how it is held, and how a person gets through when the rules themselves must change.
 
-If you only do one thing from this chapter: make the rule files and the hook files unwritable for the agent.
+If you only do one thing after this chapter, make the rule files and the hook files unwritable for the agent.
 
-## How it works {#how-it-works}
+## How the fence is built, and how a person gets through {#how-it-works}
 
 ### Which files are the fence
 
 ::: figure 4-3-fence
 
-In my setup these are:
+In my setup the fence is made of these files:
 
 - the **hook configuration**, the file that tells the platform which hook to run;
 - the **engine**, the code of the hook itself, and the commands the agent is allowed to call;
@@ -40,73 +40,74 @@ In my setup these are:
 - the editor settings that could switch the hooks off;
 - the license files of the repository.
 
-Instruction files and skills are not on the list. They are text, a request, and the agent is meant to read them. Changing them does not change what the code refuses.
+You might expect instruction files and skills on the list, but they are not. They are text for the agent to read, a request rather than a limit. Changing them does not change what the code refuses.
 
 ### How the fence is held
 
-- **Edit tools: refused before the call.** This is the easy one. The path is in the call.
-- **The terminal: the common spellings.** A redirect, `rm`, `mv`, `sed -i`, `cp`, `tee`, and so on. The limits in [Asking is not a limit](4-2-ask-vs-refuse.html) apply: an indirect spelling is not caught.
-- **One form for a path before comparing.** The same file can be written with other letter case, with `..`, as an absolute path, or with the backslash of Windows. The rule brings them all to one form first. Otherwise the fence would have gaps in the spelling. Two more gaps worth checking in your own setup: a symbolic link that points into a guarded folder, and a disk that ignores letter case. I have not tested either.
-- **A company can add paths, not take the defaults away.** Anyone who sets up a team can protect more files. An override that removes a default would be the same hole as an agent that can edit the rule.
+Once the list is set, every way the agent could write to those files has to be stopped. How hard that is depends on the tool. Edit tools are the easy case, because the path is in the call and the hook can refuse the call before it runs.
 
-This is a guard against mistakes. It is not a sandbox, and I do not call it one. An agent set on getting round it, with a script it writes first, can. For the strong version, see [Least privilege](4-5-least-privilege.html).
+The terminal is harder, because the same write can be spelled in many ways. The hook catches the common spellings, such as a redirect, `rm`, `mv`, `sed -i`, `cp` and `tee`. But the limits from [Asking is not a limit](4-2-ask-vs-refuse.html) apply here too, so an indirect spelling is not caught.
+
+Even the path needs care, because the same file can be written with other letter case, with `..`, as an absolute path, or with the backslash of Windows. If the rule compared paths as they came, the fence would have gaps in the spelling, so it brings them all to one form before it compares. Two more gaps are worth checking in your own setup, although I have not tested either: a symbolic link that points into a guarded folder and a disk that ignores letter case.
+
+One more rule governs the list itself. A company can add paths to it, but it cannot take the defaults away, because an override that removed a default would be the same hole as an agent that can edit the rule.
+
+All of this guards against mistakes. It is not a sandbox, because an agent set on getting round it can do so with a script it writes first. For the strong version, see [Least privilege](4-5-least-privilege.html).
 
 ### Files only a command may write
 
-Some files are not rules, but they are evidence: the state of a task, the verdicts of the independent checks ([Can a model check a model?](5-6-model-checks-model.html)), snapshots (copies of files taken at a point in time), the diff an approval is based on, the final report.
+Rules are not the only files worth guarding. Some files are evidence: the state of a task, the verdicts of the independent checks ([Can a model check a model?](5-6-model-checks-model.html)), snapshots (copies of files taken at a point in time), the diff an approval is based on and the final report.
 
-If the agent could write them, it could declare a check passed, or change what was approved. So the agent never writes them with its edit tools. A command writes them, and the command judges the result itself. "The agent recorded a result" means the agent asked the command to record it, and the command decided.
+If the agent could write them, it could declare a check passed, or change what was approved. So the agent never writes them with its edit tools. A command writes them instead and judges the result itself. When I say "the agent recorded a result", I mean that the agent asked the command to record it and the command made the decision.
 
-The same goes for folders that hold what the person brought: documents, reference code, results from a run. The agent reads them. The person (through a page or a command) writes them. Evidence that the agent could edit is not evidence.
+Folders that hold what the person brought follow the same rule. Documents, reference code and results from a run are for the agent to read. The person writes them, through a page or a command. Evidence that the agent could edit is not evidence.
 
 ### The breaker
 
-When a refusal keeps coming, an agent may keep trying. A hook can only refuse a call; it cannot stop the agent. So when the same refusal comes up three times in a row (three is my setting), the **breaker** trips and the reason is replaced with a different one: stop trying this, and tell the person. It is a request in the form of a message, but it is the only thing a hook can do. It also keeps the log from filling with the same refusal.
+A fence that holds brings a new problem. When a refusal keeps coming, an agent may keep trying. A hook cannot stop it, because all a hook can do is refuse a call. So when the same refusal comes up three times in a row (three is my setting), the **breaker** trips and replaces the reason with a different one: stop trying this, and tell the person. That is still a request, in the form of a message, but it is all a hook can do. It also keeps the log from filling with the same refusal.
 
 ### When a person must open the fence
 
-Sometimes the rules themselves have to change. When I extend the harness, I change guardrail files. So there must be a way in. How do you give that right without giving it to the agent?
+Sometimes, though, the rules themselves have to change. When I extend the harness, I change guardrail files, so there must be a way in. The question is how to give that right to a person without giving it to the agent.
 
-**Not by agent.** I first thought to let one named agent edit the fence. But in Copilot today the event a hook receives does not carry the name of the main agent ([Hooks](2-2-hooks.html)), so the hook cannot tell which agent is calling. Any agent could pass for the named one. Rights that follow a name can be claimed by anyone who uses the name.
+My first thought was to let one named agent edit the fence. That does not work in Copilot today, because the event a hook receives does not carry the name of the main agent ([Hooks](2-2-hooks.html)). Since the hook cannot tell which agent is calling, any agent could pass for the named one. Rights that follow a name can be claimed by anyone who uses the name.
 
-**By session, set by the person.** The ground is a switch in the state of the session. Only the person can turn it on, by typing a code in their own terminal. The agent cannot run that command, and the hook refuses it if it tries. This is the same channel as in [Two approvals](5-3-two-approvals.html).
+So the right follows the session instead, set by the person. It rests on a switch in the state of the session that only the person can turn on, by typing a code in their own terminal. The agent cannot run that command: if it tries, the hook refuses it. This is the same channel as in [Two gates](5-3-two-approvals.html).
 
 ::: figure 4-3-admin
 
-What makes the override safe:
+Four things make the override safe:
 
-1. **It belongs to a session, not to an agent.** It ends with that session.
-2. **It is turned off when the work is done.** My rule is to switch it off, and then read the diff of what changed with git. I rely on that; I do not have a timer in my setup. This is the weak point of the design: it depends on a person remembering. A time limit is a better design, and the approval of git writes already uses one. For a team, add an expiry and a second person who reads the diff.
-3. **It leaves a record.** While it is on, every logged call is marked as admin.
-4. **Some doors stay shut.** In my setup even admin cannot write the runtime state, which holds the approval records. If it could, it could forge an approval. And no task can be opened in the same session, and no subagent called.
+1. It belongs to a session, not to an agent, so it ends with that session.
+2. It is turned off when the work is done. My rule is to switch it off and then read, in git, the diff of what changed.
+3. It leaves a record. While it is on, every logged call is marked as admin.
+4. Some doors stay shut even then. In my setup even admin cannot write the runtime state, which holds the approval records, because if it could, it could forge an approval. And in the same session no task can be opened and no subagent called.
 
-Each of these removes a way that a short exception turns into a standing hole.
+Each of these removes a way that a short exception turns into a standing hole. The second, though, is also the weak point of the design. There is no timer in my setup, so switching admin off depends on a person remembering. A time limit is a better design, and the approval of git writes already uses one. For a team, add an expiry and a second person who reads the diff.
 
 ### Test your own setup
 
-In a copy of your project, ask your agent to loosen one rule in its own hook configuration. Does it succeed? If it does, your rules are a request. Then protect the file and try again.
+In a copy of your project, ask your agent to loosen one rule in its own hook configuration. If it succeeds, your rules are a request, so protect the file and try again.
 
-## Costs and traps {#costs-and-traps}
+## Where the fence can still fail {#costs-and-traps}
 
-**The fence is as good as its list.** A guardrail file missing from the list is open. When you add a part to the engine, add its path.
+Does a fence that passes that test hold everywhere? Not quite, and there are three places where it can still leak. The first is its list. A guardrail file missing from the list is open, so when you add a part to the engine, add its path too.
 
-**Admin is real power.** It can change the engine, so what it does is not hard-limited. The control is a person reading the diff afterwards. I do not claim more than that.
+The second is the way through the fence, which is also a gap in it. Admin is real power: it can change the engine, so what it does is not hard-limited. The control is a person reading the diff afterwards, and I do not claim more than that.
 
-**Spelling gaps remain.** Because the terminal is guarded by pattern, in theory a spelling it does not know could change a record that lives in a task folder (the folder that holds one piece of work; see [Manage tasks, not chats](5-1-tasks.html)). I have not tried to build one. The fix, again, is to keep what must never be touched out of reach altogether.
+The third is spelling. Because the terminal is guarded by pattern, in theory a spelling the hook does not know could change a record that lives in a task folder (the folder that holds one piece of work; see [Manage tasks, not chats](5-1-tasks.html)). I have not tried to build one. The fix, again, is to keep what must never be touched out of reach altogether.
 
-**A fence you cannot see is a puzzle.** If an agent hits a refusal on a file it does not know is guarded, the reason must say so and what to do. See the last chapter.
+One more trap is not a hole but a puzzle. If the agent hits a refusal on a file it does not know is guarded, the reason must say so and say what to do. The previous chapter covers how to write that reason.
 
-**I did not measure how often agents try to edit rules.** I wrote the fence because the argument is simple, not because I watched a specific incident.
-
-## What the industry says {#industry}
+## Why "out of reach" and not "safe" {#industry}
 {status: industry}
 
-VS Code's hooks page says hooks and instructions are not substitutes for enforced permissions or sandboxing, and its security page recommends sandboxing over approval rules alone ([hooks](https://code.visualstudio.com/docs/copilot/customization/hooks), [security](https://code.visualstudio.com/docs/copilot/security)). A fence made of hooks is a fence inside the same machine the agent runs on. That is why this chapter says "out of reach" and not "safe".
+How far can a fence made of hooks be trusted? VS Code's hooks page says hooks and instructions are not substitutes for enforced permissions or sandboxing, and its security page recommends sandboxing over approval rules alone ([hooks](https://code.visualstudio.com/docs/copilot/customization/hooks), [security](https://code.visualstudio.com/docs/copilot/security)). The trouble is that a fence made of hooks stands inside the same machine the agent runs on. So this chapter says "out of reach" and not "safe".
 
-## When to delete it {#when-to-delete-it}
+## When the list of guarded paths can go {#when-to-delete-it}
 {status: industry}
 
-If the agent runs in an environment where the rule files are mounted read-only, or the hook runs outside the machine the agent can touch, the list of guarded paths is not needed; the environment is the fence. Keep the other lesson: any override a person grants should be bound to the session, time-limited, and recorded.
+The same point tells you when the list can go. If the agent runs in an environment where the rule files are mounted read-only, or the hook runs outside the machine the agent can touch, the list of guarded paths is not needed, because the environment is the fence. Keep the other lesson even then: any override a person grants should be bound to the session, time-limited, and recorded.
 
 ## Try it on your own setup {#try-it}
 
@@ -117,7 +118,7 @@ Find every file in this project that defines what the agent may or may not do: i
 ## Go deeper {#go-deeper}
 
 - VS Code docs: [Hooks](https://code.visualstudio.com/docs/copilot/customization/hooks), [Security](https://code.visualstudio.com/docs/copilot/security)
-- In this book: [Asking is not a limit](4-2-ask-vs-refuse.html), [Least privilege](4-5-least-privilege.html), [Two approvals](5-3-two-approvals.html)
+- In this book: [Asking is not a limit](4-2-ask-vs-refuse.html), [Least privilege](4-5-least-privilege.html), [Two gates](5-3-two-approvals.html)
 
 ## Explore it in the harness {#explore}
 

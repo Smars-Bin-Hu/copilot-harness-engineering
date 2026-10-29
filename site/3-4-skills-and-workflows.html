@@ -221,56 +221,44 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What the industry says</span><span data-l="zh-Hant" lang="zh-Hant">業界怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">业界怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What is worth putting in a skill?</span><span data-l="zh-Hant" lang="zh-Hant">skill 裡值得寫什麼？</span><span data-l="zh-Hans" lang="zh-Hans">skill 里值得写什么？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How to write a skill, and when it becomes a workflow</span><span data-l="zh-Hant" lang="zh-Hant">怎麼寫 skill，什麼時候該寫成 workflow</span><span data-l="zh-Hans" lang="zh-Hans">怎么写 skill，什么时候该写成 workflow</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What a written routine costs, and how it goes wrong</span><span data-l="zh-Hant" lang="zh-Hant">寫下來的做法要付出什麼，會怎樣出錯</span><span data-l="zh-Hans" lang="zh-Hans">写下来的做法要付出什么，会怎样出错</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Do the official guides agree?</span><span data-l="zh-Hant" lang="zh-Hant">官方指南也這麼說嗎？</span><span data-l="zh-Hans" lang="zh-Hans">官方指南也这么说吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete a gotcha, a step or a workflow</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候刪掉一條陷阱、一個步驟或整個 workflow</span><span data-l="zh-Hans" lang="zh-Hans">什么时候删掉一条坑、一个步骤或整个 workflow</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
 <article><header class="chapter-head"><p class="chapter-no">3.4</p><h1><span data-l="en" lang="en">Turn your way of working into skills</span><span data-l="zh-Hant" lang="zh-Hant">把團隊的做法寫成 skill</span><span data-l="zh-Hans" lang="zh-Hans">把团队的做法写成 skill</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="3-3-instructions-and-skills.html">Instructions and skills</a>: a skill is a manual that the agent reads when a job comes up.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，請先讀過<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>：skill 是一本手冊，工作出現時 agent 才去讀。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，请先读过<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>：skill 是 agent 在某项工作出现时去读的手册。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>A good skill says how this job is done here and where it goes wrong, not what a textbook says. When a job with several steps has been done by hand about three times the same way, turn it into a workflow: the steps, the check on each, and which step needs a person.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>好的 skill 說的是這份工作在這裡怎麼做、哪裡容易出錯，不是教科書怎麼說。一份有好幾步的工作，如果用同樣的方式手動做過大約三次，就把它變成 workflow：每一步、每一步的檢查，以及哪一步需要人。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>好的 skill 說的是這項工作在這裡怎麼做、哪裡容易出錯，不是教科書怎麼說。一項有好幾步的工作，如果用同樣的方式手動做過大約三次，就把它變成 workflow：每一步、每一步的檢查，以及哪一步需要人。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>好的 skill 讲的是这项工作在这里怎么做、容易错在哪里，而不是教科书上怎么说。一件有好几步的工作，如果已经手工按同样的做法做过大约三次，就把它变成 workflow：写明各个步骤、每一步的检查，以及哪一步需要人来定。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> decide which routines the team repeats by hand and is ready to write down, and who owns each written skill or workflow.</li>
-<li><strong>The risk:</strong> a skill that repeats what the agent already knows costs room and adds nothing. A written workflow runs the same way every time, including a wrong way, and it goes stale when how things are done here changes. I have no measured before-and-after for skills.</li>
-<li><strong>The cost of doing it right:</strong> my rule of thumb is to write a routine down the third time it is done by hand (a number I chose, not tested). Designing and testing a workflow, and keeping it up to date, is the real price.</li>
+<li><strong>The decision:</strong> decide which routines the team repeats by hand and is ready to write down, and who owns each skill or workflow once it is written.</li>
+<li><strong>The risk:</strong> a skill that repeats what the agent already knows costs room and adds nothing. A written workflow runs the same way every time, even when that way is wrong, and it goes stale when the way things are done here changes. I have no measured before-and-after for skills.</li>
+<li><strong>The cost of doing it right:</strong> my rule of thumb is to write a routine down the third time it is done by hand, a number I chose rather than tested. The real price is designing and testing the workflow, and then keeping it up to date.</li>
 <li><strong>Ask the team:</strong> &quot;Which multi-step job have we done by hand three times, and where did the agent go wrong last time?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：決定團隊有哪些例行工作是手動重複做的、而且已經準備好寫下來，以及誰負責每一份寫好的 skill 或 workflow。</li>
-<li><strong>風險</strong>：重複 agent 本來就知道的內容的 skill，佔位子，什麼也沒加。寫好的 workflow 每次都用同樣的方式跑，包括錯的方式；而且這裡做事的方式一變，它就過期。我沒有 skill 的前後實測數字。</li>
-<li><strong>做對的成本</strong>：我的經驗法則是，一個例行工作第三次手動做的時候，就把它寫下來（這個數字是我選的，沒測過）。設計和測試 workflow，並讓它保持最新，才是真正的價錢。</li>
-<li><strong>可以問團隊</strong>：「哪一份多步驟的工作，我們手動做過三次？上一次 agent 在哪裡做錯了？」</li>
+<li><strong>要做的決定</strong>：決定團隊有哪些例行工作一直在手動重複、已經可以寫下來，以及每個 skill 或 workflow 寫好以後由誰負責。</li>
+<li><strong>風險</strong>：一個 skill 如果只是重複 agent 本來就知道的內容，就是白佔位子，什麼也沒加。寫好的 workflow 每次都用同樣的方式跑，即使那個方式是錯的；而這裡做事的方式一變，它就過期了。我沒有 skill 的前後實測數字。</li>
+<li><strong>做對的成本</strong>：我的經驗法則是，一個例行工作第三次手動做的時候，就把它寫下來，這個數字是我選的，沒測過。真正的代價是設計和測試 workflow，然後讓它保持最新。</li>
+<li><strong>可以問團隊</strong>：「哪一項多步驟的工作，我們手動做過三次？上一次 agent 在哪裡做錯了？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：决定团队里哪些例行工作是手工重复做的、而且已经可以写下来，并决定每个写好的 skill 或 workflow 归谁管。</li>
-<li><strong>风险</strong>：重复 agent 本来就知道的东西的 skill，占地方，还什么都没加。写好的 workflow 每次都按同一种方式运行，错的方式也一样；这里的做法一变，它就过期。skill 的前后对比，我没有量过。</li>
-<li><strong>做对的代价</strong>：我的经验法则是，一件事手工做到第三次，就把它写下来（这个数字是我自己定的，没有测过）。真正的代价是设计和测试 workflow，并让它一直保持最新。</li>
+<li><strong>要拍板的事</strong>：决定团队里哪些例行工作一直在手工重复、已经可以写下来，并定下每个 skill 或 workflow 写好以后归谁管。</li>
+<li><strong>风险</strong>：一个 skill 如果只是重复 agent 本来就知道的东西，就是白占地方，什么也没加。写好的 workflow 每次都按同一种方式运行，哪怕这种方式是错的；而这里的做法一变，它就过期了。skill 的前后对比，我没有量过。</li>
+<li><strong>做对的代价</strong>：我的经验法则是，一件事手工做到第三次就把它写下来，这个数字是我自己定的，没有测过。真正的代价是设计和测试 workflow，然后让它一直保持最新。</li>
 <li><strong>可以问团队</strong>：“哪件多步骤的工作我们已经手工做过三次？上一次 agent 错在哪？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>The first skill most people write is a tutorial. &quot;How to write a SQL query.&quot; &quot;How to do a code review.&quot; The agent read a thousand tutorials like that while it was trained. Your skill adds nothing it did not know, and it costs room in the window each time it loads.</p>
-<p>What the agent does not know is your place. Which table is the real one and which is a leftover. Which step people forget. Which file looks unused and is read by another team. That is what you know and it does not, and it is what is most worth putting in a skill.</p>
-<p>Two words first.</p>
-<ul>
-<li>A <strong>skill</strong> is a manual for one kind of job (see <a href="3-3-instructions-and-skills.html">Instructions and skills</a>).</li>
-<li>A <strong>workflow</strong> is a skill-sized idea one level up: a fixed order of several jobs, with a check after each and a note of where a person must decide. Think of a recipe card in a restaurant kitchen, as opposed to a cooking textbook. Careful: Anthropic uses the same word for something else, a system where code fixes the path and calls the model at set points (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). Here a workflow is a written routine that an agent follows.</li>
-</ul>
-<p>I do not have a measured before-and-after to give you for skills. The reasoning below is what I follow, and the tests at the end let you measure it yourself.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>大多數人寫的第一個 skill 是教學。「怎麼寫 SQL 查詢。」「怎麼做 code review。」agent 在訓練時讀過上千份這樣的教學。你的 skill 沒有加進任何它不知道的東西，而每次載入，還要佔視窗裡的位子。</p>
-<p>agent 不知道的，是你這個地方。哪張表是真的、哪張是遺留的。哪一步人們會忘。哪個檔案看起來沒人用，其實另一個團隊在讀。這些是你知道、它不知道的，也是最值得放進 skill 的。</p>
-<p>先說兩個詞。</p>
-<ul>
-<li><strong>skill</strong> 是某一類工作的手冊（見<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>）。</li>
-<li><strong>workflow</strong> 是比 skill 再高一層的想法：幾份工作的固定順序，每一份後面有檢查，並標明哪裡必須由人決定。想想餐廳廚房裡的食譜卡，而不是烹飪教科書。要小心：Anthropic 用同一個詞指別的東西，一種由程式碼固定路徑、在固定的點呼叫模型的系統（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。這裡的 workflow 是寫下來、讓 agent 照著做的例行流程。</li>
-</ul>
-<p>關於 skill，我沒有可以給你的前後實測。下面的推理是我遵循的，最後的測試讓你自己去量。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>大多数人写的第一个 skill 是教程。“怎么写 SQL 查询。”“怎么做代码评审。”agent 在训练时读过上千篇这样的教程。你的 skill 没有加任何它不知道的东西，每次加载还要占窗口里的地方。</p>
-<p>agent 不知道的，是你这里的情况。哪张表是真正在用的，哪张是遗留下来的。哪一步大家容易忘。哪个文件看起来没人用，其实另一个团队在读。这些是你知道而它不知道的，也最值得放进 skill。</p>
-<p>先说两个词。</p>
-<ul>
-<li><strong>skill</strong> 是针对某一类工作的手册（见<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>）。</li>
-<li><strong>workflow</strong> 是比 skill 高一级的想法：几项工作按固定顺序排好，每一项后面有检查，并注明哪里必须由人来定。可以想成餐厅厨房里的菜谱卡，而不是烹饪教科书。注意：Anthropic 用同一个词指另一种东西，即由代码固定路径、在固定的点调用模型的系统（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。这里的 workflow 是 agent 照着做的、写下来的例行流程。</li>
-</ul>
-<p>关于 skill，我没有量过的前后对比可以给你。下面的推理是我自己遵循的，最后的测试能让你自己去量。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><p>The difference in one picture:</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>What is worth putting in a skill?</h2><p>The first skill most people write is a tutorial, something like &quot;How to write a SQL query&quot; or &quot;How to do a code review&quot;. But the agent read a thousand tutorials like that while it was trained. A skill of that kind adds nothing it did not know, yet it still costs room in the window each time it loads.</p>
+<p>What the agent does not know is your place: which table is the real one and which is a leftover, which step people forget, which file looks unused but is read by another team. You know these things and the agent does not. That is what is most worth putting in a skill.</p>
+<p>A <strong>skill</strong>, as <a href="3-3-instructions-and-skills.html">Instructions and skills</a> described it, is a manual for one kind of job. Some of what you know, though, is not about one job but about how several jobs follow each other. For that there is a <strong>workflow</strong>, a skill-sized idea one level up: a fixed order of several jobs, with a check after each and a note of where a person must decide. Think of a recipe card in a restaurant kitchen, as opposed to a cooking textbook. Be careful with the word, because Anthropic uses it for something else, a system where code fixes the path and calls the model at set points (<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>). Here a workflow is a written routine that an agent follows.</p>
+<p>I have no measured before-and-after for skills, only reasoning I follow and tests at the end of the next section that you can run yourself. So what does a skill look like when it holds only what is particular to your place?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>skill 裡值得寫什麼？</h2><p>大多數人寫的第一個 skill 是教學，像是「怎麼寫 SQL 查詢」「怎麼做 code review」。可是 agent 在訓練時早就讀過上千份這樣的教學，這種 skill 沒有加進任何它不知道的東西，每次載入卻還是要佔視窗裡的位子。</p>
+<p>而 agent 真正不知道的，是你這個地方的情況：哪張表是真的、哪張是遺留的，哪一步大家會忘，哪個檔案看起來沒人用，其實另一個團隊在讀。這些你知道、它不知道，也正是最值得放進 skill 的東西。</p>
+<p>照<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>的說法，<strong>skill</strong> 是某一類工作的手冊。不過你知道的東西，有些不屬於某一項工作，而是關於幾項工作怎麼一項接一項地做。這時就要用到 <strong>workflow</strong>，它是比 skill 再高一層的想法：幾項工作的固定順序，每一項後面有檢查，並標明哪裡必須由人決定。可以把它想成餐廳廚房裡的食譜卡，而不是烹飪教科書。這個詞用的時候要小心，因為 Anthropic 用它指別的東西，一種由程式碼固定路徑、在固定的點呼叫模型的系統（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。這裡的 workflow 是寫下來、讓 agent 照著做的例行流程。</p>
+<p>關於 skill，我拿不出前後實測，只有自己遵循的推理，以及下一節最後那些你可以自己跑的測試。那麼，一個只裝著你這裡特有的東西的 skill，應該長什麼樣子？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>skill 里值得写什么？</h2><p>大多数人写的第一个 skill 是教程，比如“怎么写 SQL 查询”“怎么做代码评审”。可 agent 在训练时早就读过上千篇这样的教程，这种 skill 没有给它加任何新东西，每次加载却照样要占窗口里的地方。</p>
+<p>而 agent 真正不知道的，是你这里的情况：哪张表是真正在用的、哪张是遗留下来的，哪一步大家容易忘，哪个文件看起来没人用，其实另一个团队在读。这些你知道，它不知道，也正是最值得放进 skill 的东西。</p>
+<p>照<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>里的说法，<strong>skill</strong> 是针对某一类工作的手册。不过你知道的东西，有些不属于某一项工作，而是关于几项工作怎么一项接一项地做。这就要用到 <strong>workflow</strong>，它是比 skill 高一级的想法：几项工作按固定顺序排好，每一项后面有检查，并注明哪里必须由人来定。可以把它想成餐厅厨房里的菜谱卡，而不是烹饪教科书。这个词用的时候要小心，因为 Anthropic 用它指另一种东西，即由代码固定路径、在固定的点调用模型的系统（<a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>）。这里的 workflow 是 agent 照着做的、写下来的例行流程。</p>
+<p>关于 skill，我拿不出量过的前后对比，只有自己遵循的推理，以及下一节末尾那些你可以自己跑的测试。那么，一个只装着你这里特有的东西的 skill，该是什么样子？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How to write a skill, and when it becomes a workflow</h2><p>Before the details, here is the difference between the two in one picture:</p>
 <figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label-muted" x="20" y="24" data-t="skill-title">A skill: one job, read as a whole</text>
   <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
@@ -299,57 +287,51 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>A skill is one manual. A workflow is a chain of them, where each step says what must be true before it and what is checked after it, and which steps wait for a person.</figcaption></figure>
 <h3>1. Write only what the agent would get wrong</h3>
-<p>For every line in a draft skill, ask: if I delete this, will the agent get something wrong or miss something? If not, delete it.</p>
-<p>What stays:</p>
-<ul>
-<li><strong>Your conventions.</strong> Naming, layering, where a new thing is registered.</li>
-<li><strong>Defaults that are not obvious.</strong> The thing everyone on the team does without thinking about it.</li>
-<li><strong>Traps.</strong> What looks right and is not.</li>
-<li><strong>Your tools.</strong> The exact command, with the flag that matters.</li>
-</ul>
-<p>What goes: how the language works, what a library does, anything on the first page of its documentation. Anthropic's own guide to writing skills gives a small example: a paragraph that explains what a PDF is and that you need a library to read one teaches the model what it already knows, while one line, &quot;Use pdfplumber for text extraction&quot;, tells it the choice that was made. Their rule of thumb is &quot;Default assumption: Claude is already very smart. Only add context Claude doesn't already have.&quot; (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>)</p>
-<p>A skill with no such line is short. That is fine. A short skill is read whole and followed.</p>
+<p>Every line in a draft skill has to pass one question: if I delete this, will the agent get something wrong or miss something? If not, delete it.</p>
+<p>The lines that pass tend to be of four kinds. Two are habits of the team: your conventions, such as naming, layering and where a new thing is registered, and the defaults that are not obvious, the things everyone does without thinking about them. The other two are traps, things that look right and are not, and your tools, meaning the exact command with the flag that matters.</p>
+<p>What goes is how the language works, what a library does, or anything on the first page of its documentation. Anthropic's own guide to writing skills gives a small example. A paragraph that explains what a PDF is, and that you need a library to read one, teaches the model what it already knows, while one line, &quot;Use pdfplumber for text extraction&quot;, tells it the choice that was made. Their rule of thumb is &quot;Default assumption: Claude is already very smart. Only add context Claude doesn't already have.&quot; (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>)</p>
+<p>A skill without those lines is short. That is fine, because a short skill is read whole and followed. Once a skill is cut down to these lines, the next question is how to lay them out.</p>
 <h3>2. A skeleton to start from</h3>
-<p>A skill is a folder. The part that matters is one file, with a header and a body:</p>
+<p>A skill is a folder, but the part that matters is one file with a header and a body. A skeleton for that file looks like this:</p>
 <ul>
-<li><strong>Header:</strong> a name, and a description that says what it does, when to use it, and the words a person would say.</li>
-<li><strong>When to use it</strong> (and when not to).</li>
-<li><strong>What it needs first.</strong> For example, an open task, or a tool installed.</li>
-<li><strong>The steps</strong>, if the job is a fixed process. For open-ended work, give the standards to judge by instead of fixed steps: a rigid recipe breaks when the case is a little different.</li>
-<li><strong>Gotchas.</strong></li>
+<li>A header: a name, and a description that says what the skill does, when to use it, and the words a person would say.</li>
+<li>When to use it, and when not to.</li>
+<li>What it needs first, for example an open task or a tool installed.</li>
+<li>The steps, if the job is a fixed process. For open-ended work, give the standards to judge by instead of fixed steps, because a rigid recipe breaks when the case is a little different.</li>
+<li>Gotchas.</li>
 </ul>
-<p><strong>Gotchas are the most valuable part.</strong> They are warnings written ahead of time, one per line: the rule in bold, then the reason. Treat them as a living list: every time the agent gets this job wrong, add one line. That is the cheapest way to improve a skill, and it is the part that improves most with use.</p>
-<p>Examples of the shape, from an &quot;impact analysis&quot; skill, which finds everything a change touches before the plan is written:</p>
+<p>Of these, <strong>gotchas are the most valuable part.</strong> They are warnings written ahead of time, one per line, with the rule in bold and then the reason. Treat them as a living list that grows by one line every time the agent gets this job wrong. It is the cheapest way to improve a skill, and also the part that improves most with use.</p>
+<p>What does a gotcha look like? Here are a few from an &quot;impact analysis&quot; skill, which finds everything a change touches before the plan is written:</p>
 <ul>
 <li>A column named only by its bare name matches everything. Search the table and the column together.</li>
 <li>Names built at run time are not found by any text search. Say so in the result instead of reporting &quot;no impact&quot;.</li>
 <li>No hit does not mean unused: readers outside the repositories you can see are invisible. Write that, and ask who else reads it.</li>
 </ul>
-<p>None of these is in a textbook. Each is something that a competent agent gets wrong the first time. The third also shows a habit worth teaching: <strong>the skill tells the agent to say what it could not see.</strong></p>
-<p><strong>Scripts.</strong> If part of the job has one right answer (find every file that mentions a name, count the uses), put it in a script the skill tells the agent to run. The script gives the same answer every time at no cost in reading; the model does the part that needs judgment. That skill does this: one command in place of a run of searches, then the model sorts the hits.</p>
-<p><strong>Length.</strong> When a skill grows past about 200 lines, move the detail into separate files and keep the main file as the flow and the links. The detail then loads only at the step that needs it.</p>
+<p>None of these is in a textbook, yet each is something a competent agent gets wrong the first time. The third also shows a habit worth teaching: <strong>the skill tells the agent to say what it could not see.</strong></p>
+<p>Gotchas guard the parts of a job that need judgment. Other parts need none, because they have one right answer, such as finding every file that mentions a name or counting the uses. Put those in a script that the skill tells the agent to run. The script gives the same answer every time at no cost in reading, while the model does the part that needs judgment. The impact-analysis skill works this way, with one command in place of a run of searches before the model sorts the hits.</p>
+<p>Length is the last thing to watch. When a skill grows past about 200 lines, move the detail into separate files and keep the main file as the flow and the links. The detail then loads only at the step that needs it.</p>
 <h3>3. Take it from real work, not from imagination</h3>
-<p>The best source of a skill is a job you have just done and corrected. Before you write, open the last real task of this kind and ask:</p>
+<p>All of this assumes you know what the agent gets wrong. The best source for that is a job you have just done and corrected. Before you write, open the last real task of this kind and ask:</p>
 <ul>
 <li>Where did the agent go wrong? Each of those is a gotcha.</li>
 <li>Where did you correct it? Each of those is a convention.</li>
 <li>What did you have to look up that it could have been told?</li>
 </ul>
-<p>Write the skill from those, not from what you think a good manual should say. I have a skill that does only this: at the end of a task, it drafts what a later agent would get wrong, with the evidence from the task, and a person decides what stays. <a href="3-5-memory.html">Memory</a> covers why a person decides.</p>
+<p>Write the skill from the answers, not from what you think a good manual should say. I have a skill that does only this. At the end of a task, it drafts what a later agent would get wrong, with the evidence from the task, then leaves it to a person to decide what stays. <a href="3-5-memory.html">Memory</a> covers why a person decides.</p>
 <h3>4. From skill to workflow</h3>
-<p>If you only write single skills, you can skip to &quot;Test your own setup&quot;. The rest is for routines of many steps.</p>
-<p>One job is a skill. A routine of several jobs is a workflow. &quot;Every time we add a pipeline, we do these eight steps.&quot; If you do it by hand and the agent has to be told each time, that is the sign.</p>
-<p>My rule of thumb: <strong>the third time you do the same multi-step thing, stop and write it down.</strong> One time is an accident. Two could be a coincidence. Three is a routine. I picked three myself; I have no test that shows it is the right number. A workflow pays when the routine comes back often and a missed step is costly. Against that stand the cost of designing it, testing it and keeping it up to date.</p>
-<p>How to get a workflow without inventing it:</p>
+<p>If you only write single skills, you can skip to &quot;How to test a skill and a workflow&quot;. The rest is for routines of many steps.</p>
+<p>One job is a skill, while a routine of several jobs is a workflow: &quot;Every time we add a pipeline, we do these eight steps.&quot; If you do such a routine by hand and the agent has to be told each time, that is the sign it should become a workflow.</p>
+<p>When is it time to write one? My rule of thumb: <strong>the third time you do the same multi-step thing, stop and write it down.</strong> One time is an accident and two could be a coincidence, but three is a routine. I picked three myself, without any test that shows it is the right number. A workflow pays when the routine comes back often and a missed step is costly. Against that stand the cost of designing it, testing it and keeping it up to date.</p>
+<p>You also do not have to invent the workflow. It can be taken from work that has already been done:</p>
 <ol>
 <li>
-<p><strong>Take two or three finished examples.</strong> Real ones, already done by a person.</p>
+<p>Take two or three finished examples, real ones that a person has already done.</p>
 </li>
 <li>
-<p><strong>Put them side by side</strong> and replace each example's name with a placeholder. Parts that look the same in every example are the skeleton. Parts that change with the name are parameters. Parts that differ beyond the name are where judgment lives.</p>
+<p>Put them side by side and replace each example's name with a placeholder. The parts that look the same in every example are the skeleton. The parts that change with the name are parameters, and the parts that differ beyond the name are where judgment lives.</p>
 </li>
 <li>
-<p><strong>Sort every step into one of four kinds</strong>, asking in this order and stopping at the first yes:</p>
+<p>Sort every step into one of four kinds, asking in this order and stopping at the first yes:</p>
 <table>
 <thead>
 <tr>
@@ -383,29 +365,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </table>
 </li>
 <li>
-<p><strong>Do not design from the description alone.</strong> What people say they do and what the examples hold differ. That difference is the most useful finding. If you have no examples, say the design is a guess.</p>
+<p>Do not design from the description alone. What people say they do and what the examples hold differ, and that difference is the most useful finding. If you have no examples, say the design is a guess.</p>
 </li>
 <li>
-<p><strong>Write it down for approval before building anything.</strong> A workflow touches many files. A person approves the design first.</p>
+<p>Write the design down for approval before building anything. A workflow touches many files, so a person approves the design first.</p>
 </li>
 </ol>
-<p>When unsure whether a step is fixed or judgment, choose judgment. Judgment can be turned into code later; code that was wrong about a judgment is harder to find.</p>
+<p>When you are unsure whether a step is fixed or judgment, choose judgment. Judgment can be turned into code later, but code that was wrong about a judgment is harder to find.</p>
 <h3>5. What each step carries</h3>
-<p>A workflow is a chain, so each link says three things:</p>
+<p>Because a workflow is a chain, each link says three things:</p>
 <ul>
 <li><strong>In:</strong> what must be true before this step.</li>
 <li><strong>Out:</strong> what exists after it, in a form the next step can read.</li>
 <li><strong>Check:</strong> how it is known to be right. A command if possible.</li>
 </ul>
-<p>And the steps that wait for a person say so. Two things to guard against. The workflow must not skip the approvals your setup already has. And it should leave room: write defaults and conditions (&quot;skip when...&quot;), not a fixed script, and say what to do when a case fits none of them.</p>
+<p>A step that waits for a person says so as well. Once the steps are written, two things can still go wrong. One is skipping the approvals your setup already has. The workflow must not do that. The other is leaving no room. Write defaults and conditions (&quot;skip when...&quot;) rather than a fixed script, and say what to do when a case fits none of them.</p>
 <p>If a workflow has more than about a dozen steps, or two different kinds of result, split it.</p>
 <h3>6. Two examples</h3>
-<p><strong>Impact analysis</strong> (a skill with a script). Before a plan, find what a change touches. The script searches every repository for the names being changed. The skill makes the model sort the hits into must change, must check, and no effect, and requires a list of what the search cannot see. This is the case the <a href="2-3-subagents.html">subagents chapter</a> mentions: once, in one case, a builder missed two references across areas, and only an independent check found them. It is one case, not a rate. A skill that does this search first moves that catch earlier.</p>
-<p><strong>A test guide</strong> (a workflow step that ends at a person). After a change is written back, the agent cannot run anything in the test environments; a person does. So the skill writes what to run in each environment, with expected results and what to send back. When the person brings the results, the skill judges them against the criteria written before. The point of the design is where it stops: at the person, with a clear list of what to do and what to bring back.</p>
-<h3>Test your own setup</h3>
-<p><strong>Is it found, and does it change anything?</strong> The two tests for a single skill are in <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. Anthropic's guide adds one habit: build the test cases before you write much, from tasks the agent got wrong without the skill, then write just enough to fix them.</p>
-<p><strong>Does the workflow hold?</strong> Run it on a case that is not one of your examples. Where it fails is a missing variant or a step you sorted wrongly.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><p>用一張圖看差別：</p>
+<p>Two examples show how these pieces fit together. The first is the impact-analysis skill we met above, a skill with a script. Before a plan is written, its script searches every repository for the names being changed. The skill then has the model sort the hits into must change, must check and no effect, and requires a list of what the search cannot see. The <a href="2-3-subagents.html">subagents chapter</a> tells of one case where the agent that made the changes missed two references across areas, and only an independent check found them. It is one case, not a rate, but a skill that does this search first moves that catch earlier.</p>
+<p>The second, a test guide, is a workflow step that ends at a person. After a change has been written back to the real repository, the agent cannot run anything in the test environments; a person does. So the skill writes what to run in each environment, with expected results and what to send back. When the person brings the results, the skill judges them against the criteria written before. The point of the design is where it stops: at the person, with a clear list of what to do and what to bring back.</p>
+<h3>How to test a skill and a workflow</h3>
+<p>Whether any of this works is something you can test. A single skill has two tests, whether it is found and whether it changes anything, both described in <a href="3-3-instructions-and-skills.html">Instructions and skills</a>. Anthropic's guide adds one habit: build the test cases before you write much, from tasks the agent got wrong without the skill, then write just enough to fix them.</p>
+<p>A workflow, though, needs one more test, which is whether it holds. Run it on a case that is not one of your examples. Where it fails, you have found a missing variant or a step you sorted wrongly.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>怎麼寫 skill，什麼時候該寫成 workflow</h2><p>先用一張圖看兩者的差別：</p>
 <figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label-muted" x="20" y="24" data-t="skill-title">skill：一件事，整份讀</text>
   <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
@@ -434,57 +416,51 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>skill 是一份說明書。workflow 是一串說明書：每一步寫明做之前什麼要成立、做完檢查什麼，哪幾步要等人。</figcaption></figure>
 <h3>1. 只寫 agent 會做錯的</h3>
-<p>草稿 skill 裡的每一行，都問：如果我刪掉它，agent 會做錯或漏掉什麼嗎？不會，就刪掉。</p>
-<p>留下的：</p>
-<ul>
-<li><strong>你的慣例</strong>。命名、分層、新東西在哪裡登記。</li>
-<li><strong>不明顯的預設</strong>。團隊裡每個人都不假思索在做的事。</li>
-<li><strong>陷阱</strong>。看起來對、其實不對的東西。</li>
-<li><strong>你的工具</strong>。確切的指令，附上要緊的那個參數。</li>
-</ul>
-<p>刪掉的：語言怎麼運作、函式庫做什麼，以及文件第一頁上的任何東西。Anthropic 自己的 skill 寫作指南給了一個小例子：一段解釋 PDF 是什麼、要讀它需要函式庫的文字，教的是模型已經知道的；而一行「用 pdfplumber 抽取文字」，說的是已經做好的選擇。他們的經驗法則是「預設假設：Claude 已經非常聰明。只加 Claude 還沒有的上下文。」（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
-<p>沒有這種行的 skill 很短。沒關係。短的 skill 會被整個讀完、也會被遵守。</p>
+<p>草稿 skill 裡的每一行，都要過一個問題：如果我刪掉它，agent 會做錯或漏掉什麼嗎？不會，就刪掉。</p>
+<p>這樣過一遍，留下來的大致是四類。兩類是團隊的習慣：你的慣例，像是命名、分層、新東西在哪裡登記，以及不明顯的預設，也就是團隊裡人人不假思索在做的事。另外兩類是陷阱，那些看起來對、其實不對的東西，還有你的工具，也就是確切的指令和要緊的那個參數。</p>
+<p>而該刪掉的，是語言怎麼運作、函式庫做什麼，以及文件第一頁上的任何東西。Anthropic 自己的 skill 寫作指南舉過一個小例子：一段解釋 PDF 是什麼、要讀它需要函式庫的文字，教的是模型已經知道的；而一行「用 pdfplumber 抽取文字」，說的是這裡已經做好的選擇。他們的經驗法則是「預設假設：Claude 已經非常聰明。只加 Claude 還沒有的上下文。」（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
+<p>這樣刪下來，skill 會很短。這沒關係，因為短的 skill 會被整個讀完，也會被遵守。剩下的這些，又該怎麼排？</p>
 <h3>2. 起步用的骨架</h3>
-<p>skill 是一個資料夾。要緊的部分是一個檔案，有檔頭和正文：</p>
+<p>skill 是一個資料夾，但要緊的只是其中一個檔案，它有檔頭和正文。這個檔案的骨架大致是這樣：</p>
 <ul>
-<li><strong>檔頭</strong>：名稱，和一段描述，說明它做什麼、什麼時候用，以及人會說的字。</li>
-<li><strong>什麼時候用</strong>（和什麼時候不用）。</li>
-<li><strong>先要有什麼</strong>。例如一個打開的任務，或一個裝好的工具。</li>
-<li><strong>步驟</strong>，如果這份工作是固定流程的話。開放式的工作，就給判斷用的標準，不給固定的步驟：死板的食譜遇到稍有不同的情況就壞了。</li>
-<li><strong>陷阱</strong>（gotchas）。</li>
+<li>檔頭：名稱，和一段描述，說明它做什麼、什麼時候用，以及人會用的說法。</li>
+<li>什麼時候用，和什麼時候不用。</li>
+<li>先要有什麼，例如一個打開的任務，或一個裝好的工具。</li>
+<li>步驟，如果這項工作是固定流程的話。開放式的工作，就給判斷用的標準，不給固定的步驟，因為死板的食譜遇到稍有不同的情況就壞了。</li>
+<li>陷阱（gotchas）。</li>
 </ul>
-<p><strong>陷阱是最有價值的部分</strong>。它們是事先寫好的警告，一行一條：規則用粗體，然後是理由。把它們當成活的清單：每次 agent 把這份工作做錯，就加一行。這是改進 skill 最便宜的辦法，也是用得越多進步越多的部分。</p>
-<p>形狀的例子，來自一個「影響分析」skill，它在寫計劃之前，找出一項改動碰到的所有東西：</p>
+<p>這幾部分裡，<strong>陷阱是最有價值的</strong>。它們是事先寫好的警告，一行一條，規則用粗體，後面是理由。把它們當成一份持續更新的清單：每次 agent 把這項工作做錯，就加一行。這是改進 skill 最便宜的辦法，也是用得越多進步越多的部分。</p>
+<p>陷阱長什麼樣子？看幾條「影響分析」skill 裡的。這個 skill 在寫計劃之前，找出一項改動碰到的所有東西：</p>
 <ul>
 <li>只用光禿禿的欄位名稱，會對上所有東西。要把表和欄位一起搜尋。</li>
 <li>在執行時才組出來的名稱，任何文字搜尋都找不到。要在結果裡說明這一點，不要回報「沒有影響」。</li>
-<li>沒有命中不等於沒人用：你看不到的倉庫之外的讀取者是看不見的。把這寫下來，並問還有誰在讀。</li>
+<li>沒有命中不等於沒人用：在你看得到的倉庫之外，讀取者是搜不出來的。把這寫下來，並問還有誰在讀。</li>
 </ul>
-<p>這些都不在教科書裡。每一條都是能幹的 agent 第一次會做錯的事。第三條還顯示了一個值得教的習慣：<strong>skill 要 agent 說出它看不到什麼</strong>。</p>
-<p><strong>腳本</strong>。如果工作的一部分只有一個正確答案（找出所有提到某個名稱的檔案、數有幾處用到），就放進腳本，由 skill 告訴 agent 去執行。腳本每次給出同樣的答案，不花任何閱讀的成本；模型做需要判斷的那部分。那個 skill 就是這樣做的：一條指令取代一連串的搜尋，然後模型把命中的結果分類。</p>
-<p><strong>長度</strong>。skill 長到超過約 200 行時，把細節移到另外的檔案，主檔案只留流程和連結。這樣細節就只在需要它的那一步才載入。</p>
+<p>這些都不在教科書裡，可是每一條都是能幹的 agent 第一次會做錯的事。第三條還顯示了一個值得教的習慣：<strong>skill 要 agent 說出它看不到什麼</strong>。</p>
+<p>陷阱守的是工作裡需要判斷的部分。另一些部分根本用不著判斷，因為它們只有一個正確答案，例如找出所有提到某個名稱的檔案、數有幾處用到。這些就放進腳本，由 skill 告訴 agent 去執行。腳本每次給出同樣的答案，不花任何閱讀的成本，模型則去做需要判斷的那部分。影響分析這個 skill 就是這樣做的：先用一條指令取代一連串的搜尋，再由模型把命中的結果分類。</p>
+<p>最後要留意的是長度。skill 長到超過約 200 行時，把細節移到另外的檔案，主檔案只留流程和連結，這樣細節就只在需要它的那一步才載入。</p>
 <h3>3. 從真實的工作取材，不要憑想像</h3>
-<p>skill 最好的來源，是你剛做完並修正過的一份工作。動筆之前，打開最近一次這類真實的任務，問：</p>
+<p>這些都有個前提：你得知道 agent 會在哪裡做錯。最好的來源，是你剛做完並修正過的一項工作。動筆之前，打開最近一次這類真實的任務，問自己：</p>
 <ul>
 <li>agent 在哪裡做錯了？每一處都是一條陷阱。</li>
 <li>你在哪裡糾正了它？每一處都是一條慣例。</li>
 <li>你得去查的什麼東西，本來可以直接告訴它？</li>
 </ul>
-<p>從這些寫 skill，不要從你覺得好手冊該說什麼來寫。我有一個 skill 只做這件事：在任務結束時，它起草後來的 agent 會做錯什麼，附上任務裡的證據，由人決定留下什麼。為什麼由人決定，見<a href="3-5-memory.html">agent 該記住什麼</a>。</p>
+<p>就從這些答案寫 skill，而不是從你覺得好手冊該說什麼來寫。我有一個 skill 只做這件事：在任務結束時，它起草後來的 agent 會做錯什麼，附上任務裡的證據，再交給人決定留下什麼。為什麼由人決定，見<a href="3-5-memory.html">agent 該記住什麼</a>。</p>
 <h3>4. 從 skill 到 workflow</h3>
-<p>如果你只寫單一的 skill，可以跳到「測一測你自己的設定」。其餘是給多步驟的例行工作的。</p>
-<p>一份工作是 skill。幾份工作組成的例行流程是 workflow。「每次我們加一條 pipeline，就做這八步。」如果你手動做，而且每次都得告訴 agent，這就是跡象。</p>
-<p>我的經驗法則：<strong>同樣的多步驟事情，做第三次時，停下來寫下來</strong>。一次是意外。兩次可能是巧合。三次就是例行工作。三次是我自己選的；我沒有測試顯示這是對的數字。當例行工作常常回來、漏掉一步代價又高時，workflow 才划算。和這相對的，是設計它、測試它、讓它保持最新的成本。</p>
-<p>怎麼得到 workflow 而不用憑空發明：</p>
+<p>如果你只寫單一的 skill，可以跳到「怎麼檢驗 skill 和 workflow」。後面講的是多步驟的例行工作。</p>
+<p>一項工作是 skill，幾項工作組成的例行流程就是 workflow，像是「每次我們加一條 pipeline，就做這八步」。如果你是手動做的，而且每次都得告訴 agent，這就是該寫成 workflow 的跡象。</p>
+<p>那什麼時候該把它寫下來？我的經驗法則是：<strong>同樣的多步驟事情，做第三次時，停下來寫下來</strong>。一次是意外，兩次可能是巧合，三次就是例行工作了。三次是我自己選的，沒有任何測試顯示這是對的數字。workflow 划不划算，要兩頭比：一頭是例行工作常常回來、漏掉一步代價又高，另一頭是設計它、測試它、讓它保持最新的成本。</p>
+<p>而且 workflow 也不用憑空發明，可以從已經做完的工作裡得來：</p>
 <ol>
 <li>
-<p><strong>拿兩三個做完的範例</strong>。真的，已經由人做完的。</p>
+<p>拿兩三個做完的範例，要真的、已經由人做完的。</p>
 </li>
 <li>
-<p><strong>把它們並排放</strong>，把每個範例的名稱換成佔位符。在每個範例裡看起來一樣的部分，是骨架。隨名稱變的部分，是參數。除了名稱之外還有不同的部分，是判斷所在的地方。</p>
+<p>把它們並排放，把每個範例的名稱換成佔位符。在每個範例裡看起來一樣的部分，是骨架。隨名稱變的部分是參數，除了名稱之外還有不同的部分，就是判斷所在的地方。</p>
 </li>
 <li>
-<p><strong>把每一步歸入四種之一</strong>，按這個順序問，第一個「是」就停：</p>
+<p>把每一步歸入四種之一，按這個順序問，第一個「是」就停：</p>
 <table>
 <thead>
 <tr>
@@ -518,29 +494,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </table>
 </li>
 <li>
-<p><strong>不要只憑描述來設計</strong>。人們說自己怎麼做，和範例裡實際有的，是不同的。這個差異是最有用的發現。如果你沒有範例，就說明這份設計是猜的。</p>
+<p>不要只憑描述來設計。人們說自己怎麼做，和範例裡實際有的，是不同的，而這個差異是最有用的發現。如果你沒有範例，就說明這份設計是猜的。</p>
 </li>
 <li>
-<p><strong>在建造任何東西之前，先寫下來請人批准</strong>。workflow 會碰到很多檔案。先由人批准設計。</p>
+<p>先把設計寫下來請人批准，再動手做任何東西。workflow 會碰到很多檔案，所以要先由人批准設計。</p>
 </li>
 </ol>
-<p>不確定一步是固定還是判斷時，選判斷。判斷以後可以變成程式碼；對判斷做錯了的程式碼，更難找出來。</p>
+<p>拿不準一步是固定還是判斷時，就選判斷。判斷以後可以變成程式碼，可是程式碼要是對一個判斷做錯了，就更難找出來。</p>
 <h3>5. 每一步帶什麼</h3>
-<p>workflow 是一條鏈，所以每個環節說三件事：</p>
+<p>workflow 是一條鏈，所以每個環節都要說清三件事：</p>
 <ul>
 <li><strong>進</strong>：這一步之前必須成立的。</li>
 <li><strong>出</strong>：這一步之後存在的東西，形式要讓下一步讀得懂。</li>
 <li><strong>檢查</strong>：怎麼知道它是對的。可能的話用一條指令。</li>
 </ul>
-<p>等人的那些步驟要明說。有兩件事要提防。workflow 不能跳過你的設定裡已有的批准。而且它應該留有餘地：寫預設和條件（「……時跳過」），不要寫固定的腳本，並說明遇到都不符合的情況該怎麼辦。</p>
+<p>進、出、檢查之外，等人的步驟也要明說。步驟寫好以後，還有兩處可能出錯。一是跳過你的設定裡已有的批准，workflow 不能這樣做。二是不留餘地。要寫預設和條件（「……時跳過」），不寫固定的腳本，並說明一個都不符合時怎麼辦。</p>
 <p>workflow 如果超過約十幾步，或有兩種不同的結果，就拆開。</p>
 <h3>6. 兩個例子</h3>
-<p><strong>影響分析</strong>（帶腳本的 skill）。計劃之前，找出一項改動碰到什麼。腳本在每個倉庫裡搜尋要改的名稱。skill 讓模型把命中的結果分成必須改、必須檢查、沒有影響，並要求列出搜尋看不到的東西。這就是<a href="2-3-subagents.html">慎用子 agent</a>那一章提到的情況：有一次，在一個案例裡，實作者漏掉了跨領域的兩處引用，只有獨立檢查找到了它們。這是一個案例，不是比率。先做這個搜尋的 skill，會把這個發現提前。</p>
-<p><strong>測試指南</strong>（一個終點是人的 workflow 步驟）。改動寫回去之後，agent 在測試環境裡無法執行任何東西；是由人來執行的。所以 skill 寫出在每個環境裡要跑什麼，附上預期的結果和要送回什麼。人帶著結果回來時，skill 按之前寫好的標準來判斷。這個設計的重點是它停在哪裡：停在人那裡，附上一份清楚的要做什麼、帶回什麼的清單。</p>
-<h3>測一測你自己的設定</h3>
-<p><strong>找得到嗎？有改變什麼嗎</strong>？單一 skill 的兩個測試在<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>。Anthropic 的指南加了一個習慣：寫很多之前先建立測試案例，取自 agent 沒有這個 skill 時做錯的任務，然後只寫剛好能修好它們的部分。</p>
-<p><strong>workflow 站得住嗎</strong>？用一個不是你範例的案例去跑。失敗的地方，是缺少的變體，或是你歸錯類的步驟。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><p>一张图看区别：</p>
+<p>用兩個例子看看這些部分怎麼拼在一起。第一個就是前面見過的影響分析，一個帶腳本的 skill。在寫計劃之前，它的腳本在每個倉庫裡搜尋要改的名稱，skill 再讓模型把命中的結果分成必須改、必須檢查、沒有影響，並要求列出搜尋看不到的東西。<a href="2-3-subagents.html">慎用子 agent</a>那一章講過一個案例：做改動的那個 agent 漏掉了跨領域的兩處引用，直到獨立檢查才找到。那只是一個案例，不是比率，但先做這個搜尋的 skill，會把這個發現提前。</p>
+<p>第二個是測試指南，一個終點是人的 workflow 步驟。改動寫回真正的倉庫之後，agent 在測試環境裡無法執行任何東西，得由人來執行。所以 skill 寫出在每個環境裡要跑什麼，附上預期的結果和要送回什麼；人帶著結果回來時，skill 再按之前寫好的標準來判斷。這個設計的重點是它停在哪裡：停在人那裡，附上一份清楚的清單，說明要做什麼、帶回什麼。</p>
+<h3>怎麼檢驗 skill 和 workflow</h3>
+<p>這些做法管不管用，是可以測的。單一 skill 有兩個測試，一是找不找得到，二是有沒有改變什麼，都在<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a>裡。Anthropic 的指南加了一個習慣：先建立測試案例，再多寫內容。測試案例取自 agent 沒有這個 skill 時做錯的任務，然後只寫剛好能修好它們的部分。</p>
+<p>而 workflow 還要多一個測試，就是它站不站得住。用一個不是你範例的案例去跑，失敗的地方，要嘛是少了一種變體，要嘛是你把某一步歸錯了類。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>怎么写 skill，什么时候该写成 workflow</h2><p>先用一张图看两者的区别：</p>
 <figure class="fig" id="fig-3-4-skill-vs-workflow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label-muted" x="20" y="24" data-t="skill-title">skill：一件事，整份读</text>
   <rect class="box" x="20" y="36" width="260" height="70" rx="6"/>
@@ -569,57 +545,51 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>skill 是一份手册。workflow 是一串手册：每一步写明做之前什么要成立、做完检查什么，哪几步要等人。</figcaption></figure>
 <h3>1. 只写 agent 会做错的</h3>
-<p>对 skill 草稿里的每一行，问：如果我删掉它，agent 会不会做错什么或漏掉什么？不会，就删掉。</p>
-<p>留下的是：</p>
-<ul>
-<li><strong>你的约定。</strong> 命名、分层、新东西在哪里注册。</li>
-<li><strong>不明显的默认做法。</strong> 团队里每个人不假思索就会做的事。</li>
-<li><strong>陷阱。</strong> 看着对、其实不对的东西。</li>
-<li><strong>你的工具。</strong> 确切的命令，带上关键的参数。</li>
-</ul>
-<p>去掉的是：语言怎么工作、某个库是干什么的，以及文档第一页上就有的任何东西。Anthropic 自己的 skill 写作指南给了一个小例子：用一段话解释 PDF 是什么、读它需要一个库，是在教模型它已经知道的东西；而一行“用 pdfplumber 提取文本”，则告诉它这里做的选择。他们的经验法则是“默认假设：Claude 已经非常聪明。只补充 Claude 还没有的上下文。”（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
-<p>没有这类行的 skill 很短。这没关系。短的 skill 会被整个读完，也会被遵守。</p>
+<p>skill 草稿里的每一行，都要过一个问题：如果我删掉它，agent 会不会做错什么或漏掉什么？不会，就删掉。</p>
+<p>这样过一遍，留下来的大致是四类。两类是团队的习惯：你的约定，比如命名、分层、新东西在哪里注册，以及不明显的默认做法，也就是团队里人人不假思索就会做的事。另外两类是陷阱，那些看着对、其实不对的东西，还有你的工具，也就是确切的命令和那个关键参数。</p>
+<p>而该去掉的，是语言怎么工作、某个库是干什么的，以及文档第一页上就有的任何东西。Anthropic 自己的 skill 写作指南举过一个小例子：用一段话解释 PDF 是什么、读它需要一个库，是在教模型它已经知道的东西；而一行“用 pdfplumber 提取文本”，告诉它的是这里做了什么选择。他们的经验法则是“默认假设：Claude 已经非常聪明。只补充 Claude 还没有的上下文。”（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）</p>
+<p>这样删下来，skill 会很短。这没关系，因为短的 skill 会被整个读完，也会被遵守。剩下的这些，又该怎么排？</p>
 <h3>2. 一个起步的骨架</h3>
-<p>skill 是一个文件夹。要紧的是其中一个文件，有头部和正文：</p>
+<p>skill 是一个文件夹，但要紧的只是其中一个文件，它有头部和正文。这个文件的骨架大致是这样：</p>
 <ul>
-<li><strong>头部</strong>：一个名字，和一段描述，说明它做什么、什么时候用，以及人会说的那些话。</li>
-<li><strong>什么时候用</strong>（以及什么时候不用）。</li>
-<li><strong>需要先具备什么。</strong> 比如一个打开的任务，或者装好的某个工具。</li>
-<li><strong>步骤</strong>，如果这项工作是固定流程。对开放式的工作，给出评判的标准，而不是固定的步骤：死板的菜谱，碰到稍有不同的情况就会失灵。</li>
-<li><strong>坑。</strong></li>
+<li>头部：一个名字，和一段描述，说明它做什么、什么时候用，以及人会说的那些话。</li>
+<li>什么时候用，以及什么时候不用。</li>
+<li>需要先具备什么，比如一个打开的任务，或者装好的某个工具。</li>
+<li>步骤，如果这项工作是固定流程。对开放式的工作，给出评判的标准，而不是固定的步骤，因为死板的菜谱碰到稍有不同的情况就会失灵。</li>
+<li>坑。</li>
 </ul>
-<p><strong>坑是最有价值的部分。</strong> 它们是提前写好的警告，一行一条：规则加粗，后面跟理由。把它们当作一份持续更新的清单：agent 每做错一次这项工作，就加一行。这是改进 skill 最便宜的办法，也是越用越好的部分。</p>
-<p>下面几条是这类行的样子，出自一个“影响分析”skill，它在写计划之前，找出一次改动牵涉到的所有地方：</p>
+<p>这几部分里，<strong>坑是最有价值的</strong>。它们是提前写好的警告，一行一条，规则加粗，后面跟理由。把它们当作一份持续更新的清单：agent 每做错一次这项工作，就加一行。这是改进 skill 最便宜的办法，也是越用越好的部分。</p>
+<p>坑长什么样？看几条“影响分析”skill 里的。这个 skill 在写计划之前，找出一次改动牵涉到的所有地方：</p>
 <ul>
 <li>只用一个光秃秃的列名去搜，什么都能匹配上。要把表名和列名一起搜。</li>
 <li>运行时才拼出来的名字，任何文本搜索都找不到。要在结果里写明这一点，不要报告“没有影响”。</li>
 <li>没搜到不等于没人用：你看不到的仓库之外的读取方是搜不出来的。把这一点写出来，并问还有谁在读它。</li>
 </ul>
-<p>这些在教科书里都找不到。每一条，都是一个称职的 agent 第一次会做错的。第三条还体现了一个值得教给它的习惯：<strong>skill 要告诉 agent 把它没看到的东西说出来。</strong></p>
-<p><strong>脚本。</strong> 如果工作里有一部分只有一个正确答案（找出所有提到某个名字的文件、数一数用了几次），就把它写成脚本，让 skill 告诉 agent 去运行。脚本每次都给同样的答案，还不用花读取的成本；模型做需要判断的那一部分。上面那个 skill 就是这样：用一条命令取代一连串搜索，再由模型对搜到的结果分类。</p>
-<p><strong>长度。</strong> skill 超过大约 200 行时，把细节挪到单独的文件里，主文件只留流程和链接。这样细节只在用到它的那一步才加载。</p>
+<p>这些在教科书里都找不到，可每一条都是一个称职的 agent 第一次会做错的。第三条还体现了一个值得教给它的习惯：<strong>skill 要告诉 agent 把它没看到的东西说出来</strong>。</p>
+<p>坑守的是工作里需要判断的部分。另一些部分根本用不着判断，因为它们只有一个正确答案，比如找出所有提到某个名字的文件、数一数用了几次。这些就写成脚本，让 skill 告诉 agent 去运行。脚本每次都给同样的答案，还不用花读取的成本，模型则去做需要判断的那一部分。影响分析这个 skill 就是这样：先用一条命令取代一连串搜索，再由模型对搜到的结果分类。</p>
+<p>最后要留意的是长度。skill 超过大约 200 行时，把细节挪到单独的文件里，主文件只留流程和链接，这样细节只在用到它的那一步才加载。</p>
 <h3>3. 从真实的工作里来，不要凭想象</h3>
-<p>skill 最好的来源，是你刚做完并纠正过的一项工作。动笔之前，打开最近一次这类真实的任务，问：</p>
+<p>这些都有个前提：你得知道 agent 会在哪里做错。最好的来源，是你刚做完并纠正过的一项工作。动笔之前，打开最近一次这类真实的任务，问自己：</p>
 <ul>
 <li>agent 在哪里做错了？每一处都是一个坑。</li>
 <li>你在哪里纠正了它？每一处都是一条约定。</li>
 <li>你不得不去查的东西，有哪些本可以直接告诉它？</li>
 </ul>
-<p>就从这些写 skill，不要从你觉得一份好手册该说什么来写。我有一个 skill 只做这件事：任务结束时，它起草后来的 agent 会做错什么，附上任务里的证据，由人决定留下哪些。为什么由人来定，<a href="3-5-memory.html">agent 该记住什么</a>里有讲。</p>
+<p>就从这些答案写 skill，而不是从你觉得一份好手册该说什么来写。我有一个 skill 只做这件事：任务结束时，它起草后来的 agent 会做错什么，附上任务里的证据，再交给人决定留下哪些。为什么由人来定，<a href="3-5-memory.html">agent 该记住什么</a>里有讲。</p>
 <h3>4. 从 skill 到 workflow</h3>
-<p>如果你只写单个 skill，可以直接跳到“检验你自己的配置”。后面是讲多步骤的例行工作的。</p>
-<p>一项工作是 skill。几项工作串起来的例行流程是 workflow。“每次我们加一条 pipeline，都做这八步。”如果你是手工做的，而且每次都得告诉 agent，这就是信号。</p>
-<p>我的经验法则：<strong>同样的多步骤的事做到第三次，就停下来写下来。</strong> 一次是意外。两次可能是巧合。三次就是例行工作。三是我自己选的；没有测试表明它是对的数字。当例行工作经常回来、漏一步代价又高时，workflow 才划算。与之相对的，是设计它、测试它和让它保持最新的成本。</p>
-<p>不用凭空发明，也能得到 workflow：</p>
+<p>如果你只写单个 skill，可以直接跳到“怎么检验 skill 和 workflow”。后面讲的是多步骤的例行工作。</p>
+<p>一项工作是 skill，几项工作串起来的例行流程就是 workflow，比如“每次我们加一条 pipeline，都做这八步”。如果你是手工做的，而且每次都得告诉 agent，这就是该写成 workflow 的信号。</p>
+<p>那什么时候该把它写下来？我的经验法则是：<strong>同样的多步骤的事做到第三次，就停下来写下来</strong>。一次是意外，两次可能是巧合，三次就是例行工作了。三是我自己选的，没有任何测试表明它是对的数字。workflow 划不划算，要两头比：一头是例行工作经常回来、漏一步代价又高，另一头是设计它、测试它和让它保持最新的成本。</p>
+<p>而且 workflow 也不用凭空发明，可以从已经做完的工作里得来：</p>
 <ol>
 <li>
-<p><strong>拿两三个已经做完的例子。</strong> 要真实的，是人已经做完的。</p>
+<p>拿两三个已经做完的例子，要真实的、人已经做完的。</p>
 </li>
 <li>
-<p><strong>并排放在一起</strong>，把每个例子里的名字换成占位符。每个例子里看起来都一样的部分，是骨架。随名字变化的部分，是参数。除了名字之外还有差异的部分，是判断所在的地方。</p>
+<p>把它们并排放在一起，把每个例子里的名字换成占位符。每个例子里看起来都一样的部分，是骨架。随名字变化的部分是参数，除了名字之外还有差异的部分，就是判断所在的地方。</p>
 </li>
 <li>
-<p><strong>把每一步归入四类之一</strong>，按这个顺序问，第一个回答“是”就停：</p>
+<p>把每一步归入四类之一，按这个顺序问，第一个回答“是”就停：</p>
 <table>
 <thead>
 <tr>
@@ -653,51 +623,51 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </table>
 </li>
 <li>
-<p><strong>不要只凭描述来设计。</strong> 人说他们怎么做，和例子里实际有的东西，是有差别的。这个差别是最有用的发现。如果你没有例子，就说明这个设计是猜的。</p>
+<p>不要只凭描述来设计。人说他们怎么做，和例子里实际有的东西是有差别的，而这个差别是最有用的发现。如果你没有例子，就说明这个设计是猜的。</p>
 </li>
 <li>
-<p><strong>先写下来请人审批，再动手做任何东西。</strong> workflow 会牵涉很多文件。要先由人批准设计。</p>
+<p>先把设计写下来请人审批，再动手做任何东西。workflow 会牵涉很多文件，所以要先由人批准设计。</p>
 </li>
 </ol>
-<p>不确定一步是固定的还是需要判断的时候，选判断。判断以后可以改成代码；对判断出了错的代码，更难找。</p>
+<p>拿不准一步是固定的还是需要判断的，就选判断。判断以后可以改成代码，可要是代码对一个判断做错了，就更难找出来。</p>
 <h3>5. 每一步带什么</h3>
-<p>workflow 是一条链，所以每个环节要说三件事：</p>
+<p>workflow 是一条链，所以每个环节都要说清三件事：</p>
 <ul>
 <li><strong>入</strong>：这一步之前必须成立什么。</li>
 <li><strong>出</strong>：这一步之后有什么，要写成下一步能读的形式。</li>
 <li><strong>检查</strong>：怎么知道它是对的。能用命令就用命令。</li>
 </ul>
-<p>等人的那些步骤，要明说。有两点要防。workflow 不能跳过你的配置里已有的审批。另外它要留有余地：写默认做法和条件（“……时跳过”），不要写死脚本，并说明碰到一个都不符合的情况该怎么办。</p>
+<p>入、出、检查之外，等人的步骤也要明说。步骤写好以后，还有两处可能出错。一是跳过你的配置里已有的审批，workflow 不能这样做。二是不留余地。要写默认做法和条件（“……时跳过”），不写死脚本，并说明一个都不符合时怎么办。</p>
 <p>如果一个 workflow 超过大约十几步，或者有两种不同的结果，就拆开。</p>
 <h3>6. 两个例子</h3>
-<p><strong>影响分析</strong>（带脚本的 skill）。在做计划之前，找出一次改动牵涉到什么。脚本在所有仓库里搜要改的名字。skill 让模型把搜到的结果分成必须改、必须核对、没有影响三类，并要求列出搜索看不到的东西。这就是<a href="2-3-subagents.html">子 agent 那一章</a>提到的情况：有一次，在一个案例里，开发者漏掉了跨领域的两处引用，只有独立检查才发现。那是一个案例，不是比率。先做这一搜的 skill，会把这次发现提前。</p>
-<p><strong>测试指南</strong>（以人为终点的 workflow 步骤）。改动写回去之后，agent 不能在测试环境里运行任何东西；由人来跑。所以 skill 写出在每个环境里该跑什么、预期结果是什么、要把什么带回来。人带着结果回来时，skill 按事先写好的标准来判断。这个设计的关键在于它在哪里停下来：停在人这里，附一份清楚的清单，说明要做什么、要带回什么。</p>
-<h3>检验你自己的配置</h3>
-<p><strong>它能被找到吗？它改变了什么吗？</strong> 单个 skill 的两个测试在<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>里。Anthropic 的指南还加了一个习惯：先做测试用例，再多写东西。测试用例来自没有这个 skill 时 agent 做错的任务，然后只写刚好够修正它们的内容。</p>
-<p><strong>workflow 站得住吗？</strong> 拿一个不属于你那几个例子的情况去跑。失败的地方，要么是缺了一种变体，要么是你把某一步归错了类。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><p><strong>A skill can go stale.</strong> It states how things are done here, and here changes. A skill that says to use a command that no longer exists is worse than none. Look at each one when the thing it describes changes, and give each an owner.</p>
-<p><strong>Wrong gotchas teach wrongly.</strong> A gotcha written from a single case can mislead in the next. Keep the reason with the rule, so a reader can judge whether it still applies.</p>
-<p><strong>Fixed steps cost flexibility.</strong> A tight recipe is right for a fixed process and wrong for open work. If the agent follows your steps into a case they do not fit, they were too tight.</p>
-<p><strong>A workflow can be wrong in a way nobody sees.</strong> It runs the same way every time, including a wrong way. The checks are there for this; give each step one.</p>
-<p><strong>What I did not measure.</strong> I have not compared an agent with and without a given skill across many runs. The skill tests above are a first pass, not a measurement (<a href="6-4-variance.html">Run it several times</a> says how to measure).</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><p><strong>skill 會過期</strong>。它說的是這裡的做事方式，而這裡會變。一個說要用已經不存在的指令的 skill，比沒有還糟。它描述的東西一變，就去看一看每一個，並給每一個負責人。</p>
-<p><strong>錯的陷阱會教錯</strong>。根據單一案例寫的陷阱，在下一個案例可能誤導人。把理由和規則放在一起，讀的人才能判斷它是否仍然適用。</p>
-<p><strong>固定的步驟要付出彈性的代價</strong>。緊的食譜適合固定的流程，不適合開放的工作。如果 agent 照著你的步驟走進了它們不適用的情況，說明它們太緊了。</p>
-<p><strong>workflow 可能錯得沒人看得見</strong>。它每次都用同樣的方式跑，包括錯的方式。檢查就是為此而設的；每一步都給一個。</p>
-<p><strong>我沒量的</strong>。我沒有在很多次運行中，比較過有沒有某個 skill 的 agent。上面的 skill 測試是第一輪，不是量測（<a href="6-4-variance.html">一次運行證明不了什麼</a>說了怎麼量）。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><p><strong>skill 会过期。</strong> 它写的是这里的做法，而这里会变。一个让你用已经不存在的命令的 skill，比没有还糟。它描述的东西一变，就去看一眼，并给每个 skill 指定负责人。</p>
-<p><strong>错的坑会教错。</strong> 从单个案例写出来的坑，在下一个案例里可能误导人。把理由和规则放在一起，这样读的人才能判断它是否仍然适用。</p>
-<p><strong>固定的步骤要用灵活性换。</strong> 严格的菜谱适合固定流程，不适合开放式的工作。如果 agent 照着你的步骤走进了它们不适用的情况，说明步骤写得太死。</p>
-<p><strong>workflow 可能错得没人发现。</strong> 它每次都按同样的方式运行，错的方式也一样。检查就是为此而设的；每一步都要有一个。</p>
-<p><strong>我没量的。</strong> 我没有在很多次运行中，比较过有没有某个 skill 的 agent。上面的 skill 测试是初步的，不是量测（<a href="6-4-variance.html">一次运行证明不了什么</a>说了怎么量）。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>What the industry says <span class="status status-industry">Industry practice</span></h2><p>VS Code's skills documentation describes the same format and the three-stage loading, and says to write instructions that are &quot;clear&quot; and &quot;specific&quot; with step-by-step procedures where they apply. It also says plainly that discovery does not guarantee a skill is used. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>) Anthropic's skill-writing guide gives the same advice I follow: assume the model is already very smart and add only what it does not have, and challenge each paragraph with &quot;Does this paragraph justify its token cost?&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>) It also suggests building the test cases first and keeping the skill under about 500 lines; my own limit of about 200 is stricter and is a habit, not a measured value.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>業界怎麼說 <span class="status status-industry">業界做法</span></h2><p>VS Code 的 skill 文件描述了同樣的格式和三階段載入，並說要把指令寫得「清楚」、「具體」，在適用的地方附上一步步的程序。它也明確說，發現機制不保證 skill 一定會被使用。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）Anthropic 的 skill 寫作指南給的建議和我遵循的一樣：假設模型已經很聰明，只加它沒有的，並用「這一段值得它花的 token 嗎？」來質疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它還建議先建立測試案例，並讓 skill 低於約 500 行；我自己約 200 行的上限更嚴，那是習慣，不是量出來的值。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>业界怎么说 <span class="status status-industry">业界做法</span></h2><p>VS Code 的 skill 文档描述了同样的格式和三阶段加载，并说指令要写得“清楚”“具体”，需要时给出分步的做法。它也明说，发现机制并不保证 skill 会被用上。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）Anthropic 的 skill 写作指南给的建议，和我遵循的一样：假设模型已经非常聪明，只补充它没有的东西，并用“这一段值得它花的 token 吗？”来质疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它还建议先做测试用例，并把 skill 控制在大约 500 行以内；我自己的上限大约是 200 行，更严格，是一种习惯，不是量出来的值。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete it <span class="status status-industry">Industry practice</span></h2><p>A gotcha goes when the model stops making the mistake, or when the code makes it impossible. Check them when you change models: some may be dead weight, and a dead gotcha only takes room. A fixed step goes when the platform does it for you. A whole workflow goes when it has not run for a long time, or when the routine itself is gone.</p>
+<p>用两个例子看看这些部分怎么拼在一起。第一个就是前面见过的影响分析，一个带脚本的 skill。在写计划之前，它的脚本在所有仓库里搜要改的名字，skill 再让模型把搜到的结果分成必须改、必须核对、没有影响三类，并要求列出搜索看不到的东西。<a href="2-3-subagents.html">子 agent 那一章</a>讲过一个案例：做改动的那个 agent 漏掉了跨领域的两处引用，直到独立检查才发现。那只是一个案例，不是比率，但先做这一搜的 skill，会把这个发现提前。</p>
+<p>第二个是测试指南，一个以人为终点的 workflow 步骤。改动写回真正的仓库之后，agent 不能在测试环境里运行任何东西，得由人来跑。所以 skill 写出每个环境里该跑什么、预期结果是什么、要把什么带回来；人带着结果回来时，skill 再按事先写好的标准来判断。这个设计的关键在于它在哪里停下来：停在人这里，附一份清楚的清单，说明要做什么、要带回什么。</p>
+<h3>怎么检验 skill 和 workflow</h3>
+<p>这些做法管不管用，是可以测的。单个 skill 有两个测试，一是能不能被找到，二是有没有改变什么，都在<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>里。Anthropic 的指南还加了一个习惯：先做测试用例，再多写东西。测试用例取自没有这个 skill 时 agent 做错的任务，然后只写刚好够修正它们的内容。</p>
+<p>而 workflow 还要多一个测试，就是它站不站得住。拿一个不属于你那几个例子的情况去跑，失败的地方，要么是缺了一种变体，要么是你把某一步归错了类。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What a written routine costs, and how it goes wrong</h2><p>A skill that passes those tests can still go stale. It states how things are done here, and here changes. A skill that says to use a command that no longer exists is worse than none, so look at each one when the thing it describes changes, and give each an owner.</p>
+<p>The gotchas themselves can be wrong, and a wrong gotcha teaches the agent wrongly. One written from a single case, for example, can mislead in the next. So keep the reason with the rule, where a reader can judge whether it still applies.</p>
+<p>Fixed steps cost something too: flexibility. A tight recipe is right for a fixed process and wrong for open work. If the agent follows your steps into a case they do not fit, they were too tight.</p>
+<p>A workflow can also be wrong in a way nobody sees, because it runs the same way every time, including a wrong way. That is what the checks are for, so give each step one.</p>
+<p>As I said at the start, I have not compared an agent with and without a given skill across many runs, so the skill tests above are a first pass, not a measurement (<a href="6-4-variance.html">Run it several times</a> says how to measure).</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>寫下來的做法要付出什麼，會怎樣出錯</h2><p>不過，通過這些測試的 skill，還是會過期。它說的是這裡的做事方式，而這裡會變。一個叫你用已經不存在的指令的 skill，比沒有還糟，所以它描述的東西一變，就去看一看，並給每一個 skill 指定負責人。</p>
+<p>陷阱本身也可能錯，錯的陷阱會把 agent 教錯。比如根據單一案例寫的陷阱，到了下一個案例可能就誤導人。所以要把理由和規則放在一起，讀的人才能判斷它是否仍然適用。</p>
+<p>固定的步驟也有代價：彈性。死板的食譜適合固定的流程，不適合開放的工作。如果 agent 照著你的步驟走進了它們不適用的情況，說明步驟寫得太死。</p>
+<p>workflow 還可能錯得沒人看得見，因為它每次都用同樣的方式跑，包括錯的方式。檢查就是為此而設的，所以每一步都要給一個。</p>
+<p>最後，像開頭說的，我沒有在很多次運行中比較過有沒有某個 skill 的 agent，所以上面的 skill 測試只是第一輪，不是量測（<a href="6-4-variance.html">一次運行證明不了什麼</a>說了怎麼量）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>写下来的做法要付出什么，会怎样出错</h2><p>不过，过了这些测试的 skill，照样会过期。它写的是这里的做法，而这里会变。一个让你用已经不存在的命令的 skill，比没有还糟，所以它描述的东西一变，就去看一眼，并给每个 skill 指定负责人。</p>
+<p>坑本身也可能错，错的坑会把 agent 教错。比如从单个案例写出来的坑，到了下一个案例可能就误导人。所以要把理由和规则放在一起，读的人才能判断它是否仍然适用。</p>
+<p>固定的步骤也有代价：灵活性。严格的菜谱适合固定流程，不适合开放式的工作。如果 agent 照着你的步骤走进了它们不适用的情况，说明步骤写得太死。</p>
+<p>workflow 还可能错得没人发现，因为它每次都按同样的方式运行，错的方式也一样。检查就是为此而设的，所以每一步都要有一个。</p>
+<p>最后，像开头说的，我没有在很多次运行中比较过有没有某个 skill 的 agent，所以上面的 skill 测试只是初步的，不是测量（<a href="6-4-variance.html">一次运行证明不了什么</a>说了怎么量）。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Do the official guides agree? <span class="status status-industry">Industry practice</span></h2><p>On the main point, Anthropic's skill-writing guide does. It gives the same advice I follow: assume the model is already very smart, add only what it does not have, and challenge each paragraph with &quot;Does this paragraph justify its token cost?&quot;. (<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>) It also suggests building the test cases first and keeping the skill under about 500 lines. My own limit of about 200 is stricter, but it is a habit, not a measured value. VS Code's skills documentation, for its part, describes the same format and the three-stage loading. It asks for instructions that are &quot;clear&quot; and &quot;specific&quot;, with step-by-step procedures where they apply. It also says plainly that discovery does not guarantee a skill is used. (<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>)</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>官方指南也這麼說嗎？ <span class="status status-industry">業界做法</span></h2><p>Anthropic 的 skill 寫作指南在最要緊的一點上和我一樣：假設模型已經很聰明，只加它沒有的，並用「這一段值得它花的 token 嗎？」來質疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它還建議先建立測試案例，並把 skill 控制在約 500 行以內。我自己約 200 行的上限更嚴，不過那是習慣，不是量出來的值。至於 VS Code 的 skill 文件，它描述了同樣的格式和三階段載入，要求把指令寫得「清楚」、「具體」，在適用的地方附上一步步的程序。它也明確說，發現機制不保證 skill 一定會被使用。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>官方指南也这么说吗？ <span class="status status-industry">业界做法</span></h2><p>Anthropic 的 skill 写作指南在最要紧的一点上和我一样：假设模型已经非常聪明，只补充它没有的东西，并用“这一段值得它花的 token 吗？”来质疑每一段。（<a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices">Skill authoring best practices</a>）它还建议先做测试用例，并把 skill 控制在大约 500 行以内。我自己的上限大约是 200 行，更严格，但那是一种习惯，不是量出来的值。至于 VS Code 的 skill 文档，它描述了同样的格式和三阶段加载，要求指令写得“清楚”“具体”，需要时给出分步的做法。它也明说，发现机制并不保证 skill 会被用上。（<a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">Agent skills</a>）</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete a gotcha, a step or a workflow <span class="status status-industry">Industry practice</span></h2><p>A gotcha goes when the model stops making the mistake, or when the code makes it impossible. So check them when you change models: some may have become dead weight, and a dead gotcha only takes room. A fixed step goes when the platform does it for you. A whole workflow goes when it has not run for a long time, or when the routine itself is gone.</p>
 <p>What stays is the habit: after a real task, look at what the agent got wrong, and write that down in the place it will be read.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉 <span class="status status-industry">業界做法</span></h2><p>模型不再犯那個錯，或程式碼讓它不可能發生時，陷阱就可以去掉。換模型時檢查它們：有些可能已經是死重，而死掉的陷阱只佔位子。平台替你做了的固定步驟，就可以去掉。整個 workflow，在很久沒跑過、或例行工作本身消失時，可以去掉。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候刪掉一條陷阱、一個步驟或整個 workflow <span class="status status-industry">業界做法</span></h2><p>模型不再犯那個錯，或程式碼讓它不可能發生時，陷阱就可以刪掉。所以換模型時要檢查它們：有些可能已經成了累贅，而失效的陷阱只佔位子。平台替你做了的固定步驟，就可以刪掉。整個 workflow，在很久沒跑過、或例行工作本身消失時，也可以刪掉。</p>
 <p>留下來的是習慣：做完一個真實的任務後，看 agent 做錯了什麼，把它寫在會被讀到的地方。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉 <span class="status status-industry">业界做法</span></h2><p>模型不再犯那个错，或者代码让它不可能再犯时，这条坑就可以删掉。换模型时检查一遍：有的可能已经是累赘，而失效的坑只会占地方。平台替你做了固定的步骤，那一步就可以删掉。整个 workflow，在很久没有运行过，或者例行工作本身已经没有了的时候，就可以删掉。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候删掉一条坑、一个步骤或整个 workflow <span class="status status-industry">业界做法</span></h2><p>模型不再犯那个错，或者代码让它不可能再犯时，这条坑就可以删掉。所以换模型时要检查一遍：有的可能已经成了累赘，而失效的坑只会占地方。平台替你做了的固定步骤，就可以删掉。整个 workflow，在很久没有运行过，或者例行工作本身已经没有了的时候，也可以删掉。</p>
 <p>留下的是这个习惯：做完一项真实的任务，看看 agent 做错了什么，把它写在会被读到的地方。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Look through the recent git history of this repository for changes that repeat the same multi-step pattern (for example, adding a new module, a new endpoint or a new job, which touches the same set of places each time). List up to three such routines with the commits that show them. For each, say which steps looked identical every time, which varied with the name, and which needed a person&#x27;s decision. Say which routine is worth writing down first. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>翻一下這個倉庫最近的 git 歷史，找出重複同樣多步驟模式的改動（例如加一個新模組、新 endpoint 或新工作，每次都碰到同一組地方）。最多列出三個這樣的例行工作，附上能顯示它們的 commit。每一個，說明哪些步驟每次看起來都一樣、哪些隨名稱變、哪些需要人來決定。說明哪個例行工作最值得先寫下來。不要改任何檔案。</code></pre></div>
