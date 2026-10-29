@@ -221,90 +221,63 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.1</p><h1><span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span><span data-l="zh-Hans" lang="zh-Hans">知识库：代码的诚实索引</span></h1></header><div data-l="en" lang="en"><p>This chapter is the first of a case study. It assumes you have read <a href="3-1-context-budget.html">Context budget</a> and <a href="3-5-memory.html">What an agent should remember</a>, which give the general ideas. It fits a team with a large, old code base. If your code base is small, read it to decide that you do not need this. The most useful part is the small experiment in <a href="#test">Test your own setup</a>: you can run it before you build anything.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章是個案研究的第一章。讀它，你需要讀過 <a href="3-1-context-budget.html">上下文是一份預算</a> 和 <a href="3-5-memory.html">agent 該記住什麼</a>，它們講的是一般的想法。它適合有一大份老程式碼的團隊。如果你的程式碼很小，讀它是為了判斷你不需要。最有用的部分，是 <a href="#test">測你自己的設定</a> 裡那個小實驗：你在建任何東西之前，就可以先跑。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章是案例研究的第一章。读它之前，你需要读过<a href="3-1-context-budget.html">上下文是一份预算</a>和<a href="3-5-memory.html">agent 该记住什么</a>，它们讲的是一般的思路。它适合有一大份老代码的团队。如果你的代码很小，读它是为了判断自己不需要。最有用的部分，是<a href="#test">在你自己的环境里测一测</a>里那个小实验：什么都还没建，你就可以先跑。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The code is the truth. A knowledge base is only an index and summary of it, which should be cheaper to read. It does not try to be complete on day one. It tries to be honest: each card says which version of the source file it read, and each gap is written down where the next reader will see it.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>程式碼才是真相。知識庫只是它的索引和摘要，讀起來應該比較便宜。它不求第一天就完整，它求誠實：每張卡片說明它讀的是哪個版本的原始檔案，每個缺口都寫在下一個讀者會看到的地方。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>代码才是真相。知识库只是它的索引和摘要，读起来应该更便宜。它不求第一天就完整，只求诚实：每张卡片都写明它读的是源文件的哪个版本，每个缺口都写在下一个读者看得到的地方。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What does an agent need to know before it changes one object?</span><span data-l="zh-Hant" lang="zh-Hant">agent 改一個物件之前，得先知道什麼？</span><span data-l="zh-Hans" lang="zh-Hans">agent 改一个对象之前，得先知道什么？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How a knowledge base is built to be honest</span><span data-l="zh-Hant" lang="zh-Hant">一個誠實的知識庫是怎麼建起來的</span><span data-l="zh-Hans" lang="zh-Hans">一个诚实的知识库是怎么搭起来的</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What it costs, and how it can go wrong</span><span data-l="zh-Hant" lang="zh-Hant">要付出什麼，又會在哪裡出錯</span><span data-l="zh-Hans" lang="zh-Hans">要花什么，又会在哪里出错</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the cards, and what to keep</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候刪掉卡片，留下什麼</span><span data-l="zh-Hans" lang="zh-Hans">什么时候删掉卡片，留下什么</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.1</p><h1><span data-l="en" lang="en">A knowledge base: an honest index of the code</span><span data-l="zh-Hant" lang="zh-Hant">知識庫：程式碼的誠實索引</span><span data-l="zh-Hans" lang="zh-Hans">知识库：代码的诚实索引</span></h1></header><div data-l="en" lang="en"><p>This chapter is the first of a case study and builds on the general ideas in <a href="3-1-context-budget.html">Context budget</a> and <a href="3-5-memory.html">What an agent should remember</a>. It is written for a team with a large, old code base. If yours is small, read it to decide that you do not need this. Either way, the most useful part is the small experiment in <a href="#test">Find out first whether you need one</a>, because you can run it before you build anything.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>從這一章起是一個個案研究。一般的想法，前面的<a href="3-1-context-budget.html">上下文是一份預算</a>和<a href="3-5-memory.html">agent 該記住什麼</a>已經講過，這裡就不重複了。它寫給手上有一大份老程式碼的團隊。程式碼庫很小的話，讀它是為了確認自己用不著這些。不管是哪一種，最有用的都是<a href="#test">先弄清楚你需不需要它</a>裡那個小實驗，因為什麼都還沒建，你就可以先跑一遍。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>从这一章起是一个案例研究。一般的思路，前面的<a href="3-1-context-budget.html">上下文是一份预算</a>和<a href="3-5-memory.html">agent 该记住什么</a>已经讲过，这里就不重复了。它写给手里有一大份老代码的团队。代码库很小的话，读它是为了确认自己用不着这些。不管是哪种情况，最有用的都是<a href="#test">先弄清楚你需不需要它</a>里那个小实验，因为什么都还没建，你就可以先跑一遍。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>The code is the truth, and a knowledge base is only an index and summary of it that should be cheaper to read. Rather than trying to be complete on day one, it tries to be honest: each card says which version of the source file it read, and each gap is written down where the next reader will see it.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>程式碼才是真相，知識庫只是它的索引和摘要，讀起來應該比程式碼便宜。它不求第一天就完整，只求誠實：每張卡片都寫明它讀的是哪個版本的原始檔案，每個缺口都寫在下一個讀者看得到的地方。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>代码才是真相，知识库只是它的索引和摘要，读起来应该比代码便宜。它不求第一天就完整，只求诚实：每张卡片都写明它读的是源文件的哪个版本，每个缺口都写在下一个读者看得到的地方。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> whether to fund a knowledge base (a folder of short notes about the code, written for agents), and who will own it. Test first whether searching the code is already enough.</li>
-<li><strong>The risk:</strong> searching starts to hurt when the code base is large, the same exploration is paid for in every session, or a wrong answer is expensive. I have not measured a knowledge base against plain search, so this is a bet, not a proven win. A base nobody refreshes becomes confidently wrong.</li>
-<li><strong>The cost of doing it right:</strong> the model reads each object's code once; for a large domain that is real money, and I have not priced it. Someone must own the refresh, and the notes need the same access rules as the code.</li>
+<li><strong>The decision:</strong> whether to fund a knowledge base (a folder of short notes about the code, written for agents), and who will own it. Before that, test whether searching the code is already enough.</li>
+<li><strong>The risk:</strong> searching starts to hurt when the code base is large, when the same exploration is paid for in every session, or when a wrong answer is expensive. I have not measured a knowledge base against plain search, so this is a bet, not a proven win. And a base nobody refreshes becomes confidently wrong.</li>
+<li><strong>The cost of doing it right:</strong> the model reads each object's code once. For a large domain that is real money, and I have not priced it. Someone must also own the refresh, and the notes need the same access rules as the code.</li>
 <li><strong>Ask the team:</strong> &quot;On ten questions we know the answers to, how often does an agent with plain search get it right?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：要不要出錢做知識庫（一個資料夾，裡面是寫給 agent 的程式碼短筆記），以及誰負責。先測一下，只搜尋程式碼是不是已經夠了。</li>
-<li><strong>風險</strong>：程式碼庫很大、同樣的探索在每個會話都要再付一次、或者答錯很貴的時候，搜尋就開始吃力。我沒有拿知識庫和單純搜尋比較過，所以這是一場賭注，不是證明過的勝利。沒有人更新的知識庫，會變成很有自信地答錯。</li>
-<li><strong>做對的成本</strong>：模型把每個物件的程式碼讀一遍；對大的領域，這是真金白銀，我沒有算過價。要有人負責更新，筆記也需要和程式碼一樣的存取規則。</li>
+<li><strong>要做的決定</strong>：要不要出錢做知識庫（一個資料夾，裡面是寫給 agent 看的程式碼短筆記），以及由誰負責。決定之前，先測一下只搜尋程式碼是不是已經夠用。</li>
+<li><strong>風險</strong>：程式碼庫很大、同樣的探索每個會話都要再付一次，或者答錯的代價很高，這些時候搜尋就開始吃力了。我沒有拿知識庫和單純的搜尋比較過，所以這是一場賭注，不是已經證實的好處。而沒有人更新的知識庫，會很有把握地答錯。</li>
+<li><strong>做對的成本</strong>：模型要把每個物件的程式碼讀一遍。對大的領域來說，這是真金白銀，我也沒有算過要花多少。另外得有人負責更新，筆記也需要和程式碼一樣的存取規則。</li>
 <li><strong>可以問團隊</strong>：「十個我們知道答案的問題，只用單純搜尋的 agent 答對幾個？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：要不要出钱做知识库（一个文件夹，里面是写给 agent 看的代码短笔记），以及由谁负责。先测一下，只搜索代码是不是已经够用。</li>
-<li><strong>风险</strong>：代码库很大、同样的探索每个会话都要再付一次、或者答错代价很高的时候，搜索就开始吃力。我没有拿知识库和单纯搜索比过，所以这是一次押注，不是已经证明的收益。没人更新的知识库，会变得自信满满地答错。</li>
-<li><strong>做对的代价</strong>：模型要把每个对象的代码读一遍；对大的领域，这是真金白银，我没有算过价。要有人负责更新，笔记也需要和代码一样的访问规则。</li>
+<li><strong>要拍板的事</strong>：要不要出钱做知识库（一个文件夹，里面是写给 agent 看的代码短笔记），以及由谁负责。拍板之前，先测一下只搜索代码是不是已经够用。</li>
+<li><strong>风险</strong>：代码库很大、同样的探索每个会话都要再付一次，或者答错的代价很高，这些时候搜索就开始吃力了。我没有拿知识库和单纯的搜索比过，所以这是一次押注，不是已经证明的收益。而没人更新的知识库，会变得自信满满地答错。</li>
+<li><strong>做对的代价</strong>：模型要把每个对象的代码读一遍。对大的领域来说，这是真金白银，我也没有算过要花多少。另外得有人负责更新，笔记也需要和代码一样的访问规则。</li>
 <li><strong>可以问团队</strong>：“十个我们知道答案的问题，只用单纯搜索的 agent 能答对几个？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Say a team owns a code base with a few thousand objects. An <strong>object</strong> is a named thing in the code that other things use: a stored procedure, a scheduled job, a class, a table. You ask an agent to change one of them. To do it safely, the agent has to know what the object does, who uses it, and what breaks if it changes.</p>
-<p>A new agent session starts knowing none of this. The first question is the obvious one.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>What does an agent need to know before it changes one object?</h2><p>Say a team owns a code base with a few thousand objects, where an <strong>object</strong> is a named thing in the code that other things use: a stored procedure, a scheduled job, a class, a table. You ask an agent to change one of them. To do it safely, the agent has to know what the object does, who uses it and what breaks if it changes, yet a new agent session starts knowing none of this. The obvious way to fill that gap is to let it search.</p>
 <h3>Why not just let the agent search the code?</h3>
-<p>An agent can search. It can run <code>grep</code> (find every line that contains a word), open files, and follow names. For many jobs that is the right answer, and it costs nothing to set up. I want to say clearly when it is enough. Searching also does not have to be bare <code>grep</code>: a language server (the editor service that answers &quot;where is this defined, who uses it&quot;) or a code-search service can help, and a short, good rules page helps too. The knowledge base has to beat that combination, not bare <code>grep</code>.</p>
-<p><strong>Searching is enough when:</strong></p>
-<ul>
-<li>The code base is small, or the part you need fits in one context.</li>
-<li>You know the name of what you are looking for.</li>
-<li>The task is a one-off, so nobody pays for the same exploration twice.</li>
-</ul>
-<p><strong>It starts to hurt when:</strong></p>
-<ul>
-<li><strong>The agent decides what to read next from what it just read.</strong> It can miss an object, follow a name that means something else, and stop too early. It cannot tell you how much it missed. Ask it twice and you may get two different answers.</li>
-<li><strong>The same exploration is paid for in every session.</strong> Every new session starts with an empty context (<a href="3-1-context-budget.html">context budget</a>), so the agent finds the same things again.</li>
-<li><strong>Some things are not in the code.</strong> Which environment runs a job, why a rule exists, what failed last year. No search finds them, because they are not written there.</li>
-<li><strong>A wrong answer is expensive.</strong> If the object touches shared data, a guess from a partial search is not good enough.</li>
-</ul>
-<p>A <strong>knowledge base</strong> is a folder of plain text files about the code, written for agents to read. The idea is to pay once for the exploration, keep the result, and read the result first because it should be cheaper than the code. I have not measured that.</p>
-<p><strong>I have not measured it against searching.</strong> I have not run the same questions once with plain search and once with a knowledge base, and I do not know by how much the second one wins, if it does. What I have is the reasoning above, and a way for you to test it on your own code (see <a href="#test">Test your own setup</a>). Treat the knowledge base as a bet that pays off under the conditions above, not as a proven win.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>假設一個團隊擁有一份有幾千個物件的程式碼庫。<strong>物件</strong>是程式碼裡一個有名字、被別的東西使用的東西：預存程序、排程工作、類別、資料表。你請 agent 改其中一個。要改得安全，agent 得知道這個物件做什麼、誰在用它、改了會壞掉什麼。</p>
-<p>新的 agent 會話開始時，這些一概不知道。第一個問題是顯而易見的。</p>
+<p>An agent can search. It can run <code>grep</code> (find every line that contains a word), open files and follow names. For many jobs that is the right answer, and it costs nothing to set up. That is why I want to say clearly when it is enough. Searching does not have to mean bare <code>grep</code>, either. A language server (the editor service that answers &quot;where is this defined, who uses it&quot;) or a code-search service can help, as can a short, good rules page. The knowledge base has to beat that combination, not bare <code>grep</code>.</p>
+<p>Searching is enough when the code base is small or the part you need fits in one context, when you know the name of what you are looking for, or when the task is a one-off, so nobody pays for the same exploration twice.</p>
+<p>Outside those cases, searching starts to hurt, and the first reason lies in how an agent searches. It decides what to read next from what it just read, so it can miss an object, follow a name that means something else, or stop too early. It cannot tell you how much it missed. Ask it twice and you may get two different answers.</p>
+<p>A search that goes well still has to be repeated. Every new session starts with an empty context (<a href="3-1-context-budget.html">context budget</a>), so the agent finds the same things again and pays for the same exploration in every session.</p>
+<p>Some things, though, are not in the code at all: which environment runs a job, why a rule exists, what failed last year. No search finds them, because they are not written there.</p>
+<p>And some answers are expensive to get wrong. If the object touches shared data, a guess from a partial search is not good enough.</p>
+<p>A <strong>knowledge base</strong> works the other way round. It is a folder of plain text files about the code, written for agents to read. The idea is to pay once for the exploration, keep the result, and read the result first, because it should be cheaper than the code.</p>
+<p>I say &quot;should&quot; because I have not run the same questions once with plain search and once with a knowledge base, so I do not know by how much the second one wins, if it does. What I have is the reasoning above, plus a way for you to test it on your own code (see <a href="#test">Find out first whether you need one</a>). Treat the knowledge base as a bet that pays off under the conditions above, not as a proven win.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>agent 改一個物件之前，得先知道什麼？</h2><p>假設一個團隊管著一份有幾千個物件的程式碼庫。這裡說的<strong>物件</strong>，是程式碼裡有名字、被別的東西用到的東西：預存程序、排程工作、類別、資料表。你請 agent 改其中一個。要改得安全，它得知道這個物件是做什麼的、誰在用它、改了會壞掉什麼，可是新開的 agent 會話對這些一無所知。要補上這個缺口，最直接的辦法就是讓它自己去搜。</p>
 <h3>為什麼不乾脆讓 agent 搜尋程式碼？</h3>
-<p>agent 會搜尋。它能執行 <code>grep</code>（找出每一行含有某個詞的地方）、開檔案、順著名字追。對很多工作，這就是正確的答案，而且不用任何設定。我想說清楚它什麼時候就夠了。搜尋也不必是單純的 <code>grep</code>：語言伺服器（回答「這個在哪裡定義、誰在用」的編輯器服務）或程式碼搜尋服務都可以幫忙，一頁簡短而好的規則也有幫助。知識庫要贏的是這一整套，不是單純的 <code>grep</code>。</p>
-<p><strong>搜尋就夠的時候</strong>：</p>
-<ul>
-<li>程式碼庫很小，或者你要的那一塊放得進一個上下文。</li>
-<li>你知道要找的東西的名字。</li>
-<li>任務只做一次，所以沒有人為同樣的探索付兩次。</li>
-</ul>
-<p><strong>開始吃力的時候</strong>：</p>
-<ul>
-<li><strong>agent 靠剛讀到的東西，決定下一步讀什麼</strong>。它可能漏掉一個物件，追到一個名字相同、意思不同的東西，太早停下來。它說不出自己漏了多少。問它兩次，可能得到兩個不同的答案。</li>
-<li><strong>同樣的探索，每個會話都要付一次</strong>。每個新會話都從空的上下文開始（<a href="3-1-context-budget.html">上下文預算</a>），所以 agent 又找到同樣的東西。</li>
-<li><strong>有些事不在程式碼裡</strong>。哪個環境執行一個工作、一條規則為什麼存在、去年什麼壞了。搜尋找不到，因為那裡沒有寫。</li>
-<li><strong>答錯很貴</strong>。如果物件碰到共用的資料，靠不完整的搜尋猜出來的答案，是不夠的。</li>
-</ul>
-<p><strong>知識庫</strong>是一個資料夾，裡面是關於程式碼的純文字檔案，寫給 agent 讀。想法是：探索只付一次錢，把結果留下來，並先讀結果，因為它應該比讀程式碼便宜。這一點我沒有量過。</p>
-<p><strong>我沒有拿它和搜尋比較過</strong>。我沒有把同樣的問題，一次用單純搜尋、一次用知識庫跑過，所以我不知道第二個贏多少，甚至贏不贏。我有的，是上面的推理，以及一個讓你在自己的程式碼上測試的辦法（見 <a href="#test">測你自己的設定</a>）。把知識庫看成一場賭注：在上面那些條件下才會有回報，不是證明過的勝利。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>假设一个团队有一份几千个对象的代码库。<strong>对象</strong>是代码里有名字、被别的东西使用的东西：存储过程、定时任务、类、表。你让 agent 改其中一个。要改得安全，agent 得知道这个对象是干什么的、谁在用它、改了会弄坏什么。</p>
-<p>新开的 agent 会话，这些一概不知道。第一个问题显而易见。</p>
+<p>agent 當然會搜尋。它能執行 <code>grep</code>（找出每一行含有某個詞的地方）、打開檔案、順著名字往下追。很多工作這樣做就是對的，而且不用任何設定。正因為這樣，我想先說清楚它什麼時候就夠了。再說，搜尋也不一定是光禿禿的 <code>grep</code>：語言伺服器（回答「這個在哪裡定義、誰在用」的編輯器服務）或程式碼搜尋服務都幫得上忙，一頁簡短而好的規則也有幫助。知識庫要贏的是這一整套，不是單純的 <code>grep</code>。</p>
+<p>如果程式碼庫很小，或者你要的那一塊放得進一個上下文；如果你知道要找的東西叫什麼；又或者任務只做一次，沒有人會為同樣的探索付兩次錢，那搜尋就夠了。</p>
+<p>在這些情況之外，搜尋就開始吃力了，頭一個原因出在 agent 搜尋的方式上。它根據剛讀到的東西決定下一步讀什麼，所以可能漏掉一個物件，追到一個名字相同、意思不同的東西，或者太早停下來。漏了多少，它自己說不出來。同一個問題問它兩次，可能得到兩個不同的答案。</p>
+<p>這樣的搜尋就算很順利，下次也得重來。每個新會話都從空的上下文開始（<a href="3-1-context-budget.html">上下文是一份預算</a>），agent 只好把同樣的東西再找一遍，同樣的探索每個會話都要付一次錢。</p>
+<p>還有些事，搜尋再順利也幫不上忙，因為它們根本不在程式碼裡，例如哪個環境執行某個工作、某條規則為什麼存在、去年出過什麼問題。程式碼裡沒有寫，自然搜不到。</p>
+<p>最後一種情況和代價有關：有些答案錯不起。如果物件碰到共用的資料，靠不完整的搜尋猜出來的答案就不夠用。</p>
+<p>而<strong>知識庫</strong>走的是反過來的路。它是一個資料夾，裡面是關於程式碼的純文字檔案，寫給 agent 讀。想法是探索只付一次錢，把結果留下來，之後先讀結果，因為它應該比讀程式碼便宜。</p>
+<p>我說「應該」，是因為我沒有把同樣的問題一次用單純搜尋、一次用知識庫跑過，所以不知道後者能贏多少，甚至贏不贏。我手上有的，是上面這番推理，再加上一個讓你在自己的程式碼上測試的辦法（見<a href="#test">先弄清楚你需不需要它</a>）。所以請把知識庫看成一場賭注：滿足上面那些條件才會有回報，而不是已經證實的好處。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>agent 改一个对象之前，得先知道什么？</h2><p>假设一个团队管着一份有几千个对象的代码库。这里说的<strong>对象</strong>，是代码里有名字、被别的东西用到的东西：存储过程、定时任务、类、表。你让 agent 改其中一个。要改得安全，它得知道这个对象是干什么的、谁在用它、改了会弄坏什么，可新开的 agent 会话对这些一概不知。要补上这个缺口，最直接的办法就是让它自己去搜。</p>
 <h3>为什么不直接让 agent 搜索代码？</h3>
-<p>agent 会搜索。它能运行 <code>grep</code>（找出每一行含有某个词的地方）、打开文件、顺着名字追。很多活这就是正确答案，而且不用任何配置。我想先说清楚它什么时候就够了。搜索也不必是单纯的 <code>grep</code>：语言服务器（回答“这个在哪里定义、谁在用”的编辑器服务）或代码搜索服务都能帮忙，一页简短而好的规则也有用。知识库要赢的是这一整套，不是单纯的 <code>grep</code>。</p>
-<p><strong>搜索就够的时候</strong>：</p>
-<ul>
-<li>代码库很小，或者你要的那一块装得进一个上下文。</li>
-<li>你知道要找的东西叫什么。</li>
-<li>任务只做一次，没人会为同样的探索付两次钱。</li>
-</ul>
-<p><strong>开始吃力的时候</strong>：</p>
-<ul>
-<li><strong>agent 根据刚读到的东西，决定下一步读什么</strong>。它可能漏掉一个对象，追到一个重名但意思不同的东西，太早停下来。它说不出自己漏了多少。问它两次，可能得到两个不同的答案。</li>
-<li><strong>同样的探索，每个会话都要付一次</strong>。每个新会话都从空的上下文开始（<a href="3-1-context-budget.html">上下文是一份预算</a>），所以 agent 又会把同样的东西找一遍。</li>
-<li><strong>有些事不在代码里</strong>。哪个环境运行某个任务、某条规则为什么存在、去年出了什么故障。搜索找不到，因为那里没写。</li>
-<li><strong>答错代价很高</strong>。如果对象碰到共用的数据，靠不完整的搜索猜出来的答案是不够的。</li>
-</ul>
-<p><strong>知识库</strong>是一个文件夹，里面是关于代码的纯文本文件，写给 agent 读。思路是：探索只付一次钱，把结果留下来，并且先读结果，因为它应该比读代码便宜。这一点我没有量过。</p>
-<p><strong>我没有拿它和搜索比较过</strong>。我没有把同样的问题，一次用单纯搜索、一次用知识库跑过，所以我不知道第二种赢多少，甚至赢不赢。我有的，是上面的推理，以及一个让你在自己的代码上测试的办法（见<a href="#test">在你自己的环境里测一测</a>）。把知识库看成一次押注：满足上面那些条件才会有回报，不是已经证明的收益。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The shape of a knowledge base</h3>
-<p>A reader goes down only as far as the task needs.</p>
+<p>agent 当然会搜索。它能运行 <code>grep</code>（找出每一行含有某个词的地方）、打开文件、顺着名字往下追。很多活这样做就是对的，而且不用任何配置。正因为这样，我想先说清楚它什么时候就够了。再说，搜索也不一定是光秃秃的 <code>grep</code>：语言服务器（回答“这个在哪里定义、谁在用”的编辑器服务）或者代码搜索服务都能帮上忙，一页简短而好的规则也有用。知识库要赢的是这一整套，不是单纯的 <code>grep</code>。</p>
+<p>如果代码库很小，或者你要的那一块装得进一个上下文；如果你知道要找的东西叫什么；又或者任务只做一次，没人会为同样的探索付两次钱，那搜索就够了。</p>
+<p>在这些情况之外，搜索就开始吃力了，头一个原因出在 agent 搜索的方式上。它根据刚读到的东西决定下一步读什么，所以可能漏掉一个对象，追到一个重名但意思不同的东西，或者太早停下来。漏了多少，它自己说不出来。同一个问题问它两次，可能得到两个不同的答案。</p>
+<p>这样的搜索就算很顺利，下次也得重来。每个新会话都从空的上下文开始（<a href="3-1-context-budget.html">上下文是一份预算</a>），agent 只好把同样的东西再找一遍，同样的探索每个会话都要付一次钱。</p>
+<p>还有些事，搜索再顺利也帮不上忙，因为它们根本不在代码里，比如哪个环境运行某个任务、某条规则为什么存在、去年出过什么故障。代码里没写，自然搜不到。</p>
+<p>最后一种情况和代价有关：有些答案错不起。如果对象碰到共用的数据，靠不完整的搜索猜出来的答案就不够用。</p>
+<p>而<strong>知识库</strong>走的是反过来的路子。它是一个文件夹，里面是关于代码的纯文本文件，写给 agent 读。思路是探索只付一次钱，把结果留下来，以后先读结果，因为它应该比读代码便宜。</p>
+<p>我说“应该”，是因为我没有把同样的问题一次用单纯搜索、一次用知识库跑过，所以不知道后者能赢多少，甚至赢不赢。我手里有的，是上面这番推理，外加一个让你在自己的代码上测试的办法（见<a href="#test">先弄清楚你需不需要它</a>）。所以请把知识库看成一次押注：满足上面那些条件才会有回报，而不是已经证明的收益。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How a knowledge base is built to be honest</h2><h3>The shape of a knowledge base</h3>
+<p>If you do place the bet, what are you building? A knowledge base has layers, and a reader goes down them only as far as the task needs.</p>
 <figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
   <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">overview: domains, glossary</text>
@@ -330,30 +303,23 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">written down</text>
 </svg>
 <figcaption>A reader goes down the layers only as far as the task needs. The code is the truth; the layers above it are cheaper to read.</figcaption></figure>
-<ul>
-<li><strong>The overview</strong> lists the <strong>domains</strong> and has a glossary. A domain is a group of objects that serve one job, such as &quot;orders&quot; or &quot;payroll&quot;.</li>
-<li><strong>The architecture page</strong> of a domain says what the domain is for, its main flows, where to start reading, its traps and its limits.</li>
-<li><strong>A card</strong> is a short entry about one object: what it is for, its rules, who it uses, its traps. Each rule cites the lines of code it comes from. One file holds the cards of one type. An agent finds a card by walking down: overview, then the domain's page, then the card by its id.</li>
-<li><strong>The code</strong> is at the bottom. It is the source of truth. If a card and the code disagree, the code wins.</li>
-</ul>
-<p>So a card is a promise with a date, not a replacement for the code. An agent that needs more reads the code.</p>
+<p>At the top, the <strong>overview</strong> lists the <strong>domains</strong> and has a glossary. A domain is a group of objects that serve one job, such as &quot;orders&quot; or &quot;payroll&quot;. Each domain has an <strong>architecture page</strong> that says what the domain is for, its main flows, where to start reading, its traps and its limits.</p>
+<p>One layer down, a <strong>card</strong> is a short entry about one object: what it is for, its rules, who it uses, its traps. Each rule cites the lines of code it comes from. Cards are grouped by type, one file per type. To find one, an agent walks down: the overview, then the domain's page, then the card by its id.</p>
+<p>At the bottom is <strong>the code</strong>, the source of truth, so if a card and the code disagree, the code wins. That makes a card a promise with a date rather than a replacement for the code. When an agent needs more, it reads the code.</p>
 <h3>Scripts do the structure, the model does the meaning</h3>
-<p>Two kinds of work go into a card, and they are different.</p>
-<ul>
-<li><strong>Structure</strong> has one right answer: which objects exist, who uses whom (together, the <strong>map</strong> of the code), in what order to learn them, whether a card lists the right relations. A script can compute this. It gives the same answer every time and costs no tokens. A model asked to do it walks the code by judgment, and may miss things.</li>
-<li><strong>Meaning</strong> has no single answer: what an object is for, what its rule is, which trap catches people. Only a model, reading the code, can write it.</li>
-</ul>
-<p>The rest of this part follows from that split. <a href="8-2-kb-toolkit.html">The toolkit</a> is how scripts draw the map. <a href="8-3-kb-audit.html">The audit</a> measures that map. <a href="8-4-kb-learning.html">Learning in batches</a> is where the model writes the meaning, with scripts checking what they can. <a href="8-5-kb-keep-true.html">Keeping it true</a> is what happens after the code changes.</p>
+<p>Who writes the cards, then? Two kinds of work go into a card, and they are different.</p>
+<p><strong>Structure</strong> has one right answer: which objects exist, who uses whom (together, the <strong>map</strong> of the code), in what order to learn them, whether a card lists the right relations. A script can compute this, giving the same answer every time at no token cost. A model asked to do it walks the code by judgment and may miss things.</p>
+<p><strong>Meaning</strong> is the opposite. It has no single answer: what an object is for, what its rule is, which trap catches people. Only a model, reading the code, can write it.</p>
+<p>The rest of this part follows from that split. <a href="8-2-kb-toolkit.html">The toolkit</a> is how scripts draw the map that <a href="8-3-kb-audit.html">the audit</a> then measures. <a href="8-4-kb-learning.html">Learning in batches</a> is where the model writes the meaning, with scripts checking what they can. <a href="8-5-kb-keep-true.html">Keeping it true</a> is about what happens after the code changes.</p>
 <h3>Honest, not complete</h3>
-<p>My guess is that most of a base can come from the code. That is a guess, not a measurement. The rest cannot: what runs in which environment, what failed and why, what someone decided. That part comes over time, from finished tasks, from root-cause reports, from what people export. So the base is never finished on day one, and pretending it is would make it worse, because a base that looks complete gets believed.</p>
-<p>Two habits keep it honest:</p>
-<ol>
-<li><strong>Every card says which version of its source file it read.</strong> It records a commit (a saved version of the code, named by a short id called a sha). The scripts also keep an <strong>object index</strong>: a list of every object, the source file it lives in, and that file's sha. That is how you can later list the cards the code has moved past. <a href="8-5-kb-keep-true.html">Chapter 8.5</a> shows how.</li>
-<li><strong>Every gap is written down.</strong> What the code cannot tell goes into a <strong>requests list</strong>: one row per thing a person must give, with the kind of thing it is and a read-only way to get it. The agent asks for these at its next stop, never in the middle of work. <a href="8-5-kb-keep-true.html">Chapter 8.5</a> has the details.</li>
-</ol>
+<p>How much of a base can come from the code? My guess is most of it, though that is a guess, not a measurement. The rest cannot: what runs in which environment, what failed and why, what someone decided. That part comes over time, from finished tasks, from root-cause reports and from what people export. So the base is never finished on day one, and pretending it is would make it worse, because a base that looks complete gets believed.</p>
+<p>Two habits keep it honest. One is that every card says which version of its source file it read. It records a commit (a saved version of the code, named by a short id called a sha). To check that later, the scripts keep an <strong>object index</strong>: a list of every object, the source file it lives in, and that file's sha. That is how you can list the cards the code has moved past.</p>
+<p>The other habit is that every gap is written down. What the code cannot tell goes into a <strong>requests list</strong>, with one row per thing a person must give, the kind of thing it is, and a read-only way to get it. The agent asks for these at its next stop, never in the middle of work. The details of both habits are in <a href="8-5-kb-keep-true.html">Chapter 8.5</a>.</p>
 <h3>Every step is a task a person approves</h3>
-<p>Building the base is not one big prompt. Each step is a task (see <a href="5-1-tasks.html">Manage tasks, not chats</a>) with a plan the person approves and a write-back the person approves (the write-back copies the finished work into the base; see <a href="5-3-two-approvals.html">Two gates: where a person approves</a>). Scripts check what can be checked: the form of the files, the relations, the cited lines. And I do not let the agent connect to a live environment. What only an environment can tell, a person runs and hands over.</p>
+<p>Building the base is not one big prompt. Each step is a task (see <a href="5-1-tasks.html">Manage tasks, not chats</a>) with a plan the person approves and a write-back the person approves, where the write-back copies the finished work into the base (see <a href="5-3-two-approvals.html">Two gates: where a person approves</a>). Scripts check what can be checked: the form of the files, the relations, the cited lines.</p>
+<p>I keep one more limit on every step: the agent never connects to a live environment. When something only an environment can tell is needed, a person runs it and hands the result over.</p>
 <h3>The road</h3>
+<p>Put in order, the steps make a road:</p>
 <ol>
 <li>Build a toolkit, once per code base (8.2).</li>
 <li>Compute the map, before each use (8.2).</li>
@@ -363,18 +329,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Write the architecture page (8.4).</li>
 <li>Keep it true: refresh, capture, requests (8.5).</li>
 </ol>
-<h3>Test your own setup {#test}</h3>
-<p>Before you build anything, find out whether you need it.</p>
+<h3>Find out first whether you need one {#test}</h3>
+<p>Before you set off on that road, a small test can tell you whether you need it.</p>
 <ol>
 <li>Write 10 questions about your code whose right answers you know. Mix kinds: &quot;what calls X?&quot;, &quot;what happens if Y changes?&quot;, &quot;why does Z skip this case?&quot;.</li>
 <li>Ask an agent each question in a fresh chat, with plain search only. Score each answer right or wrong against what you know.</li>
-<li>Write cards for one small domain by hand or with the agent. Ask the same questions again with the cards available, in fresh chats.</li>
-<li>Compare: right answers, usage (the token numbers your tool shows for a run), time.</li>
+<li>Write cards for one small domain, by hand or with the agent. Then ask the same questions again in fresh chats, with the cards available.</li>
+<li>Compare right answers, usage (the token numbers your tool shows for a run) and time.</li>
 </ol>
-<p>Two cautions. Ask the questions in a form that cannot be answered from one file, such as &quot;what breaks if Y changes?&quot;, and let someone who has not read the cards choose them. Ten questions can only show a large difference.</p>
-<p>Do each condition several times, not once, because an agent does not do the same thing twice (see <a href="6-4-variance.html">Variance</a>). If search alone scores about the same, do not build the base.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>知識庫的形狀</h3>
-<p>讀者只往下走到任務需要的深度。</p>
+<p>A few cautions make the test worth trusting. Ask the questions in a form that cannot be answered from one file, such as &quot;what breaks if Y changes?&quot;, and let someone who has not read the cards choose them. Because an agent does not do the same thing twice, run each condition several times rather than once (see <a href="6-4-variance.html">Variance</a>). Ten questions can only show a large difference anyway. If search alone scores about the same, do not build the base.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一個誠實的知識庫是怎麼建起來的</h2><h3>知識庫的形狀</h3>
+<p>如果你決定下這個注，要建的究竟是什麼？知識庫分好幾層，讀的人只往下走到任務需要的那一層。</p>
 <figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
   <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">總覽：領域、詞彙表</text>
@@ -400,51 +365,43 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">寫下來</text>
 </svg>
 <figcaption>讀的人只往下讀到任務需要的那一層。程式碼才是真相；上面幾層只是讀起來更便宜。</figcaption></figure>
-<ul>
-<li><strong>總覽</strong>列出<strong>領域</strong>，並有一份詞彙表。領域是為了同一件工作的一組物件，例如「訂單」或「薪資」。</li>
-<li>一個領域的<strong>架構頁</strong>說明這個領域是做什麼的、主要的流程、從哪裡開始讀、它的陷阱和它的限制。</li>
-<li><strong>卡片</strong>是關於一個物件的短條目：它做什麼、它的規則、它用誰、它的陷阱。每條規則都註明它來自哪幾行程式碼。一個檔案放同一種類型的卡片。agent 往下走來找到卡片：總覽，然後是領域的頁面，再用 id 找到卡片。</li>
-<li><strong>程式碼</strong>在最底下。它是真相的來源。卡片和程式碼不一致時，程式碼贏。</li>
-</ul>
-<p>所以卡片是一份附日期的承諾，不是程式碼的替代品。需要更多的 agent，去讀程式碼。</p>
-<h3>腳本做結構，模型做意義</h3>
-<p>寫一張卡片有兩種工作，它們不一樣。</p>
-<ul>
-<li><strong>結構</strong>有一個正確答案：有哪些物件、誰用誰（合起來是程式碼的<strong>地圖</strong>）、照什麼順序學它們、一張卡片列的關係對不對。腳本能算出來。每次答案都一樣，也不花 token。要模型去做，它是憑判斷在程式碼裡走，可能漏掉東西。</li>
-<li><strong>意義</strong>沒有單一答案：一個物件是做什麼的、它的規則是什麼、哪個陷阱會絆住人。只有讀了程式碼的模型能寫。</li>
-</ul>
-<p>這一部其餘的內容，都從這個分工來。<a href="8-2-kb-toolkit.html">Toolkit</a> 是腳本怎麼畫出地圖。<a href="8-3-kb-audit.html">盲抽查</a> 量這張地圖。<a href="8-4-kb-learning.html">分批學</a> 是模型寫下意義的地方，腳本能檢查的就檢查。<a href="8-5-kb-keep-true.html">讓它一直是對的</a> 是程式碼改了之後的事。</p>
-<h3>誠實，不求完整</h3>
-<p>我的猜測是，知識庫的大部分可以從程式碼來。這是猜測，不是量測。其餘的不行：什麼在哪個環境執行、什麼壞了和為什麼、有人做了什麼決定。這一部分隨時間而來，來自做完的任務、根因報告、人們匯出的東西。所以知識庫第一天不會完成，假裝完成只會讓它更糟，因為看起來完整的知識庫，會被人相信。</p>
-<p>兩個習慣讓它誠實：</p>
-<ol>
-<li><strong>每張卡片說明它讀的是它的原始檔案的哪個版本</strong>。它記下一個 commit（程式碼的一個存下來的版本，用一個叫 sha 的短 id 命名）。腳本也維護一份<strong>物件索引</strong>：每個物件的清單、它所在的原始檔案，以及該檔案的 sha。這樣你之後才能列出程式碼已經走過去的卡片。<a href="8-5-kb-keep-true.html">第 8.5 章</a> 說明怎麼做。</li>
-<li><strong>每個缺口都寫下來</strong>。程式碼說不出的，進入一份<strong>請求清單</strong>：每一列是一件必須由人提供的事，附上它是哪一種，以及一個唯讀的取得辦法。agent 在下一個停下來的地方問這些，從不在工作到一半時問。<a href="8-5-kb-keep-true.html">第 8.5 章</a> 有細節。</li>
-</ol>
+<p>最上面是<strong>總覽</strong>，列出所有<strong>領域</strong>，還附一份詞彙表。領域是為了同一件工作而存在的一組物件，例如「訂單」或「薪資」。每個領域有一份<strong>架構頁</strong>，說明這個領域是做什麼的、有哪些主要流程、從哪裡開始讀、有哪些陷阱、有哪些限制。</p>
+<p>再往下一層是<strong>卡片</strong>，一張卡片是關於一個物件的短條目：它做什麼、它的規則、它用到誰、它的陷阱。每條規則都註明它來自哪幾行程式碼。卡片按類型分組，一種類型放一個檔案。要找一張卡片，agent 就一層層往下走：先看總覽，再到領域的頁面，最後用 id 找到卡片。</p>
+<p>最底下是<strong>程式碼</strong>，它是真相的來源，所以卡片和程式碼不一致時，以程式碼為準。這樣看來，卡片是一份附日期的承諾，而不是程式碼的替代品。agent 需要更多資訊時，就去讀程式碼。</p>
+<h3>腳本管結構，模型管意義</h3>
+<p>那卡片由誰來寫？寫一張卡片其實要做兩種不一樣的工作。</p>
+<p><strong>結構</strong>只有一個正確答案：有哪些物件、誰用誰（合起來就是程式碼的<strong>地圖</strong>）、照什麼順序去學、一張卡片列出的關係對不對。這些腳本算得出來，每次給出同樣的答案，也不花 token。換成模型來做，它會憑判斷在程式碼裡走，可能漏掉東西。</p>
+<p><strong>意義</strong>正好相反。它沒有單一的答案：一個物件是做什麼的、它的規則是什麼、哪個陷阱會絆住人。這只有讀了程式碼的模型才寫得出來。</p>
+<p>這一部分後面的內容，都是從這個分工推出來的。<a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>講腳本怎麼畫地圖，<a href="8-3-kb-audit.html">地圖對不對：盲抽查</a>再來量一量它畫得對不對。<a href="8-4-kb-learning.html">分批學一個領域</a>是模型寫下意義的地方，腳本在旁邊檢查它能檢查的部分。<a href="8-5-kb-keep-true.html">讓知識庫一直是對的</a>講的是程式碼改了之後怎麼辦。</p>
+<h3>求誠實，不求完整</h3>
+<p>知識庫有多少內容能從程式碼裡得到？我猜是大部分，不過這只是猜測，不是量測。剩下的得不到：什麼在哪個環境執行、出過什麼問題、原因是什麼、誰做了什麼決定。這一部分要靠時間慢慢累積，來自做完的任務、根因報告和人們匯出的東西。所以知識庫第一天不可能完成；假裝它已經完成只會更糟，因為一個看起來完整的知識庫會被人相信。</p>
+<p>讓它保持誠實的，是兩個習慣。一個是每張卡片都寫明它讀的是哪個版本的原始檔案。卡片會記下一個 commit（程式碼的一個存下來的版本，用一個叫 sha 的短 id 來命名）。為了之後能核對，腳本還維護一份<strong>物件索引</strong>，列出每個物件、它所在的原始檔案，以及那個檔案的 sha。靠著這些，你才能列出程式碼已經改過、卡片卻還沒跟上的那些卡片。</p>
+<p>另一個習慣是每個缺口都寫下來。程式碼說不清楚的事，記進一份<strong>請求清單</strong>：每件必須由人提供的東西占一列，寫明它屬於哪一類，以及一個唯讀的取得辦法。agent 會在下一個停下來的地方提出這些請求，絕不在工作做到一半時提。這兩個習慣的細節，都在<a href="8-5-kb-keep-true.html">第 8.5 章</a>。</p>
 <h3>每一步都是一個由人批准的任務</h3>
-<p>建知識庫不是一個大 prompt。每一步都是一個任務（見 <a href="5-1-tasks.html">管任務，不管對話</a>），有一份人批准的計劃，和一次人批准的寫回（寫回是把做完的工作複製進知識庫；見 <a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。腳本檢查能檢查的：檔案的格式、關係、被引用的行。而且我不讓 agent 連上正在執行的環境。只有環境才說得出的事，由人執行並交過來。</p>
+<p>建知識庫不是靠一個大 prompt。每一步都是一個任務（見<a href="5-1-tasks.html">管任務，不管對話</a>），計劃要人批准，寫回也要人批准；寫回，就是把做完的工作複製進知識庫（見<a href="5-3-two-approvals.html">兩道門：人在哪裡批准</a>）。能檢查的部分交給腳本：檔案的格式、關係、被引用的程式碼行。</p>
+<p>還有一條限制，每一步都適用：agent 從不連上正在執行的環境。只有環境才說得出的事，由人去執行，再把結果交過來。</p>
 <h3>路線</h3>
+<p>照先後排起來，這些步驟就是一條路線：</p>
 <ol>
 <li>建一個 toolkit，每個程式碼庫一次（8.2）。</li>
 <li>計算地圖，每次使用之前（8.2）。</li>
-<li>抽查地圖（8.3）。</li>
+<li>盲抽查地圖（8.3）。</li>
 <li>把程式碼分成領域，一次（8.4）。</li>
 <li>分批學每個領域（8.4）。</li>
 <li>寫架構頁（8.4）。</li>
 <li>讓它一直是對的：更新、擷取、請求（8.5）。</li>
 </ol>
-<h3>測你自己的設定 {#test}</h3>
-<p>在你建任何東西之前，先弄清楚你需不需要它。</p>
+<h3>先弄清楚你需不需要它 {#test}</h3>
+<p>走這條路之前，一個小測試就能告訴你需不需要它。</p>
 <ol>
-<li>寫 10 個關於你程式碼的問題，正確答案是你知道的。混合幾種：「什麼呼叫 X？」、「Y 改了會怎樣？」、「為什麼 Z 跳過這個情況？」</li>
-<li>在全新的對話裡，只用單純搜尋，把每個問題問 agent。照你知道的，每個答案判對或錯。</li>
-<li>為一個小領域寫卡片，自己寫或讓 agent 寫。在全新的對話裡，有卡片可用的情況下，再問同樣的問題。</li>
-<li>比較：答對的數量、用量（你的工具為一次運行顯示的 token 數字）、時間。</li>
+<li>寫 10 個關於你程式碼的問題，正確答案是你知道的。種類要混著來：「什麼呼叫了 X？」「Y 改了會怎樣？」「為什麼 Z 跳過這個情況？」</li>
+<li>每個問題都在全新的對話裡問 agent，只用單純搜尋。照你知道的答案，每個回答判對或錯。</li>
+<li>自己寫或讓 agent 幫忙，為一個小領域寫卡片。然後在全新的對話裡再問同樣的問題，這次有卡片可用。</li>
+<li>比較答對的數量、用量（你的工具為一次運行顯示的 token 數）和時間。</li>
 </ol>
-<p>兩個提醒。問題的形式要讓人無法只靠一個檔案回答，例如「Y 改了會壞掉什麼？」，並讓沒讀過卡片的人來選。十個問題只看得出很大的差別。</p>
-<p>每個條件都做好幾次，不要只做一次，因為 agent 不會做兩次同樣的事（見 <a href="6-4-variance.html">一次運行證明不了什麼</a>）。如果單靠搜尋得分差不多，就不要建知識庫。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>知识库的形状</h3>
-<p>读者只往下走到任务需要的深度。</p>
+<p>這個測試要靠得住，有幾點得注意。問題的形式要讓人無法只靠一個檔案回答，例如「Y 改了會壞掉什麼？」，而且要讓沒讀過卡片的人來選題。agent 不會把同一件事做得兩次一樣，所以每種條件都要做好幾次，而不是只做一次（見<a href="6-4-variance.html">一次運行證明不了什麼</a>）。再說，十個問題本來就只看得出很大的差別。如果單靠搜尋得分也差不多，就不要建知識庫。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一个诚实的知识库是怎么搭起来的</h2><h3>知识库的形状</h3>
+<p>如果你决定押这一注，要搭的究竟是个什么东西？知识库分好几层，读的人只往下走到任务需要的那一层。</p>
 <figure class="fig" id="fig-8-1-kb-layers"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box" x="10" y="10" width="330" height="40" rx="6"/>
   <text class="label" x="175" y="35" text-anchor="middle" data-t="l1">总览：领域、词汇表</text>
@@ -470,76 +427,59 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="475" y="100" text-anchor="middle" data-t="gaps2">都写下来</text>
 </svg>
 <figcaption>读的人只往下读到任务需要的那一层。代码才是真相；上面几层只是读起来更便宜。</figcaption></figure>
-<ul>
-<li><strong>总览</strong>列出<strong>领域</strong>，并有一份词汇表。领域是为同一项工作服务的一组对象，例如“订单”或“薪资”。</li>
-<li>一个领域的<strong>架构页</strong>写明这个领域是干什么的、主要的流程、从哪里开始读、它的坑和它的限制。</li>
-<li><strong>卡片</strong>是关于一个对象的简短条目：它的用途、它的规则、它用到谁、它的坑。每条规则都引用它所依据的代码行。一个文件放一种类型的卡片。agent 顺着往下走来找卡片：总览，再到领域的页面，再按 id 找到卡片。</li>
-<li><strong>代码</strong>在最底下。它是真相的来源。卡片和代码不一致时，以代码为准。</li>
-</ul>
-<p>所以卡片是一份带日期的承诺，不是代码的替代品。agent 需要更多时，就去读代码。</p>
+<p>最上面是<strong>总览</strong>，列出所有<strong>领域</strong>，还附一份词汇表。领域是为同一项工作服务的一组对象，比如“订单”或者“薪资”。每个领域有一份<strong>架构页</strong>，写明这个领域是干什么的、有哪些主要流程、从哪里开始读、有哪些坑、有哪些限制。</p>
+<p>再往下一层是<strong>卡片</strong>，一张卡片是关于一个对象的简短条目：它的用途、它的规则、它用到谁、它的坑。每条规则都引用它所依据的代码行。卡片按类型分组，一种类型放一个文件。要找一张卡片，agent 就一层层往下走：先看总览，再到领域的页面，最后按 id 找到卡片。</p>
+<p>最底下是<strong>代码</strong>，它是真相的来源，所以卡片和代码对不上时，以代码为准。这样看，卡片是一份带日期的承诺，而不是代码的替代品。agent 需要更多信息时，就去读代码。</p>
 <h3>脚本管结构，模型管含义</h3>
-<p>写一张卡片有两种活，它们不一样。</p>
-<ul>
-<li><strong>结构</strong>只有一个正确答案：有哪些对象、谁用谁（合起来就是代码的<strong>地图</strong>）、按什么顺序去学、一张卡片列出的关系对不对。脚本能算出来。它每次给同样的答案，也不花 token。让模型来做，它会凭判断在代码里走，可能漏东西。</li>
-<li><strong>含义</strong>没有唯一的答案：一个对象是干什么的、它的规则是什么、哪个坑会绊倒人。只有模型读了代码才写得出来。</li>
-</ul>
-<p>这一部分后面的内容都由这个分工推出来。<a href="8-2-kb-toolkit.html">toolkit</a>讲脚本怎么画地图。<a href="8-3-kb-audit.html">审计</a>衡量这张地图。<a href="8-4-kb-learning.html">分批学一个领域</a>是模型写下含义的地方，脚本检查它能检查的部分。<a href="8-5-kb-keep-true.html">让知识库一直是对的</a>讲代码改了以后怎么办。</p>
+<p>那卡片由谁来写？写一张卡片其实要干两种不一样的活。</p>
+<p><strong>结构</strong>只有一个正确答案：有哪些对象、谁用谁（合起来就是代码的<strong>地图</strong>）、按什么顺序去学、一张卡片列出的关系对不对。这些脚本算得出来，每次给出同样的答案，也不花 token。换成模型来做，它会凭判断在代码里走，可能漏掉东西。</p>
+<p><strong>含义</strong>正好相反。它没有唯一的答案：一个对象是干什么的、它的规则是什么、哪个坑会绊倒人。这只有模型读了代码才写得出来。</p>
+<p>这一部分后面的内容，都是从这个分工推出来的。<a href="8-2-kb-toolkit.html">Toolkit：用脚本画出代码的地图</a>讲脚本怎么画地图，<a href="8-3-kb-audit.html">地图对不对：盲抽查</a>再来量一量它画得对不对。<a href="8-4-kb-learning.html">分批学一个领域</a>是模型写下含义的地方，脚本在旁边检查它能检查的部分。<a href="8-5-kb-keep-true.html">让知识库一直是对的</a>讲的是代码改了以后怎么办。</p>
 <h3>求诚实，不求完整</h3>
-<p>我的猜测是，知识库的大部分内容可以从代码里得到。这是猜测，不是测量。其余的得不到：什么在哪个环境里运行、出过什么故障、原因是什么、谁做了什么决定。这部分要靠时间积累，来自做完的任务、根因报告、人导出的东西。所以知识库第一天不可能完成；假装它完成了只会更糟，因为一个看起来完整的知识库会被人相信。</p>
-<p>两个习惯让它保持诚实：</p>
-<ol>
-<li><strong>每张卡片都写明它读的是源文件的哪个版本</strong>。它记录一个 commit（代码的一个已保存版本，用一个叫 sha 的短 id 命名）。脚本还维护一份<strong>对象索引</strong>：每个对象一行，写明它在哪个源文件里，以及那个文件的 sha。这样你以后就能列出代码已经改过、卡片还没跟上的那些卡片。<a href="8-5-kb-keep-true.html">第 8.5 章</a>讲怎么做。</li>
-<li><strong>每个缺口都写下来</strong>。代码说不清的事，进入一张<strong>请求清单</strong>：每件需要人提供的东西一行，写明它是哪一类，以及一种只读的获取办法。agent 在下一个停靠点提出这些请求，绝不在干活到一半时提。<a href="8-5-kb-keep-true.html">第 8.5 章</a>有细节。</li>
-</ol>
+<p>知识库有多少内容能从代码里得到？我猜是大部分，不过这只是猜测，不是测量。剩下的得不到：什么在哪个环境里运行、出过什么故障、原因是什么、谁做了什么决定。这部分要靠时间慢慢积累，来自做完的任务、根因报告和人导出的东西。所以知识库第一天不可能完成；假装它已经完成只会更糟，因为一个看起来完整的知识库会被人相信。</p>
+<p>让它保持诚实的，是两个习惯。一个是每张卡片都写明它读的是源文件的哪个版本。卡片会记下一个 commit（代码的一个已保存版本，用一个叫 sha 的短 id 来命名）。为了以后能核对，脚本还维护一份<strong>对象索引</strong>，列出每个对象、它所在的源文件，以及那个文件的 sha。靠着这些，你才能列出代码已经改过、卡片却还没跟上的那些卡片。</p>
+<p>另一个习惯是每个缺口都写下来。代码说不清的事，记进一张<strong>请求清单</strong>：每件需要人提供的东西占一行，写明它属于哪一类，以及一种只读的获取办法。agent 会在下一个停靠点提出这些请求，绝不在干活干到一半时提。这两个习惯的细节，都在<a href="8-5-kb-keep-true.html">第 8.5 章</a>。</p>
 <h3>每一步都是一个由人审批的任务</h3>
-<p>建知识库不是一个大 prompt。每一步都是一个任务（见<a href="5-1-tasks.html">管任务，不管对话</a>），计划由人审批，写回也由人审批（写回是把做完的工作复制进知识库；见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。脚本检查能检查的部分：文件的格式、关系、引用的行。我也不让 agent 连接线上环境。只有环境才知道的事，由人去运行、再交给它。</p>
+<p>建知识库不是靠一个大 prompt。每一步都是一个任务（见<a href="5-1-tasks.html">管任务，不管对话</a>），计划要人审批，写回也要人审批；写回，就是把做完的工作复制进知识库（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。能检查的部分交给脚本：文件的格式、关系、引用的代码行。</p>
+<p>还有一条限制，每一步都适用：agent 从不连接线上环境。只有环境才知道的事，由人去运行，再把结果交给它。</p>
 <h3>路线</h3>
+<p>按先后排起来，这些步骤就是一条路线：</p>
 <ol>
 <li>搭一个 toolkit，每个代码库一次（8.2）。</li>
 <li>计算地图，每次使用之前（8.2）。</li>
-<li>审计地图（8.3）。</li>
+<li>盲抽查地图（8.3）。</li>
 <li>把代码切成领域，一次（8.4）。</li>
 <li>分批学每个领域（8.4）。</li>
 <li>写架构页（8.4）。</li>
 <li>让它一直是对的：更新、捕获、请求（8.5）。</li>
 </ol>
-<h3>在你自己的环境里测一测 {#test}</h3>
-<p>在建任何东西之前，先弄清楚你需不需要它。</p>
+<h3>先弄清楚你需不需要它 {#test}</h3>
+<p>走这条路之前，一个小测试就能告诉你需不需要它。</p>
 <ol>
 <li>写 10 个关于你的代码的问题，正确答案你是知道的。种类要混着来：“什么调用了 X？”“如果 Y 改了会怎样？”“为什么 Z 跳过了这种情况？”</li>
-<li>每个问题在新对话里问 agent，只用单纯搜索。对照你已知的答案，每个回答判对或错。</li>
-<li>手工或让 agent 帮忙，给一个小领域写卡片。有了卡片，在新对话里再问同样的问题。</li>
-<li>比较：答对的个数、用量（你的工具为一次运行显示的 token 数）、时间。</li>
+<li>每个问题都在新对话里问 agent，只用单纯搜索。对照你已知的答案，每个回答判对或错。</li>
+<li>手工或者让 agent 帮忙，给一个小领域写卡片。然后在新对话里再问同样的问题，这次卡片可以用。</li>
+<li>比较答对的个数、用量（你的工具为一次运行显示的 token 数）和时间。</li>
 </ol>
-<p>两点提醒。提问的形式要让一个文件回答不了，比如“如果 Y 改了，什么会坏？”，而且让没读过卡片的人来选题。十个问题只能显示出很大的差别。</p>
-<p>每种条件都要做几次，不要只做一次，因为 agent 不会把同一件事做两次一样（见<a href="6-4-variance.html">一次运行证明不了什么</a>）。如果只靠搜索得分差不多，就不要建知识库。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
-<li><strong>It needs upkeep.</strong> A base nobody refreshes becomes confidently wrong. If your code changes daily and nobody will own the refresh, search is the better choice.</li>
-<li><strong>A card can be wrong.</strong> It is a model's reading of the code. The checks catch the structure, not whether a rule is understood right. A person's review, or an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>), has to cover that.</li>
-<li><strong>A card can anchor the agent.</strong> An agent that reads a card first may look at less code and keep a wrong card's view. For work where a mistake is expensive, have it re-read the lines a card cites.</li>
-<li><strong>Reading cards costs tokens too.</strong> A base that is too long only moves the cost. Cards should be short, and the agent should open the lower layers only when it needs them.</li>
-<li><strong>Building has a price.</strong> The model reads each object's code once. For a large domain that is real money. It is a bet that the reading will be reused. A rough size: every object read once, plus the files that change each month. I have not priced it. Prompt caching (Anthropic's docs say a cached read costs about a tenth of the base price; I have not checked this on Copilot; see <a href="1-1-models-and-cost.html">Choosing a model</a>) may lower both the building and the reading, so test with it on, as you would really run.</li>
-<li><strong>Someone must own it, and the cards need the same access rules as the code.</strong> A card is a summary of internal code. Decide who refreshes it and who may read it, the same way you do for the code.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
-<li><strong>它需要維護</strong>。沒有人更新的知識庫，會變成很有自信地答錯。如果你的程式碼每天都在變，又沒有人負責更新，搜尋是比較好的選擇。</li>
-<li><strong>卡片可能是錯的</strong>。它是模型對程式碼的解讀。檢查抓得到結構，抓不到一條規則是不是理解對了。這要靠人的審查，或獨立的 reviewer（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）來涵蓋。</li>
-<li><strong>卡片可能讓 agent 被錨定</strong>。先讀卡片的 agent，可能看比較少的程式碼，並保留錯誤卡片的看法。對答錯很貴的工作，讓它重讀卡片引用的那幾行。</li>
-<li><strong>讀卡片也花 token</strong>。太長的知識庫只是把成本搬到別處。卡片要短，agent 只在需要時才打開下面的層。</li>
-<li><strong>建它是有價錢的</strong>。模型把每個物件的程式碼讀一遍。對大的領域，這是真金白銀。這是賭讀過的東西會被重複使用。粗略的大小：每個物件讀一遍，加上每個月會變的檔案。我沒有算過價。prompt 快取（Anthropic 的文件說，快取讀取大約是基本價格的十分之一；我沒有在 Copilot 上確認過；見 <a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）可能同時降低建和讀的成本，所以測的時候要開著它，像你真正執行時那樣。</li>
-<li><strong>必須有人負責，而且卡片需要和程式碼一樣的存取規則</strong>。卡片是內部程式碼的摘要。決定誰更新它、誰可以讀它，像你對程式碼做的那樣。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
-<li><strong>它需要维护</strong>。没人更新的知识库，会变得自信满满地答错。如果你的代码天天在变、又没人负责更新，搜索是更好的选择。</li>
-<li><strong>卡片可能是错的</strong>。它是模型对代码的理解。检查只能抓住结构，抓不住一条规则理解得对不对。这部分要靠人审查，或者靠独立的 reviewer（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。</li>
-<li><strong>卡片可能把 agent 锚住</strong>。先读卡片的 agent，可能少看一些代码，还沿用一张错卡片的看法。对出错代价高的工作，让它重读卡片引用的那几行。</li>
-<li><strong>读卡片也要花 token</strong>。太长的知识库只是把成本挪了个地方。卡片要短，agent 只在需要时才往下打开更低的层。</li>
-<li><strong>建知识库有成本</strong>。模型要把每个对象的代码读一遍。对大的领域，这是真金白银。这是押注读的结果会被反复用到。粗略的规模：每个对象读一遍，加上每月变动的文件。我没有算过价。prompt 缓存（Anthropic 的文档说缓存读取约为基础价格的十分之一；我没有在 Copilot 上核实过；见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>）也许能同时降低建库和读取的成本，所以测试时要打开它，就像你真正运行时那样。</li>
-<li><strong>要有人负责，卡片需要和代码一样的访问规则</strong>。卡片是对内部代码的摘要。像对代码一样，决定谁来更新、谁能读。</li>
-</ul>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If your own test shows that search alone gives the same answers at the same cost, delete the cards and keep only the requests list, because that is the part search can never give. And if the platform one day builds and refreshes a code index that you can measure as accurate, use it instead of keeping your own.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果你自己的測試顯示，單靠搜尋，用同樣的成本給出同樣的答案，就把卡片刪掉，只留請求清單，因為那是搜尋永遠給不了的部分。還有，如果有一天平台建立並更新一份程式碼索引，而且你量得出它是準確的，就用它，不要自己維護。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果你自己的测试表明，只靠搜索就能以同样的成本给出同样的答案，就把卡片删掉，只留下请求清单，因为这是搜索永远给不了的部分。如果哪天平台能构建并更新一份代码索引，而且你测得出它是准确的，就用它，别再自己维护一份。</p>
+<p>这个测试要靠得住，有几点得注意。提问的形式要让一个文件回答不了，比如“如果 Y 改了，什么会坏？”，而且要让没读过卡片的人来选题。agent 不会把同一件事做得两次一样，所以每种条件都要做几次，而不是只做一次（见<a href="6-4-variance.html">一次运行证明不了什么</a>）。再说，十个问题本来就只能显示出很大的差别。如果只靠搜索得分也差不多，就不要建知识库。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What it costs, and how it can go wrong</h2><p>Even when the test says build, the base does not stay right by itself. It needs upkeep, because a base nobody refreshes becomes confidently wrong. If your code changes daily and nobody will own the refresh, search is the better choice.</p>
+<p>A card that is up to date can still be wrong, since it is a model's reading of the code. The checks catch the structure, not whether a rule is understood right, so a person's review, or an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>), has to cover that. And because the agent reads the card first, a card can anchor it: the agent may look at less code and keep a wrong card's view. For work where a mistake is expensive, have it re-read the lines a card cites.</p>
+<p>Every card the agent reads costs tokens, so a base that is too long only moves the cost. Cards should be short, and the agent should open the lower layers only when it needs them.</p>
+<p>Those are the costs of keeping and using a base. Building one is a separate cost: the model reads each object's code once, so for a large domain that is real money, spent on a bet that the reading will be reused. A rough size is every object read once, plus the files that change each month, though I have not priced it. Prompt caching may lower both the building and the reading. Anthropic's docs say a cached read costs about a tenth of the base price (see <a href="1-1-models-and-cost.html">Choosing a model</a>), though I have not checked this on Copilot. So test with it on, as you would really run.</p>
+<p>Ownership is the last thing to settle. Someone must own the base, and because a card is a summary of internal code, the cards need the same access rules as the code. Decide who refreshes them and who may read them.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>要付出什麼，又會在哪裡出錯</h2><p>就算測試說值得建，知識庫也不會自己一直保持正確。它需要維護，因為沒有人更新的知識庫會很有把握地答錯。如果你的程式碼每天都在變，又沒有人願意負責更新，搜尋是比較好的選擇。</p>
+<p>就算卡片是最新的，它也可能是錯的，畢竟它是模型對程式碼的解讀。檢查抓得到結構，抓不到一條規則是不是理解對了，這部分要靠人的審查，或獨立的 reviewer（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）。而且 agent 是先讀卡片的，所以卡片可能讓它被錨定：它可能少看一些程式碼，沿用一張錯誤卡片的看法。對出錯代價高的工作，讓它重讀卡片引用的那幾行。</p>
+<p>agent 每讀一張卡片都要花 token，所以太長的知識庫只是把成本搬到別處。卡片要短，agent 只在需要時才往下打開更低的層。</p>
+<p>前面說的都是維護和使用的成本，建的那一次還要另算：模型要把每個物件的程式碼讀一遍，所以對大的領域來說，建一次就是真金白銀，賭的是這些讀過的東西會被重複使用。粗略的規模是每個物件讀一遍，再加上每個月會變的檔案，不過我沒有算過價。prompt 快取也許能同時降低建和讀的成本。Anthropic 的文件說，快取讀取大約是基本價格的十分之一（見<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>），不過我沒有在 Copilot 上確認過。所以測的時候要把它開著，就像你真正執行時那樣。</p>
+<p>最後要定的是誰來負責。知識庫得有人管。卡片又是內部程式碼的摘要，所以也需要和程式碼一樣的存取規則。誰來更新、誰可以讀，要決定下來。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>要花什么，又会在哪里出错</h2><p>就算测试说值得建，知识库也不会自己一直保持正确。它需要维护，因为没人更新的知识库会变得自信满满地答错。如果你的代码天天在变，又没人愿意负责更新，搜索是更好的选择。</p>
+<p>就算卡片是最新的，它也可能是错的，毕竟它是模型对代码的理解。检查只能抓住结构，抓不住一条规则理解得对不对，这部分要靠人审查，或者靠独立的 reviewer（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）。而且 agent 是先读卡片的，所以卡片可能把它锚住：它可能少看一些代码，沿用一张错卡片的看法。对出错代价高的工作，让它重读卡片引用的那几行。</p>
+<p>agent 每读一张卡片都要花 token，所以太长的知识库只是把成本挪了个地方。卡片要短，agent 只在需要时才往下打开更低的层。</p>
+<p>前面说的都是维护和使用的成本，建的那一次还要另算：模型要把每个对象的代码读一遍，所以对大的领域来说，建一次就是真金白银，押的是这些读过的东西会被反复用到。粗略的规模是每个对象读一遍，再加上每月变动的文件，不过我没有算过价。prompt 缓存也许能同时降低建库和读取的成本。Anthropic 的文档说缓存读取约为基础价格的十分之一（见<a href="1-1-models-and-cost.html">选模型：看每次成功的成本</a>），不过我没有在 Copilot 上核实过。所以测试时要把它打开，就像你真正运行时那样。</p>
+<p>最后要定的是谁来负责。知识库得有人管。卡片又是对内部代码的摘要，所以也需要和代码一样的访问规则。谁来更新、谁能读，要定下来。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete the cards, and what to keep</h2><p>If your own test shows that search alone gives the same answers at the same cost, delete the cards and keep only the requests list, because that is the part search can never give. And if the platform one day builds and refreshes a code index that you can measure as accurate, use it instead of keeping your own.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候刪掉卡片，留下什麼</h2><p>如果你自己的測試顯示，單靠搜尋就能用同樣的成本給出同樣的答案，那就把卡片刪掉，只留下請求清單，因為那是搜尋永遠給不了的部分。如果有一天平台能建立並更新一份程式碼索引，而且你量得出它是準確的，就改用它，不要再自己維護一份。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候删掉卡片，留下什么</h2><p>如果你自己的测试表明，只靠搜索就能以同样的成本给出同样的答案，那就把卡片删掉，只留下请求清单，因为这是搜索永远给不了的部分。如果哪天平台能构建并更新一份代码索引，而且你测得出它是准确的，就改用它，别再自己维护一份。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Judge whether this repository would gain from a written knowledge base of the code, or whether search is enough. Estimate how many objects it has (modules, jobs, tables, services) and how large the code base is. Name the kinds of facts that are not in the code at all, such as which environment runs a job or why a rule exists. Say how often the code changes. Then give a verdict: search is enough, or a base is worth testing, with the reasons. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>判斷這個倉庫是否會從一份寫下來的程式碼知識庫得到好處，還是搜尋就夠了。估計它有多少物件（模組、工作、資料表、服務），以及程式碼庫有多大。指出完全不在程式碼裡的那幾類事實，例如哪個環境執行一個工作，或一條規則為什麼存在。說明程式碼多久變一次。然後給出結論：搜尋就夠，或值得測一個知識庫，並附上理由。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>判断这个仓库是否能从一份写下来的代码知识库中受益，还是搜索就够了。估算它有多少个对象（模块、任务、表、服务），代码库有多大。指出哪些种类的事实根本不在代码里，比如哪个环境运行某个任务、某条规则为什么存在。说明代码多久变动一次。然后给出结论：搜索就够，或者值得测试一份知识库，并给出理由。不要修改任何文件。</code></pre></div>
@@ -558,11 +498,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="3-5-memory.html">agent 该记住什么</a>：记忆的一般情况；知识库是其中一种。</li>
 <li><a href="8-2-kb-toolkit.html">toolkit</a>，路线的第一步。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness builds a knowledge base from code with the road above. It can teach you how from the inside, with the real files and commands.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness builds a knowledge base from code along the road above. It can teach you how from the inside, with the real files and commands.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;A knowledge base: an honest index of the code&quot;. Teach me topic 16, the knowledge base from code. Open the real skills and files with me, show me the road step by step, and draw how the pieces fit together.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 用上面的路線，從程式碼建一個知識庫。它可以從裡面教你怎麼做，用真實的檔案和指令。</p>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 就是照上面這條路線，從程式碼建出知識庫的。它可以對著真實的檔案和指令，從裡面教你怎麼做。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「知識庫：程式碼的誠實索引」這一章。請教我主題 16，從程式碼建知識庫。和我一起打開真實的 skill 和檔案，一步一步讓我看這條路線，並畫出各個部分怎麼組合在一起。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 就是按上面的路线，从代码建出知识库的。它可以从内部教你怎么做，配上真实的文件和命令。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 就是按上面这条路线，从代码建出知识库的。它可以对着真实的文件和命令，从内部教你怎么做。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“知识库：代码的诚实索引”这一章。请教我主题 16，从代码建知识库。带我打开真实的 skill 和文件，一步一步给我看这条路线，并画出各部分是怎么连起来的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>

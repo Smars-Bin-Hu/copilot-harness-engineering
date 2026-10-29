@@ -221,66 +221,44 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.2</p><h1><span data-l="en" lang="en">The toolkit: scripts that draw a map of the code</span><span data-l="zh-Hant" lang="zh-Hant">Toolkit：用腳本畫出程式碼的地圖</span><span data-l="zh-Hans" lang="zh-Hans">Toolkit：用脚本画出代码的地图</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-1-why-a-knowledge-base.html">A knowledge base</a>. It is step one and two of the road.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 後面。它是路線的第一步和第二步。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>后面，是路线的第一步和第二步。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Which objects exist, and who uses whom, has one right answer. So a script computes it, the same way every time, at no token cost. The scripts are called a toolkit, and it is code the team owns, written for your own technology stack.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>有哪些物件、誰用誰，只有一個正確答案。所以用腳本來算，每次都一樣，也不花 token。這些腳本叫 toolkit，是團隊自己擁有的程式碼，為你自己的技術堆疊而寫。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>有哪些对象、谁用谁，只有一个正确答案。所以由脚本来算，每次结果一样，也不花 token。这些脚本叫 toolkit，是团队自己拥有的代码，针对你自己的技术栈来写。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why not let the model draw the map?</span><span data-l="zh-Hant" lang="zh-Hant">為什麼不讓模型來畫地圖？</span><span data-l="zh-Hans" lang="zh-Hans">为什么不让模型来画地图？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How scripts draw the map</span><span data-l="zh-Hant" lang="zh-Hant">腳本怎麼畫出地圖</span><span data-l="zh-Hans" lang="zh-Hans">脚本怎么画出地图</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What owning a toolkit costs, and what it cannot see</span><span data-l="zh-Hant" lang="zh-Hant">自己擁有 toolkit 要付出什麼，它又看不到什麼</span><span data-l="zh-Hans" lang="zh-Hans">自己拥有 toolkit 要付出什么，它又看不到什么</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete your extractors</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉自己的抽取器</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉自己的抽取器</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.2</p><h1><span data-l="en" lang="en">The toolkit: scripts that draw a map of the code</span><span data-l="zh-Hant" lang="zh-Hant">Toolkit：用腳本畫出程式碼的地圖</span><span data-l="zh-Hans" lang="zh-Hans">Toolkit：用脚本画出代码的地图</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-1-why-a-knowledge-base.html">A knowledge base</a>. On the road set out there, it covers the first two steps.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a> 後面，在那一章列出的路線上，它講的是前兩步。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>后面。在那一章列出的路线上，它讲的是前两步。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Which objects exist and who uses whom is a question with one right answer, so a script computes it, the same way every time and at no token cost. Those scripts are called a toolkit, and the toolkit is code the team owns, written for your own technology stack.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>有哪些物件、誰用誰，這個問題只有一個正確答案，所以交給腳本來算：每次都用同樣的方式算，也不花 token。這些腳本叫 toolkit，是團隊自己擁有的程式碼，為你自己的技術堆疊而寫。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>有哪些对象、谁用谁，这个问题只有一个正确答案，所以交给脚本来算：每次都按同样的方式算，也不花 token。这些脚本叫 toolkit，是团队自己拥有的代码，针对你自己的技术栈来写。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> have the team own a small set of scripts that list which objects exist and who uses whom, instead of asking a model to work it out each time.</li>
-<li><strong>The risk:</strong> a model asked for the map reads by judgment, can skip an object, and gives two different maps if asked twice. A script gives the same map every time and says what it could not read. On a small open-source project my sample found 58 objects in 35 files and all 6 known uses; that shows it runs, not that it works on your code.</li>
-<li><strong>The cost of doing it right:</strong> the model writes the scripts and a person approves the design; the scripts then cost no tokens. They are code to maintain when the stack changes. I have not tested a very large code base.</li>
+<li><strong>The risk:</strong> a model asked for the map reads by judgment. It can skip an object, and if you ask twice you get two different maps. A script gives the same map every time and says what it could not read. On a small open-source project my sample found 58 objects in 35 files and all 6 known uses, which shows that it runs, not that it works on your code.</li>
+<li><strong>The cost of doing it right:</strong> the model writes the scripts and a person approves the design, after which the scripts cost no tokens. They are still code, and they have to be maintained when the stack changes. I have not tested a very large code base.</li>
 <li><strong>Ask the team:</strong> &quot;Who owns the scripts that map our code, and which uses do we already know they must find?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
 <li><strong>要做的決定</strong>：讓團隊擁有一小組腳本，列出有哪些物件、誰用誰，不要每次都請模型去推算。</li>
-<li><strong>風險</strong>：被要求畫地圖的模型，是憑判斷在讀，可能漏掉一個物件，問兩次會給出兩張不同的地圖。腳本每次給同一張地圖，並說出它讀不到的部分。在一個小的開源專案上，我的範例在 35 個檔案裡找到 58 個物件，6 個已知的使用全都找到了；這只證明它跑得起來，不證明它在你的程式碼上行得通。</li>
-<li><strong>做對的成本</strong>：模型寫腳本，人批准設計；之後腳本不花 token。堆疊改變時，它們是要維護的程式碼。我沒有測過很大的程式碼庫。</li>
+<li><strong>風險</strong>：請模型畫地圖，它是憑判斷在讀，可能漏掉一個物件，問兩次還會給出兩張不同的地圖。腳本每次給的都是同一張地圖，也會說出自己讀不到的部分。在一個小的開源專案上，我的範例在 35 個檔案裡找到 58 個物件，6 處已知的使用也全都找到了；這只證明它跑得起來，不證明它在你的程式碼上行得通。</li>
+<li><strong>做對的成本</strong>：模型寫腳本，人批准設計，之後腳本就不花 token 了。不過它們終究是程式碼，堆疊一改變就得跟著維護。我沒有測過很大的程式碼庫。</li>
 <li><strong>可以問團隊</strong>：「畫我們程式碼地圖的腳本誰負責？我們已經知道它們必須找到的使用有哪些？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
 <li><strong>要拍板的事</strong>：让团队拥有一小组脚本，列出有哪些对象、谁用谁，而不是每次都让模型去推算。</li>
-<li><strong>风险</strong>：让模型出地图，它凭判断去读，可能漏掉对象，问两次会给出两张不同的地图。脚本每次给同一张地图，还会说明它哪里没读懂。在一个小的开源项目上，我的样例找到了 35 个文件里的 58 个对象，以及已知的 6 处使用全部找到；这只说明它能跑，不说明它在你的代码上管用。</li>
-<li><strong>做对的代价</strong>：脚本由模型来写，设计由人审批；之后脚本不花 token。技术栈变了，它们是要维护的代码。我没有在非常大的代码库上测过。</li>
+<li><strong>风险</strong>：让模型出地图，它是凭判断在读，可能漏掉对象，问两次还会给出两张不同的地图。脚本每次给的都是同一张地图，还会说明哪些地方它没读懂。在一个小的开源项目上，我的样例在 35 个文件里找到了 58 个对象，已知的 6 处使用也全部找到；这只说明它能跑，不说明它在你的代码上管用。</li>
+<li><strong>做对的代价</strong>：脚本由模型来写，设计由人审批，之后脚本就不花 token 了。不过它们终归是代码，技术栈一变就得跟着维护。我没有在非常大的代码库上测过。</li>
 <li><strong>可以问团队</strong>：“谁负责给我们的代码画地图的那些脚本？我们已经知道哪些使用是它必须找到的？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>Before an agent can write a card about an object, someone has to answer two plain questions. Which objects are there? And for each one, what does it use?</p>
-<p>Two words first.</p>
-<ul>
-<li>An <strong>object</strong> is a named thing in the code that other things can use (see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>).</li>
-<li>A <strong>use</strong> is one object depending on another: a procedure calls another procedure, a class reads a table, a job runs a package.</li>
-</ul>
-<p>Together, all the objects and all the uses are the <strong>map</strong> of the code (named in the previous chapter). It is the same thing as a dependency graph, if you know that term.</p>
-<p>You could ask a model to produce the map by reading the code. It would do something reasonable. But it decides what to read next from what it just read. It can skip an object, follow a name that means two things, or stop early. It cannot say how much it missed. And ask it twice, and the two maps differ.</p>
-<p>A script that parses every file does not have these problems. It gives the same map every time, for no tokens. And it can say what it could not read. That is the whole case for this chapter.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>在 agent 能為一個物件寫卡片之前，得有人回答兩個簡單的問題。有哪些物件？每一個物件，它用了什麼？</p>
-<p>先說兩個詞。</p>
-<ul>
-<li><strong>物件</strong>是程式碼裡一個有名字、別的東西可以使用的東西（見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。</li>
-<li><strong>使用</strong>是一個物件依賴另一個：一個預存程序呼叫另一個預存程序，一個類別讀一張資料表，一個工作執行一個套件。</li>
-</ul>
-<p>所有物件加上所有使用，合起來是程式碼的<strong>地圖</strong>（上一章已經提過這個詞）。如果你知道這個詞，它就是依賴圖。</p>
-<p>你可以請模型讀程式碼來畫地圖。它會做出合理的東西。但它是靠剛讀到的，決定下一步讀什麼。它可能漏掉一個物件，追到一個有兩種意思的名字，或太早停下來。它說不出自己漏了多少。而且問它兩次，兩張地圖不一樣。</p>
-<p>解析每個檔案的腳本沒有這些問題。它每次給同一張地圖，不花 token。它還能說出自己讀不到的部分。這一章的全部理由就是這個。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>agent 要给一个对象写卡片，得先有人回答两个朴素的问题。有哪些对象？每个对象用到了什么？</p>
-<p>先交代两个词。</p>
-<ul>
-<li><strong>对象</strong>是代码里有名字、别的东西可以使用的东西（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。</li>
-<li><strong>使用</strong>是一个对象依赖另一个对象：一个存储过程调用另一个存储过程，一个类读一张表，一个任务运行一个包。</li>
-</ul>
-<p>所有的对象和所有的使用合在一起，就是代码的<strong>地图</strong>（上一章起的名字）。如果你知道依赖图这个说法，它们是一回事。</p>
-<p>你可以让模型读代码来出这张地图。它会做出一份像样的东西。但它是根据刚读到的内容，决定下一步读什么。它可能漏掉一个对象，追到一个有两种意思的名字，或者太早停下来。它说不出自己漏了多少。而且问它两次，两张地图会不一样。</p>
-<p>一个解析每个文件的脚本没有这些问题。它每次给出同样的地图，不花 token。它还能说出哪些东西它没读懂。这一章的理由就是这些。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>What the toolkit is</h3>
-<p>How a procedure, a job or a class looks inside a file depends on the stack. A call in one stack is <code>CALL name</code>, in another it is a method on an injected object. So there is no ready-made parser that covers every convention of your code. Where a language server or a code-search service already gives you objects and uses, use it first (see <a href="#when-to-delete-it">When to delete it</a>). You write extractors for what they do not cover.</p>
-<p>The <strong>toolkit</strong> is a small set of programs plus one config file, all inside the knowledge base:</p>
-<ul>
-<li>An <strong>extractor</strong> reads one kind of file and prints the objects it defines and the uses it finds.</li>
-<li>The <strong>config file</strong> says what an object is in your code, what kinds of use count, which types of object are <strong>entry points</strong> (the places the outside world calls in: a screen, an API, a scheduled job), which folders are retired, and which words to ignore in names.</li>
-</ul>
-<p>A runner applies the extractors to each repository's main branch and saves the map in a cache. On the next run, only the files that changed since the last run are read again.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Why not let the model draw the map?</h2><p>Before an agent can write a card about an object, someone has to answer two plain questions. Which objects are there? And for each one, what does it use? Here an <strong>object</strong> is a named thing in the code that other things can use (see <a href="8-1-why-a-knowledge-base.html">A knowledge base: an honest index of the code</a>), and a <strong>use</strong> is one object depending on another, as when a procedure calls another procedure, a class reads a table or a job runs a package. Put all the objects and all the uses together and you have the <strong>map</strong> of the code, the name the previous chapter gave it. If you know the term dependency graph, it is the same thing.</p>
+<p>The obvious way to get a map is to ask a model to read the code and produce one, and it would do something reasonable. But it decides what to read next from what it just read, and along that path it can skip an object, follow a name that means two things, or stop early. It cannot say how much it missed either, and if you ask it twice, the two maps differ.</p>
+<p>A script that parses every file has none of these problems. It gives the same map every time, for no tokens, and it can say what it could not read. That is the whole case for scripts. But where does the script itself come from?</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>為什麼不讓模型來畫地圖？</h2><p>在 agent 能為一個物件寫卡片之前，得有人回答兩個簡單的問題：有哪些物件？每一個物件又用了什麼？這裡的<strong>物件</strong>，是程式碼裡一個有名字、別的東西可以使用的東西（見 <a href="8-1-why-a-knowledge-base.html">知識庫：程式碼的誠實索引</a>）。物件之間的關係叫<strong>使用</strong>：一個物件依賴另一個物件，例如一個預存程序呼叫另一個預存程序，一個類別讀一張資料表，一個工作執行一個套件。所有物件加上所有使用，合起來就是程式碼的<strong>地圖</strong>，這是上一章取的名字。如果你聽過依賴圖這個詞，它們是同一回事。</p>
+<p>最直接的做法，是請模型讀程式碼、把地圖畫出來，它也會做出合理的東西。問題是，它靠剛讀到的內容決定下一步讀什麼，一路讀下去，可能漏掉一個物件，可能順著一個有兩種意思的名字追下去，也可能太早停下來。它自己也說不出漏了多少。再問它一次，兩張地圖還會不一樣。</p>
+<p>而解析每個檔案的腳本，沒有這些問題。它每次給同一張地圖，不花 token，還能說出自己讀不到的部分。用腳本的理由，說到底就是這幾條。可是腳本本身又從哪裡來呢？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>为什么不让模型来画地图？</h2><p>agent 要给一个对象写卡片，得先有人回答两个朴素的问题：有哪些对象？每个对象又用到了什么？这里的<strong>对象</strong>，是代码里有名字、别的东西可以使用的东西（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。对象之间的关系叫<strong>使用</strong>：一个对象依赖另一个对象，比如一个存储过程调用另一个存储过程，一个类读一张表，一个任务运行一个包。把所有的对象和所有的使用合在一起，就是代码的<strong>地图</strong>，这是上一章起的名字。如果你听说过依赖图，它们是一回事。</p>
+<p>最顺手的办法，是让模型去读代码，把地图交出来，它也会做出一份像样的东西。问题是，它根据刚读到的内容决定下一步读什么，一路读下去，可能漏掉一个对象，可能顺着一个有两种意思的名字追下去，也可能太早停下来。它自己也说不出漏了多少。再问它一次，两张地图还会不一样。</p>
+<p>而一个逐个解析文件的脚本，没有这些毛病。它每次给出同样的地图，不花 token，还能说出哪些东西它没读懂。用脚本的理由，说到底就是这几条。可脚本本身又从哪里来呢？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How scripts draw the map</h2><h3>What the toolkit is</h3>
+<p>That depends on your stack, since each stack writes a procedure, a job or a class into a file in its own way. A call is <code>CALL name</code> in one stack and a method on an injected object in another, so there is no ready-made parser that covers every convention of your code. Where a language server or a code-search service already gives you objects and uses, use it first (see <a href="#when-to-delete-it">When to delete your extractors</a>). Only what it does not cover needs scripts of your own.</p>
+<p>What you write is the <strong>toolkit</strong>, a small set of programs plus one config file, all kept inside the knowledge base. Each program is an <strong>extractor</strong>, which reads one kind of file and prints the objects it defines and the uses it finds. The <strong>config file</strong> says what an object is in your code and what kinds of use count. It also names the types of object that are <strong>entry points</strong> (the places the outside world calls in, such as a screen, an API or a scheduled job), the folders that are retired, and the words to ignore in names.</p>
+<p>A runner applies the extractors to each repository's main branch and saves the map in a cache. That way, on the next run, only the files that changed since the last run are read again.</p>
 <figure class="fig steps" id="fig-8-2-code-to-map" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
   <rect class="box" x="10" y="50" width="100" height="60" rx="6"/>
   <text class="label" x="60" y="85" text-anchor="middle" data-t="code">the code</text>
@@ -312,30 +290,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">The code is the truth. Objects and uses are written in it, in the forms your stack uses.</li><li data-step-text="2">Extractors are small scripts. Each reads one kind of file and prints the objects and uses it finds. The same input gives the same output.</li><li data-step-text="3">The output is the map: every object that exists, and who uses whom.</li><li data-step-text="4">A few uses that a person knew are written down as a test. Every run must find all of them.</li><li data-step-text="5">On the next run, only the files that changed are read again.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>The map is computed from the code by scripts, the same way every time, at no token cost.</figcaption></figure>
 <h3>Who writes it: the model designs, a person approves, scripts run</h3>
-<p>You might expect to write the extractors yourself. In my setup the model writes them, in four moves:</p>
-<ol>
-<li><strong>Survey.</strong> A script counts the kinds of file in each repository. The model reads a few samples of each kind.</li>
-<li><strong>Design.</strong> The model writes down what objects and uses look like in this stack, with examples from the code. A person reads it and approves it. This is the moment to catch &quot;that is not a use, that is a comment&quot;.</li>
-<li><strong>Build.</strong> The model writes the extractors.</li>
-<li><strong>Run until the known uses are found.</strong> See the next section.</li>
-</ol>
-<p>The model is good at writing a parser once. It should not be the parser every time. After the build, only scripts touch the code.</p>
+<p>You might expect to write the extractors yourself. In my setup the model writes them, in four moves. The first is a survey, in which a script counts the kinds of file in each repository and the model reads a few samples of each kind. With those samples read, the model writes a design that sets down what objects and uses look like in this stack, with examples from the code. A person reads the design and approves it, and this is the moment to catch &quot;that is not a use, that is a comment&quot;. Then the model builds the extractors. The last move, the subject of the next section, is to run them until the known uses are found.</p>
+<p>The model is good at writing a parser once, but it should not be the parser every time. After the build, only scripts touch the code.</p>
 <h3>A test that stays: the uses a person knew</h3>
-<p>When the map is first made, how do you know it is not nonsense? A person writes down 5 to 10 uses they know are there, for example &quot;procedure A calls procedure B&quot;. These go into a file in the toolkit. It is better to write them before the extractor exists, and not to show them to the model while it writes, so the extractor is not tuned to just these. Every run of the map must find all of them. If a later change to an extractor loses one, the run fails.</p>
-<p>It is a regression test: a test that guards what already worked. It is small, and I do not pretend it measures the whole map. Whenever you meet a use the map missed, add it. <a href="8-3-kb-audit.html">Chapter 8.3</a> measures how complete the map is.</p>
-<p>The runner also reports, on every run:</p>
-<ul>
-<li>the files it could not read, and the files it read and found nothing in (both are suspicious);</li>
-<li>the names that are used but defined nowhere: they may be other systems, deleted code, or a form the extractor misreads. Look at a few.</li>
-</ul>
+<p>When the map is first made, how do you know it is not nonsense? A person writes down 5 to 10 uses they know are there, for example &quot;procedure A calls procedure B&quot;, and these go into a file in the toolkit. It is better to write them before the extractor exists, and not to show them to the model while it writes, so that the extractor is not tuned to just these. Every run of the map must find all of them. If a later change to an extractor loses one, the run fails.</p>
+<p>This file of known uses is a regression test, a test that guards what already worked. It is small, and I do not pretend it measures the whole map. What it can do is grow: whenever you meet a use the map missed, add it. Measuring how complete the map is comes later, in <a href="8-3-kb-audit.html">Chapter 8.3</a>.</p>
+<p>The known uses are not the only check. On every run the runner reports two more things. One is the files it could not read, or read without finding anything, and either kind is suspicious. The other is the names that are used but defined nowhere. They may be other systems, deleted code, or a form the extractor misreads, so look at a few.</p>
 <h3>Two samples, only as examples</h3>
-<p>The harness ships no toolkit of its own, only two samples that show the shape.</p>
-<ul>
-<li><strong>SQL Server:</strong> stored procedures, scheduled agent jobs, and integration packages.</li>
-<li><strong>Spring:</strong> a Spring Boot service, with controllers, repositories, entities and tables.</li>
-</ul>
-<p>I built the Spring sample on the open-source spring-petclinic project. On that code it found 58 objects in 35 files, and all 6 of the known uses; no file failed to read and none came back empty. That is a smoke test: it shows the toolkit runs on one small, tidy project. It does not show it works on yours. The hard cases (SQL built at run time, calls driven by configuration) are not in that project. Your stack, your conventions and your odd cases are what you write.</p>
-<p>The real files of the Spring sample show the shape. First the known uses a person wrote down for it:</p>
+<p>The harness ships no toolkit of its own (why, comes after the samples), only two samples that show the shape. One is for SQL Server, with stored procedures, scheduled agent jobs and integration packages. The other is for Spring, covering a Spring Boot service with controllers, repositories, entities and tables.</p>
+<p>I built the Spring sample on the open-source spring-petclinic project. On that code it found 58 objects in 35 files and all 6 of the known uses, and no file failed to read or came back empty. That is a smoke test: it shows that the toolkit runs on one small, tidy project, not that it works on yours. The hard cases (SQL built at run time, calls driven by configuration) are not in that project. Your stack, your conventions and your odd cases are what you write.</p>
+<p>Here is what that shape looks like in the Spring sample. First come the known uses a person wrote down for it:</p>
 <details class="code"><summary>Five of the sample&#x27;s known uses: one object, the kind of use, the other object.</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
@@ -370,7 +334,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
     if role == &quot;controller&quot;:
         found += endpoints(clean, head, body, offset, name)
     return found</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/extract_spring.py#L50-L77">.harness/examples/kb-toolkits/spring/extract_spring.py L50–L77 @ 1.5.50</a></p></details>
-<p>And the sample's own record of how it was built, including the first run that missed one use and what it cannot see:</p>
+<p>And last, the sample's own record of how it was built, including the first run that missed one use and what it cannot see:</p>
 <details class="code"><summary>Two rounds of fixing the extractor, and the blind spots left.</summary><pre><code class="language-markdown">## Rounds
 
 1. 9 of 10 facts: `new ModelAndView(&quot;owners/ownerDetails&quot;)` not known. Also `welcome.html` at the top of `templates/` was not matched by `templates/**/*.html`: fixed in the harness (`**/` stands for no folder too).
@@ -381,22 +345,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 - Join tables named only in `@JoinTable` (`vet_specialties`) have no use.
 - Beans wired by the framework (`@Configuration`, formatters) show as `unused`: the framework calls them.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/DESIGN.md#L22-L30">.harness/examples/kb-toolkits/spring/DESIGN.md L22–L30 @ 1.5.50</a></p></details>
 <h3>Why a general harness does not include a toolkit</h3>
-<p>I did not ship parsers for the common stacks. A parser that is almost right fails silently, and each team writes code a little differently. A toolkit the team owns and audits (<a href="8-3-kb-audit.html">next chapter</a>) can be fixed when it misses, and it lives in the knowledge base, so upgrading the harness never overwrites it.</p>
-<h3>Test your own setup</h3>
+<p>I did not ship parsers for the common stacks. A parser that is almost right fails silently, and each team writes code a little differently. A toolkit the team owns and audits (<a href="8-3-kb-audit.html">next chapter</a>) can instead be fixed when it misses. It also lives in the knowledge base, so upgrading the harness never overwrites it.</p>
+<h3>Draw and check a map of one repository</h3>
 <ol>
-<li>Pick one repository. Write down 5 to 10 uses you know are there, each with a file and line.</li>
-<li>Ask an agent to draft what objects and uses look like in your stack, with examples from your code. Read it. Correct it.</li>
+<li>Pick one repository and write down 5 to 10 uses you know are there, each with a file and line.</li>
+<li>Ask an agent to draft what objects and uses look like in your stack, with examples from your code. Read the draft and correct it.</li>
 <li>Have the agent write the extractors. Run them, and check that all your known uses appear.</li>
 <li>Run them twice. The two outputs must be identical.</li>
 </ol>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>toolkit 是什麼</h3>
-<p>一個預存程序、一個工作或一個類別在檔案裡長什麼樣，取決於堆疊。一種堆疊裡的呼叫是 <code>CALL name</code>，另一種是注入物件上的一個方法。所以沒有現成的解析器涵蓋你程式碼的每一種慣例。語言伺服器或程式碼搜尋服務已經給你物件和使用的地方，先用它們（見 <a href="#when-to-delete-it">什麼時候可以刪掉</a>）。你為它們沒涵蓋的部分寫抽取器。</p>
-<p><strong>toolkit</strong> 是一小組程式，加上一個設定檔，全都放在知識庫裡面：</p>
-<ul>
-<li><strong>抽取器</strong>讀一種檔案，印出它定義的物件和它找到的使用。</li>
-<li><strong>設定檔</strong>說明在你的程式碼裡什麼是物件、哪些種類的使用算數、哪些類型的物件是<strong>入口</strong>（外面的世界呼叫進來的地方：畫面、API、排程工作）、哪些資料夾已經退役，以及名字裡哪些詞要忽略。</li>
-</ul>
-<p>執行器把抽取器用在每個倉庫的主分支上，並把地圖存進快取。下一次執行時，只重讀上次之後改過的檔案。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>腳本怎麼畫出地圖</h2><h3>toolkit 是什麼</h3>
+<p>腳本從哪裡來，要看你用的是什麼技術堆疊。一個預存程序、一個工作或一個類別在檔案裡長什麼樣，每種堆疊都不一樣。同樣是呼叫，在一種堆疊裡寫成 <code>CALL name</code>，在另一種堆疊裡是注入物件上的一個方法。寫法這麼多，沒有哪個現成的解析器能涵蓋你程式碼的每一種慣例。如果語言伺服器或程式碼搜尋服務已經給得出物件和使用，就先用它們（見 <a href="#when-to-delete-it">什麼時候可以刪掉自己的抽取器</a>）。它們沒涵蓋的部分，才需要你自己寫腳本。</p>
+<p>這些要你來寫的東西，就是 <strong>toolkit</strong>：一小組程式加上一個設定檔，全都放在知識庫裡面。每支程式是一個<strong>抽取器</strong>，讀一種檔案，印出這種檔案定義的物件和它找到的使用。<strong>設定檔</strong>說明在你的程式碼裡什麼是物件、哪些種類的使用算數，也說明哪些類型的物件是<strong>入口</strong>（從外部呼叫進來的地方，例如畫面、API、排程工作）、哪些資料夾已經退役，以及名字裡哪些詞要忽略。</p>
+<p>執行器把抽取器用在每個倉庫的主分支上，並把地圖存進快取。這樣一來，下一次執行時，只要重讀上次之後改過的檔案。</p>
 <figure class="fig steps" id="fig-8-2-code-to-map" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
   <rect class="box" x="10" y="50" width="100" height="60" rx="6"/>
   <text class="label" x="60" y="85" text-anchor="middle" data-t="code">程式碼</text>
@@ -428,30 +388,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">程式碼才是真相。物件和「用」就寫在裡面，形式取決於你的技術棧。</li><li data-step-text="2">抽取器是小腳本。每支讀一種檔案，印出它找到的物件和「用」。同樣的輸入，同樣的輸出。</li><li data-step-text="3">輸出就是地圖：有哪些物件，誰用誰。</li><li data-step-text="4">幾個人本來就知道的「用」寫下來當測試。每次執行都必須全部找到。</li><li data-step-text="5">下一次，只重讀改過的檔案。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>地圖由腳本從程式碼算出來，每次一樣，不花 token。</figcaption></figure>
 <h3>誰寫：模型設計，人批准，腳本執行</h3>
-<p>你可能預期要自己寫抽取器。在我的設定裡，是模型寫，分四步：</p>
-<ol>
-<li><strong>調查</strong>。一個腳本數出每個倉庫裡各種檔案的數量。模型讀每一種的幾個樣本。</li>
-<li><strong>設計</strong>。模型寫下在這個堆疊裡，物件和使用長什麼樣，附上程式碼裡的例子。人讀它並批准。這是抓出「那不是使用，那是註解」的時刻。</li>
-<li><strong>建造</strong>。模型寫抽取器。</li>
-<li><strong>執行，直到已知的使用都找到</strong>。見下一節。</li>
-</ol>
-<p>模型擅長把解析器寫一次。它不該每一次都當解析器。建好之後，只有腳本碰程式碼。</p>
+<p>你可能以為抽取器得自己寫。在我的設定裡，是模型來寫，一共分四步。第一步是調查：一個腳本數出每個倉庫裡各種檔案的數量，模型每一種讀幾個樣本。樣本讀過之後，模型寫出一份設計，說明在這個堆疊裡物件和使用長什麼樣，並附上程式碼裡的例子。人讀這份設計並批准它，這時正好可以抓出「那不是使用，那是註解」這類問題。接著，模型寫抽取器。最後一步留給下一節講：反覆執行，直到已知的使用都找到為止。</p>
+<p>模型擅長把解析器寫一次，但它不該每一次都親自當解析器。建好之後，碰程式碼的就只有腳本了。</p>
 <h3>一個一直留著的測試：人知道的那些使用</h3>
-<p>地圖第一次做出來時，你怎麼知道它不是胡說？人寫下 5 到 10 個他知道存在的使用，例如「預存程序 A 呼叫預存程序 B」。這些放進 toolkit 裡的一個檔案。最好在抽取器出現之前就寫，並且在模型寫的時候不給它看，這樣抽取器就不會只對這幾個調校。地圖的每次執行，都必須找到所有這些。如果之後對抽取器的改動弄丟了一個，這次執行就失敗。</p>
-<p>這是迴歸測試：守住已經行得通的東西的測試。它很小，我不假裝它量得出整張地圖。每次你遇到地圖漏掉的使用，就把它加進去。<a href="8-3-kb-audit.html">第 8.3 章</a> 量地圖有多完整。</p>
-<p>執行器每次執行也會回報：</p>
-<ul>
-<li>它讀不了的檔案，以及它讀了卻什麼都沒找到的檔案（兩者都可疑）；</li>
-<li>被使用卻沒在任何地方定義的名字：它們可能是別的系統、被刪掉的程式碼，或抽取器讀錯的寫法。看幾個。</li>
-</ul>
+<p>地圖第一次做出來時，你怎麼知道它不是胡說？辦法是由人寫下 5 到 10 處自己確定存在的使用，例如「預存程序 A 呼叫預存程序 B」，放進 toolkit 裡的一個檔案。這些最好在抽取器出現之前就寫好，模型寫的時候也別給它看，免得抽取器只是對著這幾處調校出來的。之後每次執行都必須找到所有這些使用，所以哪天改抽取器時弄丟了一處，那次執行就會失敗。</p>
+<p>這份已知使用的清單，就是一個迴歸測試，也就是確保原本好的東西不會壞掉的測試。它很小，我也不假裝它量得出整張地圖。它能做的是慢慢長大：每次你遇到地圖漏掉的使用，就把它加進去。地圖到底有多完整，要到 <a href="8-3-kb-audit.html">第 8.3 章</a> 再去量。</p>
+<p>不過，已知的使用並不是唯一的檢查。執行器每次還會回報兩類可疑的情況。一類是檔案出了問題：要麼讀不了，要麼讀了什麼都沒找到。另一類是被使用、卻沒在任何地方定義的名字。這些名字可能是別的系統，可能是被刪掉的程式碼，也可能是抽取器讀錯的寫法，值得挑幾個看看。</p>
 <h3>兩個範例，只當例子</h3>
-<p>harness 沒有附帶自己的 toolkit，只有兩個範例，讓你看到它的形狀。</p>
-<ul>
-<li><strong>SQL Server</strong>：預存程序、排程的 agent 工作，和整合套件。</li>
-<li><strong>Spring</strong>：一個 Spring Boot 服務，有 controller、repository、entity 和資料表。</li>
-</ul>
-<p>我在開源專案 spring-petclinic 上建了 Spring 範例。在那份程式碼上，它在 35 個檔案裡找到 58 個物件，6 個已知的使用全都找到了；沒有檔案讀取失敗，也沒有檔案是空的。這是冒煙測試：它證明 toolkit 在一個小而整齊的專案上跑得起來。它不證明在你的專案上行得通。難的情況（執行時才組出來的 SQL、由設定驅動的呼叫）不在那個專案裡。你的堆疊、你的慣例和你那些奇怪的情況，要由你來寫。</p>
-<p>Spring 範例的真實檔案，讓你看到形狀。先是人為它寫下的已知使用：</p>
+<p>harness 沒有附帶自己的 toolkit（為什麼不附，看完範例再說），只有兩個範例，讓你看看它長什麼樣。一個是 SQL Server 的，涵蓋預存程序、排程的 agent 工作和整合套件；另一個是 Spring 的，針對一個 Spring Boot 服務，裡面有 controller、repository、entity 和資料表。</p>
+<p>Spring 範例是我在開源專案 spring-petclinic 上建的。在那份程式碼上，它在 35 個檔案裡找到 58 個物件，6 處已知的使用也全都找到了，沒有檔案讀取失敗，也沒有檔案是空的。這算是冒煙測試：它證明 toolkit 在一個小而整齊的專案上跑得起來，不證明在你的專案上也行得通。難的情況（執行時才組出來的 SQL、由設定驅動的呼叫）不在那個專案裡。你的堆疊、你的慣例和你那些奇怪的情況，要由你來寫。</p>
+<p>下面看看 toolkit 在 Spring 範例裡是什麼樣子。先是人為它寫下的已知使用：</p>
 <details class="code"><summary>範例的五個已知使用：一個物件、使用的種類、另一個物件。</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
@@ -486,7 +432,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
     if role == &quot;controller&quot;:
         found += endpoints(clean, head, body, offset, name)
     return found</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/extract_spring.py#L50-L77">.harness/examples/kb-toolkits/spring/extract_spring.py L50–L77 @ 1.5.50</a></p></details>
-<p>還有範例自己對建造過程的紀錄，包括漏了一個使用的第一次執行，以及它看不到的東西：</p>
+<p>最後是範例自己對建造過程的紀錄，包括漏了一處使用的第一次執行，以及它看不到的東西：</p>
 <details class="code"><summary>修抽取器的兩輪，和留下的盲點。</summary><pre><code class="language-markdown">## Rounds
 
 1. 9 of 10 facts: `new ModelAndView(&quot;owners/ownerDetails&quot;)` not known. Also `welcome.html` at the top of `templates/` was not matched by `templates/**/*.html`: fixed in the harness (`**/` stands for no folder too).
@@ -497,22 +443,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 - Join tables named only in `@JoinTable` (`vet_specialties`) have no use.
 - Beans wired by the framework (`@Configuration`, formatters) show as `unused`: the framework calls them.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/DESIGN.md#L22-L30">.harness/examples/kb-toolkits/spring/DESIGN.md L22–L30 @ 1.5.50</a></p></details>
 <h3>為什麼通用的 harness 不附 toolkit</h3>
-<p>我沒有為常見的堆疊附上解析器。幾乎正確的解析器會無聲地失敗，而且每個團隊寫程式碼的方式都有點不同。團隊自己擁有、自己抽查的 toolkit（<a href="8-3-kb-audit.html">下一章</a>），漏掉東西時可以修，而且它放在知識庫裡，所以升級 harness 不會覆蓋它。</p>
-<h3>測你自己的設定</h3>
+<p>我沒有為常見的堆疊附上解析器。差不多對的解析器會悄悄出錯，而且每個團隊寫程式碼的方式都有點不同。團隊自己擁有、自己抽查的 toolkit（<a href="8-3-kb-audit.html">下一章</a>）就不一樣，漏掉東西時可以修。它又放在知識庫裡，所以升級 harness 不會覆蓋它。</p>
+<h3>動手幫一個倉庫畫地圖並驗證</h3>
 <ol>
-<li>挑一個倉庫。寫下 5 到 10 個你知道存在的使用，每個附上檔案和行號。</li>
-<li>請 agent 草擬在你的堆疊裡物件和使用長什麼樣，附上你程式碼裡的例子。讀它，修正它。</li>
+<li>挑一個倉庫，寫下 5 到 10 處你知道存在的使用，每處附上檔案和行號。</li>
+<li>請 agent 草擬在你的堆疊裡物件和使用長什麼樣，附上你程式碼裡的例子。讀一遍，把不對的地方改過來。</li>
 <li>讓 agent 寫抽取器。執行它們，檢查你所有已知的使用都出現了。</li>
 <li>執行兩次。兩次的輸出必須完全一樣。</li>
 </ol>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>toolkit 是什么</h3>
-<p>一个存储过程、一个任务或者一个类在文件里长什么样，取决于技术栈。同样是一次调用，在一种栈里是 <code>CALL name</code>，在另一种栈里是注入对象上的一个方法。所以没有哪个现成的解析器能覆盖你代码里的所有写法。如果语言服务器或代码搜索服务已经给了你对象和使用，先用它们（见<a href="#when-to-delete-it">什么时候可以删掉</a>）。它们覆盖不到的部分，你来写抽取器。</p>
-<p><strong>toolkit</strong> 是一小组程序加一个配置文件，都放在知识库里：</p>
-<ul>
-<li><strong>抽取器</strong>读一种文件，打印它定义的对象和找到的使用。</li>
-<li><strong>配置文件</strong>写明在你的代码里什么算对象，哪几种使用算数，哪几类对象是<strong>入口</strong>（外部调用进来的地方：一个页面、一个 API、一个定时任务），哪些文件夹已经停用，以及名字里要忽略哪些词。</li>
-</ul>
-<p>一个运行器把抽取器用到每个仓库的主分支上，把地图存进缓存。下一次运行，只重新读上次以来改过的文件。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>脚本怎么画出地图</h2><h3>toolkit 是什么</h3>
+<p>脚本从哪里来，要看你用的是什么技术栈。一个存储过程、一个任务或者一个类在文件里长什么样，每种栈都不一样。同样是一次调用，在一种栈里写作 <code>CALL name</code>，在另一种栈里是注入对象上的一个方法。写法这么多，没有哪个现成的解析器能覆盖你代码里的所有写法。如果语言服务器或代码搜索服务已经能给你对象和使用，就先用它们（见<a href="#when-to-delete-it">什么时候可以删掉自己的抽取器</a>）。它们覆盖不到的部分，才需要你自己写脚本。</p>
+<p>这些要你来写的东西，就是 <strong>toolkit</strong>：一小组程序加一个配置文件，都放在知识库里。每个程序是一个<strong>抽取器</strong>，读一种文件，打印出这种文件定义的对象和它找到的使用。<strong>配置文件</strong>写明在你的代码里什么算对象、哪几种使用算数，还写明哪几类对象是<strong>入口</strong>（外部调用进来的地方，比如一个页面、一个 API、一个定时任务），哪些文件夹已经停用，以及名字里要忽略哪些词。</p>
+<p>一个运行器把抽取器用到每个仓库的主分支上，把地图存进缓存。这样一来，下一次运行时，只需要重新读上次以来改过的文件。</p>
 <figure class="fig steps" id="fig-8-2-code-to-map" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220">
   <rect class="box" x="10" y="50" width="100" height="60" rx="6"/>
   <text class="label" x="60" y="85" text-anchor="middle" data-t="code">代码</text>
@@ -544,30 +486,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <ol class="step-text"><li data-step-text="1">代码才是真相。对象和使用就写在里面，形式取决于你的技术栈。</li><li data-step-text="2">抽取器是小脚本。每个读一种文件，打印它找到的对象和使用。同样的输入，同样的输出。</li><li data-step-text="3">输出就是地图：有哪些对象，谁用谁。</li><li data-step-text="4">几处人本来就知道的使用，写下来当测试。每次运行都必须全部找到。</li><li data-step-text="5">下一次，只重读改过的文件。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>地图由脚本从代码算出来，每次一样，不花 token。</figcaption></figure>
 <h3>谁来写：模型设计，人审批，脚本运行</h3>
-<p>你可能以为抽取器要自己写。在我的配置里是模型来写，分四步：</p>
-<ol>
-<li><strong>调研</strong>。一个脚本统计每个仓库里各种文件的数量。模型每种读几个样本。</li>
-<li><strong>设计</strong>。模型写下在这个技术栈里，对象和使用长什么样，附上代码里的例子。人来读，并审批。这时正好可以抓出“那不是使用，那是注释”。</li>
-<li><strong>构建</strong>。模型写抽取器。</li>
-<li><strong>反复运行，直到已知的使用都找到</strong>。见下一节。</li>
-</ol>
-<p>模型擅长把一个解析器写一次。它不该每次都充当解析器。构建完成之后，碰代码的只有脚本。</p>
+<p>你可能以为抽取器得自己写。在我的配置里是模型来写，一共分四步。第一步是调研：一个脚本统计每个仓库里各种文件的数量，模型每种读几个样本。样本读过以后，模型写出一份设计，说明在这个技术栈里对象和使用长什么样，并附上代码里的例子。人来读这份设计并审批，这时正好可以抓出“那不是使用，那是注释”这类问题。接着，模型写抽取器。最后一步留给下一节讲：反复运行，直到已知的使用都找到为止。</p>
+<p>模型擅长把一个解析器写一次，但它不该每次都亲自充当解析器。构建完成之后，碰代码的就只有脚本了。</p>
 <h3>一个一直留着的测试：人知道的那些使用</h3>
-<p>地图刚做出来时，你怎么知道它不是胡说？由人写下 5 到 10 处他们知道确实存在的使用，比如“存储过程 A 调用存储过程 B”。这些放进 toolkit 里的一个文件。最好在抽取器出现之前就写好，模型写抽取器时也不给它看，这样抽取器就不会只为这几处调出来。每次运行地图，都必须找到全部这些使用。以后改抽取器时丢了一处，这次运行就失败。</p>
-<p>这是一个回归测试：保护已经好使的东西的测试。它很小，我也不假装它衡量了整张地图。每当你发现地图漏掉一处使用，就把它加进去。<a href="8-3-kb-audit.html">第 8.3 章</a>衡量地图有多完整。</p>
-<p>运行器每次运行还会报告：</p>
-<ul>
-<li>它读不了的文件，以及读了却什么都没找到的文件（两种都可疑）；</li>
-<li>被用到但哪里都没定义的名字：它们可能是别的系统、已删除的代码，或者抽取器读错的写法。挑几个看看。</li>
-</ul>
+<p>地图刚做出来时，你怎么知道它不是在胡说？办法是由人写下 5 到 10 处他们知道确实存在的使用，比如“存储过程 A 调用存储过程 B”，放进 toolkit 里的一个文件。这些最好在抽取器出现之前就写好，模型写抽取器时也别给它看，免得抽取器只是为这几处调出来的。之后每次运行都必须找到全部这些使用，所以哪天改抽取器时丢了一处，那次运行就会失败。</p>
+<p>这份已知使用的清单，就是一个回归测试，也就是保护已经管用的东西的测试。它很小，我也不假装它衡量了整张地图。它能做的是慢慢长大：每当你发现地图漏掉了一处使用，就把它加进去。地图到底有多完整，要到<a href="8-3-kb-audit.html">第 8.3 章</a>再去衡量。</p>
+<p>不过，已知的使用并不是唯一的检查。运行器每次还会报告两类可疑情况。一类是文件出了问题：要么读不了，要么读了什么都没找到。另一类是被用到、却哪里都没定义的名字。这些名字可能指向别的系统，可能是已经删除的代码，也可能是抽取器读错的写法，值得挑几个看看。</p>
 <h3>两个样例，只当例子</h3>
-<p>harness 自己不带 toolkit，只带两个样例，让你看到它的样子。</p>
-<ul>
-<li><strong>SQL Server</strong>：存储过程、定时的 agent 任务，以及集成包。</li>
-<li><strong>Spring</strong>：一个 Spring Boot 服务，有 controller、repository、实体和表。</li>
-</ul>
-<p>我在开源项目 spring-petclinic 上做了 Spring 样例。在那份代码上，它找到了 35 个文件里的 58 个对象，已知的 6 处使用也全部找到；没有文件读失败，也没有文件读出来是空的。这是一次冒烟测试：它说明 toolkit 能在一个小而整洁的项目上跑起来。它不说明它在你的项目上管用。难的情况（运行时拼出来的 SQL、由配置驱动的调用）不在那个项目里。你的技术栈、你的约定、你那些古怪的情况，要你自己来写。</p>
-<p>Spring 样例的真实文件能看出它的样子。先是人为它写下的已知使用：</p>
+<p>harness 自己不带 toolkit（为什么不带，看完样例再说），只带两个样例，让你看看它长什么样。一个是 SQL Server 的，覆盖存储过程、定时的 agent 任务和集成包；另一个是 Spring 的，针对一个 Spring Boot 服务，里面有 controller、repository、实体和表。</p>
+<p>Spring 样例是我在开源项目 spring-petclinic 上做的。在那份代码上，它在 35 个文件里找到了 58 个对象，已知的 6 处使用也全部找到，没有文件读失败，也没有文件读出来是空的。这算一次冒烟测试：它说明 toolkit 能在一个小而整洁的项目上跑起来，不说明它在你的项目上也管用。难的情况（运行时拼出来的 SQL、由配置驱动的调用）不在那个项目里。你的技术栈、你的约定、你那些古怪的情况，要你自己来写。</p>
+<p>下面看看 toolkit 在 Spring 样例里是什么样子。先是人为它写下的已知使用：</p>
 <details class="code"><summary>样例已知的五处使用：一个对象、使用的类型、另一个对象。</summary><pre><code class="language-text">{&quot;from&quot;: &quot;controller:PetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:PetTypeRepository&quot;}
 {&quot;from&quot;: &quot;controller:VetController&quot;, &quot;kind&quot;: &quot;uses&quot;, &quot;to&quot;: &quot;repository:VetRepository&quot;}
 {&quot;from&quot;: &quot;repository:OwnerRepository&quot;, &quot;kind&quot;: &quot;reads&quot;, &quot;to&quot;: &quot;entity:Owner&quot;}
@@ -602,7 +530,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
     if role == &quot;controller&quot;:
         found += endpoints(clean, head, body, offset, name)
     return found</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/extract_spring.py#L50-L77">.harness/examples/kb-toolkits/spring/extract_spring.py L50–L77 @ 1.5.50</a></p></details>
-<p>还有样例自己的构建记录，包括第一次运行漏掉一处使用，以及它看不到什么：</p>
+<p>最后是样例自己的构建记录，包括第一次运行漏掉的那一处使用，以及它看不到什么：</p>
 <details class="code"><summary>抽取器修了两轮，以及还剩下的盲区。</summary><pre><code class="language-markdown">## Rounds
 
 1. 9 of 10 facts: `new ModelAndView(&quot;owners/ownerDetails&quot;)` not known. Also `welcome.html` at the top of `templates/` was not matched by `templates/**/*.html`: fixed in the harness (`**/` stands for no folder too).
@@ -613,35 +541,26 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 - Join tables named only in `@JoinTable` (`vet_specialties`) have no use.
 - Beans wired by the framework (`@Configuration`, formatters) show as `unused`: the framework calls them.</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.harness/examples/kb-toolkits/spring/DESIGN.md#L22-L30">.harness/examples/kb-toolkits/spring/DESIGN.md L22–L30 @ 1.5.50</a></p></details>
 <h3>为什么通用的 harness 不带 toolkit</h3>
-<p>我没有为常见的技术栈提供解析器。差不多对的解析器会悄悄出错，而且每个团队写代码的方式都略有不同。团队自己拥有、自己审计的 toolkit（<a href="8-3-kb-audit.html">下一章</a>）漏了就能修，而且它放在知识库里，所以升级 harness 永远不会把它覆盖掉。</p>
-<h3>在你自己的环境里测一测</h3>
+<p>我没有为常见的技术栈提供解析器。差不多对的解析器会悄悄出错，而且每个团队写代码的方式都略有不同。团队自己拥有、自己审计的 toolkit（<a href="8-3-kb-audit.html">下一章</a>）就不一样了，漏了能修。它又放在知识库里，所以升级 harness 永远不会把它覆盖掉。</p>
+<h3>动手给一个仓库画地图并验证</h3>
 <ol>
-<li>挑一个仓库。写下 5 到 10 处你知道确实存在的使用，每处带文件和行号。</li>
-<li>让 agent 起草在你的技术栈里对象和使用长什么样，附上你代码里的例子。读一遍，改正它。</li>
+<li>挑一个仓库，写下 5 到 10 处你知道确实存在的使用，每处带文件和行号。</li>
+<li>让 agent 起草在你的技术栈里对象和使用长什么样，附上你代码里的例子。读一遍，把不对的地方改过来。</li>
 <li>让 agent 写抽取器。运行它们，检查你所有已知的使用都出现了。</li>
 <li>运行两次。两次的输出必须完全一样。</li>
 </ol>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
-<li><strong>The toolkit is code to maintain.</strong> When your stack changes, so does it. That is the price of owning it.</li>
-<li><strong>It is only as good as its reading of the forms.</strong> An extractor that handles three ways of writing a call and misses a fourth looks fine on the known uses. That is why we audit (<a href="8-3-kb-audit.html">8.3</a>).</li>
-<li><strong>Some things no script can see.</strong> A query built as a string at run time, or a call driven by a config table, is invisible to any parser. These are marked, not guessed (<a href="8-3-kb-audit.html">8.3</a>).</li>
-<li><strong>I have not tested the toolkit on a very large code base.</strong> The petclinic run is a small case.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
-<li><strong>toolkit 是要維護的程式碼</strong>。你的堆疊改變，它也要改。這是擁有它的代價。</li>
-<li><strong>它只有讀懂寫法的程度那麼好</strong>。一個處理了呼叫的三種寫法、漏掉第四種的抽取器，在已知的使用上看起來沒問題。這就是為什麼要抽查（<a href="8-3-kb-audit.html">8.3</a>）。</li>
-<li><strong>有些東西沒有腳本看得到</strong>。執行時組成字串的查詢，或由設定表驅動的呼叫，任何解析器都看不見。這些要標出來，不要猜（<a href="8-3-kb-audit.html">8.3</a>）。</li>
-<li><strong>我沒有在很大的程式碼庫上測過 toolkit</strong>。petclinic 的執行是個小例子。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
-<li><strong>toolkit 是要维护的代码</strong>。你的技术栈变了，它也要跟着变。这是拥有它的代价。</li>
-<li><strong>它的水平取决于对各种写法的理解</strong>。一个抽取器能处理一次调用的三种写法、漏掉第四种，在已知的使用上看起来也没问题。这就是我们要做审计的原因（<a href="8-3-kb-audit.html">8.3</a>）。</li>
-<li><strong>有些东西，任何脚本都看不到</strong>。运行时拼成字符串的查询，或者由配置表驱动的调用，对任何解析器都是不可见的。它们会被标出来，不去猜（<a href="8-3-kb-audit.html">8.3</a>）。</li>
-<li><strong>我没有在非常大的代码库上测过 toolkit</strong>。petclinic 的运行只是一个小例子。</li>
-</ul>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If a tool you trust, such as your language server or a code-search service, already gives you objects and uses with a measured accuracy, feed its output into the map and drop your extractors. The rest of the road does not care where the map came from.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果一個你信任的工具，例如你的語言伺服器或程式碼搜尋服務，已經給你物件和使用，並且有量過的準確度，就把它的輸出餵進地圖，放掉你的抽取器。路線的其餘部分不在乎地圖從哪裡來。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果你信任的某个工具，比如你的语言服务器或代码搜索服务，已经给出了对象和使用，而且准确度测量过，就把它的输出喂给地图，丢掉你自己的抽取器。路线上的其余部分不关心地图是从哪来的。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What owning a toolkit costs, and what it cannot see</h2><p>If scripts give the same map every time for no tokens, where is the cost? The plainest one is that the toolkit is code to maintain. When your stack changes, so does it, and that is the price of owning it.</p>
+<p>Maintenance keeps the toolkit in step with the stack, but it does not make it read every form correctly. An extractor that handles three ways of writing a call and misses a fourth still looks fine on the known uses. That gap is what the audit is for (<a href="8-3-kb-audit.html">8.3</a>).</p>
+<p>And some things are beyond any reading of forms. A query built as a string at run time, or a call driven by a config table, is invisible to any parser. These are marked, not guessed (<a href="8-3-kb-audit.html">8.3</a>). All of this comes from a small project. I have not tested the toolkit on a very large code base.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>自己擁有 toolkit 要付出什麼，它又看不到什麼</h2><p>如果腳本每次給同一張地圖，又不花 token，那代價在哪？最直接的一筆是，toolkit 是要維護的程式碼。你的堆疊改變，它也得跟著改。</p>
+<p>維護能讓 toolkit 跟上堆疊，卻不能保證它把每種寫法都讀對。假如一次呼叫有四種寫法，抽取器只認得三種，已知的使用照樣一處不少，看不出有什麼問題。這個缺口，正是抽查要管的（<a href="8-3-kb-audit.html">8.3</a>）。</p>
+<p>還有些東西，抽取器認得再多寫法也看不到。執行時組成字串的查詢，或由設定表驅動的呼叫，任何解析器都看不見。這些要標出來，不要猜（<a href="8-3-kb-audit.html">8.3</a>）。這些都來自一個小專案，我沒有在很大的程式碼庫上測過 toolkit。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>自己拥有 toolkit 要付出什么，它又看不到什么</h2><p>如果脚本每次给同一张地图，又不花 token，那代价在哪？最直接的一笔是，toolkit 是要维护的代码。你的技术栈变了，它也得跟着变。</p>
+<p>维护能让 toolkit 跟上技术栈，却不能保证它把每种写法都读对。假如一次调用有四种写法，抽取器只认得三种，已知的使用照样一处不少，看不出有什么问题。这个缺口，正是审计要管的（<a href="8-3-kb-audit.html">8.3</a>）。</p>
+<p>还有些东西，抽取器认得再多写法也看不到。运行时拼成字符串的查询，或者由配置表驱动的调用，对任何解析器都不可见。这些会被标出来，不去猜（<a href="8-3-kb-audit.html">8.3</a>）。这些都来自一个小项目，我没有在非常大的代码库上测过 toolkit。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete your extractors</h2><p>Your own extractors are only one way to get the map. If a tool you trust, such as your language server or a code-search service, already gives you objects and uses with a measured accuracy, feed its output into the map and drop your extractors. The rest of the road does not care where the map came from.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉自己的抽取器</h2><p>自己寫的抽取器，只是得到地圖的一種辦法。如果一個你信任的工具，例如你的語言伺服器或程式碼搜尋服務，已經給得出物件和使用，準確度也量過，就把它的輸出餵進地圖，丟掉自己的抽取器。路線的其餘部分不在乎地圖從哪裡來。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉自己的抽取器</h2><p>自己写的抽取器，只是得到地图的一种办法。如果你信任的某个工具，比如你的语言服务器或代码搜索服务，已经能给出对象和使用，而且准确度测量过，就把它的输出喂给地图，丢掉你自己的抽取器。路线上的其余部分不关心地图是从哪来的。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Scan this repository for the kinds of dependency that a script reading the code cannot see: queries or commands built as text at run time, calls chosen by a variable or a configuration row, and names that resolve to something outside this repository. Give a rough count of each kind, with three example locations (file and line). Say what share of the code looks hard to map by script. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>掃描這個倉庫，找出讀程式碼的腳本看不見的那幾種依賴：執行時組成文字的查詢或指令、由變數或設定列選擇的呼叫，以及解析到這個倉庫之外的名字。每一種給一個大略的數量，附三個例子的位置（檔案和行號）。說明程式碼中看起來難以用腳本畫地圖的比例。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>扫描这个仓库，找出读代码的脚本看不到的那几类依赖：运行时拼成文本的查询或命令、由变量或配置行决定的调用、以及解析到这个仓库之外的名字。每一类给出大致数量，并各举三个位置（文件和行号）。说明代码中看起来难以用脚本映射的部分占多大比例。不要修改任何文件。</code></pre></div>
@@ -657,11 +576,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a></li>
 <li><a href="8-3-kb-audit.html">地图对不对：盲抽查</a>：怎么衡量你刚做出来的地图。</li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has the commands that survey the code, build the map and run the checks, and the two sample toolkits.</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Copilot Harness has the commands that survey the code, build the map and run the checks, as well as the two sample toolkits.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The toolkit: scripts that draw a map of the code&quot;. Teach me topic 16, parts 16.1 and 16.2: how the map is built and cached. Open the Spring sample toolkit and its known-uses file with me, and show me what an extractor looks like.</code></pre></div>
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>Copilot Harness 有調查程式碼、建地圖和執行檢查的指令，也有那兩個範例 toolkit。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「Toolkit：用腳本畫出程式碼的地圖」這一章。請教我主題 16 的 16.1 和 16.2：地圖是怎麼建出來和快取的。和我一起打開 Spring 範例 toolkit 和它的已知使用檔案，讓我看抽取器長什麼樣。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 里有调研代码、构建地图、运行检查的命令，还有两个样例 toolkit。</p>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>Copilot Harness 里有调研代码、构建地图、运行检查的命令，还有那两个样例 toolkit。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“Toolkit：用脚本画出代码的地图”这一章。请教我主题 16 的 16.1 和 16.2：地图是怎么构建和缓存的。带我打开 Spring 样例 toolkit 和它的已知使用文件，让我看看抽取器长什么样。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>

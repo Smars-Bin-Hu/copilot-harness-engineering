@@ -221,58 +221,58 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">The problem</span><span data-l="zh-Hant" lang="zh-Hant">問題</span><span data-l="zh-Hans" lang="zh-Hans">问题</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How it works</span><span data-l="zh-Hant" lang="zh-Hant">原理</span><span data-l="zh-Hans" lang="zh-Hans">原理</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Costs and traps</span><span data-l="zh-Hant" lang="zh-Hant">代價和陷阱</span><span data-l="zh-Hans" lang="zh-Hans">代价和坑</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete it</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">8.3</p><h1><span data-l="en" lang="en">Is the map right? A blind audit</span><span data-l="zh-Hant" lang="zh-Hant">地圖對不對：盲抽查</span><span data-l="zh-Hans" lang="zh-Hans">地图对不对：盲抽查</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-2-kb-toolkit.html">The toolkit</a>. It is step three of the road. The ideas of recall and precision are explained in plain words here; you need no statistics. The method is not tied to code maps: it fits any list a model or a script produces that you can check against a source.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a> 後面。它是路線的第三步。召回率和精確率的意思，這裡用白話解釋；你不需要懂統計。這個方法不限於程式碼地圖：任何由模型或腳本產生、而你能拿原始資料來檢查的清單，都適用。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-2-kb-toolkit.html">Toolkit：用脚本画出代码的地图</a>后面，是路线的第三步。召回率和精确率的概念，这里用大白话讲，不需要统计学。这个方法不限于代码地图：凡是模型或脚本产出、又能拿来源核对的清单，都适用。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>No map of code is complete, but you can measure how accurate it is and where it is blind. Take a sample of objects, have an agent read them blind, check every difference at its line, and compare with the map.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>沒有程式碼的地圖是完整的，但你可以量它有多準，以及它在哪裡看不見。抽一批物件的樣本，讓 agent 盲讀，在每一處差異的那一行去檢查，再和地圖比較。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>没有哪张代码地图是完整的，但你可以衡量它有多准、盲区在哪。抽一个对象样本，让 agent 盲读，每一处差异都回到对应的行去核对，再和地图比较。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Can you trust the map yet?</span><span data-l="zh-Hant" lang="zh-Hant">地圖能信了嗎？</span><span data-l="zh-Hans" lang="zh-Hans">地图能信了吗？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Measuring the map with a blind reader</span><span data-l="zh-Hant" lang="zh-Hant">用一個盲讀者來量地圖</span><span data-l="zh-Hans" lang="zh-Hans">用一个盲读者来衡量地图</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the audit costs, and what it cannot promise</span><span data-l="zh-Hant" lang="zh-Hant">抽查要花什麼，又保證不了什麼</span><span data-l="zh-Hans" lang="zh-Hans">审计要花什么，又保证不了什么</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the audit</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉抽查</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉审计</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">8.3</p><h1><span data-l="en" lang="en">Is the map right? A blind audit</span><span data-l="zh-Hant" lang="zh-Hant">地圖對不對：盲抽查</span><span data-l="zh-Hans" lang="zh-Hans">地图对不对：盲抽查</span></h1></header><div data-l="en" lang="en"><p>This chapter follows <a href="8-2-kb-toolkit.html">The toolkit: scripts that draw a map of the code</a> and is step three of the road. You need no statistics for it, since recall and precision are explained here in plain words. Nor is the method tied to code maps: it fits any list that a model or a script produces and that you can check against a source.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章接在 <a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a> 後面，是路線的第三步。召回率和精確率這裡用白話解釋，你不需要懂統計。這個方法也不只用於程式碼地圖：任何由模型或腳本產生、而你能拿原始資料來檢查的清單，都適用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>这一章接在<a href="8-2-kb-toolkit.html">Toolkit：用脚本画出代码的地图</a>后面，是路线的第三步。召回率和精确率这里用大白话讲，不需要懂统计。这个方法也不只用于代码地图：凡是模型或脚本产出、又能拿来源核对的清单，都适用。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>No map of code is complete, but you can measure how accurate it is and where it is blind. Take a sample of objects and have an agent read them blind, then compare its reading with the map, and check every difference at its line.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>沒有一張程式碼地圖是完整的，但它有多準、在哪裡看不見，是量得出來的。抽一批物件，讓 agent 在沒看過地圖的情況下盲讀，再把它讀出來的和地圖比較，並把每一處差異都回到它的那一行去檢查。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>没有哪张代码地图是完整的，但它有多准、盲区在哪，是可以衡量的。抽一批对象，让 agent 在不看地图的情况下盲读，再把它读出来的和地图比较，并把每一处差异都回到对应的行去核对。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> require that the map of the code is measured before anyone learns from it, and set the pass bar. I use 0.95, a line I chose and did not derive.</li>
-<li><strong>The risk:</strong> a map can find the ten uses you knew and still miss a third of the rest, and every note built on it inherits the hole. A pass on a sample of 20 to 40 objects is a floor for starting, not a proof.</li>
-<li><strong>The cost of doing it right:</strong> an agent reads 20 to 40 sampled objects, once per toolkit change, and a person or script checks every difference at its line.</li>
+<li><strong>The decision:</strong> require that the map of the code is measured before anyone learns from it, and set the bar it must pass. I use 0.95, a line I chose rather than derived.</li>
+<li><strong>The risk:</strong> a map can find the ten uses you knew and still miss a third of the rest, and then every note built on it inherits the hole. Passing on a sample of 20 to 40 objects is a floor for starting, not a proof.</li>
+<li><strong>The cost of doing it right:</strong> each time the toolkit changes, an agent reads 20 to 40 sampled objects once, and a person or a script checks every difference at its line.</li>
 <li><strong>Ask the team:</strong> &quot;How many uses does our map miss or invent, and how was that measured by a reader that never saw the map?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：要求在任何人拿程式碼地圖去學之前，先把地圖量過，並定下合格線。我用 0.95，這是我選的線，不是推導出來的。</li>
-<li><strong>風險</strong>：地圖可以找到你知道的那十個使用，卻漏掉其餘的三分之一，而建在它上面的每份筆記，都繼承這個洞。在 20 到 40 個物件的樣本上通過，是開始的底線，不是證明。</li>
-<li><strong>做對的成本</strong>：每次 toolkit 改動，一個 agent 讀 20 到 40 個抽樣的物件，一次；再由人或腳本在每一處差異的那一行去檢查。</li>
-<li><strong>可以問團隊</strong>：「我們的地圖漏掉或編造了多少使用？這是被一個從沒看過地圖的讀者怎麼量出來的？」</li>
+<li><strong>要做的決定</strong>：要求在任何人拿這張程式碼地圖去學之前，先把它量過一遍，並定下它必須通過的合格線。我用 0.95，這是我選的線，不是推導出來的。</li>
+<li><strong>風險</strong>：地圖可能找到了你知道的那十處使用，卻漏掉其餘的三分之一，這樣一來，建在它上面的每份筆記都會繼承這個洞。在 20 到 40 個物件的樣本上通過，只是開始的底線，不是證明。</li>
+<li><strong>做對的成本</strong>：toolkit 每改動一次，就由一個 agent 把 20 到 40 個抽樣的物件讀一遍，再由人或腳本在每一處差異的那一行去檢查。</li>
+<li><strong>可以問團隊</strong>：「我們的地圖漏掉或編造了多少處使用？這個數字是怎麼量出來的？量的讀者看過地圖嗎？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：要求在任何人拿地图去学之前，先衡量这张代码地图，并定下及格线。我用 0.95，这条线是我选的，不是推导出来的。</li>
-<li><strong>风险</strong>：一张地图可能找到了你知道的那十处使用，却漏掉其余的三分之一，而建在它上面的每条笔记都继承这个洞。20 到 40 个对象的样本通过，只是开始的底线，不是证明。</li>
-<li><strong>做对的代价</strong>：每次 toolkit 改动，由一个 agent 读 20 到 40 个抽样的对象，再由人或脚本把每处差异回到对应的行去核对。</li>
-<li><strong>可以问团队</strong>：“我们的地图漏了或编造了多少处使用？这个数是怎么测的，测的时候那个读者看过地图吗？”</li>
+<li><strong>要拍板的事</strong>：要求在任何人拿这张代码地图去学之前，先把它衡量一遍，并定下它必须过的及格线。我用 0.95，这条线是我选的，不是推导出来的。</li>
+<li><strong>风险</strong>：一张地图可能找到了你知道的那十处使用，却漏掉其余的三分之一，那么建在它上面的每条笔记都会继承这个洞。在 20 到 40 个对象的样本上通过，只是开始的底线，不是证明。</li>
+<li><strong>做对的代价</strong>：toolkit 每改动一次，就由一个 agent 把 20 到 40 个抽样的对象读一遍，再由人或脚本把每一处差异回到对应的行去核对。</li>
+<li><strong>可以问团队</strong>：“我们的地图漏掉或编造了多少处使用？这个数是怎么测出来的？测的读者看过地图吗？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>The problem</h2><p>You built a map (<a href="8-2-kb-toolkit.html">the toolkit</a>). The five or ten known uses are all found. Can you trust it?</p>
-<p>Not yet. Those known uses prove the toolkit <em>can</em> find a use. They say nothing about how many it misses, or whether some of what it found is not there. A map that finds the 10 uses you knew and misses a third of the rest looks perfect on that test.</p>
-<p>If you learn from a map that misses a third of the uses, every card built on it inherits the hole. So measure first. The audit is the measuring.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>問題</h2><p>你建了一張地圖（<a href="8-2-kb-toolkit.html">toolkit</a>）。五、六個已知的使用全找到了。你能信它嗎？</p>
-<p>還不能。那些已知的使用只證明 toolkit <em>找得到</em>一個使用。它們沒說漏掉多少，也沒說找到的有沒有不存在的。一張找到你知道的那 10 個使用、卻漏掉其餘三分之一的地圖，在那個測試上看起來是完美的。</p>
-<p>如果你從一張漏掉三分之一使用的地圖去學，建在它上面的每張卡片都繼承這個洞。所以先量。抽查就是在量。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>问题</h2><p>你建好了一张地图（<a href="8-2-kb-toolkit.html">toolkit</a>）。五处或十处已知的使用都找到了。你能信它吗？</p>
-<p>还不能。那些已知的使用只能证明 toolkit <em>能</em>找到使用。它们说明不了漏掉多少，也说明不了找到的东西里有没有不存在的。一张地图找到了你知道的那 10 处使用，却漏了其余的三分之一，在这个测试上看起来完美无缺。</p>
-<p>如果你从一张漏了三分之一使用的地图去学，建在它上面的每张卡片都继承这个洞。所以先衡量。审计就是这个衡量。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How it works</h2><h3>The idea: ask an independent reader, then compare</h3>
-<p>The map is one opinion about what the code says. Get a second opinion that does not copy the first. An agent reads the code of some objects and writes down every use it sees. Then we compare the two lists.</p>
-<p>For that second opinion to be worth anything, it must be <strong>blind</strong>. The agent writes down every use it finds <em>before</em> it looks at the map. A reading made after looking at the map copies the map. The two lists then agree because one was copied from the other, and the audit measures nothing. The same reasoning is behind an independent reviewer (<a href="5-6-model-checks-model.html">a model checking a model</a>): the checker must not see the thing it is checking.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Can you trust the map yet?</h2><p>Say you have built a map with <a href="8-2-kb-toolkit.html">the toolkit</a> and it finds all five or ten of the uses you knew about. Can you trust it?</p>
+<p>Not yet, because those known uses only prove that the toolkit <em>can</em> find a use. They say nothing about how many it misses, or whether some of what it found is not really there. A map that finds the 10 uses you knew and misses a third of the rest looks perfect on that test.</p>
+<p>If you then learn from a map that misses a third of the uses, the hole does not stay in the map, because every card built on it inherits it. So measure the map before you learn from it. That measuring is the audit, and its first job is to settle what the map should be measured against.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>地圖能信了嗎？</h2><p>假設你已經用 <a href="8-2-kb-toolkit.html">toolkit</a> 建好了一張地圖，你知道的那五處或十處使用，它全都找到了。這張地圖能信嗎？</p>
+<p>還不能。那些已知的使用只證明 toolkit <em>找得到</em>一處使用，至於它漏掉多少、找到的東西裡有沒有其實不存在的，它們什麼也沒說。一張地圖找到了你知道的那 10 處使用，卻漏掉其餘的三分之一，在那個測試上照樣看起來完美無缺。</p>
+<p>要是你接著從一張漏掉三分之一使用的地圖去學，這個洞就不會只留在地圖裡，因為建在它上面的每張卡片都會繼承它。所以，學之前先量地圖。這種量法，就是抽查，而它首先要回答的是：要拿什麼來量地圖？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>地图能信了吗？</h2><p>假设你已经用 <a href="8-2-kb-toolkit.html">toolkit</a> 建好了一张地图，你知道的那五处或十处使用，它全都找到了。这张地图能信吗？</p>
+<p>还不能。那些已知的使用只能证明 toolkit <em>能</em>找到使用，至于它漏了多少、找到的东西里有没有其实并不存在的，它们什么也说明不了。一张地图找到了你知道的那 10 处使用，却漏了其余的三分之一，在这个测试上照样看起来完美无缺。</p>
+<p>要是你接着从一张漏了三分之一使用的地图去学，这个洞就不会只留在地图里，因为建在它上面的每张卡片都会继承它。所以，学之前先衡量地图。这个衡量就是审计，而它首先要解决的是：拿什么来衡量地图？</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Measuring the map with a blind reader</h2><h3>Ask a reader who has not seen the map</h3>
+<p>The map is one opinion about what the code says, so the thing to measure it against is a second opinion that does not copy the first. An agent reads the code of some objects and writes down every use it sees, after which we compare the two lists.</p>
+<p>That second opinion is worth something only if it is <strong>blind</strong>, which means the agent writes down every use it finds <em>before</em> it looks at the map. A reading made after looking at the map simply copies it. The two lists then agree only because one was copied from the other, and the audit measures nothing. The same reasoning is behind an independent reviewer (<a href="5-6-model-checks-model.html">Can a model check a model?</a>): the checker must not see the thing it is checking.</p>
 <h3>What gets sampled</h3>
-<p>A script picks the sample: a few objects of each type (for example 5 per type, so about 20 to 40 in all). It hands the agent only the file and line range of each object, not its uses. The sample is picked at random with a <strong>seed</strong> (a number that fixes the random choice), so a second audit with another seed picks different objects.</p>
+<p>Keeping the reader blind starts with the sample. A script, not the agent, picks it: a few objects of each type (for example 5 per type, so about 20 to 40 in all). The script hands the agent only the file and line range of each object, not its uses. The pick is random but made with a <strong>seed</strong> (a number that fixes the random choice), so a second audit with another seed picks different objects.</p>
 <h3>Reading blind</h3>
-<p>For each object the agent reads its lines and writes one record per use: what it uses, which kind of use, and the line number. If an object uses nothing, it writes &quot;none&quot;. Two special cases:</p>
+<p>For each object, the agent reads its lines and writes one record per use: what it uses, which kind of use it is, and the line number. If an object uses nothing, it writes &quot;none&quot;. Two cases need special handling:</p>
 <ul>
-<li>A name built at run time: the agent writes what is fixed and marks it <strong>dynamic</strong>. It is not scored.</li>
-<li>A short name that could mean several objects: the agent writes it in full, with the database or package it resolves to. Otherwise the score cannot tell if the map picked the right one.</li>
+<li>A name built at run time. The agent writes down the part that is fixed and marks the use <strong>dynamic</strong>, and that use is not scored.</li>
+<li>A short name that could mean several objects. The agent writes it in full, with the database or package it resolves to, because otherwise the score cannot tell whether the map picked the right one.</li>
 </ul>
 <h3>Recall and precision, in plain words</h3>
-<p>Think of a library with a card catalogue. The shelves are the code. The catalogue is the map.</p>
+<p>To score the reader's list against the map, think of a library with a card catalogue. The shelves are the code, and the catalogue is the map.</p>
 <ul>
 <li><strong>Recall</strong> asks: of the books on the shelves, how many are in the catalogue? Low recall means the map <strong>missed</strong> things.</li>
 <li><strong>Precision</strong> asks: of the entries in the catalogue, how many are really on the shelves? Low precision means the map <strong>made things up</strong>.</li>
 </ul>
-<p>Each is a fraction. An example to show the arithmetic, not a result: suppose the code has 20 uses in the sample, and the map lists 22 entries: 19 of the 20, plus 3 that are not real. Recall is 19 out of 20, which is 0.95. Precision is 19 out of 22, which is about 0.86. The &quot;20&quot; is not known for certain either: it is the blind reader's list after every difference was checked (next section), so these numbers are estimates of the truth.</p>
+<p>Each is a fraction. Here is an example to show the arithmetic, not a result. Suppose the code in the sample has 20 uses, and the map lists 22 entries: 19 of the 20, plus 3 that are not real. Recall is then 19 out of 20, or 0.95, while precision is 19 out of 22, about 0.86. The &quot;20&quot; itself is not certain either. It is the blind reader's list after every difference has been checked (next section), so these numbers are estimates of the truth.</p>
 <figure class="fig" id="fig-8-3-blind-vs-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
   <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">only the reader</text>
@@ -294,29 +294,29 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">precision: share of map uses that are real</text>
 </svg>
 <figcaption>Two lists of uses for the same objects. Every difference is looked up again at its line, because the reader can be wrong too.</figcaption></figure>
-<p>You need both. A map can have perfect recall by listing everything, true or not. It can have perfect precision by listing three safe uses. Only the pair tells you the truth. And they are scored <strong>per type</strong>, because a toolkit can be good at one kind of object and poor at another, and an average hides that.</p>
+<p>You need both numbers, because either one alone can look perfect. A map can have perfect recall by listing everything, true or not, and perfect precision by listing three safe uses. Only the pair tells you the truth. They are also scored <strong>per type</strong>, since a toolkit can be good at one kind of object and poor at another, and an average hides that.</p>
 <h3>The reader can be wrong too</h3>
-<p>This is the part I want to be plain about. The blind reader is a model. It can misread, miss a use, or invent one. If we scored raw differences, we would blame the map for the reader's mistakes.</p>
-<p>So after scoring, <strong>every difference is checked again at its line</strong>:</p>
+<p>This is the part I want to be plain about. The blind reader is a model, so it can misread, miss a use, or invent one. If we scored the raw differences, we would blame the map for the reader's mistakes.</p>
+<p>So after scoring, <strong>every difference is checked again at its line</strong>. What you do next depends on which list the use appears in:</p>
 <ul>
-<li><strong>In the map but not in the reader's list.</strong> Look in the file. If the use is there, the reader missed it: add it to the reader's list and write a note. If it is not there, it is a false use in the map.</li>
-<li><strong>In the reader's list but not in the map.</strong> Look at the line again. If the reader was wrong, correct the list and write a note. If the use is there, it is a real miss of the map.</li>
+<li><strong>In the map but not in the reader's list.</strong> Look in the file. If the use is there, the reader missed it, so add it to the reader's list and write a note. If it is not there, it is a false use in the map.</li>
+<li><strong>In the reader's list but not in the map.</strong> Look at the line again. If the reader was wrong, correct the list and write a note. If the use is there, the map really missed it.</li>
 </ul>
-<p>Then score again. Only what is left counts against the map. The notes about the reader's own mistakes stay in the report. They tell you how far a reading can be trusted, which is itself useful.</p>
+<p>When you score again, only what is left counts against the map. The notes about the reader's own mistakes stay in the report. They are useful in their own right, because they tell you how far a reading can be trusted.</p>
 <h3>The bar, and what to do with the differences</h3>
-<p>The bar I use is 0.95 for both recall and precision, in every type. This is a line I chose; I did not derive it. Below it, the audit fails for that type. The line should depend on what a mistake costs: a missed use leaves a card without a relation, a made-up use adds a relation that is not there, and an object on shared data deserves a higher bar. I did not weigh recall and precision differently. With 20 to 40 objects, 0.95 and 0.90 cannot be told apart; the audit shows large gaps, not small ones.</p>
-<p>A failure is not bad news. The differences are a list of real examples of what the toolkit gets wrong, each with a file and a line. Look for what they have in common: one form of call, one kind of file. Those are the examples to fix the extractor with. Then audit again with another seed, so you do not tune the toolkit to one lucky sample.</p>
+<p>The bar I use is 0.95 for both recall and precision, in every type, and a type that falls below it fails the audit. I chose that line rather than derived it. Where a line like this belongs should depend on what a mistake costs. A missed use leaves a card without a relation, a made-up use adds one that is not there, and an object on shared data deserves a higher bar. Still, I did not weigh recall and precision differently. A finer weighting would not show up anyway, because with only 20 to 40 objects, 0.95 and 0.90 cannot be told apart. The audit shows large gaps, not small ones.</p>
+<p>A failure is not bad news, since the differences are a list of real examples of what the toolkit gets wrong, each with a file and a line. Look for what they have in common, such as one form of call or one kind of file. Those are the examples to fix the extractor with. Then audit again with another seed, so that you do not tune the toolkit to one lucky sample.</p>
 <h3>What no map sees</h3>
-<p>Some uses are out of reach of any static map, however good:</p>
+<p>Some uses no fix to the extractor will reach, because they are out of reach of any static map, however good:</p>
 <ul>
 <li>SQL built as a string at run time and then executed;</li>
 <li>calls driven by a row in a configuration table;</li>
 <li>a package or class chosen by a variable;</li>
 <li>synonyms and linked servers the toolkit was not taught.</li>
 </ul>
-<p>These are marked, not guessed. A name that resolves to something outside the repository is marked <strong>outside</strong>; one that is built at run time is marked <strong>dynamic</strong>. Each becomes an entry in the requests list (<a href="8-5-kb-keep-true.html">8.5</a>), so that a person can answer it with a read-only query against the real system.</p>
+<p>These are marked, not guessed. A name that resolves to something outside the repository is marked <strong>outside</strong>, and one that is built at run time is marked <strong>dynamic</strong>. Each becomes an entry in the requests list (<a href="8-5-kb-keep-true.html">8.5</a>), so that a person can answer it with a read-only query against the real system.</p>
 <h3>What the report looks like</h3>
-<p>The audit ends in one report: the pass or fail, the score per type, every miss and false use with its file and line, the patterns, and the readings that were corrected.</p>
+<p>All of this ends in one report: the pass or fail, the score per type, every miss and false use with its file and line, the patterns, and the readings that were corrected.</p>
 <details class="code"><summary>The audit report template: result, score per type, misses, false uses, patterns, corrected readings, what was not counted.</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -355,30 +355,30 @@ Result: **pass** | **fail**
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
 <h3>Test your own setup</h3>
 <ol>
-<li>Take your map. Pick 5 objects of each type at random.</li>
+<li>Take your map, and pick 5 objects of each type at random.</li>
 <li>In a fresh chat, without showing the map, ask an agent to list every use in each, with line numbers.</li>
-<li>Compare. Check each difference at its line.</li>
+<li>Compare the two lists, and check each difference at its line.</li>
 <li>Compute recall and precision per type, as above.</li>
-<li>Repeat with another random sample and see if the numbers move.</li>
+<li>Repeat with another random sample, and see whether the numbers move.</li>
 </ol>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>原理</h2><h3>想法：問一個獨立的讀者，再比較</h3>
-<p>地圖是對程式碼說了什麼的一個意見。要拿到不抄第一個的第二個意見。一個 agent 讀某些物件的程式碼，寫下它看到的每個使用。然後我們比較兩份清單。</p>
-<p>這第二個意見要有價值，它必須是<strong>盲</strong>的。agent 在看地圖<em>之前</em>，就寫下它找到的每個使用。看過地圖之後做的解讀，會抄地圖。兩份清單一致，是因為一份抄自另一份，抽查就什麼也量不到。獨立 reviewer 背後也是同樣的道理（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）：檢查者不能看到它檢查的東西。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>用一個盲讀者來量地圖</h2><h3>請一個沒看過地圖的讀者</h3>
+<p>地圖其實是對程式碼的一種看法，要量它，就得找另一個不抄它的看法。讓一個 agent 讀某些物件的程式碼，寫下它看到的每一處使用，然後我們再把兩份清單放在一起比較。</p>
+<p>這第二個看法要有價值，就必須是<strong>盲</strong>的，也就是說，agent 要在看地圖<em>之前</em>，就寫下它找到的每一處使用。看過地圖之後才讀，讀出來的不過是在抄地圖。兩份清單一致，只是因為一份抄自另一份，抽查也就什麼都沒量到。獨立 reviewer 背後也是同樣的道理（<a href="5-6-model-checks-model.html">模型能檢查模型嗎</a>）：檢查者不能看到它要檢查的東西。</p>
 <h3>抽什麼樣本</h3>
-<p>一個腳本挑出樣本：每種類型挑幾個物件（例如每種 5 個，所以全部約 20 到 40 個）。它只把每個物件的檔案和行的範圍交給 agent，不給它的使用。樣本用一個<strong>種子</strong>（固定隨機選擇的一個數字）隨機挑，所以用另一個種子的第二次抽查，會挑出不同的物件。</p>
+<p>要讓讀者保持盲，得從抽樣開始。樣本由腳本而不是 agent 來挑：每種類型挑幾個物件（例如每種 5 個，全部約 20 到 40 個）。腳本交給 agent 的只有每個物件所在的檔案和行的範圍，不給它的使用。挑選是隨機的，但用一個<strong>種子</strong>（固定隨機選擇的一個數字）定下來，所以換一個種子再做一次抽查，挑出來的就是另一批物件。</p>
 <h3>盲讀</h3>
-<p>對每個物件，agent 讀它的那幾行，每個使用寫一筆紀錄：它用了什麼、哪一種使用，以及行號。如果一個物件什麼都沒用，就寫「none」。兩個特殊情況：</p>
+<p>對每個物件，agent 讀它的那幾行，每處使用寫一筆紀錄：它用了什麼、是哪一種使用、在第幾行。一個物件要是什麼都沒用，就寫「none」。有兩種情況要特別處理：</p>
 <ul>
-<li>執行時才組出來的名字：agent 寫下固定的部分，並標成<strong>動態</strong>。它不計分。</li>
-<li>可能指幾個物件的短名字：agent 寫完整，附上它解析到的資料庫或套件。不然計分的時候，看不出地圖有沒有選對。</li>
+<li>執行時才組出來的名字。agent 寫下其中固定的部分，把這處使用標成<strong>動態</strong>，不計分。</li>
+<li>可能指幾個物件的短名字。agent 要把它寫完整，附上它解析到的資料庫或套件，不然計分的時候，就看不出地圖有沒有選對。</li>
 </ul>
 <h3>召回率和精確率，用白話說</h3>
-<p>想像一個有卡片目錄的圖書館。書架是程式碼。目錄是地圖。</p>
+<p>要拿讀者的清單替地圖計分，可以想像一個有卡片目錄的圖書館：書架是程式碼，目錄是地圖。</p>
 <ul>
 <li><strong>召回率</strong>問：書架上的書，有幾本在目錄裡？召回率低，表示地圖<strong>漏掉</strong>了東西。</li>
 <li><strong>精確率</strong>問：目錄裡的條目，有幾條真的在書架上？精確率低，表示地圖<strong>編造</strong>了東西。</li>
 </ul>
-<p>兩者都是分數。舉個例子來看算術，不是結果：假設樣本裡的程式碼有 20 個使用，地圖列了 22 條：20 個裡的 19 個，加上 3 個不是真的。召回率是 20 個裡的 19 個，也就是 0.95。精確率是 22 條裡的 19 條，大約 0.86。這個「20」也不是確定知道的：它是盲讀者的清單，在每一處差異都檢查過之後（下一節），所以這些數字是對真相的估計。</p>
+<p>兩者都是比例。舉個例子，只為說明怎麼算，不是實測結果：假設樣本裡的程式碼有 20 處使用，地圖列了 22 條，其中 19 條是那 20 處裡的，另外 3 條並不存在。那麼召回率是 20 處裡的 19 處，也就是 0.95，精確率則是 22 條裡的 19 條，大約 0.86。這個「20」本身也不確定。它是盲讀者的清單在每一處差異都檢查過之後的結果（見下一節），所以這些數字都只是對真相的估計。</p>
 <figure class="fig" id="fig-8-3-blind-vs-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
   <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">只有盲讀的人有</text>
@@ -400,29 +400,29 @@ Result: **pass** | **fail**
   <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">精度：地圖裡的「用」，有多少是真的</text>
 </svg>
 <figcaption>同一批物件的兩份「用」清單。每個差異都回到原行再看一次，因為讀的人也可能錯。</figcaption></figure>
-<p>兩個都需要。一張地圖把所有東西都列出來，不管真假，召回率就可以是滿分。它只列三個保險的使用，精確率就可以是滿分。只有兩個放在一起，才說出真相。而且它們是<strong>每種類型</strong>分開計分的，因為 toolkit 可能對一種物件很好、對另一種很差，平均會把這點藏起來。</p>
+<p>兩個數字都需要，因為只看其中一個，都可能是滿分。一張地圖把所有東西都列出來，不管真假，召回率就是滿分；只列三處保險的使用，精確率也是滿分。只有兩個放在一起，才說得出真相。而且它們要<strong>每種類型</strong>分開計分，因為 toolkit 可能對一種物件很好、對另一種很差，一取平均，這點就被藏起來了。</p>
 <h3>讀者也可能錯</h3>
-<p>這是我想說清楚的部分。盲讀者是一個模型。它可能讀錯、漏掉一個使用，或編造一個。如果我們對原始的差異計分，我們就會把讀者的錯怪到地圖頭上。</p>
-<p>所以計分之後，<strong>每一處差異都在它的那一行再檢查一次</strong>：</p>
+<p>有一點得說清楚：盲讀者也是一個模型，所以它同樣會讀錯、漏掉一處使用，甚至編造一處。如果直接對原始的差異計分，我們就會把讀者的錯怪到地圖頭上。</p>
+<p>所以計分之後，<strong>每一處差異都要在它的那一行再檢查一次</strong>。接下來怎麼做，要看這處使用出現在哪一份清單裡：</p>
 <ul>
-<li><strong>在地圖裡，但不在讀者的清單裡</strong>。去檔案裡看。如果使用在那裡，是讀者漏掉了：把它加進讀者的清單，並寫一則備註。如果不在那裡，它就是地圖裡一個假的使用。</li>
-<li><strong>在讀者的清單裡，但不在地圖裡</strong>。再看一次那一行。如果讀者錯了，修正清單並寫一則備註。如果使用在那裡，那就是地圖真正漏掉的。</li>
+<li><strong>在地圖裡，但不在讀者的清單裡</strong>。去檔案裡看。如果那處使用確實在那裡，就是讀者漏掉了，那就把它加進讀者的清單，並寫一則備註。如果不在那裡，它就是地圖裡一處假的使用。</li>
+<li><strong>在讀者的清單裡，但不在地圖裡</strong>。再看一次那一行。如果是讀者錯了，就修正清單並寫一則備註。如果那處使用確實在那裡，那就是地圖真正漏掉的。</li>
 </ul>
-<p>然後再計一次分。只有剩下的，才算在地圖頭上。關於讀者自己犯的錯的備註，留在報告裡。它們告訴你一份解讀能信到什麼程度，這本身就有用。</p>
+<p>這樣再計一次分時，只有剩下的差異才算在地圖頭上。關於讀者自己犯錯的那些備註，會留在報告裡。它們本身就有用，因為它們告訴你一次盲讀的結果能信到什麼程度。</p>
 <h3>合格線，以及差異怎麼處理</h3>
-<p>我用的線，是每種類型的召回率和精確率都 0.95。這是我選的線；不是推導出來的。低於它，那種類型的抽查就失敗。這條線應該取決於出錯的代價：漏掉的使用，讓一張卡片少了一個關係；編造的使用，多加了一個不存在的關係；碰到共用資料的物件，值得更高的線。我沒有給召回率和精確率不同的權重。樣本是 20 到 40 個物件時，0.95 和 0.90 分不出來；抽查看得出大的差距，看不出小的。</p>
-<p>失敗不是壞消息。這些差異是一份真實例子的清單，說明 toolkit 哪裡做錯了，每個都有檔案和行號。找出它們的共同點：一種呼叫的寫法、一種檔案。這些就是修抽取器用的例子。然後用另一個種子再抽查一次，這樣你就不會只對一個幸運的樣本調校 toolkit。</p>
+<p>我用的合格線，是每種類型的召回率和精確率都要達到 0.95，這是我選的線，不是推導出來的。哪種類型低於它，那種類型的抽查就失敗。這樣一條線該放在哪裡，應該看出錯的代價。漏掉一處使用，卡片就少了一個關係。編造一處，就多了一個不存在的關係。至於碰到共用資料的物件，值得更高的線。不過，召回率和精確率我一視同仁。更細的權重本來也顯不出來，因為樣本只有 20 到 40 個物件時，0.95 和 0.90 分不出來。抽查看得出的只是大的差距，看不出小的。</p>
+<p>失敗也不是壞消息，因為這些差異就是一份真實例子的清單，說明 toolkit 在哪裡做錯了，每個都帶著檔案和行號。找出它們的共同點，比如同一種呼叫的寫法、同一種檔案，這些就是拿來修抽取器的例子。修完再用另一個種子抽查一次，這樣你才不會只對一個幸運的樣本調校 toolkit。</p>
 <h3>沒有地圖看得到的</h3>
-<p>有些使用，任何靜態地圖都碰不到，不管它多好：</p>
+<p>有些使用，抽取器怎麼修都碰不到，因為任何靜態地圖都碰不到它們，不管這張地圖多好：</p>
 <ul>
 <li>執行時組成字串、再執行的 SQL；</li>
 <li>由設定表裡的一列驅動的呼叫；</li>
 <li>由變數選擇的套件或類別；</li>
 <li>toolkit 沒被教過的同義詞（synonym）和連結的伺服器。</li>
 </ul>
-<p>這些要標出來，不要猜。解析到倉庫之外的名字，標成<strong>外部</strong>；執行時才組出來的，標成<strong>動態</strong>。每一個都變成請求清單裡的一個條目（<a href="8-5-kb-keep-true.html">8.5</a>），讓人可以用對真實系統的唯讀查詢來回答它。</p>
+<p>這些要標出來，而不是去猜。解析到倉庫之外的名字，標成<strong>外部</strong>；執行時才組出來的，標成<strong>動態</strong>。每一個都會變成請求清單裡的一個條目（<a href="8-5-kb-keep-true.html">8.5</a>），這樣就能由人對真實系統做一次唯讀查詢，來回答它。</p>
 <h3>報告長什麼樣</h3>
-<p>抽查以一份報告結束：通過或失敗、每種類型的分數、每個漏掉和假的使用及其檔案和行號、規律，以及被修正過的解讀。</p>
+<p>上面這些，最後都收進一份報告：通過或失敗、每種類型的分數、每一處漏掉和假的使用及其檔案和行號、規律，以及改正過的盲讀結果。</p>
 <details class="code"><summary>抽查報告的範本：結果、每種類型的分數、漏掉的、假的使用、規律、被修正的解讀，以及沒有計入的部分。</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -461,30 +461,30 @@ Result: **pass** | **fail**
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
 <h3>測你自己的設定</h3>
 <ol>
-<li>拿你的地圖。每種類型隨機挑 5 個物件。</li>
-<li>在全新的對話裡，不給它看地圖，請 agent 列出每個物件裡的每個使用，附上行號。</li>
-<li>比較。每一處差異都在它的那一行檢查。</li>
-<li>如上面那樣，每種類型計算召回率和精確率。</li>
+<li>拿出你的地圖，每種類型隨機挑 5 個物件。</li>
+<li>開一個全新的對話，不給它看地圖，請 agent 列出每個物件裡的每一處使用，附上行號。</li>
+<li>比較兩份清單，每一處差異都在它的那一行檢查。</li>
+<li>照上面的辦法，每種類型計算召回率和精確率。</li>
 <li>用另一個隨機樣本再做一次，看數字會不會動。</li>
 </ol>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>原理</h2><h3>思路：请一个独立的读者，再比较</h3>
-<p>地图是对代码内容的一种看法。再取一个不抄第一个的看法。一个 agent 读几个对象的代码，写下它看到的每一处使用。然后我们比较这两份清单。</p>
-<p>这第二个看法要有价值，就必须是<strong>盲</strong>的。agent 要在看地图<strong>之前</strong>，写下它找到的每一处使用。看了地图之后做的阅读，会抄地图。两份清单一致，是因为一份抄了另一份，审计就什么也没衡量。独立 reviewer 背后是同样的道理（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）：检查者不能看到它要检查的东西。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>用一个盲读者来衡量地图</h2><h3>请一个没看过地图的读者</h3>
+<p>既然地图是对代码内容的一种看法，拿来衡量它的，就应该是另一个不抄它的看法。让一个 agent 读几个对象的代码，写下它看到的每一处使用，然后我们再把这两份清单放在一起比较。</p>
+<p>这第二个看法要有价值，就必须是<strong>盲</strong>的，也就是说，agent 要在看地图<strong>之前</strong>，就写下它找到的每一处使用。看了地图之后再读，读出来的不过是在抄地图。两份清单一致，只是因为一份抄了另一份，审计也就什么都没衡量。独立 reviewer 背后是同样的道理（<a href="5-6-model-checks-model.html">模型能检查模型吗</a>）：检查者不能看到它要检查的东西。</p>
 <h3>抽什么样本</h3>
-<p>由脚本来抽样：每种类型抽几个对象（比如每种 5 个，一共约 20 到 40 个）。它只把每个对象的文件和行范围交给 agent，不给它使用关系。样本是用<strong>种子</strong>（固定随机选择的一个数）随机抽的，所以换一个种子做第二次审计，抽到的对象不同。</p>
+<p>要让读者保持盲，得从抽样开始。样本由脚本而不是 agent 来抽：每种类型抽几个对象（比如每种 5 个，一共约 20 到 40 个）。脚本交给 agent 的只有每个对象所在的文件和行范围，不给它的使用关系。抽样是随机的，但用一个<strong>种子</strong>（固定随机选择的一个数）定下来，所以换一个种子再做一次审计，抽到的就是另一批对象。</p>
 <h3>盲读</h3>
-<p>对每个对象，agent 读它的那几行，每处使用写一条记录：用到了什么、哪一类使用、行号。如果一个对象什么都没用到，就写“none”。有两种特殊情况：</p>
+<p>对每个对象，agent 读它的那几行，每处使用写一条记录：用到了什么、是哪一类使用、在第几行。一个对象要是什么都没用到，就写“none”。有两种情况要特别处理：</p>
 <ul>
-<li>运行时拼出来的名字：agent 把固定的部分写下来，标成<strong>动态</strong>。它不计分。</li>
-<li>可能指向多个对象的短名字：agent 要写全，带上它解析到的数据库或包。否则，评分时就分不清地图选的对不对。</li>
+<li>运行时才拼出来的名字。agent 把其中固定的部分写下来，把这处使用标成<strong>动态</strong>，不计分。</li>
+<li>可能指向好几个对象的短名字。agent 要把它写全，带上它解析到的数据库或包，否则评分时就分不清地图选的对不对。</li>
 </ul>
 <h3>召回率和精确率，用大白话讲</h3>
-<p>想象一座有卡片目录的图书馆。书架是代码。目录是地图。</p>
+<p>要拿读者的清单给地图打分，可以想象一座有卡片目录的图书馆：书架是代码，目录是地图。</p>
 <ul>
 <li><strong>召回率</strong>问的是：书架上的书，有多少在目录里？召回率低，说明地图<strong>漏</strong>了东西。</li>
 <li><strong>精确率</strong>问的是：目录里的条目，有多少真的在书架上？精确率低，说明地图<strong>编造</strong>了东西。</li>
 </ul>
-<p>两个都是分数。举个例子来演示算术，它不是结果：假设样本里的代码有 20 处使用，地图列了 22 条：20 处里的 19 处，加上 3 条不真实的。召回率是 20 里的 19，也就是 0.95。精确率是 22 里的 19，约 0.86。这个“20”也不是确切知道的：它是盲读者的清单在每一处差异核对完之后的结果（见下一节），所以这些数字都是对真实情况的估计。</p>
+<p>两者都是比例。举个例子，只为说明怎么算，不是实测结果：假设样本里的代码有 20 处使用，地图列了 22 条，其中 19 条是那 20 处里的，另外 3 条并不存在。那么召回率是 20 里的 19，也就是 0.95，精确率则是 22 里的 19，约 0.86。这个“20”本身也不确定。它是盲读者的清单在每一处差异都核对过之后的结果（见下一节），所以这些数字都只是对真实情况的估计。</p>
 <figure class="fig" id="fig-8-3-blind-vs-map"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <rect class="box-plain" x="10" y="20" width="180" height="90" rx="8"/>
   <text class="label" x="100" y="58" text-anchor="middle" data-t="miss">只有盲读者有</text>
@@ -506,29 +506,29 @@ Result: **pass** | **fail**
   <text class="label" x="395" y="226" text-anchor="middle" data-t="precision">精确率：地图里的使用，有多少是真的</text>
 </svg>
 <figcaption>同一批对象的两份使用清单。每处差异都回到对应的行再看一次，因为读者也可能错。</figcaption></figure>
-<p>两个你都需要。一张地图把什么都列上，召回率就可以是满分，不管真假。它只列三处保险的使用，精确率就可以是满分。只有这一对数字合起来，才说明真实情况。而且它们要<strong>按类型</strong>分别计分，因为一个 toolkit 可能对一种对象做得好、对另一种做得差，取平均会把这一点藏起来。</p>
+<p>两个数字都得要，因为单看哪一个都可能是满分。一张地图把什么都列上，不管真假，召回率就是满分；只列三处保险的使用，精确率也是满分。只有两个数合起来，才说得出真实情况。而且它们要<strong>按类型</strong>分别计分，因为一个 toolkit 可能对一种对象做得好、对另一种做得差，一取平均，这一点就被藏起来了。</p>
 <h3>读者也可能错</h3>
-<p>这一段我想说得直白一些。盲读者是一个模型。它可能读错、漏掉一处使用，或者编造一处。如果我们按原始差异计分，就会把读者的错误算到地图头上。</p>
-<p>所以计分之后，<strong>每一处差异都回到对应的行再核对一次</strong>：</p>
+<p>有一点得说清楚：盲读者也是一个模型，所以它同样会读错、漏掉一处使用，甚至编造一处。如果直接按原始差异计分，我们就会把读者的错算到地图头上。</p>
+<p>所以计分之后，<strong>每一处差异都要回到对应的行再核对一次</strong>。接下来怎么做，要看这处使用出现在哪份清单里：</p>
 <ul>
-<li><strong>在地图里，但不在读者的清单里</strong>。去文件里看。如果那处使用确实在，就是读者漏了：把它加进读者的清单，并写一条笔记。如果不在，那就是地图里的一处虚假使用。</li>
-<li><strong>在读者的清单里，但不在地图里</strong>。再看一遍那一行。如果读者错了，改正清单并写一条笔记。如果那处使用确实在，那就是地图真的漏了。</li>
+<li><strong>在地图里，但不在读者的清单里</strong>。去文件里看。如果那处使用确实在，就是读者漏了，那就把它加进读者的清单，并写一条笔记。如果不在，那它就是地图里的一处虚假使用。</li>
+<li><strong>在读者的清单里，但不在地图里</strong>。再看一遍那一行。如果是读者错了，就改正清单并写一条笔记。如果那处使用确实在，那就是地图真的漏了。</li>
 </ul>
-<p>然后重新计分。只有剩下的才算在地图头上。关于读者自己的错误的那些笔记留在报告里。它们告诉你一次阅读能信到什么程度，这本身就有用。</p>
+<p>这样重新计分时，只有剩下的差异才算在地图头上。关于读者自己出错的那些笔记，会留在报告里。它们本身就有用，因为它们告诉你一次盲读的结果能信到什么程度。</p>
 <h3>及格线，以及差异怎么处理</h3>
-<p>我用的及格线是：每种类型的召回率和精确率都要 0.95。这条线是我选的，不是推导出来的。低于它，这种类型的审计就不通过。线该定在哪，要看出错的代价：漏掉一处使用，会让卡片少一条关系；编造一处使用，会多出一条不存在的关系；碰到共用数据的对象，值得更高的线。我没有对召回率和精确率区别对待。只有 20 到 40 个对象时，0.95 和 0.90 分不出来；审计显示的是大的差距，不是小的。</p>
-<p>不通过不是坏消息。这些差异就是 toolkit 出错的真实例子的清单，每条都带文件和行号。找找它们的共同点：同一种调用写法，同一种文件。这些就是修抽取器用的例子。修完再换一个种子审计一次，免得你把 toolkit 调得只适应某一个碰巧的样本。</p>
+<p>我用的及格线是每种类型的召回率和精确率都要达到 0.95，这条线是我选的，不是推导出来的。哪种类型低于它，这种类型的审计就不通过。这样一条线该定在哪，应该看出错的代价。漏掉一处使用，卡片就少一条关系。编造一处，就多出一条不存在的关系。至于碰到共用数据的对象，值得定更高的线。不过，召回率和精确率我一视同仁。更细的权重本来也显不出来，因为只有 20 到 40 个对象时，0.95 和 0.90 分不出来。审计能看出的只是大的差距，看不出小的。</p>
+<p>不通过也不是坏消息，因为这些差异就是一份 toolkit 出错的真实例子清单，每条都带着文件和行号。找找它们的共同点，比如同一种调用写法、同一种文件，这些就是用来修抽取器的例子。修完再换一个种子审计一次，免得你把 toolkit 调得只适应某一个碰巧的样本。</p>
 <h3>任何地图都看不到的</h3>
-<p>有些使用，任何静态地图都够不着，不管它多好：</p>
+<p>有些使用，怎么修抽取器也够不着，因为任何静态地图都够不着它们，不管这张地图多好：</p>
 <ul>
 <li>运行时拼成字符串再执行的 SQL；</li>
 <li>由配置表中的一行驱动的调用；</li>
 <li>由变量选择的包或类；</li>
 <li>toolkit 没教过的同义词和链接服务器。</li>
 </ul>
-<p>这些会被标出来，不去猜。解析到仓库之外的名字，标成<strong>外部</strong>；运行时拼出来的，标成<strong>动态</strong>。每一个都成为请求清单（<a href="8-5-kb-keep-true.html">8.5</a>）里的一条，让人可以用针对真实系统的只读查询来回答它。</p>
+<p>这些会被标出来，而不是去猜。解析到仓库之外的名字，标成<strong>外部</strong>；运行时才拼出来的，标成<strong>动态</strong>。每一个都会成为请求清单（<a href="8-5-kb-keep-true.html">8.5</a>）里的一条，这样就可以由人针对真实系统做一次只读查询，来回答它。</p>
 <h3>报告长什么样</h3>
-<p>审计以一份报告收尾：通过还是不通过、每种类型的分数、每一处漏掉的和虚假的使用（带文件和行号）、各种规律，以及被纠正的阅读。</p>
+<p>上面这一切，最后都汇成一份报告：通过还是不通过、每种类型的分数、每一处漏掉的和虚假的使用（带文件和行号）、各种规律，以及改正过的盲读结果。</p>
 <details class="code"><summary>审计报告模板：结果、每种类型的分数、漏掉的、虚假的、规律、被纠正的阅读、没有计入的部分。</summary><pre><code class="language-markdown"># Map audit
 
 Date: &lt;YYYY-MM-DD&gt; · Map at: &lt;repo&gt;@&lt;short commit&gt;, ... · Toolkit: &lt;name&gt; (signature &lt;signature from `toolkits` of kb audit&gt;) · Sample: `kb audit --per-type &lt;n&gt; --seed &lt;s&gt;` · Bar: &lt;0.95&gt;
@@ -567,40 +567,31 @@ Result: **pass** | **fail**
 - Dynamic code: &lt;ids&gt;</code></pre><p class="code-link"><a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness/blob/1.5.50/.github/skills/generic-kb-toolkit-audit/templates/audit.md#L1-L36">.github/skills/generic-kb-toolkit-audit/templates/audit.md L1–L36 @ 1.5.50</a></p></details>
 <h3>在你自己的环境里测一测</h3>
 <ol>
-<li>拿你的地图。每种类型随机挑 5 个对象。</li>
-<li>在新对话里，不给 agent 看地图，让它列出每个对象里的每一处使用，带行号。</li>
-<li>比较。每一处差异都回到对应的行核对。</li>
+<li>拿出你的地图，每种类型随机挑 5 个对象。</li>
+<li>开一个新对话，不给 agent 看地图，让它列出每个对象里的每一处使用，带上行号。</li>
+<li>比较两份清单，每一处差异都回到对应的行核对。</li>
 <li>按上面的办法，按类型算出召回率和精确率。</li>
-<li>换一个随机样本再来一遍，看看数字有没有变。</li>
+<li>换一个随机样本再来一遍，看看数字会不会变。</li>
 </ol>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Costs and traps</h2><ul>
-<li><strong>A sample is a sample.</strong> The audit cannot see types or forms that are not in it. If a rare form matters, take more objects per type, or pick them by hand.</li>
-<li><strong>The audit reads about 20 to 40 objects.</strong> That is real tokens, spent once per toolkit change.</li>
-<li><strong>The blind rule is easy to break.</strong> If the agent opens the map &quot;just to check&quot;, the audit is spoiled. Hold the line.</li>
-<li><strong>Passing 0.95 is not safety.</strong> It is a statement about the sample. I treat it as a floor for starting to learn, not as a proof.</li>
-<li><strong>The reader and the toolkit may share a blind spot.</strong> They are both built by models, so they could miss the same odd form. Checking every difference at its line helps, but cannot catch a use both overlooked. Two cheap ways to reduce it: use a different model or prompt for the reader, and have a person read a few objects by hand as an anchor.</li>
-</ul>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>代價和陷阱</h2><ul>
-<li><strong>樣本就是樣本</strong>。抽查看不到不在樣本裡的類型或寫法。如果某個少見的寫法很重要，每種類型多拿一些物件，或者用手挑。</li>
-<li><strong>抽查要讀約 20 到 40 個物件</strong>。那是真的 token，每次 toolkit 改動花一次。</li>
-<li><strong>盲讀的規則很容易破</strong>。如果 agent「只是為了確認」打開了地圖，抽查就毀了。守住那條線。</li>
-<li><strong>過了 0.95 不等於安全</strong>。它只是對樣本的一個說法。我把它當成開始學習的底線，不是證明。</li>
-<li><strong>讀者和 toolkit 可能有共同的盲點</strong>。它們都是模型建的，所以可能漏掉同一個奇怪的寫法。每一處差異都在它的那一行檢查，有幫助，但抓不到兩者都忽略的使用。兩個便宜的減少辦法：讀者用不同的模型或 prompt，並讓人手動讀幾個物件當作錨點。</li>
-</ul>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>代价和坑</h2><ul>
-<li><strong>样本只是样本</strong>。审计看不到样本里没有的类型或写法。如果某种罕见的写法很重要，就每种类型多抽一些对象，或者手工挑。</li>
-<li><strong>审计要读大约 20 到 40 个对象</strong>。这是真的 token，每次 toolkit 改动花一次。</li>
-<li><strong>盲读的规则很容易被打破</strong>。如果 agent “只是核对一下”就打开了地图，审计就废了。守住这条线。</li>
-<li><strong>过了 0.95 不等于安全</strong>。它说的是样本。我把它当作开始学习的底线，不当作证明。</li>
-<li><strong>读者和 toolkit 可能有同一个盲区</strong>。它们都是模型造的，所以可能漏掉同一种古怪的写法。每处差异都回到对应的行核对，有帮助，但抓不到两边都忽略的使用。有两个便宜的办法能减轻：给读者换一个模型或 prompt，再让人手工读几个对象做个基准。</li>
-</ul>
-</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete it</h2><p>If the map comes from a tool whose accuracy has been measured by someone else, on code like yours, skip the audit. Otherwise rerun it whenever the toolkit changes.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉</h2><p>如果地圖來自一個準確度已經被別人量過的工具，而且是在和你相似的程式碼上，就跳過抽查。否則，每次 toolkit 改動就重跑一次。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉</h2><p>如果地图来自一个工具，而它的准确度已经有别人在和你类似的代码上测过，就跳过审计。否则，每次 toolkit 改动都重新跑一遍。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the audit costs, and what it cannot promise</h2><p>None of this is free. The audit reads about 20 to 40 objects, and those are real tokens, spent again each time the toolkit changes. It also depends on a rule that is easy to break. If the agent opens the map &quot;just to check&quot;, the audit is spoiled, so hold the line.</p>
+<p>Even a clean audit is only as wide as its sample. It cannot see types or forms that are not in it, so if a rare form matters, take more objects per type, or pick them by hand. For the same reason, passing 0.95 is not safety. It is a statement about the sample, and I treat it as a floor for starting to learn, not as a proof.</p>
+<p>The reader and the toolkit may also share a blind spot. Both are built by models, so they could miss the same odd form. Checking every difference at its line helps, but it cannot catch a use that both overlooked. Two cheap ways reduce it: use a different model or prompt for the reader, and have a person read a few objects by hand as an anchor.</p>
+<p>Whether you need the audit at all depends on where the map came from.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>抽查要花什麼，又保證不了什麼</h2><p>這些都要花成本。每次 toolkit 改動，抽查都要讀約 20 到 40 個物件，花的是真的 token。它還靠著一條很容易破的規則：agent 要是「只是為了確認」就打開了地圖，這次抽查就毀了，所以這條規則一定要守住。</p>
+<p>就算抽查通過了，它能看到的也只是樣本裡的東西。不在樣本裡的類型或寫法，抽查看不到；所以如果某個少見的寫法很重要，就每種類型多拿一些物件，或者用手挑。也因為這樣，過了 0.95 並不等於安全。它只對這個樣本成立，我把它當成開始學習的底線，不是證明。</p>
+<p>還有一個陷阱：讀者和 toolkit 可能有共同的盲點。它們都是模型建的，所以可能漏掉同一個奇怪的寫法。每一處差異都在它的那一行檢查，有幫助，但兩者都忽略的使用，它抓不到。有兩個便宜的辦法可以減少這個問題：讀者改用不同的模型或 prompt，再讓人手動讀幾個物件，當作基準。</p>
+<p>至於到底需不需要抽查，要看地圖是從哪裡來的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>审计要花什么，又保证不了什么</h2><p>这些都要花成本。每次 toolkit 改动，审计都要读大约 20 到 40 个对象，花的是实打实的 token。它还依赖一条很容易被打破的规则：agent 要是“只是核对一下”就打开了地图，这次审计就废了，所以这条线一定要守住。</p>
+<p>就算审计通过了，它能看到的也只是样本里的东西。样本里没有的类型或写法，审计看不到；所以如果某种罕见的写法很重要，就每种类型多抽一些对象，或者手工挑。也是因为这个，过了 0.95 并不等于安全。它只对这个样本成立，我把它当作开始学习的底线，不当作证明。</p>
+<p>还有一个坑：读者和 toolkit 可能有同一个盲区。它们都是模型造出来的，所以可能漏掉同一种古怪的写法。每处差异都回到对应的行核对，有帮助，但两边都忽略了的使用，它抓不到。有两个便宜的办法能减轻这个问题：给读者换一个模型或 prompt，再让人手工读几个对象，作为基准。</p>
+<p>至于到底要不要做审计，要看地图是从哪来的。</p>
+</div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete the audit</h2><p>If the map comes from a tool whose accuracy someone else has measured, on code like yours, skip the audit. Otherwise, rerun it whenever the toolkit changes.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉抽查</h2><p>如果地圖來自一個準確度已經被別人量過的工具，而且是在和你相似的程式碼上量的，就可以跳過抽查。否則，每次 toolkit 改動就要重跑一次。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉审计</h2><p>如果地图来自一个工具，而它的准确度已经有别人在和你类似的代码上测过，就可以跳过审计。否则，每次 toolkit 改动都要重新跑一遍。</p>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
-<li><a href="8-2-kb-toolkit.html">The toolkit</a>: where the map comes from.</li>
-<li><a href="8-4-kb-learning.html">Learning in batches</a>: the next step, and where a missed use found later goes back to the toolkit.</li>
-<li><a href="5-6-model-checks-model.html">A model checking a model</a>: why the second reader must not see the first.</li>
+<li><a href="8-2-kb-toolkit.html">The toolkit: scripts that draw a map of the code</a>: where the map comes from.</li>
+<li><a href="8-4-kb-learning.html">Learning a domain in batches</a>: the next step, and where a missed use found later goes back to the toolkit.</li>
+<li><a href="5-6-model-checks-model.html">Can a model check a model?</a>: why the second reader must not see the first.</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
 <li><a href="8-2-kb-toolkit.html">Toolkit：用腳本畫出程式碼的地圖</a>：地圖從哪裡來。</li>
