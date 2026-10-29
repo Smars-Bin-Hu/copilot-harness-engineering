@@ -230,36 +230,36 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 从来不会把同一件事做得一模一样，所以一次运行什么也证明不了。把任务多跑几次，看看波动有多大，报告数字时连同条件一起写上。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
 <li><strong>The decision:</strong> require that every claim that one setup is better states how many times each side was run and under what conditions. For unattended work, ask for &quot;works every time&quot;, not for the average.</li>
-<li><strong>The risk:</strong> one run each proves nothing. In the textbook example in this chapter, 4 passes out of 5 runs is compatible with a true pass rate anywhere from about 38 to 96 percent, and telling 50 from 70 percent reliably takes roughly ninety runs a side. These are rough numbers for a pass/fail task, not measurements of any agent.</li>
+<li><strong>The risk:</strong> one run each proves nothing. In the textbook example in this chapter, 4 passes out of 5 runs is compatible with a true pass rate anywhere from about 38 to 96 percent, and telling 50 from 70 percent reliably takes roughly ninety runs a side.</li>
 <li><strong>The cost of doing it right:</strong> the runs multiply, because you pay for tasks times setups times runs. Most of that is money and time.</li>
 <li><strong>Ask the team:</strong> &quot;How many times was each side run, do the ranges overlap, and is everything equal except the thing being tested?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
 <li><strong>要做的決定</strong>：凡是說「某種設定比較好」，都要寫明兩邊各跑了幾次、在什麼條件下跑的。無人值守的工作，要看「每次都成功」，而不是平均值。</li>
-<li><strong>風險</strong>：各跑一次證明不了什麼。以這一章的教科書例子來說，5 次運行通過 4 次，真實通過率落在大約 38% 到 96% 之間的任何地方都說得通；要可靠地分辨 50% 和 70%，每一邊大約得跑九十次。這些是通過或失敗型任務的粗略數字，不是對任何 agent 的測量。</li>
+<li><strong>風險</strong>：各跑一次證明不了什麼。以這一章的教科書例子來說，5 次運行通過 4 次，真實通過率落在大約 38% 到 96% 之間的任何地方都說得通；要可靠地分辨 50% 和 70%，每一邊大約得跑九十次。</li>
 <li><strong>做對的成本</strong>：運行次數是相乘的，要付的是任務數乘以設定數乘以次數，大多花在錢和時間上。</li>
 <li><strong>可以問團隊</strong>：「兩邊各跑了幾次？範圍有沒有重疊？除了被測的東西，其他一切都相同嗎？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
 <li><strong>要拍板的事</strong>：凡是说“某套配置更好”，都要写明两边各跑了多少次、在什么条件下跑的。无人值守的工作，要看“每次都行”，而不是平均值。</li>
-<li><strong>风险</strong>：每边只跑一次，什么也证明不了。拿本章的教科书例子来说，5 次运行通过 4 次，真实通过率落在约 38% 到 96% 之间的任何地方都说得通；要可靠地分清 50% 和 70%，每边大约得跑九十次。这些是针对通过/失败类任务的粗略数字，不是对任何 agent 的实测。</li>
+<li><strong>风险</strong>：每边只跑一次，什么也证明不了。拿本章的教科书例子来说，5 次运行通过 4 次，真实通过率落在约 38% 到 96% 之间的任何地方都说得通；要可靠地分清 50% 和 70%，每边大约得跑九十次。</li>
 <li><strong>做对的代价</strong>：运行次数是相乘的，要付的是任务数乘配置数乘运行次数，主要花在钱和时间上。</li>
 <li><strong>可以问团队</strong>：“每一边各跑了多少次？范围有没有重叠？除了被测的那一样，其他是不是都一样？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Is the new setup really better?</h2><p>Every number in <a href="2-3-subagents.html">Use subagents sparingly</a> comes from one run per task. That includes the two figures the chapter is quoted for most often: the team cost about 4.5 times the usage and about 6 times the time of a single agent. Those two ratios are also its weakest. If I ran the same four tasks again, the ratios would move. I do not know by how much.</p>
-<p>The same problem comes up whenever you compare two setups. You ran the old setup once and the new setup once, and the new one scored higher. Is the new one better, or would the old one have scored higher the next time?</p>
-<p>To answer it, we need names for two things. One attempt by the agent at one task, from the start to the end, is a <strong>run</strong>. How much the results differ between runs of the same setup on the same task is the <strong>spread</strong>. Before asking how big the spread is, it is worth asking why there is any spread at all.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>新的設定真的比較好嗎？</h2><p><a href="2-3-subagents.html">慎用子 agent</a> 裡的每一個數字，都來自每個任務跑一次，那一章被引用最多的兩個數字也不例外：團隊花的用量大約是單一 agent 的 4.5 倍，時間大約是 6 倍。而這兩個比例，也是那一章裡最站不住的數字。如果把同樣四個任務再跑一次，這些比例會動，至於會動多少，我不知道。</p>
-<p>這不只是那一章的事。每次比較兩種設定，你都會碰到同一個問題。舊的設定跑了一次，新的設定跑了一次，新的分數比較高。那新的真的比較好嗎？還是說，再跑一次，分數比較高的就換成了舊的？</p>
-<p>要回答它，得先給兩樣東西取個名字。agent 對一個任務從頭到尾嘗試一次，叫做一次<strong>運行</strong>（run）；同一種設定在同一個任務上跑好幾次，各次結果之間差多少，叫做<strong>分布範圍</strong>（spread）。在問它有多大之前，不妨先問一句：為什麼會有分布範圍？</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>新配置真的更好吗？</h2><p><a href="2-3-subagents.html">慎用子 agent</a>里的每个数字，都来自每个任务跑一次，那一章被引用最多的两个数字也不例外：团队的用量约是单个 agent 的 4.5 倍，时间约 6 倍。而这两个倍数，也是那一章里最站不稳的数字。要是把同样四个任务再跑一遍，这两个倍数会变，至于变多少，我不知道。</p>
-<p>这不只是那一章的事。每次比较两套配置，你都会碰上同一个问题。旧配置跑了一次，新配置跑了一次，新的得分更高。那新的真的更好吗？还是说，再跑一次，得分更高的就成了旧的？</p>
-<p>要回答它，得先给两样东西起个名字。agent 把一个任务从头到尾做一遍，叫一次<strong>运行</strong>（run）；同一套配置在同一个任务上跑多次，结果之间相差多少，叫<strong>波动</strong>（spread）。在问波动有多大之前，不妨先问一句：为什么会有波动？</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Is the new setup really better?</h2><p>Say you changed something in your setup, such as a new instruction file or a different model. You ran a task once with the old setup and once with the new one, and the new one scored higher. Is the new one better, or would the old one have scored higher the next time?</p>
+<p>This is not only a beginner's question. Anthropic's guide to agent evals puts it plainly: &quot;a task that passed on one eval run might fail on the next.&quot; That is the reason it gives for running each task several times: &quot;Because model outputs vary between runs, we run multiple trials to produce more consistent results.&quot; (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>)</p>
+<p>To answer that, we need names for two things. One attempt by the agent at one task, from the start to the end, is a <strong>run</strong>. How much the results differ between runs of the same setup on the same task is the <strong>spread</strong>. Before asking how big the spread is, it is worth asking why there is any spread at all.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>新的設定真的比較好嗎？</h2><p>假設你改了設定裡的某樣東西，例如換了一份指令檔，或換了一個模型。舊的設定跑了一次，新的設定跑了一次，新的分數比較高。那新的真的比較好嗎？還是說，再跑一次，分數比較高的就換成了舊的？</p>
+<p>這不只是新手才會碰到的問題。Anthropic 談 agent 評測的文章說得很直白：「一個任務這次評測通過了，下次可能就失敗。」它說要多跑幾次，理由也是這個：「因為模型的輸出每次執行都不一樣，我們會做多次試驗，讓結果更穩定。」（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
+<p>要回答這個問題，得先給兩樣東西取個名字。agent 對一個任務從頭到尾嘗試一次，叫做一次<strong>運行</strong>（run）；同一種設定在同一個任務上跑好幾次，各次結果之間差多少，叫做<strong>分布範圍</strong>（spread）。在問它有多大之前，不妨先問一句：為什麼會有分布範圍？</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>新配置真的更好吗？</h2><p>假设你改了配置里的某样东西，比如换了一份指令文件，或者换了个模型。旧配置跑了一次，新配置跑了一次，新的得分更高。那新的真的更好吗？还是说，再跑一次，得分更高的就成了旧的？</p>
+<p>这不只是新手才会碰到的问题。Anthropic 讲 agent 评测的文章说得很直白：“一个任务这次评测通过了，下次可能就失败。”它给出的多跑几次的理由也是这个：“因为模型的输出每次运行都不一样，我们会做多次试验，让结果更稳定。”（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
+<p>要回答这个问题，得先给两样东西起个名字。agent 把一个任务从头到尾做一遍，叫一次<strong>运行</strong>（run）；同一套配置在同一个任务上跑多次，结果之间相差多少，叫<strong>波动</strong>（spread）。在问波动有多大之前，不妨先问一句：为什么会有波动？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Seeing the spread, and saying what it means</h2><h3>Why runs differ</h3>
 <p>If you ask a person to do the same job twice, you get two slightly different results. An agent is the same, for plain reasons.</p>
 <p>The first is that the model picks its words with some chance in it. It does not always take the single most likely next move, so two runs that begin with the same request may take different first moves. Those small differences then grow, because an agent works in a loop (<a href="2-1-agent-loop.html">The agent loop, and where you can step in</a>). If run A reads file X first and run B reads file Y first, everything afterwards is built on a different picture. One early choice can end in a different answer.</p>
 <p>The world around the agent changes as well. Tools return what they return at that moment, so a command takes a different time, times out or is slowed by a rate limit, and a search lists its results in a different order. Even the model itself can change. If the platform can change the model behind a name without telling you, two runs a week apart may not be the same model, so note the model and the date next to every run.</p>
-<p>I have not measured how much of the spread comes from each of these, but for this chapter that does not matter. What matters is that the spread exists and that you see it before you decide anything.</p>
+<p>For this chapter it does not matter which of these adds the most. What matters is that the spread exists and that you see it before you decide anything.</p>
 <h3>One run against several</h3>
 <figure class="fig steps" id="fig-6-4-spread" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label" x="20" y="74" data-t="setup-a">setup A</text>
@@ -294,22 +294,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">One run of each. B scored higher. It looks like B is better.</li><li data-step-text="2">Run each several times. A single setup now gives a spread of scores, not one score.</li><li data-step-text="3">The ranges overlap. The one run that made B look better could have come from either setup. Report the spread.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>A schematic of why one run proves little: runs of the same setup differ, and when the ranges overlap, one run cannot tell two setups apart.</figcaption></figure>
-<p>In the picture, setup B looks better than setup A when each side runs once. Run each side several times and you see that the two overlap. The one run that made B look better could have come from either setup. The picture is a sketch, not data. It shows the shape of the problem, not how big it is for your agent.</p>
+<p>In the picture, setup B looks better than setup A when each side runs once. Run each side several times and you see that the two overlap. The one run that made B look better could have come from either setup. The picture is a sketch of the shape of the problem, not data about any agent.</p>
 <h3>How many runs?</h3>
 <p>There is no number that is right for every case, because the size of the difference you want to see decides it. A large gap shows up in a few runs, while a small gap needs many.</p>
-<p>To feel why, start with a single setup that passed 4 of 5 runs. The usual 95 percent interval for that (the Wilson interval, which I computed by hand) runs from about 38 percent to 96 percent. Even with 5 of 5 it is still only about 57 percent to 100 percent. Five runs, in other words, cannot tell a setup that passes 40 percent of the time from one that passes 95 percent. Comparing two setups needs more: the standard sample-size formula says that to see 50 against 70 percent reliably, you need roughly ninety runs on each side. These are rough, textbook numbers for a pass/fail task, not measurements of any agent.</p>
+<p>To feel why, start with a single setup that passed 4 of 5 runs. The usual 95 percent interval for that (the Wilson interval) runs from about 38 percent to 96 percent. Even with 5 of 5 it is still only about 57 percent to 100 percent. Five runs, in other words, cannot tell a setup that passes 40 percent of the time from one that passes 95 percent. Comparing two setups needs more: the standard sample-size formula says that to see 50 against 70 percent reliably, you need roughly ninety runs on each side. These are rough, textbook numbers for a pass/fail task, not measurements of any agent.</p>
 <p>In practice I start small, with a few runs of the setup I already have on one task, to see how much the results differ by themselves. If the results differ a lot, a few runs cannot show small effects, so the next step is to add runs until the picture stops changing. Once another run no longer moves the range much, I have a rough idea of the spread.</p>
-<p>Five per side is a starting point, not a conclusion. For the comparison itself, I work in pairs, running both setups on the same tasks and looking at the difference task by task. A task that is hard for both sides then stops adding noise to the comparison, so this takes fewer runs than comparing two averages would.</p>
+<p>Five per side is a starting point, not a conclusion. For the comparison itself, work in pairs: run both setups on the same tasks and look at the difference task by task. A task that is hard for both sides then stops adding noise to the comparison, so this takes fewer runs than comparing two averages would. Evan Miller's paper on error bars for evals recommends the same thing for comparing two models, and calls the paired analysis a &quot;free&quot; reduction in noise, because a question that is hard for one model tends to be hard for the other (<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a>).</p>
 <p>Runs cost money, and the bill grows fast because it is tasks times setups times runs. The bill is also a reason to keep the set of tasks small and well chosen (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>), and to be honest when you could not afford more. Not everything needs that many, so I save the extra runs for the changes I care about.</p>
 <h3>&quot;All k succeeded&quot; and &quot;at least one of k succeeded&quot;</h3>
 <p>Once you run a task k times, there are two questions you can ask of the results, with very different answers. The first is whether at least one of the k runs succeeded. That is what matters if a person can try several times and pick the best. This measure is called <strong>pass@k</strong>. Anthropic defines it as &quot;the likelihood that an agent gets at least one correct solution in k attempts&quot;. It goes up as k grows.</p>
 <p>The second question is whether all k runs succeeded. That is what matters if the agent runs alone, nobody is watching and it must work every time. This one is called <strong>pass^k</strong>. It goes down as k grows, because &quot;demanding consistency across more trials is a harder bar to clear.&quot; (<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>)</p>
-<p>The tau-bench paper proposed pass^k for this reason. It reported that the agents it tested in 2024 were &quot;quite inconsistent (pass^8 &lt;25% in retail)&quot;, where pass^8 means that all eight tries of the same task succeeded. That figure is for their retail tasks and those models, not a statement about your tasks (<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>). What carries over is the question. If the agent runs unattended, an average pass rate of 80 percent is not the number you need. What you need to know is how often it works every time. Judge a pilot by that too.</p>
+<p>The tau-bench paper proposed pass^k for this reason. It reported that the agents it tested in 2024 were &quot;quite inconsistent (pass^8 &lt;25% in retail)&quot;, where pass^8 means that all eight tries of the same task succeeded (<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>). The figure belongs to their retail tasks and those models, but the question carries over. If the agent runs unattended, an average pass rate of 80 percent is not the number you need. What you need to know is how often it works every time. Judge a pilot by that too.</p>
 <p>So pick the question that matches how you use the agent. With a person watching, ask the first. For an agent running overnight, ask the second (<a href="5-7-when-to-stop.html">Unattended: when it must stop</a>).</p>
 <h3>Direction yes, ratio no</h3>
-<p>That brings us back to the two ratios this chapter started with. My result in <a href="2-3-subagents.html">Use subagents sparingly</a> has a limited kind of strength. Because a gap of four to six times is large, I trust its direction: the team cost much more for the same result. What I do not trust is &quot;4.5&quot; or &quot;6&quot;, because each task ran once and the two sides were not set up the same way. This is the shape of an honest claim from few runs. It says which way the result points but not how far.</p>
+<p>Does that mean a result from few runs is worthless? Not quite, because a few runs can still show a direction when the gap is large. The comparison in <a href="2-3-subagents.html">Use subagents sparingly</a> is an example. Each of four tasks ran once, and a three-role team used about 4.5 times the usage and about 6 times the time of a single agent for the same answers. A gap of four to six times is large enough to trust its direction: the team cost much more for the same result. What it cannot support is &quot;4.5&quot; or &quot;6&quot;, because another run would move them and the two sides were not set up the same way. This is the shape of an honest claim from few runs. It says which way the result points but not how far.</p>
 <h3>Common misreadings</h3>
-<p>Running each side once is the misreading this chapter started with, but it is not the only one.</p>
+<p>Running each side once is the misreading we started with, but it is not the only one.</p>
 <ul>
 <li>Reporting the average of a few runs as one number. It hides the spread, and two setups with the same average can behave very differently: one always lands in the middle, while the other swings between very good and very bad.</li>
 <li>Counting only the runs that succeeded. If you drop the failures to &quot;get clean numbers&quot;, you have measured something else.</li>
@@ -324,9 +324,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Which model and setup, on each side.</li>
 <li>How it was scored, and by whom or what.</li>
 <li>What the usage counts (main conversation only, or subagents too).</li>
-<li>What the spread was, or &quot;I ran it once&quot; when I did.</li>
+<li>What the spread was, or that it was run once.</li>
 </ol>
-<p>Here is my own result, written that way: &quot;Four tasks, one run each; one agent on a top model against a three-role team with a knowledge base; scored by the same script; usage in AI credits from the platform. Both got all four right. The team used about 4.5 times the usage and about 6 times the time. One run each, so I trust the direction and not the ratio.&quot;</p>
+<p>Here is the subagent comparison above, written that way: &quot;Four tasks, one run each; one agent on a top model against a three-role team with a knowledge base; scored by the same script; usage in AI credits from the platform. Both got all four right. The team used about 4.5 times the usage and about 6 times the time. One run each, so I trust the direction and not the ratio.&quot;</p>
 <p>It is a worse-looking sentence than &quot;the team costs 4.5 times as much&quot;, but it is the one that is true.</p>
 <h3>Test your own setup</h3>
 <p>For any claim that something is better, ask three questions:</p>
@@ -340,7 +340,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>請一個人把同一件工作做兩次，你會得到兩個稍微不同的結果，agent 也一樣，原因都很平常。</p>
 <p>第一個原因在模型選字上，它帶有一點隨機性，不是每次都走最可能的那一步，所以兩次運行就算從同樣的要求開始，第一步也可能走得不一樣。這些小差異接著會越長越大，因為 agent 是在一個循環裡工作的（<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>）。如果運行 A 先讀了檔案 X，運行 B 先讀了檔案 Y，之後的一切就都建立在不同的理解上，早期的一個選擇，最後可能走到不同的答案。</p>
 <p>還有 agent 周圍的世界，它也在變。工具回傳的，是它在那一刻回傳的東西，所以同一個指令可能花的時間不同、逾時，或被速率限制拖慢，一次搜尋列出結果的順序也會不一樣。連模型本身都可能改變。如果平台可以不通知你就換掉一個名字背後的模型，相隔一週的兩次運行用的可能就不是同一個模型，所以每次運行旁邊都要記下模型和日期。</p>
-<p>這些原因各占分布範圍多少，我沒有測過，不過對這一章來說，這不重要。重要的是它確實存在，而且在你做任何決定之前，得先看到它。</p>
+<p>對這一章來說，這些原因裡哪一個影響最大並不重要。重要的是它確實存在，而且在你做任何決定之前，得先看到它。</p>
 <h3>一次運行對比好幾次</h3>
 <figure class="fig steps" id="fig-6-4-spread" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label" x="20" y="74" data-t="setup-a">設定 A</text>
@@ -375,22 +375,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">各跑一次。B 的分數比較高，看起來 B 比較好。</li><li data-step-text="2">各跑幾次。同一個設定現在給出的是一段分數的分佈，不是一個分數。</li><li data-step-text="3">兩段範圍重疊。讓 B 看起來比較好的那一次，可能來自任何一個設定。要報告分佈。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>示意圖：為什麼單次運行證明不了什麼。同一個設定每次都不同，範圍重疊時，一次運行分不出兩個設定。</figcaption></figure>
-<p>圖裡各跑一次時，設定 B 看起來比設定 A 好。各跑好幾次，就會看到兩者是重疊的。讓 B 看起來比較好的那一次運行，可能來自任何一種設定。這張圖只是示意，不是資料，它畫的是問題的形狀，而不是這個問題在你的 agent 上有多大。</p>
+<p>圖裡各跑一次時，設定 B 看起來比設定 A 好。各跑好幾次，就會看到兩者是重疊的。讓 B 看起來比較好的那一次運行，可能來自任何一種設定。這張圖只是示意問題的形狀，不是哪個 agent 的資料。</p>
 <h3>要跑幾次？</h3>
 <p>沒有一個數字對每種情況都對，因為次數取決於你想看出多大的差距。大的差距，幾次運行就看得出來；小的差距，就需要很多次。</p>
-<p>要感受為什麼，先看一種 5 次運行通過了 4 次的設定。對這個結果，通常的 95% 區間（Wilson 區間，我用手算的）大約是 38% 到 96%。就算 5 次全過，區間也還是大約 57% 到 100%。換句話說，五次運行分不出一個通過率 40% 的設定，和一個通過率 95% 的設定。比較兩種設定，需要的就更多了，照標準的樣本數公式，要可靠地看出 50% 對 70%，每一邊大約要跑九十次。這些是通過或失敗型任務的粗略教科書數字，不是對任何 agent 的測量。</p>
+<p>要感受為什麼，先看一種 5 次運行通過了 4 次的設定。對這個結果，通常的 95% 區間（Wilson 區間）大約是 38% 到 96%。就算 5 次全過，區間也還是大約 57% 到 100%。換句話說，五次運行分不出一個通過率 40% 的設定，和一個通過率 95% 的設定。比較兩種設定，需要的就更多了，照標準的樣本數公式，要可靠地看出 50% 對 70%，每一邊大約要跑九十次。這些是通過或失敗型任務的粗略教科書數字，不是對任何 agent 的測量。</p>
 <p>實際做的時候，我從小處開始：先用已經有的設定在一個任務上跑幾次，看看結果自己會差多少。如果結果差很多，幾次運行就看不出小的效果，那就繼續加，直到再多跑一次範圍也動得不多，這時才算大致摸清了分布範圍。</p>
-<p>到了比較的時候，每邊五次只是起點，不是結論。我成對地比：兩種設定在相同的任務上都跑，再逐個任務看差異。這樣一來，對兩邊都難的任務就不會再給比較增加雜訊，比起比較兩個平均值，需要的運行次數更少。</p>
+<p>到了比較的時候，每邊五次只是起點，不是結論。比較時要成對地比：兩種設定在相同的任務上都跑，再逐個任務看差異。這樣一來，對兩邊都難的任務就不會再給比較增加雜訊，比起比較兩個平均值，需要的運行次數更少。Evan Miller 談評測誤差範圍的論文，比較兩個模型時也建議這樣做，還說成對分析降低雜訊是「免費的」，因為一道題對一個模型難，對另一個模型往往也難（<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a>）。</p>
 <p>這些運行都要花錢，而且帳會很快變大，因為它是任務數乘以設定數乘以次數。這筆帳也是把任務集保持小而精的一個理由（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>），也是負擔不起更多次數時，要誠實說出來的理由。不是每件事都需要跑這麼多次，多出來的次數，我留給自己在乎的改動。</p>
 <h3>「k 次都成功」和「k 次裡至少一次成功」</h3>
 <p>把一個任務跑了 k 次，你可以對結果問兩個問題，答案差很多。第一個問題是：k 次裡有沒有至少一次成功？如果人可以試好幾次再挑最好的，在乎的就是它。它叫 <strong>pass@k</strong>，Anthropic 的定義是「agent 在 k 次嘗試中，至少得到一個正確解的可能性」。k 越大，它越高。</p>
 <p>第二個問題是：k 次是不是全部成功？如果 agent 獨自執行、沒人看著，而且必須每次都成功，在乎的就是它。它叫 <strong>pass^k</strong>，k 越大，它越低，因為「要求更多次試驗都一致，是更難跨過的門檻」。（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
-<p>tau-bench 論文就是為了這個原因提出 pass^k。它報告說，2024 年它測的 agent「相當不一致（零售領域的 pass^8 &lt;25%）」，這裡的 pass^8，指的是同一個任務的八次嘗試全部成功。這個數字是他們的零售任務和那些模型的，不是對你的任務的說法（<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>）。真正值得借鏡的，是這個問題本身。如果 agent 是無人值守地執行，平均通過率 80% 並不是你需要的數字，你需要知道的是，它每次都成功的機率有多高。評判試辦也該看這個數。</p>
+<p>tau-bench 論文就是為了這個原因提出 pass^k。它報告說，2024 年它測的 agent「相當不一致（零售領域的 pass^8 &lt;25%）」，這裡的 pass^8，指的是同一個任務的八次嘗試全部成功（<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>）。這個數字屬於他們的零售任務和那些模型，但這個問題本身值得借鏡。如果 agent 是無人值守地執行，平均通過率 80% 並不是你需要的數字，你需要知道的是，它每次都成功的機率有多高。評判試辦也該看這個數。</p>
 <p>所以，挑符合你使用 agent 方式的那個問題。有人看著的 agent，問的是第一個；通宵執行的 agent，問的是第二個（<a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>）。</p>
 <h3>方向可以信，比例不行</h3>
-<p>這樣一來，就能回到這一章開頭那兩個比例了。我在 <a href="2-3-subagents.html">慎用子 agent</a> 的結果，說服力有限。四到六倍的差距很大，正因為大，我相信它的方向：團隊花的錢多得多，結果卻一樣。但我不相信「4.5」或「6」，因為每個任務只跑一次，兩邊的設定方式也不一樣。從很少的運行得出的誠實說法，就該是這個樣子：說它指向哪個方向，不說差了多少。</p>
+<p>那麼，只跑幾次的結果就毫無價值嗎？也不是，差距夠大的時候，幾次運行也看得出方向。<a href="2-3-subagents.html">慎用子 agent</a> 裡的比較就是一個例子：四個任務各跑一次，答案相同，三角色團隊的用量大約是單一 agent 的 4.5 倍，時間大約是 6 倍。四到六倍的差距很大，大到可以相信它的方向：團隊花的錢多得多，結果卻一樣。但它撐不起「4.5」或「6」，因為再跑一次這兩個數字就會動，兩邊的設定方式也不一樣。從很少的運行得出的誠實說法，就該是這個樣子：說它指向哪個方向，不說差了多少。</p>
 <h3>常見的誤讀</h3>
-<p>除了各跑一次（這一章開頭就是這種情況），讀錯比較結果還有別的方式。</p>
+<p>除了各跑一次（開頭說的就是這種情況），讀錯比較結果還有別的方式。</p>
 <ul>
 <li>把幾次運行的平均當成一個數字報告。這會把各次之間的差距藏起來，而平均相同的兩種設定，行為可能差很多：一個總是落在中間，另一個在很好和很差之間擺盪。</li>
 <li>只算成功的運行。如果你為了「得到乾淨的數字」而丟掉失敗的，你量到的就是別的東西了。</li>
@@ -405,9 +405,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>兩邊各用哪個模型和設定。</li>
 <li>怎麼打分，由誰或什麼來打。</li>
 <li>用量算了什麼（只有主對話，還是也含子 agent）。</li>
-<li>分布範圍是多少，或者我只跑一次時，就寫「我只跑了一次」。</li>
+<li>分布範圍是多少，或者只跑一次時，就寫明只跑了一次。</li>
 </ol>
-<p>照這樣寫，我自己的結果是這樣的：「四個任務，各跑一次；一個頂級模型的單一 agent，對一個帶知識庫的三角色團隊；由同一個腳本打分；用量是平台給的 AI credits。兩邊四個都做對。團隊用了大約 4.5 倍的用量、大約 6 倍的時間。各只跑一次，所以我相信方向，不相信比例。」</p>
+<p>照這樣寫，上面那個子 agent 的比較是這樣的：「四個任務，各跑一次；一個頂級模型的單一 agent，對一個帶知識庫的三角色團隊；由同一個腳本打分；用量是平台給的 AI credits。兩邊四個都做對。團隊用了大約 4.5 倍的用量、大約 6 倍的時間。各只跑一次，所以我相信方向，不相信比例。」</p>
 <p>這句話比「團隊貴 4.5 倍」難看，但只有它是真的。</p>
 <h3>測你自己的設定</h3>
 <p>對任何「某個東西比較好」的說法，問三個問題：</p>
@@ -421,7 +421,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>让一个人把同一件活干两遍，得到的结果会略有不同，agent 也一样，原因都很平常。</p>
 <p>头一个原因在模型选词上，它带着一定的随机性，并不总是挑最可能的那一步，所以两次运行哪怕从同一个需求出发，第一步就可能走得不一样。这些小差别接着会越滚越大，因为 agent 是在一个循环里干活的（<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>）。如果运行 A 先读了文件 X，运行 B 先读了文件 Y，之后的一切就都建立在不同的认识上，早期的一个选择，最后可能导向不同的答案。</p>
 <p>还有 agent 周围的环境，它也在变。工具返回的，是它那一刻返回的东西，所以同一条命令可能耗时不同、超时，或者被速率限制拖慢，一次搜索列出结果的顺序也会不一样。连模型本身都可能变。要是平台能不打招呼就换掉某个名字背后的模型，相隔一周的两次运行用的可能就不是同一个模型，所以每次运行旁边都要记下模型和日期。</p>
-<p>这几个因素各占多少波动，我没有测过，不过对这一章来说这不要紧。要紧的是波动确实存在，而且在你做任何决定之前，得先看到它。</p>
+<p>对这一章来说，这几个因素里哪个影响最大并不要紧。要紧的是波动确实存在，而且在你做任何决定之前，得先看到它。</p>
 <h3>一次运行和多次运行</h3>
 <figure class="fig steps" id="fig-6-4-spread" data-steps="3"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
   <text class="label" x="20" y="74" data-t="setup-a">配置 A</text>
@@ -456,22 +456,22 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">各跑一次。B 的分数比较高，看起来 B 更好。</li><li data-step-text="2">各跑几次。同一套配置现在给出的是一段分数的分布，不是一个分数。</li><li data-step-text="3">两段范围重叠。让 B 看起来更好的那一次，可能来自任何一套配置。要报告波动范围。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>示意图：为什么一次运行证明不了什么。同一套配置每次都不同，范围重叠时，一次运行分不出两套配置。</figcaption></figure>
-<p>图里每边只跑一次时，配置 B 看起来比配置 A 好。每边多跑几次，就会看到两边是重叠的。让 B 显得更好的那一次运行，两种配置都可能跑出来。这张图只是示意，不是数据，它画的是问题的形状，而不是这个问题在你的 agent 上有多大。</p>
+<p>图里每边只跑一次时，配置 B 看起来比配置 A 好。每边多跑几次，就会看到两边是重叠的。让 B 显得更好的那一次运行，两种配置都可能跑出来。这张图只是示意问题的形状，不是哪个 agent 的数据。</p>
 <h3>要跑几次？</h3>
 <p>没有哪个数字对所有情况都对，因为次数取决于你想看出多大的差别。差距大，几次运行就能看出来；差距小，就得跑很多次。</p>
-<p>想体会为什么，先看一套 5 次运行通过了 4 次的配置。对这个结果，常用的 95% 区间（Wilson 区间，我是手算的）大约是 38% 到 96%。就算 5 次全过，区间也还是大约 57% 到 100%。换句话说，五次运行分不清一套通过率 40% 的配置和一套通过率 95% 的配置。比较两套配置，要的就更多了，按标准的样本量公式，想可靠地看出 50% 对 70%，每边大约要跑九十次。这些是针对通过/失败类任务的粗略的教科书数字，不是对任何 agent 的实测。</p>
+<p>想体会为什么，先看一套 5 次运行通过了 4 次的配置。对这个结果，常用的 95% 区间（Wilson 区间）大约是 38% 到 96%。就算 5 次全过，区间也还是大约 57% 到 100%。换句话说，五次运行分不清一套通过率 40% 的配置和一套通过率 95% 的配置。比较两套配置，要的就更多了，按标准的样本量公式，想可靠地看出 50% 对 70%，每边大约要跑九十次。这些是针对通过/失败类任务的粗略的教科书数字，不是对任何 agent 的实测。</p>
 <p>实际做的时候，我从小处起步：先拿已有的配置在一个任务上跑几次，看看结果自己会相差多少。如果结果相差很大，几次运行就看不出小的效果，那就继续加，直到再多跑一次范围也没怎么动，这时才算大致摸清了波动。</p>
-<p>到了比较的时候，每边五次只是起点，不是结论。我成对地比：两套配置在同样的任务上都跑，再逐个任务看差值。这样一来，对两边都难的任务就不会再给比较添噪声，比起比较两个平均值，需要的运行次数更少。</p>
+<p>到了比较的时候，每边五次只是起点，不是结论。比较时要成对地比：两套配置在同样的任务上都跑，再逐个任务看差值。这样一来，对两边都难的任务就不会再给比较添噪声，比起比较两个平均值，需要的运行次数更少。Evan Miller 讲评测误差棒的论文，比较两个模型时也建议这么做，还说成对分析降低噪声是“白送的”，因为一道题对一个模型难，对另一个模型往往也难（<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals</a>）。</p>
 <p>这些运行都要花钱，而且账涨得很快，因为它是任务数乘配置数乘运行次数。这笔账也是让任务集保持小而精的一个理由（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>），也是付不起更多次数时要老实说明的理由。不是每件事都需要跑这么多次，多出来的次数，我留给自己在意的改动。</p>
 <h3>“k 次全部成功”和“k 次里至少成功一次”</h3>
 <p>一个任务跑了 k 次，你可以对结果问两个问题，答案差别很大。第一个问题是：k 次里有没有至少一次成功？如果人可以多试几次、挑最好的那次，要看的就是它。它叫 <strong>pass@k</strong>，Anthropic 的定义是“agent 在 k 次尝试中至少得到一个正确解的可能性”。k 越大，它越高。</p>
 <p>第二个问题是：k 次是不是全部成功？如果 agent 独自运行、没人看着，而且必须每次都行，要看的就是它。它叫 <strong>pass^k</strong>，k 越大，它越低，因为“要求在更多次试验里都保持一致，门槛更高”。（<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>）</p>
-<p>tau-bench 的论文正是为此提出了 pass^k。它报告说，它在 2024 年测的那些 agent “相当不稳定（零售任务上 pass^8 低于 25%）”，这里的 pass^8，是指同一个任务试 8 次全部成功。这个数字只针对他们的零售任务和那些模型，不是对你的任务的论断（<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>）。能迁移过来的，是这个问题本身。如果 agent 无人值守地运行，平均通过率 80% 并不是你要的数字，你要知道的是它有多大概率每次都行。评判试点也该看这个数。</p>
+<p>tau-bench 的论文正是为此提出了 pass^k。它报告说，它在 2024 年测的那些 agent “相当不稳定（零售任务上 pass^8 低于 25%）”，这里的 pass^8，是指同一个任务试 8 次全部成功（<a href="https://arxiv.org/abs/2406.12045">tau-bench</a>）。这个数字属于他们的零售任务和那些模型，但这个问题本身能迁移过来。如果 agent 无人值守地运行，平均通过率 80% 并不是你要的数字，你要知道的是它有多大概率每次都行。评判试点也该看这个数。</p>
 <p>所以，挑和你用 agent 的方式相符的那个问题。有人盯着的 agent，问的是第一个；通宵运行的 agent，问的是第二个（<a href="5-7-when-to-stop.html">无人值守：什么时候必须停</a>）。</p>
 <h3>方向可以信，倍数别当真</h3>
-<p>这下就能回到这一章开头那两个倍数了。我在<a href="2-3-subagents.html">慎用子 agent</a>里的结果，说服力是有限的。四到六倍的差距很大，正因为大，我相信它的方向：同样的结果，团队贵得多。但我不信“4.5”或者“6”，因为每个任务只跑了一次，两边的配置也不一样。靠很少几次运行做出的诚实结论，就该是这个样子：说它指向哪边，不说差多远。</p>
+<p>那么，只跑几次的结果就一文不值吗？也不是，差距够大的时候，几次运行也能看出方向。<a href="2-3-subagents.html">慎用子 agent</a>里的比较就是个例子：四个任务各跑一次，同样的答案，三角色团队的用量约是单个 agent 的 4.5 倍，时间约 6 倍。四到六倍的差距很大，大到可以相信它的方向：同样的结果，团队贵得多。但它撑不起“4.5”或者“6”，因为再跑一次这两个数就会变，两边的配置也不一样。靠很少几次运行做出的诚实结论，就该是这个样子：说它指向哪边，不说差多远。</p>
 <h3>常见的误读</h3>
-<p>除了每边只跑一次（这一章开头就是这种情况），读错比较结果还有别的方式。</p>
+<p>除了每边只跑一次（开头说的就是这种情况），读错比较结果还有别的方式。</p>
 <ul>
 <li>把几次运行的平均值当成一个数来报。这会把波动藏起来，而两套平均值相同的配置，表现可能差别很大：一套总落在中间，另一套在很好和很差之间来回摆。</li>
 <li>只算成功的那几次。如果你为了“数字好看”把失败的去掉，你量的就是另一样东西了。</li>
@@ -486,9 +486,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>每一边用的模型和配置。</li>
 <li>怎么打分的，由谁或什么打的。</li>
 <li>用量算了哪些（只算主对话，还是连子 agent 一起算）。</li>
-<li>波动有多大，如果只跑了一次，就写“我只跑了一次”。</li>
+<li>波动有多大，如果只跑了一次，就写明只跑了一次。</li>
 </ol>
-<p>按这个写法，我自己的结果是这样的：“四个任务，各跑一次；一个用顶级模型的 agent，对一个带知识库的三角色团队；由同一个脚本打分；用量是平台给的 AI credits。两边四个都做对了。团队的用量约是 4.5 倍，时间约是 6 倍。每边只跑了一次，所以我信方向，不信倍数。”</p>
+<p>按这个写法，上面那个子 agent 的比较是这样的：“四个任务，各跑一次；一个用顶级模型的 agent，对一个带知识库的三角色团队；由同一个脚本打分；用量是平台给的 AI credits。两边四个都做对了。团队的用量约是 4.5 倍，时间约是 6 倍。每边只跑了一次，所以我信方向，不信倍数。”</p>
 <p>这句话看起来比“团队贵 4.5 倍”难看，但只有它是真的。</p>
 <h3>测你自己的配置</h3>
 <p>对任何“某样东西更好”的说法，问三个问题：</p>
@@ -501,36 +501,36 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What more runs cost, and what they cannot tell you</h2><p>When the spread turns out bigger than you expected, the natural answer is more runs, and more runs cost real money. If the budget does not allow enough of them, say so and use the weaker words: &quot;points toward&quot;, &quot;I ran it twice&quot;.</p>
 <p>And even when you can afford them, the spread itself is not a fault to remove. A tighter setup can lower it, but part of it stays, so plan for it with checks, a person at the gates and a limit on retries (<a href="5-5-counted-checks.html">Make a pass count</a>).</p>
 <p>A statistic does not replace reading, however many runs are behind it. Five runs tell you the spread, but they do not tell you why one of them failed. For that you have to read the failures (<a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>).</p>
-<p>My own results have no confidence interval, because with one run each there is nothing to compute one from, and with a handful of runs it would be very wide, as the example above shows. So I show the runs and say which way they point.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>多跑幾次要花什麼，又說明不了什麼</h2><p>要是分布範圍比你預想的大，自然會想多跑幾次，可多跑幾次，花的是真金白銀。預算要是不夠跑足夠的次數，就說出來，並改用比較弱的措辭，像是「指向」、「我跑了兩次」。</p>
 <p>就算負擔得起，分布範圍本身也不是要消除的缺點。設定更嚴謹一些，可以把它降低，但總有一部分會留下來，所以要事先為它做計畫，靠檢查、在每道門前安排人把關、給重試設上限來應對（<a href="5-5-counted-checks.html">讓「通過」可信</a>）。</p>
 <p>而且不管跑了多少次，統計都不能取代閱讀。五次運行能告訴你範圍有多大，卻不能告訴你其中一次為什麼失敗，那得去讀失敗的運行（<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>）。</p>
-<p>回到我自己的結果：它們沒有信賴區間。各跑一次，就沒有東西可以拿來算區間。就算跑上幾次，區間也會很寬，上面的例子就是這樣。所以我把每次運行都擺出來，說明它們指向哪個方向。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>多跑几次要花什么，又说明不了什么</h2><p>要是波动比你预想的大，自然会想多跑几次，可多跑几次，花的是真金白银。预算要是不够跑足次数，就直说，并换用弱一点的措辞，比如“倾向于”“我跑了两次”。</p>
 <p>就算付得起，波动本身也不是要消除的故障。配置收紧一些，可以让它小一点，但总有一部分会留着，所以要事先把它考虑进去，靠检查、关卡处有人、给重试设上限来兜住（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</p>
 <p>而且不管跑了多少次，统计都代替不了阅读。五次运行能告诉你波动有多大，却不能告诉你其中一次为什么失败，那得去读失败的运行（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>）。</p>
-<p>回到我自己的结果：它们没有置信区间。每边只跑一次，就没有东西可以拿来算区间。就算跑上几次，区间也会非常宽，上面的例子就是这样。所以我把每次运行都摆出来，说明它们指向哪边。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete the habit of rerunning by hand <span class="status status-industry">Industry practice</span></h2><p>Running a task again and again by hand is a habit that exists only because I have no tool that does it and reports the spread. If a platform runs the same task several times and shows the spread, use that. And if the models become so steady that the spread is small on my tasks, I can run fewer, though I would have to measure that rather than assume it.</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete the habit of rerunning by hand <span class="status status-industry">Industry practice</span></h2><p>Running a task again and again by hand is a habit that exists only because the setup has no tool that does it and reports the spread. If a platform runs the same task several times and shows the spread, use that. And if the models become so steady that the spread is small on your tasks, you can run fewer, though that has to be measured, not assumed.</p>
 <p>The reasoning stays for as long as the agent chooses its moves with some chance in them: one run cannot say how good a setup is.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉手動重跑的習慣 <span class="status status-industry">業界做法</span></h2><p>手動把任務一次又一次重跑，這個習慣之所以存在，只是因為我沒有工具能做這件事並報告分布範圍。如果平台能把同一個任務跑好幾次並顯示結果的範圍，就用那個。如果模型變得很穩，在我的任務上範圍很小，我也可以少跑幾次，但這得靠測量，不能靠假設。</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉手動重跑的習慣 <span class="status status-industry">業界做法</span></h2><p>手動把任務一次又一次重跑，這個習慣之所以存在，只是因為手邊的設定沒有工具能做這件事並報告分布範圍。如果平台能把同一個任務跑好幾次並顯示結果的範圍，就用那個。如果模型變得很穩，在你的任務上範圍很小，也可以少跑幾次，但這得靠測量，不能靠假設。</p>
 <p>只要 agent 選下一步時還帶有一點隨機性，這背後的道理就不會變：一次運行，說不出一種設定有多好。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉手工重跑的习惯 <span class="status status-industry">业界做法</span></h2><p>把任务一遍遍手工重跑，这个习惯之所以存在，只是因为我没有工具能做这件事并报告波动。如果哪个平台能把同一个任务跑几次并显示波动，就用它的。如果模型变得足够稳定，在我的任务上波动很小，我也可以少跑几次，但这得靠测出来，不能靠假设。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉手工重跑的习惯 <span class="status status-industry">业界做法</span></h2><p>把任务一遍遍手工重跑，这个习惯之所以存在，只是因为手头的配置里没有工具能做这件事并报告波动。如果哪个平台能把同一个任务跑几次并显示波动，就用它的。如果模型变得足够稳定，在你的任务上波动很小，也可以少跑几次，但这得靠测出来，不能靠假设。</p>
 <p>只要 agent 选下一步时还带着一定的随机性，这背后的道理就不会变：一次运行，说不清一套配置有多好。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Search this repository&#x27;s README, docs, pull request templates and any decision records for claims about AI agent results: words like faster, better, cheaper, saves, fewer errors. For each claim, list the evidence given: how many runs, how many tasks, which model and setup on each side, how it was scored, and what the usage counted. Mark each claim as &quot;conditions stated&quot;, &quot;partly stated&quot; or &quot;no conditions&quot;. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>搜尋這個倉庫的 README、文件、pull request 範本和任何決策紀錄，找出關於 AI agent 成果的說法：像是更快、更好、更便宜、節省、更少錯誤這類字眼。對每一個說法，列出所給的證據：跑了幾次、幾個任務、兩邊各用哪個模型和設定、怎麼打分、用量算了什麼。把每個說法標成「條件有寫」、「條件寫了一部分」或「沒有條件」。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>在这个仓库的 README、文档、pull request 模板和任何决策记录里，搜索关于 AI agent 效果的说法：比如更快、更好、更便宜、节省、错误更少这类词。对每一条说法，列出它给出的证据：跑了多少次、多少个任务、两边各用什么模型和配置、怎么打分、用量算了什么。把每条说法标成“写明了条件”“部分写明”或“没有条件”。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
 <li>Anthropic: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>, on multiple trials, pass@k and pass^k</li>
+<li>Evan Miller: <a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations</a>, on paired comparisons and planning how many runs</li>
 <li>tau-bench: <a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
 <li>In this book: <a href="6-3-eval-tasks.html">Fixed tasks, scored by a script</a>, <a href="2-3-subagents.html">Use subagents sparingly</a></li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>，講多次試驗、pass@k 和 pass^k</li>
+<li>Evan Miller：<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations</a>，談成對比較和怎麼規劃運行次數</li>
 <li>tau-bench：<a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
 <li>本書：<a href="6-3-eval-tasks.html">固定的任務，用腳本打分</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
 <li>Anthropic：<a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a>，讲多次试验、pass@k 和 pass^k</li>
+<li>Evan Miller：<a href="https://arxiv.org/abs/2411.00640">Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations</a>，讲成对比较和怎么规划运行次数</li>
 <li>tau-bench：<a href="https://arxiv.org/abs/2406.12045">τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains</a></li>
 <li>本书内：<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>、<a href="2-3-subagents.html">慎用子 agent</a></li>
 </ul>

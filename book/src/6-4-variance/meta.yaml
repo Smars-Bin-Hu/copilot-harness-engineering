@@ -12,3 +12,9 @@ sources:
   - what: "Model outputs vary between runs, so run multiple trials; pass@k is the chance of at least one correct solution in k attempts; pass^k falls as k grows because it demands consistency across more trials"
     where: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
     checked: 2026-10-27
+  - what: "A task that passed on one eval run might fail on the next; because model outputs vary between runs, Anthropic runs multiple trials"
+    where: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+    checked: 2026-10-29
+  - what: "When comparing two models, do inference on question-level paired differences; the paired analysis is a 'free' variance reduction because question scores are positively correlated across models"
+    where: https://arxiv.org/abs/2411.00640
+    checked: 2026-10-29
