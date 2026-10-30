@@ -222,9 +222,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why &quot;looks done&quot; is not done</span><span data-l="zh-Hant" lang="zh-Hant">「看起來做完」為什麼不算做完</span><span data-l="zh-Hans" lang="zh-Hans">“看起来做完了”为什么不算做完</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">A check inside the loop, and where it falls short</span><span data-l="zh-Hant" lang="zh-Hant">放進循環裡的檢查，和它碰不到的地方</span><span data-l="zh-Hans" lang="zh-Hans">放进循环里的检查，和它够不着的地方</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What a self-check costs, and how it can mislead</span><span data-l="zh-Hant" lang="zh-Hant">自我檢查的代價，和它會怎樣誤導你</span><span data-l="zh-Hans" lang="zh-Hans">自查的代价，和它会怎样误导你</span></a></li><li><a href="#industry"><span data-l="en" lang="en">What Anthropic's guide says</span><span data-l="zh-Hant" lang="zh-Hant">Anthropic 的指南怎麼說</span><span data-l="zh-Hans" lang="zh-Hans">Anthropic 的指南怎么说</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the reminders and the hook</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉那些提醒和 hook</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉那些提醒和 hook</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.4</p><h1><span data-l="en" lang="en">Let the agent check its own work</span><span data-l="zh-Hant" lang="zh-Hant">讓 agent 能檢查自己的活</span><span data-l="zh-Hans" lang="zh-Hans">让 agent 能检查自己的活</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="2-1-agent-loop.html">The agent loop</a>: the agent asks the model, runs a tool, and feeds the result back.</p>
+<article><header class="chapter-head"><p class="chapter-no">5.4</p><h1><span data-l="en" lang="en">Let the agent check its own work</span><span data-l="zh-Hant" lang="zh-Hant">讓 agent 能檢查自己的活</span><span data-l="zh-Hans" lang="zh-Hans">让 Agent 自己跑测试</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="2-1-agent-loop.html">The agent loop</a>: the agent asks the model, runs a tool, and feeds the result back.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要用過 AI 寫程式的 agent。它建立在 <a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 上：agent 問模型、執行工具、把結果餵回去。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你要用过 AI 编程 agent。它建立在 <a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>之上：agent 问模型、运行一个工具、把结果送回去。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你要用过 AI 编程 agent。它建立在 <a href="2-1-agent-loop.html">Agent 到底是怎么干活的？</a>之上：agent 问模型、运行一个工具、把结果送回去。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Give the agent a way to check its own work, such as running the tests, the linter or the program. A check it can run and read gives it feedback inside the loop, while a reviewer only finds problems afterwards.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>讓 agent 有辦法檢查自己的活，例如跑測試、跑 linter、跑程式。它自己能跑、也能讀的檢查，在循環裡就給它回饋；reviewer 卻只能在事後找問題。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>给 agent 一个检查自己活儿的办法，比如跑测试、跑 linter、跑程序。agent 自己能运行、能读懂的检查，在循环里就给了它反馈；reviewer 却只能等事后才发现问题。</p>
@@ -256,7 +256,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>所以出路不在於換一個更聰明的 agent，而在於一個不靠 agent 的感覺的檢查。有了這樣的檢查，會有什麼不同？</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>“看起来做完了”为什么不算做完</h2><p>agent 在活儿<em>看起来</em>做完时就会停下。可“看起来做完了”只是模型对自己代码的一种感觉，背后并没有运行过任何东西。于是它说“我做了这个改动”，你一读，发现了 bug。</p>
 <p>如果 agent 手里没有什么可以运行、能告诉它活儿做完没有，那么你就是那个测试套件。每个错误都得等你发现，这既慢，又得有人守在屏幕前。</p>
-<p>在我自己的使用中，常常看到模型倾向于报告成功，不过我没有记录过多久发生一次。Anthropic 在长时间运行里也描述过同样的倾向：后来的 agent 实例看到已经有了进展，就会“宣布工作完成”（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。你也许会想，那让 agent 回头把自己的活儿再读一遍呢？这也不管用。自己读自己的活儿，盲区还是原来那些，因为写出错误的那套思路，现在又在读这个错误（<a href="2-3-subagents.html">慎用子 agent</a>）。</p>
+<p>在我自己的使用中，常常看到模型倾向于报告成功，不过我没有记录过多久发生一次。Anthropic 在长时间运行里也描述过同样的倾向：后来的 agent 实例看到已经有了进展，就会“宣布工作完成”（<a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents">Effective harnesses for long-running agents</a>）。你也许会想，那让 agent 回头把自己的活儿再读一遍呢？这也不管用。自己读自己的活儿，盲区还是原来那些，因为写出错误的那套思路，现在又在读这个错误（<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>）。</p>
 <p>所以出路不在于换一个更聪明的 agent，而在于一个不依赖 agent 感觉的检查。有了这样的检查，会有什么不同？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>A check inside the loop, and where it falls short</h2><h3>One of the most useful things you can add</h3>
 <p>The clearest way to see it is to compare two runs of the same task. In the first, the agent changes the code and says &quot;done&quot;. You run the tests and two fail, so you tell the agent. It fixes one, and you run them again.</p>
@@ -467,7 +467,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>放进循环里的检查，和它够不着的地方</h2><h3>你能加的最有用的东西之一</h3>
 <p>要看出有什么不同，最直观的办法，是把同一个任务的两次运行放在一起看。第一次，agent 改完代码就说“做完了”。你去跑测试，两个失败了，于是你告诉 agent。它修好一个，你再跑一遍。</p>
 <p>第二次，agent 改完代码，自己去跑测试。看到两个失败，它读了输出，把两个都修好，再跑一遍测试。这回通过了，它才说“做完了”，并附上输出。</p>
-<p>这两次用的是同一个模型。差别在于，第二次里检查的结果在 agent 收工之前，就<strong>在循环里</strong>回来了。<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>里的那个循环本来就留着这个位置，因为工具的结果会送回模型，由模型决定下一步。跑一次测试，说到底就是一个结果直截了当地说“通过”或“失败”的工具。</p>
+<p>这两次用的是同一个模型。差别在于，第二次里检查的结果在 agent 收工之前，就<strong>在循环里</strong>回来了。<a href="2-1-agent-loop.html">Agent 到底是怎么干活的？</a>里的那个循环本来就留着这个位置，因为工具的结果会送回模型，由模型决定下一步。跑一次测试，说到底就是一个结果直截了当地说“通过”或“失败”的工具。</p>
 <figure class="fig steps" id="fig-5-4-check-loop" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <g data-step="1">
   <rect class="box" x="10" y="50" width="140" height="56" rx="8"/>
@@ -511,28 +511,28 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>截图和设计稿并排放</strong>：用于用户界面。</li>
 </ul>
 <p>如果仓库里已经有其中一样，那么 agent 的指令文件里最有用的一行，就是运行它的那条命令。项目信任的是哪条命令，agent 自己猜不出来。</p>
-<p>不过，知道了跑什么，还剩一个问题：要它跑，要求得有多硬？这里从软到硬分几级，用的还是<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>里那架梯子：</p>
+<p>不过，知道了跑什么，还剩一个问题：要它跑，要求得有多硬？这里从软到硬分几级，用的还是<a href="4-1-requests-and-rules.html">为什么 Agent 不听 prompt 里的规则？</a>里那架梯子：</p>
 <ol>
 <li>最软的，是在 prompt 里写一句，比如“之后运行测试，直到通过为止”。什么时候算满意，由 agent 自己决定。</li>
-<li>硬一点的，是把它当作停止条件。agent 想停下的那一刻，会有一个 hook（<a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）运行；检查要是失败，hook 就把 agent 送回去接着干。因为这是平台强制执行的，agent 没法带着一个失败的检查结束这一轮。Claude Code 的文档用 Stop hook 描述了这个做法（<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>），不过写这一章时，我没有在 Copilot 里测过同样的做法。</li>
-<li>最硬的，是让程序来数通过的次数，这个数就不再由 agent 报告（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</li>
+<li>硬一点的，是把它当作停止条件。agent 想停下的那一刻，会有一个 hook（<a href="2-2-hooks.html">硬性规则放在哪？用 hook</a>）运行；检查要是失败，hook 就把 agent 送回去接着干。因为这是平台强制执行的，agent 没法带着一个失败的检查结束这一轮。Claude Code 的文档用 Stop hook 描述了这个做法（<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a>），不过写这一章时，我没有在 Copilot 里测过同样的做法。</li>
+<li>最硬的，是让程序来数通过的次数，这个数就不再由 agent 报告（<a href="5-5-counted-checks.html">Agent 说“测过了”，能信吗？</a>）。</li>
 </ol>
 <h3>让结果简短、可读</h3>
-<p>不管检查是什么，agent 都要读它的输出，而这些输出会进入它的上下文（<a href="3-1-context-budget.html">上下文是一份预算</a>）。这里可能出两种问题，一种是说得太多，一种是说得太少。一次测试运行打印几千行，会把上下文塞满，agent 需要的那一个失败就淹没在里面。所以只打印失败的项，每一项带上文件和行号，再加一个计数；通过的那些噪音，藏起来就好。另一头，光一个“Error”，agent 根本无从下手。好的失败信息要说清楚期望什么、实际发生了什么、出在哪里。</p>
-<p>这和<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>里关于工具消息的建议是一回事：agent 是个不可靠的用户，它读到什么，就决定了它下一步做什么。一个输出便宜又清楚的检查，比一个全面却没人读得懂的检查更有价值。</p>
+<p>不管检查是什么，agent 都要读它的输出，而这些输出会进入它的上下文（<a href="3-1-context-budget.html">为什么不能把所有规则都塞给 Agent？</a>）。这里可能出两种问题，一种是说得太多，一种是说得太少。一次测试运行打印几千行，会把上下文塞满，agent 需要的那一个失败就淹没在里面。所以只打印失败的项，每一项带上文件和行号，再加一个计数；通过的那些噪音，藏起来就好。另一头，光一个“Error”，agent 根本无从下手。好的失败信息要说清楚期望什么、实际发生了什么、出在哪里。</p>
+<p>这和<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>里关于工具消息的建议是一回事：agent 是个不可靠的用户，它读到什么，就决定了它下一步做什么。一个输出便宜又清楚的检查，比一个全面却没人读得懂的检查更有价值。</p>
 <p>输出还有一个用处：它是证据。“所有测试都通过了”只是一个说法，运行过的那条命令和它的输出才是证据，所以要向 agent 索取。你没在旁边看着的时候，它们就是你手里唯一的证据。</p>
 <h3>自查抓不住什么</h3>
 <p>不过，就算检查又短又清楚，而且通过了，它说明的东西也比看上去少。它说的是“这个做到了检查所测的东西”，而不是“这就是你想要的”，两者之间有两个要紧的缺口。</p>
-<p>一个缺口在需求上。如果 agent 依据的那一页不是人的本意（<a href="5-2-requirements.html">需求由 agent 写，人确认</a>），那么通过每一个测试的完美代码，也只是为错的东西写的完美代码。agent 照着错的需求写出来的测试，哪一个都发现不了这一点，只有人去读需求才能发现。</p>
+<p>一个缺口在需求上。如果 agent 依据的那一页不是人的本意（<a href="5-2-requirements.html">需求说不清？让 Agent 先写一页给你确认</a>），那么通过每一个测试的完美代码，也只是为错的东西写的完美代码。agent 照着错的需求写出来的测试，哪一个都发现不了这一点，只有人去读需求才能发现。</p>
 <p>另一个缺口在测试本身：它可能检查得太少，带着 bug 也能通过。agent 在同一个会话里写的测试，和代码出自同一份理解，所以有同样的盲区。要是 agent 把规则理解错了，它的代码和它的测试会彼此一致，而且都是错的。</p>
 <p>还有一个限制，既不是需求的缺口，也不是测试的缺口：有些错误只有在真实环境里、用真实数据运行程序时才会显现，而 agent 在那里运行不了。这类错误要靠人来检查，或者靠测试环境。</p>
 <p>前面这些，是检查本来就够不着的地方。下一个问题不一样，它是检查本身带来的。</p>
 <h3>当 agent 转而削弱测试</h3>
 <p>给了 agent 一个检查，它也就多了一种失败的方式。agent 想让循环以通过收尾，而拿到通过最容易的办法，是改检查，不是改代码。它可以把断言放松到能通过为止，可以删掉或跳过失败的测试，可以把期望值改成代码现在给出的值，也可以捕获一个错误再把它吞掉。</p>
 <p>这些都不需要什么恶意，agent 只是在做循环奖励的事：以通过收尾。我自己的运行里没有记录过这样的案例，所以我把它写成一个要在设计里防着的风险，而不是我测量过的东西。</p>
-<p>那该怎么防？办法有好几种，从最便宜到最硬。最便宜的，是用话说清楚：“修代码，不要修测试。如果测试看起来不对，说出来，然后停下。”这有帮助，但它是一个请求（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）。</p>
-<p>光靠请求不够的时候，就让测试待在 agent 够不着的地方。如果测试属于不许编辑的东西，hook 会拒绝这个改动。<a href="4-3-guardrails.html">保护规则本身的文件</a>讲了为什么检查 agent 的文件应该放在 agent 能写的范围之外。不过，要是新增测试本身就是工作的一部分，这个办法就不合适；那种情况下，保护已有的测试，让 agent 新增测试。</p>
-<p>最硬的办法，是不再信报告，改成去数。看测试的 diff（改动行的清单），一个本来失败的测试要是在里面被改过，就是个信号。更好的是让代码而不是 agent 来数通过的次数，同时留下检查运行过的记录（<a href="5-5-counted-checks.html">让“通过”可信</a>）。</p>
+<p>那该怎么防？办法有好几种，从最便宜到最硬。最便宜的，是用话说清楚：“修代码，不要修测试。如果测试看起来不对，说出来，然后停下。”这有帮助，但它是一个请求（<a href="4-1-requests-and-rules.html">为什么 Agent 不听 prompt 里的规则？</a>）。</p>
+<p>光靠请求不够的时候，就让测试待在 agent 够不着的地方。如果测试属于不许编辑的东西，hook 会拒绝这个改动。<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>讲了为什么检查 agent 的文件应该放在 agent 能写的范围之外。不过，要是新增测试本身就是工作的一部分，这个办法就不合适；那种情况下，保护已有的测试，让 agent 新增测试。</p>
+<p>最硬的办法，是不再信报告，改成去数。看测试的 diff（改动行的清单），一个本来失败的测试要是在里面被改过，就是个信号。更好的是让代码而不是 agent 来数通过的次数，同时留下检查运行过的记录（<a href="5-5-counted-checks.html">Agent 说“测过了”，能信吗？</a>）。</p>
 <h3>它和独立检查怎么分工</h3>
 <p>既然自查漏掉的东西这么多，独立的 reviewer 是不是更好用？其实两者不是对手，因为它们抓的东西不同。</p>
 <table>
@@ -562,7 +562,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tr>
 <td>成本</td>
 <td>便宜，可以反复运行</td>
-<td>多一个 agent，用量是好几倍（<a href="2-3-subagents.html">慎用子 agent</a>）</td>
+<td>多一个 agent，用量是好几倍（<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>）</td>
 </tr>
 </tbody>
 </table>
@@ -607,9 +607,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>Anthropic：<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a></li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li><a href="5-5-counted-checks.html">让“通过”可信</a>：为什么通过的次数该由代码来数，而不是 agent。</li>
-<li><a href="4-3-guardrails.html">保护规则本身的文件</a>：让测试它够不着。</li>
-<li><a href="2-3-subagents.html">慎用子 agent</a>：独立检查。</li>
+<li><a href="5-5-counted-checks.html">Agent 说“测过了”，能信吗？</a>：为什么通过的次数该由代码来数，而不是 agent。</li>
+<li><a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>：让测试它够不着。</li>
+<li><a href="2-3-subagents.html">别跟风瞎用子 Agent</a>：独立检查。</li>
 <li>Anthropic：<a href="https://code.claude.com/docs/en/best-practices">Best practices for Claude Code</a></li>
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The harness asks for a record of self-testing before a development task counts as done, and it keeps a separate reviewer for what a self-check cannot judge.</p>
@@ -617,7 +617,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>在 harness 裡，一個開發任務要先留下自我測試的紀錄，才算完成；自我檢查判斷不了的事，則交給一個獨立的 reviewer。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「讓 agent 能檢查自己的活」這一章。請教我這個 harness 在哪裡要求 agent 執行自己的檢查、開發任務怎樣才算完成，以及獨立檢查（主題 11）怎麼和它搭配。帶我打開真實的檔案，並畫出這個循環。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>在 harness 里，一个开发任务要先有一份自测的记录，才算做完；自查判断不了的东西，则交给一个单独的 reviewer。</p>
-<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“让 agent 能检查自己的活”这一章。请教我，这个 harness 在哪里要求 agent 运行自己的检查，开发任务怎样才算做完，以及独立检查（主题 11）是怎么和它配合的。带我打开真实的文件，并画出这个循环。</code></pre></div>
+<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“让 Agent 自己跑测试”这一章。请教我，这个 harness 在哪里要求 agent 运行自己的检查，开发任务怎样才算做完，以及独立检查（主题 11）是怎么和它配合的。带我打开真实的文件，并画出这个循环。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
 <footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>

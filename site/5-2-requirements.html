@@ -222,9 +222,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why the words are not enough</span><span data-l="zh-Hant" lang="zh-Hant">為什麼光靠字面不夠</span><span data-l="zh-Hans" lang="zh-Hans">为什么光靠字面不够</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">From what was said to what was meant</span><span data-l="zh-Hant" lang="zh-Hant">從說了什麼，到想要什麼</span><span data-l="zh-Hans" lang="zh-Hans">从说了什么，到想要什么</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the page costs, and where it can still go wrong</span><span data-l="zh-Hant" lang="zh-Hant">這一頁要付出什麼，又可能在哪裡出錯</span><span data-l="zh-Hans" lang="zh-Hans">这一页要付出什么，又可能在哪里出错</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">What can shrink or go, and what stays</span><span data-l="zh-Hant" lang="zh-Hant">哪些可以縮短或刪掉，哪些留下</span><span data-l="zh-Hans" lang="zh-Hans">哪些可以缩短或删掉，哪些留下</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.2</p><h1><span data-l="en" lang="en">The agent writes the requirement, the person confirms it</span><span data-l="zh-Hant" lang="zh-Hant">需求由 agent 寫，人確認</span><span data-l="zh-Hans" lang="zh-Hans">需求由 agent 写，人确认</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="5-1-tasks.html">Manage tasks, not chats</a>: a task is one job with one folder of files.</p>
+<article><header class="chapter-head"><p class="chapter-no">5.2</p><h1><span data-l="en" lang="en">The agent writes the requirement, the person confirms it</span><span data-l="zh-Hant" lang="zh-Hant">需求由 agent 寫，人確認</span><span data-l="zh-Hans" lang="zh-Hans">需求说不清？让 Agent 先写一页给你确认</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent. It builds on <a href="5-1-tasks.html">Manage tasks, not chats</a>: a task is one job with one folder of files.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章假設你用過 AI 程式 agent。它建立在<a href="5-1-tasks.html">管任務，不管對話</a>上：任務是一份工作，配一個放檔案的資料夾。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你要用过 AI 编程 agent。它建立在<a href="5-1-tasks.html">管任务，不管对话</a>之上：一个任务就是一件事，加一个放文件的文件夹。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，你要用过 AI 编程 agent。它建立在<a href="5-1-tasks.html">一个任务一个文件夹</a>之上：一个任务就是一件事，加一个放文件的文件夹。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>People's requests are vague and they shift. So have the agent write the requirement on one page, have the person confirm it, and from then on let everyone work from that page.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>人的請求含糊，而且會變，所以要讓 agent 把需求寫成一頁，由人確認，從此大家都照著這一頁做。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>人提的需求含糊，还会变，所以要让 agent 把需求写成一页，由人来确认，从此大家都照着这一页干活。</p>
@@ -419,7 +419,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>拿一個自相矛盾的請求試試</h3>
 <p>想看看你自己的設定表現如何，可以給 agent 一個簡短的請求，裡面放兩句互相矛盾的話，例如一句說報表是每天的，另一句說是每週的。它寫出來的那一頁，是把衝突列在「還不清楚」下面，還是悄悄選了一個？選了一個的話，這一頁就是把一個猜測說得斬釘截鐵。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>从说了什么，到想要什么</h2><h3>为什么我不保留人的原话</h3>
-<p>我最初的想法是把每一条 prompt 都记下来，这样“人要求了什么”就始终在磁盘上。可正是上面那些原因让它行不通：原话会漏东西，也说不清楚。需求又会在几轮之间变来变去，所以第一条 prompt 不是需求，单看最后一条也不是。全部留着，还会用一堆闲聊填满上下文（见<a href="3-1-context-budget.html">上下文是一份预算</a>），agent 之后还得重新把它们理一遍。</p>
+<p>我最初的想法是把每一条 prompt 都记下来，这样“人要求了什么”就始终在磁盘上。可正是上面那些原因让它行不通：原话会漏东西，也说不清楚。需求又会在几轮之间变来变去，所以第一条 prompt 不是需求，单看最后一条也不是。全部留着，还会用一堆闲聊填满上下文（见<a href="3-1-context-budget.html">为什么不能把所有规则都塞给 Agent？</a>），agent 之后还得重新把它们理一遍。</p>
 <p>所以原话不是需求，需求是人<em>想表达的意思</em>，而且要写下来，让他自己能检查。</p>
 <h3>agent 来写，人来确认</h3>
 <p>总得有人把它写下来，这个人就是 agent。它根据对话把需求写成<strong>一页</strong>，人读完这一页，再确认它。这就是<strong>需求文件</strong>，之后的每一步都以这一个文件为准。</p>
@@ -474,7 +474,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><strong>每一点的来源</strong>：来源文档里的文件和位置，或者人的回答。</li>
 <li><strong>还不清楚</strong>：悬而未决的问题，老老实实列成清单，而不是藏成一个猜测。</li>
 </ul>
-<p>其中最要紧的是“做完的标准”。独立检查（见<a href="2-3-subagents.html">慎用子 agent</a>）只以这一页为准，<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>里的自查也是。</p>
+<p>其中最要紧的是“做完的标准”。独立检查（见<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>）只以这一页为准，<a href="5-4-self-checks.html">让 Agent 自己跑测试</a>里的自查也是。</p>
 <h3>agent 怎么提问</h3>
 <p>对话里留下空白的地方，agent 就得问。可问得太多的 agent，和乱猜的 agent 一样糟。我给它定的规则来自我自己的使用，没有拿它们和别的提问方式比较过。</p>
 <ol>
@@ -489,13 +489,13 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>需求是一堆文档的时候</h3>
 <p>有时候，需求根本不是一条消息，而是一份业务文件、一张映射表格，再加几封邮件，下面说的就是这种情况。这些材料要是原样交给 agent，既费上下文，又容易出错，因为 Word 文件带着封面、修订历史和批注，表格里有隐藏的工作表，还有带含义的颜色。至于二进制文件，根本就不是文本。</p>
 <p>所以先由程序，而不是模型，把它们转成纯文本。Word 变成 Markdown，每张工作表变成文本文件里的一张表，而原件原样保留。另有一份简短的报告，列出程序丢掉了什么，比如隐藏的工作表或图片。这一步不花 token，也不该改变任何数字。但藏在排版或颜色里的含义还是可能会丢，后面讲代价时我们再回到这一点。接下来由人修剪文本，再加一段简短的说明，讲这件事是什么，然后 agent 才读这些内容，写出那一页。</p>
-<p>有两条规则让 agent 在这里老实。看起来不对的数字，要原样引出来，向人提问，绝不擅自更正。两个来源互相矛盾，是要报告的发现，不该由它自己去裁决。这和<a href="5-9-who-decides.html">谁来判断：代码、便宜模型、主模型、人</a>是同样的分工，固定的转换交给程序，阅读交给模型。</p>
+<p>有两条规则让 agent 在这里老实。看起来不对的数字，要原样引出来，向人提问，绝不擅自更正。两个来源互相矛盾，是要报告的发现，不该由它自己去裁决。这和<a href="5-9-who-decides.html">这个判断该交给谁：代码、便宜模型、主模型，还是人？</a>是同样的分工，固定的转换交给程序，阅读交给模型。</p>
 <h3>开工之前，先审这一页</h3>
-<p>不管这一页是怎么写出来的，开工之前都可以先检查它。在我的配置里，agent 会把它和系统里已知的东西对照，比如知识库，也就是为 agent 维护的一份代码索引（见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>）。如果你没有知识库，就跳过这一步。发现的每个问题都写进“还不清楚”清单，写明问题是什么、为什么要紧、来源在哪。然后 agent 挑最卡进度的几个问题去问人，把每个答案写回这一页，如此反复，直到清单清空、人确认为止。</p>
+<p>不管这一页是怎么写出来的，开工之前都可以先检查它。在我的配置里，agent 会把它和系统里已知的东西对照，比如知识库，也就是为 agent 维护的一份代码索引（见<a href="8-1-why-a-knowledge-base.html">为什么要给代码建一个知识库？</a>）。如果你没有知识库，就跳过这一步。发现的每个问题都写进“还不清楚”清单，写明问题是什么、为什么要紧、来源在哪。然后 agent 挑最卡进度的几个问题去问人，把每个答案写回这一页，如此反复，直到清单清空、人确认为止。</p>
 <p>有两件事防着审查走样。agent 只在文档互相矛盾、有错，或者和系统对不上的地方提问。文档说得清楚的东西，它从不让人再确认一遍。而且需求文件里留着“已确认”这一行，只有人能填。</p>
 <h3>需求变了的时候</h3>
 <p>就算这一页已经确认过，需求还是会变。变的时候，<strong>先改那一页</strong>：agent 先编辑需求，在变更记录里加一行，然后才去动工作。如果人最新的指示和这一页冲突，hook 会提醒 agent 先把两者对齐，再做别的。</p>
-<p>先改这一页，是因为计划就建立在已确认的需求之上。在我的配置里，需求还没确认，或者确认之后又变了，批准计划就会被拒绝（见<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>）。所以开工之后需求变了的话，人要重新确认需求、重新批准计划，已经做完的工作则要重新检查，而不是扔掉。</p>
+<p>先改这一页，是因为计划就建立在已确认的需求之上。在我的配置里，需求还没确认，或者确认之后又变了，批准计划就会被拒绝（见<a href="5-3-two-approvals.html">哪些事必须由人来批？</a>）。所以开工之后需求变了的话，人要重新确认需求、重新批准计划，已经做完的工作则要重新检查，而不是扔掉。</p>
 <h3>拿一条自相矛盾的需求试试</h3>
 <p>想看看你自己的配置表现如何，可以给 agent 一段简短的需求，里面放两句互相矛盾的话，比如一句说报告是每天的，另一句说是每周的。它写出来的那一页，是把这个冲突列在“还不清楚”下面，还是悄悄选了一个？如果选了一个，这一页就是把一个猜测写得言之凿凿。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What the page costs, and where it can still go wrong</h2><p>Is the page worth it? It costs the person a few minutes of reading. For a one-line change that is too much, so a small task can skip the page (the sizes are in <a href="5-1-tasks.html">Manage tasks, not chats</a>).</p>
@@ -508,7 +508,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>agent 也可能寫出聽起來很有把握的一頁，就像上面那個測試裡那樣。好的一頁有一張誠實的「還不清楚」清單，所以複雜的請求配上一張空清單，是警訊，不是好事。</p>
 <p>問題也可能變成苦差事：問得太多，或者問的是本來查得到的事，問到最後，人就開始回答「隨便」了。多少個問題算太多，我沒有量過。</p>
 <p>最後，如果需求是一堆文件，要記得，顏色、註解和圖片在轉換中都留不下來。程式的報告會寫明漏掉了什麼，所以要去讀它。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这一页要付出什么，又可能在哪里出错</h2><p>这一页值不值得？它要花人几分钟来读。对一行的改动来说，这就太多了，所以小任务可以跳过这一页（规模怎么分，见<a href="5-1-tasks.html">管任务，不管对话</a>）。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>这一页要付出什么，又可能在哪里出错</h2><p>这一页值不值得？它要花人几分钟来读。对一行的改动来说，这就太多了，所以小任务可以跳过这一页（规模怎么分，见<a href="5-1-tasks.html">一个任务一个文件夹</a>）。</p>
 <p>你也许会想，人都确认过了，总该没问题了吧？其实不然：人会确认自己只扫了一眼的页面，所以一页需求完全可能既是错的，又被确认了。确认不是证明。这一页能做的，只是让误解更早地显现出来，仅此而已。</p>
 <p>agent 也可能写出一页听起来很笃定的东西，就像上面那个测试里那样。好的一页有一份诚实的“还不清楚”清单，所以复杂的需求配上一份空清单，是警示信号，不是好兆头。</p>
 <p>提问也可能变成负担：问得太多，或者问的是本来查得到的东西，问到最后，人就开始回答“随便”了。多少个问题算太多，我没有测过。</p>
@@ -533,16 +533,16 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>：檢查照「做完的條件」來做。</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li><a href="5-1-tasks.html">管任务，不管对话</a>：需求文件放在哪里。</li>
-<li><a href="5-3-two-approvals.html">两道门：人在哪里审批</a>：计划是对着已确认的需求批准的。</li>
-<li><a href="5-4-self-checks.html">让 agent 能检查自己的活</a>：检查以“做完的标准”为准。</li>
+<li><a href="5-1-tasks.html">一个任务一个文件夹</a>：需求文件放在哪里。</li>
+<li><a href="5-3-two-approvals.html">哪些事必须由人来批？</a>：计划是对着已确认的需求批准的。</li>
+<li><a href="5-4-self-checks.html">让 Agent 自己跑测试</a>：检查以“做完的标准”为准。</li>
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The requirement file, the asking method, the review of a requirement and the conversion of business files all run in Copilot Harness.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;The agent writes the requirement, the person confirms it&quot;. Teach me how this harness does it (topic 9, the requirement part, and topic 15 on why the exact words are not kept). Open a real requirement file with me, show how a change goes into it first, and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>需求檔、提問的方法、需求的審查，和業務檔案的轉換，都在 Copilot Harness 裡執行。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「需求由 agent 寫，人確認」這一章。請教我這個 harness 怎麼做（主題 9 的需求部分，以及主題 15 講為什麼不留原話）。和我一起打開一個真實的需求檔，讓我看一個修改怎麼先進到它裡面，並畫出各部分怎麼接在一起。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>需求文件、提问的方法、需求的审查，以及业务文件的转换，都在 Copilot Harness 里跑着。</p>
-<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“需求由 agent 写，人确认”这一章。请教我这个 harness 是怎么做的（主题 9 的需求部分，以及主题 15 里为什么不保留原话）。带我打开一份真实的需求文件，演示一次变更是怎么先进入它的，并画出各部分是怎么配合的。</code></pre></div>
+<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“需求说不清？让 Agent 先写一页给你确认”这一章。请教我这个 harness 是怎么做的（主题 9 的需求部分，以及主题 15 里为什么不保留原话）。带我打开一份真实的需求文件，演示一次变更是怎么先进入它的，并画出各部分是怎么配合的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
 <footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>

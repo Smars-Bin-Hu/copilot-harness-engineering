@@ -222,9 +222,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What goes wrong when a team shares one person's setup?</span><span data-l="zh-Hant" lang="zh-Hant">一個人的設定交給整個團隊，會出什麼問題？</span><span data-l="zh-Hans" lang="zh-Hans">一个人的配置交给整个团队，会出什么问题？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Owners, reviews, records, and a rollout in stages</span><span data-l="zh-Hant" lang="zh-Hant">負責人、審查、紀錄，再分階段推行</span><span data-l="zh-Hans" lang="zh-Hans">负责人、审查、记录，再分阶段落地</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Where governance can go wrong</span><span data-l="zh-Hant" lang="zh-Hant">治理本身會在哪裡出問題</span><span data-l="zh-Hans" lang="zh-Hans">治理本身会在哪里出问题</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the layers, and what stays</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這三層，什麼會留下來</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这三层，什么会留下来</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">7.4</p><h1><span data-l="en" lang="en">Roll out and govern a harness</span><span data-l="zh-Hant" lang="zh-Hant">落地與治理</span><span data-l="zh-Hans" lang="zh-Hans">落地与治理</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, <a href="3-3-instructions-and-skills.html">Instructions and skills</a> and <a href="6-1-observe.html">Record what happened, not what the agent said</a>.</p>
+<article><header class="chapter-head"><p class="chapter-no">7.4</p><h1><span data-l="en" lang="en">Roll out and govern a harness</span><span data-l="zh-Hant" lang="zh-Hant">落地與治理</span><span data-l="zh-Hans" lang="zh-Hans">怎么把 Agent 配置推广到整个团队？</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-3-guardrails.html">Guard the files that hold the rules</a>, <a href="3-3-instructions-and-skills.html">Instructions and skills</a> and <a href="6-1-observe.html">Record what happened, not what the agent said</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要讀過 <a href="4-3-guardrails.html">保護規則本身的檔案</a>、<a href="3-3-instructions-and-skills.html">指令與 skill：只載入需要的</a> 和 <a href="6-1-observe.html">記下發生了什麼，不是 agent 說了什麼</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，需要先读过<a href="4-3-guardrails.html">保护规则本身的文件</a>、<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>和<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，需要先读过<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>、<a href="3-3-instructions-and-skills.html">规则写太多，Agent 反而记不住</a>和<a href="6-1-observe.html">别信 Agent 的总结，看日志</a>。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Rolling an agent setup out to a team is mostly a question of who owns the rules and who reviews changes to them. Widen the rollout only when the logs show that the rules hold.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>把 agent 設定推給一個團隊，主要是兩個問題：誰擁有規則，誰審查對規則的改動。等日誌顯示規則撐得住了，再擴大範圍。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>把一套 agent 配置推广到团队，主要是两个问题：规则归谁管，谁来审查对规则的改动。等日志显示规则站得住了，再往外放开。</p>
@@ -505,39 +505,39 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="400" y="198" data-t="r3">不审；不提交</text>
 </svg>
 <figcaption>规则分三层。错了影响越广，负责人越少，审查越严。</figcaption></figure>
-<p><strong>核心层</strong>是每个任务都必须遵守的那几条简短规则，加上执行它们的文件（<a href="4-3-guardrails.html">保护规则本身的文件</a>里的围栏）。这里出错，影响的是所有人。它有一两个指定的负责人，别人不去改它。</p>
-<p>往下是<strong>团队层</strong>，包括领域 skill、团队的知识库（代码的索引，见<a href="8-1-why-a-knowledge-base.html">知识库：代码的诚实索引</a>），以及对所有人都一样的设置，比如哪些路径任何 agent 都不许碰。这一层每个领域有一位负责人，就是最了解那部分代码的人。比如关于部署的 skill，就归负责部署的人。</p>
+<p><strong>核心层</strong>是每个任务都必须遵守的那几条简短规则，加上执行它们的文件（<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>里的围栏）。这里出错，影响的是所有人。它有一两个指定的负责人，别人不去改它。</p>
+<p>往下是<strong>团队层</strong>，包括领域 skill、团队的知识库（代码的索引，见<a href="8-1-why-a-knowledge-base.html">为什么要给代码建一个知识库？</a>），以及对所有人都一样的设置，比如哪些路径任何 agent 都不许碰。这一层每个领域有一位负责人，就是最了解那部分代码的人。比如关于部署的 skill，就归负责部署的人。</p>
 <p>最后是<strong>个人层</strong>，比如用户名、语言、你的仓库在你机器上所在的文件夹。它归个人，也不提交，因为里面的路径只在一台电脑上有效。</p>
 <p>这套分法要行得通，在我的配置里靠的是两个机制，不过团队就算不用这个工具，也可以照搬思路。</p>
 <p>一个是 <strong>override</strong>。它是放在默认配置旁边的一小份配置，而不是默认配置的副本，只列出你改动的东西。想多禁止一个路径的人，写一行就行，用不着把整个规则文件 fork 出去。这样一来，团队的定制始终只有几行，谁都读得懂，核心层升级时也不会和它冲突。在我的实现里，override 删不掉核心层的护栏：哪个 override 要是把它们去掉了，引擎会把它们放回去，并报告一个错误。配置的健康检查还会列出每个 override 改了什么，这样审查者就有了一个集中查看的地方。</p>
-<p>另一个是一条规则只有一个主来源。同一条规则写在三个文件里，副本就是这么漂移起来的（<a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>），所以分派负责人时，要分派给来源。一条规则有两个家，就有两个负责人，实际上等于没有。</p>
+<p>另一个是一条规则只有一个主来源。同一条规则写在三个文件里，副本就是这么漂移起来的（<a href="3-3-instructions-and-skills.html">规则写太多，Agent 反而记不住</a>），所以分派负责人时，要分派给来源。一条规则有两个家，就有两个负责人，实际上等于没有。</p>
 <h3>谁来审查对规则的改动</h3>
 <p>每一层有了负责人，接下来的问题是：对它的改动由谁来把关？这要从规则文件是什么说起。它不是文档，而是 agent 要服从的东西，所以改它，就是改团队的 agent 明天会做什么。我像对待代码那样对待它，具体有四个习惯。</p>
-<p>第一个习惯是 agent 不改规则。这些文件被围栏围着，要改，得由人为一次会话打开围栏，改完再关上，之后在 git 里读 diff（<a href="4-3-guardrails.html">保护规则本身的文件</a>）。这样留下来的，就是一份别人可以审查的 diff。</p>
-<p>第二个习惯是，作者不是唯一的审查者。这一层的负责人要读这个改动，另一个没参与讨论的人也要读。对待规则改动，要像对待攻击者很想做的代码改动那样，因为一个草率或怀有恶意的 pull request 是入口，一个共享的 skill 或知识库文件也是入口，只要里面带着 agent 会当成自己的指令来读的话（<a href="4-6-untrusted-input.html">agent 读到的文字可能在指挥它</a>）。</p>
+<p>第一个习惯是 agent 不改规则。这些文件被围栏围着，要改，得由人为一次会话打开围栏，改完再关上，之后在 git 里读 diff（<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>）。这样留下来的，就是一份别人可以审查的 diff。</p>
+<p>第二个习惯是，作者不是唯一的审查者。这一层的负责人要读这个改动，另一个没参与讨论的人也要读。对待规则改动，要像对待攻击者很想做的代码改动那样，因为一个草率或怀有恶意的 pull request 是入口，一个共享的 skill 或知识库文件也是入口，只要里面带着 agent 会当成自己的指令来读的话（<a href="4-6-untrusted-input.html">Agent 读到的网页和文件，可能在给它下命令</a>）。</p>
 <p>两个人读过，管得了这一次改动，管不了以后的。以后的事，要约定好谁可以批准例外、负责人离开时谁接手这一层。写规则的人还要记得，agent 是从零开始读的，所以只有作者看得懂的规则，对它来说就是差的规则。</p>
 <p>第三个习惯是一组固定的问题。审查要问六个，也就是我往自己的配置里加任何东西之前会问的那些。</p>
 <ul>
 <li>它防止什么故障？有真实的例子、日志或测量吗？</li>
 <li>平台已经做了吗？有人读过它现在的文档吗？</li>
 <li>它花多少，在上下文、token 和时间上？</li>
-<li>它是文字里的请求，还是代码里的规则（<a href="4-1-requests-and-rules.html">提示里的规则只是请求</a>）？对这个危害，选这个对吗？</li>
+<li>它是文字里的请求，还是代码里的规则（<a href="4-1-requests-and-rules.html">为什么 Agent 不听 prompt 里的规则？</a>）？对这个危害，选这个对吗？</li>
 <li>什么时候可以删？要变成什么样？</li>
 <li>如果我们换了别的工具，学到的东西还有用吗？</li>
 </ul>
 <p>还有一条规矩能帮上审查：<strong>只写模型会弄错的东西</strong>。模型本来就会照做的一行，既占上下文，又让审查者多读一行。说不出它防止了什么错误，就别写。</p>
-<p>最后一个习惯，是不接受空口的“这有帮助”。如果一个改动是为了改善结果，审查就该要一份在同样的固定任务上做的前后对比（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>），而不是一个意见。</p>
+<p>最后一个习惯，是不接受空口的“这有帮助”。如果一个改动是为了改善结果，审查就该要一份在同样的固定任务上做的前后对比（<a href="6-3-eval-tasks.html">改了配置，怎么知道是不是变好了？</a>），而不是一个意见。</p>
 <h3>审计：配置留下了什么</h3>
 <p>审查发生在改动生效之前，可事后，没在场的管理者还要能回答“agent 做了什么，是谁让它们做的”。回答这个问题，就是审计。审计要行得通，前提是记录不归 agent 控制。那我的配置到底写下了什么？已经做了的有五类。</p>
 <ul>
-<li>每次工具调用记一行日志：调用的类型、是放行还是拒绝、哪条规则拒绝的、花了多长时间。这一行不记参数，也不记 prompt 文本，只有被拒绝的调用会保留它的路径和命令（<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）。</li>
+<li>每次工具调用记一行日志：调用的类型、是放行还是拒绝、哪条规则拒绝的、花了多长时间。这一行不记参数，也不记 prompt 文本，只有被拒绝的调用会保留它的路径和命令（<a href="6-1-observe.html">别信 Agent 的总结，看日志</a>）。</li>
 <li>拒绝还会被计数。一条统计命令会汇总 prompt、调用和拒绝的数量，以及是配置的哪个部分拒绝的。</li>
 <li>每个任务的审批，都保存成只有人才能创建的记录，任务报告会显示两道审批的时间。</li>
-<li>任务报告在任务关闭时由代码写出，写的是要求是什么，改了什么，做了多少次检查、每次的结论，以及拒绝了什么（<a href="6-2-task-report.html">一份五分钟读得完的报告</a>）。</li>
+<li>任务报告在任务关闭时由代码写出，写的是要求是什么，改了什么，做了多少次检查、每次的结论，以及拒绝了什么（<a href="6-2-task-report.html">Agent 干完活，你该看什么？</a>）。</li>
 <li>对规则的改动也有自己的痕迹。agent 不能改规则文件，所以由人来改，而且是在一次会话里改，这次会话里每个记录下来的调用都标成 admin，改动本身就是 git 里的一份 diff。</li>
 </ul>
 <p>还有两类只是想法，没有做。审批记录带有时间，但带不带人名，我没查过。我的配置只有一个用户，所以从来不需要，团队却需要。日志也没有集中放在一处：在我的配置里，它们留在每台电脑上，不放进 git，我也没有做过在团队范围内把它们收集起来的办法。</p>
-<p>这些记录还得有人读。那么，谁来看，多久看一次？在我自己的配置里，我在一次运行失败时和改规则时读日志，不是每天读（<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）。对团队，我会建议加一个简短的例行动作，由每一层的负责人时不时看看拒绝的次数，并读每一次规则改动的 diff。没人负责的日志，算不上审计线索。</p>
+<p>这些记录还得有人读。那么，谁来看，多久看一次？在我自己的配置里，我在一次运行失败时和改规则时读日志，不是每天读（<a href="6-1-observe.html">别信 Agent 的总结，看日志</a>）。对团队，我会建议加一个简短的例行动作，由每一层的负责人时不时看看拒绝的次数，并读每一次规则改动的 diff。没人负责的日志，算不上审计线索。</p>
 <h3>分阶段落地</h3>
 <p>还有一件事，是按什么顺序推开。先铺开、后补审查，得到的就是这一章开头那十个副本。所以我会分阶段放开，并为每个阶段写下进入之前必须满足什么。</p>
 <figure class="fig" id="fig-7-4-rollout-stages"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 270">
@@ -586,14 +586,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>第 4 阶段靠的是“日志显示规则站得住”这句话，所以它得指向看得见的东西。没有团队的数字，我只能说会盯什么，说不出量到了什么。</p>
 <ul>
 <li>大家是在开任务，还是绕开这套配置？数一数开了多少任务，对比在普通对话里完成的活。</li>
-<li>规则拒绝了什么？每周都是同样的东西吗？一条总是拒绝同样的正常工作的规则，是要修的规则（<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。</li>
+<li>规则拒绝了什么？每周都是同样的东西吗？一条总是拒绝同样的正常工作的规则，是要修的规则（<a href="4-2-ask-vs-refuse.html">“先问我”为什么挡不住 Agent？</a>）。</li>
 <li>批准之后有多少活被打回来？点头之后又返工，说明审批时看得太快。</li>
 <li>本地 override 有多少，它们一样吗？见后面关于 override 的那个坑。</li>
 </ul>
 <p>第 4 阶段要求这些都不再变动：拒绝的次数稳定，而且多半是你想拒绝的那些，返工很少，override 也很少。“日志显示规则站得住”指的就是这个，没有更大的含义。</p>
 <h3>这本书里的证据有多强</h3>
-<p>这一章靠的是设计而不是数据，整本书在一定程度上也是这样。读其余部分时，这些局限值得记在心里。所有东西都是在一个平台上搭建和试验的，就是 VS Code Copilot。别的工具也有对应的东西，但我没有测过。而且这是一个人的 harness：是我搭的，我在用。没有别人测过，而我作为搭建者，也不是它的中立评判者。我也没有团队数据或事故可以依据：我没测过采用情况，也没有规则在团队里失效的记录。我唯一量过的对比，是四个任务、各跑一次（<a href="2-3-subagents.html">慎用子 agent</a>）。章节里给出数字的地方，都会在旁边写明运行次数和配置，好让你看出该信到什么程度。</p>
-<p>所以，请把这本书当作问题和设计来用，不要当作证明。从中取一个设计，说清你预期它做什么，再在你自己的任务上检验（<a href="6-3-eval-tasks.html">固定的任务，用脚本打分</a>、<a href="6-4-variance.html">一次运行证明不了什么</a>）。你的数字应该取代我的。</p>
+<p>这一章靠的是设计而不是数据，整本书在一定程度上也是这样。读其余部分时，这些局限值得记在心里。所有东西都是在一个平台上搭建和试验的，就是 VS Code Copilot。别的工具也有对应的东西，但我没有测过。而且这是一个人的 harness：是我搭的，我在用。没有别人测过，而我作为搭建者，也不是它的中立评判者。我也没有团队数据或事故可以依据：我没测过采用情况，也没有规则在团队里失效的记录。我唯一量过的对比，是四个任务、各跑一次（<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>）。章节里给出数字的地方，都会在旁边写明运行次数和配置，好让你看出该信到什么程度。</p>
+<p>所以，请把这本书当作问题和设计来用，不要当作证明。从中取一个设计，说清你预期它做什么，再在你自己的任务上检验（<a href="6-3-eval-tasks.html">改了配置，怎么知道是不是变好了？</a>、<a href="6-4-variance.html">同一个任务跑两次，结果不一样</a>）。你的数字应该取代我的。</p>
 </div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Where governance can go wrong</h2><p>Governance has costs of its own, and most of them fall on people. The first is that the owner can become a bottleneck. If every rule change goes through two people, people stop proposing changes and start keeping private copies, which is the problem you were solving. Keep the core small, so that few changes need the strict path, and let the team layer move fast.</p>
 <p>Review of rules is also unglamorous, because no one is thanked for a rule that was not added. Put the owner's time in someone's plan, or the review turns into a rubber stamp. And the reviewer has to be able to judge the rule. A rule about a deployment path, reviewed by someone who has never deployed, gets only a spelling check.</p>
 <p>Overrides need watching too, since too many local overrides amount to a fork. If most users carry the same override, it belongs in the team layer, so look at the overrides now and then and promote the common ones.</p>
@@ -610,7 +610,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>审查规则也没什么光彩，没人会因为一条没加的规则而被感谢。要把负责人的时间排进某个人的计划里，否则审查就会变成走过场。而且审查者得有能力判断这条规则。一条关于部署路径的规则，让一个从没部署过的人来审，就只剩一次拼写检查。</p>
 <p>override 也要盯着，因为本地 override 太多，就等于 fork。如果大多数用户都带着同样的 override，它就该放进团队层，所以要时不时看看 override，把常见的提升上去。</p>
 <p>日志带来的则是另一种代价，因为里面有关于人的东西。一份记录每次调用的日志，会显示某人什么时候工作、让 agent 去碰了什么。在集中收集之前，先定好谁可以读，保存多久。</p>
-<p>日志还有一层作用：它是阶段关卡的证据，而关卡的好坏，取决于背后的记录。日志里的漏洞（<a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>）会让“规则站得住”看起来是真的，实际上却无从知道。</p>
+<p>日志还有一层作用：它是阶段关卡的证据，而关卡的好坏，取决于背后的记录。日志里的漏洞（<a href="6-1-observe.html">别信 Agent 的总结，看日志</a>）会让“规则站得住”看起来是真的，实际上却无从知道。</p>
 <p>这一切都建立在我开头承认的那个局限上。三层划分、审查习惯、审计例行动作和各个阶段，都是根据一个人的使用设计出来的。我没有测过团队里的采用情况，也没有跟踪过谁改了什么，所以请把它们当作要验证的起点，不要当成结果。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete the layers, and what stays</h2><p>The three-layer split exists because the platform gives you files but no way to own them. If your platform lets an organisation publish rules centrally, with its own review, audit and roll-out, use that for the core layer and keep only the team layer yourself. I have not checked what Copilot offers here today, so look at its current docs before building your own.</p>
 <p>The review questions, though, do not retire. They are how you decide whether any rule, skill or agent deserves to exist.</p>
@@ -636,18 +636,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li><a href="7-3-what-we-cut.html">我砍掉了什麼，數據怎麼說</a>：同樣的准入問題，用在我自己的設定上。</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li><a href="4-3-guardrails.html">保护规则本身的文件</a>：围栏怎么守住，人什么时候打开它。</li>
-<li><a href="3-3-instructions-and-skills.html">指令与 skill：只加载需要的</a>：规则放在哪里，为什么一条规则只有一个来源。</li>
-<li><a href="6-1-observe.html">记下发生了什么，而不是 agent 说了什么</a>：该记录什么，怎么读。</li>
-<li><a href="7-1-people-and-teams.html">人与团队：留给人的事</a>：留给人的事，以及怎么让新人上手。</li>
-<li><a href="7-3-what-we-cut.html">我砍掉了什么，数据怎么说</a>：同样的准入问题，用在我自己的配置上。</li>
+<li><a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>：围栏怎么守住，人什么时候打开它。</li>
+<li><a href="3-3-instructions-and-skills.html">规则写太多，Agent 反而记不住</a>：规则放在哪里，为什么一条规则只有一个来源。</li>
+<li><a href="6-1-observe.html">别信 Agent 的总结，看日志</a>：该记录什么，怎么读。</li>
+<li><a href="7-1-people-and-teams.html">Agent 越能干，人该干什么？</a>：留给人的事，以及怎么让新人上手。</li>
+<li><a href="7-3-what-we-cut.html">多 Agent 分工没换来什么：我砍掉的东西</a>：同样的准入问题，用在我自己的配置上。</li>
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>Overrides, the health check, the fenced rule files and the logs all run in Copilot Harness. The harness can show them to you with the real files.</p>
 <p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Roll out and govern a harness&quot;. Teach me how this harness lets a team customise it without forking it (policy overrides, the health check that lists them), how it guards its own rule files, and what its logs and reports record. Open the real files with me, and show where a team&#x27;s changes go and where they must not go.</code></pre></div>
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>override、健康檢查、被圍起來的規則檔和日誌，都在 Copilot Harness 裡執行，harness 可以用真實的檔案帶你看。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「落地與治理」這一章。請教我這個 harness 怎麼讓團隊客製化卻不用分叉（policy override，和列出它們的健康檢查），怎麼保護它自己的規則檔，以及它的紀錄和報告記下什麼。和我一起打開真實的檔案，讓我看團隊的改動該放在哪裡，不該放在哪裡。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>override、健康检查、被围起来的规则文件和日志，都在 Copilot Harness 里跑着，harness 可以带着真实的文件把它们展示给你。</p>
-<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“落地与治理”这一章。请教我这个 harness 是怎么让团队定制它而不用 fork 的（策略 override，以及列出它们的健康检查），它怎么守住自己的规则文件，以及它的日志和报告记录了什么。带我打开真实的文件，让我看看团队的改动该放在哪里、不该放在哪里。</code></pre></div>
+<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“怎么把 Agent 配置推广到整个团队？”这一章。请教我这个 harness 是怎么让团队定制它而不用 fork 的（策略 override，以及列出它们的健康检查），它怎么守住自己的规则文件，以及它的日志和报告记录了什么。带我打开真实的文件，让我看看团队的改动该放在哪里、不该放在哪里。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
 <footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>

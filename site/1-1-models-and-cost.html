@@ -222,7 +222,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What are you really paying for?</span><span data-l="zh-Hant" lang="zh-Hant">你到底在為什麼付錢？</span><span data-l="zh-Hans" lang="zh-Hans">你到底在为什么付钱？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Where a task's cost comes from, and where to cut it</span><span data-l="zh-Hant" lang="zh-Hant">一個任務的錢花在哪裡，又該從哪裡省</span><span data-l="zh-Hans" lang="zh-Hans">一个任务的钱花在哪，又该从哪里省</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What saving costs, and what I cannot see</span><span data-l="zh-Hant" lang="zh-Hant">省錢要付出什麼，我又看不到什麼</span><span data-l="zh-Hans" lang="zh-Hans">省钱要付出什么，我又看不到什么</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Is the market pricing it the same way?</span><span data-l="zh-Hant" lang="zh-Hant">市場也是這樣算的嗎？</span><span data-l="zh-Hans" lang="zh-Hans">市场也是这么算的吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete these tricks</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這些省錢技巧</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这些省钱技巧</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">1.1</p><h1><span data-l="en" lang="en">Choosing a model: cost per finished task</span><span data-l="zh-Hant" lang="zh-Hant">選模型：算的是每次成功的成本</span><span data-l="zh-Hans" lang="zh-Hans">选模型：看每次成功的成本</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and have seen a usage or billing page for it. Nothing else.</p>
+<article><header class="chapter-head"><p class="chapter-no">1.1</p><h1><span data-l="en" lang="en">Choosing a model: cost per finished task</span><span data-l="zh-Hant" lang="zh-Hant">選模型：算的是每次成功的成本</span><span data-l="zh-Hans" lang="zh-Hans">选模型，别只看 token 单价</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and have seen a usage or billing page for it. Nothing else.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過寫程式的 AI agent，並且看過它的用量或帳單頁面。其他都不用。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过写代码的 AI agent，并且看过它的用量页面或账单页面。别的都不需要。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Judge a model by what it costs to get one task done, not by its price per token. Most of that cost is what the model reads, so reading less and redoing less saves the most.</p>
@@ -344,7 +344,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>价目表上的数字查得到，所以大家都拿它来比。可你从来不是为了 token 本身付钱。你买的是一件做完的事，比如修好一个 bug、写完一份报告，所以要紧的是这件事一共花了多少。</p>
 <p>拿价目表来估这个总价并不靠谱，原因有两个。一是便宜的模型如果把任务做砸了，还得再问一遍，算下来可能比一次就做对的强模型更贵。二是在 agent 里，token 的数量和你想的不一样，下面就来看看。</p>
 <h3>agent 里的 token 都去了哪</h3>
-<p>token 的数量为什么会出乎意料？在聊天里，你发一个问题，得到一个回答，就结束了。在 agent 循环里（<a href="2-1-agent-loop.html">agent 循环，以及你能插手的地方</a>），每拿到一个工具结果，模型都要被再调用一次，而每次调用都要把到目前为止的整段对话重新发过去：规则、需求、读过的每个文件、每个结果。模型在两次调用之间没有记忆，只有这样它才知道之前发生了什么。这些内容都得装进<strong>上下文窗口</strong>，也就是模型一次能看到的文本。窗口本身有大小上限（怎么管理它，<a href="3-1-context-budget.html">上下文是一份预算</a>会讲），而每次调用都会把它从头重新装满一遍。</p>
+<p>token 的数量为什么会出乎意料？在聊天里，你发一个问题，得到一个回答，就结束了。在 agent 循环里（<a href="2-1-agent-loop.html">Agent 到底是怎么干活的？</a>），每拿到一个工具结果，模型都要被再调用一次，而每次调用都要把到目前为止的整段对话重新发过去：规则、需求、读过的每个文件、每个结果。模型在两次调用之间没有记忆，只有这样它才知道之前发生了什么。这些内容都得装进<strong>上下文窗口</strong>，也就是模型一次能看到的文本。窗口本身有大小上限（怎么管理它，<a href="3-1-context-budget.html">为什么不能把所有规则都塞给 Agent？</a>会讲），而每次调用都会把它从头重新装满一遍。</p>
 <figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <g>
     <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
@@ -381,7 +381,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <ol class="step-text"><li data-step-text="1">第 1 轮：模型读规则和你的需求，写出一个很短的工具调用。</li><li data-step-text="2">第 2 轮：它把这些再读一遍，加上第一次调用的结果，再写一点点。</li><li data-step-text="3">第 3 轮：全部再读一遍，加上第二个结果。读的越来越多，写的一直很少。</li><li data-step-text="4">prompt 缓存对完全重复的部分收费更低。所以缓存命中会改变长任务的成本。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>在循环里，每一轮都把整个上下文重读一遍。长任务主要是在读，不是在写。</figcaption></figure>
 <p>我们用整数来算一笔账。这些数字是我为了好算挑的，不是测出来的。假设规则加你的需求一共 10,000 个 token，每个工具结果再加 5,000 个。10 次调用下来，模型读的大约是 10,000 + 15,000 + 20,000 + ... = 325,000 个 token，每次调用写的却可能只有几百个。在这个例子里，读占了 token 的 90% 以上。实际的比例要看你的任务，但循环跑得越久，就越偏向读。</p>
 <p>当然，输出的单价更高，所以 token 数不等于钱。不过大致的格局不变：一个长的 agent 任务，大部分时候都是模型在一遍遍地重读同样的内容。这也是为什么这一章的后半部分，讲的都是怎么少读。</p>
-<p>我还可以举一个真实的例子。在<a href="2-3-subagents.html">慎用子 agent</a>里，我把同样的四个任务，分别交给一个由三个按岗位分工的 agent 组成的团队，和一个单干的 agent。两边每个任务都做对了，可团队用掉的是后者的 4.5 倍左右。浪费最多的就是重读，因为每个新开的 agent 都从空白的上下文开始，只好把同样的文件再读一遍。那只是四个小任务，每个只跑了一次，所以方向可以信，倍数别当真。</p>
+<p>我还可以举一个真实的例子。在<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>里，我把同样的四个任务，分别交给一个由三个按岗位分工的 agent 组成的团队，和一个单干的 agent。两边每个任务都做对了，可团队用掉的是后者的 4.5 倍左右。浪费最多的就是重读，因为每个新开的 agent 都从空白的上下文开始，只好把同样的文件再读一遍。那只是四个小任务，每个只跑了一次，所以方向可以信，倍数别当真。</p>
 <h3>prompt 缓存改变了这笔账</h3>
 <p>既然每次调用的很大一部分都是同样的开头，提供方就推出了 <strong>prompt 缓存</strong>：它记住你输入里很长的一段开头，后面的调用只要以同样的文本开头，这一段就能少收钱。在 Anthropic 的 API 上，大多数模型读缓存的输入只收基础输入价的十分之一，有些模型更低。写入缓存则比普通读取贵，五分钟的缓存是 1.25 倍，一小时的缓存是 2 倍（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。</p>
 <p>这几个价格最直接的影响是，开头越稳定越划算。因为缓存只认从输入开头起一模一样的内容，只要你改了靠前的东西，比如改了一条规则、换了一份工具列表，它后面的所有内容就都命中不了缓存。反过来，停下来也可能要花钱：缓存只能活很短的时间，一个对话你放下一小时再回来，可能就得付全价把缓存重建一遍。不过，就算每次都命中，读缓存也不是免费的：<strong>最便宜的 token，仍然是没发出去的那个</strong>。少读仍然是第一个该试的办法。</p>
@@ -668,7 +668,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>这三部分里，能省的大多在第一和第三部分。一条好用的经验法则是：<strong>用够用的办法里最便宜的那个</strong>。</p>
 <h3>什么时候强模型反而便宜</h3>
 <p>选哪个模型，也正是在返工这一项上见分晓。更强的模型每个 token 更贵，可如果它一次就答对，而弱的模型要试三次，那么算到每个做完的任务上，强模型反而可能花得更少。不过，如果任务本来就简单，用强模型也可能是浪费。</p>
-<p>转折点在哪里？我自己没有测过，所以这只是一个推理，不是结果。要找到这个点，办法是在你自己的任务上测：拿同样的几个任务，在两个模型上各跑一遍，比较每次成功的成本，而不是每次调用的成本。怎么老老实实地做这件事，<a href="6-4-variance.html">一次运行证明不了什么</a>会讲。</p>
+<p>转折点在哪里？我自己没有测过，所以这只是一个推理，不是结果。要找到这个点，办法是在你自己的任务上测：拿同样的几个任务，在两个模型上各跑一遍，比较每次成功的成本，而不是每次调用的成本。怎么老老实实地做这件事，<a href="6-4-variance.html">同一个任务跑两次，结果不一样</a>会讲。</p>
 <h3>按任务选模型，再看一眼设置</h3>
 <p>我自己的经验法则同样没有测过，大致是：思考用强模型，比如定计划、想思路、啃难的 bug；动手用中等的模型，比如做一处计划已经很清楚的改动。有些工具还能设置<strong>推理强度</strong>，这是部分模型上的一个设置，控制它回答之前想多久。想得越多，通常输出的 token 越多，花的时间也越长。至于 Copilot 能不能从 harness 里调它，我没测过，你得查一下自己用的工具。</p>
 <h3>Copilot 怎么计费（截至 2026 年 10 月下旬）</h3>
@@ -694,11 +694,11 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 <tr>
 <td>它说“做完了”，其实没有</td>
-<td>加一道检查：跑测试（<a href="5-4-self-checks.html">让 agent 能检查自己的活</a>）</td>
+<td>加一道检查：跑测试（<a href="5-4-self-checks.html">让 Agent 自己跑测试</a>）</td>
 </tr>
 <tr>
 <td>在长会话里它丢了线索</td>
-<td>开一个新会话，把状态放在文件里带过去（<a href="3-2-long-sessions.html">长对话会变差</a>）</td>
+<td>开一个新会话，把状态放在文件里带过去（<a href="3-2-long-sessions.html">对话越久，Agent 越笨</a>）</td>
 </tr>
 <tr>
 <td>它什么都知道，推理还是不行</td>
@@ -709,12 +709,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>四个省钱的办法，以及各自怎样会过头</h3>
 <p>选模型只是其中一个抓手。下面四个省钱的办法里，第一个排在成本的三部分之前：干脆不调用模型。后三个按顺序对应那三部分，而且四个办法都可能做过头。</p>
 <ol>
-<li><strong>少用模型</strong>。代码能做的，就别去问模型。计数、复制文件、把 Word 文件转成文本、检查格式，这些活脚本每次都做得一样，而且不花 token。危险在于把需要判断的事交给了不会判断的代码，这条线划在哪里，见<a href="5-9-who-decides.html">谁来判断：代码、便宜模型、主模型、人</a>。</li>
+<li><strong>少用模型</strong>。代码能做的，就别去问模型。计数、复制文件、把 Word 文件转成文本、检查格式，这些活脚本每次都做得一样，而且不花 token。危险在于把需要判断的事交给了不会判断的代码，这条线划在哪里，见<a href="5-9-who-decides.html">这个判断该交给谁：代码、便宜模型、主模型，还是人？</a>。</li>
 <li><strong>少读</strong>。规则写得简短，细节需要时才加载，要 diff 而不是整个文件。危险在于读得太少，它就会去猜，返工的成本比省下的读取还高。</li>
 <li><strong>少写</strong>。要简短的回答，比如一句话的结论、一个简短的清单。危险在于输出简略到下一步用不上。</li>
 <li><strong>少返工</strong>。动手前先商定计划，把状态放在文件里，会话丢了也能接着做，再给重试的次数设个上限。危险在于上限卡掉了有用的工作，所以上限要根据你见到的情况来定，而不是根据担心来定。</li>
 </ol>
-<p>还有一类固定成本，不管你在任务里怎么选，每次调用都要付。agent 拥有的每个工具，都会把自己的名字、描述和参数加进每次调用的输入里（<a href="1-2-tool-calling.html">Tool calling，以及怎么给 agent 设计工具</a>），你注入的每条规则，也会每一轮都跟着走。</p>
+<p>还有一类固定成本，不管你在任务里怎么选，每次调用都要付。agent 拥有的每个工具，都会把自己的名字、描述和参数加进每次调用的输入里（<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>），你注入的每条规则，也会每一轮都跟着走。</p>
 <h3>账单让你意外的时候</h3>
 <p>如果账单比你预想的高，先问自己三个问题。</p>
 <ol>
@@ -812,7 +812,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 就是圍繞少讀、少重做搭起來的：規則分層載入，狀態放在檔案裡，檢查除非你要求，否則是關的。在成本上它看不到什麼，它也說得很直白。harness 可以和你一起打開真實的檔案，從裡面把這些一項項指給你看。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「選模型：算的是每次成功的成本」這一章。請教我這個 harness 怎麼少讀、少寫、少重做，以及它能和不能告訴我一個任務的真實用量。帶我打開真實的檔案，並畫出各部分怎麼接在一起。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 就是围绕少读、少返工来搭的：规则分层加载，状态放在文件里，检查你不要求就不开。在成本上它看不到什么，它也说得很直白。harness 可以和你一起打开真实的文件，从内部把这些一一指给你看。</p>
-<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“选模型：看每次成功的成本”这一章。请教我这个 harness 是怎么少读、少写、少返工的，以及它能告诉我、不能告诉我一个任务的真实用量的哪些方面。带我打开真实的文件，并画出各部分是怎么连起来的。</code></pre></div>
+<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“选模型，别只看 token 单价”这一章。请教我这个 harness 是怎么少读、少写、少返工的，以及它能告诉我、不能告诉我一个任务的真实用量的哪些方面。带我打开真实的文件，并画出各部分是怎么连起来的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
 <footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>

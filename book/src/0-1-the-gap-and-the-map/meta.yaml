@@ -1,7 +1,7 @@
 id: "0.1"
 part: start
 core: true
-title: {en: "The gap is outside the model", zh-Hant: "差距在模型外面", zh-Hans: "差距在模型外面"}
+title: {en: "What is Harness Engineering?", zh-Hant: "什麼是 Harness Engineering？", zh-Hans: "什么是 Harness Engineering？"}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop]
 sources:
@@ -11,5 +11,14 @@ sources:
   - what: "Two failure modes of long-running agents: trying to do too much at once, and declaring the job done too early"
     where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
     checked: 2026-10-27
+  - what: "Terminal Bench 2.0 has 89 tasks. Failures seen in traces and the matching fixes: stopping after re-reading its own code (pre-completion verification reminder), errors finding files and tools (map the working directory and tools at start), doom loops of small edits to one broken approach, 10+ times in some traces (reminder after N edits to the same file)"
+    where: https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering
+    checked: 2026-10-29
+  - what: "Reasoning effort for gpt-5.2-codex has low, medium, high, xhigh. xhigh only: 53.9% (timeouts); high only: 63.6%; xhigh for planning and verification, high for implementation reached 66.5%; little difference across splits in trial runs"
+    where: https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering
+    checked: 2026-10-29
+  - what: "Opus 4.5 on the Claude Agent SDK building a claude.ai clone; quotes on the two failure modes; fixes: initializer writes 200+ features all marked failing (JSON), coding sessions do one feature at a time, may only change the passes field and may not remove or edit tests, commit to git, log in claude-progress.txt; browser automation testing as a human user finds bugs not obvious from the code"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-29
   - what: "The seven-layer frame (model, tools, runtime, context, control, flow, evidence) and the three kinds of failure"
     where: the author's own framework

@@ -222,9 +222,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why a confirmation box is not an approval</span><span data-l="zh-Hant" lang="zh-Hant">確認框為什麼算不上批准</span><span data-l="zh-Hans" lang="zh-Hans">确认框为什么算不上审批</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Where to put the person, and how to make the yes count</span><span data-l="zh-Hant" lang="zh-Hant">人要放在哪裡，又怎樣讓他的「同意」算數</span><span data-l="zh-Hans" lang="zh-Hans">把人放在哪里，又怎样让他的“同意”算数</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What the gates cost, and where they can still fail</span><span data-l="zh-Hant" lang="zh-Hant">這兩道門要付出什麼，還會在哪裡失守</span><span data-l="zh-Hans" lang="zh-Hans">关卡要付出什么，还会在哪里失守</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete the typed approval</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉在終端機輸入的批准</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉敲码审批</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">5.3</p><h1><span data-l="en" lang="en">Two gates: where a person approves</span><span data-l="zh-Hant" lang="zh-Hant">兩道門：人在哪裡批准</span><span data-l="zh-Hans" lang="zh-Hans">两道门：人在哪里审批</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Ask or refuse</a> and <a href="4-3-guardrails.html">Guardrails</a>: why &quot;ask me first&quot; is not a limit, and why the agent must not be able to edit the rules.</p>
+<article><header class="chapter-head"><p class="chapter-no">5.3</p><h1><span data-l="en" lang="en">Two gates: where a person approves</span><span data-l="zh-Hant" lang="zh-Hant">兩道門：人在哪裡批准</span><span data-l="zh-Hans" lang="zh-Hans">哪些事必须由人来批？</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have read <a href="4-2-ask-vs-refuse.html">Ask or refuse</a> and <a href="4-3-guardrails.html">Guardrails</a>: why &quot;ask me first&quot; is not a limit, and why the agent must not be able to edit the rules.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章之前，你需要先讀過 <a href="4-2-ask-vs-refuse.html">詢問不是限制</a> 和 <a href="4-3-guardrails.html">保護規則本身的檔案</a>：為什麼「先問我」不是限制，以及為什麼 agent 不能改規則。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="4-2-ask-vs-refuse.html">询问不是限制</a>和<a href="4-3-guardrails.html">保护规则本身的文件</a>：为什么“先问我”不是限制，以及为什么 agent 不能有权编辑规则。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章之前，你要读过<a href="4-2-ask-vs-refuse.html">“先问我”为什么挡不住 Agent？</a>和<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>：为什么“先问我”不是限制，以及为什么 agent 不能有权编辑规则。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Put a person at the points that cost money, grant power or cannot be undone. Make the approval come through a channel the agent cannot reach, and bind it to exactly the plan that was approved.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>在花錢、授權、不能反悔的地方放一個人。讓批准從 agent 碰不到的管道進來，而且只綁定到被批准的那一份計畫。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>在花钱、授权、无法撤销的地方放一个人。让审批走 agent 够不着的渠道，并把它绑定到被批准的那份计划上，一字不差。</p>
@@ -252,7 +252,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>確認框為什麼算不上批准</h2><p>你希望重要的步驟由人來批准，而最直接的工具就在眼前：agent 工具跳出來的確認框，問你「允許這個嗎？」可是它效果不好，原因有兩個。一是人會按允許，到了第一百個框，早就沒在讀了（<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。二是很多工具可以勾「這個會話都允許」，勾了之後，框就再也不會出現。你倚靠的批准就這樣不見了，也沒有任何東西告訴你。</p>
 <p>還有第三個問題，比較不容易察覺。假設批准不是一個框，而是一個由人輸入的指令。可是如果 agent 能執行指令，它也能輸入同一個指令。一個 agent 自己就能給的批准，算不上批准。</p>
 <p>那麼，人要放在哪裡？他的「同意」又怎樣才能成為 agent 既造不出來、也沒辦法重複使用的東西？</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>确认框为什么算不上审批</h2><p>你希望重要的步骤由人来批准，而最顺手的工具就摆在眼前：agent 工具弹出来的确认框，问你“允许吗？”可它不太管用，原因有两个。一是人会点“允许”，到了第一百个框，早就不读了（见<a href="4-2-ask-vs-refuse.html">询问不是限制</a>）。二是很多工具可以勾选“本次会话都允许”，勾了之后这个框再也不会出现。你指望的审批就这样没了，也没有任何东西提醒你。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>确认框为什么算不上审批</h2><p>你希望重要的步骤由人来批准，而最顺手的工具就摆在眼前：agent 工具弹出来的确认框，问你“允许吗？”可它不太管用，原因有两个。一是人会点“允许”，到了第一百个框，早就不读了（见<a href="4-2-ask-vs-refuse.html">“先问我”为什么挡不住 Agent？</a>）。二是很多工具可以勾选“本次会话都允许”，勾了之后这个框再也不会出现。你指望的审批就这样没了，也没有任何东西提醒你。</p>
 <p>还有第三个问题，更不容易察觉。假设审批不是一个框，而是人敲的一条命令。可如果 agent 能运行命令，它也能敲这条命令。一个 agent 自己就能给出的审批，算不上审批。</p>
 <p>那么，人该放在哪里？他的“同意”又怎样才能成为 agent 既造不出来、也没法重复使用的东西？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Where to put the person, and how to make the yes count</h2><h3>Where to put the person</h3>
@@ -409,7 +409,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>門背後的習慣，用手也做得到：叫 agent 動手之前先讀計畫，提交之前先讀 diff，對會寫入的工具不要勾「這個會話都允許」。上面這些機制，只是確保你累了、或不在的時候，這些事也照樣會發生。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>把人放在哪里，又怎样让他的“同意”算数</h2><h3>把人放在哪里</h3>
 <p>第一个问题的答案很简单。人的注意力是整个系统里最稀缺的东西，所以只把它花在三类点上，别处一概不花。有的点要花钱，比如启动一次昂贵的运行；有的点会授权，比如让 agent 往共享仓库里写东西；还有的点无法撤销，一旦做了，就再也收不回来。</p>
-<p>agent 的大部分工作都不属于这三类，因为任务文件夹里的一切重做起来都很便宜，agent 在那里可以放手去干（见<a href="5-1-tasks.html">管任务，不管对话</a>）。但一个要改真实仓库的任务，会碰上两个这样的点。我把每一个都叫作一道<strong>关卡</strong>，因为人批准之前，任务过不去。</p>
+<p>agent 的大部分工作都不属于这三类，因为任务文件夹里的一切重做起来都很便宜，agent 在那里可以放手去干（见<a href="5-1-tasks.html">一个任务一个文件夹</a>）。但一个要改真实仓库的任务，会碰上两个这样的点。我把每一个都叫作一道<strong>关卡</strong>，因为人批准之前，任务过不去。</p>
 <figure class="fig steps" id="fig-5-3-two-gates" data-steps="5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <g data-step="1">
   <rect class="box" x="10" y="60" width="100" height="56" rx="8"/>
@@ -456,7 +456,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <ol class="step-text"><li data-step-text="1">agent 写好计划就停下，不能继续。</li><li data-step-text="2">关卡 1。人在编辑器里读计划，再到终端里敲批准。agent 没办法替人敲。</li><li data-step-text="3">agent 在任务文件夹里工作。每道关卡都留一份工作的副本，坏了可以找回那一刻的样子。</li><li data-step-text="4">关卡 2。人读确切的 diff，再在终端里批准。之后结果才进到仓库。</li><li data-step-text="5">批准绑在人读过的那份计划上。计划一改，批准就作废。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>两道关卡，放在花钱、授权、无法撤销的点上。每道都是 agent 替不了人做的动作。</figcaption></figure>
 <h3>关卡 1：批准计划</h3>
 <p>第一道关卡设在任何工作文件被改动之前。agent 写出需求和计划后就停下来，在人读完计划、批准之前，它可以起草、可以读，但还不能动手改。</p>
-<p>之所以停在这里，是为了成本。一份错的计划，还停留在一段文字的时候改起来很便宜，等它变成一个做完的改动再改就贵了。在我的配置里，计划还建立在已经确认的需求之上（见<a href="5-2-requirements.html">需求由 agent 写，人确认</a>），所以一次审批可以把两者一起确认。</p>
+<p>之所以停在这里，是为了成本。一份错的计划，还停留在一段文字的时候改起来很便宜，等它变成一个做完的改动再改就贵了。在我的配置里，计划还建立在已经确认的需求之上（见<a href="5-2-requirements.html">需求说不清？让 Agent 先写一页给你确认</a>），所以一次审批可以把两者一起确认。</p>
 <h3>关卡 2：批准写回</h3>
 <p>到了第二道关卡，agent 已经在任务文件夹里做完改动，检查也跑过了，剩下的就是把结果复制到真实的仓库里，这一步叫<strong>写回</strong>。在写回之前，人要读那份确切的 <strong>diff</strong>，也就是将要改动的那些行的清单，然后再批准。</p>
 <p>就算批准了，写回也不会直接进主分支。结果会进入仓库的一个新分支，并且不提交。而且在真正写之前，代码会先检查：</p>
@@ -469,8 +469,8 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <h3>为什么审批要在终端里敲</h3>
 <p>再看第二个问题的前一半：怎样让一声“同意”成为 agent 造不出来的东西？聊天里的确认框可以被“本次会话都允许”关掉，人在终端里敲的一个码却关不掉，所以审批被做成一条需要真正终端的命令。不过，这个设计是靠两条腿站着的，终端只是其中一条。</p>
 <p>可光靠终端，算不上一堵墙。检查“这是不是终端”并不是安全边界，因为有心的程序完全可以假冒一个终端。那要是真有程序假冒，靠什么拦住它？</p>
-<p>靠的是第二条腿，也就是 hook。agent 只要试图运行审批命令，这段代码就会直接拒绝。它必须放在 agent 够不着的地方，正如<a href="4-3-guardrails.html">保护规则本身的文件</a>所讲的那样：如果这个 hook 没了，或者 agent 能编辑它，审批就只剩一个客客气气的请求。两条腿，单靠哪一条都不够。</p>
-<p>而 hook 本身出了错的时候，也得照样拒绝。执行层在自己出故障时会放行调用（见<a href="4-4-enforcement-design.html">把执行层当软件来设计</a>），所以对审批命令的拒绝，应该列进那份即使 hook 出错也必须拦下的短清单。不然的话，这条腿恰恰会在最需要它的时候断掉。</p>
+<p>靠的是第二条腿，也就是 hook。agent 只要试图运行审批命令，这段代码就会直接拒绝。它必须放在 agent 够不着的地方，正如<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>所讲的那样：如果这个 hook 没了，或者 agent 能编辑它，审批就只剩一个客客气气的请求。两条腿，单靠哪一条都不够。</p>
+<p>而 hook 本身出了错的时候，也得照样拒绝。执行层在自己出故障时会放行调用（见<a href="4-4-enforcement-design.html">hook 自己出故障了怎么办？</a>），所以对审批命令的拒绝，应该列进那份即使 hook 出错也必须拦下的短清单。不然的话，这条腿恰恰会在最需要它的时候断掉。</p>
 <p>这并不是说人要在终端里读计划。计划和 diff 在终端里很难读，所以人是在编辑器里读的，终端只显示文件路径和要敲的码。读和批准是两个有意分开的动作。</p>
 <h3>把审批绑在读过的内容上</h3>
 <p>剩下的是后一半：重复使用。假设人批准了一份计划，之后 agent 又改了这份计划，那这个批准还有效吗？不应该有效。正因为这样，人要敲的那个码是从计划的内容算出来的。它是一个哈希，相当于一枚指纹，哪怕只改一个字符它也会变；所以批准之后计划一变，批准就对不上了，关卡也随之重新关上。</p>
@@ -492,9 +492,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>就算 hook 好好的，人還是可能不讀就批准。把批准綁到計畫上，擋得住掉包，卻擋不住累了的「同意」。讓 diff 短一點、門少一點會有幫助，但這裡沒有任何東西能消除這個問題。一個我還沒試過的想法，是記下每次批准花了多久、diff 有多大，因為大 diff 卻很快就批准，是值得看一眼的訊號。</p>
 <p>剩下兩條限制前面已經說過：終端機檢查只防意外，防不了攻擊（<a href="4-5-least-privilege.html">有些東西根本不給</a>）；跨倉庫的部分失敗，還是要人來處理。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>关卡要付出什么，还会在哪里失守</h2><p>最直接的代价是时间。每道关卡都要让 agent 停下来，等人读一遍、敲一条命令，这是这套设计要付的价。可要是到处都设关卡，人就不读了，你又回到了第一百个框。</p>
-<p>这套关卡也只有在负责拒绝的 hook 还在时才成立。如果拒绝审批命令的 hook 被删了、被改了，或者出了故障，能运行命令的 agent 就可能自己批准自己。所以要按<a href="4-3-guardrails.html">保护规则本身的文件</a>里的规则保护好这个 hook，并且测试它。测试很便宜，让 agent 去运行审批，看它是不是被拒绝就行。</p>
+<p>这套关卡也只有在负责拒绝的 hook 还在时才成立。如果拒绝审批命令的 hook 被删了、被改了，或者出了故障，能运行命令的 agent 就可能自己批准自己。所以要按<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>里的规则保护好这个 hook，并且测试它。测试很便宜，让 agent 去运行审批，看它是不是被拒绝就行。</p>
 <p>就算 hook 好好的，人也可能不读就批。把审批绑到计划上，能防住调包，却防不住一句疲惫的“同意”。让 diff 短一点、关卡少一点会有帮助，但这里没有任何东西能消除这个问题。有一个我还没试过的想法，是记下每次审批用了多久、diff 有多大，因为对一个很大的 diff 飞快地批下来，是值得留意的信号。</p>
-<p>剩下两条限制前面已经说过：终端检查只防意外，防不了攻击（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）；跨仓库的部分失败，仍然要人来处理。</p>
+<p>剩下两条限制前面已经说过：终端检查只防意外，防不了攻击（见<a href="4-5-least-privilege.html">不要开放全部的权限或使用沙箱</a>）；跨仓库的部分失败，仍然要人来处理。</p>
 </div></section><section id="when-to-delete-it" class="sec"><div data-l="en" lang="en"><h2>When to delete the typed approval</h2><p>Of all this, the typed approval is the part that depends on the platform. It exists because a platform's own confirmation can be switched off for a session and cannot be tied to a plan's hash. If a platform offers an approval that the agent cannot dismiss, that records what was shown, and that stops being valid when the content changes, use that and drop mine.</p>
 <p>The idea stays either way: a person at the three kinds of point, and an approval that belongs to exactly what they read.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉在終端機輸入的批准</h2><p>整套設計裡，在終端機輸入的批准是跟平台綁在一起的那一部分。它之所以存在，是因為平台自己的確認可以在一個會話裡被關掉，也沒辦法綁到計畫的 hash。如果哪天平台提供的批准，agent 無法關掉、會記錄當時顯示的內容、內容一變就失效，那就用平台的，把我的拿掉。</p>
@@ -517,9 +517,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>，文件說 hook 和指令不能代替強制的權限。</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li><a href="4-3-guardrails.html">保护规则本身的文件</a>：为什么 hook 和它的文件必须在 agent 够不着的地方。</li>
-<li><a href="4-2-ask-vs-refuse.html">询问不是限制</a>：为什么确认框不是限制。</li>
-<li><a href="5-5-counted-checks.html">让“通过”可信</a>：在第二道关卡之前运行的检查。</li>
+<li><a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>：为什么 hook 和它的文件必须在 agent 够不着的地方。</li>
+<li><a href="4-2-ask-vs-refuse.html">“先问我”为什么挡不住 Agent？</a>：为什么确认框不是限制。</li>
+<li><a href="5-5-counted-checks.html">Agent 说“测过了”，能信吗？</a>：在第二道关卡之前运行的检查。</li>
 <li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/hooks">Hooks</a>，其中说 hook 和指令不能替代强制执行的权限。</li>
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>The two gates, the typed approval, the plan hash, and the snapshots run in Copilot Harness.</p>

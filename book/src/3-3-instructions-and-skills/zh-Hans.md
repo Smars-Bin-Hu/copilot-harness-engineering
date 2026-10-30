@@ -1,4 +1,4 @@
-这一章假定你用过 AI 编程 agent，也读过[上下文是一份预算](3-1-context-budget.html)（agent 读到的所有东西共用一个大小有限的窗口）。
+这一章假定你用过 AI 编程 agent，也读过[为什么不能把所有规则都塞给 Agent？](3-1-context-budget.html)（agent 读到的所有东西共用一个大小有限的窗口）。
 
 ## 一句话 {#in-one-sentence}
 
@@ -17,7 +17,7 @@
 
 规则多了，怎么反倒守得更差？文件变长以后，有两件事会出问题，而只有第二件和“守不守”有关。
 
-第一，文件里的所有内容，每一轮都要付费。这个文件一直待在窗口里，不管手头这项工作用不用得上，所以你在改一个错别字的时候，一条讲数据库迁移的规则也照样占着地方。它占的就是[上下文是一份预算](3-1-context-budget.html)讲的那份预算，至于每一轮要花多少，在[选模型：看每次成功的成本](1-1-models-and-cost.html)里。
+第一，文件里的所有内容，每一轮都要付费。这个文件一直待在窗口里，不管手头这项工作用不用得上，所以你在改一个错别字的时候，一条讲数据库迁移的规则也照样占着地方。它占的就是[为什么不能把所有规则都塞给 Agent？](3-1-context-budget.html)讲的那份预算，至于每一轮要花多少，在[选模型，别只看 token 单价](1-1-models-and-cost.html)里。
 
 第二，规则越多，每一条被遵守得就越差。在一个长文件里，规则会互相竞争，两行之间可能说法矛盾，重要的一行也可能淹没在一堆细枝末节里。平台自己的文档也是这个意思。Claude Code 和 VS Code 的文档都建议把指令文件写短，Claude Code 的文档还提醒，两条指令互相矛盾时，模型可能随便挑一条。
 
@@ -43,7 +43,7 @@
 
 其余的一切都按需阅读，包括长篇的操作指南和很少用到的细节。skill 和参考笔记就放在这里，工作需要时，agent 才去读。
 
-还有第四种办法。**hook**（平台在固定时刻运行的小程序，见 [Hook：每次调用都会经过的执行点](2-2-hooks.html)）可以在你发的每条消息开头加上几行，让一条规则在用得着它的地方附近再出现一次。不过只能加几行，不然你又把那个长文件搭回来了。
+还有第四种办法。**hook**（平台在固定时刻运行的小程序，见 [硬性规则放在哪？用 hook](2-2-hooks.html)）可以在你发的每条消息开头加上几行，让一条规则在用得着它的地方附近再出现一次。不过只能加几行，不然你又把那个长文件搭回来了。
 
 有了这几个位置，对每条规则要问的就是同一个问题：**这条规则多久用一次？agent 漏掉它会怎样？** 每次都要用、漏掉代价又大的，始终加载；只有某一类文件要用的，按文件加载；只有某项工作要用的，放进 skill。
 
@@ -84,7 +84,7 @@ agent 不会一次看到全部内容。
 
 第五种原因最根本，改文本、挪位置都解决不了：规则只是请求。你写在文件里的任何东西，都只是给模型读的，而模型可以不照做。Claude Code 的文档说得很直白，记忆文件是“上下文，不是强制执行的配置”，想不管模型怎么决定都拦住某个动作，文档给的办法是 hook。skill 的正文也一样，它能让工作进行得顺畅，却不能让错事无法发生。
 
-所以必须成立的规则，要写进代码。怎么做这个选择，是[提示里的规则只是请求](4-1-requests-and-rules.html)的主题。有了代码，文本只需要解释为什么，这样 agent 就不会再想办法绕过拒绝。在我的配置里，重要的规则两层都有，文本负责教，代码负责拦。
+所以必须成立的规则，要写进代码。怎么做这个选择，是[为什么 Agent 不听 prompt 里的规则？](4-1-requests-and-rules.html)的主题。有了代码，文本只需要解释为什么，这样 agent 就不会再想办法绕过拒绝。在我的配置里，重要的规则两层都有，文本负责教，代码负责拦。
 
 那 skill 的头部能不能改变这一点？有的平台允许头部带上更强的设置，这时要查清楚它们到底做什么。比如在 Claude Code 里，`allowed-tools` 只是预先批准工具，并不限制工具。skill 还可以注册 hook，而 hook 是代码（[Skills](https://code.claude.com/docs/en/skills)）。
 
@@ -144,12 +144,12 @@ Anthropic 对 Agent Skills 描述的也是这三级，先是名字和描述，sk
 - VS Code 文档：[Custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
 - Anthropic：[Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 - Claude Code 文档：[How Claude remembers your project](https://code.claude.com/docs/en/memory)
-- 本书：[把团队的做法写成 skill](3-4-skills-and-workflows.html)、[提示里的规则只是请求](4-1-requests-and-rules.html)
+- 本书：[怎么写一个真正好用的 skill？](3-4-skills-and-workflows.html)、[为什么 Agent 不听 prompt 里的规则？](4-1-requests-and-rules.html)
 
 ## 在 harness 里探索 {#explore}
 
 Copilot Harness 用了这三个位置、三级加载，还有“一条规则只有一个来源”的原则。harness 可以带你在真实的文件里把每一样都看一遍。
 
 ::: prompt
-/harness-rookie-wondering 我读完了“指令与 skill：只加载需要的”这一章。请教我这个 harness 是怎么用规则的三个位置的，它的 skill 是怎么分三级加载的，以及为什么它说 skill 不是强制执行的（主题 2、3 和 15）。带我打开真实的文件，从最短的那个开始。
+/harness-rookie-wondering 我读完了“规则写太多，Agent 反而记不住”这一章。请教我这个 harness 是怎么用规则的三个位置的，它的 skill 是怎么分三级加载的，以及为什么它说 skill 不是强制执行的（主题 2、3 和 15）。带我打开真实的文件，从最短的那个开始。
 :::

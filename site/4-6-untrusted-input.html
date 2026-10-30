@@ -222,9 +222,9 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </header>
 <main class="page">
 <nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why can't the agent tell your orders from a stranger's?</span><span data-l="zh-Hant" lang="zh-Hant">agent 為什麼分不清你的命令和陌生人的命令？</span><span data-l="zh-Hans" lang="zh-Hans">agent 为什么分不清你的命令和陌生人的命令？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Limiting what a fooled agent can do</span><span data-l="zh-Hant" lang="zh-Hant">限制被騙的 agent 能做什麼</span><span data-l="zh-Hans" lang="zh-Hans">限制被骗的 agent 能做什么</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What each fix costs, and what still gets through</span><span data-l="zh-Hant" lang="zh-Hant">每種修法要付出什麼，還有什麼會漏過去</span><span data-l="zh-Hans" lang="zh-Hans">每种办法要付出什么，还有什么会漏过去</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Does anyone claim to have solved it?</span><span data-l="zh-Hant" lang="zh-Hant">有人說自己解決了嗎？</span><span data-l="zh-Hans" lang="zh-Hans">有人说自己解决了吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">Which workarounds to delete, and when</span><span data-l="zh-Hant" lang="zh-Hant">哪些繞路的辦法可以刪，什麼時候刪</span><span data-l="zh-Hans" lang="zh-Hans">哪些权宜办法可以删，什么时候删</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">4.6</p><h1><span data-l="en" lang="en">Text the agent reads can give it orders</span><span data-l="zh-Hant" lang="zh-Hant">agent 讀到的文字可能在指揮它</span><span data-l="zh-Hans" lang="zh-Hans">agent 读到的文字可能在指挥它</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes only that you have used an AI coding agent that reads files and runs commands. Having read <a href="4-5-least-privilege.html">Least privilege</a> helps, but it is not required.</p>
+<article><header class="chapter-head"><p class="chapter-no">4.6</p><h1><span data-l="en" lang="en">Text the agent reads can give it orders</span><span data-l="zh-Hant" lang="zh-Hant">agent 讀到的文字可能在指揮它</span><span data-l="zh-Hans" lang="zh-Hans">Agent 读到的网页和文件，可能在给它下命令</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes only that you have used an AI coding agent that reads files and runs commands. Having read <a href="4-5-least-privilege.html">Least privilege</a> helps, but it is not required.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><p>這一章只假設你用過會讀檔案、會執行指令的 AI 程式 agent。讀過<a href="4-5-least-privilege.html">有些東西根本不給</a>會有幫助，但不是必須。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个会读文件、跑命令的 AI 编程 agent。读过<a href="4-5-least-privilege.html">有些东西根本不给</a>会更好，但不是必须的。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过一个会读文件、跑命令的 AI 编程 agent。读过<a href="4-5-least-privilege.html">不要开放全部的权限或使用沙箱</a>会更好，但不是必须的。</p>
 </div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Text the agent reads can give it orders. That becomes dangerous when the agent can read private data, reads untrusted text and can send data out. Take away any one of the three, and the danger goes with it.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>agent 讀到的文字可能在指揮它。當 agent 能讀私有資料、會讀到不可信的文字、又能把資料送出去時，它就危險了。反過來說，三件事裡拿掉任何一件就行。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>agent 读到的文字，可能在给它下命令。当 agent 能读到私密数据、会读不可信的文字、又能把数据送出去时，它就危险了。反过来说，三样里去掉任何一样就行。</p>
@@ -411,8 +411,8 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>讀這個結果要小心，因為兩種結果的分量不一樣。看到那個字，顯示有個洞；沒看到，卻不代表安全，畢竟那只是一行話、一種說法。想測得更難一點，就把那一行放在 agent 會遇到外面文字的地方，例如暫時用的倉庫裡的 README 或 issue 留言。如果你真的看到了那個字，就回到三個圈，拿掉一個。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>限制被骗的 agent 能做什么</h2><h3>不可信的文字从哪来</h3>
 <p>这里说的<strong>不可信</strong>，是指不是你写的、你也说不清是谁写的文字。说到这个，人们很容易只想到网上的东西，可这种文字比大多数人想的要多，有一些就在你的项目里。</p>
-<p>最容易想到的来源在项目外面：仓库里的 issue、pull request 和评论，包括陌生人写的，还有 agent 抓取的网页和搜索结果。工具和 server 的输出也算在这一类，因为 MCP server（见 <a href="1-3-mcp.html">MCP server：接工具的标准接口</a>）的回复，是别人的代码写出来的文字。</p>
-<p>再往里，就是项目自己的文件了，比如 README、依赖、测试用的数据、代码注释、日志里的一行。谁能改 agent 会打开的文件，谁就能对它说话。VS Code 的页面也指出，不可信的内容会通过工具操作和文件编辑“被引入你的工作区”。别人交给你的文档同样算数，不管是贴进来的一封邮件、表格里的一个单元格，还是一份 PDF。甚至 agent 自己之前的输出，只要是用上面任何一样做出来的，也算，因为 agent 保存的笔记（见 <a href="3-5-memory.html">agent 该记住什么</a>）可能把一行注入的话带进以后的会话。</p>
+<p>最容易想到的来源在项目外面：仓库里的 issue、pull request 和评论，包括陌生人写的，还有 agent 抓取的网页和搜索结果。工具和 server 的输出也算在这一类，因为 MCP server（见 <a href="1-3-mcp.html">接 MCP server 之前，要想清楚什么？</a>）的回复，是别人的代码写出来的文字。</p>
+<p>再往里，就是项目自己的文件了，比如 README、依赖、测试用的数据、代码注释、日志里的一行。谁能改 agent 会打开的文件，谁就能对它说话。VS Code 的页面也指出，不可信的内容会通过工具操作和文件编辑“被引入你的工作区”。别人交给你的文档同样算数，不管是贴进来的一封邮件、表格里的一个单元格，还是一份 PDF。甚至 agent 自己之前的输出，只要是用上面任何一样做出来的，也算，因为 agent 保存的笔记（见 <a href="3-5-memory.html">让 Agent 记住经验，怎么防它记错？</a>）可能把一行注入的话带进以后的会话。</p>
 <p>而且这些命令很容易藏。它可以放在 HTML 注释里、白底白字里，或者图片的替代文本里，你看页面时根本看不到。agent 却会一字不落，全都读进去。</p>
 <h3>危险的组合</h3>
 <p>不过，并不是每次注入都是灾难。如果 agent 只能读，而且只读公开的材料，植入的命令顶多浪费点时间、误导一下人；严重的情况还需要更多条件。Simon Willison 给这些条件起了个名字，叫<strong>致命三要素</strong>（lethal trifecta），也就是三样同时具备。（<a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">The lethal trifecta</a>）</p>
@@ -454,25 +454,25 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </svg>
 <figcaption>打破这个组合的三种办法。一种就够。</figcaption></figure>
 <p>去掉哪个圆，要看这份工作离不开哪两个。</p>
-<p>如果 agent 必须读不可信的文字，又必须往外发送，那就去掉私密数据。这是最小权限的做法：agent 在一个文件夹里干活，里面只有任务需要的东西，它的环境里没有密钥，它能打开的文件里也没有凭证（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。</p>
+<p>如果 agent 必须读不可信的文字，又必须往外发送，那就去掉私密数据。这是最小权限的做法：agent 在一个文件夹里干活，里面只有任务需要的东西，它的环境里没有密钥，它能打开的文件里也没有凭证（见<a href="4-5-least-privilege.html">不要开放全部的权限或使用沙箱</a>）。</p>
 <p>如果 agent 需要私密数据，也需要发送的能力，那就反过来去掉不可信的文字，也就是规定它能读什么。对处理秘密的 agent，这可以意味着只读你自己仓库里的文件，不读从外面抓来的任何东西。真需要外部文字，就先让人审一遍。VS Code 对抓取的网页就是这么做的：它会让你先信任这个域名，并在内容交给模型之前把它显示出来，供你审查。</p>
 <p>如果 agent 既要读私密数据，又要读不可信的文字，比如在私有仓库里分拣 issue 的 agent，那就堵上出路，限制它能往哪里发送：用一份简短的地址清单代替开放的互联网，不发邮件，不发评论，不 <code>push</code>。这是最难堵上的一个圆，因为出口很多，有的还藏得很深。从一个地址加载图片，而你的数据就在 URL 里，这就等于向外送了一条消息。一条 shell 命令，也有很多种办法连上网络。</p>
-<p>有时候，一项工作三样都离不开。这时还有一种安排，我自己没有试过：把 agent 拆成两个，中间只留一个很窄的交接。第一个 agent 读不可信的文字，但手里没有私密数据，也没有出路，它只按固定的格式写一份简短、平实的摘要。第二个有数据、有权力，却只读那份摘要。这和<a href="2-3-subagents.html">慎用子 agent</a>里的独立检查是同一个思路，就是把上下文分开。风险在于摘要本身可能带着命令，所以能做成结构化的就尽量做成结构化的（用字段，不用自由文本）。</p>
+<p>有时候，一项工作三样都离不开。这时还有一种安排，我自己没有试过：把 agent 拆成两个，中间只留一个很窄的交接。第一个 agent 读不可信的文字，但手里没有私密数据，也没有出路，它只按固定的格式写一份简短、平实的摘要。第二个有数据、有权力，却只读那份摘要。这和<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>里的独立检查是同一个思路，就是把上下文分开。风险在于摘要本身可能带着命令，所以能做成结构化的就尽量做成结构化的（用字段，不用自由文本）。</p>
 <h3>hook 在这里能做什么、不能做什么</h3>
-<p>你也许希望，代码能把这一切直接拦下来。hook（见 <a href="2-2-hooks.html">Hook：每次调用都会经过的执行点</a>）确实能帮忙，但帮的是第三个圆和损害的大小，不是注入本身。它能拒绝向外的动作，比如发网络请求的命令、一次 push、一个会发帖的工具；不过它拦得住多少，要看清单写得多全；对终端命令，它读的又只是命令的文本，只认得常见的写法。我见过内置工具和子 agent 的调用会经过 hook，但 MCP 工具我没测过。</p>
-<p>hook 还能拒绝危险的命令，不管是谁要求的，也能拒绝写入受保护的文件，这样注入的命令就改写不了你的规则（见<a href="4-3-guardrails.html">保护规则本身的文件</a>）。它不在乎命令来自你还是来自某个 issue，而这恰恰是它有用的地方。</p>
+<p>你也许希望，代码能把这一切直接拦下来。hook（见 <a href="2-2-hooks.html">硬性规则放在哪？用 hook</a>）确实能帮忙，但帮的是第三个圆和损害的大小，不是注入本身。它能拒绝向外的动作，比如发网络请求的命令、一次 push、一个会发帖的工具；不过它拦得住多少，要看清单写得多全；对终端命令，它读的又只是命令的文本，只认得常见的写法。我见过内置工具和子 agent 的调用会经过 hook，但 MCP 工具我没测过。</p>
+<p>hook 还能拒绝危险的命令，不管是谁要求的，也能拒绝写入受保护的文件，这样注入的命令就改写不了你的规则（见<a href="4-3-guardrails.html">别让 Agent 改自己的规则</a>）。它不在乎命令来自你还是来自某个 issue，而这恰恰是它有用的地方。</p>
 <p>也正因为这样，人们最想要的那件事，它做不到：<strong>它分不清一条命令是不是你下的</strong>。hook 看到的是一次调用，看不到为什么要发起这次调用，所以“发一条评论”无论是你要求的还是某个 issue 要求的，在它眼里都一样。它也不会去读那段注入的文字、判断背后的意图。想这么做的过滤器只是在猜，攻击者换个措辞就能绕过去。任何声称能抓出注入文字的扫描器，都只能当作多一层防线，就像 Anthropic 对待它的分类器那样，别把它当成防御本身。</p>
 <p>VS Code 文档对终端的自动审批规则也是类似的说法。它说这些规则只是尽力而为，引号拼接或 shell 别名这类花招都可能绕过它们。一套靠识别坏命令的防御，总是有漏洞的。</p>
 <h3>人在哪里看一眼</h3>
-<p>这样一来，最后一道守卫就是人，而且要放在要紧的位置上。怎么放，<a href="5-3-two-approvals.html">两道门：人在哪里审批</a>会讲；单就注入来说，有三个地方值得打断一下。</p>
+<p>这样一来，最后一道守卫就是人，而且要放在要紧的位置上。怎么放，<a href="5-3-two-approvals.html">哪些事必须由人来批？</a>会讲；单就注入来说，有三个地方值得打断一下。</p>
 <ol>
 <li>任何把数据送出去的动作之前，让人看到目的地和里面装了什么。这是用手工把圆 3 堵上，用在那些代码堵不上的情形。</li>
 <li>外部内容进来之前。任务说“读这个页面”或者“用这个包”时，看一眼它是从哪来的。</li>
-<li>agent 的计划改了方向时。一个本来修测试的任务，现在想去读一个密钥文件，这就是信号。先批准一份计划，再把偏离计划当作停下来的理由。（风险在于，问到第一百次，人就会不读直接点“同意”。<a href="4-2-ask-vs-refuse.html">询问不是限制</a>讲的就是这类检查为什么会失效，以及该怎么办。）</li>
+<li>agent 的计划改了方向时。一个本来修测试的任务，现在想去读一个密钥文件，这就是信号。先批准一份计划，再把偏离计划当作停下来的理由。（风险在于，问到第一百次，人就会不读直接点“同意”。<a href="4-2-ask-vs-refuse.html">“先问我”为什么挡不住 Agent？</a>讲的就是这类检查为什么会失效，以及该怎么办。）</li>
 </ol>
 <h3>我的配置做了什么、没做什么</h3>
 <p>这些是通用的做法。那我自己的配置做到了哪几样？说实话，我的 harness 不是针对 prompt 注入搭的，我也没有拿注入的文字测过它。它现有的那些东西，是为了别的原因才有的，只是在边缘上能帮上忙。</p>
-<p>在圆 1 上，agent 拿不到凭证，也没有连接任何环境的工具，改的只是文件的副本（见<a href="4-5-least-privilege.html">有些东西根本不给</a>）。这是使用上的规则，不是沙箱，但它还是缩小了圆 1。在圆 3 上，push、pull request 和 fetch 都由人来做，从不交给 agent，最出名的几个出口因此堵上了。在这两者背后，还有一个拒绝危险命令和受保护文件写入的 hook。它限制了一条命令能做的事，不过只限于 hook 看得到的范围。</p>
+<p>在圆 1 上，agent 拿不到凭证，也没有连接任何环境的工具，改的只是文件的副本（见<a href="4-5-least-privilege.html">不要开放全部的权限或使用沙箱</a>）。这是使用上的规则，不是沙箱，但它还是缩小了圆 1。在圆 3 上，push、pull request 和 fetch 都由人来做，从不交给 agent，最出名的几个出口因此堵上了。在这两者背后，还有一个拒绝危险命令和受保护文件写入的 hook。它限制了一条命令能做的事，不过只限于 hook 看得到的范围。</p>
 <p>它没有针对注入文字的过滤器，没有允许的网络地址清单，也没有沙箱。终端命令仍然可以用 hook 认不出的方式连到外面。</p>
 <h3>测试你自己的配置</h3>
 <p>对你运行的任何 agent，先问三个问题。</p>
@@ -536,7 +536,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>harness 裡沒有專門針對被注入文字的防禦。它有的是縮小這幾個圈的零件：任務資料夾裡的副本、只有人才執行的指令，以及拒絕危險指令和受保護寫入的門，還有一份老老實實列出這道門看不到什麼的清單。</p>
 <p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「agent 讀到的文字可能在指揮它」這一章。請教我這個 harness 留著三個圈（私有資料、不可信的文字、出路）中的哪幾個沒關，又關上了哪幾個（主題 8）。和我一起打開真實的門的規則，讓我看一條連到網路的指令會發生什麼。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>harness 里没有专门针对注入文字的防御。它有的是缩小这几个圆的部件：任务文件夹里的副本、只有人才能运行的命令，以及拒绝危险命令和受保护写入的关卡，外加一份老老实实写明关卡看不到什么的清单。</p>
-<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“agent 读到的文字可能在指挥它”这一章。请教我，这个 harness 留着三个圆（私密数据、不可信的文字、出路）里的哪几个没堵，又堵上了哪几个（主题 8）。带我打开真实的关卡规则，看看一条连网络的命令会发生什么。</code></pre></div>
+<p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“Agent 读到的网页和文件，可能在给它下命令”这一章。请教我，这个 harness 留着三个圆（私密数据、不可信的文字、出路）里的哪几个没堵，又堵上了哪几个（主题 8）。带我打开真实的关卡规则，看看一条连网络的命令会发生什么。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
 <footer class="foot"><p data-l="en" lang="en">© 2026 Smars Hu · Text and figures: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hant" lang="zh-Hant">© 2026 Smars Hu · 文字與圖: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 程式碼: <a href="https://opensource.org/license/mit">MIT</a></p><p data-l="zh-Hans" lang="zh-Hans">© 2026 Smars Hu · 文字和图: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 代码: <a href="https://opensource.org/license/mit">MIT</a></p></footer>

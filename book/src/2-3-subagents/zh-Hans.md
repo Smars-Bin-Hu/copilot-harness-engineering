@@ -208,5 +208,5 @@ hook 可以删，背后的道理却还在。真正会让我重新考虑拆分本
 这一章的大部分内容都在 Copilot Harness 里跑着：reviewer、并行阅读、最简单的无人值守、工具限制、拒绝其他子 agent 的 hook，以及任务文件夹。harness 可以从内部教你，配上真实的文件和代码。
 
 ::: prompt
-/harness-rookie-wondering 我读完了“慎用子 agent”这一章。请教我这个 harness 是怎么实现章里讲的东西的：子 agent（主题 10）、独立检查（主题 11），以及无人值守的运行（autorun）。每一项都带我打开真实的文件和代码，并画出各部分是怎么连起来的。
+/harness-rookie-wondering 我读完了“别跟风瞎用子 Agent”这一章。请教我这个 harness 是怎么实现章里讲的东西的：子 agent（主题 10）、独立检查（主题 11），以及无人值守的运行（autorun）。每一项都带我打开真实的文件和代码，并画出各部分是怎么连起来的。
 :::

@@ -1,4 +1,4 @@
-讀這一章，你需要在自己的專案裡用過 Copilot 的 agent 模式，並且讀過[差距在模型外面](0-1-the-gap-and-the-map.html)，或至少知道「harness」這個詞。
+讀這一章，你需要在自己的專案裡用過 Copilot 的 agent 模式，並且讀過[什麼是 Harness Engineering？](0-1-the-gap-and-the-map.html)，或至少知道「harness」這個詞。
 
 ## 一句話 {#in-one-sentence}
 

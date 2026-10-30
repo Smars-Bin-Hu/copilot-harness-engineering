@@ -18,10 +18,10 @@ en:
   caption: "Seven layers around a model. The lower three are mostly bought; the upper four are yours to build."
 zh-Hant:
   evidence: 證據
-  flow: 流程與決策
+  flow: 流程
   control: 控制
   context: 上下文
-  runtime: 運行時
+  runtime: 執行環境
   tools: 工具
   model: 模型
   q-evidence: "它做了什麼？做對了嗎？"

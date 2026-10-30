@@ -1,4 +1,4 @@
-读这一章，请先读过[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)：skill 是 agent 在某项工作出现时去读的手册。
+读这一章，请先读过[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)：skill 是 agent 在某项工作出现时去读的手册。
 
 ## 一句话 {#in-one-sentence}
 
@@ -17,7 +17,7 @@
 
 而 agent 真正不知道的，是你这里的情况：哪张表是真正在用的、哪张是遗留下来的，哪一步大家容易忘，哪个文件看起来没人用，其实另一个团队在读。这些你知道，它不知道，也正是最值得放进 skill 的东西。
 
-照[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)里的说法，**skill** 是针对某一类工作的手册。不过你知道的东西，有些不属于某一项工作，而是关于几项工作怎么一项接一项地做。这就要用到 **workflow**，它是比 skill 高一级的想法：几项工作按固定顺序排好，每一项后面有检查，并注明哪里必须由人来定。可以把它想成餐厅厨房里的菜谱卡，而不是烹饪教科书。这个词用的时候要小心，因为 Anthropic 用它指另一种东西，即由代码固定路径、在固定的点调用模型的系统（[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)）。这里的 workflow 是 agent 照着做的、写下来的例行流程。
+照[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)里的说法，**skill** 是针对某一类工作的手册。不过你知道的东西，有些不属于某一项工作，而是关于几项工作怎么一项接一项地做。这就要用到 **workflow**，它是比 skill 高一级的想法：几项工作按固定顺序排好，每一项后面有检查，并注明哪里必须由人来定。可以把它想成餐厅厨房里的菜谱卡，而不是烹饪教科书。这个词用的时候要小心，因为 Anthropic 用它指另一种东西，即由代码固定路径、在固定的点调用模型的系统（[Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)）。这里的 workflow 是 agent 照着做的、写下来的例行流程。
 
 关于 skill，我拿不出量过的前后对比，只有自己遵循的推理，以及下一节末尾那些你可以自己跑的测试。那么，一个只装着你这里特有的东西的 skill，该是什么样子？
 
@@ -69,7 +69,7 @@ skill 是一个文件夹，但要紧的只是其中一个文件，它有头部�
 - 你在哪里纠正了它？每一处都是一条约定。
 - 你不得不去查的东西，有哪些本可以直接告诉它？
 
-就从这些答案写 skill，而不是从你觉得一份好手册该说什么来写。我有一个 skill 只做这件事：任务结束时，它起草后来的 agent 会做错什么，附上任务里的证据，再交给人决定留下哪些。为什么由人来定，[agent 该记住什么](3-5-memory.html)里有讲。
+就从这些答案写 skill，而不是从你觉得一份好手册该说什么来写。我有一个 skill 只做这件事：任务结束时，它起草后来的 agent 会做错什么，附上任务里的证据，再交给人决定留下哪些。为什么由人来定，[让 Agent 记住经验，怎么防它记错？](3-5-memory.html)里有讲。
 
 ### 4. 从 skill 到 workflow
 
@@ -89,7 +89,7 @@ skill 是一个文件夹，但要紧的只是其中一个文件，它有头部�
    | --- | --- | --- |
    | 它需要权限吗（审批、生产环境的运行、受保护的文件）？ | **人** | 留给人。 |
    | 几个例子里，相同的输入得到了相同的结果吗？ | **固定** | 可以用脚本做，加上测试。 |
-   | 它是对结果的检查吗？ | **检查** | 能用命令检查的，就用脚本；否则给模型一份检查清单，再加上独立的 reviewer（[慎用子 agent](2-3-subagents.html)）。 |
+   | 它是对结果的检查吗？ | **检查** | 能用命令检查的，就用脚本；否则给模型一份检查清单，再加上独立的 reviewer（[别跟风瞎用子 Agent](2-3-subagents.html)）。 |
    | 它需要理解需求吗？ | **判断** | 是模型的活，配上检查清单、指向你的文档的指引，以及常见的错误。 |
 4. 不要只凭描述来设计。人说他们怎么做，和例子里实际有的东西是有差别的，而这个差别是最有用的发现。如果你没有例子，就说明这个设计是猜的。
 5. 先把设计写下来请人审批，再动手做任何东西。workflow 会牵涉很多文件，所以要先由人批准设计。
@@ -116,7 +116,7 @@ workflow 是一条链，所以每个环节都要说清三件事：
 
 ### 怎么检验 skill 和 workflow
 
-这些做法管不管用，是可以测的。单个 skill 有两个测试，一是能不能被找到，二是有没有改变什么，都在[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)里。Anthropic 的指南还加了一个习惯：先做测试用例，再多写东西。测试用例取自没有这个 skill 时 agent 做错的任务，然后只写刚好够修正它们的内容。
+这些做法管不管用，是可以测的。单个 skill 有两个测试，一是能不能被找到，二是有没有改变什么，都在[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)里。Anthropic 的指南还加了一个习惯：先做测试用例，再多写东西。测试用例取自没有这个 skill 时 agent 做错的任务，然后只写刚好够修正它们的内容。
 
 而 workflow 还要多一个测试，就是它站不站得住。拿一个不属于你那几个例子的情况去跑，失败的地方，要么是缺了一种变体，要么是你把某一步归错了类。
 
@@ -130,7 +130,7 @@ workflow 是一条链，所以每个环节都要说清三件事：
 
 workflow 还可能错得没人发现，因为它每次都按同样的方式运行，错的方式也一样。检查就是为此而设的，所以每一步都要有一个。
 
-最后，像开头说的，我没有在很多次运行中比较过有没有某个 skill 的 agent，所以上面的 skill 测试只是初步的，不是测量（[一次运行证明不了什么](6-4-variance.html)说了怎么量）。
+最后，像开头说的，我没有在很多次运行中比较过有没有某个 skill 的 agent，所以上面的 skill 测试只是初步的，不是测量（[同一个任务跑两次，结果不一样](6-4-variance.html)说了怎么量）。
 
 ## 官方指南也这么说吗？ {#industry}
 {status: industry}
@@ -154,12 +154,12 @@ Anthropic 的 skill 写作指南在最要紧的一点上和我一样：假设模
 
 - VS Code 文档：[Agent skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)
 - Anthropic：[Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
-- 本书：[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)、[agent 该记住什么](3-5-memory.html)、[慎用子 agent](2-3-subagents.html)
+- 本书：[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)、[让 Agent 记住经验，怎么防它记错？](3-5-memory.html)、[别跟风瞎用子 Agent](2-3-subagents.html)
 
 ## 在 harness 里探索 {#explore}
 
 Copilot Harness 自带一个用来创建新 skill 的 skill、一个根据例子设计 workflow 的 skill，以及上面那两个例子。harness 可以和你一起打开它们。
 
 ::: prompt
-/harness-rookie-wondering 我读完了“把团队的做法写成 skill”这一章。请教我这个 harness 是怎么写 skill 和测试 skill 的（主题 3）：打开那个创建 skill 的 skill，再打开设计 workflow 的 skill 和影响分析的 skill，给我看它们的坑是从哪来的，以及怎么测试一个 skill 能被找到。
+/harness-rookie-wondering 我读完了“怎么写一个真正好用的 skill？”这一章。请教我这个 harness 是怎么写 skill 和测试 skill 的（主题 3）：打开那个创建 skill 的 skill，再打开设计 workflow 的 skill 和影响分析的 skill，给我看它们的坑是从哪来的，以及怎么测试一个 skill 能被找到。
 :::

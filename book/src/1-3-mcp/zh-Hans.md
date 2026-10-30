@@ -1,4 +1,4 @@
-读这一章，需要你知道什么是工具。如果不知道，先读[Tool calling，以及怎么给 agent 设计工具](1-2-tool-calling.html)。
+读这一章，需要你知道什么是工具。如果不知道，先读[Agent 用不好工具，先看工具的描述和报错](1-2-tool-calling.html)。
 
 ## 一句话 {#in-one-sentence}
 
@@ -29,7 +29,7 @@ agent 有多大用处，取决于它手里有哪些工具。早晚有一天，�
 
 ### server 能提供什么
 
-要看清进来了什么，先得知道 server 能往这边送些什么。协议定义了 server 可以对外提供的三样东西。（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）多数人说 MCP，指的是其中的**工具**（Tools），也就是 agent 可以调用来做事的函数，比如文件操作、API 调用、数据库查询，它和[Tool calling，以及怎么给 agent 设计工具](1-2-tool-calling.html)里的工具是同一种。除了工具，server 还可以提供**资源**（Resources），即 agent 可以读来当上下文的数据，比如文件内容或数据库记录；以及**提示**（Prompts），即可复用的模板，用来帮着组织一次对话，比如系统 prompt 或少样本示例。
+要看清进来了什么，先得知道 server 能往这边送些什么。协议定义了 server 可以对外提供的三样东西。（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）多数人说 MCP，指的是其中的**工具**（Tools），也就是 agent 可以调用来做事的函数，比如文件操作、API 调用、数据库查询，它和[Agent 用不好工具，先看工具的描述和报错](1-2-tool-calling.html)里的工具是同一种。除了工具，server 还可以提供**资源**（Resources），即 agent 可以读来当上下文的数据，比如文件内容或数据库记录；以及**提示**（Prompts），即可复用的模板，用来帮着组织一次对话，比如系统 prompt 或少样本示例。
 
 用到这些之前，agent 这一侧会先问 server 有什么。对工具来说，这是一个 `tools/list` 请求，拿回来的是每个工具的名字、描述和它接受的参数。之后模型要求调用某个工具，host 就向对应的 server 发一个 `tools/call`，再把答案作为文本放回对话。所以在模型看来，MCP 工具和别的工具没什么两样。
 
@@ -47,8 +47,8 @@ server 有两种运行方式，两种用的是同一个协议。**本地（stdio
 
 1. 它带进来别人的代码，因为本地 server 就运行在你的机器上。VS Code 自己的文档说：“本地 MCP server 可以在你的机器上运行代码，工具可以用你的权限访问外部服务。”（[MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)）
 2. 它带进来别人的权限。server 以你给它的访问权限行事，比如你的数据库登录、你在问题跟踪系统里的 token，于是 agent 通过这个 server，也拿到了这些权限。
-3. 它带进来别人的话，而模型会把这些话当成指令。server 的工具描述，是模型会读、会当真的文本；工具返回的内容（一个 issue 的正文、一个网页），也是写它的人写的文本。模型读到的文本里，可能藏着给它的命令，[agent 读到的文字可能在指挥它](4-6-untrusted-input.html)讲的就是这件事。
-4. 它带进来一笔固定的开销。每个工具的名字、描述和参数，每次调用都要发给模型，所以一个工具很多、你却很少用的 server，每一轮照样花 token；工具一多，模型也更难选（[Tool calling，以及怎么给 agent 设计工具](1-2-tool-calling.html)）。绕开的办法是有的，我在这里只点到为止。协议自己的文档提到，连了很多 server 的 client，可以用渐进式的工具发现，而不是一开始就把所有工具都加载进来（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）。Anthropic 的文章 [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) 则把工具定义撑爆上下文窗口当作一个问题，并介绍了只加载所需工具，或者让 agent 通过代码来调用 server 的办法。这笔开销有多大，取决于你连了多少工具，所以数一数你自己的。
+3. 它带进来别人的话，而模型会把这些话当成指令。server 的工具描述，是模型会读、会当真的文本；工具返回的内容（一个 issue 的正文、一个网页），也是写它的人写的文本。模型读到的文本里，可能藏着给它的命令，[Agent 读到的网页和文件，可能在给它下命令](4-6-untrusted-input.html)讲的就是这件事。
+4. 它带进来一笔固定的开销。每个工具的名字、描述和参数，每次调用都要发给模型，所以一个工具很多、你却很少用的 server，每一轮照样花 token；工具一多，模型也更难选（[Agent 用不好工具，先看工具的描述和报错](1-2-tool-calling.html)）。绕开的办法是有的，我在这里只点到为止。协议自己的文档提到，连了很多 server 的 client，可以用渐进式的工具发现，而不是一开始就把所有工具都加载进来（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）。Anthropic 的文章 [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) 则把工具定义撑爆上下文窗口当作一个问题，并介绍了只加载所需工具，或者让 agent 通过代码来调用 server 的办法。这笔开销有多大，取决于你连了多少工具，所以数一数你自己的。
 
 ### 加之前要检查什么
 
@@ -90,7 +90,7 @@ server 有两种运行方式，两种用的是同一个协议。**本地（stdio
 
 名气大，也不是跳过审查的理由。一个受人尊敬的公司发布的 server 是“官方”的，可它照样会拿到你的凭据，照样会返回别人写的文本。官方不等于对你安全。
 
-就算是你仔细审查过的 server，也可能在你不知情的时候变了。协议允许 server 告诉 client，它的工具变了，所以你审查时没问题的工具，下个月可能就不是那一个了。server 还可以在你批准之后改某个工具的描述，而描述是模型会照做的文本（这类攻击常被叫作 rug pull 或工具投毒，[agent 读到的文字可能在指挥它](4-6-untrusted-input.html)讲了这个想法）。所以要时不时重读一遍清单，能固定 server 的版本就固定。
+就算是你仔细审查过的 server，也可能在你不知情的时候变了。协议允许 server 告诉 client，它的工具变了，所以你审查时没问题的工具，下个月可能就不是那一个了。server 还可以在你批准之后改某个工具的描述，而描述是模型会照做的文本（这类攻击常被叫作 rug pull 或工具投毒，[Agent 读到的网页和文件，可能在给它下命令](4-6-untrusted-input.html)讲了这个想法）。所以要时不时重读一遍清单，能固定 server 的版本就固定。
 
 最后一个坑，是以为标准一样，行为也就一样。各平台支持协议的哪些部分、怎么请求审批、把设置存在哪里，都不一样，所以请查你所用平台的当前文档。
 
@@ -123,5 +123,5 @@ server 有两种运行方式，两种用的是同一个协议。**本地（stdio
 我的 harness 给 agent 三类工具：内置的、它自己的命令行工具，以及可选的 MCP。它自己没有搭任何 MCP server。harness 可以和你一起打开真实的文件，带你看 MCP 会接在哪里、其他工具又是怎么分类的。
 
 ::: prompt
-/harness-rookie-wondering 我读完了“MCP server：接工具的标准接口”这一章。请教我这个 harness 里的三类工具，以及 MCP 放在哪里。带我打开真实的文件，让我看工具名是怎么分到各类里的。
+/harness-rookie-wondering 我读完了“接 MCP server 之前，要想清楚什么？”这一章。请教我这个 harness 里的三类工具，以及 MCP 放在哪里。带我打开真实的文件，让我看工具名是怎么分到各类里的。
 :::

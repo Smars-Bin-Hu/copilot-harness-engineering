@@ -10,7 +10,7 @@
 
 **局限**。页面一长就没人读了，所以每一行都得有它存在的理由。
 
-更多内容见[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)和[30 分钟搭一个最小 harness](0-2-minimal-harness.html)。
+更多内容见[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)和[30 分钟搭一个最小 harness](0-2-minimal-harness.html)。
 
 ## 规则只为它适用的文件加载 {#rules-by-file}
 
@@ -22,7 +22,7 @@
 
 **局限**。这是对模型的请求，不是平台强制执行的规则。
 
-更多内容见[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)。
+更多内容见[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)。
 
 ## 所有时机只用一个 hook 入口 {#one-hook-entry}
 
@@ -34,7 +34,7 @@
 
 **局限**。超时的 hook 会被当作通过，所以要让它跑得快。
 
-更多内容见[Hook：每次调用都会经过的执行点](2-2-hooks.html)和[把执行层当软件来设计](4-4-enforcement-design.html)。
+更多内容见[硬性规则放在哪？用 hook](2-2-hooks.html)和[hook 自己出故障了怎么办？](4-4-enforcement-design.html)。
 
 ## 拒绝危险命令，并给出理由 {#refuse-with-reason}
 
@@ -44,9 +44,9 @@
 
 ::: code harness .harness/policies/gate.json L59-L62 "一条真实的拒绝规则：对根目录、主目录或当前文件夹做递归强制删除，附上 agent 读得懂的理由。"
 
-**局限**。这是减速带，不是边界，因为它只拦得住命令的常见写法，拦不住所有写法。所以，绝不能碰的东西，干脆就不要交出去（[有些东西根本不给](4-5-least-privilege.html)）。
+**局限**。这是减速带，不是边界，因为它只拦得住命令的常见写法，拦不住所有写法。所以，绝不能碰的东西，干脆就不要交出去（[不要开放全部的权限或使用沙箱](4-5-least-privilege.html)）。
 
-更多内容见[询问不是限制](4-2-ask-vs-refuse.html)和[Hook：每次调用都会经过的执行点](2-2-hooks.html)。
+更多内容见[“先问我”为什么挡不住 Agent？](4-2-ask-vs-refuse.html)和[硬性规则放在哪？用 hook](2-2-hooks.html)。
 
 ## 审批留在人的终端里 {#person-only-commands}
 
@@ -58,7 +58,7 @@
 
 **局限**。只有 hook 在运行、它的文件也受到保护时，这一招才有效。
 
-更多内容见[两道门：人在哪里审批](5-3-two-approvals.html)和[保护规则本身的文件](4-3-guardrails.html)。
+更多内容见[哪些事必须由人来批？](5-3-two-approvals.html)和[别让 Agent 改自己的规则](4-3-guardrails.html)。
 
 ## 标出只有人才能启动的 skill {#user-only-skill}
 
@@ -70,7 +70,7 @@
 
 **局限**。它限制的是谁来启动这个 skill，不限制 skill 启动之后做什么。
 
-更多内容见[指令与 skill：只加载需要的](3-3-instructions-and-skills.html)和[无人值守：什么时候必须停](5-7-when-to-stop.html)。
+更多内容见[规则写太多，Agent 反而记不住](3-3-instructions-and-skills.html)和[让 Agent 自己跑一晚上，怎么让它该停就停？](5-7-when-to-stop.html)。
 
 ## 只读的帮手 {#read-only-helper}
 
@@ -82,7 +82,7 @@
 
 **局限**。每个帮手都从空白的上下文开始，所以几个帮手的成本就是单个 agent 的好几倍。
 
-更多内容见[自定义 agent：固定模型和工具的角色](2-4-custom-agents.html)和[慎用子 agent](2-3-subagents.html)。
+更多内容见[什么时候才需要自定义 Agent？](2-4-custom-agents.html)和[别跟风瞎用子 Agent](2-3-subagents.html)。
 
 ## 给帮手一份它能独立使用的任务说明 {#helper-brief}
 
@@ -92,7 +92,7 @@
 
 ::: code harness .github/skills/generic-mapreduce/templates/brief.md L5-L18 "给只读帮手的任务说明：问题、范围、要交回什么、长度和来源。"
 
-更多内容见[慎用子 agent](2-3-subagents.html)。
+更多内容见[别跟风瞎用子 Agent](2-3-subagents.html)。
 
 ## 只回答 PASS 或 FAIL 的检查者 {#pass-fail-checker}
 
@@ -104,7 +104,7 @@
 
 **局限**。模型当检查者照样会出错，一次误报的 FAIL 就会让作者去追一个不存在的问题。
 
-更多内容见[让“通过”可信](5-5-counted-checks.html)和[模型能检查模型吗](5-6-model-checks-model.html)。
+更多内容见[Agent 说“测过了”，能信吗？](5-5-counted-checks.html)和[让另一个模型来审，靠得住吗？](5-6-model-checks-model.html)。
 
 ## 把需求写在一页上，并让人确认 {#requirement-page}
 
@@ -114,7 +114,7 @@
 
 ::: code harness .harness/contracts/templates/task/en/REQ.md L1-L42 "需求页：要做什么、不做什么、做到什么算完成、还不清楚的事，以及是谁确认的。"
 
-更多内容见[需求由 agent 写，人确认](5-2-requirements.html)。
+更多内容见[需求说不清？让 Agent 先写一页给你确认](5-2-requirements.html)。
 
 ## 给下一个会话的交接文件 {#handover-file}
 
@@ -126,7 +126,7 @@
 
 **局限**。它是 agent 写的，所以可能有错。要紧的内容要对照源头检查，而不是直接相信它。
 
-更多内容见[管任务，不管对话](5-1-tasks.html)和[跨会话的长任务](5-8-long-work.html)。
+更多内容见[一个任务一个文件夹](5-1-tasks.html)和[一个会话做不完的任务，怎么接着做？](5-8-long-work.html)。
 
 ## 把人知道的调用关系写下来 {#known-uses}
 
@@ -138,7 +138,7 @@
 
 **局限**。一份短清单只能说明地图找得到调用关系，不能说明它全都找得到。
 
-更多内容见[Toolkit：用脚本画出代码的地图](8-2-kb-toolkit.html)。
+更多内容见[代码里谁调用谁，交给脚本来算](8-2-kb-toolkit.html)。
 
 ## 每次都用同样的格式汇报一次抽查 {#audit-report}
 
@@ -150,7 +150,7 @@
 
 **局限**。样本小，只看得出大的缺口。
 
-更多内容见[地图对不对：盲抽查](8-3-kb-audit.html)。
+更多内容见[知识库写得对不对？抽查一遍](8-3-kb-audit.html)。
 
 ## 让每次停下都自己说明原因 {#stop-reason}
 
@@ -160,4 +160,4 @@
 
 ::: code harness .github/skills/harness-autorun/references/when-to-stop.md L11-L36 "什么时候该自己停、什么时候不该停，以及怎么给回来的人写理由。"
 
-更多内容见[无人值守：什么时候必须停](5-7-when-to-stop.html)。
+更多内容见[让 Agent 自己跑一晚上，怎么让它该停就停？](5-7-when-to-stop.html)。
