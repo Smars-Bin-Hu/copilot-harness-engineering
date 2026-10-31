@@ -12,3 +12,27 @@ sources:
   - what: "Always-on instruction files: copilot-instructions.md and AGENTS.md; hooks can live in repositories"
     where: https://code.visualstudio.com/docs/copilot/customization/overview
     checked: 2026-10-27
+  - what: "\"we recommend finding the simplest solution possible, and only increasing complexity when needed\"; \"consider adding complexity only when it demonstrably improves outcomes\""
+    where: https://www.anthropic.com/engineering/building-effective-agents
+    checked: 2026-10-29
+  - what: "Always-on instruction files include copilot-instructions.md, AGENTS.md, CLAUDE.md; check what was loaded via the response's References or Chat: Open Customizations"
+    where: https://code.visualstudio.com/docs/copilot/customization/overview
+    checked: 2026-10-29
+  - what: "Skills live in .github/skills/ (project); name is lowercase letters, numbers and hyphens and matches the folder; description up to 1024 characters; be specific about capabilities and use cases; skills are available as slash commands"
+    where: https://code.visualstudio.com/docs/copilot/customization/agent-skills
+    checked: 2026-10-29
+  - what: "Repository hooks in .github/hooks/*.json; preToolUse denies with permissionDecision deny and a reason; command preToolUse errors deny the call; timeouts fall through to normal permissions"
+    where: https://code.visualstudio.com/docs/copilot/customization/hooks
+    checked: 2026-10-29
+  - what: "copilot-instructions.md lives in .github at the repository root; AGENTS.md and CLAUDE.md at the repository root; project instructions are included automatically; confirm through References"
+    where: https://code.visualstudio.com/docs/copilot/customization/custom-instructions
+    checked: 2026-10-31
+  - what: "Project skill folders: .github/skills (Copilot), .claude/skills (Claude), .agents/skills (Codex); the agent starts with name and description, and the SKILL.md body loads when a skill matches"
+    where: https://code.visualstudio.com/docs/copilot/customization/agent-skills
+    checked: 2026-10-31
+  - what: "Codex reads AGENTS.md files before doing any work; the instruction chain is built at startup, once per run"
+    where: https://learn.chatgpt.com/docs/agent-configuration/agents-md
+    checked: 2026-10-31
+  - what: "Claude reads CLAUDE.md at the start of every session; treated as context, not enforced configuration; target under 200 lines per file, because longer files consume more context and reduce adherence; AGENTS.md is read when there is no CLAUDE.md"
+    where: https://code.claude.com/docs/en/memory
+    checked: 2026-10-31
