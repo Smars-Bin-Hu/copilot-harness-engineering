@@ -313,7 +313,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ol>
 <h3>Make the result short and readable</h3>
 <p>Whatever the check is, the agent reads its output, and that output goes into its context (<a href="3-1-context-budget.html">Context is a budget</a>). It can go wrong by saying too much or by saying too little. A test run that prints thousands of lines fills the context, and the one failure the agent needs gets lost among them. So print only the failures, each with its file and line, plus a count. The passing noise can stay hidden. At the other extreme, &quot;Error&quot; alone gives the agent nothing to act on. A good failure says what was expected, what happened, and where.</p>
-<p>This is the same advice as for tool messages in <a href="1-2-tool-calling.html">Tool calling</a>: the agent is an unreliable user, and what it reads decides what it does next. A check whose output is cheap and clear is worth more than a thorough check that nobody can read.</p>
+<p>This is the same advice as for tool messages in <a href="1-2-tool-calling.html">When an Agent misuses a tool, check its description and errors first</a>: the agent is an unreliable user, and what it reads decides what it does next. A check whose output is cheap and clear is worth more than a thorough check that nobody can read.</p>
 <p>The output has one more use, as evidence. &quot;All tests pass&quot; is only a claim, while the command that was run and its output are evidence, so ask for them. When you were not watching, they are the only evidence you have.</p>
 <h3>What a self-check cannot catch</h3>
 <p>Even a short, clear check that passes says less than it seems to. It says &quot;this does what the check tests&quot;, not &quot;this is what you wanted&quot;, and between those two statements two gaps open up.</p>
@@ -416,7 +416,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </ol>
 <h3>讓結果短而好讀</h3>
 <p>不管檢查是什麼，agent 都要讀它的輸出，而這些輸出會進到它的上下文（<a href="3-1-context-budget.html">上下文是一份預算</a>）。這裡可能出兩種錯，一種是說得太多，一種是說得太少。印出幾千行的測試運行，會把上下文塞滿，agent 需要的那一個失敗就埋在裡面。所以只印出失敗的項目，每一項附上檔案和行號，再加一個數量；通過的那些雜訊，藏起來就好。另一頭，只有一個「Error」，agent 根本無從下手。好的失敗訊息要說清楚預期什麼、實際發生什麼、出在哪裡。</p>
-<p>這和 <a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a> 裡講工具訊息的建議是同一回事：agent 是個不可靠的使用者，它讀到什麼，就決定它下一步做什麼。輸出便宜又清楚的檢查，比沒人讀得懂的徹底檢查更有價值。</p>
+<p>這和 <a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和錯誤訊息</a> 裡講工具訊息的建議是同一回事：agent 是個不可靠的使用者，它讀到什麼，就決定它下一步做什麼。輸出便宜又清楚的檢查，比沒人讀得懂的徹底檢查更有價值。</p>
 <p>輸出還有一個用處：它是證據。「所有測試都通過」只是一個說法，執行過的指令和它的輸出才是證據，所以要向 agent 索取。你沒在看的時候，它們就是你唯一的證據。</p>
 <h3>自我檢查抓不到什麼</h3>
 <p>不過，就算檢查又短又清楚，而且通過了，它說明的事也比看起來少。它說的是「這做到了檢查所測的東西」，而不是「這是你要的」，兩者之間有兩個要緊的缺口。</p>

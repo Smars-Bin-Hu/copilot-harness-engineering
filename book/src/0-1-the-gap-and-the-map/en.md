@@ -27,7 +27,7 @@ This is one team's own result on one benchmark, but it points the same way as th
 
 ### From model to agent
 
-Start by taking an agent apart. The **model** (the LLM) is the agent's brain: Sonnet, Opus, GPT-5. It reads text and writes text, and on its own it can only answer questions. To act, it needs **tools**, its hands: reading a file, searching code, editing a file, running a terminal command are each one tool. The model uses a tool by writing a request that names the tool and its arguments ("read src/export.ts"). That request is a **tool call** (details in [Tool calling, and designing tools for an agent](1-2-tool-calling.html)).
+Start by taking an agent apart. The **model** (the LLM) is the agent's brain: Sonnet, Opus, GPT-5. It reads text and writes text, and on its own it can only answer questions. To act, it needs **tools**, its hands: reading a file, searching code, editing a file, running a terminal command are each one tool. The model uses a tool by writing a request that names the tool and its arguments ("read src/export.ts"). That request is a **tool call** (details in [When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html)).
 
 The model can only write the request; it cannot carry it out. So a program has to connect the two. It hands the task to the model, runs the tool the model asks for, passes the result back, and asks for the next step, over and over until the model says it is done. The model, the tools and this loop together make an **agent** (how the loop runs is in [The agent loop, and where you can step in](2-1-agent-loop.html)). The program that runs the loop is the first meaning of harness.
 

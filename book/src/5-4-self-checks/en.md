@@ -58,7 +58,7 @@ Knowing what to run still leaves the question of how firmly you ask for it. The 
 
 Whatever the check is, the agent reads its output, and that output goes into its context ([Context is a budget](3-1-context-budget.html)). It can go wrong by saying too much or by saying too little. A test run that prints thousands of lines fills the context, and the one failure the agent needs gets lost among them. So print only the failures, each with its file and line, plus a count. The passing noise can stay hidden. At the other extreme, "Error" alone gives the agent nothing to act on. A good failure says what was expected, what happened, and where.
 
-This is the same advice as for tool messages in [Tool calling](1-2-tool-calling.html): the agent is an unreliable user, and what it reads decides what it does next. A check whose output is cheap and clear is worth more than a thorough check that nobody can read.
+This is the same advice as for tool messages in [When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html): the agent is an unreliable user, and what it reads decides what it does next. A check whose output is cheap and clear is worth more than a thorough check that nobody can read.
 
 The output has one more use, as evidence. "All tests pass" is only a claim, while the command that was run and its output are evidence, so ask for them. When you were not watching, they are the only evidence you have.
 

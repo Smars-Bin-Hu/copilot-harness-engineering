@@ -1,4 +1,4 @@
-讀這一章，你需要知道什麼是工具。如果不知道，先讀 [Tool calling，和給 agent 設計工具](1-2-tool-calling.html)。
+讀這一章，你需要知道什麼是工具。如果不知道，先讀 [Agent 用不好工具，先看工具的描述和錯誤訊息](1-2-tool-calling.html)。
 
 ## 一句話 {#in-one-sentence}
 
@@ -29,7 +29,7 @@ agent 有多少用處，取決於它手上有哪些工具。遲早你會想讓�
 
 ### server 能提供什麼
 
-要看清進來了什麼，得先知道 server 能往這邊送些什麼。協定定義了 server 可以公開的三樣東西。（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）大多數人說 MCP，指的是其中的 **Tools**（工具），也就是 agent 可以呼叫來做事的函式，例如檔案操作、API 呼叫、資料庫查詢，它和 [Tool calling，和給 agent 設計工具](1-2-tool-calling.html) 裡的工具是同一類。除了工具，server 還可以提供 **Resources**（資源），也就是 agent 可以讀來當上下文的資料，例如檔案內容或資料庫紀錄；以及 **Prompts**（提示），也就是可重複使用的範本，用來幫忙組織對話，例如 system prompt 或 few-shot 範例。
+要看清進來了什麼，得先知道 server 能往這邊送些什麼。協定定義了 server 可以公開的三樣東西。（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）大多數人說 MCP，指的是其中的 **Tools**（工具），也就是 agent 可以呼叫來做事的函式，例如檔案操作、API 呼叫、資料庫查詢，它和 [Agent 用不好工具，先看工具的描述和錯誤訊息](1-2-tool-calling.html) 裡的工具是同一類。除了工具，server 還可以提供 **Resources**（資源），也就是 agent 可以讀來當上下文的資料，例如檔案內容或資料庫紀錄；以及 **Prompts**（提示），也就是可重複使用的範本，用來幫忙組織對話，例如 system prompt 或 few-shot 範例。
 
 在用到這些之前，agent 這一邊會先問 server 有什麼。對工具來說，這是一個 `tools/list` 請求，拿回來的是每個工具的名字、描述和它接受的參數。之後模型要求呼叫某個工具，host 就向對的 server 送出一個 `tools/call`，再把答案當文字放回對話。所以從模型的角度看，MCP 工具和其他任何工具沒有兩樣。
 
@@ -48,7 +48,7 @@ server 有兩種跑法，兩種用的是同一個協定。**本地（stdio）** 
 1. 它帶進別人的程式碼，因為本地 server 就在你的機器上執行。VS Code 自己的文件說：「本地 MCP server 可以在你的機器上執行程式碼，而工具可以用你的權限存取外部服務。」（[MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)）
 2. 它帶進別人的權限。server 以你給它的存取權行動，例如你的資料庫登入、你在問題追蹤系統的 token，於是 agent 透過 server，也擁有了那些存取權。
 3. 它帶進別人的話，而模型會把這些話當成指令。server 的工具描述，是模型會讀、也會當真的文字；工具回傳的內容（issue 的內文、網頁），也是寫它的人寫的文字。模型讀到的文字，可能含有給它的命令，[agent 讀到的文字可能在指揮它](4-6-untrusted-input.html) 講的就是這個。
-4. 它帶進一筆固定的成本。每個工具的名字、描述和參數，每次呼叫都會送給模型，所以一個工具很多、你卻很少用的 server，每一輪還是要花 token；而且工具一多，模型就更難選（[Tool calling，和給 agent 設計工具](1-2-tool-calling.html)）。繞開的辦法是有的，這裡只點到為止。協定自己的文件提到，連了很多 server 的 client，可以用漸進式的工具探索，不必一開始就載入所有工具（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）。Anthropic 的文章 [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) 則把工具定義塞滿上下文視窗當成一個問題，並描述了只載入需要的工具，或讓 agent 透過程式碼呼叫 server 的做法。成本有多大，取決於你接了多少工具，所以數一數你自己的。
+4. 它帶進一筆固定的成本。每個工具的名字、描述和參數，每次呼叫都會送給模型，所以一個工具很多、你卻很少用的 server，每一輪還是要花 token；而且工具一多，模型就更難選（[Agent 用不好工具，先看工具的描述和錯誤訊息](1-2-tool-calling.html)）。繞開的辦法是有的，這裡只點到為止。協定自己的文件提到，連了很多 server 的 client，可以用漸進式的工具探索，不必一開始就載入所有工具（[Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)）。Anthropic 的文章 [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) 則把工具定義塞滿上下文視窗當成一個問題，並描述了只載入需要的工具，或讓 agent 透過程式碼呼叫 server 的做法。成本有多大，取決於你接了多少工具，所以數一數你自己的。
 
 ### 加一個之前要檢查什麼
 

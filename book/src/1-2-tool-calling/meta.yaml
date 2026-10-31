@@ -1,7 +1,7 @@
 id: "1.2"
 part: brain
 core: true
-title: {en: "Tool calling, and designing tools for an agent", zh-Hant: "Tool calling，和給 agent 設計工具", zh-Hans: "Agent 用不好工具，先看工具的描述和报错"}
+title: {en: "When an Agent misuses a tool, check its description and errors first", zh-Hant: "Agent 用不好工具，先看工具的描述和錯誤訊息", zh-Hans: "Agent 用不好工具，先看工具的描述和报错"}
 harness_tag: "1.5.50"
 wondering: [05-tools, 13-commands]
 sources:
@@ -18,3 +18,12 @@ sources:
     where: harness wondering topic 5 (section 5.3) and docs/06-cost-optimization.md sections 1 and 4
   - what: "A refusal reason is shown to the agent and the user, so it must say why and what to do next"
     where: harness wondering topic 6 (section 6.2)
+  - what: "Opus is more likely to ask for a missing parameter, Sonnet might infer one (get_weather location example); strict true guarantees calls match the schema"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
+    checked: 2026-10-31
+  - what: "Small refinements to tool descriptions can yield dramatic improvements; Sonnet 3.5 reached state-of-the-art on SWE-bench Verified after description refinements; user_id instead of user; search_contacts over list_contacts; schedule_event; prefix or suffix naming varies by model; response_format example of 206 and 72 tokens; transcripts pasted into Claude Code"
+    where: https://www.anthropic.com/engineering/writing-tools-for-agents
+    checked: 2026-10-31
+  - what: "A chat request can have a maximum of 128 tools enabled; deselect tools in the picker"
+    where: https://code.visualstudio.com/docs/copilot/agents/agent-tools
+    checked: 2026-10-31

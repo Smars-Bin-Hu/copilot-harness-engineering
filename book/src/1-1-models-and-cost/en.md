@@ -73,7 +73,7 @@ The first way comes before the three parts of the cost: don't call the model at 
 3. **Write less.** Ask for a one-sentence conclusion or a short list. Going too far means the output is too thin for the next step to use.
 4. **Redo less.** Agree on a plan before starting, keep state in files so work survives a lost session, and put a limit on retries. Going too far means the limit cuts off useful work, so set it from what you've seen, not from what you fear.
 
-There's also a fixed cost you pay on every call, whatever you choose during the task. Each of the agent's tools adds its name, description and parameters to the input of every call ([Tool calling, and designing tools for an agent](1-2-tool-calling.html)), and every rule you inject comes along on every turn, so remove the tools and rules you don't use.
+There's also a fixed cost you pay on every call, whatever you choose during the task. Each of the agent's tools adds its name, description and parameters to the input of every call ([When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html)), and every rule you inject comes along on every turn, so remove the tools and rules you don't use.
 
 ### When the bill surprises you
 
