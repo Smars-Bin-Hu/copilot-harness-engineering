@@ -143,7 +143,7 @@ Then test with the smallest hook your platform allows, one that only appends the
 
 **Check first.** Start with what the agent reads. Every turn rereads the whole context, so what is read matters more than how clever the model is. Look at tool results and loaded rules first, then at how often a task is redone. When you cut, stop short of the point where tasks fail and are thrown away. Check the usage numbers of one whole run, not one message. Cached context is billed at a lower rate (Anthropic's docs: about a tenth of the base price), though I have not verified that on Copilot, so look at what your own plan shows.
 
-**Chapter.** [Choosing a model: cost per finished task](1-1-models-and-cost.html), [The agent loop](2-1-agent-loop.html) and [Context is a budget](3-1-context-budget.html).
+**Chapter.** [Don't pick a model by token price alone](1-1-models-and-cost.html), [The agent loop](2-1-agent-loop.html) and [Context is a budget](3-1-context-budget.html).
 
 ## Checks {#checks}
 

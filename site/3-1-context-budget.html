@@ -251,7 +251,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>I did not run a clean experiment for this chapter, so what I can say comes from two other places. The first is the people who build these tools. Anthropic writes that context &quot;must be treated as a finite resource with diminishing marginal returns&quot; (<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>), and VS Code's guide says to &quot;avoid context overload that can dilute focus&quot; (<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>). The second is the way I built my own setup, where almost every design choice is a way to put less into the window. Cost points the same way: most of what a task costs is what the model reads (<a href="1-1-models-and-cost.html">Models and cost</a>). Before we get to the second limit, though, it helps to see what actually fills the window.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>資訊給得越多，答案為什麼反而可能越差？</h2><p>AI 回答得不好時，最常聽到的建議是「給它更多資訊」。於是你貼上整份風格指南，加上每一條規則，再讓它把所有檔案都讀一遍。這樣感覺很安全，畢竟事實越多，錯誤照理說就越少。</p>
 <p>結果卻常常相反。不妨想想一張書桌。你當然可以把一個專案的所有文件都攤在上面，可是這樣一來，要用的那一份反而找不到，也沒有地方寫字了。agent 也有這麼一張書桌，叫做<strong>上下文視窗</strong>，也就是模型在一輪裡能看到的全部文字。桌上有規則，也有你說的話、agent 讀過的檔案、工具呼叫的結果，還有它自己之前的回答。這張桌子有大小的上限。而且我接下來會說，它還有第二個限制，跟大小無關。</p>
-<p>這一章我沒有做過乾淨的實驗，所以我能說的，來自另外兩個地方。一個是做這些工具的人。Anthropic 寫道，上下文「必須被當成一種有限的資源，邊際報酬會遞減」（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>），VS Code 的指南也說要「避免上下文過載而分散注意力」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）。另一個是我自己搭設定的方式，裡面幾乎每個設計選擇，都是在想辦法讓視窗裡少放一點。從成本來看也是同一個方向：一個任務的成本，大部分花在模型讀的東西上（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。不過在談第二個限制之前，我們先看看視窗裡到底裝了什麼。</p>
+<p>這一章我沒有做過乾淨的實驗，所以我能說的，來自另外兩個地方。一個是做這些工具的人。Anthropic 寫道，上下文「必須被當成一種有限的資源，邊際報酬會遞減」（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>），VS Code 的指南也說要「避免上下文過載而分散注意力」（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）。另一個是我自己搭設定的方式，裡面幾乎每個設計選擇，都是在想辦法讓視窗裡少放一點。從成本來看也是同一個方向：一個任務的成本，大部分花在模型讀的東西上（<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>）。不過在談第二個限制之前，我們先看看視窗裡到底裝了什麼。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>信息给得越多，答案为什么反而可能越差？</h2><p>AI 答得不好时，最常听到的建议是“多给它点信息”。于是你把整份风格指南贴进去，把所有规则都加上，再让它把所有文件读一遍。这样做感觉很稳妥，毕竟事实越多，错误按理说就越少。</p>
 <p>结果却往往相反。不妨想想一张书桌。你当然可以把一个项目的所有文档都摊在上面，可那样一来，要用的那一份就找不着了，也没地方写字了。agent 也有这么一张书桌，叫<strong>上下文窗口</strong>，也就是模型在一轮里能看到的全部文本。桌上放着规则，也放着你说的话、agent 读过的文件、工具调用的结果，以及它自己之前的回答。这张桌子有大小上限。而且我后面会讲到，它还有第二个上限，和大小无关。</p>
 <p>这一章我没有做过干净的实验，所以我能说的，来自另外两个地方。一个是做这些工具的人。Anthropic 写道，上下文“必须当作一种有限的资源来对待，边际收益会递减”（<a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a>），VS Code 的指南也说要“避免上下文过载而分散注意力”（<a href="https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide">Context engineering guide</a>）。另一个是我自己搭配置的方式，里面几乎每个设计选择，都是在想办法让窗口里少放一点。从成本上看也是同一个方向：一个任务的成本，大部分来自模型读的东西（<a href="1-1-models-and-cost.html">选模型，别只看 token 单价</a>）。不过在讲第二个上限之前，我们先看看窗口里到底装了什么。</p>
@@ -372,7 +372,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <li>工具結果，例如搜尋的清單、指令的輸出、測試紀錄。它們常常是最大的一塊，也是沒人看的一塊。</li>
 <li>agent 自己之前的回答。</li>
 </ol>
-<p>迴圈每轉一輪，視窗裡就多一個結果，卻不會少掉任何東西。每一輪，模型還要把這六樣東西從頭重讀一遍（這筆成本在<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>裡）。所以視窗只會越來越滿，直到滿了為止。到那時，平台只能裁掉或摘要最舊的部分，細節也就丟了。<a href="3-2-long-sessions.html">長對話會變差</a>講的就是這件事。</p>
+<p>迴圈每轉一輪，視窗裡就多一個結果，卻不會少掉任何東西。每一輪，模型還要把這六樣東西從頭重讀一遍（這筆成本在<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>裡）。所以視窗只會越來越滿，直到滿了為止。到那時，平台只能裁掉或摘要最舊的部分，細節也就丟了。<a href="3-2-long-sessions.html">長對話會變差</a>講的就是這件事。</p>
 <h3>是兩個限制，不是一個</h3>
 <p>那換一個更大的視窗不就好了？問題是，放不下只是誰都看得到的那個限制。第二個限制是注意力，Anthropic 把它描述成一份「注意力預算」，模型讀大量文字時就會消耗它。落到實際，意思是視窗還有空位，不等於表現就好。同一條規則，埋在又長又雜的上下文裡，比放在短上下文裡更容易被漏掉。</p>
 <p>我拿這一點當理由：就算全都放得下，也要少放一點。不過這一步是我自己的推論，不是 Anthropic 說的。影響有多大，要看模型和任務。</p>
@@ -382,7 +382,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>另一頭的回答，是只載入一份索引，需要什麼再去取。agent 一開始只有一份簡短的清單，列出現有每樣東西的名稱和一行描述，等任務需要其中一樣，它才打開那一樣。Anthropic 把這叫做「即時」做法：agent 只留輕量的標記（檔案路徑、名稱），到執行時才載入資料。這和圖書館是一樣的道理：沒有人會把整座圖書館搬到書桌上，我們都是先查目錄，再去取那一本。</p>
 <p>在這兩頭之間，Anthropic 自己的建議是兩者混合。用他們的話說，「最有效的 agent 也許會採用混合策略，先取一部分資料求速度」，其餘的再讓它自己去探索。他們舉的例子是 Claude Code：它先把自己的指令檔放進上下文，其餘的在過程中用搜尋工具去找。</p>
 <p>全部載入在有些情況下還是比較好。任務小、或規則少的時候，全部載入比較簡單，成本也低。而在漏掉一個事實代價很高的地方，我寧可花錢把它放在視窗裡，也不賭 agent 會打開對的檔案。</p>
-<p>成本上，全部載入還多一個好處。每次都載入、又從不變的開頭，是可以快取的，而讀快取比一般的讀便宜很多（<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。所以只要開頭保持穩定，「全部載入」其實比 token 數看起來便宜。不過，我沒有在 Copilot 上測過快取。而且就算用上快取，上面說的注意力限制也還在那裡。</p>
+<p>成本上，全部載入還多一個好處。每次都載入、又從不變的開頭，是可以快取的，而讀快取比一般的讀便宜很多（<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>）。所以只要開頭保持穩定，「全部載入」其實比 token 數看起來便宜。不過，我沒有在 Copilot 上測過快取。而且就算用上快取，上面說的注意力限制也還在那裡。</p>
 <figure class="fig" id="fig-3-1-load-when"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <text class="label" x="30" y="30" data-t="a-title">先全部放進去</text>
   <rect class="box" x="30" y="40" width="540" height="40" rx="6"/>

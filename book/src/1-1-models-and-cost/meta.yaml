@@ -1,7 +1,7 @@
 id: "1.1"
 part: brain
 core: true
-title: {en: "Choosing a model: cost per finished task", zh-Hant: "選模型：算的是每次成功的成本", zh-Hans: "选模型，别只看 token 单价"}
+title: {en: "Don't pick a model by token price alone", zh-Hant: "選模型，別只看 token 單價", zh-Hans: "选模型，别只看 token 单价"}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop]
 sources:
@@ -23,3 +23,18 @@ sources:
   - what: "On the legacy plan, prompts you send count as premium requests, tool calls do not; each model has a multiplier"
     where: https://docs.github.com/en/copilot/concepts/billing/copilot-requests
     checked: 2026-10-28
+  - what: "List prices per million tokens: Sonnet 5.5 $2 input, $2.50 5-minute cache write, $0.10 cache hit, $10 output; Opus 5.5 $4 input, $20 output; cache hits on Opus 5.5 and Sonnet 5.5 are 0.05 times the base input price, most other models 0.1 times"
+    where: https://platform.claude.com/docs/en/about-claude/pricing
+    checked: 2026-10-31
+  - what: "Cache order tools, system, messages; a change at one level invalidates that level and the ones after it; exact match; default lifetime 5 minutes, refreshed for free on use; minimum cacheable length 512 tokens for Sonnet 5.5, up to 4,096 on some older models, with no error when shorter"
+    where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
+    checked: 2026-10-31
+  - what: "1 AI credit is $0.01; input, output and cached tokens are priced per model"
+    where: https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals
+    checked: 2026-10-31
+  - what: "Copilot Pro is $10 a month including $10 in AI Credits; code completions and Next Edit suggestions stay included; legacy premium requests are 300 a month on Pro and 1,500 on Pro+, for annual plans that stayed after June 1, 2026"
+    where: https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/ and https://docs.github.com/en/copilot/concepts/billing/copilot-requests
+    checked: 2026-10-31
+  - what: "Thinking effort is set in the VS Code model picker through the arrow next to the model name; models without reasoning do not show it"
+    where: https://code.visualstudio.com/docs/copilot/customization/language-models
+    checked: 2026-10-31

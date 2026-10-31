@@ -255,7 +255,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>With both kinds of file in hand, the first choice about any rule is where to put it. (What follows is reasoning and checks, since I have no measured case of an ignored rule to quote.)</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>規則檔為什麼越長越不管用？</h2><p>想讓 agent 認識你的專案，最自然的辦法是把一切都寫進一個檔案，規則、慣例、警告，還有每種工作的做法。agent 每犯一次錯，你就加一行。幾個星期下來，檔案已經很長了，agent 卻反而不如檔案還短的時候守得好。</p>
 <p>規則多了，怎麼反倒守得更差？檔案變長以後，有兩件事會出問題，而只有第二件和「守不守」有關。</p>
-<p>第一，檔案裡的所有東西，每一輪都要付錢。這個檔案一直待在視窗裡，不管手上這份工作用不用得到，所以你在改一個錯字的時候，一條講資料庫遷移的規則也照樣佔著位子。它佔的就是<a href="3-1-context-budget.html">上下文是一份預算</a>講的那份預算，至於每一輪要花多少，在<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>。</p>
+<p>第一，檔案裡的所有東西，每一輪都要付錢。這個檔案一直待在視窗裡，不管手上這份工作用不用得到，所以你在改一個錯字的時候，一條講資料庫遷移的規則也照樣佔著位子。它佔的就是<a href="3-1-context-budget.html">上下文是一份預算</a>講的那份預算，至於每一輪要花多少，在<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>。</p>
 <p>第二，規則越多，每一條被遵守的程度就越低。在一個長檔案裡，規則會互相競爭，兩行之間可能互相矛盾，要緊的一行也可能淹沒在一堆小事裡。平台自己的文件也是這個意思。Claude Code 和 VS Code 的文件都建議讓指令檔保持簡短，Claude Code 的文件還提醒，兩條指令互相矛盾時，模型可能隨意挑一條。</p>
 <p>那麼出路在哪裡？就是別把所有東西一下子都擺到 agent 面前，先給它看一點，等它需要更多時再讓它去讀。這個想法叫<strong>漸進式揭露</strong>（progressive disclosure），就像一家店把菜單放在門口，完整的食譜留在廚房裡。Anthropic 稱它是「讓 Agent Skills 靈活、可擴展的核心設計原則」（<a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</a>）。</p>
 <p>把這個想法落實的，是兩種檔案。<strong>指令</strong>是寫給 agent 讀的規則檔，有些在每個對話裡都載入，有些只在 agent 處理特定檔案時才載入。<strong>skill</strong> 是一個資料夾，裡面放著某一類工作的手冊，agent 要等這份工作真的來了才去讀，不會事先讀。</p>

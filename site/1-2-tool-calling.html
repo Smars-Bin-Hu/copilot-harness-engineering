@@ -435,7 +435,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>呼叫出了錯，模型接下來讀到的就是錯誤訊息。人看到堆疊追蹤，會停下來想一想，模型卻是拿到文字就繼續往下走。如果錯誤訊息是 <code>Error 400</code>，模型就只能猜，常常又猜回同一個錯的值。如果錯誤訊息寫了哪裡錯、接著可以試什麼，它就能把這次呼叫修好。</p>
 <p>拒絕也一樣，要寫明該改做什麼（見<a href="4-2-ask-vs-refuse.html">詢問不是限制</a>）。</p>
 <h3>3. 輸出要短，而且能分頁</h3>
-<p>呼叫成功了，模型讀到的是輸出。工具回傳的所有東西，都會放進上下文視窗（見<a href="3-1-context-budget.html">上下文是一份預算</a>），而且之後每一輪都會再讀一遍（見<a href="1-1-models-and-cost.html">選模型：算的是每次成功的成本</a>）。所以，如果 agent 只想要一行，工具卻回傳整個大檔案，不只浪費 token，還可能把有用的東西擠出視窗。</p>
+<p>呼叫成功了，模型讀到的是輸出。工具回傳的所有東西，都會放進上下文視窗（見<a href="3-1-context-budget.html">上下文是一份預算</a>），而且之後每一輪都會再讀一遍（見<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>）。所以，如果 agent 只想要一行，工具卻回傳整個大檔案，不只浪費 token，還可能把有用的東西擠出視窗。</p>
 <p>辦法是給結果合理的限制，例如預設的上限、要求某個範圍或下一頁的辦法，或者一個過濾條件。Anthropic 也描述過，讓 agent 在簡潔和詳細的回應之間選。工具很多的時候，把相關的工具歸到共同的名字前綴底下，能幫 agent 分辨它們。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <p>具體到數字，Claude Code 預設把工具回應限制在 25,000 個 token（這是我寫作時 Anthropic 的數字）。不管上限訂在哪裡，你截掉輸出的時候都要說出來，並告訴 agent 怎麼把查詢範圍縮小。（<a href="https://www.anthropic.com/engineering/writing-tools-for-agents">Writing tools for agents</a>）</p>
 <h3>4. 工具少，選得更準</h3>

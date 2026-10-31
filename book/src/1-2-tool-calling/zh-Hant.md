@@ -57,7 +57,7 @@ Anthropic 談怎麼替 agent 寫工具的那篇建議，換個說法講的也是
 
 ### 3. 輸出要短，而且能分頁
 
-呼叫成功了，模型讀到的是輸出。工具回傳的所有東西，都會放進上下文視窗（見[上下文是一份預算](3-1-context-budget.html)），而且之後每一輪都會再讀一遍（見[選模型：算的是每次成功的成本](1-1-models-and-cost.html)）。所以，如果 agent 只想要一行，工具卻回傳整個大檔案，不只浪費 token，還可能把有用的東西擠出視窗。
+呼叫成功了，模型讀到的是輸出。工具回傳的所有東西，都會放進上下文視窗（見[上下文是一份預算](3-1-context-budget.html)），而且之後每一輪都會再讀一遍（見[選模型，別只看 token 單價](1-1-models-and-cost.html)）。所以，如果 agent 只想要一行，工具卻回傳整個大檔案，不只浪費 token，還可能把有用的東西擠出視窗。
 
 辦法是給結果合理的限制，例如預設的上限、要求某個範圍或下一頁的辦法，或者一個過濾條件。Anthropic 也描述過，讓 agent 在簡潔和詳細的回應之間選。工具很多的時候，把相關的工具歸到共同的名字前綴底下，能幫 agent 分辨它們。（[Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)）
 

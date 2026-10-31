@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>Choosing a model: cost per finished task</title>
+<title>Don&#x27;t pick a model by token price alone</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
 :root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
@@ -221,36 +221,34 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">What are you really paying for?</span><span data-l="zh-Hant" lang="zh-Hant">你到底在為什麼付錢？</span><span data-l="zh-Hans" lang="zh-Hans">你到底在为什么付钱？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">Where a task's cost comes from, and where to cut it</span><span data-l="zh-Hant" lang="zh-Hant">一個任務的錢花在哪裡，又該從哪裡省</span><span data-l="zh-Hans" lang="zh-Hans">一个任务的钱花在哪，又该从哪里省</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">What saving costs, and what I cannot see</span><span data-l="zh-Hant" lang="zh-Hant">省錢要付出什麼，我又看不到什麼</span><span data-l="zh-Hans" lang="zh-Hans">省钱要付出什么，我又看不到什么</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Is the market pricing it the same way?</span><span data-l="zh-Hant" lang="zh-Hant">市場也是這樣算的嗎？</span><span data-l="zh-Hans" lang="zh-Hans">市场也是这么算的吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete these tricks</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這些省錢技巧</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这些省钱技巧</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">1.1</p><h1><span data-l="en" lang="en">Choosing a model: cost per finished task</span><span data-l="zh-Hant" lang="zh-Hant">選模型：算的是每次成功的成本</span><span data-l="zh-Hans" lang="zh-Hans">选模型，别只看 token 单价</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you have used an AI coding agent and have seen a usage or billing page for it. Nothing else.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過寫程式的 AI agent，並且看過它的用量或帳單頁面。其他都不用。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过写代码的 AI agent，并且看过它的用量页面或账单页面。别的都不需要。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Judge a model by what it costs to get one task done, not by its price per token. Most of that cost is what the model reads, so reading less and redoing less saves the most.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>評斷一個模型，要看做完一個任務花多少，而不是每個 token 的單價。這筆錢大部分花在模型讀的東西上，所以少讀、少重做，省得最多。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>评价一个模型，要看做完一个任务花多少钱，而不是每个 token 的单价。这笔钱大部分花在模型读的东西上，所以少读、少返工，省得最多。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Where your money goes</span><span data-l="zh-Hant" lang="zh-Hant">你的錢花到哪去了</span><span data-l="zh-Hans" lang="zh-Hans">你的钱花到哪去了</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">How to add up a task's cost, and where to save</span><span data-l="zh-Hant" lang="zh-Hant">怎麼算一個任務的成本，又該從哪裡省</span><span data-l="zh-Hans" lang="zh-Hans">怎么算一个任务的成本，又该从哪里省</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Saving has costs too, and the easiest trap is reading too little</span><span data-l="zh-Hant" lang="zh-Hant">省錢也有代價，最容易踩的坑是讀得太少</span><span data-l="zh-Hans" lang="zh-Hans">省钱也有代价，最容易踩的坑是读得太少</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Model providers charge this way too</span><span data-l="zh-Hant" lang="zh-Hant">模型供應商也是這樣收費的</span><span data-l="zh-Hans" lang="zh-Hans">模型提供方也是这么收费的</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete these cost-saving tricks</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉這些省錢技巧</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉这些省钱技巧</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">1.1</p><h1><span data-l="en" lang="en">Don&#x27;t pick a model by token price alone</span><span data-l="zh-Hant" lang="zh-Hant">選模型，別只看 token 單價</span><span data-l="zh-Hans" lang="zh-Hans">选模型，别只看 token 单价</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes only that you have used an AI coding agent and have looked at its usage or billing page.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，只需要用過寫程式的 AI agent，並且看過它的用量頁面或帳單頁面。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，只需要用过写代码的 AI agent，并且看过它的用量页面或账单页面。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>Choose a model by what it costs to finish a task, not by the price of a token, and since most of that money goes to what the model rereads, reading less and redoing less save the most.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>選模型要看做完一個任務花多少錢，不是看每個 token 的單價，而這筆錢大部分花在模型反覆讀的東西上，所以少讀、少重做省得最多。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>选模型要看做完一个任务花多少钱，不是看每个 token 的单价，而这笔钱大部分花在模型反复读的东西上，所以少读、少返工省得最多。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> judge models and setups by what it costs to finish one task, not by the price per token. When a result is bad, try the cheaper fixes first (a missing rule, a missing check, a lost thread) before paying for a bigger model.</li>
-<li><strong>The risk:</strong> in a long agent task, most of the tokens go to the model re-reading the same material. In my worked example, which uses round numbers I chose, reading was over 90% of the tokens. A cache can cut the bill a lot, but only while the start of the input stays unchanged.</li>
-<li><strong>The cost of doing it right:</strong> mostly setup time and a habit of measuring. A fair comparison of models takes a few tasks, each run about three times.</li>
-<li><strong>Ask the team:</strong> &quot;What does one finished task cost us, and when did we last check that number?&quot;</li>
+<li><strong>The decision:</strong> judge models and setups by the cost of finishing a task, not by the price per token. When results are poor, try the cheap fixes first (a missing rule, a missing check, a lost thread), and only then pay for a bigger model.</li>
+<li><strong>The risk:</strong> on a long agent task, most of the money goes to the model rereading the same material. In my worked example (round numbers I picked), reading takes more than 95% of the money. Caching can bring the bill down to about a quarter, but only if the start of the input stays the same.</li>
+<li><strong>The cost of doing it right:</strong> mainly setup time, plus a habit of measuring. A fair comparison of models means picking a few tasks and running each about three times.</li>
+<li><strong>Ask the team:</strong> &quot;What does it cost us to finish a task, and when did we last check that number?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：評斷模型和設定，看的是做完一個任務的成本，不是每個 token 的單價。結果不好的時候，先試比較便宜的修法（是不是缺了一條規則、缺了一道檢查，或是丟了線索），再考慮付錢換更大的模型。</li>
-<li><strong>風險</strong>：在長的 agent 任務裡，大部分 token 都花在模型一再重讀同樣的材料上。在我的算例裡（數字是我挑的整數），讀的部分占了 token 的九成以上。快取（cache）可以讓帳單降很多，但前提是輸入的開頭一直不變。</li>
-<li><strong>做對的成本</strong>：主要是設定的時間，再加上量測的習慣。想公平地比較模型，要挑幾個任務，每個跑三次左右。</li>
-<li><strong>可以問團隊</strong>：「我們做完一個任務要花多少？上次確認這個數字是什麼時候？」</li>
+<li><strong>要做的決定</strong>：評價模型和設定，看做完一個任務的成本，不看每個 token 的單價。結果不好的時候，先試便宜的辦法（是不是缺了一條規則、缺了一道檢查，或者線索丟了），再考慮花錢換更大的模型。</li>
+<li><strong>風險</strong>：一個長的 agent 任務，大部分的錢都花在模型反覆重讀同樣的內容上。在我的算例裡（數字是我挑的整數），讀占了九成五以上的錢。快取能把帳單降到四分之一左右，但前提是輸入的開頭一直不變。</li>
+<li><strong>做對的成本</strong>：主要是設定的時間，再加上一個量化的習慣。想公平地比較模型，要挑幾個任務，每個跑三次左右。</li>
+<li><strong>可以問團隊</strong>：「做完一個任務，我們要花多少錢？上次核對這個數字是什麼時候？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：评价模型和配置，看的是做完一个任务的成本，不是每个 token 的单价。结果不好的时候，先试便宜的办法（是不是缺了一条规则、缺了一道检查，或者线索丢了），再考虑花钱换更大的模型。</li>
-<li><strong>风险</strong>：在一个长的 agent 任务里，大部分 token 都花在模型反复重读同样的内容上。在我的算例里（数字是我挑的整数），读占了 90% 以上的 token。缓存能让账单降下来很多，但前提是输入的开头一直不变。</li>
+<li><strong>要拍板的事</strong>：评价模型和配置，看做完一个任务的成本，不看每个 token 的单价。结果不好的时候，先试便宜的办法（是不是缺了一条规则、缺了一道检查，或者线索丢了），再考虑花钱换更大的模型。</li>
+<li><strong>风险</strong>：一个长的 agent 任务，大部分钱都花在模型反复重读同样的内容上。在我的算例里（数字是我挑的整数），读占了九成五以上的钱。缓存能把账单降到四分之一左右，但前提是输入的开头一直不变。</li>
 <li><strong>做对的代价</strong>：主要是配置的时间，再加上一个量化的习惯。想公平地比较模型，要挑几个任务，每个跑三次左右。</li>
 <li><strong>可以问团队</strong>：“做完一个任务，我们要花多少钱？上次核对这个数字是什么时候？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>What are you really paying for?</h2><p>A model comparison usually starts with a price list, which tells you how many dollars a model charges per million tokens. A <strong>token</strong> is a small piece of text, roughly a short word or part of one, and since models read and write in tokens, bills are counted in them as well. Tokens come in two kinds. <strong>Input</strong> tokens are what the model reads in a call, and <strong>output</strong> tokens are what it writes. The two are priced differently, and output is usually the more expensive per token.</p>
-<p>The price list is the number you can look up, so it is the number people use. But you never buy tokens for their own sake. What you buy is a finished task, a bug fixed or a report written, and what matters is the total for that.</p>
-<p>It is a poor guide to that total, for two reasons. A cheap model that fails the task and has to be asked again may cost more than a strong one that gets it right the first time. And in an agent, the number of tokens is not what you expect, as the next part shows.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Where your money goes</h2><p>People usually start choosing a model from the price list: Sonnet 5.5 is $2 per million input tokens and $10 per million output tokens, and Opus 5.5 is $4 and $20 (<a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>, prices as of late October 2026). A token is the unit a model reads and writes, roughly a short English word or part of a word. What the model reads is input tokens, what it writes is output tokens, and output usually costs much more. List prices are easy to look up, so everyone compares them, but you're not really buying tokens. You're buying a finished job, such as a fixed bug, so what you need to compare is what the whole job cost. That number is a long way from the unit price, for two reasons: a cheap model that botches the job has to run again, which can end up costing more than an expensive model that gets it right the first time, and an agent uses far more tokens than you'd think, most of them on reading.</p>
 <h3>Where the tokens go in an agent</h3>
-<p>Why would the count surprise you? In a chat, you send a question and get an answer. In an agent loop (<a href="2-1-agent-loop.html">chapter 2.1</a>), the model is called again after every tool result, and every call sends the whole conversation so far: the rules, your request, every file it read and every result. The model has no memory between calls, so this is the only way it knows what has happened. All of it has to fit in the <strong>context window</strong>, which is how much text the model can see at once. That window has a size limit of its own (<a href="3-1-context-budget.html">chapter 3.1</a> is about managing it), and every call fills it again from the start.</p>
+<p>In a chat, you ask a question, the model answers, and that's one call. An agent runs a loop (<a href="2-1-agent-loop.html">The agent loop, and where you can step in</a>): the model asks to read a file, a program reads it and sends back the result, and the model decides what to do next, so every tool result means calling the model again. The model has no memory between calls, so each call sends the whole conversation so far all over again: the rules, the request, every file it has read and every tool result. All of this sits in the <strong>context window</strong>, the full text the model can see at once. The window has a size limit (<a href="3-1-context-budget.html">Context is a budget</a>), and you pay for what's in it every time you make a call.</p>
 <figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <g>
     <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
@@ -285,19 +283,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">Turn 1: the model reads the rules and your request, and writes a short tool call.</li><li data-step-text="2">Turn 2: it reads all of that again, plus the result of the first call, and writes a little more.</li><li data-step-text="3">Turn 3: it reads everything again, plus the second result. What it reads grows each turn; what it writes stays small.</li><li data-step-text="4">The prompt cache charges less for the part that repeats exactly. This is why cache hits change the cost of a long task.</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">Back</button><span class="step-count"></span><button type="button" data-step-go="1">Next</button></div><figcaption>In a loop, every turn re-reads the whole context. Reading, not writing, is what a long task mostly consists of.</figcaption></figure>
-<p>Here is the arithmetic, with round numbers I chose to make it easy rather than numbers I measured. Say the rules and your request come to 10,000 tokens, and each tool result adds 5,000. Over 10 calls the model reads about 10,000 + 15,000 + 20,000 + ... = 325,000 tokens, but it writes perhaps a few hundred tokens per call. In this example reading is more than 90% of the tokens. The real share depends on your task, but the longer the loop runs, the more it leans toward reading.</p>
-<p>Tokens are not the same as money, since output costs more per token. The shape holds all the same: a long agent task is mostly the model reading the same material again and again. That is why the second half of this chapter is about reading less.</p>
-<p>I can also show one real case. In <a href="2-3-subagents.html">chapter 2.3</a> I gave the same four tasks to a team of three agents with job titles and to a single agent. Both got every task right, yet the team used about 4.5 times as much. The largest waste was re-reading, because each new agent started with an empty context and had to read the same files again. These were four small tasks, each run once, so trust the direction and not the ratio.</p>
-<h3>The prompt cache changes the sum</h3>
-<p>Because so much of every call is the same beginning, providers offer a <strong>prompt cache</strong>. It lets the provider remember a long beginning of your input, so that a later call starting with the same text can be charged less for it. On Anthropic's API, reading cached input costs a tenth of the base input price on most models, and less on some. Writing to the cache costs more than a normal read, 1.25 times for a five-minute cache and 2 times for a one-hour cache (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>).</p>
-<p>Those prices reward a stable beginning. The cache works only on an exact match from the start of the input, so if you change something near the top, such as an edited rule or a different tool list, everything after it misses the cache. They also punish a pause. A cache lives only a short time, so a conversation you leave for an hour and return to may pay full price to rebuild it. And even a cache read is not free: <strong>the cheapest token is still the one that is not sent</strong>. Reading less is still the first thing to try.</p>
-<p>To see how much the cache moves, take the same example with a cache that hits every time, counting input only and using the five-minute prices. The first call writes 10,000 tokens at 1.25 times, which is 12,500. In each of the next nine calls, the earlier text is read from the cache. The cached part grows from 10,000 to 50,000 tokens, 270,000 over the nine calls, and at 0.1 times the price that is 27,000. Each call also writes its 5,000 new tokens, 45,000 in all, which at 1.25 times is 56,250. The total is about 96,000 token-prices instead of 325,000, and the repeated reading is now less than a third of it.</p>
-<p>So the cache changes where the money goes, away from re-reading and toward new material. That is why the earlier &quot;more than 90%&quot; is a count of tokens read, not a share of the bill, and why a team with a well-kept cache can read a lot and still pay little. Misses undo that. An edited rule near the top, or a pause long enough for the cache to expire, brings the cost back toward the 325,000.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>你到底在為什麼付錢？</h2><p>比較模型，通常從一張價目表開始，上面寫著每百萬個 token 多少美元。<strong>token</strong> 是一小段文字，大約是一個短的英文單字，或單字的一部分；模型用 token 讀和寫，所以帳單也用 token 算。token 又分兩種：<strong>輸入</strong> token 是模型在一次呼叫裡讀的，<strong>輸出</strong> token 是它寫出來的。兩者的價格不同，通常輸出每個 token 比較貴。</p>
-<p>價目表上的數字查得到，所以大家都拿它來比。可是你買 token，從來不是為了 token 本身。你買的是一件做完的事，像是修好一個 bug、寫好一份報告，所以重要的是那件事總共花了多少。</p>
-<p>拿價目表來估這個總花費並不可靠，原因有兩個。第一，便宜的模型如果任務失敗，還得再問一次，算下來可能比第一次就做對的強模型更貴。第二，在 agent 裡，token 的數量和你預期的不一樣，下面就來看看。</p>
-<h3>在 agent 裡，token 去哪了</h3>
-<p>token 的數量為什麼會出乎意料？在對話裡，你送出一個問題，得到一個回答，就結束了。在 agent 迴圈裡（<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>），每個工具結果出來之後，模型都會被再呼叫一次，而每次呼叫都要把到目前為止的整段對話重新送出：規則、需求、它讀過的每個檔案、每個結果。模型在兩次呼叫之間沒有記憶，只有這樣，它才知道之前發生過什麼。這些內容都得放進<strong>上下文視窗</strong>，也就是模型一次能看到的文字。視窗本身有大小上限（怎麼管它，<a href="3-1-context-budget.html">上下文是一份預算</a> 會講），而每次呼叫都會把它從頭重新裝滿一遍。</p>
+<p>Let's work it out with round numbers, which I picked to keep the arithmetic easy and did not measure. Say the rules and the request come to 10,000 tokens, each tool result adds 5,000, and a task makes 10 calls to the model, writing 300 tokens each time. The model reads 10,000 + 15,000 + ... + 55,000 = 325,000 tokens in total and writes only 3,000. In money the gap is just as wide: at Sonnet 5.5 prices, reading costs $0.65 and writing only $0.03, because although output costs 5 times as much per token, the model reads more than 100 times as much. The longer the loop runs, the further the money tilts toward reading, because every extra call rereads everything before it.</p>
+<h3>Prompt caching changes the math</h3>
+<p>The start of every call is almost the same, so model providers offer <strong>prompt caching</strong>: the provider remembers the start of your input, and if the next call begins with exactly the same text, that part is charged at a very low price. Anthropic's prices work like this. Writing to the cache costs more than normal input, 1.25 times for a 5-minute cache and 2 times for a 1-hour cache, while reading from the cache costs far less: a tenth of the input price on most models, and a twentieth on Opus 5.5 and Sonnet 5.5 (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>).</p>
+<p>Take the same example at Sonnet 5.5 prices and assume every call hits the cache. The first call writes 10,000 tokens to the cache. Each of the next nine calls reads everything before it from the cache, 270,000 tokens across the nine, and writes its new 5,000 tokens to the cache, 45,000 across the nine. That comes to $0.1375 for writes and $0.027 for cache reads, about $0.16 in all, a quarter of the original $0.65. Most of that $0.16 is the write charge for new content, which caching can't save and only reading less can, so even with every call hitting the cache, reading less is still the first thing to try.</p>
+<p>Caching also breaks easily, in three ways. The first is that the start changed: the cache matches only identical content, in the order tool definitions, system prompt, conversation messages, and a change at one level invalidates that level and everything after it, so editing one tool's description loses the whole cache, and a rules file shouldn't start with something that changes every time, such as the current time. The second is stopping for too long: the default cache lives 5 minutes and is renewed for free each time it's used, so if you go to a meeting, it expires. The third is a start that's too short: below the minimum length nothing is cached, and you get no error. For Sonnet 5.5 the minimum is 512 tokens, and some older models need 4,096. If you keep missing the cache, the cost goes back to around $0.65 or even higher, because a cache write costs more than normal input.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>你的錢花到哪去了</h2><p>選模型的時候，大家一般都從價目表開始：Sonnet 5.5 每百萬個輸入 token 2 美元、輸出 token 10 美元，Opus 5.5 是 4 美元和 20 美元（<a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>，2026 年 10 月底的價格）。token 是模型讀寫文字的單位，大致相當於一個短的英文單字或者單字的一部分，模型讀的叫輸入 token，寫的叫輸出 token，輸出通常貴得多。價目表的數字好查，所以大家都拿它來比，但是你其實不是在買 token，你買的是一件做完的事，比如修好一個 bug，所以要比的是這件事一共花了多少錢。這個數字和單價差得很遠，一是因為便宜的模型做砸了要再跑一遍，算下來可能比一次做對的貴模型還貴，二是因為 agent 用掉的 token 比你想的多得多，而且大部分花在讀上。</p>
+<h3>agent 裡的 token 都去了哪</h3>
+<p>在聊天裡，你發一個問題，模型回一段話，一次呼叫就結束了。agent 跑的是一個循環（<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>）：模型說要讀一個檔案，程式讀完把結果送回去，模型再決定下一步，所以每拿到一個工具結果，模型都要被重新呼叫一次。模型在兩次呼叫之間沒有記憶，每次呼叫都要把到目前為止的整段對話重新送一遍，包括規則、需求、讀過的每個檔案和每個工具結果。這些內容都裝在<strong>上下文視窗</strong>裡，也就是模型一次能看到的全部文字，它有大小上限（<a href="3-1-context-budget.html">上下文是一份預算</a>），而你每呼叫一次，就要為裡面的內容付一次錢。</p>
 <figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <g>
     <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
@@ -332,19 +325,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">第 1 輪：模型讀規則和你的需求，寫出一個很短的工具呼叫。</li><li data-step-text="2">第 2 輪：它把這些再讀一遍，加上第一次呼叫的結果，再寫一點點。</li><li data-step-text="3">第 3 輪：全部再讀一遍，加上第二個結果。讀的越來越多，寫的一直很少。</li><li data-step-text="4">prompt cache 對完全重複的部分收費較低。所以快取命中會改變長任務的成本。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>在迴圈裡，每一輪都把整個上下文重讀一遍。長任務主要是在讀，不是在寫。</figcaption></figure>
-<p>我們用整數來算一遍。這些數字是我為了好算而挑的，不是量出來的。假設規則加你的需求一共 10,000 個 token，每個工具結果再加 5,000。呼叫 10 次下來，模型讀的大約是 10,000 + 15,000 + 20,000 + …… = 325,000 個 token，但每次呼叫寫的大概只有幾百個 token。在這個例子裡，讀的部分占了 token 的九成以上。實際的比例要看你的任務，但迴圈跑得越久，就越偏向讀。</p>
-<p>當然，輸出每個 token 比較貴，所以 token 數不等於錢。不過大致的樣子不變：長的 agent 任務，多半是模型在一遍又一遍地讀同樣的材料。這也是為什麼這一章的後半，講的都是怎麼少讀。</p>
-<p>我還可以舉一個真實的例子。在 <a href="2-3-subagents.html">慎用子 agent</a> 裡，我把同樣的四個任務，分別交給一個有三個職位、由三個 agent 組成的團隊，和一個單獨的 agent。兩邊每個任務都答對了，團隊用掉的卻是後者的 4.5 倍左右。浪費最多的就是重讀，因為每個新的 agent 都從空的上下文開始，只好把同樣的檔案再讀一遍。那只是四個小任務，每個只跑一次，所以方向可以相信，倍數不要當真。</p>
-<h3>prompt 快取改變了算式</h3>
-<p>既然每次呼叫有這麼大一段開頭都一樣，供應商就提供了 <strong>prompt 快取</strong>：它記住你輸入裡很長的一段開頭，之後的呼叫只要開頭是同樣的文字，那一段就可以收得便宜些。在 Anthropic 的 API 上，大多數模型讀快取的輸入，只收基本輸入價的十分之一，有些模型更低。寫入快取則比一般的讀取貴，五分鐘的快取是 1.25 倍，一小時的快取是 2 倍（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。</p>
-<p>這幾個價格最直接的影響是，開頭越穩定越划算。因為快取只認從輸入開頭起完全一致的內容，只要你改了靠近頂端的東西，例如改了一條規則、換了一份工具清單，它後面的所有內容就都沒辦法命中快取。反過來，停下來也可能要付錢：快取只活很短的時間，一段對話你離開一小時再回來，可能就得付全價把它重建一遍。不過，就算每次都命中，讀快取也不是免費的：<strong>最便宜的 token，仍然是沒送出去的那個</strong>。少讀仍然是第一件該試的事。</p>
-<p>快取到底能省多少？還是用同一個例子，假設快取每次都命中，只算輸入，用五分鐘的價格。第一次呼叫寫入 10,000 個 token，乘 1.25 倍，是 12,500。接下來九次呼叫，之前的文字都從快取讀。快取的部分從 10,000 個 token 增加到 50,000 個，九次加起來是 270,000，乘 0.1 倍是 27,000。每次呼叫也都要寫入新的 5,000 個 token，共 45,000，乘 1.25 倍是 56,250。加起來大約是 96,000 個 token 的價格，而不是 325,000，重複讀取的部分現在也只占不到三分之一。</p>
-<p>換句話說，快取改變的是錢花在哪裡：從重讀，轉到新材料上。這樣一來就能明白，前面說的「九成以上」算的是讀了多少 token，不是帳單的占比；也能明白為什麼快取維護得好的團隊，可以讀很多，卻付得很少。可是一旦沒命中，這些就都白省了：例如改了開頭的規則，或是停太久、快取過期了，成本就會被拉回 325,000 附近。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>你到底在为什么付钱？</h2><p>比较模型，通常从一张价目表开始，上面写着每百万 token 多少美元。<strong>token</strong> 是一小段文本，大致相当于一个短的英文单词，或者单词的一部分；模型按 token 读写，所以账单也按 token 算。token 又分两种：<strong>输入</strong> token 是模型在一次调用里读的内容，<strong>输出</strong> token 是它写出来的内容。两者价格不同，通常输出的单价更贵。</p>
-<p>价目表上的数字查得到，所以大家都拿它来比。可你从来不是为了 token 本身付钱。你买的是一件做完的事，比如修好一个 bug、写完一份报告，所以要紧的是这件事一共花了多少。</p>
-<p>拿价目表来估这个总价并不靠谱，原因有两个。一是便宜的模型如果把任务做砸了，还得再问一遍，算下来可能比一次就做对的强模型更贵。二是在 agent 里，token 的数量和你想的不一样，下面就来看看。</p>
+<p>我們用整數算一筆帳，這些數字是我為了好算挑的，不是測出來的。假設規則加需求一共 10,000 個 token，每個工具結果再加 5,000 個，一個任務呼叫 10 次模型，每次寫 300 個 token。模型一共讀了 10,000 + 15,000 + …… + 55,000 = 325,000 個 token，寫的只有 3,000 個。換成錢差距一樣大：用 Sonnet 5.5 的價格，讀要 0.65 美元，寫只要 0.03 美元，輸出的單價雖然貴 5 倍，讀的量卻大了 100 多倍。循環跑得越久，錢就越往讀上偏，因為每多一次呼叫，前面所有的內容都要再讀一遍。</p>
+<h3>prompt 快取改變了這筆帳</h3>
+<p>每次呼叫的開頭幾乎都一樣，所以模型供應商做了 <strong>prompt 快取</strong>：它記住你輸入的開頭一段，下一次呼叫只要開頭一字不差，這一段就按很低的價格算。Anthropic 的價格是這樣的：寫入快取比一般輸入貴，5 分鐘的快取是 1.25 倍，1 小時的快取是 2 倍，讀快取便宜得多，大多數模型是輸入價的十分之一，Opus 5.5 和 Sonnet 5.5 是二十分之一（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。</p>
+<p>還是上面那個例子，用 Sonnet 5.5 的價格，假設快取每次都命中。第一次呼叫把 10,000 個 token 寫入快取，後面九次呼叫，每次從快取讀之前的全部內容，九次加起來是 270,000 個 token，再把新增的 5,000 個寫入快取，九次加起來是 45,000 個。算下來寫入花 0.1375 美元，讀快取花 0.027 美元，一共約 0.16 美元，只有原來 0.65 美元的四分之一。這 0.16 美元裡大部分是新內容的寫入費，快取省不掉，只有少讀才省得掉，所以就算快取每次都命中，少讀仍然是第一個該試的辦法。</p>
+<p>快取也很容易失效，有三種情況。第一種是開頭變了：快取只認一字不差的內容，順序是工具定義、系統提示、對話訊息，哪一層變了，這一層和它後面的全部都命中不了，所以改一個工具的描述，整個快取就沒了，規則檔開頭也別放目前時間這種每次都變的東西。第二種是停得太久：預設的快取只活 5 分鐘，每用一次會免費續期，你去開個會回來，它就過期了。第三種是開頭太短：不到最小長度就不快取，也不報錯，Sonnet 5.5 的下限是 512 個 token，有些舊模型要 4,096 個。一直命中不了的話，成本就回到 0.65 美元附近，甚至更高，因為寫入快取比一般輸入還貴。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>你的钱花到哪去了</h2><p>选模型的时候，大家一般都从价目表开始：Sonnet 5.5 每百万个输入 token 2 美元、输出 token 10 美元，Opus 5.5 是 4 美元和 20 美元（<a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>，2026 年 10 月底的价格）。token 是模型读写文本的单位，大致相当于一个短的英文单词或者单词的一部分，模型读的叫输入 token，写的叫输出 token，输出通常贵得多。价目表的数字好查，所以大家都拿它来比，但是你其实不是在买 token，你买的是一件做完的事，比如修好一个 bug，所以要比的是这件事一共花了多少钱。这个数和单价差得很远，一是因为便宜的模型做砸了要再跑一遍，算下来可能比一次做对的贵模型还贵，二是因为 agent 用掉的 token 比你想的多得多，而且大部分花在读上。</p>
 <h3>agent 里的 token 都去了哪</h3>
-<p>token 的数量为什么会出乎意料？在聊天里，你发一个问题，得到一个回答，就结束了。在 agent 循环里（<a href="2-1-agent-loop.html">Agent 到底是怎么干活的？</a>），每拿到一个工具结果，模型都要被再调用一次，而每次调用都要把到目前为止的整段对话重新发过去：规则、需求、读过的每个文件、每个结果。模型在两次调用之间没有记忆，只有这样它才知道之前发生了什么。这些内容都得装进<strong>上下文窗口</strong>，也就是模型一次能看到的文本。窗口本身有大小上限（怎么管理它，<a href="3-1-context-budget.html">为什么不能把所有规则都塞给 Agent？</a>会讲），而每次调用都会把它从头重新装满一遍。</p>
+<p>在聊天里，你发一个问题，模型回一段话，一次调用就结束了。agent 跑的是一个循环（<a href="2-1-agent-loop.html">Agent 到底是怎么干活的？</a>）：模型说要读一个文件，程序读完把结果发回去，模型再决定下一步，所以每拿到一个工具结果，模型都要被重新调用一次。模型在两次调用之间没有记忆，每次调用都要把到目前为止的整段对话重新发一遍，包括规则、需求、读过的每个文件和每个工具结果。这些内容都装在<strong>上下文窗口</strong>里，也就是模型一次能看到的全部文本，它有大小上限（<a href="3-1-context-budget.html">为什么不能把所有规则都塞给 Agent？</a>），而你每调用一次，就要为里面的内容付一次钱。</p>
 <figure class="fig steps" id="fig-1-1-token-flow" data-steps="4"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
   <g>
     <rect class="box" x="40" y="214" width="150" height="34" rx="5"/>
@@ -379,17 +367,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   </g>
 </svg>
 <ol class="step-text"><li data-step-text="1">第 1 轮：模型读规则和你的需求，写出一个很短的工具调用。</li><li data-step-text="2">第 2 轮：它把这些再读一遍，加上第一次调用的结果，再写一点点。</li><li data-step-text="3">第 3 轮：全部再读一遍，加上第二个结果。读的越来越多，写的一直很少。</li><li data-step-text="4">prompt 缓存对完全重复的部分收费更低。所以缓存命中会改变长任务的成本。</li></ol><div class="step-nav" hidden><button type="button" data-step-go="-1">上一步</button><span class="step-count"></span><button type="button" data-step-go="1">下一步</button></div><figcaption>在循环里，每一轮都把整个上下文重读一遍。长任务主要是在读，不是在写。</figcaption></figure>
-<p>我们用整数来算一笔账。这些数字是我为了好算挑的，不是测出来的。假设规则加你的需求一共 10,000 个 token，每个工具结果再加 5,000 个。10 次调用下来，模型读的大约是 10,000 + 15,000 + 20,000 + ... = 325,000 个 token，每次调用写的却可能只有几百个。在这个例子里，读占了 token 的 90% 以上。实际的比例要看你的任务，但循环跑得越久，就越偏向读。</p>
-<p>当然，输出的单价更高，所以 token 数不等于钱。不过大致的格局不变：一个长的 agent 任务，大部分时候都是模型在一遍遍地重读同样的内容。这也是为什么这一章的后半部分，讲的都是怎么少读。</p>
-<p>我还可以举一个真实的例子。在<a href="2-3-subagents.html">别跟风瞎用子 Agent</a>里，我把同样的四个任务，分别交给一个由三个按岗位分工的 agent 组成的团队，和一个单干的 agent。两边每个任务都做对了，可团队用掉的是后者的 4.5 倍左右。浪费最多的就是重读，因为每个新开的 agent 都从空白的上下文开始，只好把同样的文件再读一遍。那只是四个小任务，每个只跑了一次，所以方向可以信，倍数别当真。</p>
+<p>我们用整数算一笔账，这些数字是我为了好算挑的，不是测出来的。假设规则加需求一共 10,000 个 token，每个工具结果再加 5,000 个，一个任务调用 10 次模型，每次写 300 个 token。模型一共读了 10,000 + 15,000 + …… + 55,000 = 325,000 个 token，写的只有 3,000 个。换成钱差距一样大：用 Sonnet 5.5 的价格，读要 0.65 美元，写只要 0.03 美元，输出的单价虽然贵 5 倍，读的量却大了 100 多倍。循环跑得越久，钱就越往读上偏，因为每多一次调用，前面所有的内容都要再读一遍。</p>
 <h3>prompt 缓存改变了这笔账</h3>
-<p>既然每次调用的很大一部分都是同样的开头，提供方就推出了 <strong>prompt 缓存</strong>：它记住你输入里很长的一段开头，后面的调用只要以同样的文本开头，这一段就能少收钱。在 Anthropic 的 API 上，大多数模型读缓存的输入只收基础输入价的十分之一，有些模型更低。写入缓存则比普通读取贵，五分钟的缓存是 1.25 倍，一小时的缓存是 2 倍（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。</p>
-<p>这几个价格最直接的影响是，开头越稳定越划算。因为缓存只认从输入开头起一模一样的内容，只要你改了靠前的东西，比如改了一条规则、换了一份工具列表，它后面的所有内容就都命中不了缓存。反过来，停下来也可能要花钱：缓存只能活很短的时间，一个对话你放下一小时再回来，可能就得付全价把缓存重建一遍。不过，就算每次都命中，读缓存也不是免费的：<strong>最便宜的 token，仍然是没发出去的那个</strong>。少读仍然是第一个该试的办法。</p>
-<p>缓存到底能省多少？还是用同一个例子，假设缓存每次都命中，只算输入，用五分钟缓存的价格。第一次调用写入 10,000 个 token，按 1.25 倍算是 12,500。接下来的九次调用，之前的文本都从缓存里读。缓存的部分从 10,000 个 token 涨到 50,000 个，九次加起来是 270,000 个，按 0.1 倍算是 27,000。每次调用还要写入新增的 5,000 个 token，一共 45,000 个，按 1.25 倍算是 56,250。加起来约合 96,000 个 token 的价钱，而不是 325,000，重复读取的部分也只占了不到三分之一。</p>
-<p>换句话说，缓存改变的是钱花在哪里：从重读，转到了新内容上。这下就能明白，前面说的“90% 以上”数的是读了多少 token，不是账单的占比；也能明白为什么缓存维护得好的团队，读得很多，付得却很少。可一旦没命中，这些就都白省了：比如改了开头的规则，或者停得太久、缓存过期了，成本就会回到 325,000 附近。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Where a task's cost comes from, and where to cut it</h2><h3>What a task costs</h3>
-<p>With reading, writing and the cache in view, we can put together what one finished task costs. Think of it as three parts.</p>
-<figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+<p>每次调用的开头几乎都一样，所以模型提供方做了 <strong>prompt 缓存</strong>：它记住你输入的开头一段，下一次调用只要开头一字不差，这一段就按很低的价格算。Anthropic 的价格是这样的：写入缓存比普通输入贵，5 分钟的缓存是 1.25 倍，1 小时的缓存是 2 倍，读缓存便宜得多，大多数模型是输入价的十分之一，Opus 5.5 和 Sonnet 5.5 是二十分之一（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>）。</p>
+<p>还是上面那个例子，用 Sonnet 5.5 的价格，假设缓存每次都命中。第一次调用把 10,000 个 token 写入缓存，后面九次调用，每次从缓存读之前的全部内容，九次加起来是 270,000 个 token，再把新增的 5,000 个写入缓存，九次加起来是 45,000 个。算下来写入花 0.1375 美元，读缓存花 0.027 美元，一共约 0.16 美元，只有原来 0.65 美元的四分之一。这 0.16 美元里大部分是新内容的写入费，缓存省不掉，只有少读才省得掉，所以就算缓存每次都命中，少读仍然是第一个该试的办法。</p>
+<p>缓存也很容易失效，有三种情况。第一种是开头变了：缓存只认一字不差的内容，顺序是工具定义、系统提示、对话消息，哪一层变了，这一层和它后面的全部都命中不了，所以改一个工具的描述，整个缓存就没了，规则文件开头也别放当前时间这种每次都变的东西。第二种是停得太久：默认的缓存只活 5 分钟，每用一次会免费续期，你去开个会回来，它就过期了。第三种是开头太短：不到最小长度就不缓存，也不报错，Sonnet 5.5 的下限是 512 个 token，有些旧模型要 4,096 个。一直命中不了的话，成本就回到 0.65 美元附近，甚至更高，因为写入缓存比普通输入还贵。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>How to add up a task's cost, and where to save</h2><figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
   <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
   <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">What it reads</text>
   <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">every call, minus cache hits</text>
@@ -404,26 +387,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">Cost of one finished task. Most savings are in the first and the last.</text>
 </svg>
 <figcaption>A task&#x27;s cost is what the model reads plus what it writes, multiplied by how often the work is redone.</figcaption></figure>
-<ol>
-<li><strong>What the model reads</strong>, across every call, discounted where the cache hits.</li>
-<li><strong>What the model writes</strong>: the answer, the code, the thinking.</li>
-<li><strong>Redoing</strong>, meaning a wrong answer, a lost thread or a repeated attempt. Redoing is a multiplier on parts 1 and 2.</li>
-</ol>
-<p>Most savings come from the first and the third. A good rule of thumb is: <strong>do things in the cheapest way that is enough</strong>.</p>
-<h3>When a strong model is cheaper</h3>
-<p>Redoing is also where the choice of model comes in. A stronger model costs more per token, yet it can still cost less per finished task when it gets the answer in one pass and the weaker one needs three. If the task was easy, though, it can also be a waste.</p>
-<p>Where does it flip? I have no measurement of my own, so this is an argument, not a result. The way to find the point is to test it on your own tasks: run the same few tasks on two models and compare the cost per success, not the cost per call. <a href="6-4-variance.html">Chapter 6.4</a> says how to do that honestly.</p>
-<h3>Pick by task, and check the setting</h3>
-<p>My own rule of thumb, just as unmeasured, is to use a strong model for thinking (a plan, an approach, a hard bug) and a medium model for doing (a change whose plan is already clear). Some tools also let you set <strong>reasoning effort</strong>, a setting on some models that controls how long they think before they answer. More thinking usually means more output tokens and more time. I have not tested whether Copilot lets you set it from a harness, so check your own tool.</p>
-<h3>How you are billed in Copilot (as of late October 2026)</h3>
-<p>What you actually pay depends on your plan, and for Copilot the plans change often, so check the date against your own.</p>
-<ul>
-<li><strong>Monthly Copilot plans:</strong> since June 1, 2026, Copilot has been moving to usage-based billing. Premium request units were replaced by GitHub AI Credits, and usage is calculated from input, output and cached tokens at each model's listed API rates. Code completions and next edit suggestions stay included. (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>)</li>
-<li><strong>Annual Pro and Pro+ plans</strong> stay on the older premium request model until they expire. There, each prompt you send counts as a request multiplied by the model's multiplier, while the tool calls the agent makes do not count. (<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>)</li>
-</ul>
-<p>The two models reward different habits. Under per-request billing a long autonomous run is cheap for you, so it can pay to do a big task in a single prompt. Under token billing, a long run costs in proportion to how much it reads. Which one you are on decides how much the rest of this chapter matters, and if your plan is billed by tokens, it matters a lot.</p>
+<p>A task's cost has three parts: what the model reads (all calls added up, with cache hits discounted), what it writes (answers, code, thinking), and rework (wrong answers, lost threads, repeated attempts). Rework isn't a separate charge. It's a multiplier on the other two, because every time you redo something, you pay for both again. Most of the savings are at the two ends, reading and rework, and a good rule of thumb is to use the cheapest approach that's good enough.</p>
+<h3>When the expensive model is cheaper</h3>
+<p>An expensive model costs more per token, but if it gets the job right the first time, it can cost less per finished task. The math is simple: the cost of finishing a task is the cost of one run divided by the success rate. Opus 5.5 costs twice as much per token as Sonnet 5.5, so if one run uses about the same tokens on both, Opus is cheaper only when Sonnet's success rate is less than half of Opus's. If Opus gets 80% of tasks right, for example, Sonnet has to be below 40%. That's only the token bill. Add the time you spend watching it and cleaning up after it, and the break-even point moves further toward the expensive model. On the other hand, if the task is simple enough that both models get it right the first time, the expensive one is money wasted.</p>
+<p>You can only measure success rates on your own tasks: run the same few tasks several times on both models, and compare the cost per success, not the cost per call (<a href="6-4-variance.html">One run proves nothing</a>).</p>
+<h3>Choose the model by the task, then check the reasoning effort</h3>
+<p>My own rule of thumb is a strong model for thinking, such as making a plan, working out an approach or digging into a hard bug, and a mid-level model for doing, such as a change the plan has already made clear. There's also a setting called <strong>reasoning effort</strong> (thinking effort), which controls how long the model thinks before it answers. More thinking usually means more output tokens and more time. In VS Code you set it in the model picker, through the arrow next to the model name, and models that don't support it don't show the option (<a href="https://code.visualstudio.com/docs/copilot/customization/language-models">AI language models</a>). The highest setting isn't always better: in the LangChain experiment in <a href="0-1-the-gap-and-the-map.html">What is Harness Engineering?</a>, running at the top level throughout actually scored lower, because many tasks timed out.</p>
+<h3>How Copilot bills (as of late October 2026)</h3>
+<p>Since June 1, 2026, Copilot's monthly plans have been on usage-based billing. GitHub AI Credits replaced premium requests, 1 credit is worth $0.01, and usage is calculated from input, output and cached tokens at each model's published API rates. Pro, for example, is $10 a month and includes $10 of credits, and code completions and Next Edit suggestions don't use credits (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>, <a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>). Annual Pro and Pro+ plans stay on the old premium request model until they expire, with 300 requests a month on Pro and 1,500 on Pro+. Each prompt you send counts as one request, times the model's multiplier, and the tool calls the agent makes on its own don't count (<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>).</p>
+<p>The two models encourage different habits. When you pay per request, a long autonomous run is cheap for you, so putting a big job into one prompt can be a good deal. When you pay per token, a run costs in proportion to what it reads, and the savings in this chapter matter a lot.</p>
 <h3>When the result is wrong, change the model last</h3>
-<p>Back to choosing a model, then. When a result comes back wrong, the easy reaction is to switch to a bigger model. It is also the most expensive fix, and often the wrong one. Before reaching for it, look at what went wrong:</p>
+<p>When the result is wrong, the first idea that comes to mind is to switch to a bigger model, but that's the most expensive fix and it often doesn't help, so look first at what actually went wrong:</p>
 <table>
 <thead>
 <tr>
@@ -433,40 +407,35 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </thead>
 <tbody>
 <tr>
-<td>It did not know a rule, a name or how the project does it</td>
-<td>Write it into the rules or a knowledge file. A bigger model does not know it either</td>
+<td>It doesn't know a rule, a name, or how the project does something</td>
+<td>Write it into the rules or a knowledge file. A bigger model wouldn't know it either</td>
 </tr>
 <tr>
-<td>It said &quot;done&quot; and it was not</td>
-<td>Add a check: run the tests (<a href="5-4-self-checks.html">chapter 5.4</a>)</td>
+<td>It says &quot;done&quot; and it isn't</td>
+<td>Add a check: run the tests (<a href="5-4-self-checks.html">Let the agent check its own work</a>)</td>
 </tr>
 <tr>
-<td>It lost the thread in a long session</td>
-<td>Start a new session and carry the state in files (<a href="3-2-long-sessions.html">chapter 3.2</a>)</td>
+<td>It loses the thread in a long session</td>
+<td>Start a new session and carry the state over in a file (<a href="3-2-long-sessions.html">Long chats get worse</a>)</td>
 </tr>
 <tr>
-<td>It knew everything and still reasoned badly</td>
+<td>It knows everything and still reasons badly</td>
 <td>Now try a stronger model</td>
 </tr>
 </tbody>
 </table>
 <h3>Four ways to save, and how each can go too far</h3>
-<p>Choosing the model is only one lever. The first of the four ways below comes before any of the three parts of a task's cost: not calling the model at all. The other three follow the parts in order. Each of the four can also go too far.</p>
+<p>The first way comes before the three parts of the cost: don't call the model at all. The other three map to reading, writing and rework, and all four can go too far.</p>
 <ol>
-<li><strong>Use the model less.</strong> If code can do it, do not ask a model. Counting, copying files, converting a Word file into text and checking a format are jobs a script does the same way every time, using no tokens. The danger is moving judgment into code that cannot judge, and <a href="5-9-who-decides.html">chapter 5.9</a> draws that line.</li>
-<li><strong>Read less.</strong> Keep the rules short, load details only when they are needed, and ask for a diff rather than the whole file. The danger is that if it reads too little, it guesses, and the rework costs more than the reading saved.</li>
-<li><strong>Write less.</strong> Ask for short answers, such as a one-line verdict or a short list. The danger is output so terse that the next step cannot use it.</li>
-<li><strong>Redo less.</strong> Agree the plan before the work starts, keep state in files so a lost session can be picked up, and cap the number of retries. The danger is a cap that cuts off useful work, so set caps from what you saw, not from fear.</li>
+<li><strong>Use the model less.</strong> If code can do it, don't ask the model. Counting, copying files, converting a Word file to text and checking a format are jobs a script does the same way every time, at no token cost. Going too far means handing a judgment call to code that can't judge (<a href="5-9-who-decides.html">Who decides: code, a cheap model, the main model, a person</a>).</li>
+<li><strong>Read less.</strong> Keep rules short, load details when they're needed, and ask for a diff rather than a whole file. Going too far means the agent guesses when it lacks information, and the rework costs more than the reading you saved.</li>
+<li><strong>Write less.</strong> Ask for a one-sentence conclusion or a short list. Going too far means the output is too thin for the next step to use.</li>
+<li><strong>Redo less.</strong> Agree on a plan before starting, keep state in files so work survives a lost session, and put a limit on retries. Going too far means the limit cuts off useful work, so set it from what you've seen, not from what you fear.</li>
 </ol>
-<p>Also mind the standing costs, which you pay on every call before any of these choices come in. Every tool the agent has adds its name, description and parameters to the input of every call (<a href="1-2-tool-calling.html">chapter 1.2</a>), and every rule you inject rides along on every turn.</p>
-<h3>When a bill surprises you</h3>
-<p>When a bill comes in higher than you expected, start with three questions.</p>
-<ol>
-<li>Which call or turn read the most? Look at the usage page of your tool, and at the biggest tasks.</li>
-<li>What was in the context that did not need to be there? Old tool results, a large file read in full, a long rules file?</li>
-<li>Did the task get redone? If so, why did the first attempt fail?</li>
-</ol>
-<p>The same habit of checking helps when you are choosing between two models, and for that a small experiment is enough. Take one task whose right answer you know, run it on two models three times each, and note the usage and whether the result was right. Then compare the cost per success, and do not decide from one run. A table with four columns will do:</p>
+<p>There's also a fixed cost you pay on every call, whatever you choose during the task. Each of the agent's tools adds its name, description and parameters to the input of every call (<a href="1-2-tool-calling.html">Tool calling, and designing tools for an agent</a>), and every rule you inject comes along on every turn, so remove the tools and rules you don't use.</p>
+<h3>When the bill surprises you</h3>
+<p>If the bill is higher than you expected, ask yourself three questions. First, which call or turn read the most? Look at your tool's usage page and at your biggest tasks. Second, what's in the context that doesn't need to be there, such as old tool results, big files read in full, or a long rules file? Third, was any task redone, and if so, why did the first attempt fail?</p>
+<p>When you're choosing between two models, a small experiment is enough: pick a task you know the right answer to, run it three times on each model, record the usage and whether the result was right, and compare the cost per success. Don't decide from one run. A four-column table will do:</p>
 <table>
 <thead>
 <tr>
@@ -515,9 +484,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一個任務的錢花在哪裡，又該從哪裡省</h2><h3>一個任務花多少</h3>
-<p>讀、寫和快取都看過了，我們可以把做完一個任務的成本拼起來。不妨把它想成三個部分。</p>
-<figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>怎麼算一個任務的成本，又該從哪裡省</h2><figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
   <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
   <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">讀的</text>
   <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">每次呼叫，扣掉快取命中</text>
@@ -532,75 +499,61 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">一件事做成的成本。多數省錢發生在第一項和最後一項。</text>
 </svg>
 <figcaption>一個任務的成本是模型讀的加寫的，再乘上返工的次數。</figcaption></figure>
-<ol>
-<li><strong>模型讀的</strong>，每次呼叫都算，快取命中的地方有折扣。</li>
-<li><strong>模型寫的</strong>：回答、程式碼、思考。</li>
-<li><strong>重做</strong>，也就是答錯、丟了線索、再試一次。重做是第 1、2 部分的乘數。</li>
-</ol>
-<p>這三部分裡，能省的大多在第一和第三部分。一個好用的經驗法則是：<strong>在夠用的方式裡挑最便宜的</strong>。</p>
-<h3>強模型什麼時候比較便宜</h3>
-<p>選哪個模型，也正是在重做這一項上見分曉。更強的模型每個 token 更貴，但如果它一次就得到答案，弱的模型卻要三次，那麼算到每個做完的任務上，強模型的成本反而可能更低。不過，如果任務很簡單，用強模型也可能是浪費。</p>
-<p>轉折點在哪裡？我自己沒有量過，所以這只是論證，不是結果。要找到那一點，辦法是在你自己的任務上測：拿同樣幾個任務在兩個模型上跑，比較每次成功的成本，而不是每次呼叫的成本。怎麼誠實地做這件事，<a href="6-4-variance.html">一次運行證明不了什麼</a> 會講。</p>
-<h3>依任務挑模型，再確認一下設定</h3>
-<p>我自己的經驗法則同樣沒有量過，大致是：用強模型來想，像是定計劃、找做法、處理難的 bug；用中等的模型來做，像是一處計劃已經很清楚的改動。有些工具還讓你設定<strong>推理強度</strong>，這是某些模型有的設定，控制它回答之前想多久。想得越多，通常輸出的 token 越多，時間也越長。至於 Copilot 能不能從 harness 裡調它，我還沒測過，你得查一下自己的工具。</p>
-<h3>在 Copilot 裡怎麼計費（2026 年 10 月下旬）</h3>
-<p>你實際付多少，取決於你的方案，而 Copilot 的方案常常變，請對照日期確認你自己的。</p>
-<ul>
-<li><strong>按月的 Copilot 方案</strong>：從 2026 年 6 月 1 日起，Copilot 一直在轉向按用量計費。premium request unit 換成了 GitHub AI Credits，用量依輸入、輸出和快取的 token 算，按每個模型公開的 API 費率。程式碼補全和 next edit suggestions 仍包含在內。（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）</li>
-<li><strong>年繳的 Pro 和 Pro+ 方案</strong>，在到期之前仍用舊的 premium request 模式。在這種模式下，你送出的每個 prompt 算一次請求，再乘上該模型的倍率，而 agent 做的工具呼叫不算。（<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>）</li>
-</ul>
-<p>這兩種模式獎勵的習慣不一樣。按請求計費時，一次長的自主執行對你來說很便宜，所以把一個大任務放進一個 prompt 裡做，可能很划算。按 token 計費時，一次長的執行花多少，和它讀了多少成正比。所以你用的是哪一種，決定了這一章其餘的部分對你有多重要。如果你的方案按 token 計費，那就非常重要。</p>
+<p>一個任務的成本分三部分：模型讀的（所有呼叫加起來，快取命中的部分打折），模型寫的（回答、程式碼、思考），還有重做（錯誤的回答、丟了的線索、重複的嘗試）。重做不是單獨的一筆錢，它是前兩部分的乘數，重做一次，前兩部分就要再付一遍。能省的大多在讀和重做這兩頭，一條好用的經驗法則是用夠用的辦法裡最便宜的那個。</p>
+<h3>什麼時候貴模型反而便宜</h3>
+<p>貴模型每個 token 貴，但是如果它一次就做對，算到每個做完的任務上可能反而便宜。算法很簡單，做完一個任務的成本等於跑一次的成本除以成功率。Opus 5.5 的單價是 Sonnet 5.5 的 2 倍，假設兩者跑一次用的 token 差不多，那麼只有當 Sonnet 的成功率不到 Opus 的一半時，Opus 才更便宜，比如 Opus 能做對 80% 的任務，Sonnet 要低於 40%。這只是 token 的帳，如果再算上你盯著它、幫它收拾的時間，這個點還會往貴模型那邊挪。反過來，如果任務本來就簡單，兩個模型都能一次做對，用貴的就是白花錢。</p>
+<p>成功率只能在你自己的任務上測：拿同樣的幾個任務，在兩個模型上各跑幾遍，比較每次成功的成本，而不是每次呼叫的成本（<a href="6-4-variance.html">一次運行證明不了什麼</a>）。</p>
+<h3>按任務選模型，再看一眼推理強度</h3>
+<p>我自己的經驗法則是思考用強模型，比如定計畫、想思路、啃難的 bug，動手用中等的模型，比如做一處計畫已經很清楚的改動。另外還有一個設定叫<strong>推理強度</strong>（thinking effort），它控制模型回答之前想多久，想得越多，通常輸出的 token 越多，花的時間也越長。在 VS Code 裡，點模型選擇器裡模型名字旁邊的箭頭就能選，不支援的模型不顯示這一項（<a href="https://code.visualstudio.com/docs/copilot/customization/language-models">AI language models</a>）。開到最高不一定更好，<a href="0-1-the-gap-and-the-map.html">什麼是 Harness Engineering？</a>裡 LangChain 的實驗就是全程用最高檔的分數反而更低，因為很多任務逾時了。</p>
+<h3>Copilot 怎麼計費（截至 2026 年 10 月底）</h3>
+<p>Copilot 的月繳方案從 2026 年 6 月 1 日起改成了按用量計費：premium request 被 GitHub AI Credits 取代，1 個 credit 等於 0.01 美元，用量按輸入、輸出和快取的 token 計算，價格是每個模型公布的 API 費率，比如 Pro 每月 10 美元，含 10 美元的額度，程式碼補全和 Next Edit 建議不占額度（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>、<a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>）。年繳的 Pro 和 Pro+ 到期之前還用舊的 premium request 模式，Pro 每月 300 次，Pro+ 每月 1,500 次，你發的每個 prompt 算一次，再乘上模型的倍率，agent 自己做的工具呼叫不算（<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>）。</p>
+<p>這兩種模式鼓勵的習慣不一樣。按請求計費時，一次很長的自主執行對你來說很便宜，所以把一個大任務放進一個 prompt 裡做可能很划算；按 token 計費時，一次執行花多少錢和它讀了多少成正比，這一章講的省錢辦法就非常要緊。</p>
 <h3>結果不對時，最後才換模型</h3>
-<p>說回選模型。結果不對的時候，最容易的反應是換成更大的模型。可是這也是最貴的修法，而且常常是錯的。換之前，先看看哪裡出了問題：</p>
+<p>結果不對的時候，最容易想到的就是換一個更大的模型，但這是最貴的辦法，而且常常沒用，所以換之前先看看到底出了什麼問題：</p>
 <table>
 <thead>
 <tr>
 <th>出了什麼問題</th>
-<th>先試</th>
+<th>先試什麼</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>它不知道一條規則、一個名字，或專案怎麼做這件事</td>
-<td>把它寫進規則或知識檔。更大的模型也不知道</td>
+<td>它不知道一條規則、一個名字，或者專案裡的做法</td>
+<td>寫進規則或知識檔。更大的模型一樣不知道</td>
 </tr>
 <tr>
 <td>它說「做完了」，其實沒有</td>
-<td>加一道檢查：執行測試（<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>）</td>
+<td>加一道檢查：跑測試（<a href="5-4-self-checks.html">讓 agent 能檢查自己的活</a>）</td>
 </tr>
 <tr>
-<td>在長會話裡丟了線索</td>
+<td>在長會話裡它丟了線索</td>
 <td>開一個新會話，把狀態放在檔案裡帶過去（<a href="3-2-long-sessions.html">長對話會變差</a>）</td>
 </tr>
 <tr>
-<td>它什麼都知道，推理還是不好</td>
+<td>它什麼都知道，推理還是不行</td>
 <td>這時再試更強的模型</td>
 </tr>
 </tbody>
 </table>
-<h3>四種省法，以及各自怎樣過頭</h3>
-<p>選模型只是其中一個槓桿。下面四種省法裡，第一種排在成本的三個部分之前：乾脆不呼叫模型。後三種依序對應那三個部分，而且四種都可能做過頭。</p>
+<h3>四個省錢的辦法，以及各自怎樣會過頭</h3>
+<p>第一個辦法排在成本的三部分之前，乾脆不呼叫模型，後三個分別對應讀、寫和重做，而且四個辦法都可能做過頭。</p>
 <ol>
-<li><strong>少用模型</strong>。程式碼能做的，就不要去問模型。計數、複製檔案、把 Word 檔轉成文字、檢查格式，這些事腳本每次都做得一樣，也不用 token。危險是把需要判斷的事搬進一段不會判斷的程式，這條線畫在哪裡，見<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a>。</li>
-<li><strong>少讀</strong>。規則寫短，細節要用時才載入，要 diff 而不是整個檔案。危險是讀太少，它就會猜，而重做花的錢比省下來的讀取還多。</li>
-<li><strong>少寫</strong>。要簡短的回答，例如一行結論、一份短清單。危險是簡短到下一步用不上。</li>
-<li><strong>少重做</strong>。工作開始前先談好計劃，把狀態放在檔案裡，這樣會話丟了也能接著做，再限制重試的次數。危險是上限切斷了有用的工作，所以上限要依你看到的情況設，而不是依擔心設。</li>
+<li><strong>少用模型</strong>。程式能做的就別問模型，計數、複製檔案、把 Word 檔轉成文字、檢查格式，這些工作腳本每次都做得一樣，而且不花 token。做過頭是把需要判斷的事交給了不會判斷的程式（<a href="5-9-who-decides.html">誰來判斷：程式、便宜模型、主模型、人</a>）。</li>
+<li><strong>少讀</strong>。規則寫短，細節需要時才載入，要 diff 不要整個檔案。做過頭是它缺資訊就去猜，重做的錢比省下的讀取還多。</li>
+<li><strong>少寫</strong>。讓它給一句話的結論或者一份簡短的清單。做過頭是輸出簡略到下一步用不上。</li>
+<li><strong>少重做</strong>。動手前先商定計畫，把狀態放在檔案裡，會話丟了也能接著做，再給重試的次數設個上限。做過頭是上限卡掉了有用的工作，所以上限要根據你見到的情況來定，不要根據擔心來定。</li>
 </ol>
-<p>還有一類固定的成本，不管你在任務裡怎麼選，每次呼叫都要付。agent 有的每個工具，都會把它的名字、描述和參數加進每次呼叫的輸入裡（<a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>），而你注入的每條規則，也每一輪都跟著走。</p>
-<h3>帳單讓你吃驚的時候</h3>
-<p>如果帳單比你預期的高，先問自己三個問題。</p>
-<ol>
-<li>哪一次呼叫或哪一輪讀得最多？看看你工具的用量頁面，再看看最大的幾個任務。</li>
-<li>上下文裡有什麼其實不必放在那裡？舊的工具結果、整份讀進來的大檔案、很長的規則檔？</li>
-<li>任務有沒有被重做？如果有，第一次為什麼失敗？</li>
-</ol>
-<p>在兩個模型之間做選擇時，同樣的檢查習慣也用得上，做一個小實驗就夠了。挑一個你知道正確答案的任務，在兩個模型上各跑三次，記下用量和對不對，然後比較每次成功的成本。不要憑一次執行就下決定。一個四欄的表就行：</p>
+<p>還有一類固定成本，不管你在任務裡怎麼選，每次呼叫都要付。agent 的每個工具都會把名字、描述和參數加進每次呼叫的輸入裡（<a href="1-2-tool-calling.html">Tool calling，和給 agent 設計工具</a>），你注入的每條規則也每一輪都跟著走，所以用不上的工具和規則要拿掉。</p>
+<h3>帳單讓你意外的時候</h3>
+<p>如果帳單比你預想的高，先問自己三個問題。第一，哪次呼叫或哪一輪讀得最多，看看工具的用量頁面，再看看最大的那幾個任務。第二，上下文裡有什麼是不必在那裡的，比如舊的工具結果、整個讀進來的大檔案、很長的規則檔。第三，任務有沒有被重做，如果有，第一次為什麼失敗。</p>
+<p>在兩個模型之間做選擇時，做一個小實驗就夠了：挑一個你知道正確答案的任務，在兩個模型上各跑三次，記下用量和結果對不對，然後比較每次成功的成本，別憑一次執行就下結論。一張四欄的表就行：</p>
 <table>
 <thead>
 <tr>
-<th>執行</th>
+<th>第幾次</th>
 <th>模型</th>
-<th>用量（從你的用量頁面）</th>
+<th>用量（來自你的用量頁面）</th>
 <th>對嗎？</th>
 </tr>
 </thead>
@@ -643,9 +596,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一个任务的钱花在哪，又该从哪里省</h2><h3>一个任务的成本</h3>
-<p>读、写和缓存都看过了，我们可以把做完一个任务的成本拼起来了。不妨把它看成三部分。</p>
-<figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>怎么算一个任务的成本，又该从哪里省</h2><figure class="fig" id="fig-1-1-cost-parts"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 712 190">
   <rect class="box-lit" x="10" y="40" width="235" height="70" rx="6"/>
   <text class="label-lit" x="127" y="68" text-anchor="middle" data-t="read">读的</text>
   <text class="label-muted" x="127" y="90" text-anchor="middle" data-t="read-note">每次调用，扣掉缓存命中</text>
@@ -660,26 +611,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label-muted" x="356" y="150" text-anchor="middle" data-t="sum">做完一个任务的成本。多数节省来自第一项和最后一项。</text>
 </svg>
 <figcaption>一个任务的成本，是模型读的加写的，再乘上返工的次数。</figcaption></figure>
-<ol>
-<li><strong>模型读的</strong>，所有调用加起来，缓存命中的部分打折。</li>
-<li><strong>模型写的</strong>：回答、代码、思考。</li>
-<li><strong>返工</strong>，也就是错误的回答、丢了的线索、重复的尝试。返工是第 1、2 部分的乘数。</li>
-</ol>
-<p>这三部分里，能省的大多在第一和第三部分。一条好用的经验法则是：<strong>用够用的办法里最便宜的那个</strong>。</p>
-<h3>什么时候强模型反而便宜</h3>
-<p>选哪个模型，也正是在返工这一项上见分晓。更强的模型每个 token 更贵，可如果它一次就答对，而弱的模型要试三次，那么算到每个做完的任务上，强模型反而可能花得更少。不过，如果任务本来就简单，用强模型也可能是浪费。</p>
-<p>转折点在哪里？我自己没有测过，所以这只是一个推理，不是结果。要找到这个点，办法是在你自己的任务上测：拿同样的几个任务，在两个模型上各跑一遍，比较每次成功的成本，而不是每次调用的成本。怎么老老实实地做这件事，<a href="6-4-variance.html">同一个任务跑两次，结果不一样</a>会讲。</p>
-<h3>按任务选模型，再看一眼设置</h3>
-<p>我自己的经验法则同样没有测过，大致是：思考用强模型，比如定计划、想思路、啃难的 bug；动手用中等的模型，比如做一处计划已经很清楚的改动。有些工具还能设置<strong>推理强度</strong>，这是部分模型上的一个设置，控制它回答之前想多久。想得越多，通常输出的 token 越多，花的时间也越长。至于 Copilot 能不能从 harness 里调它，我没测过，你得查一下自己用的工具。</p>
-<h3>Copilot 怎么计费（截至 2026 年 10 月下旬）</h3>
-<p>你实际付多少钱，取决于你的套餐，而 Copilot 的套餐经常变，请对照日期核对你自己的。</p>
-<ul>
-<li><strong>按月的 Copilot 套餐</strong>：从 2026 年 6 月 1 日起，Copilot 在改成按用量计费。高级请求单位被 GitHub AI Credits 取代，用量按输入、输出和缓存的 token 计算，价格是每个模型公布的 API 费率。代码补全和下一处编辑建议仍然包含在内。（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）</li>
-<li><strong>年度的 Pro 和 Pro+ 套餐</strong>在到期前仍然用旧的高级请求模式。在这种模式下，你发的每个 prompt 算一次请求，再乘上该模型的倍率，而 agent 做的工具调用不算。（<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>）</li>
-</ul>
-<p>这两种模式鼓励的习惯不一样。按请求计费时，一次很长的自主运行对你来说很便宜，所以把一个大任务放进一个 prompt 里做，可能很划算。按 token 计费时，一次长的运行花多少钱，和它读了多少成正比。所以你用的是哪一种，决定了这一章剩下的内容对你有多要紧。如果你的套餐按 token 计费，那就非常要紧。</p>
+<p>一个任务的成本分三部分：模型读的（所有调用加起来，缓存命中的部分打折），模型写的（回答、代码、思考），还有返工（错误的回答、丢了的线索、重复的尝试）。返工不是单独的一笔钱，它是前两部分的乘数，返工一次，前两部分就要再付一遍。能省的大多在读和返工这两头，一条好用的经验法则是用够用的办法里最便宜的那个。</p>
+<h3>什么时候贵模型反而便宜</h3>
+<p>贵模型每个 token 贵，但是如果它一次就做对，算到每个做完的任务上可能反而便宜。算法很简单，做完一个任务的成本等于跑一次的成本除以成功率。Opus 5.5 的单价是 Sonnet 5.5 的 2 倍，假设两者跑一次用的 token 差不多，那么只有当 Sonnet 的成功率不到 Opus 的一半时，Opus 才更便宜，比如 Opus 能做对 80% 的任务，Sonnet 要低于 40%。这只是 token 的账，如果再算上你盯着它、帮它收拾的时间，这个点还会往贵模型那边挪。反过来，如果任务本来就简单，两个模型都能一次做对，用贵的就是白花钱。</p>
+<p>成功率只能在你自己的任务上测：拿同样的几个任务，在两个模型上各跑几遍，比较每次成功的成本，而不是每次调用的成本（<a href="6-4-variance.html">同一个任务跑两次，结果不一样</a>）。</p>
+<h3>按任务选模型，再看一眼推理强度</h3>
+<p>我自己的经验法则是思考用强模型，比如定计划、想思路、啃难的 bug，动手用中等的模型，比如做一处计划已经很清楚的改动。另外还有一个设置叫<strong>推理强度</strong>（thinking effort），它控制模型回答之前想多久，想得越多，通常输出的 token 越多，花的时间也越长。在 VS Code 里，点模型选择器里模型名字旁边的箭头就能选，不支持的模型不显示这一项（<a href="https://code.visualstudio.com/docs/copilot/customization/language-models">AI language models</a>）。开到最高不一定更好，<a href="0-1-the-gap-and-the-map.html">什么是 Harness Engineering？</a>里 LangChain 的实验就是全程用最高档的分数反而更低，因为很多任务超时了。</p>
+<h3>Copilot 怎么计费（截至 2026 年 10 月底）</h3>
+<p>Copilot 的月付套餐从 2026 年 6 月 1 日起改成了按用量计费：高级请求被 GitHub AI Credits 取代，1 个 credit 等于 0.01 美元，用量按输入、输出和缓存的 token 计算，价格是每个模型公布的 API 费率，比如 Pro 每月 10 美元，含 10 美元的额度，代码补全和下一处编辑建议不占额度（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>、<a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>）。年付的 Pro 和 Pro+ 到期之前还用旧的高级请求模式，Pro 每月 300 次，Pro+ 每月 1,500 次，你发的每个 prompt 算一次，再乘上模型的倍率，agent 自己做的工具调用不算（<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a>）。</p>
+<p>这两种模式鼓励的习惯不一样。按请求计费时，一次很长的自主运行对你来说很便宜，所以把一个大任务放进一个 prompt 里做可能很划算；按 token 计费时，一次运行花多少钱和它读了多少成正比，这一章讲的省钱办法就非常要紧。</p>
 <h3>结果不对时，最后才换模型</h3>
-<p>说回选模型。结果不对的时候，最容易想到的就是换一个更大的模型。可这也是最贵的办法，而且常常是错的。换之前，先看看到底出了什么问题：</p>
+<p>结果不对的时候，最容易想到的就是换一个更大的模型，但这是最贵的办法，而且常常没用，所以换之前先看看到底出了什么问题：</p>
 <table>
 <thead>
 <tr>
@@ -707,22 +649,17 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tbody>
 </table>
 <h3>四个省钱的办法，以及各自怎样会过头</h3>
-<p>选模型只是其中一个抓手。下面四个省钱的办法里，第一个排在成本的三部分之前：干脆不调用模型。后三个按顺序对应那三部分，而且四个办法都可能做过头。</p>
+<p>第一个办法排在成本的三部分之前，干脆不调用模型，后三个分别对应读、写和返工，而且四个办法都可能做过头。</p>
 <ol>
-<li><strong>少用模型</strong>。代码能做的，就别去问模型。计数、复制文件、把 Word 文件转成文本、检查格式，这些活脚本每次都做得一样，而且不花 token。危险在于把需要判断的事交给了不会判断的代码，这条线划在哪里，见<a href="5-9-who-decides.html">这个判断该交给谁：代码、便宜模型、主模型，还是人？</a>。</li>
-<li><strong>少读</strong>。规则写得简短，细节需要时才加载，要 diff 而不是整个文件。危险在于读得太少，它就会去猜，返工的成本比省下的读取还高。</li>
-<li><strong>少写</strong>。要简短的回答，比如一句话的结论、一个简短的清单。危险在于输出简略到下一步用不上。</li>
-<li><strong>少返工</strong>。动手前先商定计划，把状态放在文件里，会话丢了也能接着做，再给重试的次数设个上限。危险在于上限卡掉了有用的工作，所以上限要根据你见到的情况来定，而不是根据担心来定。</li>
+<li><strong>少用模型</strong>。代码能做的就别问模型，计数、复制文件、把 Word 文件转成文本、检查格式，这些活脚本每次都做得一样，而且不花 token。做过头是把需要判断的事交给了不会判断的代码（<a href="5-9-who-decides.html">这个判断该交给谁：代码、便宜模型、主模型，还是人？</a>）。</li>
+<li><strong>少读</strong>。规则写短，细节需要时才加载，要 diff 不要整个文件。做过头是它缺信息就去猜，返工的钱比省下的读取还多。</li>
+<li><strong>少写</strong>。让它给一句话的结论或者一个简短的清单。做过头是输出简略到下一步用不上。</li>
+<li><strong>少返工</strong>。动手前先商定计划，把状态放在文件里，会话丢了也能接着做，再给重试的次数设个上限。做过头是上限卡掉了有用的工作，所以上限要根据你见到的情况来定，不要根据担心来定。</li>
 </ol>
-<p>还有一类固定成本，不管你在任务里怎么选，每次调用都要付。agent 拥有的每个工具，都会把自己的名字、描述和参数加进每次调用的输入里（<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>），你注入的每条规则，也会每一轮都跟着走。</p>
+<p>还有一类固定成本，不管你在任务里怎么选，每次调用都要付。agent 的每个工具都会把名字、描述和参数加进每次调用的输入里（<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>），你注入的每条规则也每一轮都跟着走，所以用不上的工具和规则要拿掉。</p>
 <h3>账单让你意外的时候</h3>
-<p>如果账单比你预想的高，先问自己三个问题。</p>
-<ol>
-<li>哪次调用或哪一轮读得最多？看看你工具的用量页面，再看看最大的那几个任务。</li>
-<li>上下文里有什么是不必在那里的？旧的工具结果、整个读进来的大文件、很长的规则文件？</li>
-<li>任务有没有被重做？如果有，第一次为什么失败？</li>
-</ol>
-<p>在两个模型之间做选择时，同样的核查习惯也用得上，做一个小实验就够了。挑一个你知道正确答案的任务，在两个模型上各跑三次，记下用量和结果对不对，然后比较每次成功的成本。别凭一次运行就下结论。一张四列的表就行：</p>
+<p>如果账单比你预想的高，先问自己三个问题。第一，哪次调用或哪一轮读得最多，看看工具的用量页面，再看看最大的那几个任务。第二，上下文里有什么是不必在那里的，比如旧的工具结果、整个读进来的大文件、很长的规则文件。第三，任务有没有被重做，如果有，第一次为什么失败。</p>
+<p>在两个模型之间做选择时，做一个小实验就够了：挑一个你知道正确答案的任务，在两个模型上各跑三次，记下用量和结果对不对，然后比较每次成功的成本，别凭一次运行就下结论。一张四列的表就行：</p>
 <table>
 <thead>
 <tr>
@@ -771,46 +708,43 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 </tr>
 </tbody>
 </table>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>What saving costs, and what I cannot see</h2><p>Everything I have said about savings is &quot;by design&quot;, not read off a bill, because of what my tools let me see. My own harness records no token counts in its log. For how much a task really used, I read the platform's session record, which reports credits and premium requests, and I do not convert those to money.</p>
-<p>The savings also have costs of their own. A <a href="2-2-hooks.html">hook</a> that runs on tool calls adds a small delay, independent checks call the model again, and rules injected on every prompt cost tokens on every prompt. I accept those on purpose, for control, but they are still costs.</p>
-<p>The trap that looks most like thrift is reading too little. The cheapest call is the one that guesses wrong and is thrown away. If a task keeps failing for lack of context, the answer is to give it the right context, not less of it.</p>
-<p>Prices and plans also change. The cache multipliers and the Copilot billing above are as of the dates in the sources, and I would expect them to move. What has been moving, though, is not only the prices but what gets counted.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>省錢要付出什麼，我又看不到什麼</h2><p>我在這一章說的所有節省，都是「依設計」算的，不是從帳單上讀出來的，因為我手上的工具只讓我看到這麼多。我自己的 harness，日誌裡沒有記 token 數。一個任務真正用了多少，我讀的是平台的會話紀錄，它回報的是 credits 和 premium request，我也不把它們換算成錢。</p>
-<p>而這些節省本身也有代價。在工具呼叫上執行的 <a href="2-2-hooks.html">hook</a> 會加一點延遲，獨立檢查要再呼叫一次模型，每個 prompt 都注入的規則，每個 prompt 都要花 token。我是為了控制才刻意接受這些，但它們終究是成本。</p>
-<p>最像節儉的陷阱，是讀得太少。最便宜的呼叫，恰恰是猜錯然後被丟掉的那一個。如果一個任務一直因為缺上下文而失敗，該做的是給它對的上下文，而不是給它更少。</p>
-<p>另外，價格和方案都會變。上面的快取倍率和 Copilot 計費，是來源上那些日期的情況，我預期它們還會變。不過，變的不只是價格，還有收費時算的是什麼。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>省钱要付出什么，我又看不到什么</h2><p>我在这一章里说的所有节省，都是“按设计”算的，不是从账单上读出来的，因为我手上的工具只让我看到这么多。我自己的 harness 在日志里不记录 token 数。一个任务实际用了多少，我看的是平台的会话记录，它报告的是 credits 和高级请求，我也不把它们换算成钱。</p>
-<p>而这些节省本身也有代价。在工具调用上运行的 <a href="2-2-hooks.html">hook</a> 会带来一点延迟，独立检查要再调用一次模型，每个 prompt 都注入的规则，每个 prompt 都要花 token。我是为了控制而有意接受这些的，但它们终究是成本。</p>
-<p>最像节俭的坑，是读得太少。最便宜的调用，恰恰是猜错了然后被扔掉的那一次。如果一个任务总是因为缺上下文而失败，该做的是给它正确的上下文，而不是给得更少。</p>
-<p>另外，价格和套餐都会变。上面的缓存倍率和 Copilot 的计费方式，都是截至来源里写的日期，我预计它们还会变。不过，变的不只是价格，还有收费时数的是什么。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Is the market pricing it the same way? <span class="status status-industry">Industry practice</span></h2><p>The two providers this chapter leans on point the same way. Anthropic prices cached reads at a fraction of normal input, and says tool definitions are counted as input tokens on every request (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>). GitHub moved Copilot from counting requests to counting tokens (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>). In other words, the market now charges for what the model reads and writes, which is the argument of this chapter.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>市場也是這樣算的嗎？ <span class="status status-industry">業界做法</span></h2><p>這一章依靠的兩家供應商，指向同一個方向。Anthropic 把讀取快取的價格訂成一般輸入的一小部分，並且說明工具定義在每個請求裡都算輸入 token（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>、<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>）。GitHub 把 Copilot 從算請求改成算 token（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）。換句話說，市場現在按模型讀和寫了多少來收費，這正是這一章的論點。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>市场也是这么算的吗？ <span class="status status-industry">业界做法</span></h2><p>这一章依靠的两家提供方，指向的是同一个方向。Anthropic 把读缓存的价格定为普通输入的一小部分，并且说明工具定义在每次请求里都按输入 token 计算（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>、<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>）。GitHub 把 Copilot 从按请求计费改成了按 token 计费（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）。说白了，市场现在按模型读和写了多少来收费，这正是这一章的论点。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete these tricks <span class="status status-industry">Industry practice</span></h2><p>Much of this chapter is advice for a world where reading is expensive. If reading becomes so cheap that the extra work of trimming context costs more than it saves, drop the tricks, but keep the habit of measuring cost per finished task. I would also look again if a platform started showing per-task cost on its own, because then you would need to guess less.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉這些省錢技巧 <span class="status status-industry">業界做法</span></h2><p>這一章有很多是為「讀取很貴」的世界寫的建議。如果有一天讀取便宜到，修剪上下文多出來的工夫比省下的還多，那就丟掉這些技巧，只留下量測每個完成任務成本的習慣。另外，如果某個平台開始自己顯示每個任務的成本，我也會重新看一遍，因為到那時，你要猜的就少了。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉这些省钱技巧 <span class="status status-industry">业界做法</span></h2><p>这一章的很多内容，是写给“读取很贵”的世界的建议。如果有一天读取便宜到，精简上下文多花的功夫比省下的还多，那就把这些技巧丢掉，只留下核算每个完成任务的成本这个习惯。另外，如果哪个平台开始自己显示每个任务的成本，我也会重新考虑，因为到那时，你需要猜的就少了。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Saving has costs too, and the easiest trap is reading too little</h2><p>The easiest trap to fall into is reading too little. The cheapest call may well be the one that guessed wrong and got thrown away, so if a task keeps failing for lack of context, the fix is to give it the right context, not less of it.</p>
+<p>Controls cost money too: a <a href="2-2-hooks.html">hook</a> that runs on tool calls adds a little delay, an independent check means another model call, and a rule injected into every prompt costs tokens on every prompt. I accept these on purpose in exchange for control, but they're still costs.</p>
+<p>The prices and Copilot's billing above are as of late October 2026, and they will change. What gets counted changes too, as Copilot's move from counting requests to counting tokens showed.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>省錢也有代價，最容易踩的坑是讀得太少</h2><p>最容易踩的坑是讀得太少。最便宜的呼叫，恰恰可能是猜錯了然後被丟掉的那一次，如果一個任務總是因為缺上下文而失敗，該做的是給它正確的上下文，而不是給得更少。</p>
+<p>控制手段本身也要花錢：在工具呼叫上執行的 <a href="2-2-hooks.html">hook</a> 會帶來一點延遲，獨立檢查要再呼叫一次模型，每個 prompt 都注入的規則，每個 prompt 都要花 token。我是為了控制而有意接受這些的，但它們終究是成本。</p>
+<p>另外，上面的價格和 Copilot 的計費方式都是 2026 年 10 月底的情況，它們還會變，而且變的不只是價格，還有收費時數的是什麼，Copilot 這次就從數請求改成了數 token。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>省钱也有代价，最容易踩的坑是读得太少</h2><p>最容易踩的坑是读得太少。最便宜的调用，恰恰可能是猜错了然后被扔掉的那一次，如果一个任务总是因为缺上下文而失败，该做的是给它正确的上下文，而不是给得更少。</p>
+<p>控制手段本身也要花钱：在工具调用上运行的 <a href="2-2-hooks.html">hook</a> 会带来一点延迟，独立检查要再调用一次模型，每个 prompt 都注入的规则，每个 prompt 都要花 token。我是为了控制而有意接受这些的，但它们终究是成本。</p>
+<p>另外，上面的价格和 Copilot 的计费方式都是 2026 年 10 月底的情况，它们还会变，而且变的不只是价格，还有收费时数的是什么，Copilot 这次就从数请求改成了数 token。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Model providers charge this way too <span class="status status-industry">Industry practice</span></h2><p>Anthropic prices cache reads at a small fraction of normal input and states that tool definitions count as input tokens on every request (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>, <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>). GitHub moved Copilot from per-request to per-token billing (<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>). The market now charges by what the model reads and writes, which is why counting cost per task is what lines up with the bill.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>模型供應商也是這樣收費的 <span class="status status-industry">業界做法</span></h2><p>Anthropic 把讀快取的價格定得只有一般輸入的一小部分，並且說明工具定義在每次請求裡都按輸入 token 計算（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>、<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>）。GitHub 把 Copilot 從按請求計費改成了按 token 計費（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）。市場現在是按模型讀和寫了多少來收費的，所以按任務算成本，這筆帳才對得上帳單。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>模型提供方也是这么收费的 <span class="status status-industry">业界做法</span></h2><p>Anthropic 把读缓存的价格定得只有普通输入的一小部分，并且说明工具定义在每次请求里都按输入 token 计算（<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a>、<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Tool use</a>）。GitHub 把 Copilot 从按请求计费改成了按 token 计费（<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">GitHub blog</a>）。市场现在是按模型读和写了多少来收费的，所以按任务算成本，这笔账才对得上账单。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete these cost-saving tricks <span class="status status-industry">Industry practice</span></h2><p>Much of this chapter is advice for a world where reading is expensive. If reading ever gets so cheap that trimming context takes more effort than it saves, drop these tricks and keep only the habit of counting the cost of each finished task. And if a platform starts showing the cost of each task by itself, I'll think again, because then you'll have less to guess.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉這些省錢技巧 <span class="status status-industry">業界做法</span></h2><p>這一章的很多內容，是寫給讀取很貴的世界的建議。如果有一天讀取便宜到，精簡上下文多花的功夫比省下的還多，那就把這些技巧丟掉，只留下核算每個完成任務的成本這個習慣。另外，如果哪個平台開始自己顯示每個任務的成本，我也會重新考慮，因為到那時，你需要猜的就少了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉这些省钱技巧 <span class="status status-industry">业界做法</span></h2><p>这一章的很多内容，是写给读取很贵的世界的建议。如果有一天读取便宜到，精简上下文多花的功夫比省下的还多，那就把这些技巧丢掉，只留下核算每个完成任务的成本这个习惯。另外，如果哪个平台开始自己显示每个任务的成本，我也会重新考虑，因为到那时，你需要猜的就少了。</p>
 </div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Estimate what is sent to the model on every call in this repository, before I type anything. List each always-loaded item: instruction files, rules, tool and server definitions, anything injected automatically. Give each an approximate size in tokens (a rough count is fine) and sort the list from largest to smallest. Mark items that look stale, duplicated or rarely useful. Do not change any files.</code></pre></div>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>估算在這個倉庫裡，我還沒打任何字之前，每次呼叫都會送給模型什麼。列出每一個一直載入的項目：指令檔、規則、工具和 server 的定義、任何自動注入的東西。給每一項一個大概的 token 大小（粗略估計就好），並由大到小排序。標出看起來過期、重複或很少用到的項目。不要改任何檔案。</code></pre></div>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>估算一下在这个仓库里，我什么都没输入之前，每次调用都会发给模型的内容。列出每一项始终加载的东西：指令文件、规则、工具和 server 的定义，以及所有自动注入的内容。每项给一个大概的 token 数（粗略数一下即可），并按从大到小排序。把看起来过期、重复或很少有用的项标出来。不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
-<li>Anthropic docs: <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
+<li>Anthropic docs: <a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>, <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
 <li>GitHub: <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">Copilot is moving to usage-based billing</a></li>
-<li>GitHub docs: <a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
+<li>GitHub docs: <a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>, <a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
-<li>Anthropic 文件：<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
+<li>Anthropic 文件：<a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>、<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
 <li>GitHub：<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">Copilot is moving to usage-based billing</a></li>
-<li>GitHub 文件：<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
+<li>GitHub 文件：<a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>、<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li>Anthropic 文档：<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
+<li>Anthropic 文档：<a href="https://platform.claude.com/docs/en/about-claude/pricing">Pricing</a>、<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching">Prompt caching</a></li>
 <li>GitHub：<a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/">Copilot is moving to usage-based billing</a></li>
-<li>GitHub 文档：<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
+<li>GitHub 文档：<a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals">Usage-based billing</a>、<a href="https://docs.github.com/en/copilot/concepts/billing/copilot-requests">Copilot requests</a></li>
 </ul>
 </div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness is built around reading less and redoing less. Rules are loaded in layers, state lives in files, and checks are off unless you ask for them. It also says plainly what it cannot see about cost. The harness can open the real files with you and show each of these from the inside.</p>
-<p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Choosing a model: cost per finished task&quot;. Teach me how this harness reads less, writes less and redoes less, and what it can and cannot tell me about the real usage of a task. Open the real files with me and draw how the pieces fit together.</code></pre></div>
+<p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;Don&#x27;t pick a model by token price alone&quot;. Teach me how this harness reads less, writes less and redoes less, and what it can and cannot tell me about the real usage of a task. Open the real files with me and draw how the pieces fit together.</code></pre></div>
 <p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 就是圍繞少讀、少重做搭起來的：規則分層載入，狀態放在檔案裡，檢查除非你要求，否則是關的。在成本上它看不到什麼，它也說得很直白。harness 可以和你一起打開真實的檔案，從裡面把這些一項項指給你看。</p>
-<p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「選模型：算的是每次成功的成本」這一章。請教我這個 harness 怎麼少讀、少寫、少重做，以及它能和不能告訴我一個任務的真實用量。帶我打開真實的檔案，並畫出各部分怎麼接在一起。</code></pre></div>
+<p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「選模型，別只看 token 單價」這一章。請教我這個 harness 怎麼少讀、少寫、少重做，以及它能和不能告訴我一個任務的真實用量。帶我打開真實的檔案，並畫出各部分怎麼接在一起。</code></pre></div>
 <p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 就是围绕少读、少返工来搭的：规则分层加载，状态放在文件里，检查你不要求就不开。在成本上它看不到什么，它也说得很直白。harness 可以和你一起打开真实的文件，从内部把这些一一指给你看。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“选模型，别只看 token 单价”这一章。请教我这个 harness 是怎么少读、少写、少返工的，以及它能告诉我、不能告诉我一个任务的真实用量的哪些方面。带我打开真实的文件，并画出各部分是怎么连起来的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
