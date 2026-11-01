@@ -14,9 +14,18 @@ sources:
   - what: "Cache reads cost one tenth of the base input price on most models (less on some); 5-minute cache writes cost 1.25 times the base input price and 1-hour writes cost 2 times"
     where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
     checked: 2026-10-28
-  - what: "Tool names, descriptions and schemas count as input tokens on every request"
+  - what: "Tool names, descriptions and schemas in the tools parameter count as input tokens"
     where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
-    checked: 2026-10-28
+    checked: 2026-10-31
+  - what: "defer_loading controls what enters the context window, not what you send in the request; deferred tools stay out of the prefix; tool definitions that search loads count as input tokens"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool
+    checked: 2026-10-31
+  - what: "Claude Code: tool search on by default; MCP tools deferred; only tool names and server instructions load at session start"
+    where: https://code.claude.com/docs/en/mcp
+    checked: 2026-10-31
+  - what: "VS Code: tool search on by default for Claude Sonnet 4.5+ and Opus 4.5+; a core of about 30 tools is always included, the rest load on request"
+    where: https://code.visualstudio.com/updates/v1_118
+    checked: 2026-10-31
   - what: "From June 1, 2026 premium request units are replaced by GitHub AI Credits; usage is calculated from input, output and cached tokens; annual Pro and Pro+ plans stay on premium requests until they expire"
     where: https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/
     checked: 2026-10-28

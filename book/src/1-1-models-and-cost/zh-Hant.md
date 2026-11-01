@@ -73,7 +73,7 @@ Copilot 的月繳方案從 2026 年 6 月 1 日起改成了按用量計費：pre
 3. **少寫**。讓它給一句話的結論或者一份簡短的清單。做過頭是輸出簡略到下一步用不上。
 4. **少重做**。動手前先商定計畫，把狀態放在檔案裡，會話丟了也能接著做，再給重試的次數設個上限。做過頭是上限卡掉了有用的工作，所以上限要根據你見到的情況來定，不要根據擔心來定。
 
-還有一類固定成本，不管你在任務裡怎麼選，每次呼叫都要付。agent 的每個工具都會把名字、描述和參數加進每次呼叫的輸入裡（[Agent 用不好工具，先看工具的描述和錯誤訊息](1-2-tool-calling.html)），你注入的每條規則也每一輪都跟著走，所以用不上的工具和規則要拿掉。
+還有一類固定成本，不管你在任務裡怎麼選，每次呼叫都要付。只要一個工具載入了上下文，它的名字、描述和參數就算在每次呼叫的輸入裡（[Agent 用不好工具，先看工具的描述和錯誤訊息](1-2-tool-calling.html)），你注入的每條規則也每一輪都跟著走，所以用不上的工具和規則要拿掉。不過工具不一定全部載入，Claude Code 和 VS Code（Claude Sonnet 4.5、Opus 4.5 以上）預設用工具搜尋，一部分工具先不載入，用到時才搜出來載入完整定義（[接 MCP server 之前，要想清楚什麼？](1-3-mcp.html)）。
 
 ### 帳單讓你意外的時候
 
@@ -101,7 +101,7 @@ Copilot 的月繳方案從 2026 年 6 月 1 日起改成了按用量計費：pre
 ## 模型供應商也是這樣收費的 {#industry}
 {status: industry}
 
-Anthropic 把讀快取的價格定得只有一般輸入的一小部分，並且說明工具定義在每次請求裡都按輸入 token 計算（[Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)、[Tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)）。GitHub 把 Copilot 從按請求計費改成了按 token 計費（[GitHub blog](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/)）。市場現在是按模型讀和寫了多少來收費的，所以按任務算成本，這筆帳才對得上帳單。
+Anthropic 把讀快取的價格定得只有一般輸入的一小部分，並且說明工具定義也按輸入 token 計算（[Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)、[Tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)）。GitHub 把 Copilot 從按請求計費改成了按 token 計費（[GitHub blog](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/)）。市場現在是按模型讀和寫了多少來收費的，所以按任務算成本，這筆帳才對得上帳單。
 
 ## 什麼時候可以刪掉這些省錢技巧 {#when-to-delete-it}
 {status: industry}

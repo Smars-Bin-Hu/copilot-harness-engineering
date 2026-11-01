@@ -49,7 +49,7 @@
 
 ### 4. 工具少，选得更准
 
-多一个工具不是没坏处。每个工具的名字、描述和参数每次调用都要发给模型，工具越多，token 花得越多，选错的机会也越多，功能重叠的时候尤其如此。VS Code 还有一个硬上限，一次请求最多启用 128 个工具，用不上的可以在工具选择器里关掉（[Agent tools](https://code.visualstudio.com/docs/copilot/agents/agent-tools)）。所以优先用一小组明显不同的工具，能合并的就合并，Anthropic 的例子是做一个 `search_contacts` 而不是 `list_contacts`，做一个 `schedule_event` 把查空闲和建日程合在一起。工具很多的时候，把相关的工具归到同一个名字前缀下也能帮 agent 分清楚，不过前缀和后缀哪种好，Anthropic 说不同模型效果不一样，要用自己的评测来定（[Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)）。
+多一个工具不是没坏处。工具只要加载了，它的名字、描述和参数每次调用都要发给模型，工具越多，token 花得越多，选错的机会也越多，功能重叠的时候尤其如此。Claude Code 和 VS Code（Claude Sonnet 4.5、Opus 4.5 以上）默认用工具搜索，一部分工具先不加载，用到时才搜出来，这能省下定义占的 token，但是模型还是要靠名字和描述才搜得到它（[接 MCP server 之前，要想清楚什么？](1-3-mcp.html)）。VS Code 还有一个硬上限，一次请求最多启用 128 个工具，用不上的可以在工具选择器里关掉（[Agent tools](https://code.visualstudio.com/docs/copilot/agents/agent-tools)）。所以优先用一小组明显不同的工具，能合并的就合并，Anthropic 的例子是做一个 `search_contacts` 而不是 `list_contacts`，做一个 `schedule_event` 把查空闲和建日程合在一起。工具很多的时候，把相关的工具归到同一个名字前缀下也能帮 agent 分清楚，不过前缀和后缀哪种好，Anthropic 说不同模型效果不一样，要用自己的评测来定（[Writing tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents)）。
 
 ### 5. 固定的步骤做成命令，不写进 prompt
 
@@ -73,7 +73,7 @@
 
 ## 好工具也有代价，模型选的参数也不能全信 {#costs-and-traps}
 
-描述写得再好也要花 token，因为描述每次调用都要发一遍，所以只写模型选择和使用这个工具需要的内容，长的说明书放进文件里，让 agent 需要时再读。命令的代价不一样，它是要维护的代码，项目一变就可能出错，而且是 prompt 不会有的那种错，所以每个命令都要保持小，并且写测试。
+描述写得再好也要花 token，因为工具只要加载了，描述每次调用都要发一遍，所以只写模型选择和使用这个工具需要的内容，长的说明书放进文件里，让 agent 需要时再读。命令的代价不一样，它是要维护的代码，项目一变就可能出错，而且是 prompt 不会有的那种错，所以每个命令都要保持小，并且写测试。
 
 工具调用也不能当成用户的意愿，因为参数是模型选的，而它选之前读到的文本可能来自任何地方（[Agent 读到的网页和文件，可能在给它下命令](4-6-untrusted-input.html)）。Anthropic 的 API 上加 `strict: true` 能保证调用符合工具的 schema，但这只保证格式，值还是模型选的（[Tool use overview](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)）。
 

@@ -27,3 +27,12 @@ sources:
   - what: "A chat request can have a maximum of 128 tools enabled; deselect tools in the picker"
     where: https://code.visualstudio.com/docs/copilot/agents/agent-tools
     checked: 2026-10-31
+  - what: "Tool search loads tools on demand; it searches tool names, descriptions, argument names and argument descriptions; defer_loading controls what enters the context window, not what you send in the request"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool
+    checked: 2026-10-31
+  - what: "Claude Code: tool search on by default; MCP tools deferred; tool search matches against the tool's description"
+    where: https://code.claude.com/docs/en/mcp
+    checked: 2026-10-31
+  - what: "VS Code: tool search on by default for Claude Sonnet 4.5+ and Opus 4.5+; a core of about 30 tools is always included, the rest load on request"
+    where: https://code.visualstudio.com/updates/v1_118
+    checked: 2026-10-31

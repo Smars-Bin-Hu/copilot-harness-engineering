@@ -73,7 +73,7 @@ The first way comes before the three parts of the cost: don't call the model at 
 3. **Write less.** Ask for a one-sentence conclusion or a short list. Going too far means the output is too thin for the next step to use.
 4. **Redo less.** Agree on a plan before starting, keep state in files so work survives a lost session, and put a limit on retries. Going too far means the limit cuts off useful work, so set it from what you've seen, not from what you fear.
 
-There's also a fixed cost you pay on every call, whatever you choose during the task. Each of the agent's tools adds its name, description and parameters to the input of every call ([When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html)), and every rule you inject comes along on every turn, so remove the tools and rules you don't use.
+There's also a fixed cost you pay on every call, whatever you choose during the task. Once a tool is loaded into the context, its name, description and parameters count toward the input of every call ([When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html)), and every rule you inject comes along on every turn, so remove the tools and rules you don't use. Not every tool has to be loaded, though, because Claude Code and VS Code (Claude Sonnet 4.5, Opus 4.5 and later) use tool search by default, which holds some tools back and loads a full definition only when the model searches for it ([What should you think through before connecting an MCP server?](1-3-mcp.html)).
 
 ### When the bill surprises you
 
@@ -101,7 +101,7 @@ The prices and Copilot's billing above are as of late October 2026, and they wil
 ## Model providers charge this way too {#industry}
 {status: industry}
 
-Anthropic prices cache reads at a small fraction of normal input and states that tool definitions count as input tokens on every request ([Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching), [Tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)). GitHub moved Copilot from per-request to per-token billing ([GitHub blog](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/)). The market now charges by what the model reads and writes, which is why counting cost per task is what lines up with the bill.
+Anthropic prices cache reads at a small fraction of normal input and states that tool definitions count as input tokens too ([Prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching), [Tool use](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)). GitHub moved Copilot from per-request to per-token billing ([GitHub blog](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/)). The market now charges by what the model reads and writes, which is why counting cost per task is what lines up with the bill.
 
 ## When to delete these cost-saving tricks {#when-to-delete-it}
 {status: industry}
