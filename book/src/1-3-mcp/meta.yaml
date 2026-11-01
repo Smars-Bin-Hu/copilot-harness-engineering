@@ -1,20 +1,98 @@
 id: "1.3"
 part: brain
-title: {en: "MCP servers: a standard plug for tools", zh-Hant: "MCP server：插工具的標準接口", zh-Hans: "接 MCP server 之前，要想清楚什么？"}
+title: {en: "What should you think through before connecting an MCP server?", zh-Hant: "接 MCP server 之前，要想清楚什麼？", zh-Hans: "接 MCP server 之前，要想清楚什么？"}
 harness_tag: "1.5.50"
 wondering: [05-tools]
 sources:
-  - what: "Hosts, clients and servers; servers expose tools, resources and prompts; stdio and Streamable HTTP transports; tool list is discovered with tools/list and called with tools/call; clients with many servers can discover tools progressively"
+  - what: "Hosts and clients; stdio and Streamable HTTP; tools/list and tools/call; the official Sentry server is remote and serves many clients; MCP does not dictate how applications use LLMs or manage context"
     where: https://modelcontextprotocol.io/docs/learn/architecture
-    checked: 2026-10-28
-  - what: "Local MCP servers can run code on your machine, and tools can access external services using your permissions; review publisher, command or endpoint, and requested access; do not paste credentials into chat"
-    where: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
-    checked: 2026-10-28
-  - what: "Tool names, descriptions and schemas count as input tokens on every request"
+    checked: 2026-10-31
+  - what: "Current revision 2026-07-28; hosts must obtain explicit user consent before invoking any tool; MCP cannot enforce these principles at the protocol level"
+    where: https://modelcontextprotocol.io/specification/latest
+    checked: 2026-10-31
+  - what: "Previous revision 2025-11-25; 2026-07-28 removed the initialize handshake and sessions and deprecated Roots, Sampling and Logging"
+    where: https://modelcontextprotocol.io/specification/2026-07-28/changelog
+    checked: 2026-10-31
+  - what: "Servers may change their tools and notify clients (notifications/tools/list_changed; listChanged capability)"
+    where: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+    checked: 2026-10-31
+  - what: "USB-C analogy; VS Code, Cursor, ChatGPT and Claude support MCP"
+    where: https://modelcontextprotocol.io/docs/getting-started/intro
+    checked: 2026-10-31
+  - what: "Who controls each primitive: tools the model, resources the application, prompts the user; resources are read-only"
+    where: https://modelcontextprotocol.io/docs/learn/server-concepts
+    checked: 2026-10-31
+  - what: "Anthropic open-sourced MCP on 25 November 2024"
+    where: https://www.anthropic.com/news/model-context-protocol
+    checked: 2026-10-31
+  - what: "The MCP Registry holds metadata, authenticates namespaces and delegates security scanning to package registries and downstream aggregators"
+    where: https://modelcontextprotocol.io/registry/about
+    checked: 2026-10-31
+  - what: "Local MCP servers can run code on your machine, and tools can access external services using your permissions; review the publisher, command or endpoint, and requested access; do not paste credentials into chat or commit them; if existing tools meet your needs you do not need another server; npx -y @playwright/mcp@latest example; the portable format uses mcpServers and the VS Code format uses servers, do not copy between them unchecked"
+    where: https://code.visualstudio.com/docs/agent-customization/mcp-servers
+    checked: 2026-10-31
+  - what: "Workspace .mcp.json and .vscode/mcp.json inherit Workspace Trust and start without a separate prompt, including after configuration changes"
+    where: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+    checked: 2026-10-31
+  - what: "A personal configuration file is not a secret store"
+    where: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+    checked: 2026-10-31
+  - what: "MCP tool approval at session, workspace or user level; ChatMCP policy can restrict servers to a registry but does not apply to servers the Copilot runtime discovers on its own"
+    where: https://code.visualstudio.com/docs/agents/run/security
+    checked: 2026-10-31
+  - what: "chat.agent.sandbox.enabled defaults to off; sandboxing does not block outbound network access by default"
+    where: https://code.visualstudio.com/docs/agents/run/agent-sandboxing
+    checked: 2026-10-31
+  - what: "Enabled and total counts per tool group in Chat: Open Customizations > Tools"
+    where: https://code.visualstudio.com/docs/agents/run/tools
+    checked: 2026-10-31
+  - what: "Tool search on by default for Claude Sonnet 4.5+ and Opus 4.5+ in VS Code"
+    where: https://code.visualstudio.com/updates/v1_118
+    checked: 2026-10-31
+  - what: "VS Code keeps a small curated set of core tools loaded (read and edit files, terminal, workspace search); seven-day experiment: for the median Copilot user prompt and total tokens each fell roughly 18% across a session with Anthropic models"
+    where: https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot
+    checked: 2026-10-31
+  - what: "Tool names, descriptions and schemas in the tools parameter count as input tokens"
     where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview
-    checked: 2026-10-28
-  - what: "The harness ships no MCP server; whether MCP tool calls pass through hooks with complete arguments was not tested on the author's machine"
-    where: harness wondering topic 5, section 5.4
-  - what: "Tool definitions overload the context window; load only the tools needed; present MCP servers as code APIs"
+    checked: 2026-10-31
+  - what: "Five servers: GitHub 35 tools ~26K, Slack 11 ~21K, Sentry 5 ~3K, Grafana 5 ~3K, Splunk 2 ~2K, 58 tools ~55K tokens before the conversation starts"
+    where: https://www.anthropic.com/engineering/advanced-tool-use
+    checked: 2026-10-31
+  - what: "Load tools on demand or call servers from code; intermediate results stay out of the model's context; running agent-written code needs a sandbox"
     where: https://www.anthropic.com/engineering/code-execution-with-mcp
-    checked: 2026-10-28
+    checked: 2026-10-31
+  - what: "Claude Code: tool search on by default; only tool names and server instructions load at session start"
+    where: https://code.claude.com/docs/en/mcp
+    checked: 2026-10-31
+  - what: "Claude Code: prefer gh, aws, gcloud because they add no per-tool listing; /context"
+    where: https://code.claude.com/docs/en/costs
+    checked: 2026-10-31
+  - what: "Claude Code: MCP tools appear as regular tools in PreToolUse and PostToolUse, named mcp__<server>__<tool>"
+    where: https://code.claude.com/docs/en/hooks
+    checked: 2026-10-31
+  - what: "Copilot hooks reference: preToolUse runs before each tool executes; the tool name list has built-in tools only; MCP is not mentioned"
+    where: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference
+    checked: 2026-10-31
+  - what: "VS Code hooks page does not mention MCP"
+    where: https://code.visualstudio.com/docs/agent-customization/hooks
+    checked: 2026-10-31
+  - what: "Codex supports MCP over stdio and Streamable HTTP"
+    where: https://learn.chatgpt.com/docs/extend/mcp?surface=cli
+    checked: 2026-10-31
+  - what: "Playwright MCP README: coding agents might benefit from CLI plus skills; MCP for loops that need persistent browser state"
+    where: https://github.com/microsoft/playwright-mcp
+    checked: 2026-10-31
+  - what: "Same browser task three times in Claude Code: MCP about 48k-50k, CLI about 45k-48k tokens of context; tools are deferred (Stefan Judis, Checkly, 30 July 2026)"
+    where: https://www.checklyhq.com/blog/mcp-vs-cli-token-efficiency/
+    checked: 2026-10-31
+  - what: "Tool poisoning: add tool with hidden instructions to read ~/.ssh/id_rsa and pass it in an argument; rug pull: description changes after approval (1 April 2025)"
+    where: https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks
+    checked: 2026-10-31
+  - what: "Malicious public issue makes an agent using the official GitHub MCP server leak private repository data in a public pull request; not a flaw in the server code; restrict to one repository per session (26 May 2025)"
+    where: https://invariantlabs.ai/blog/mcp-github-vulnerability
+    checked: 2026-10-31
+  - what: "postmark-mcp on npm impersonated Postmark, built trust over 15 versions, added a backdoor in 1.0.16 that BCC'd emails to an external server"
+    where: https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package
+    checked: 2026-10-31
+  - what: "The harness ships no MCP server; whether MCP tool calls pass through hooks with complete arguments was not tested on the author's machine; some company environments forbid unofficial MCP"
+    where: harness wondering topic 5, section 5.4

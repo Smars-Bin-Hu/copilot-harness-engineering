@@ -28,7 +28,7 @@ I did not run a clean experiment for this chapter, so what I can say comes from 
 Six things share the window:
 
 1. Rules and instructions that the platform puts in every time.
-2. The list of tools, with each tool's description. The model needs it to know what it can ask for, and with many tools, for example from several MCP servers ([MCP](1-3-mcp.html)), this list can be a large part of the window. I have not measured how large.
+2. The list of tools, with each tool's description. The model needs it to know what it can ask for, and with many tools, for example from several MCP servers, this list can be a large part of the window: Anthropic's example is 58 tools at about 55K tokens. Tool search in Claude Code and in VS Code (on Claude Sonnet 4.5, Opus 4.5 and later) loads a full definition only when the tool is needed ([What should you think through before connecting an MCP server?](1-3-mcp.html)).
 3. Your messages.
 4. Files the agent read. A file goes in as whole text, however much of it matters.
 5. Tool results, such as search listings, command output and test logs. These are often the biggest part, and the part nobody looks at.

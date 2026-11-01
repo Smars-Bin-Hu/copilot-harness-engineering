@@ -14,3 +14,9 @@ sources:
   - what: "Codex counterparts: AGENTS.md discovery, skills, hooks, custom agents, custom prompts (deprecated), MCP, config.toml"
     where: https://developers.openai.com/codex/ (guides/agents-md, skills, hooks, subagents, custom-prompts, mcp, config-basic)
     checked: 2026-10-27
+  - what: "chat.mcp.autostart (experimental) controls which servers VS Code starts when you submit a chat message; newAndOutdated (default) starts servers that have never run or whose configuration has changed"
+    where: https://code.visualstudio.com/docs/agents/run/manage-mcp-servers
+    checked: 2026-10-31
+  - what: "chat.mcp.workspaceRootConfig.enabled (experimental) controls whether MCP: Add Server offers the workspace-root .mcp.json; existing .mcp.json files remain available when it is off"
+    where: https://code.visualstudio.com/docs/agents/reference/mcp-configuration
+    checked: 2026-10-31

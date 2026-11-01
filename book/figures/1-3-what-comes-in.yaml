@@ -4,7 +4,7 @@ en:
   i1: "its code, on your machine"
   i2: "your permissions, used by it"
   i3: "its text, which the model reads"
-  i4: "its tool list, in every call"
+  i4: "its tool list, taking up context"
   caption: "Plugging in a server is adding a dependency. Four things come in with it."
 zh-Hant:
   server: "MCP server"
@@ -12,7 +12,7 @@ zh-Hant:
   i1: "它的程式碼，跑在你的機器上"
   i2: "你的權限，被它使用"
   i3: "它的文字，模型會讀"
-  i4: "它的工具清單，每次呼叫都帶著"
+  i4: "它的工具清單，占著上下文"
   caption: "接上一個 server，就是多了一個依賴。有四樣東西跟著進來。"
 zh-Hans:
   server: "MCP server"
@@ -20,5 +20,5 @@ zh-Hans:
   i1: "它的代码，跑在你的机器上"
   i2: "你的权限，被它使用"
   i3: "它的文本，模型会读"
-  i4: "它的工具清单，每次调用都带着"
+  i4: "它的工具清单，占着上下文"
   caption: "接上一个 server，就是多了一个依赖。有四样东西跟着进来。"

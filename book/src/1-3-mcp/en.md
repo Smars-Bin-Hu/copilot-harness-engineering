@@ -1,127 +1,143 @@
-This chapter assumes you know what a tool is. If not, start with [When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html).
+This chapter assumes you know what a tool call is. If you don't, start with [When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html).
 
 ## In one sentence {#in-one-sentence}
 
-MCP is not a new power. It is a standard plug for tools, and it brings other people's code, permissions and text into your agent.
+MCP is a standard protocol for connecting tools to an agent, and it usually doesn't give the agent any new abilities, but every server you connect brings in someone else's code, your permissions, someone else's text and a token cost, so check first whether a command would do, and once a server is connected, manage it as a dependency.
 
 ## For leaders {#for-leaders}
 
-- **The decision:** treat every MCP server as a dependency you approve, like a library you did not write, and prefer a plain command when one does the job.
-- **The risk:** a server brings in other people's code, their permissions, and text the model will read and obey, and its tool list can change after you approved it. I have not tested whether a hook guards MCP tools the way it guards built-in ones.
-- **The cost of doing it right:** a short review per server (who wrote it, what it can touch, where the credentials live), and a re-read of the tool list every so often.
-- **Ask the team:** "Which servers are connected, who approved each, and what can each one touch?"
+- **The decision:** treat every MCP server as a dependency that needs approval, the way you'd treat a library you didn't write yourselves, and when an ordinary command can do the job, prefer the command.
+- **The risk:** a server brings in someone else's code, your permissions and text the model will take at face value, and it can still change after you approve it. npm has already seen a server whose first 15 versions were clean and which added a backdoor only in 1.0.16. Whether hooks can control MCP tools in Copilot isn't in the docs, and I haven't tested it.
+- **The cost of doing it right:** a short review of each server (who wrote it, what it can touch, where its credentials live, whether its version is pinned), and rereading the tool list every so often.
+- **Ask the team:** "Which servers are connected right now? For each one, who approved it, what can it touch, and is its version pinned?"
 
-## Why would tools need a standard plug? {#problem}
+## Without MCP, every tool gets written once per platform {#problem}
 
-An agent is only as useful as the tools it has. Sooner or later you will want yours to read your issue tracker, query a database or drive a browser, and someone has to write each of those tools. The trouble is that each platform (VS Code Copilot, Claude Code, Codex) has its own way to accept a tool.
+In this chapter I want to teach you three things to think through before you connect an MCP server: what it actually changes, what comes in with it, and when a single command would do.
 
-So without a shared standard, the work multiplies. Three platforms and three tools could need nine separate connectors, each of them code that someone must write and then keep up to date. Every new platform adds a row, and every new tool adds a column.
+What an agent can do depends on the tools it has, and sooner or later you'll want it to read your issue tracker, query a database or drive a browser, and somebody has to write those tools. Each platform (VS Code Copilot, Claude Code, Codex) connects tools in its own way, so without a shared standard, three platforms and three tools can mean nine connectors, and every platform or tool you add multiplies the code there is to write and maintain.
 
 ::: figure 1-3-mcp-plug
 
-The **Model Context Protocol (MCP)** is the standard that fixes this. It gives both sides one **protocol**, an agreed way of sending messages, so that two programs written by different people can work together. A tool is then written once, as an **MCP server**, and a platform learns the protocol once. After that, any server works with any platform that speaks MCP. Think of a USB socket: the plug is the standard, and it says nothing about what you plug in.
+**Model Context Protocol** (MCP) is the standard that solves this, and Anthropic open-sourced it in November 2024. It sets the format of the messages between AI applications and tools, so a tool only has to be written once, as an **MCP server**, and a platform only has to implement the protocol once. After that, any server works on any platform that supports MCP, and nine connectors turn into three plus three. The official docs compare it to a USB-C port. VS Code, Claude Code, Codex, Cursor and ChatGPT all support it today. ([What is the Model Context Protocol (MCP)?](https://modelcontextprotocol.io/docs/getting-started/intro))
 
-On the tool's side, an MCP server is a program that offers capabilities to an agent in the standard way, and it can run on your machine or somewhere else. On the other side is the **MCP host**, the AI application, such as VS Code. It makes one **client** for each server it connects to, and that client holds the connection.
+There are two more roles in the protocol you need to know. The **MCP host** is the AI application itself, such as VS Code or Claude Code, and for each server it connects to, the host creates an **MCP client**, which maintains the connection to that server. ([Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture))
 
-Does a standard plug give the agent new powers, then? Usually not. MCP rarely gives an agent a power it could not have otherwise (a remote service with its own sign-in is the exception, since it can offer access you have no other way to get). What it changes is how tools are *plugged in*. If that is all it changes, the question that matters is what comes through the plug along with the tool.
+You might expect MCP to give the agent new abilities, but usually it doesn't. It changes how tools get connected, and most of what a server can do, the agent could also do with a command or an API call. The exception is a remote server hosted by the vendor with its own sign-in, which can give you access you couldn't get any other way. So when you connect a server, don't start by asking what more it gives you. Start by asking what else came in along with the tools.
 
-## What you actually plug in {#how-it-works}
+## What actually comes in when you connect a server {#how-it-works}
 
-### What a server can offer
+Connecting a server adds a dependency you didn't write to your setup. It has its own code and its own release pace, it works with the permissions you give it, and it writes into the model's context.
 
-To see what comes through, start with what a server can send across. The protocol defines three things a server can expose. ([Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)) The one most people mean when they say MCP is **tools**: functions the agent can call to do something, such as file operations, API calls and database queries. They are the same kind of tool as in [When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html). A server can also offer **resources**, which are data the agent can read for context, such as file contents or database records, and **prompts**, which are reusable templates that help structure a conversation, such as a system prompt or few-shot examples.
+### A server can offer three things
 
-Before any of these is used, the agent's side asks the server what it has. For tools that is a `tools/list` request, and what comes back is each tool's name, its description and the parameters it accepts. Later, when the model asks for a call, the host sends a `tools/call` to the right server and puts the answer back into the conversation as text. So from the model's point of view, an MCP tool looks like any other tool.
+The protocol defines three things a server can offer, and what separates them is who decides to use them. **Tools** are functions the model decides to call by itself, for things like working with files, calling an API or querying a database, and they're what most people mean when they say MCP. **Resources** are read-only data, such as file contents or a database schema, and the application decides whether they go into the context. **Prompts** are reusable templates that the user invokes explicitly. ([Understanding MCP servers](https://modelcontextprotocol.io/docs/learn/server-concepts))
 
-### Local and remote
+Once connected, the host sends a `tools/list` request and gets back each tool's name, description and parameters, then merges the tools from all its servers into one table for the model. When the model wants a tool, the host sends a `tools/call` to the right server and puts the result back into the conversation. So to the model, an MCP tool looks the same as a built-in one. It still has only the name, description and error messages to go on, and every rule from the previous chapter applies, except that someone else wrote those words now.
 
-A server can run in one of two ways, and the protocol is the same on both. A **local (stdio)** server is one the host starts as a program on your machine. The host talks to it through its standard input and output, the plain text pipes every command line program has. Typically only that one host uses it. A **remote (Streamable HTTP)** server runs somewhere else, and the host talks to it over ordinary web requests (HTTP), usually with sign-in. One remote server can serve many users.
+### A local server runs on your machine, a remote server runs on someone else's
 
-The difference matters for safety. A local server is code that runs on your computer with your rights, while a remote one is someone else's service that you send data to.
+A server can run in two ways, and both use the same messages. A **local** server uses the stdio transport: the host starts a process on your machine and talks to it through its standard input and output, so what you put in your configuration is really just a startup command, like the Playwright example in the VS Code docs, `npx -y @playwright/mcp@latest`. A **remote** server uses the Streamable HTTP transport: it runs on someone else's machine, the host talks to it over HTTP, you usually have to sign in, and one server usually serves many users, as Sentry's official server does.
 
-### What you take in when you plug one in
+This difference decides what you're defending against. A local server is code running on your computer with your permissions, so what worries you is what it does on your machine. A remote server is someone else's service, so what worries you is the data you send it and the account access you hand it.
 
-Local or remote, though, a server is not a feature you switch on. It is a **dependency**, like a library you did not write, and four things come in with it.
+### Four things come in with every server
 
 ::: figure 1-3-what-comes-in
 
-1. It brings other people's code, because a local server runs on your machine. VS Code's own documentation says: "Local MCP servers can run code on your machine, and tools can access external services using your permissions." ([MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers))
-2. It brings other people's permissions. The server acts with whatever access you gave it, such as your database login or your token for the issue tracker, so through the server the agent has that access too.
-3. It brings other people's words, and the model treats them as instructions. A server's tool descriptions are text the model reads and takes seriously, and what a tool returns (an issue body, a web page) is text from whoever wrote it. Text the model reads can contain commands for it. [Chapter 4.6](4-6-untrusted-input.html) is about this.
-4. It brings a standing cost. Each tool's name, description and parameters are sent to the model on every call, so a server with many tools you rarely use still costs tokens on every turn, and many tools make it harder for the model to choose ([When an Agent misuses a tool, check its description and errors first](1-2-tool-calling.html)). There are ways around it, and I only point to them here. The protocol's own docs mention that clients with many servers can use progressive tool discovery instead of loading every tool up front ([Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)). Anthropic's post [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp) names tool definitions overloading the context window as a problem, and describes loading only the tools needed, or having the agent call servers through code. How big the cost is depends on how many tools you connect, so count yours.
+1. Someone else's code. A local server is a program running on your machine, and it's running from the moment it starts, without waiting for the model to call a tool. The VS Code docs put it plainly: "Local MCP servers can run code on your machine, and tools can access external services using your permissions." ([Add MCP servers in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers))
+2. Your permissions. A server acts with the access you give it, such as your database account or your issue tracker token, and through the server the agent gets that access too. So however wide the token's scope is, that's roughly how much damage is possible when the agent makes a mistake or gets tricked.
+3. Someone else's text. Tool descriptions are written by someone else, and the model reads them and believes them. What tools return (the body of an issue, a web page) is written by someone else too, and this text can hide commands aimed at the model ([Text the agent reads can give it orders](4-6-untrusted-input.html)).
+4. A fixed token cost. Tool names, descriptions and parameters all count as model input, and if the host sends all of them to the model, they go along with every request. Caching makes that cheaper, but it doesn't free up any of the context window, and the more tools there are, the more likely the model is to pick the wrong one.
 
-### What to check before you add one
+The fourth one can get large. Anthropic gives an example with five servers: GitHub's 35 tools take about 26K tokens, Slack's 11 take about 21K, and with Sentry, Grafana and Splunk added, 58 tools take up about 55K tokens before the conversation starts ([Introducing advanced tool use for Claude](https://www.anthropic.com/engineering/advanced-tool-use)). What a host can do about it is tool search: instead of sending the tool definitions to the model, it gives the model a search tool and loads a full definition only when that tool is needed. Claude Code does this by default, loading just the tool names and server instructions at session start ([Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)). VS Code has it on by default too for Claude Sonnet 4.5, Opus 4.5 and later, keeping only a small core set loaded, such as reading and writing files and running commands, and in a live experiment its team saw the median user's token usage over a whole session fall by about 18% with Claude models ([Improving token efficiency for GitHub Copilot in VS Code](https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot)). So how big this cost is depends on your host, your model and how many tools you've connected, and it's best to count your own.
 
-If a server is a dependency, it deserves the questions you would ask of any dependency. Here are four, in the order I would ask them.
+### First see whether a command will do
 
-- Who wrote it, and who keeps it up to date? VS Code's advice is to review "the publisher, command or endpoint, and requested access" before you install or start a server.
-- What can it touch? Prefer a server limited to what the job needs. A server for reading issues should not hold a token that can delete repositories.
-- Where do the credentials live? Keep them out of the chat and out of your project's commits, as VS Code's docs also warn.
-- Can what it returns be trusted? If the text comes from outside, such as the public web or tickets that anyone can file, treat it as untrusted.
+A lot of what an agent needs already exists as command-line programs, such as `git`, `gh`, test runners and the cloud platforms' CLIs, and as long as the agent can use a terminal, it can use them without any server. I lean toward commands first, because they add less code and fewer permissions to your setup, and you can always switch to MCP later, once sharing one tool across platforms is worth the extra dependency.
 
-### MCP, or just a command?
+The tool vendors themselves say the same. The VS Code docs say right at the start that if your existing tools meet your needs, you don't need another server. The Claude Code docs recommend preferring CLIs like `gh`, `aws` and `gcloud`, because they don't add a tool listing to the context ([Manage costs effectively](https://code.claude.com/docs/en/costs)). And the README of Microsoft's Playwright MCP tells people using coding agents that a CLI plus skills may suit them better, leaving MCP for long loops that need to keep browser state ([Playwright MCP](https://github.com/microsoft/playwright-mcp)).
 
-There is also a question to ask before any of these four: does this tool need a server at all? Many things your agent needs already exist as command-line programs, such as `git`, a test runner or a cloud CLI, and an agent that can run a terminal can use them with no server.
+How many tokens you save depends on the job, though. In July 2026, Stefan Judis at Checkly ran the same browser task three times each in Claude Code: with Playwright MCP the context ended up at about 48K to 50K, and with `playwright-cli` at about 45K to 48K. That's a small gap, and his explanation is that tool definitions are loaded lazily now ([CLIs are more token-efficient than MCP. Or are they?](https://www.checklyhq.com/blog/mcp-vs-cli-token-efficiency/)). So on a host with tool search, the advantage of a command is mainly fewer dependencies and permissions, not tokens.
 
-| Reach for | When |
+MCP has things a command can't match, too. Each of its tools has a name and a parameter schema, so the host can approve tool by tool, whereas once an agent has a terminal it can run any command, and all a hook sees is the command's text ([Hooks, the point every call passes through](2-2-hooks.html)). So if you're building an interface to an internal system with a lot of write operations, a few narrow MCP tools may be easier to control than one command-line program that can do everything.
+
+| Choose | When |
 | --- | --- |
-| A command line program | It already exists, runs locally, and its output is short and clear. Fewer moving parts |
-| An MCP server | You want the same tool across several platforms, or it needs structured inputs, a discoverable list of capabilities, or sign-in to a remote service |
+| A command-line program | It already exists, it runs locally, its output is short and clear, and the agent can use a terminal |
+| An MCP server | You want to share one tool across platforms, you need structured input, you have to sign in to a remote service, you want to approve tool by tool, or the agent runs somewhere with no terminal |
 
-I lean towards the command first, because it adds less code and fewer permissions to your setup. Moving to MCP is worth it once the shared plug starts to pay for the extra dependency.
+### Ask five questions before you connect one
 
-### Will a hook guard an MCP tool?
+A server is a dependency, so whatever you'd ask about a dependency, you should ask about a server. Here are five questions, in the order I'd ask them.
 
-You might hope that a hook would catch a bad MCP call the way it catches a bad built-in one. I cannot tell you that it will, because I have **not tested** it. My own harness builds no MCP server, since a company sets them up for its own environment, and some company environments forbid unofficial ones. So I do not know whether MCP tool calls pass through a hook the way built-in tool calls do, nor whether the hook sees their arguments in full. Until you have tested it yourself, with a harmless server, do not count on a hook to guard an MCP tool.
+- Who wrote it, and who keeps it up to date? VS Code's advice is to review "the publisher, command or endpoint, and requested access" before installing or starting a server ([Add MCP servers in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers)). Being listed doesn't mean being reviewed either: the official MCP Registry only stores metadata and verifies publishers' namespaces, and it leaves security scanning to package registries like npm and to downstream marketplaces ([The MCP Registry](https://modelcontextprotocol.io/registry/about)).
+- What can it touch? Prefer a server limited to what the task needs. A server that reads issues shouldn't be holding a token that can delete repositories.
+- Where do its credentials live? Not in the chat and not committed to the project, and the VS Code docs add that a personal configuration file isn't a place for secrets either ([MCP configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)).
+- Is the version pinned? If the startup command says `@latest`, then as soon as the package updates, later starts may run new code, so pin a version you've looked at.
+- Can you trust what it returns? If the text comes from outside, like public web pages or tickets anyone can file, treat it as untrusted.
 
-### How to check your own setup
+### Whether a hook can control MCP tools depends on the platform
 
-The servers you have already connected deserve a look too. For each one, ask three questions:
+The Claude Code docs spell it out: MCP tools appear in events like `PreToolUse` and `PostToolUse` just as ordinary tools do, named `mcp__<server>__<tool>` ([Hooks reference](https://code.claude.com/docs/en/hooks)). The Copilot side doesn't say. GitHub's hook reference only says `preToolUse` fires "Before each tool executes", the tool names it lists are all built-in ones, and the VS Code hook docs don't mention MCP either ([GitHub Copilot hooks reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference)). My own harness doesn't set up any MCP server, because these servers are something each company configures for its own environment, and some companies forbid unofficial ones, so I haven't tested whether MCP tools on Copilot pass through hooks or whether a hook sees the complete arguments.
+
+If you want to rely on a hook, test it first with a harmless server: write a hook that only records its input, call an MCP tool once, and look in the record for that call and its full arguments. Even if the call does pass through the hook, all the hook sees is the arguments of this one call. It can't see what the server does after receiving them.
+
+### How to check after connecting
+
+Servers you've already connected deserve a second look too. Ask three questions about each one:
 
 1. Do I know who wrote it and what it can touch?
-2. Could a command-line program do the same job?
-3. How many of its tools do I really use?
+2. Could a command-line program do the same thing?
+3. How many of its tools do I actually use?
 
-The third one you can answer without installing anything. List the tools your agent currently has (most editors show them in the chat's tools picker, though where exactly depends on the editor, so check its docs) and count them. Then ask which of them you used in the last week. The rest are cost and risk without benefit.
+You can answer the third without installing anything. In VS Code, open the Tools page in **Chat: Open Customizations** to see how many tools are enabled in each group and how many there are in total, and in Claude Code, use `/context` to see what's taking up the context. Once you've counted, think about which ones you used last week. All the others carry cost and risk with no benefit, so turn those tools off or disable the whole server.
 
-## Where more plugs go wrong {#costs-and-traps}
+## Official servers can go wrong too, and a server you reviewed can change {#costs-and-traps}
 
-The risk starts with the servers themselves. Each server is a path for outside text and outside code to reach your agent, so every plug you add widens the attack surface. That includes the one you added to try something and then forgot, because it is still there.
+Every server is a route for outside text and outside code to reach the agent, so the more you connect, the more places there are for something to go wrong, and that doesn't only count the ones you're using. A server you added to try out and then forgot about is still there.
 
-A famous name is no reason to skip the review. A server published by a respected company is "official", yet it is still given your credentials and still returns text from other people. Official does not mean safe for you.
+A big name is no reason to skip the review. In May 2025, Invariant Labs published a case where an attacker files an issue on a public repository with instructions for the agent hidden inside. The user only asks the agent to look at that repository's issues, but the agent is connected to the official GitHub MCP server and has access to the user's private repositories, and it ends up writing private repository contents into a pull request on a public repository. Invariant says this isn't a flaw in the server's code and that GitHub can't fix it by changing the server alone, and they recommend narrowing permissions, for example letting the agent touch only one repository per session ([GitHub MCP Exploited](https://invariantlabs.ai/blog/mcp-github-vulnerability)). Untrusted text, private data and a way out were all present here ([Text the agent reads can give it orders](4-6-untrusted-input.html)). "Official" only tells you who wrote the code. The server still holds your credentials and still reads text other people wrote.
 
-Even a server you reviewed carefully can change under you. The protocol lets a server tell the client that its tools changed, so a tool that was fine when you looked at it may not be the one you have next month. A server can also change a tool's description after you approved it, and the description is text the model obeys (this kind of attack is often called a rug pull or tool poisoning, and [chapter 4.6](4-6-untrusted-input.html) covers the idea). Re-read the list now and then, and pin the version of a server where you can.
+Even a server you reviewed carefully can change without your knowing, in three places.
 
-The last trap is assuming that a shared standard means shared behavior. Platforms differ in which parts of the protocol they support, in how they ask for approval and in where they store the settings, so check the current documentation for yours.
+- The tool list. The protocol lets a server update its tools and then tell the client to fetch the list again, so a server can change a tool's description after you've approved it, a move known as a rug pull. Invariant Labs showed what a description can hide, in an attack they call tool poisoning: an `add` tool that looks like it only does addition has a passage hidden in its description telling the model to read `~/.ssh/id_rsa` and send the contents back in a parameter ([Tool Poisoning Attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)).
+- The code. `postmark-mcp` on npm borrowed Postmark's name, its first 15 versions were clean, and 1.0.16 added a backdoor that quietly BCC'd emails to an outside server ([Security Alert: Malicious 'postmark-mcp' npm Package](https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package)).
+- The configuration. In VS Code, the workspace `.mcp.json` and `.vscode/mcp.json` follow Workspace Trust, so in a trusted workspace you won't be asked again when they change, and what they hold is a command that will run. So review a pull request that changes these files the way you'd review a code change ([Manage and troubleshoot MCP servers](https://code.visualstudio.com/docs/agents/run/manage-mcp-servers)).
 
-## Do the protocol and VS Code see it this way? {#industry}
+So reread the tool list every so often, and pin versions wherever you can.
+
+Another trap is assuming that the same standard means the same behavior. The protocol only standardizes the messages between host and server. Where the configuration lives, which parts of the protocol are supported and how approval works are all up to each vendor. VS Code alone has two configuration formats, one with the top-level key `mcpServers` and one with `servers`, and you can't copy directly between them. For where each platform keeps its configuration, see the [Extension points cheat sheet](a-extension-points.html). The protocol itself is still changing as well: the current version is 2026-07-28, which removed the connection handshake and sessions and marked sampling, roots and logging as deprecated, only eight months after the previous version ([Key Changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog)). If you only use other people's servers you probably won't notice these changes, but if you write your own, leave time to keep up with the versions.
+
+## The protocol and VS Code both leave the decision to you {#industry}
 {status: industry}
 
-The protocol's own docs describe MCP as a protocol for context exchange, and say it "does not dictate how AI applications use LLMs or manage the provided context". In other words, the host decides what to load and how to ask you. ([Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)) VS Code, one such host, treats servers as code to review: look at the publisher and the access requested, and approve only actions you understand. ([MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers))
-
-So the two agree on how the jobs are split. The protocol makes plugging in easy, and deciding what to plug in is still yours.
+The protocol's docs say MCP covers only the exchange of context and "does not dictate how AI applications use LLMs or manage the provided context" ([Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)). The specification requires hosts to get explicit user consent before invoking any tool, and it also admits that MCP itself can't enforce these principles at the protocol level ([Specification](https://modelcontextprotocol.io/specification/latest)). VS Code is one such host. It has you look at the publisher and the requested access and approve only the operations you understand, and for organizations it offers the `ChatMCP` policy, which can restrict servers to a registry, although the policy doesn't reach servers the Copilot runtime discovers on its own ([Secure AI-assisted development in VS Code](https://code.visualstudio.com/docs/agents/run/security)). So the two agree on who does what: the protocol makes connecting easy, and deciding what to connect is still your job.
 
 ## When to delete a server {#when-to-delete-it}
 {status: industry}
 
-Deciding what to plug in includes deciding what to unplug. Remove a server when you stop using its tools, or when a plain command does the job. The caution itself can loosen if platforms start to sandbox servers by default, so that a bad one cannot do much harm. Even then, I would check the publisher and the access before adding one.
+When you no longer use a server's tools, or an ordinary command can do the job, remove it.
+
+When you can relax this caution depends on the platform. If a platform put local servers in a sandbox by default, a bad server could do far less, but as I write this we're not there yet: VS Code's Copilot session sandbox is off by default, and even when it's on, it doesn't block outbound network access by default ([Sandbox Copilot agent sessions](https://code.visualstudio.com/docs/agents/run/agent-sandboxing)). A sandbox also contains only the server's process. It can't limit the remote account you gave the server or the text the server returns to the model, so even with a sandbox I'd still check the publisher and the access before adding one.
 
 ## Try it on your own setup {#try-it}
 
 ::: prompt
-Find every MCP server configured for this project or editor (look in the editor and project settings and any MCP config files). For each one, tell me: who publishes it, whether it runs locally or remotely, what credentials it uses and where they are stored, how many tools it exposes, and whether a plain command-line program could do the same job. Flag any credential stored in a committed file. Do not print secret values, and do not change any files.
+Find every MCP server configured for this project or editor (check the editor and project settings, and all MCP configuration files). For each one, tell me: who published it, whether it runs locally or remotely, whether its startup command pins a version, what credentials it uses and where they are stored, how many tools it exposes, and whether an ordinary command-line program could do the same job. Flag any credentials stored in committed files. Do not print any secret values, and do not change any files.
 :::
 
 ## Go deeper {#go-deeper}
 
-- Model Context Protocol: [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture)
-- VS Code docs: [MCP servers in VS Code](https://code.visualstudio.com/docs/copilot/customization/mcp-servers)
-- Anthropic: [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)
+- Model Context Protocol: [Architecture overview](https://modelcontextprotocol.io/docs/learn/architecture), [Specification](https://modelcontextprotocol.io/specification/latest), [Client Best Practices](https://modelcontextprotocol.io/docs/develop/clients/client-best-practices), [Security Best Practices](https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices)
+- VS Code docs: [Add MCP servers in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers), [Manage and troubleshoot MCP servers](https://code.visualstudio.com/docs/agents/run/manage-mcp-servers), [MCP configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
+- Anthropic: [Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp), which has the agent write code to call servers so that intermediate results stay out of the model's context, at the price of needing a secure sandbox
+- Invariant Labs: [Tool Poisoning Attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks), [GitHub MCP Exploited](https://invariantlabs.ai/blog/mcp-github-vulnerability)
 
 ## Explore it in the harness {#explore}
 
-My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can open the real files with you and show you where MCP would plug in and how the other tools are sorted.
+My harness gives the agent three kinds of tools: built-in tools, its own command-line tool, and optional MCP, and it doesn't set up any MCP server of its own. The harness can open the real files with you and show you where MCP would connect and how the other tools are sorted.
 
 ::: prompt
-/harness-rookie-wondering I have read the chapter "MCP servers: a standard plug for tools". Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.
+/harness-rookie-wondering I have read the chapter "What should you think through before connecting an MCP server?". Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.
 :::

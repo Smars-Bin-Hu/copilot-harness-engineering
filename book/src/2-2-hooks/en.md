@@ -90,7 +90,7 @@ Finally, even when a hook runs and answers, its message can be lost on the way t
 
 ### Other things that stand in the loop
 
-Is a hook, then, the only thing that stands between the model and the world? It is not. A **wrapper** (a small program you call instead of the raw command), an **MCP server** ([MCP](1-3-mcp.html)) and a **proxy** between the platform and the model all stand there too. But each of them sees only what is routed through it, and the agent can route around them. What sets the hook apart is that the platform promises to call it. For the built-in tools and for subagents I saw every call pass through it, although I have not tested MCP tools.
+Is a hook, then, the only thing that stands between the model and the world? It is not. A **wrapper** (a small program you call instead of the raw command), an **MCP server** ([What should you think through before connecting an MCP server?](1-3-mcp.html)) and a **proxy** between the platform and the model all stand there too. But each of them sees only what is routed through it, and the agent can route around them. What sets the hook apart is that the platform promises to call it. For the built-in tools and for subagents I saw every call pass through it, although I have not tested MCP tools.
 
 ### A test you can run today
 

@@ -19,3 +19,9 @@ sources:
   - what: "The /context command shows live context usage by category in Claude Code"
     where: https://code.claude.com/docs/en/context-window
     checked: 2026-10-28
+  - what: "Five servers, 58 tools, about 55K tokens before the conversation starts"
+    where: https://www.anthropic.com/engineering/advanced-tool-use
+    checked: 2026-10-31
+  - what: "Tool search: on by default in Claude Code; on by default in VS Code for Claude Sonnet 4.5+ and Opus 4.5+"
+    where: https://code.claude.com/docs/en/mcp, https://code.visualstudio.com/updates/v1_118
+    checked: 2026-10-31

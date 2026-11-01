@@ -29,7 +29,7 @@ The lesson I take is not to count on the model to refuse. Instead, arrange thing
 
 **Untrusted** here means text you did not write and whose author you cannot name. It is tempting to think of that as text from the internet, but there is more of it than most people expect, and some of it is already inside your project.
 
-The obvious sources are outside the project: issues, pull requests and comments in a repository, including ones from strangers, and the web pages and search results the agent fetches. Tool and server output belongs with them, because the reply of an MCP server ([MCP](1-3-mcp.html)) is text written by someone else's code.
+The obvious sources are outside the project: issues, pull requests and comments in a repository, including ones from strangers, and the web pages and search results the agent fetches. Tool and server output belongs with them, because the reply of an MCP server ([What should you think through before connecting an MCP server?](1-3-mcp.html)) is text written by someone else's code.
 
 Then there are the files in the project itself, such as a README, a dependency, a test fixture, a code comment or a log line. Anyone who can change a file the agent opens can talk to the agent. VS Code's page notes that untrusted content "can be introduced into your workspace" through tool operations and file edits. Documents people hand over count too, whether a pasted email, a spreadsheet cell or a PDF. Even the agent's own earlier output counts if it was built from any of the above, since notes the agent saved ([What an agent should remember](3-5-memory.html)) can carry an injected line into a later session.
 

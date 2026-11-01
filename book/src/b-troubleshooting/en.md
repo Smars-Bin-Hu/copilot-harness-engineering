@@ -189,7 +189,7 @@ Then test with the smallest hook your platform allows, one that only appends the
 
 **Check first.** Count the three circles of risk: can it read private data, does it read untrusted text, and can it send data out? Remove any one of them. Keep in mind that a summary of untrusted text is untrusted too. Re-check whenever you add a tool.
 
-**Chapter.** [Text the agent reads can give it orders](4-6-untrusted-input.html) and [MCP servers](1-3-mcp.html).
+**Chapter.** [Text the agent reads can give it orders](4-6-untrusted-input.html) and [What should you think through before connecting an MCP server?](1-3-mcp.html).
 
 ## Seeing what happened {#seeing}
 

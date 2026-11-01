@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>MCP servers: a standard plug for tools</title>
+<title>What should you think through before connecting an MCP server?</title>
 <style>:root[data-lang="en"] [data-l]:not([data-l="en"]){display:none}
 :root[data-lang="zh-Hant"] [data-l]:not([data-l="zh-Hant"]){display:none}
 :root[data-lang="zh-Hans"] [data-l]:not([data-l="zh-Hans"]){display:none}
@@ -221,33 +221,33 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <div class="langs"><button type="button" data-set-lang="en">English</button><button type="button" data-set-lang="zh-Hant">繁體中文</button><button type="button" data-set-lang="zh-Hans">简体中文</button></div>
 </header>
 <main class="page">
-<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Why would tools need a standard plug?</span><span data-l="zh-Hant" lang="zh-Hant">工具為什麼需要一個標準插頭？</span><span data-l="zh-Hans" lang="zh-Hans">工具为什么需要一个标准插头？</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">What you actually plug in</span><span data-l="zh-Hant" lang="zh-Hant">你接進來的到底是什麼</span><span data-l="zh-Hans" lang="zh-Hans">你接进来的到底是什么</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Where more plugs go wrong</span><span data-l="zh-Hant" lang="zh-Hant">插頭多了，會在哪裡出問題</span><span data-l="zh-Hans" lang="zh-Hans">插头多了，会在哪里出问题</span></a></li><li><a href="#industry"><span data-l="en" lang="en">Do the protocol and VS Code see it this way?</span><span data-l="zh-Hant" lang="zh-Hant">協定和 VS Code 也這麼看嗎？</span><span data-l="zh-Hans" lang="zh-Hans">协议和 VS Code 也这么看吗？</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete a server</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉一個 server</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉一个 server</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
-<article><header class="chapter-head"><p class="chapter-no">1.3</p><h1><span data-l="en" lang="en">MCP servers: a standard plug for tools</span><span data-l="zh-Hant" lang="zh-Hant">MCP server：插工具的標準接口</span><span data-l="zh-Hans" lang="zh-Hans">接 MCP server 之前，要想清楚什么？</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know what a tool is. If not, start with <a href="1-2-tool-calling.html">When an Agent misuses a tool, check its description and errors first</a>.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，你需要知道什麼是工具。如果不知道，先讀 <a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和錯誤訊息</a>。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你知道什么是工具。如果不知道，先读<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>。</p>
-</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>MCP is not a new power. It is a standard plug for tools, and it brings other people's code, permissions and text into your agent.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>MCP 不是新的能力，而是工具的標準插頭；插上它，別人的程式碼、權限和文字也跟著進了你的 agent。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>MCP 不是什么新的能力，而是工具的一个标准插头；插上它，别人的代码、权限和文本也跟着进了你的 agent。</p>
+<nav class="toc"><p class="toc-title"><span data-l="en" lang="en">Contents</span><span data-l="zh-Hant" lang="zh-Hant">目錄</span><span data-l="zh-Hans" lang="zh-Hans">目录</span></p><ol><li class="toc-part"><a href="#the-knowledge"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></a><ol><li><a href="#in-one-sentence"><span data-l="en" lang="en">In one sentence</span><span data-l="zh-Hant" lang="zh-Hant">一句話</span><span data-l="zh-Hans" lang="zh-Hans">一句话</span></a></li><li><a href="#for-leaders"><span data-l="en" lang="en">For leaders</span><span data-l="zh-Hant" lang="zh-Hant">給主管</span><span data-l="zh-Hans" lang="zh-Hans">写给管理者</span></a></li><li><a href="#problem"><span data-l="en" lang="en">Without MCP, every tool gets written once per platform</span><span data-l="zh-Hant" lang="zh-Hant">沒有 MCP，每個工具都要為每個平台寫一遍</span><span data-l="zh-Hans" lang="zh-Hans">没有 MCP，每个工具要给每个平台写一遍</span></a></li><li><a href="#how-it-works"><span data-l="en" lang="en">What actually comes in when you connect a server</span><span data-l="zh-Hant" lang="zh-Hant">接上一個 server，到底接進來了什麼</span><span data-l="zh-Hans" lang="zh-Hans">接上一个 server，到底接进来了什么</span></a></li><li><a href="#costs-and-traps"><span data-l="en" lang="en">Official servers can go wrong too, and a server you reviewed can change</span><span data-l="zh-Hant" lang="zh-Hant">官方的 server 也會出事，審查過的 server 也會變</span><span data-l="zh-Hans" lang="zh-Hans">官方的 server 也会出事，审查过的 server 也会变</span></a></li><li><a href="#industry"><span data-l="en" lang="en">The protocol and VS Code both leave the decision to you</span><span data-l="zh-Hant" lang="zh-Hant">協定和 VS Code 都把決定權留給了你</span><span data-l="zh-Hans" lang="zh-Hans">协议和 VS Code 都把决定权留给了你</span></a></li><li><a href="#when-to-delete-it"><span data-l="en" lang="en">When to delete a server</span><span data-l="zh-Hant" lang="zh-Hant">什麼時候可以刪掉一個 server</span><span data-l="zh-Hans" lang="zh-Hans">什么时候可以删掉一个 server</span></a></li><li><a href="#try-it"><span data-l="en" lang="en">Try it on your own setup</span><span data-l="zh-Hant" lang="zh-Hant">在你自己的環境試試</span><span data-l="zh-Hans" lang="zh-Hans">在你自己的环境里试试</span></a></li><li><a href="#go-deeper"><span data-l="en" lang="en">Go deeper</span><span data-l="zh-Hant" lang="zh-Hant">延伸閱讀</span><span data-l="zh-Hans" lang="zh-Hans">延伸阅读</span></a></li></ol></li><li class="toc-part"><a href="#in-practice"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></a><ol><li><a href="#explore"><span data-l="en" lang="en">Explore it in the harness</span><span data-l="zh-Hant" lang="zh-Hant">在 harness 裡探索</span><span data-l="zh-Hans" lang="zh-Hans">在 harness 里探索</span></a></li></ol></li></ol></nav>
+<article><header class="chapter-head"><p class="chapter-no">1.3</p><h1><span data-l="en" lang="en">What should you think through before connecting an MCP server?</span><span data-l="zh-Hant" lang="zh-Hant">接 MCP server 之前，要想清楚什麼？</span><span data-l="zh-Hans" lang="zh-Hans">接 MCP server 之前，要想清楚什么？</span></h1></header><div data-l="en" lang="en"><p>This chapter assumes you know what a tool call is. If you don't, start with <a href="1-2-tool-calling.html">When an Agent misuses a tool, check its description and errors first</a>.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><p>讀這一章，需要知道什麼是工具呼叫。如果還不知道，先讀<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和錯誤訊息</a>。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><p>读这一章，需要你知道什么是工具调用。如果不知道，先读<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>。</p>
+</div><div class="part-head" id="the-knowledge"><p class="part-name"><span data-l="en" lang="en">The Knowledge</span><span data-l="zh-Hant" lang="zh-Hant">經驗分享</span><span data-l="zh-Hans" lang="zh-Hans">经验分享</span></p></div><section id="in-one-sentence" class="sec"><div data-l="en" lang="en"><h2>In one sentence</h2><p>MCP is a standard protocol for connecting tools to an agent, and it usually doesn't give the agent any new abilities, but every server you connect brings in someone else's code, your permissions, someone else's text and a token cost, so check first whether a command would do, and once a server is connected, manage it as a dependency.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>一句話</h2><p>MCP 是把工具接到 agent 上的標準協定，它通常不會讓 agent 多出新能力，但每接一個 server，別人的程式碼、你的權限、別人寫的文字和一筆 token 成本都會跟著進來，所以接之前先看一條指令夠不夠，接了就當成依賴來管。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>一句话</h2><p>MCP 是把工具接到 agent 上的标准协议，它一般不会让 agent 多出新本事，但是每接一个 server，别人的代码、你的权限、别人写的文本和一笔 token 开销都会跟着进来，所以接之前先看一条命令够不够，接了就当成依赖来管。</p>
 </div></section><section id="for-leaders" class="sec leaders"><div data-l="en" lang="en"><h2>For leaders</h2><ul>
-<li><strong>The decision:</strong> treat every MCP server as a dependency you approve, like a library you did not write, and prefer a plain command when one does the job.</li>
-<li><strong>The risk:</strong> a server brings in other people's code, their permissions, and text the model will read and obey, and its tool list can change after you approved it. I have not tested whether a hook guards MCP tools the way it guards built-in ones.</li>
-<li><strong>The cost of doing it right:</strong> a short review per server (who wrote it, what it can touch, where the credentials live), and a re-read of the tool list every so often.</li>
-<li><strong>Ask the team:</strong> &quot;Which servers are connected, who approved each, and what can each one touch?&quot;</li>
+<li><strong>The decision:</strong> treat every MCP server as a dependency that needs approval, the way you'd treat a library you didn't write yourselves, and when an ordinary command can do the job, prefer the command.</li>
+<li><strong>The risk:</strong> a server brings in someone else's code, your permissions and text the model will take at face value, and it can still change after you approve it. npm has already seen a server whose first 15 versions were clean and which added a backdoor only in 1.0.16. Whether hooks can control MCP tools in Copilot isn't in the docs, and I haven't tested it.</li>
+<li><strong>The cost of doing it right:</strong> a short review of each server (who wrote it, what it can touch, where its credentials live, whether its version is pinned), and rereading the tool list every so often.</li>
+<li><strong>Ask the team:</strong> &quot;Which servers are connected right now? For each one, who approved it, what can it touch, and is its version pinned?&quot;</li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>給主管</h2><ul>
-<li><strong>要做的決定</strong>：把每個 MCP server 當成一個要你批准的依賴，就像一個不是你寫的函式庫；一個普通的指令就能完成的工作，優先用指令。</li>
-<li><strong>風險</strong>：server 會帶進別人的程式碼、別人的權限，以及模型會讀、也會照做的文字，而且在你批准之後，它的工具清單還可能改變。hook 能不能像守內建工具那樣守住 MCP 工具，我沒有測過。</li>
-<li><strong>做對的成本</strong>：每個 server 做一次簡短的審查（誰寫的、能碰什麼、憑證放在哪裡），再隔一段時間重讀一次工具清單。</li>
-<li><strong>可以問團隊</strong>：「接了哪些 server？每個是誰批准的？每個能碰什麼？」</li>
+<li><strong>要做的決定</strong>：把每個 MCP server 都當成一個要批准的依賴，就像一個不是你們寫的函式庫；一條普通指令做得到的事，優先用指令。</li>
+<li><strong>風險</strong>：server 會帶進來別人的程式碼、你們的權限，以及模型會信以為真的文字，而且批准之後它還可能變，npm 上就出現過前 15 個版本都正常、到 1.0.16 才加後門的 server。hook 管不管得住 Copilot 裡的 MCP 工具，文件沒有寫，我也沒有測過。</li>
+<li><strong>做對的成本</strong>：每個 server 做一次簡短的審查（誰寫的、能碰什麼、憑證放在哪、版本固定了沒有），再隔一段時間重讀一遍工具清單。</li>
+<li><strong>可以問團隊</strong>：「現在連著哪些 server？每個是誰批准的，能碰什麼，版本固定了嗎？」</li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>写给管理者</h2><ul>
-<li><strong>要拍板的事</strong>：把每个 MCP server 都当成一个要你批准的依赖，就像一个不是你写的库；一条普通命令就能完成的事，优先用命令。</li>
-<li><strong>风险</strong>：server 会带进来别人的代码、别人的权限，以及模型会读、会照做的文本，而且你批准之后，它的工具清单还可能变。hook 能不能像管内置工具那样管住 MCP 工具，我没有测过。</li>
-<li><strong>做对的代价</strong>：每个 server 做一次简短的审查（谁写的、能碰什么、凭据放在哪），再隔一段时间重读一遍工具清单。</li>
-<li><strong>可以问团队</strong>：“现在连着哪些 server？每个是谁批准的？每个能碰什么？”</li>
+<li><strong>要拍板的事</strong>：把每个 MCP server 都当成一个要批准的依赖，就像一个不是你们写的库；一条普通命令能做到的事，优先用命令。</li>
+<li><strong>风险</strong>：server 会带进来别人的代码、你们的权限，以及模型会当真的文本，而且批准之后它还可能变，npm 上就出过前 15 个版本都正常、到 1.0.16 才加后门的 server。hook 能不能管住 Copilot 里的 MCP 工具，文档没有写，我也没有测过。</li>
+<li><strong>做对的代价</strong>：每个 server 做一次简短的审查（谁写的、能碰什么、凭据放在哪、版本固定了没有），再隔一段时间重读一遍工具清单。</li>
+<li><strong>可以问团队</strong>：“现在连着哪些 server？每个是谁批准的，能碰什么，版本固定了吗？”</li>
 </ul>
-</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Why would tools need a standard plug?</h2><p>An agent is only as useful as the tools it has. Sooner or later you will want yours to read your issue tracker, query a database or drive a browser, and someone has to write each of those tools. The trouble is that each platform (VS Code Copilot, Claude Code, Codex) has its own way to accept a tool.</p>
-<p>So without a shared standard, the work multiplies. Three platforms and three tools could need nine separate connectors, each of them code that someone must write and then keep up to date. Every new platform adds a row, and every new tool adds a column.</p>
+</div></section><section id="problem" class="sec"><div data-l="en" lang="en"><h2>Without MCP, every tool gets written once per platform</h2><p>In this chapter I want to teach you three things to think through before you connect an MCP server: what it actually changes, what comes in with it, and when a single command would do.</p>
+<p>What an agent can do depends on the tools it has, and sooner or later you'll want it to read your issue tracker, query a database or drive a browser, and somebody has to write those tools. Each platform (VS Code Copilot, Claude Code, Codex) connects tools in its own way, so without a shared standard, three platforms and three tools can mean nine connectors, and every platform or tool you add multiplies the code there is to write and maintain.</p>
 <figure class="fig" id="fig-1-3-mcp-plug"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">Without a standard</text>
   <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">With MCP</text>
@@ -279,7 +279,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <line class="line-lit" x1="415" y1="175" x2="435" y2="175"/>
   <line class="line-lit" x1="465" y1="175" x2="485" y2="175"/>
   <rect class="box-lit" x="435" y="50" width="30" height="150" rx="5"/>
-  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">one standard plug: 3 + 3</text>
+  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">one standard interface: 3 + 3</text>
   <rect class="box" x="315" y="60" width="100" height="30" rx="5"/>
   <text class="label" x="365" y="80" text-anchor="middle" data-t="p1">VS Code</text>
   <rect class="box" x="485" y="60" width="100" height="30" rx="5"/>
@@ -294,12 +294,12 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="535" y="180" text-anchor="middle" data-t="t3">Browser</text>
   <text class="label-muted" x="150" y="218" text-anchor="middle" data-t="left-note">one connector per pair: 9</text>
 </svg>
-<figcaption>MCP is a plug standard. Each tool is written once as a server, and each platform learns the plug once.</figcaption></figure>
-<p>The <strong>Model Context Protocol (MCP)</strong> is the standard that fixes this. It gives both sides one <strong>protocol</strong>, an agreed way of sending messages, so that two programs written by different people can work together. A tool is then written once, as an <strong>MCP server</strong>, and a platform learns the protocol once. After that, any server works with any platform that speaks MCP. Think of a USB socket: the plug is the standard, and it says nothing about what you plug in.</p>
-<p>On the tool's side, an MCP server is a program that offers capabilities to an agent in the standard way, and it can run on your machine or somewhere else. On the other side is the <strong>MCP host</strong>, the AI application, such as VS Code. It makes one <strong>client</strong> for each server it connects to, and that client holds the connection.</p>
-<p>Does a standard plug give the agent new powers, then? Usually not. MCP rarely gives an agent a power it could not have otherwise (a remote service with its own sign-in is the exception, since it can offer access you have no other way to get). What it changes is how tools are <em>plugged in</em>. If that is all it changes, the question that matters is what comes through the plug along with the tool.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>工具為什麼需要一個標準插頭？</h2><p>agent 有多少用處，取決於它手上有哪些工具。遲早你會想讓它讀你的問題追蹤系統、查資料庫，或操作瀏覽器，而這些工具都得有人寫。麻煩的是，每個平台（VS Code Copilot、Claude Code、Codex）接收工具的方式都不一樣。</p>
-<p>所以，沒有共同的標準，工作量就會成倍增加。三個平台加三個工具，可能需要九個各自獨立的連接器，每一個都是有人要寫、寫完還要持續更新的程式碼。每多一個平台，就多一列；每多一個工具，就多一欄。</p>
+<figcaption>MCP is a standard for connecting tools. Each tool is written once as a server, and each platform implements the protocol once.</figcaption></figure>
+<p><strong>Model Context Protocol</strong> (MCP) is the standard that solves this, and Anthropic open-sourced it in November 2024. It sets the format of the messages between AI applications and tools, so a tool only has to be written once, as an <strong>MCP server</strong>, and a platform only has to implement the protocol once. After that, any server works on any platform that supports MCP, and nine connectors turn into three plus three. The official docs compare it to a USB-C port. VS Code, Claude Code, Codex, Cursor and ChatGPT all support it today. (<a href="https://modelcontextprotocol.io/docs/getting-started/intro">What is the Model Context Protocol (MCP)?</a>)</p>
+<p>There are two more roles in the protocol you need to know. The <strong>MCP host</strong> is the AI application itself, such as VS Code or Claude Code, and for each server it connects to, the host creates an <strong>MCP client</strong>, which maintains the connection to that server. (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>)</p>
+<p>You might expect MCP to give the agent new abilities, but usually it doesn't. It changes how tools get connected, and most of what a server can do, the agent could also do with a command or an API call. The exception is a remote server hosted by the vendor with its own sign-in, which can give you access you couldn't get any other way. So when you connect a server, don't start by asking what more it gives you. Start by asking what else came in along with the tools.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>沒有 MCP，每個工具都要為每個平台寫一遍</h2><p>這篇文章，我想教你在接 MCP server 之前想清楚三件事：它到底改變了什麼，接上以後有什麼東西跟著進來，什麼時候一條指令就夠了。</p>
+<p>agent 能做多少事，要看它手上有哪些工具，遲早你會想讓它讀問題追蹤系統、查資料庫或者操作瀏覽器，而這些工具總要有人來寫。每個平台（VS Code Copilot、Claude Code、Codex）接工具的方式都不一樣，所以沒有共同標準的話，三個平台、三個工具可能就要九個連接器，每多一個平台或一個工具，要寫和要維護的程式碼都按乘法往上加。</p>
 <figure class="fig" id="fig-1-3-mcp-plug"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">沒有標準</text>
   <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">有 MCP</text>
@@ -331,7 +331,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <line class="line-lit" x1="415" y1="175" x2="435" y2="175"/>
   <line class="line-lit" x1="465" y1="175" x2="485" y2="175"/>
   <rect class="box-lit" x="435" y="50" width="30" height="150" rx="5"/>
-  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">一個標準插頭：3 + 3</text>
+  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">一個標準介面：3 + 3</text>
   <rect class="box" x="315" y="60" width="100" height="30" rx="5"/>
   <text class="label" x="365" y="80" text-anchor="middle" data-t="p1">VS Code</text>
   <rect class="box" x="485" y="60" width="100" height="30" rx="5"/>
@@ -344,14 +344,14 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="365" y="180" text-anchor="middle" data-t="p3">Codex</text>
   <rect class="box" x="485" y="160" width="100" height="30" rx="5"/>
   <text class="label" x="535" y="180" text-anchor="middle" data-t="t3">瀏覽器</text>
-  <text class="label-muted" x="150" y="218" text-anchor="middle" data-t="left-note">每一對一個接頭：9 個</text>
+  <text class="label-muted" x="150" y="218" text-anchor="middle" data-t="left-note">每一對一個連接器：9 個</text>
 </svg>
-<figcaption>MCP 是插頭的標準。每個工具寫成一個 server，每個平台學一次插頭。</figcaption></figure>
-<p><strong>Model Context Protocol</strong>（MCP）就是解決這個問題的標準。它給兩頭定了同一套<strong>協定</strong>，也就是一種約定好的傳訊息的方式。有了它，不同人寫的兩個程式也能一起工作。這樣一來，一個工具只要寫一次，寫成一個 <strong>MCP server</strong>；一個平台也只要學一次這個協定。之後，任何 server 都能配合任何支援 MCP 的平台。想想 USB 插座就懂了：插頭是標準，至於你插上去的是什麼，它一概不管。</p>
-<p>在工具這一頭，MCP server 是用標準方式向 agent 提供能力的程式，可以跑在你的機器上，也可以跑在別處。另一頭是 <strong>MCP host</strong>，也就是 AI 應用程式，例如 VS Code。它對連上的每個 server 各建一個 <strong>client</strong>，由這個 client 負責維持連線。</p>
-<p>那麼，一個標準插頭會不會讓 agent 多出新的本事？一般不會（有自己登入機制的遠端服務是例外，它能提供你用別的辦法拿不到的存取）。MCP 改變的是工具<em>怎麼接上去</em>。既然改的只是接法，真正該問的就是：跟著工具一起，還有什麼從這個插頭進來了。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>工具为什么需要一个标准插头？</h2><p>agent 有多大用处，取决于它手里有哪些工具。早晚有一天，你会想让它读你的问题跟踪系统、查数据库，或者操作浏览器，而这些工具都得有人来写。麻烦在于，每个平台（VS Code Copilot、Claude Code、Codex）接收工具的方式都不一样。</p>
-<p>所以，没有一个共同的标准，工作量就会成倍增加。三个平台、三个工具，可能就要九个单独的连接器，每一个都是有人要写、写完还要持续更新的代码。每多一个平台，就多一行；每多一个工具，就多一列。</p>
+<figcaption>MCP 是接工具的標準。每個工具寫成一個 server，每個平台實作一次這個協定。</figcaption></figure>
+<p><strong>Model Context Protocol</strong>（MCP）就是解決這件事的標準，Anthropic 在 2024 年 11 月把它開源。它規定 AI 應用程式和工具之間用什麼格式傳訊息，這樣一個工具只要寫一次，寫成一個 <strong>MCP server</strong>，一個平台也只要實作一次這個協定，之後任何 server 都能接到任何支援 MCP 的平台上，九個連接器就變成了三加三，官方文件打的比方是 USB-C 連接埠。現在 VS Code、Claude Code、Codex、Cursor 和 ChatGPT 都支援它。（<a href="https://modelcontextprotocol.io/docs/getting-started/intro">What is the Model Context Protocol (MCP)?</a>）</p>
+<p>協定裡還有兩個角色要知道。<strong>MCP host</strong> 是 AI 應用程式本身，例如 VS Code 或 Claude Code，host 每連一個 server 就建立一個 <strong>MCP client</strong>，由這個 client 維持和這個 server 的連線。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）</p>
+<p>你可能會以為接上 MCP，agent 就多了新能力，其實通常沒有。MCP 改變的是工具怎麼接上去，server 能做的事，agent 用一條指令或者呼叫一個 API 多半也做得到。例外是託管在廠商那邊、自帶登入的遠端 server，它可能給你別的辦法拿不到的存取權。所以接 server 的時候，不用先想它能多給你什麼，要先想除了工具，還有什麼跟著進來了。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>没有 MCP，每个工具要给每个平台写一遍</h2><p>这篇文章，我想教你在接 MCP server 之前想清楚三件事：它到底改变了什么，接上以后有什么东西跟着进来，什么时候一条命令就够了。</p>
+<p>agent 能做多少事，取决于它手里有哪些工具，迟早你会想让它读问题跟踪系统、查数据库或者操作浏览器，而这些工具总得有人来写。每个平台（VS Code Copilot、Claude Code、Codex）自己接工具的方式都不一样，所以没有共同标准的话，三个平台、三个工具可能就要九个连接器，每多一个平台或者一个工具，要写和要维护的代码都按乘法往上涨。</p>
 <figure class="fig" id="fig-1-3-mcp-plug"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
   <text class="label" x="150" y="24" text-anchor="middle" data-t="left-title">没有标准</text>
   <text class="label-lit" x="450" y="24" text-anchor="middle" data-t="right-title">有 MCP</text>
@@ -383,7 +383,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <line class="line-lit" x1="415" y1="175" x2="435" y2="175"/>
   <line class="line-lit" x1="465" y1="175" x2="485" y2="175"/>
   <rect class="box-lit" x="435" y="50" width="30" height="150" rx="5"/>
-  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">一个标准插头：3 + 3</text>
+  <text class="label-lit" x="450" y="218" text-anchor="middle" data-t="mcp">一个标准接口：3 + 3</text>
   <rect class="box" x="315" y="60" width="100" height="30" rx="5"/>
   <text class="label" x="365" y="80" text-anchor="middle" data-t="p1">VS Code</text>
   <rect class="box" x="485" y="60" width="100" height="30" rx="5"/>
@@ -398,18 +398,18 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="535" y="180" text-anchor="middle" data-t="t3">浏览器</text>
   <text class="label-muted" x="150" y="218" text-anchor="middle" data-t="left-note">每一对一个连接器：9 个</text>
 </svg>
-<figcaption>MCP 是插头的标准。每个工具写成一个 server，每个平台学一次这个插头。</figcaption></figure>
-<p><strong>Model Context Protocol</strong>（MCP）就是解决这个问题的标准。它给两头定了同一套<strong>协议</strong>，也就是一种约定好的发消息的方式。有了它，不同人写的两个程序也能配合工作。这样一来，一个工具只要写一次，写成一个 <strong>MCP server</strong>；一个平台也只要学一次这个协议。之后，任何 server 都能和任何支持 MCP 的平台配合。可以想想 USB 接口：插头是标准，至于你插的是什么，它一概不管。</p>
-<p>在工具这一头，MCP server 是一个以标准方式向 agent 提供能力的程序，可以运行在你的机器上，也可以在别处。另一头是 <strong>MCP host</strong>，也就是 AI 应用，比如 VS Code。它为每个连上的 server 建一个 <strong>client</strong>，由这个 client 保持连接。</p>
-<p>那么，一个标准插头会不会让 agent 多出新的本事？一般不会（自带登录的远程服务是个例外，它能提供你没有别的办法获得的访问）。MCP 改变的是工具<em>怎么接上去</em>。既然只改了接法，真正要问的就是：随着工具一起，还有什么从这个插头进来了。</p>
-</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>What you actually plug in</h2><h3>What a server can offer</h3>
-<p>To see what comes through, start with what a server can send across. The protocol defines three things a server can expose. (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>) The one most people mean when they say MCP is <strong>tools</strong>: functions the agent can call to do something, such as file operations, API calls and database queries. They are the same kind of tool as in <a href="1-2-tool-calling.html">When an Agent misuses a tool, check its description and errors first</a>. A server can also offer <strong>resources</strong>, which are data the agent can read for context, such as file contents or database records, and <strong>prompts</strong>, which are reusable templates that help structure a conversation, such as a system prompt or few-shot examples.</p>
-<p>Before any of these is used, the agent's side asks the server what it has. For tools that is a <code>tools/list</code> request, and what comes back is each tool's name, its description and the parameters it accepts. Later, when the model asks for a call, the host sends a <code>tools/call</code> to the right server and puts the answer back into the conversation as text. So from the model's point of view, an MCP tool looks like any other tool.</p>
-<h3>Local and remote</h3>
-<p>A server can run in one of two ways, and the protocol is the same on both. A <strong>local (stdio)</strong> server is one the host starts as a program on your machine. The host talks to it through its standard input and output, the plain text pipes every command line program has. Typically only that one host uses it. A <strong>remote (Streamable HTTP)</strong> server runs somewhere else, and the host talks to it over ordinary web requests (HTTP), usually with sign-in. One remote server can serve many users.</p>
-<p>The difference matters for safety. A local server is code that runs on your computer with your rights, while a remote one is someone else's service that you send data to.</p>
-<h3>What you take in when you plug one in</h3>
-<p>Local or remote, though, a server is not a feature you switch on. It is a <strong>dependency</strong>, like a library you did not write, and four things come in with it.</p>
+<figcaption>MCP 是接工具的标准。每个工具写成一个 server，每个平台实现一次这个协议。</figcaption></figure>
+<p><strong>Model Context Protocol</strong>（MCP）就是解决这件事的标准，Anthropic 在 2024 年 11 月开源了它。它规定 AI 应用和工具之间用什么格式发消息，这样一个工具只要写一次，写成一个 <strong>MCP server</strong>，一个平台也只要实现一次这个协议，之后任何 server 都能接到任何支持 MCP 的平台上，九个连接器就变成了三加三，官方文档打的比方是 USB-C 接口。现在 VS Code、Claude Code、Codex、Cursor 和 ChatGPT 都支持它。（<a href="https://modelcontextprotocol.io/docs/getting-started/intro">What is the Model Context Protocol (MCP)?</a>）</p>
+<p>协议里还有两个角色要知道。<strong>MCP host</strong> 是 AI 应用本身，比如 VS Code 或者 Claude Code，host 每连一个 server 就建一个 <strong>MCP client</strong>，由这个 client 维持和这个 server 的连接。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）</p>
+<p>你可能会觉得接上 MCP，agent 就多了新本事，其实一般没有，MCP 改变的是工具怎么接上去，server 能做的事，agent 用一条命令或者调一个 API 多半也能做。例外是托管在厂商那边、自带登录的远程 server，它可能给你别的办法拿不到的访问。所以接 server 的时候，不用先想它能多给你什么，要先想除了工具，还有什么跟着进来了。</p>
+</div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>What actually comes in when you connect a server</h2><p>Connecting a server adds a dependency you didn't write to your setup. It has its own code and its own release pace, it works with the permissions you give it, and it writes into the model's context.</p>
+<h3>A server can offer three things</h3>
+<p>The protocol defines three things a server can offer, and what separates them is who decides to use them. <strong>Tools</strong> are functions the model decides to call by itself, for things like working with files, calling an API or querying a database, and they're what most people mean when they say MCP. <strong>Resources</strong> are read-only data, such as file contents or a database schema, and the application decides whether they go into the context. <strong>Prompts</strong> are reusable templates that the user invokes explicitly. (<a href="https://modelcontextprotocol.io/docs/learn/server-concepts">Understanding MCP servers</a>)</p>
+<p>Once connected, the host sends a <code>tools/list</code> request and gets back each tool's name, description and parameters, then merges the tools from all its servers into one table for the model. When the model wants a tool, the host sends a <code>tools/call</code> to the right server and puts the result back into the conversation. So to the model, an MCP tool looks the same as a built-in one. It still has only the name, description and error messages to go on, and every rule from the previous chapter applies, except that someone else wrote those words now.</p>
+<h3>A local server runs on your machine, a remote server runs on someone else's</h3>
+<p>A server can run in two ways, and both use the same messages. A <strong>local</strong> server uses the stdio transport: the host starts a process on your machine and talks to it through its standard input and output, so what you put in your configuration is really just a startup command, like the Playwright example in the VS Code docs, <code>npx -y @playwright/mcp@latest</code>. A <strong>remote</strong> server uses the Streamable HTTP transport: it runs on someone else's machine, the host talks to it over HTTP, you usually have to sign in, and one server usually serves many users, as Sentry's official server does.</p>
+<p>This difference decides what you're defending against. A local server is code running on your computer with your permissions, so what worries you is what it does on your machine. A remote server is someone else's service, so what worries you is the data you send it and the account access you hand it.</p>
+<h3>Four things come in with every server</h3>
 <figure class="fig" id="fig-1-3-what-comes-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <rect class="box" x="20" y="20" width="120" height="210" rx="6"/>
   <text class="label" x="80" y="130" text-anchor="middle" data-t="server">MCP server</text>
@@ -426,62 +426,67 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="300" y="141" text-anchor="middle" data-t="i3">its text, which the model reads</text>
   <line class="line" x1="140" y1="190" x2="450" y2="190"/>
   <path class="head" d="M450 186 L460 190 L450 194 Z"/>
-  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">its tool list, in every call</text>
+  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">its tool list, taking up context</text>
 </svg>
 <figcaption>Plugging in a server is adding a dependency. Four things come in with it.</figcaption></figure>
 <ol>
-<li>It brings other people's code, because a local server runs on your machine. VS Code's own documentation says: &quot;Local MCP servers can run code on your machine, and tools can access external services using your permissions.&quot; (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>)</li>
-<li>It brings other people's permissions. The server acts with whatever access you gave it, such as your database login or your token for the issue tracker, so through the server the agent has that access too.</li>
-<li>It brings other people's words, and the model treats them as instructions. A server's tool descriptions are text the model reads and takes seriously, and what a tool returns (an issue body, a web page) is text from whoever wrote it. Text the model reads can contain commands for it. <a href="4-6-untrusted-input.html">Chapter 4.6</a> is about this.</li>
-<li>It brings a standing cost. Each tool's name, description and parameters are sent to the model on every call, so a server with many tools you rarely use still costs tokens on every turn, and many tools make it harder for the model to choose (<a href="1-2-tool-calling.html">When an Agent misuses a tool, check its description and errors first</a>). There are ways around it, and I only point to them here. The protocol's own docs mention that clients with many servers can use progressive tool discovery instead of loading every tool up front (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>). Anthropic's post <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a> names tool definitions overloading the context window as a problem, and describes loading only the tools needed, or having the agent call servers through code. How big the cost is depends on how many tools you connect, so count yours.</li>
+<li>Someone else's code. A local server is a program running on your machine, and it's running from the moment it starts, without waiting for the model to call a tool. The VS Code docs put it plainly: &quot;Local MCP servers can run code on your machine, and tools can access external services using your permissions.&quot; (<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>)</li>
+<li>Your permissions. A server acts with the access you give it, such as your database account or your issue tracker token, and through the server the agent gets that access too. So however wide the token's scope is, that's roughly how much damage is possible when the agent makes a mistake or gets tricked.</li>
+<li>Someone else's text. Tool descriptions are written by someone else, and the model reads them and believes them. What tools return (the body of an issue, a web page) is written by someone else too, and this text can hide commands aimed at the model (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>).</li>
+<li>A fixed token cost. Tool names, descriptions and parameters all count as model input, and if the host sends all of them to the model, they go along with every request. Caching makes that cheaper, but it doesn't free up any of the context window, and the more tools there are, the more likely the model is to pick the wrong one.</li>
 </ol>
-<h3>What to check before you add one</h3>
-<p>If a server is a dependency, it deserves the questions you would ask of any dependency. Here are four, in the order I would ask them.</p>
-<ul>
-<li>Who wrote it, and who keeps it up to date? VS Code's advice is to review &quot;the publisher, command or endpoint, and requested access&quot; before you install or start a server.</li>
-<li>What can it touch? Prefer a server limited to what the job needs. A server for reading issues should not hold a token that can delete repositories.</li>
-<li>Where do the credentials live? Keep them out of the chat and out of your project's commits, as VS Code's docs also warn.</li>
-<li>Can what it returns be trusted? If the text comes from outside, such as the public web or tickets that anyone can file, treat it as untrusted.</li>
-</ul>
-<h3>MCP, or just a command?</h3>
-<p>There is also a question to ask before any of these four: does this tool need a server at all? Many things your agent needs already exist as command-line programs, such as <code>git</code>, a test runner or a cloud CLI, and an agent that can run a terminal can use them with no server.</p>
+<p>The fourth one can get large. Anthropic gives an example with five servers: GitHub's 35 tools take about 26K tokens, Slack's 11 take about 21K, and with Sentry, Grafana and Splunk added, 58 tools take up about 55K tokens before the conversation starts (<a href="https://www.anthropic.com/engineering/advanced-tool-use">Introducing advanced tool use for Claude</a>). What a host can do about it is tool search: instead of sending the tool definitions to the model, it gives the model a search tool and loads a full definition only when that tool is needed. Claude Code does this by default, loading just the tool names and server instructions at session start (<a href="https://code.claude.com/docs/en/mcp">Connect Claude Code to tools via MCP</a>). VS Code has it on by default too for Claude Sonnet 4.5, Opus 4.5 and later, keeping only a small core set loaded, such as reading and writing files and running commands, and in a live experiment its team saw the median user's token usage over a whole session fall by about 18% with Claude models (<a href="https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot">Improving token efficiency for GitHub Copilot in VS Code</a>). So how big this cost is depends on your host, your model and how many tools you've connected, and it's best to count your own.</p>
+<h3>First see whether a command will do</h3>
+<p>A lot of what an agent needs already exists as command-line programs, such as <code>git</code>, <code>gh</code>, test runners and the cloud platforms' CLIs, and as long as the agent can use a terminal, it can use them without any server. I lean toward commands first, because they add less code and fewer permissions to your setup, and you can always switch to MCP later, once sharing one tool across platforms is worth the extra dependency.</p>
+<p>The tool vendors themselves say the same. The VS Code docs say right at the start that if your existing tools meet your needs, you don't need another server. The Claude Code docs recommend preferring CLIs like <code>gh</code>, <code>aws</code> and <code>gcloud</code>, because they don't add a tool listing to the context (<a href="https://code.claude.com/docs/en/costs">Manage costs effectively</a>). And the README of Microsoft's Playwright MCP tells people using coding agents that a CLI plus skills may suit them better, leaving MCP for long loops that need to keep browser state (<a href="https://github.com/microsoft/playwright-mcp">Playwright MCP</a>).</p>
+<p>How many tokens you save depends on the job, though. In July 2026, Stefan Judis at Checkly ran the same browser task three times each in Claude Code: with Playwright MCP the context ended up at about 48K to 50K, and with <code>playwright-cli</code> at about 45K to 48K. That's a small gap, and his explanation is that tool definitions are loaded lazily now (<a href="https://www.checklyhq.com/blog/mcp-vs-cli-token-efficiency/">CLIs are more token-efficient than MCP. Or are they?</a>). So on a host with tool search, the advantage of a command is mainly fewer dependencies and permissions, not tokens.</p>
+<p>MCP has things a command can't match, too. Each of its tools has a name and a parameter schema, so the host can approve tool by tool, whereas once an agent has a terminal it can run any command, and all a hook sees is the command's text (<a href="2-2-hooks.html">Hooks, the point every call passes through</a>). So if you're building an interface to an internal system with a lot of write operations, a few narrow MCP tools may be easier to control than one command-line program that can do everything.</p>
 <table>
 <thead>
 <tr>
-<th>Reach for</th>
+<th>Choose</th>
 <th>When</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A command line program</td>
-<td>It already exists, runs locally, and its output is short and clear. Fewer moving parts</td>
+<td>A command-line program</td>
+<td>It already exists, it runs locally, its output is short and clear, and the agent can use a terminal</td>
 </tr>
 <tr>
 <td>An MCP server</td>
-<td>You want the same tool across several platforms, or it needs structured inputs, a discoverable list of capabilities, or sign-in to a remote service</td>
+<td>You want to share one tool across platforms, you need structured input, you have to sign in to a remote service, you want to approve tool by tool, or the agent runs somewhere with no terminal</td>
 </tr>
 </tbody>
 </table>
-<p>I lean towards the command first, because it adds less code and fewer permissions to your setup. Moving to MCP is worth it once the shared plug starts to pay for the extra dependency.</p>
-<h3>Will a hook guard an MCP tool?</h3>
-<p>You might hope that a hook would catch a bad MCP call the way it catches a bad built-in one. I cannot tell you that it will, because I have <strong>not tested</strong> it. My own harness builds no MCP server, since a company sets them up for its own environment, and some company environments forbid unofficial ones. So I do not know whether MCP tool calls pass through a hook the way built-in tool calls do, nor whether the hook sees their arguments in full. Until you have tested it yourself, with a harmless server, do not count on a hook to guard an MCP tool.</p>
-<h3>How to check your own setup</h3>
-<p>The servers you have already connected deserve a look too. For each one, ask three questions:</p>
+<h3>Ask five questions before you connect one</h3>
+<p>A server is a dependency, so whatever you'd ask about a dependency, you should ask about a server. Here are five questions, in the order I'd ask them.</p>
+<ul>
+<li>Who wrote it, and who keeps it up to date? VS Code's advice is to review &quot;the publisher, command or endpoint, and requested access&quot; before installing or starting a server (<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>). Being listed doesn't mean being reviewed either: the official MCP Registry only stores metadata and verifies publishers' namespaces, and it leaves security scanning to package registries like npm and to downstream marketplaces (<a href="https://modelcontextprotocol.io/registry/about">The MCP Registry</a>).</li>
+<li>What can it touch? Prefer a server limited to what the task needs. A server that reads issues shouldn't be holding a token that can delete repositories.</li>
+<li>Where do its credentials live? Not in the chat and not committed to the project, and the VS Code docs add that a personal configuration file isn't a place for secrets either (<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a>).</li>
+<li>Is the version pinned? If the startup command says <code>@latest</code>, then as soon as the package updates, later starts may run new code, so pin a version you've looked at.</li>
+<li>Can you trust what it returns? If the text comes from outside, like public web pages or tickets anyone can file, treat it as untrusted.</li>
+</ul>
+<h3>Whether a hook can control MCP tools depends on the platform</h3>
+<p>The Claude Code docs spell it out: MCP tools appear in events like <code>PreToolUse</code> and <code>PostToolUse</code> just as ordinary tools do, named <code>mcp__&lt;server&gt;__&lt;tool&gt;</code> (<a href="https://code.claude.com/docs/en/hooks">Hooks reference</a>). The Copilot side doesn't say. GitHub's hook reference only says <code>preToolUse</code> fires &quot;Before each tool executes&quot;, the tool names it lists are all built-in ones, and the VS Code hook docs don't mention MCP either (<a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference">GitHub Copilot hooks reference</a>). My own harness doesn't set up any MCP server, because these servers are something each company configures for its own environment, and some companies forbid unofficial ones, so I haven't tested whether MCP tools on Copilot pass through hooks or whether a hook sees the complete arguments.</p>
+<p>If you want to rely on a hook, test it first with a harmless server: write a hook that only records its input, call an MCP tool once, and look in the record for that call and its full arguments. Even if the call does pass through the hook, all the hook sees is the arguments of this one call. It can't see what the server does after receiving them.</p>
+<h3>How to check after connecting</h3>
+<p>Servers you've already connected deserve a second look too. Ask three questions about each one:</p>
 <ol>
 <li>Do I know who wrote it and what it can touch?</li>
-<li>Could a command-line program do the same job?</li>
-<li>How many of its tools do I really use?</li>
+<li>Could a command-line program do the same thing?</li>
+<li>How many of its tools do I actually use?</li>
 </ol>
-<p>The third one you can answer without installing anything. List the tools your agent currently has (most editors show them in the chat's tools picker, though where exactly depends on the editor, so check its docs) and count them. Then ask which of them you used in the last week. The rest are cost and risk without benefit.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>你接進來的到底是什麼</h2><h3>server 能提供什麼</h3>
-<p>要看清進來了什麼，得先知道 server 能往這邊送些什麼。協定定義了 server 可以公開的三樣東西。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）大多數人說 MCP，指的是其中的 <strong>Tools</strong>（工具），也就是 agent 可以呼叫來做事的函式，例如檔案操作、API 呼叫、資料庫查詢，它和 <a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和錯誤訊息</a> 裡的工具是同一類。除了工具，server 還可以提供 <strong>Resources</strong>（資源），也就是 agent 可以讀來當上下文的資料，例如檔案內容或資料庫紀錄；以及 <strong>Prompts</strong>（提示），也就是可重複使用的範本，用來幫忙組織對話，例如 system prompt 或 few-shot 範例。</p>
-<p>在用到這些之前，agent 這一邊會先問 server 有什麼。對工具來說，這是一個 <code>tools/list</code> 請求，拿回來的是每個工具的名字、描述和它接受的參數。之後模型要求呼叫某個工具，host 就向對的 server 送出一個 <code>tools/call</code>，再把答案當文字放回對話。所以從模型的角度看，MCP 工具和其他任何工具沒有兩樣。</p>
-<h3>本地和遠端</h3>
-<p>server 有兩種跑法，兩種用的是同一個協定。<strong>本地（stdio）</strong> server 由 host 在你的機器上當成程式啟動，host 透過它的標準輸入和輸出（每個命令列程式都有的純文字管道）跟它說話。通常也只有這一個 host 在用它。<strong>遠端（Streamable HTTP）</strong> server 跑在別處，host 透過普通的網路請求（HTTP）跟它說話，通常要登入。一個遠端 server 可以服務很多使用者。</p>
-<p>這個差別在安全上很重要，因為本地 server 是在你的電腦上、以你的權限執行的程式碼；遠端的則是別人的服務，你得把資料送過去。</p>
-<h3>接上一個，就帶進來什麼</h3>
-<p>不過，不管本地還是遠端，server 都不是打開就好的功能，而是一個<strong>依賴</strong>，像一個不是你寫的函式庫。接上它，會帶進來四樣東西。</p>
+<p>You can answer the third without installing anything. In VS Code, open the Tools page in <strong>Chat: Open Customizations</strong> to see how many tools are enabled in each group and how many there are in total, and in Claude Code, use <code>/context</code> to see what's taking up the context. Once you've counted, think about which ones you used last week. All the others carry cost and risk with no benefit, so turn those tools off or disable the whole server.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>接上一個 server，到底接進來了什麼</h2><p>接上一個 server，等於在你的設定裡加了一個不是你寫的依賴，它有自己的程式碼和更新節奏，用著你給的權限，還會往模型的上下文裡寫東西。</p>
+<h3>server 能提供三樣東西</h3>
+<p>協定定義了 server 可以提供的三樣東西，差別在於由誰決定用。<strong>工具</strong>（Tools）是模型自己決定呼叫的函式，例如操作檔案、呼叫 API、查資料庫，多數人說 MCP，指的就是它。<strong>資源</strong>（Resources）是唯讀的資料，例如檔案內容或資料庫 schema，由應用程式決定要不要放進上下文。<strong>提示</strong>（Prompts）是可重複使用的範本，由使用者明確呼叫。（<a href="https://modelcontextprotocol.io/docs/learn/server-concepts">Understanding MCP servers</a>）</p>
+<p>host 連上 server 以後發一個 <code>tools/list</code> 請求，拿回每個工具的名字、描述和參數，再把所有 server 的工具合成一張表交給模型，模型要用某個工具時，host 向對應的 server 發一個 <code>tools/call</code>，再把結果放回對話。所以在模型看來，MCP 工具和內建工具沒有差別，它還是只能靠名字、描述和錯誤訊息來用工具，上一章的規則全都適用，只是這些文字現在是別人寫的。</p>
+<h3>本機 server 跑在你的機器上，遠端 server 跑在別人那裡</h3>
+<p>server 有兩種執行方式，用的是同一套訊息。<strong>本機</strong> server 走 stdio 傳輸，host 在你的機器上啟動一個處理程序，透過它的標準輸入和輸出溝通，所以設定裡寫的其實就是一條啟動指令，例如 VS Code 文件裡 Playwright 的例子是 <code>npx -y @playwright/mcp@latest</code>。<strong>遠端</strong> server 走 Streamable HTTP 傳輸，執行在別人的機器上，host 透過 HTTP 和它溝通，通常要登入，同一個 server 通常服務很多使用者，例如 Sentry 官方的 server。</p>
+<p>這個差別決定了你要防什麼。本機 server 是用你的權限、在你電腦上執行的程式碼，要防的是它在你機器上做什麼；遠端 server 是別人的服務，要防的是你傳給它的資料，和你交給它的帳號權限。</p>
+<h3>接上一個 server，有四樣東西跟著進來</h3>
 <figure class="fig" id="fig-1-3-what-comes-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <rect class="box" x="20" y="20" width="120" height="210" rx="6"/>
   <text class="label" x="80" y="130" text-anchor="middle" data-t="server">MCP server</text>
@@ -498,25 +503,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="300" y="141" text-anchor="middle" data-t="i3">它的文字，模型會讀</text>
   <line class="line" x1="140" y1="190" x2="450" y2="190"/>
   <path class="head" d="M450 186 L460 190 L450 194 Z"/>
-  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">它的工具清單，每次呼叫都帶著</text>
+  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">它的工具清單，占著上下文</text>
 </svg>
 <figcaption>接上一個 server，就是多了一個依賴。有四樣東西跟著進來。</figcaption></figure>
 <ol>
-<li>它帶進別人的程式碼，因為本地 server 就在你的機器上執行。VS Code 自己的文件說：「本地 MCP server 可以在你的機器上執行程式碼，而工具可以用你的權限存取外部服務。」（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</li>
-<li>它帶進別人的權限。server 以你給它的存取權行動，例如你的資料庫登入、你在問題追蹤系統的 token，於是 agent 透過 server，也擁有了那些存取權。</li>
-<li>它帶進別人的話，而模型會把這些話當成指令。server 的工具描述，是模型會讀、也會當真的文字；工具回傳的內容（issue 的內文、網頁），也是寫它的人寫的文字。模型讀到的文字，可能含有給它的命令，<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 講的就是這個。</li>
-<li>它帶進一筆固定的成本。每個工具的名字、描述和參數，每次呼叫都會送給模型，所以一個工具很多、你卻很少用的 server，每一輪還是要花 token；而且工具一多，模型就更難選（<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和錯誤訊息</a>）。繞開的辦法是有的，這裡只點到為止。協定自己的文件提到，連了很多 server 的 client，可以用漸進式的工具探索，不必一開始就載入所有工具（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）。Anthropic 的文章 <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a> 則把工具定義塞滿上下文視窗當成一個問題，並描述了只載入需要的工具，或讓 agent 透過程式碼呼叫 server 的做法。成本有多大，取決於你接了多少工具，所以數一數你自己的。</li>
+<li>別人的程式碼。本機 server 就是執行在你機器上的一支程式，一啟動就在跑，不用等模型呼叫工具。VS Code 的文件說得很直接：「本機 MCP server 可以在你的機器上執行程式碼，工具可以用你的權限存取外部服務。」（<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>）</li>
+<li>你的權限。server 用你給它的存取權限做事，例如你的資料庫帳號、你在問題追蹤系統裡的 token，agent 透過這個 server 也就拿到了這些權限，所以 token 的範圍有多大，agent 出錯或被騙的時候，損失就可能有多大。</li>
+<li>別人寫的文字。工具的描述是別人寫的，模型會讀、會當真，工具回傳的內容（一個 issue 的內文、一個網頁）也是別人寫的，這些文字裡可能藏著給模型的命令（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。</li>
+<li>一筆固定的 token 成本。工具的名字、描述和參數都算模型的輸入，如果 host 把它們全送給模型，每次請求都要帶上，快取能讓錢少花一些，但占掉的上下文視窗一點也沒少，工具一多，模型也更容易選錯。</li>
 </ol>
-<h3>加一個之前要檢查什麼</h3>
-<p>既然 server 是一個依賴，任何依賴該問的問題，它都該問。下面是四個，照我會問的順序排。</p>
-<ul>
-<li>誰寫的？誰持續更新它？VS Code 的建議是，安裝或啟動 server 之前，先檢視「發布者、指令或端點，以及要求的存取權」。</li>
-<li>它能碰什麼？盡量用只限於工作所需的 server，例如讀 issue 的 server，就不該握有能刪除倉庫的 token。</li>
-<li>憑證放在哪裡？別放在對話裡，也別提交進專案，VS Code 的文件也是這樣提醒的。</li>
-<li>它回傳的能信嗎？如果文字來自外面，例如公開的網路、任何人都能開的工單，就當成不可信的輸入。</li>
-</ul>
-<h3>用 MCP，還是只用一個指令？</h3>
-<p>在這四個問題之前，其實還有一個問題：這個工具真的需要 server 嗎？你的 agent 需要的很多東西，早就以命令列程式的形式存在了，例如 <code>git</code>、測試執行器、雲端 CLI。只要 agent 能用終端機，完全不需要 server 就能用它們。</p>
+<p>第四樣成本可以很大。Anthropic 舉過一個五個 server 的例子，GitHub 的 35 個工具約 26K token，Slack 的 11 個約 21K，再加上 Sentry、Grafana 和 Splunk，一共 58 個工具，對話還沒開始就占了約 55K token（<a href="https://www.anthropic.com/engineering/advanced-tool-use">Introducing advanced tool use for Claude</a>）。host 這邊的辦法是工具搜尋，先不把工具定義送給模型，只給它一個搜尋工具，用到的時候才載入完整定義。Claude Code 預設就這麼做，會話開始時只載入工具名稱和 server 的說明（<a href="https://code.claude.com/docs/en/mcp">Connect Claude Code to tools via MCP</a>）。VS Code 在 Claude Sonnet 4.5、Opus 4.5 以上的模型上也預設開啟，只留讀寫檔案、執行指令這樣一小組核心工具常駐，它的團隊做過線上實驗，用 Claude 模型時，中位使用者一整個會話的 token 用量降了約 18%（<a href="https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot">Improving token efficiency for GitHub Copilot in VS Code</a>）。所以這筆成本到底有多大，要看你用的 host、模型和連了多少工具，最好數一數你自己的。</p>
+<h3>先看一條指令夠不夠</h3>
+<p>agent 需要的很多東西本來就是命令列程式，例如 <code>git</code>、<code>gh</code>、測試執行器、雲端平台的命令列工具，只要 agent 能用終端機，不接任何 server 就能用上它們。我傾向先用指令，因為它加進你設定裡的程式碼和權限都比較少，等多個平台共用一個工具的好處抵得過多出來的那個依賴，再換成 MCP 也不遲。</p>
+<p>工具的廠商自己也這麼建議。VS Code 的文件一開頭就說，現有的工具夠用的話，就不需要再加 server。Claude Code 的文件建議優先用 <code>gh</code>、<code>aws</code>、<code>gcloud</code> 這些命令列工具，因為它們不會往上下文裡加工具清單（<a href="https://code.claude.com/docs/en/costs">Manage costs effectively</a>）。微軟的 Playwright MCP 的 README 也告訴用 coding agent 的讀者，CLI 加 skill 可能更合適，MCP 留給需要保持瀏覽器狀態的長循環（<a href="https://github.com/microsoft/playwright-mcp">Playwright MCP</a>）。</p>
+<p>不過省多少 token 要看具體的工作。Checkly 的 Stefan Judis 在 2026 年 7 月用 Claude Code 把同一個瀏覽器任務各跑了三遍，用 Playwright MCP 結束時的上下文約 48K 到 50K，用 <code>playwright-cli</code> 約 45K 到 48K，差別很小，他的解釋是工具定義現在是延遲載入的（<a href="https://www.checklyhq.com/blog/mcp-vs-cli-token-efficiency/">CLIs are more token-efficient than MCP. Or are they?</a>）。所以在有工具搜尋的 host 上，指令的好處主要是依賴和權限比較少，不在 token 上。</p>
+<p>MCP 也有指令比不上的地方。它的每個工具都有名字和參數 schema，host 可以按工具來批准，而 agent 一旦能用終端機，就能跑任何指令，hook 讀到的也只是指令的文字（<a href="2-2-hooks.html">Hooks：每次呼叫都會經過的執行點</a>）。所以替一個寫入操作很多的內部系統做介面時，幾個窄的 MCP 工具可能比一個什麼都能做的命令列程式更好管。</p>
 <table>
 <thead>
 <tr>
@@ -527,33 +528,42 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tbody>
 <tr>
 <td>命令列程式</td>
-<td>它已經存在、在本地執行，輸出又短又清楚。牽涉的環節更少</td>
+<td>它已經有了，在本機執行，輸出又短又清楚，agent 又能用終端機</td>
 </tr>
 <tr>
 <td>MCP server</td>
-<td>你想在好幾個平台上用同一個工具，或者它需要結構化的輸入、可探索的能力清單，或登入遠端服務</td>
+<td>你想在多個平台上共用同一個工具，需要結構化的輸入，要登入一個遠端服務，想按工具來批准，或者 agent 執行的地方沒有終端機</td>
 </tr>
 </tbody>
 </table>
-<p>我傾向先用指令，因為它在你的設定裡加的程式碼和權限比較少。等共用插頭的好處開始值得多出來的那個依賴，再換成 MCP。</p>
-<h3>hook 守得住 MCP 工具嗎？</h3>
-<p>你也許希望，hook 能像擋下一次糟糕的內建工具呼叫那樣，擋下一次糟糕的 MCP 呼叫。這一點我沒辦法向你保證。我自己的 harness 沒有建任何 MCP server（這類 server 是公司照自己的環境設定的，有些公司環境還禁止非官方的），所以 MCP 工具呼叫會不會像內建工具呼叫那樣經過 hook、hook 看不看得到完整的參數，我<strong>沒有測過</strong>。在你自己用一個無害的 server 測試過之前，不要指望 hook 能替你守住 MCP 工具。</p>
-<h3>怎麼檢查你自己的設定</h3>
-<p>已經接上的 server，也值得回頭看一看。對每一個，問三個問題：</p>
+<h3>接之前問五個問題</h3>
+<p>既然 server 是依賴，對任何依賴該問的問題，對它也都該問，下面五個按我會問的順序排。</p>
+<ul>
+<li>誰寫的，誰在持續更新？VS Code 的建議是，在安裝或啟動之前先看「發布者、指令或端點，以及它請求的存取權限」（<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>）。上架了也不等於審查過，MCP 官方的 Registry 只存中繼資料、驗證發布者的命名空間，安全掃描交給 npm 這樣的套件倉庫和下游的市集（<a href="https://modelcontextprotocol.io/registry/about">The MCP Registry</a>）。</li>
+<li>它能碰什麼？優先選只限於任務所需的 server，例如一個讀 issue 的 server，就不該拿著一個能刪倉庫的 token。</li>
+<li>憑證放在哪？別放在對話裡，也別提交進專案，VS Code 的文件還提醒，個人設定檔也不是存機密的地方（<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a>）。</li>
+<li>版本固定了嗎？啟動指令裡寫著 <code>@latest</code> 的話，套件一更新，之後啟動跑的就可能是新程式碼，所以要寫死一個看過的版本。</li>
+<li>它回傳的東西可信嗎？如果文字來自外部，例如公開的網頁、任何人都能開的工單，就當成不可信的。</li>
+</ul>
+<h3>hook 管不管得住 MCP 工具，各家不一樣</h3>
+<p>Claude Code 的文件寫明了，MCP 工具在 <code>PreToolUse</code>、<code>PostToolUse</code> 這些事件裡和一般工具一樣出現，名字是 <code>mcp__&lt;server&gt;__&lt;tool&gt;</code>（<a href="https://code.claude.com/docs/en/hooks">Hooks reference</a>）。Copilot 這邊沒有寫，GitHub 的 hook 參考只說 <code>preToolUse</code> 在「每個工具執行之前」觸發，列出來的工具名稱都是內建工具，VS Code 的 hook 文件也沒有提到 MCP（<a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference">GitHub Copilot hooks reference</a>）。我自己的 harness 沒有搭任何 MCP server，這類 server 是公司依自己的環境設定的，有的公司還禁止非官方的，所以 MCP 工具在 Copilot 上是不是經過 hook、hook 能不能看到完整的參數，我沒有測過。</p>
+<p>想靠 hook 的話，先用一個無害的 server 測一次，寫一個只記錄輸入的 hook，呼叫一次 MCP 工具，看記錄裡有沒有這次呼叫、參數全不全。就算經過了 hook，它看到的也只是這次呼叫的參數，server 收到以後做了什麼，它看不到。</p>
+<h3>接上以後怎麼查</h3>
+<p>已經連上的 server 也要回頭看，對每一個問三個問題：</p>
 <ol>
-<li>我知道是誰寫的、它能碰什麼嗎？</li>
-<li>一個命令列程式能做同樣的工作嗎？</li>
-<li>它的工具，我真正用到幾個？</li>
+<li>我知道它是誰寫的、能碰什麼嗎？</li>
+<li>命令列程式能做同樣的事嗎？</li>
+<li>它的工具裡，我真正用到的有幾個？</li>
 </ol>
-<p>第三個問題，不用安裝任何東西就能回答。列出你的 agent 目前有的工具（大多數編輯器在對話的工具選擇器裡顯示，確切在哪要看編輯器，查一下它的文件），數一數，再問自己過去一週用過其中哪些。其餘的，就是有成本、有風險，卻沒有好處。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>你接进来的到底是什么</h2><h3>server 能提供什么</h3>
-<p>要看清进来了什么，先得知道 server 能往这边送些什么。协议定义了 server 可以对外提供的三样东西。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）多数人说 MCP，指的是其中的<strong>工具</strong>（Tools），也就是 agent 可以调用来做事的函数，比如文件操作、API 调用、数据库查询，它和<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>里的工具是同一种。除了工具，server 还可以提供<strong>资源</strong>（Resources），即 agent 可以读来当上下文的数据，比如文件内容或数据库记录；以及<strong>提示</strong>（Prompts），即可复用的模板，用来帮着组织一次对话，比如系统 prompt 或少样本示例。</p>
-<p>用到这些之前，agent 这一侧会先问 server 有什么。对工具来说，这是一个 <code>tools/list</code> 请求，拿回来的是每个工具的名字、描述和它接受的参数。之后模型要求调用某个工具，host 就向对应的 server 发一个 <code>tools/call</code>，再把答案作为文本放回对话。所以在模型看来，MCP 工具和别的工具没什么两样。</p>
-<h3>本地和远程</h3>
-<p>server 有两种运行方式，两种用的是同一个协议。<strong>本地（stdio）</strong> server 由 host 在你的机器上作为一个程序启动，host 通过它的标准输入和输出（每个命令行程序都有的纯文本管道）和它通信。通常也只有这一个 host 在用它。<strong>远程（Streamable HTTP）</strong> server 运行在别的地方，host 通过普通的网络请求（HTTP）和它通信，通常要登录。一个远程 server 可以服务很多用户。</p>
-<p>这个区别对安全很要紧，因为本地 server 是以你的权限、在你电脑上运行的代码；远程 server 则是别人的服务，你得把数据发给它。</p>
-<h3>接上一个，就带进来什么</h3>
-<p>不过，不管本地还是远程，server 都不是打开就行的功能，而是一个<strong>依赖</strong>，就像一个不是你写的库。接上它，会带进来四样东西。</p>
+<p>第三個問題不用安裝任何東西就能回答。在 VS Code 裡打開 <strong>Chat: Open Customizations</strong> 的 Tools 頁，能看到每組工具啟用了幾個、一共幾個，在 Claude Code 裡用 <code>/context</code> 看是什麼在占上下文。數完再想想上週用過其中哪些，其餘的都是有成本、有風險，卻沒有收益的，可以把工具關掉，或者把整個 server 停用。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>接上一个 server，到底接进来了什么</h2><p>接上一个 server，等于给你的配置加了一个不是你写的依赖，它有自己的代码和更新节奏，用着你给的权限，还往模型的上下文里写东西。</p>
+<h3>server 能提供三样东西</h3>
+<p>协议定义了 server 可以提供的三样东西，区别在于由谁决定用。<strong>工具</strong>（Tools）是模型自己决定调用的函数，比如操作文件、调 API、查数据库，多数人说 MCP，指的就是它。<strong>资源</strong>（Resources）是只读的数据，比如文件内容或者数据库 schema，由应用决定放不放进上下文。<strong>提示</strong>（Prompts）是可复用的模板，由用户明确调用。（<a href="https://modelcontextprotocol.io/docs/learn/server-concepts">Understanding MCP servers</a>）</p>
+<p>host 连上 server 以后发一个 <code>tools/list</code> 请求，拿回每个工具的名字、描述和参数，再把所有 server 的工具合成一张表交给模型，模型要用某个工具时，host 向对应的 server 发一个 <code>tools/call</code>，再把结果放回对话。所以在模型看来，MCP 工具和内置工具没有区别，它还是只能靠名字、描述和报错来用工具，上一章的规则全都适用，只不过这些文字现在是别人写的。</p>
+<h3>本地 server 跑在你的机器上，远程 server 跑在别人那里</h3>
+<p>server 有两种运行方式，用的是同一套消息。<strong>本地</strong> server 走 stdio 传输，host 在你的机器上启动一个进程，通过它的标准输入和输出通信，所以配置里写的其实就是一条启动命令，比如 VS Code 文档里 Playwright 的例子是 <code>npx -y @playwright/mcp@latest</code>。<strong>远程</strong> server 走 Streamable HTTP 传输，运行在别人的机器上，host 通过 HTTP 和它通信，通常要登录，同一个 server 通常服务很多用户，比如 Sentry 官方的 server。</p>
+<p>这个区别决定了你要防什么，本地 server 是用你的权限、在你电脑上运行的代码，要防的是它在你机器上做什么，远程 server 是别人的服务，要防的是你发给它的数据，和你交给它的账号权限。</p>
+<h3>接上一个 server，有四样东西跟着进来</h3>
 <figure class="fig" id="fig-1-3-what-comes-in"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250">
   <rect class="box" x="20" y="20" width="120" height="210" rx="6"/>
   <text class="label" x="80" y="130" text-anchor="middle" data-t="server">MCP server</text>
@@ -570,25 +580,21 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
   <text class="label" x="300" y="141" text-anchor="middle" data-t="i3">它的文本，模型会读</text>
   <line class="line" x1="140" y1="190" x2="450" y2="190"/>
   <path class="head" d="M450 186 L460 190 L450 194 Z"/>
-  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">它的工具清单，每次调用都带着</text>
+  <text class="label" x="300" y="181" text-anchor="middle" data-t="i4">它的工具清单，占着上下文</text>
 </svg>
 <figcaption>接上一个 server，就是多了一个依赖。有四样东西跟着进来。</figcaption></figure>
 <ol>
-<li>它带进来别人的代码，因为本地 server 就运行在你的机器上。VS Code 自己的文档说：“本地 MCP server 可以在你的机器上运行代码，工具可以用你的权限访问外部服务。”（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</li>
-<li>它带进来别人的权限。server 以你给它的访问权限行事，比如你的数据库登录、你在问题跟踪系统里的 token，于是 agent 通过这个 server，也拿到了这些权限。</li>
-<li>它带进来别人的话，而模型会把这些话当成指令。server 的工具描述，是模型会读、会当真的文本；工具返回的内容（一个 issue 的正文、一个网页），也是写它的人写的文本。模型读到的文本里，可能藏着给它的命令，<a href="4-6-untrusted-input.html">Agent 读到的网页和文件，可能在给它下命令</a>讲的就是这件事。</li>
-<li>它带进来一笔固定的开销。每个工具的名字、描述和参数，每次调用都要发给模型，所以一个工具很多、你却很少用的 server，每一轮照样花 token；工具一多，模型也更难选（<a href="1-2-tool-calling.html">Agent 用不好工具，先看工具的描述和报错</a>）。绕开的办法是有的，我在这里只点到为止。协议自己的文档提到，连了很多 server 的 client，可以用渐进式的工具发现，而不是一开始就把所有工具都加载进来（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）。Anthropic 的文章 <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a> 则把工具定义撑爆上下文窗口当作一个问题，并介绍了只加载所需工具，或者让 agent 通过代码来调用 server 的办法。这笔开销有多大，取决于你连了多少工具，所以数一数你自己的。</li>
+<li>别人的代码。本地 server 就是运行在你机器上的一个程序，一启动就在运行，不用等模型调用工具。VS Code 的文档说得很直接：“本地 MCP server 可以在你的机器上运行代码，工具可以用你的权限访问外部服务。”（<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>）</li>
+<li>你的权限。server 用你给它的访问权限做事，比如你的数据库账号、你在问题跟踪系统里的 token，agent 通过这个 server 也就拿到了这些权限，所以 token 的范围有多大，agent 出错或者被骗的时候，损失就可能有多大。</li>
+<li>别人写的文本。工具的描述是别人写的，模型会读、会当真，工具返回的内容（一个 issue 的正文、一个网页）也是别人写的，这些文本里可能藏着给模型的命令（<a href="4-6-untrusted-input.html">Agent 读到的网页和文件，可能在给它下命令</a>）。</li>
+<li>一笔固定的 token 开销。工具的名字、描述和参数都算模型的输入，如果 host 把它们全发给模型，每次请求都要带上，缓存能让钱少花一些，但是占的上下文窗口一点都不少，工具一多，模型也更容易选错。</li>
 </ol>
-<h3>加之前要检查什么</h3>
-<p>既然 server 是一个依赖，对任何依赖该问的问题，对它也都该问。下面是四个，按我会问的顺序排。</p>
-<ul>
-<li>谁写的，谁在持续更新？VS Code 的建议是，在安装或启动 server 之前，先审查“发布者、命令或端点，以及它请求的访问权限”。</li>
-<li>它能碰什么？优先选只限于任务所需的 server，比如一个读 issue 的 server，就不该拿着一个能删仓库的 token。</li>
-<li>凭据放在哪？别放在对话里，也别提交进项目，VS Code 的文档也是这样提醒的。</li>
-<li>它返回的东西可信吗？如果文本来自外部，比如公开的网页、任何人都能提的工单，就当成不可信的。</li>
-</ul>
-<h3>用 MCP，还是一条命令就够？</h3>
-<p>在这四个问题之前，其实还有一个问题：这个工具真的需要一个 server 吗？agent 需要的很多东西，本来就以命令行程序的形式存在，比如 <code>git</code>、测试运行器、云平台的命令行工具。只要 agent 能用终端，不需要任何 server 就能用上它们。</p>
+<p>第四样的开销可以很大。Anthropic 举过一个五个 server 的例子，GitHub 的 35 个工具约 26K token，Slack 的 11 个约 21K，再加上 Sentry、Grafana 和 Splunk，一共 58 个工具，对话还没开始就占了约 55K token（<a href="https://www.anthropic.com/engineering/advanced-tool-use">Introducing advanced tool use for Claude</a>）。host 这边的办法是工具搜索，先不把工具定义发给模型，只给它一个搜索工具，用到的时候才加载完整定义。Claude Code 默认就这么做，会话开始时只加载工具名和 server 的说明（<a href="https://code.claude.com/docs/en/mcp">Connect Claude Code to tools via MCP</a>）。VS Code 在 Claude Sonnet 4.5、Opus 4.5 以上的模型上也默认打开，只留读写文件、运行命令这样一小组核心工具常驻，它的团队做过线上实验，用 Claude 模型时，中位用户一整个会话的 token 用量降了约 18%（<a href="https://code.visualstudio.com/blogs/2026/06/17/improving-token-efficiency-in-github-copilot">Improving token efficiency for GitHub Copilot in VS Code</a>）。所以这笔开销到底有多大，要看你用的 host、模型和连了多少工具，最好数一数你自己的。</p>
+<h3>先看一条命令够不够</h3>
+<p>agent 需要的很多东西本来就是命令行程序，比如 <code>git</code>、<code>gh</code>、测试运行器、云平台的命令行工具，只要 agent 能用终端，不接任何 server 就能用上它们。我倾向于先用命令，因为它给你的配置加进来的代码和权限都更少，等多个平台共用一个工具的好处抵得过多出来的那个依赖，再换成 MCP 也不迟。</p>
+<p>工具的厂商自己也这么建议。VS Code 的文档开头就说，现有工具够用的话就不需要再加 server。Claude Code 的文档建议优先用 <code>gh</code>、<code>aws</code>、<code>gcloud</code> 这些命令行工具，因为它们不会往上下文里加工具清单（<a href="https://code.claude.com/docs/en/costs">Manage costs effectively</a>）。微软的 Playwright MCP 的 README 也告诉用 coding agent 的读者，CLI 加 skill 可能更合适，MCP 留给需要保持浏览器状态的长循环（<a href="https://github.com/microsoft/playwright-mcp">Playwright MCP</a>）。</p>
+<p>不过省多少 token 要看具体的活。Checkly 的 Stefan Judis 在 2026 年 7 月用 Claude Code 把同一个浏览器任务各跑了三遍，用 Playwright MCP 结束时的上下文约 48K 到 50K，用 <code>playwright-cli</code> 约 45K 到 48K，差别很小，他的解释是工具定义现在是延迟加载的（<a href="https://www.checklyhq.com/blog/mcp-vs-cli-token-efficiency/">CLIs are more token-efficient than MCP. Or are they?</a>）。所以在有工具搜索的 host 上，命令的好处主要是依赖和权限更少，不在 token 上。</p>
+<p>MCP 也有命令比不了的地方。它的每个工具都有名字和参数 schema，host 可以按工具来批准，而 agent 一旦能用终端，就能跑任何命令，hook 读到的也只是命令的文本（<a href="2-2-hooks.html">硬性规则放在哪？用 hook</a>）。所以给一个写操作很多的内部系统做接口时，几个窄的 MCP 工具可能比一个什么都能做的命令行更好管。</p>
 <table>
 <thead>
 <tr>
@@ -599,69 +605,99 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <tbody>
 <tr>
 <td>命令行程序</td>
-<td>它已经有了，在本地运行，输出又短又清楚。活动部件更少</td>
+<td>它已经有了，在本地运行，输出又短又清楚，agent 又能用终端</td>
 </tr>
 <tr>
 <td>MCP server</td>
-<td>你想在多个平台上用同一个工具，或者它需要结构化的输入、可发现的能力清单，或者要登录一个远程服务</td>
+<td>你想在多个平台上共用同一个工具，需要结构化的输入，要登录一个远程服务，想按工具来批准，或者 agent 运行的地方没有终端</td>
 </tr>
 </tbody>
 </table>
-<p>我倾向于先用命令，因为它给你的配置加进来的代码和权限都更少。等共用插头的好处开始抵得过多出来的那个依赖，再换成 MCP 也不迟。</p>
-<h3>hook 管得住 MCP 工具吗？</h3>
-<p>你也许指望，hook 能像拦下一次糟糕的内置工具调用那样，拦下一次糟糕的 MCP 调用。这一点我没法给你打包票。我自己的 harness 没有搭任何 MCP server（这类 server 是公司按自己的环境配的，有的公司还禁止非官方的），所以 MCP 工具调用是不是像内置工具调用那样经过 hook、hook 能不能看到它们的完整参数，我<strong>没有测过</strong>。在你自己用一个无害的 server 测过之前，别指望 hook 能替你守住 MCP 工具。</p>
-<h3>怎么检查你自己的配置</h3>
-<p>已经连上的 server，也值得回头看一看。对每一个，问三个问题：</p>
+<h3>接之前问五个问题</h3>
+<p>既然 server 是依赖，对任何依赖该问的问题，对它也都该问，下面五个按我会问的顺序排。</p>
+<ul>
+<li>谁写的，谁在持续更新？VS Code 的建议是，在安装或启动之前先看“发布者、命令或端点，以及它请求的访问权限”（<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>）。上架了也不等于审查过，MCP 官方的 Registry 只存元数据、验证发布者的命名空间，安全扫描交给 npm 这样的包仓库和下游的市场（<a href="https://modelcontextprotocol.io/registry/about">The MCP Registry</a>）。</li>
+<li>它能碰什么？优先选只限于任务所需的 server，比如一个读 issue 的 server，就不该拿着一个能删仓库的 token。</li>
+<li>凭据放在哪？别放在对话里，也别提交进项目，VS Code 的文档还提醒，个人配置文件也不是存密钥的地方（<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a>）。</li>
+<li>版本固定了吗？启动命令里写着 <code>@latest</code> 的话，包一更新，之后启动跑的就可能是新代码，所以要写死一个看过的版本。</li>
+<li>它返回的东西可信吗？如果文本来自外部，比如公开的网页、任何人都能提的工单，就当成不可信的。</li>
+</ul>
+<h3>hook 管不管得住 MCP 工具，各家不一样</h3>
+<p>Claude Code 的文档写明了，MCP 工具在 <code>PreToolUse</code>、<code>PostToolUse</code> 这些事件里和普通工具一样出现，名字是 <code>mcp__&lt;server&gt;__&lt;tool&gt;</code>（<a href="https://code.claude.com/docs/en/hooks">Hooks reference</a>）。Copilot 这边没有写，GitHub 的 hook 参考只说 <code>preToolUse</code> 在“每个工具运行之前”触发，列出来的工具名都是内置工具，VS Code 的 hook 文档也没有提 MCP（<a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference">GitHub Copilot hooks reference</a>）。我自己的 harness 没有搭任何 MCP server，这类 server 是公司按自己的环境配的，有的公司还禁止非官方的，所以 MCP 工具在 Copilot 上是不是经过 hook、hook 能不能看到完整的参数，我没有测过。</p>
+<p>想靠 hook 的话，先用一个无害的 server 测一次，写一个只记录输入的 hook，调用一次 MCP 工具，看记录里有没有这次调用、参数全不全。就算经过了 hook，它看到的也只是这次调用的参数，server 收到以后做了什么，它看不到。</p>
+<h3>接上以后怎么查</h3>
+<p>已经连上的 server 也要回头看，对每一个问三个问题：</p>
 <ol>
 <li>我知道它是谁写的、能碰什么吗？</li>
 <li>命令行程序能做同样的事吗？</li>
 <li>它的工具里，我真正用到的有几个？</li>
 </ol>
-<p>第三个问题，不用安装任何东西就能回答。列出你的 agent 现在有的工具（多数编辑器在对话的工具选择器里显示，具体在哪要看编辑器，查一下它的文档），数一数，再问问自己上周用过其中哪些。其余的，就是有成本、有风险，却没有收益。</p>
-</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Where more plugs go wrong</h2><p>The risk starts with the servers themselves. Each server is a path for outside text and outside code to reach your agent, so every plug you add widens the attack surface. That includes the one you added to try something and then forgot, because it is still there.</p>
-<p>A famous name is no reason to skip the review. A server published by a respected company is &quot;official&quot;, yet it is still given your credentials and still returns text from other people. Official does not mean safe for you.</p>
-<p>Even a server you reviewed carefully can change under you. The protocol lets a server tell the client that its tools changed, so a tool that was fine when you looked at it may not be the one you have next month. A server can also change a tool's description after you approved it, and the description is text the model obeys (this kind of attack is often called a rug pull or tool poisoning, and <a href="4-6-untrusted-input.html">chapter 4.6</a> covers the idea). Re-read the list now and then, and pin the version of a server where you can.</p>
-<p>The last trap is assuming that a shared standard means shared behavior. Platforms differ in which parts of the protocol they support, in how they ask for approval and in where they store the settings, so check the current documentation for yours.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>插頭多了，會在哪裡出問題</h2><p>風險先從 server 本身說起。每個 server 都是外面的文字和外面的程式碼通向你的 agent 的一條路，所以每多接一個插頭，攻擊面就大一些。而且不只是正在用的才算，那些當初為了試試而加、後來忘掉的 server，也一直在那裡。</p>
-<p>名氣大，也不是跳過審查的理由。受人敬重的公司發布的 server 是「官方」的，可它一樣會拿到你的憑證，也一樣會回傳別人寫的文字。官方不代表對你安全。</p>
-<p>就算是你仔細審查過的 server，也可能在你不知道的時候變了。協定讓 server 可以通知 client，它的工具變了，所以你審查時沒問題的工具，下個月可能就不是你手上這個了。server 還可以在你批准之後改工具的描述，而描述是模型會照做的文字（這種攻擊常被叫做 rug pull 或 tool poisoning，<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a> 講了這個想法）。所以要不時重讀清單，能固定 server 的版本就固定。</p>
-<p>最後一個陷阱，是以為標準一樣，行為也就一樣。各平台支援協定的哪些部分、怎麼要求批准、設定存在哪裡，都不同，所以請查你的平台目前的文件。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>插头多了，会在哪里出问题</h2><p>风险先从 server 本身说起。每个 server 都是外部文本和外部代码通向你的 agent 的一条路，所以每多接一个插头，攻击面就大一圈。而且不光是在用的才算，那些当初为了试试加上、后来忘掉的 server，也一直在那里。</p>
-<p>名气大，也不是跳过审查的理由。一个受人尊敬的公司发布的 server 是“官方”的，可它照样会拿到你的凭据，照样会返回别人写的文本。官方不等于对你安全。</p>
-<p>就算是你仔细审查过的 server，也可能在你不知情的时候变了。协议允许 server 告诉 client，它的工具变了，所以你审查时没问题的工具，下个月可能就不是那一个了。server 还可以在你批准之后改某个工具的描述，而描述是模型会照做的文本（这类攻击常被叫作 rug pull 或工具投毒，<a href="4-6-untrusted-input.html">Agent 读到的网页和文件，可能在给它下命令</a>讲了这个想法）。所以要时不时重读一遍清单，能固定 server 的版本就固定。</p>
-<p>最后一个坑，是以为标准一样，行为也就一样。各平台支持协议的哪些部分、怎么请求审批、把设置存在哪里，都不一样，所以请查你所用平台的当前文档。</p>
-</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>Do the protocol and VS Code see it this way? <span class="status status-industry">Industry practice</span></h2><p>The protocol's own docs describe MCP as a protocol for context exchange, and say it &quot;does not dictate how AI applications use LLMs or manage the provided context&quot;. In other words, the host decides what to load and how to ask you. (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>) VS Code, one such host, treats servers as code to review: look at the publisher and the access requested, and approve only actions you understand. (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>)</p>
-<p>So the two agree on how the jobs are split. The protocol makes plugging in easy, and deciding what to plug in is still yours.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>協定和 VS Code 也這麼看嗎？ <span class="status status-industry">業界做法</span></h2><p>協定自己的文件把 MCP 描述成交換上下文的協定，並說它「不規定 AI 應用程式怎麼使用 LLM，或怎麼管理提供的上下文」。換句話說，載入什麼、怎麼問你，由 host 決定。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）VS Code 正是這樣的一個 host，它把 server 當成要審查的程式碼：看發布者和要求的存取權，只批准你看得懂的動作。（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</p>
-<p>所以兩者在分工上是一致的。協定讓接上去變容易，而決定接什麼，仍然是你的事。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>协议和 VS Code 也这么看吗？ <span class="status status-industry">业界做法</span></h2><p>协议自己的文档把 MCP 描述为一个交换上下文的协议，并说它“不规定 AI 应用如何使用 LLM，也不规定如何管理所提供的上下文”。换句话说，加载什么、怎么问你，由 host 决定。（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）VS Code 就是这样一个 host，它把 server 当成要审查的代码：看发布者和它请求的访问权限，只批准你理解的操作。（<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a>）</p>
-<p>所以两者对分工的看法是一致的。协议让接入变容易，而决定接入什么，仍然是你的事。</p>
-</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete a server <span class="status status-industry">Industry practice</span></h2><p>Deciding what to plug in includes deciding what to unplug. Remove a server when you stop using its tools, or when a plain command does the job. The caution itself can loosen if platforms start to sandbox servers by default, so that a bad one cannot do much harm. Even then, I would check the publisher and the access before adding one.</p>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉一個 server <span class="status status-industry">業界做法</span></h2><p>決定接什麼，也包括決定拔掉什麼。你不再用某個 server 的工具，或者一個普通指令就能做同樣的事，就把它移除。如果平台開始預設把 server 放進沙箱，讓壞的 server 做不了太大的壞事，這份謹慎本身也可以放鬆一些。即使這樣，我還是會在加之前，先檢查發布者和存取權。</p>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉一个 server <span class="status status-industry">业界做法</span></h2><p>决定接入什么，也包括决定拔掉什么。不再用某个 server 的工具了，或者一条普通命令就能完成任务了，就把它移除。如果平台开始默认给 server 加沙箱，让坏的 server 干不了多大的坏事，这份谨慎本身也可以放松一点。即便如此，我还是会在添加之前检查发布者和访问权限。</p>
-</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every MCP server configured for this project or editor (look in the editor and project settings and any MCP config files). For each one, tell me: who publishes it, whether it runs locally or remotely, what credentials it uses and where they are stored, how many tools it exposes, and whether a plain command-line program could do the same job. Flag any credential stored in a committed file. Do not print secret values, and do not change any files.</code></pre></div>
-</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出為這個專案或編輯器設定的每個 MCP server（看編輯器和專案的設定，以及任何 MCP 設定檔）。每一個都告訴我：誰發布的、在本地還是遠端執行、用什麼憑證、憑證存在哪裡、公開幾個工具，以及一個命令列程式能不能做同樣的工作。標出任何存在已提交檔案裡的憑證。不要印出機密的值，也不要改任何檔案。</code></pre></div>
-</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出为这个项目或编辑器配置的每一个 MCP server（看编辑器和项目的设置，以及所有 MCP 配置文件）。每一个，告诉我：谁发布的、在本地还是远程运行、用什么凭据以及存在哪里、暴露了多少个工具、一个普通的命令行程序能不能做同样的事。把存在已提交文件里的凭据标出来。不要打印任何密钥的值，也不要修改任何文件。</code></pre></div>
+<p>第三个问题不用安装任何东西就能回答。在 VS Code 里打开 <strong>Chat: Open Customizations</strong> 的 Tools 页，能看到每组工具启用了几个、一共几个，在 Claude Code 里用 <code>/context</code> 看是什么在占上下文。数完再想想上周用过其中哪些，其余的都是有成本、有风险，却没有收益的，可以把工具关掉，或者把整个 server 停用。</p>
+</div></section><section id="costs-and-traps" class="sec"><div data-l="en" lang="en"><h2>Official servers can go wrong too, and a server you reviewed can change</h2><p>Every server is a route for outside text and outside code to reach the agent, so the more you connect, the more places there are for something to go wrong, and that doesn't only count the ones you're using. A server you added to try out and then forgot about is still there.</p>
+<p>A big name is no reason to skip the review. In May 2025, Invariant Labs published a case where an attacker files an issue on a public repository with instructions for the agent hidden inside. The user only asks the agent to look at that repository's issues, but the agent is connected to the official GitHub MCP server and has access to the user's private repositories, and it ends up writing private repository contents into a pull request on a public repository. Invariant says this isn't a flaw in the server's code and that GitHub can't fix it by changing the server alone, and they recommend narrowing permissions, for example letting the agent touch only one repository per session (<a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a>). Untrusted text, private data and a way out were all present here (<a href="4-6-untrusted-input.html">Text the agent reads can give it orders</a>). &quot;Official&quot; only tells you who wrote the code. The server still holds your credentials and still reads text other people wrote.</p>
+<p>Even a server you reviewed carefully can change without your knowing, in three places.</p>
+<ul>
+<li>The tool list. The protocol lets a server update its tools and then tell the client to fetch the list again, so a server can change a tool's description after you've approved it, a move known as a rug pull. Invariant Labs showed what a description can hide, in an attack they call tool poisoning: an <code>add</code> tool that looks like it only does addition has a passage hidden in its description telling the model to read <code>~/.ssh/id_rsa</code> and send the contents back in a parameter (<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>).</li>
+<li>The code. <code>postmark-mcp</code> on npm borrowed Postmark's name, its first 15 versions were clean, and 1.0.16 added a backdoor that quietly BCC'd emails to an outside server (<a href="https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package">Security Alert: Malicious 'postmark-mcp' npm Package</a>).</li>
+<li>The configuration. In VS Code, the workspace <code>.mcp.json</code> and <code>.vscode/mcp.json</code> follow Workspace Trust, so in a trusted workspace you won't be asked again when they change, and what they hold is a command that will run. So review a pull request that changes these files the way you'd review a code change (<a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>).</li>
+</ul>
+<p>So reread the tool list every so often, and pin versions wherever you can.</p>
+<p>Another trap is assuming that the same standard means the same behavior. The protocol only standardizes the messages between host and server. Where the configuration lives, which parts of the protocol are supported and how approval works are all up to each vendor. VS Code alone has two configuration formats, one with the top-level key <code>mcpServers</code> and one with <code>servers</code>, and you can't copy directly between them. For where each platform keeps its configuration, see the <a href="a-extension-points.html">Extension points cheat sheet</a>. The protocol itself is still changing as well: the current version is 2026-07-28, which removed the connection handshake and sessions and marked sampling, roots and logging as deprecated, only eight months after the previous version (<a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">Key Changes</a>). If you only use other people's servers you probably won't notice these changes, but if you write your own, leave time to keep up with the versions.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>官方的 server 也會出事，審查過的 server 也會變</h2><p>每個 server 都是外部文字和外部程式碼通往 agent 的一條路，接得越多，能出問題的地方就越多，而且不只在用的才算，當初為了試試加上、後來忘掉的 server 也一直在那裡。</p>
+<p>名氣大也不是跳過審查的理由。Invariant Labs 在 2025 年 5 月公開過一個例子，攻擊者在一個公開倉庫裡開一個 issue，裡面藏著給 agent 的指示，使用者只是讓 agent 看看這個倉庫的 issue，而 agent 連著官方的 GitHub MCP server，又有權限讀使用者的私有倉庫，結果它把私有倉庫的內容寫進了公開倉庫的一個 pull request。Invariant 說這不是 server 程式碼的缺陷，GitHub 光改 server 修不好，他們的建議是收窄權限，例如一個會話只讓 agent 碰一個倉庫（<a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a>）。不可信的文字、私有資料和對外的出路，這三樣在這裡全湊齊了（<a href="4-6-untrusted-input.html">agent 讀到的文字可能在指揮它</a>）。「官方」只告訴你程式碼是誰寫的，它拿著你的憑證，照樣會讀到別人寫的文字。</p>
+<p>就算是你仔細審查過的 server，也可能在你不知情的時候變了，變的地方有三處。</p>
+<ul>
+<li>工具清單變了。協定允許 server 更新工具，再通知 client 重新抓取清單，所以 server 可以在你批准之後改掉某個工具的描述，這種做法叫 rug pull。描述裡能藏什麼，Invariant Labs 示範過，叫工具投毒（tool poisoning），一個看起來只做加法的 <code>add</code> 工具，描述裡藏著一段話，要模型讀 <code>~/.ssh/id_rsa</code>，再把內容放進一個參數傳回去（<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>）。</li>
+<li>程式碼變了。npm 上的 <code>postmark-mcp</code> 冒用 Postmark 的名字，前 15 個版本都正常，到 1.0.16 才加上後門，把郵件偷偷用密件副本寄到外部伺服器（<a href="https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package">Security Alert: Malicious 'postmark-mcp' npm Package</a>）。</li>
+<li>設定變了。VS Code 裡工作區的 <code>.mcp.json</code> 和 <code>.vscode/mcp.json</code> 跟著 Workspace Trust 走，在受信任的工作區裡，設定改了也不會再單獨問你，而設定裡寫的是一條會執行的指令，所以改這些檔案的 pull request 要當成改程式碼來審（<a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>）。</li>
+</ul>
+<p>所以要隔一段時間重讀一遍工具清單，能固定版本就固定。</p>
+<p>另一個陷阱是以為標準一樣，行為也就一樣。協定只統一了 host 和 server 之間的訊息，設定放在哪、支援協定的哪些部分、怎麼批准，都是各家自己定的，光 VS Code 就有兩種設定格式，頂層鍵一個是 <code>mcpServers</code>，一個是 <code>servers</code>，不能直接互相複製，各家的設定放在哪，可以查<a href="a-extension-points.html">擴充點速查表</a>。協定本身也還在變，目前的版本是 2026-07-28，這一版拿掉了連線時的交握和會話，還把 sampling、roots 和 logging 標成棄用，距離上一版只有八個月（<a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">Key Changes</a>）。只是用別人的 server，這些變化你多半感覺不到，自己寫 server 的話，就要留出跟版本的時間。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>官方的 server 也会出事，审查过的 server 也会变</h2><p>每个 server 都是外部文本和外部代码通向 agent 的一条路，接得越多，能出问题的地方越多，而且不光是在用的才算，当初为了试试加上、后来忘掉的 server 也一直在那里。</p>
+<p>名气大也不是跳过审查的理由。Invariant Labs 在 2025 年 5 月公开过一个例子，攻击者在一个公开仓库里提一个 issue，里面藏着给 agent 的指令，用户只是让 agent 看看这个仓库的 issue，而 agent 连着官方的 GitHub MCP server，又有权限读用户的私有仓库，结果它把私有仓库的内容写进了公开仓库的一个 pull request。Invariant 说这不是 server 代码的缺陷，GitHub 光改 server 修不好，他们的建议是收窄权限，比如一个会话只让 agent 碰一个仓库（<a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a>）。不可信的文本、私有数据和对外的出路，这三样在这里全凑齐了（<a href="4-6-untrusted-input.html">Agent 读到的网页和文件，可能在给它下命令</a>）。“官方”只告诉你代码是谁写的，它拿着你的凭据，照样会读到别人写的文本。</p>
+<p>就算是你仔细审查过的 server，也可能在你不知情的时候变了，变的地方有三处。</p>
+<ul>
+<li>工具清单变了。协议允许 server 更新工具，再通知 client 重新拉取清单，所以 server 可以在你批准之后改掉某个工具的描述，这种做法叫 rug pull。描述里能藏什么，Invariant Labs 演示过，叫工具投毒（tool poisoning），一个看起来只做加法的 <code>add</code> 工具，描述里藏着一段话，让模型读 <code>~/.ssh/id_rsa</code>，再把内容放进一个参数发回去（<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>）。</li>
+<li>代码变了。npm 上的 <code>postmark-mcp</code> 冒用 Postmark 的名字，前 15 个版本都正常，到 1.0.16 才加上后门，把邮件偷偷密送到外部服务器（<a href="https://postmarkapp.com/blog/information-regarding-malicious-postmark-mcp-package">Security Alert: Malicious 'postmark-mcp' npm Package</a>）。</li>
+<li>配置变了。VS Code 里工作区的 <code>.mcp.json</code> 和 <code>.vscode/mcp.json</code> 跟着 Workspace Trust 走，在受信任的工作区里，配置改了也不会再单独问你，而配置里写的是一条会运行的命令，所以改这些文件的 pull request 要当成改代码来审（<a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>）。</li>
+</ul>
+<p>所以要隔一段时间重读一遍工具清单，能固定版本就固定。</p>
+<p>另一个坑是以为标准一样，行为也就一样。协议只统一了 host 和 server 之间的消息，配置放在哪、支持协议的哪些部分、怎么批准，都是各家自己定的，光 VS Code 就有两种配置格式，顶层键一个是 <code>mcpServers</code>，一个是 <code>servers</code>，不能直接互相复制，各家的配置放在哪，可以查<a href="a-extension-points.html">扩展点速查表</a>。协议本身也还在变，当前版本是 2026-07-28，这一版去掉了连接时的握手和会话，还把 sampling、roots 和 logging 标成了废弃，距离上一版只有八个月（<a href="https://modelcontextprotocol.io/specification/2026-07-28/changelog">Key Changes</a>）。只是用别人的 server，这些变化你多半感觉不到，自己写 server 的话，就要留出跟版本的工夫。</p>
+</div></section><section id="industry" class="sec status-industry"><div data-l="en" lang="en"><h2>The protocol and VS Code both leave the decision to you <span class="status status-industry">Industry practice</span></h2><p>The protocol's docs say MCP covers only the exchange of context and &quot;does not dictate how AI applications use LLMs or manage the provided context&quot; (<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>). The specification requires hosts to get explicit user consent before invoking any tool, and it also admits that MCP itself can't enforce these principles at the protocol level (<a href="https://modelcontextprotocol.io/specification/latest">Specification</a>). VS Code is one such host. It has you look at the publisher and the requested access and approve only the operations you understand, and for organizations it offers the <code>ChatMCP</code> policy, which can restrict servers to a registry, although the policy doesn't reach servers the Copilot runtime discovers on its own (<a href="https://code.visualstudio.com/docs/agents/run/security">Secure AI-assisted development in VS Code</a>). So the two agree on who does what: the protocol makes connecting easy, and deciding what to connect is still your job.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>協定和 VS Code 都把決定權留給了你 <span class="status status-industry">業界做法</span></h2><p>協定的文件說，MCP 只管交換上下文，「不規定 AI 應用程式如何使用 LLM，也不規定如何管理所提供的上下文」（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）。規格要求 host 呼叫任何工具之前都要得到使用者明確的同意，同時也承認 MCP 自己沒辦法在協定層面強制這些原則（<a href="https://modelcontextprotocol.io/specification/latest">Specification</a>）。VS Code 就是這樣一個 host，它讓你看發布者和請求的存取權限，只批准你理解的操作，給組織的是 <code>ChatMCP</code> 政策，可以把 server 限制在一份 registry 裡，不過這個政策管不到 Copilot 執行環境自己發現的 server（<a href="https://code.visualstudio.com/docs/agents/run/security">Secure AI-assisted development in VS Code</a>）。所以兩邊的分工是一致的，協定讓接入變容易，決定接入什麼仍然是你的事。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>协议和 VS Code 都把决定权留给了你 <span class="status status-industry">业界做法</span></h2><p>协议的文档说，MCP 只管交换上下文，“不规定 AI 应用如何使用 LLM，也不规定如何管理所提供的上下文”（<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>）。规范要求 host 调用任何工具之前都要得到用户明确的同意，同时也承认 MCP 自己没法在协议层面强制这些原则（<a href="https://modelcontextprotocol.io/specification/latest">Specification</a>）。VS Code 就是这样一个 host，它让你看发布者和请求的访问权限，只批准你理解的操作，给组织的是 <code>ChatMCP</code> 策略，可以把 server 限制在一份 registry 里，不过这个策略管不到 Copilot 运行时自己发现的 server（<a href="https://code.visualstudio.com/docs/agents/run/security">Secure AI-assisted development in VS Code</a>）。所以两边的分工是一致的，协议让接入变容易，决定接入什么仍然是你的事。</p>
+</div></section><section id="when-to-delete-it" class="sec status-industry"><div data-l="en" lang="en"><h2>When to delete a server <span class="status status-industry">Industry practice</span></h2><p>When you no longer use a server's tools, or an ordinary command can do the job, remove it.</p>
+<p>When you can relax this caution depends on the platform. If a platform put local servers in a sandbox by default, a bad server could do far less, but as I write this we're not there yet: VS Code's Copilot session sandbox is off by default, and even when it's on, it doesn't block outbound network access by default (<a href="https://code.visualstudio.com/docs/agents/run/agent-sandboxing">Sandbox Copilot agent sessions</a>). A sandbox also contains only the server's process. It can't limit the remote account you gave the server or the text the server returns to the model, so even with a sandbox I'd still check the publisher and the access before adding one.</p>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>什麼時候可以刪掉一個 server <span class="status status-industry">業界做法</span></h2><p>不再用某個 server 的工具了，或者一條普通指令就能完成任務了，就把它移除。</p>
+<p>這份謹慎什麼時候能放鬆，要看平台。如果平台預設把本機 server 關進沙箱，壞的 server 能做的事就少很多，但是寫這一章的時候還沒到這一步，VS Code 的 Copilot 會話沙箱預設是關的，打開以後也預設不擋對外網路連線（<a href="https://code.visualstudio.com/docs/agents/run/agent-sandboxing">Sandbox Copilot agent sessions</a>）。沙箱也只管得住 server 這個處理程序，管不了你交給它的遠端帳號，也管不了它回傳給模型的文字，所以就算有了沙箱，我還是會在新增之前檢查發布者和存取權限。</p>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>什么时候可以删掉一个 server <span class="status status-industry">业界做法</span></h2><p>不再用某个 server 的工具了，或者一条普通命令就能完成任务了，就把它移除。</p>
+<p>这份谨慎什么时候能放松，要看平台。如果平台默认把本地 server 关进沙箱，坏的 server 能做的事就少很多，但是写这一章的时候还没到这一步，VS Code 的 Copilot 会话沙箱默认是关的，打开以后也默认不拦出站网络（<a href="https://code.visualstudio.com/docs/agents/run/agent-sandboxing">Sandbox Copilot agent sessions</a>）。沙箱也只管得住 server 这个进程，管不了你交给它的远程账号，也管不了它返回给模型的文本，所以即便有了沙箱，我还是会在添加之前检查发布者和访问权限。</p>
+</div></section><section id="try-it" class="sec"><div data-l="en" lang="en"><h2>Try it on your own setup</h2><p>You don&#x27;t need the harness for this. Open your agent in your own repository and paste:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>Find every MCP server configured for this project or editor (check the editor and project settings, and all MCP configuration files). For each one, tell me: who published it, whether it runs locally or remotely, whether its startup command pins a version, what credentials it uses and where they are stored, how many tools it exposes, and whether an ordinary command-line program could do the same job. Flag any credentials stored in committed files. Do not print any secret values, and do not change any files.</code></pre></div>
+</div><div data-l="zh-Hant" lang="zh-Hant"><h2>在你自己的環境試試</h2><p>這個不需要裝 harness。在你自己的倉庫裡打開 agent，貼上這段：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>找出為這個專案或編輯器設定的每一個 MCP server（看編輯器和專案的設定，以及所有 MCP 設定檔）。每一個，告訴我：誰發布的、在本機還是遠端執行、啟動指令有沒有固定版本、用什麼憑證以及存在哪裡、提供了多少個工具、一個普通的命令列程式能不能做同樣的事。把存在已提交檔案裡的憑證標出來。不要印出任何機密的值，也不要修改任何檔案。</code></pre></div>
+</div><div data-l="zh-Hans" lang="zh-Hans"><h2>在你自己的环境里试试</h2><p>这一步不需要装 harness。在你自己的仓库里打开 agent，粘贴下面这段：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>找出为这个项目或编辑器配置的每一个 MCP server（看编辑器和项目的设置，以及所有 MCP 配置文件）。每一个，告诉我：谁发布的、在本地还是远程运行、启动命令有没有固定版本、用什么凭据以及存在哪里、暴露了多少个工具、一个普通的命令行程序能不能做同样的事。把存在已提交文件里的凭据标出来。不要打印任何密钥的值，也不要修改任何文件。</code></pre></div>
 </div></section><section id="go-deeper" class="sec"><div data-l="en" lang="en"><h2>Go deeper</h2><ul>
-<li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a></li>
-<li>VS Code docs: <a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
-<li>Anthropic: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a></li>
+<li>Model Context Protocol: <a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>, <a href="https://modelcontextprotocol.io/specification/latest">Specification</a>, <a href="https://modelcontextprotocol.io/docs/develop/clients/client-best-practices">Client Best Practices</a>, <a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices</a></li>
+<li>VS Code docs: <a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>, <a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>, <a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a></li>
+<li>Anthropic: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a>, which has the agent write code to call servers so that intermediate results stay out of the model's context, at the price of needing a secure sandbox</li>
+<li>Invariant Labs: <a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>, <a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a></li>
 </ul>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>延伸閱讀</h2><ul>
-<li>Model Context Protocol：<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a></li>
-<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
-<li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a></li>
+<li>Model Context Protocol：<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>、<a href="https://modelcontextprotocol.io/specification/latest">Specification</a>、<a href="https://modelcontextprotocol.io/docs/develop/clients/client-best-practices">Client Best Practices</a>、<a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices</a></li>
+<li>VS Code 文件：<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>、<a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>、<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a>，讓 agent 寫程式碼來呼叫 server，中間結果不進模型的上下文，代價是要有一個安全的沙箱</li>
+<li>Invariant Labs：<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>、<a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a></li>
 </ul>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>延伸阅读</h2><ul>
-<li>Model Context Protocol：<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a></li>
-<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">MCP servers in VS Code</a></li>
-<li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a></li>
+<li>Model Context Protocol：<a href="https://modelcontextprotocol.io/docs/learn/architecture">Architecture overview</a>、<a href="https://modelcontextprotocol.io/specification/latest">Specification</a>、<a href="https://modelcontextprotocol.io/docs/develop/clients/client-best-practices">Client Best Practices</a>、<a href="https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices">Security Best Practices</a></li>
+<li>VS Code 文档：<a href="https://code.visualstudio.com/docs/agent-customization/mcp-servers">Add MCP servers in VS Code</a>、<a href="https://code.visualstudio.com/docs/agents/run/manage-mcp-servers">Manage and troubleshoot MCP servers</a>、<a href="https://code.visualstudio.com/docs/agents/reference/mcp-configuration">MCP configuration reference</a></li>
+<li>Anthropic：<a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP</a>，让 agent 写代码来调用 server，中间结果不进模型的上下文，代价是要有一个安全的沙箱</li>
+<li>Invariant Labs：<a href="https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks">Tool Poisoning Attacks</a>、<a href="https://invariantlabs.ai/blog/mcp-github-vulnerability">GitHub MCP Exploited</a></li>
 </ul>
-</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent three kinds of tools: the built-in ones, its own command line, and optionally MCP. It builds no MCP server itself. The harness can open the real files with you and show you where MCP would plug in and how the other tools are sorted.</p>
-<p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;MCP servers: a standard plug for tools&quot;. Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.</code></pre></div>
-<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 三種工具：內建的、它自己的命令列工具，以及可選的 MCP。它本身沒有建任何 MCP server。harness 可以和你一起打開真實的檔案，帶你看 MCP 會接在哪裡，以及其他工具是怎麼分類的。</p>
-<p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「MCP server：插工具的標準接口」這一章。請教我這個 harness 的三種工具，以及 MCP 接在哪裡。帶我打開真實的檔案，讓我看工具名稱是怎麼分成幾類的。</code></pre></div>
-<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 给 agent 三类工具：内置的、它自己的命令行工具，以及可选的 MCP。它自己没有搭任何 MCP server。harness 可以和你一起打开真实的文件，带你看 MCP 会接在哪里、其他工具又是怎么分类的。</p>
+</div></section><p class="stop-here"><span data-l="en" lang="en">You can stop here: that is the whole idea. The next part shows where it runs, so you can look inside.</span><span data-l="zh-Hant" lang="zh-Hant">讀到這裡就夠了，這就是整個想法。下一部分告訴你它在哪裡運行，可以進去看看。</span><span data-l="zh-Hans" lang="zh-Hans">读到这里就够了，核心思路就是这些。下一部分告诉你它在哪里跑，可以进去看看。</span></p><div class="part-head" id="in-practice"><p class="part-name"><span data-l="en" lang="en">In my practice (Copilot Harness)</span><span data-l="zh-Hant" lang="zh-Hant">實作</span><span data-l="zh-Hans" lang="zh-Hans">实战</span></p></div><div class="practice-box"><div data-l="en" lang="en"><p>Copilot Harness is my open-source harness for VS Code Copilot.</p><p>Repository: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>Get started: clone it, open it in VS Code, and type <code>/harness-rookie-get-me-ready</code> in Copilot Chat. You need Python 3.9 or later and git.</p></div><div data-l="zh-Hant" lang="zh-Hant"><p>Copilot Harness 是我開源的 VS Code Copilot harness。</p><p>倉庫: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>開始：clone 下來，用 VS Code 打開，在 Copilot Chat 裡輸入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 以上和 git。</p></div><div data-l="zh-Hans" lang="zh-Hans"><p>Copilot Harness 是我开源的 VS Code Copilot harness。</p><p>仓库: <a href="https://github.com/Smars-Bin-Hu/copilot-agentic-harness">https://github.com/Smars-Bin-Hu/copilot-agentic-harness</a></p><p>上手：把仓库 clone 下来，用 VS Code 打开，在 Copilot Chat 里输入 <code>/harness-rookie-get-me-ready</code>。需要 Python 3.9 及以上版本和 git。</p></div></div><section id="explore" class="sec"><div data-l="en" lang="en"><h2>Explore it in the harness</h2><p>My harness gives the agent three kinds of tools: built-in tools, its own command-line tool, and optional MCP, and it doesn't set up any MCP server of its own. The harness can open the real files with you and show you where MCP would connect and how the other tools are sorted.</p>
+<p>Once you have set it up as described above, type:</p><div class="prompt"><button type="button" class="copy" data-copy>Copy</button><pre><code>/harness-rookie-wondering I have read the chapter &quot;What should you think through before connecting an MCP server?&quot;. Teach me the three kinds of tools in this harness and where MCP fits. Open the real files with me, and show me how tool names are sorted into kinds.</code></pre></div>
+<p>It teaches one small piece at a time, stops to check that you are following, and opens the files with you.</p></div><div data-l="zh-Hant" lang="zh-Hant"><h2>在 harness 裡探索</h2><p>我的 harness 給 agent 三類工具：內建工具、它自己的命令列工具，還有可選的 MCP，它自己沒有搭任何 MCP server。harness 可以和你一起打開真實的檔案，帶你看 MCP 會接在哪裡，其他工具又是怎麼分類的。</p>
+<p>照上面的說明準備好之後，輸入：</p><div class="prompt"><button type="button" class="copy" data-copy>複製</button><pre><code>/harness-rookie-wondering 我讀完了「接 MCP server 之前，要想清楚什麼？」這一章。請教我這個 harness 裡的三類工具，以及 MCP 放在哪裡。帶我打開真實的檔案，讓我看工具名稱是怎麼分到各類裡的。</code></pre></div>
+<p>它會一次教一小塊，停下來確認你跟上了，再和你一起打開檔案。</p></div><div data-l="zh-Hans" lang="zh-Hans"><h2>在 harness 里探索</h2><p>我的 harness 给 agent 三类工具：内置工具、它自己的命令行工具，还有可选的 MCP，它自己没有搭任何 MCP server。harness 可以和你一起打开真实的文件，带你看 MCP 会接在哪里，其他工具又是怎么分类的。</p>
 <p>按上面的说明准备好之后，输入：</p><div class="prompt"><button type="button" class="copy" data-copy>复制</button><pre><code>/harness-rookie-wondering 我读完了“接 MCP server 之前，要想清楚什么？”这一章。请教我这个 harness 里的三类工具，以及 MCP 放在哪里。带我打开真实的文件，让我看工具名是怎么分到各类里的。</code></pre></div>
 <p>它会一次只教一小块，停下来确认你跟上了，再和你一起打开文件。</p></div></section></article>
 </main>
