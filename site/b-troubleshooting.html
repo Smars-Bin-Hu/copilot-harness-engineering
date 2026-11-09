@@ -428,7 +428,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>Chapter.</strong> <a href="2-3-subagents.html">Use subagents sparingly</a>, &quot;What the extra cost bought, and what else it costs&quot;, and <a href="5-7-when-to-stop.html">Unattended: when it must stop</a>, section &quot;A budget is a total, not a count&quot;.</p>
 <h3>The bill is higher than expected {#bill}</h3>
 <p><strong>Check first.</strong> Start with what the agent reads. Every turn rereads the whole context, so what is read matters more than how clever the model is. Look at tool results and loaded rules first, then at how often a task is redone. When you cut, stop short of the point where tasks fail and are thrown away. Check the usage numbers of one whole run, not one message. Cached context is billed at a lower rate (Anthropic's docs: about a tenth of the base price), though I have not verified that on Copilot, so look at what your own plan shows.</p>
-<p><strong>Chapter.</strong> <a href="1-1-models-and-cost.html">Don't pick a model by token price alone</a>, <a href="2-1-agent-loop.html">The agent loop</a> and <a href="3-1-context-budget.html">Context is a budget</a>.</p>
+<p><strong>Chapter.</strong> <a href="1-1-models-and-cost.html">Don't pick a model by token price alone</a>, <a href="2-1-agent-loop.html">How does an Agent actually work?</a> and <a href="3-1-context-budget.html">Context is a budget</a>.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>循環、停止和成本</h2><h3>agent 一直繞圈 {#agent-loops}</h3>
 <p><strong>先檢查</strong>。在 agent 之外，有沒有東西在判斷它是不是卡住了？應該要有，因為卡住的 agent 恰恰最不適合自己下這個判斷。把停止規則放進程式碼，讓它從事實來判斷：輪數和時間的上限、拒絕次數的上限、好幾輪都沒有進展、計劃改了、檢查次數用完。也看看它是不是一直在試護欄擋住的事。</p>
 <p><strong>章節</strong>。<a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a>。</p>
@@ -443,7 +443,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p><strong>章節</strong>。<a href="2-3-subagents.html">慎用子 agent</a> 的「多花的錢換到了什麼，拆分還有哪些代價」，以及 <a href="5-7-when-to-stop.html">無人值守：什麼時候必須停</a> 的「預算是總量，不是次數」一節。</p>
 <h3>帳單比預期高 {#bill}</h3>
 <p><strong>先檢查</strong>。先看 agent 讀了什麼。每一輪都會重讀整個上下文，所以讀了什麼，比模型多聰明更重要。先看工具結果和載入的規則，再看任務被重做的頻率。砍的時候要停在任務開始失敗、被整個丟掉之前。看用量要看一整次運行，不是一則訊息。快取的上下文用較低的費率計費（Anthropic 的文件：約基本價格的十分之一），不過這一點我沒有在 Copilot 上驗證過，所以請看你自己的方案顯示什麼。</p>
-<p><strong>章節</strong>。<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>、<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a> 和 <a href="3-1-context-budget.html">上下文是一份預算</a>。</p>
+<p><strong>章節</strong>。<a href="1-1-models-and-cost.html">選模型，別只看 token 單價</a>、<a href="2-1-agent-loop.html">Agent 到底是怎麼做事的？</a> 和 <a href="3-1-context-budget.html">上下文是一份預算</a>。</p>
 </div><div data-l="zh-Hans" lang="zh-Hans"><h2>循环、停止和成本</h2><h3>agent 原地打转 {#agent-loops}</h3>
 <p><strong>先查什么</strong>。agent 之外，有没有东西在判断它是不是卡住了？应该有，因为卡住的 agent 自己恰恰最不适合做这个判断。把停止规则放进代码，让它根据事实来判断：轮数和时间的上限，拒绝次数的上限，几轮下来没有进展，计划变了，检查次数用完。还要看看它是不是一直在试护栏拦着的事。</p>
 <p><strong>章节</strong>。<a href="5-7-when-to-stop.html">让 Agent 自己跑一晚上，怎么让它该停就停？</a>。</p>

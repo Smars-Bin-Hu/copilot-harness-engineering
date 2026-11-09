@@ -17,7 +17,7 @@ People usually start choosing a model from the price list: Sonnet 5.5 is $2 per 
 
 ### Where the tokens go in an agent
 
-In a chat, you ask a question, the model answers, and that's one call. An agent runs a loop ([The agent loop, and where you can step in](2-1-agent-loop.html)): the model asks to read a file, a program reads it and sends back the result, and the model decides what to do next, so every tool result means calling the model again. The model has no memory between calls, so each call sends the whole conversation so far all over again: the rules, the request, every file it has read and every tool result. All of this sits in the **context window**, the full text the model can see at once. The window has a size limit ([Context is a budget](3-1-context-budget.html)), and you pay for what's in it every time you make a call.
+In a chat, you ask a question, the model answers, and that's one call. An agent runs a loop ([How does an Agent actually work?](2-1-agent-loop.html)): the model asks to read a file, a program reads it and sends back the result, and the model decides what to do next, so every tool result means calling the model again. The model has no memory between calls, so each call sends the whole conversation so far all over again: the rules, the request, every file it has read and every tool result. All of this sits in the **context window**, the full text the model can see at once. The window has a size limit ([Context is a budget](3-1-context-budget.html)), and you pay for what's in it every time you make a call.
 
 ::: figure 1-1-token-flow
 

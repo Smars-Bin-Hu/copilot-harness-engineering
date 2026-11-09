@@ -1,4 +1,4 @@
-This chapter assumes you have read [The agent loop](2-1-agent-loop.html), or know that an agent works by asking for tool calls.
+This chapter assumes you have read [How does an Agent actually work?](2-1-agent-loop.html), or know that an agent works by asking for tool calls.
 
 ## In one sentence {#in-one-sentence}
 

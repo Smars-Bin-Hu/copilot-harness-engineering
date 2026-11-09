@@ -25,7 +25,7 @@ To answer that, we need names for two things. One attempt by the agent at one ta
 
 If you ask a person to do the same job twice, you get two slightly different results. An agent is the same, for plain reasons.
 
-The first is that the model picks its words with some chance in it. It does not always take the single most likely next move, so two runs that begin with the same request may take different first moves. Those small differences then grow, because an agent works in a loop ([The agent loop, and where you can step in](2-1-agent-loop.html)). If run A reads file X first and run B reads file Y first, everything afterwards is built on a different picture. One early choice can end in a different answer.
+The first is that the model picks its words with some chance in it. It does not always take the single most likely next move, so two runs that begin with the same request may take different first moves. Those small differences then grow, because an agent works in a loop ([How does an Agent actually work?](2-1-agent-loop.html)). If run A reads file X first and run B reads file Y first, everything afterwards is built on a different picture. One early choice can end in a different answer.
 
 The world around the agent changes as well. Tools return what they return at that moment, so a command takes a different time, times out or is slowed by a rate limit, and a search lists its results in a different order. Even the model itself can change. If the platform can change the model behind a name without telling you, two runs a week apart may not be the same model, so note the model and the date next to every run.
 

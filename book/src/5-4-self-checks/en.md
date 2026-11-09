@@ -1,4 +1,4 @@
-This chapter assumes you have used an AI coding agent. It builds on [The agent loop](2-1-agent-loop.html): the agent asks the model, runs a tool, and feeds the result back.
+This chapter assumes you have used an AI coding agent. It builds on [How does an Agent actually work?](2-1-agent-loop.html), where the agent asks the model, runs a tool, and feeds the result back.
 
 ## In one sentence {#in-one-sentence}
 
@@ -29,7 +29,7 @@ The clearest way to see it is to compare two runs of the same task. In the first
 
 In the second, the agent changes the code and runs the tests itself. When two fail, it reads the output and fixes both, then runs the tests again. This time they pass, and only then does it say "done", with the output attached.
 
-The model is the same in both. What differs is that in the second run the result of the check came back **inside the loop**, before the agent finished. The loop in [The agent loop](2-1-agent-loop.html) already has a place for this, because a tool result goes back to the model and the model decides the next step. A test run is just a tool whose result says, plainly, pass or fail.
+The model is the same in both. What differs is that in the second run the result of the check came back **inside the loop**, before the agent finished. The loop in [How does an Agent actually work?](2-1-agent-loop.html) already has a place for this, because a tool result goes back to the model and the model decides the next step. A test run is just a tool whose result says, plainly, pass or fail.
 
 ::: figure 5-4-check-loop
 

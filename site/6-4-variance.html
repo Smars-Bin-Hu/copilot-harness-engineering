@@ -257,7 +257,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>要回答这个问题，得先给两样东西起个名字。agent 把一个任务从头到尾做一遍，叫一次<strong>运行</strong>（run）；同一套配置在同一个任务上跑多次，结果之间相差多少，叫<strong>波动</strong>（spread）。不过在问波动有多大之前，还有个更早的问题：为什么会有波动？</p>
 </div></section><section id="how-it-works" class="sec"><div data-l="en" lang="en"><h2>Seeing the spread, and saying what it means</h2><h3>Why runs differ</h3>
 <p>If you ask a person to do the same job twice, you get two slightly different results. An agent is the same, for plain reasons.</p>
-<p>The first is that the model picks its words with some chance in it. It does not always take the single most likely next move, so two runs that begin with the same request may take different first moves. Those small differences then grow, because an agent works in a loop (<a href="2-1-agent-loop.html">The agent loop, and where you can step in</a>). If run A reads file X first and run B reads file Y first, everything afterwards is built on a different picture. One early choice can end in a different answer.</p>
+<p>The first is that the model picks its words with some chance in it. It does not always take the single most likely next move, so two runs that begin with the same request may take different first moves. Those small differences then grow, because an agent works in a loop (<a href="2-1-agent-loop.html">How does an Agent actually work?</a>). If run A reads file X first and run B reads file Y first, everything afterwards is built on a different picture. One early choice can end in a different answer.</p>
 <p>The world around the agent changes as well. Tools return what they return at that moment, so a command takes a different time, times out or is slowed by a rate limit, and a search lists its results in a different order. Even the model itself can change. If the platform can change the model behind a name without telling you, two runs a week apart may not be the same model, so note the model and the date next to every run.</p>
 <p>Whichever of these adds the most, the remedy is the same: see the spread before you decide anything.</p>
 <h3>One run against several</h3>
@@ -329,7 +329,7 @@ img { max-width: 100%; border: 1px solid var(--dim); border-radius: 6px; }
 <p>Take one task you know the right answer to and give it to your agent five times with the same request, each time in a new chat. The new chat matters, because an old chat carries what it learned and the later runs would not be fair. Make a small table with one row per run (pass or fail, minutes, usage). The five rows side by side are the spread of your own setup on that task, and it is usually bigger than people expect.</p>
 </div><div data-l="zh-Hant" lang="zh-Hant"><h2>看見分布範圍，再說清它代表什麼</h2><h3>為什麼各次運行不同</h3>
 <p>請一個人把同一件工作做兩次，你會得到兩個稍微不同的結果，agent 也一樣，原因都很平常。</p>
-<p>第一個原因在模型選字上，它帶有一點隨機性，不是每次都走最可能的那一步，所以兩次運行就算從同樣的要求開始，第一步也可能走得不一樣。這些小差異接著會越長越大，因為 agent 是在一個循環裡工作的（<a href="2-1-agent-loop.html">agent 循環，和你能插手的地方</a>）。如果運行 A 先讀了檔案 X，運行 B 先讀了檔案 Y，之後的一切就都建立在不同的理解上，早期的一個選擇，最後可能走到不同的答案。</p>
+<p>第一個原因在模型選字上，它帶有一點隨機性，不是每次都走最可能的那一步，所以兩次運行就算從同樣的要求開始，第一步也可能走得不一樣。這些小差異接著會越長越大，因為 agent 是在一個循環裡工作的（<a href="2-1-agent-loop.html">Agent 到底是怎麼做事的？</a>）。如果運行 A 先讀了檔案 X，運行 B 先讀了檔案 Y，之後的一切就都建立在不同的理解上，早期的一個選擇，最後可能走到不同的答案。</p>
 <p>還有 agent 周圍的世界，它也在變。工具回傳的，是它在那一刻回傳的東西，所以同一個指令可能花的時間不同、逾時，或被速率限制拖慢，一次搜尋列出結果的順序也會不一樣。連模型本身都可能改變。如果平台可以不通知你就換掉一個名字背後的模型，相隔一週的兩次運行用的可能就不是同一個模型，所以每次運行旁邊都要記下模型和日期。</p>
 <p>不管哪個原因影響最大，應對的辦法都一樣：做任何決定之前，先看到分布範圍。</p>
 <h3>一次運行對比好幾次</h3>

@@ -1,4 +1,4 @@
-讀這一章，你需要讀過 [agent 循環，和你能插手的地方](2-1-agent-loop.html)，或者知道 agent 是靠要求工具呼叫來運作的。
+讀這一章，你需要讀過 [Agent 到底是怎麼做事的？](2-1-agent-loop.html)，或者知道 agent 是靠要求工具呼叫來運作的。
 
 ## 一句話 {#in-one-sentence}
 

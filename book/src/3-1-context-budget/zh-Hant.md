@@ -1,4 +1,4 @@
-讀這一章，請先讀過 [agent 循環，和你能插手的地方](2-1-agent-loop.html)，或至少知道 agent 讀文字、再用文字回答。
+讀這一章，請先讀過 [Agent 到底是怎麼做事的？](2-1-agent-loop.html)，或至少知道 agent 讀文字、再用文字回答。
 
 ## 一句話 {#in-one-sentence}
 

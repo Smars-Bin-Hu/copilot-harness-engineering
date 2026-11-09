@@ -1,18 +1,68 @@
 id: "2.1"
 part: runtime
 core: true
-title: {en: The agent loop, and where you can step in, zh-Hant: agent 循環，和你能插手的地方, zh-Hans: "Agent 到底是怎么干活的？"}
+title: {en: "How does an Agent actually work?", zh-Hant: "Agent 到底是怎麼做事的？", zh-Hans: "Agent 到底是怎么干活的？"}
 harness_tag: "1.5.50"
 wondering: [01-agent-loop]
 sources:
-  - what: "How a coding agent works: the loop, the context window, why an agent goes wrong"
+  - what: "How a coding agent works: the loop, the context window, why an agent goes wrong; the table of what you see and why comes from the author's own use"
     where: harness wondering topic 1 (references/01-agent-loop.md)
-  - what: "Agents are \"LLMs autonomously using tools in a loop\""
+  - what: "On Copilot the author has seen built-in tools and subagents pass through hooks; MCP tools not tested"
+    where: harness wondering topic 5, section 5.4; see chapter 1.3
+  - what: "Agents are LLMs autonomously using tools in a loop; context is a finite resource with diminishing marginal returns; attention budget"
     where: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
-    checked: 2026-10-27
-  - what: "Agents vs fixed workflows; find the simplest solution possible, and add complexity only when needed"
+    checked: 2026-10-31
+  - what: "Agentic systems often trade latency and cost for better task performance; workflows run through predefined code paths; find the simplest solution possible, and only increase complexity when needed"
     where: https://www.anthropic.com/engineering/building-effective-agents
-    checked: 2026-10-28
-  - what: "Cache reads cost one tenth of the base input price on most models"
+    checked: 2026-10-31
+  - what: "Cache reads are 0.1 times the base input price on most models and 0.05 times on Opus 5.5 and Sonnet 5.5"
     where: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
-    checked: 2026-10-28
+    checked: 2026-10-31
+  - what: "The agentic loop is a while loop on stop_reason: one or more tool_use blocks, run each tool, send a new request with the messages and tool_result blocks, repeat while stop_reason is tool_use; exits on end_turn and other stop reasons"
+    where: https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works
+    checked: 2026-10-31
+  - what: "A round is one pass through the loop; the prompt is rebuilt on every iteration; with no tool calls the loop can finish and the text is the final response; tool-call limit, cancellation between rounds, stop hooks"
+    where: https://code.visualstudio.com/blogs/2026/05/15/agent-harnesses-github-copilot-vscode
+    checked: 2026-10-31
+  - what: "VS Code assembles a prompt for each request; information not in a request is unavailable to the model; near the limit VS Code compacts older parts of the conversation and details might be summarized or omitted"
+    where: https://code.visualstudio.com/docs/agents/concepts/context
+    checked: 2026-10-31
+  - what: "Stopping does not undo completed actions or changes to external services"
+    where: https://code.visualstudio.com/docs/agents/overview
+    checked: 2026-10-31
+  - what: "chat.agent.maxRequests default 25; chat.autopilot.advanced.enabled: a separate model evaluates whether the request is complete"
+    where: https://code.visualstudio.com/docs/agents/reference/ai-settings
+    checked: 2026-10-31
+  - what: "Terminal auto-approve rules match commands, including regular expressions; hooks are not a substitute for enforced permissions, sandboxing or enterprise controls; Autopilot auto-approves all tools and drives the agent to continue until the task is complete"
+    where: https://code.visualstudio.com/docs/agents/run/security
+    checked: 2026-10-31
+  - what: "postToolUse can add additionalContext but cannot undo an action that has already completed"
+    where: https://code.visualstudio.com/docs/agent-customization/hooks
+    checked: 2026-10-31
+  - what: "agentStop: decision block forces another turn with reason as the prompt; overridden after 8 consecutive blocks; stop_hook_active; postToolUse can return modifiedResult; hooks inside a subagent get extra input fields; tool name list has built-in tools only and does not mention MCP"
+    where: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-hooks-reference
+    checked: 2026-10-31
+  - what: "Stop: block continues the conversation; 8-consecutive-continuation cap; stop_hook_active; /goal is a built-in shortcut for a prompt-based Stop hook; PreToolUse and PostToolUse fire for subagent tool calls and MCP tools; PostToolUse updatedToolOutput; files referenced with @ are added without a tool call, so no PreToolUse fires"
+    where: https://code.claude.com/docs/en/hooks
+    checked: 2026-10-31
+  - what: "Claude Code uses turn for the whole exchange; it compacts automatically and detailed instructions from early in the conversation may be lost"
+    where: https://code.claude.com/docs/en/how-claude-code-works
+    checked: 2026-10-31
+  - what: "Tool call details are collapsed in chat by default; expand a tool summary to inspect the call and its output"
+    where: https://code.visualstudio.com/docs/agents/run/tools
+    checked: 2026-10-31
+  - what: "Chat Debug view shows request and response details for each model interaction: system prompt, user prompt, context, response, tool responses; debug views can contain sensitive data"
+    where: https://code.visualstudio.com/docs/agents/agent-troubleshooting/chat-debug-view
+    checked: 2026-10-31
+  - what: "Context editing clears stale tool calls and results when approaching token limits; 100-turn web search evaluation reduced token consumption by 84% (29 September 2025)"
+    where: https://claude.com/blog/context-management
+    checked: 2026-10-31
+  - what: "Agents tend to respond by confidently praising the work and reliably skew positive when grading their own work (24 March 2026)"
+    where: https://www.anthropic.com/engineering/harness-design-long-running-apps
+    checked: 2026-10-31
+  - what: "Claude's tendency to mark a feature as complete without proper testing (26 November 2025)"
+    where: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
+    checked: 2026-10-31
+  - what: "VS Code guide on context engineering, title now Set up a context engineering flow in VS Code"
+    where: https://code.visualstudio.com/docs/copilot/guides/context-engineering-guide
+    checked: 2026-10-31
